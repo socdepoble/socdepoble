@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigation } from "../../app/context/NavigationContext";
 import { useAuth } from "../../app/context/AuthContext";
 import { APP_VERSION } from "../../constants";
-import { Plus, Users, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity } from "lucide-react";
+import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette } from "lucide-react";
+import { Button } from "../ui/Button/Button";
 
 const menuItems = [
   { path: "/chats", key: "nav.chats", fallback: "Xat", icon: (p) => <MessageSquare {...p} /> },
@@ -14,9 +15,11 @@ const menuItems = [
   { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: (p) => <Calendar {...p} /> },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: (p) => <Map {...p} /> },
   { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: (p) => <BookOpen {...p} /> },
-  { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: (p) => <Image {...p} /> },
-  { path: "/notes", key: "nav.notes", fallback: "Bloc de Notes", icon: (p) => <FileText {...p} /> },
+  { path: "/genotip", key: "nav.genotip", fallback: "Genotip", icon: (p) => <Activity {...p} /> },
+  { path: "/disseny", key: "nav.design", fallback: "Disseny", icon: (p) => <Palette {...p} /> },
   { path: "/ruta", key: "nav.roadmap", fallback: "Full de Ruta", icon: (p) => <Compass {...p} /> },
+  { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: (p) => <Image {...p} /> },
+  { path: "/notes", key: "nav.notes", fallback: "Notes", icon: (p) => <FileText {...p} /> },
 ];
 
 const NavigationRail = () => {
@@ -31,19 +34,23 @@ const NavigationRail = () => {
   }, [closeDrawer]);
 
   return (
-    <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden">
+    <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden notranslate">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
-      <div className="h-[56px] min-h-[56px] max-h-[56px] shrink-0 border-b border-[#ffffff14] relative z-20 bg-[#4F46E5]">
-        <button
-          className="absolute inset-0 text-white flex items-center justify-start px-4 gap-4 transition-colors hover:brightness-110 outline-none w-full"
-          onClick={() => navigate("/hub")}
+      <div className="h-[72px] min-h-[72px] shrink-0 flex items-center px-4 relative z-20">
+        <Button
+          intent="canonic"
+          shape="pill"
+          fullWidth
+          className="justify-center shadow-sm hover:shadow-md"
+          onClick={() => {
+            navigate("/hub");
+            handleNavigate();
+          }}
+          leftIcon={<Plus size={20} strokeWidth={3} />}
         >
-          <div className="flex items-center justify-center w-[22px] h-[22px] rounded shrink-0">
-            <Plus size={22} strokeWidth={3} />
-          </div>
-          <span className="uppercase font-bold tracking-wide">{t("common.add", "Connectar")}</span>
-        </button>
+          {t("common.add", "Connectar")}
+        </Button>
       </div>
 
       <div className="flex-1 overflow-y-auto stable-scroll custom-scrollbar flex flex-col pt-4 px-3 pb-6">
@@ -94,22 +101,28 @@ const NavigationRail = () => {
                 </NavLink>
               </li>
             )}
+
+            {/* LEGAL I VERSIONS - DINS DE LA LLISTA (SCROLLABLE) */}
+            <li className="relative mt-6 pt-4 border-t border-[#ffffff14]">
+              <div className="flex flex-col items-start gap-3 px-4">
+                <a 
+                  href="#/legal-privacitat-i-seguretat" 
+                  onClick={(e) => { e.preventDefault(); navigate("/legal-privacitat-i-seguretat"); handleNavigate(); }} 
+                  className="text-sm font-bold text-[#F97316] hover:text-white transition-colors cursor-pointer w-full tracking-wide block outline-none py-1"
+                >
+                  {t("nav.privacy", "LEGAL")}
+                </a>
+                <a 
+                  href="#/versions" 
+                  onClick={(e) => { e.preventDefault(); navigate("/versions"); handleNavigate(); }} 
+                  className="text-sm font-bold text-[#F97316] tracking-wide hover:text-white transition-colors cursor-pointer block outline-none py-1"
+                >
+                  {APP_VERSION}
+                </a>
+              </div>
+            </li>
           </ul>
         </div>
-        
-      <div className="p-4 mt-auto border-t border-[#ffffff14] bg-transparent shrink-0 relative z-20">
-        <div className="mt-2 text-[10px] text-left font-black uppercase text-white opacity-60 px-1">
-          <div className="flex flex-col items-start gap-1.5">
-            <a href="#/legal-privacitat-i-seguretat" onClick={(e) => { e.preventDefault(); navigate("/legal-privacitat-i-seguretat"); }} className="text-[#F97316] hover:text-white transition-colors cursor-pointer w-full tracking-wider text-left block">
-              {t("nav.privacy", "LEGAL, PRIVACITAT I SEGURETAT")}
-            </a>
-            <div className="w-12 h-[1px] bg-white/20 my-1"></div>
-            <a href="#/versions" onClick={(e) => { e.preventDefault(); navigate("/versions"); }} className="opacity-80 tracking-wider hover:opacity-100 hover:text-white transition-colors cursor-pointer block">
-                {APP_VERSION}
-            </a>
-          </div>
-        </div>
-      </div>
     </nav>
   );
 };

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { getVisibilityForLevel } from '../domain/iaiaDomain';
-import { rhizomeManager } from '../services/rhizomeManager';
+import { rhizomeManager } from '../core/services/rhizomeManager';
 
 export const useFeedFilters = ({
     posts,

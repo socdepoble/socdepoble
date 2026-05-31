@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-export const useAccessibleSearch = (containerRef) => {
+const useAccessibleSearch = (containerRef) => {
   const [matchCount, setMatchCount] = useState(0);
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [lastQuery, setLastQuery] = useState('');

@@ -1,0 +1,1518 @@
+Unused files (1348)
+_services/api/health.js                                                                                              
+_services/cloudflare-workers/signaling-worker.js                                                                     
+_services/gateway/gateway-campanar.js                                                                                
+_services/google-cloud-backend/index.js                                                                              
+_services/server/nodoZero.js                                                                                         
+_services/server/signaling.js                                                                                        
+_services/signaling-server/server.js                                                                                 
+.agent/test_vite_dev.mjs                                                                                             
+.agents/scripts/fetch_town_media.mjs                                                                                 
+android/app/build/intermediates/assets/release/mergeReleaseAssets/native-bridge.js                                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/AccessibilitatUniversal-BwduXsqd.js  
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/AdminPanel-Ctt_XiA8.js               
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/AdminPanel-CWYsx6kO.css              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ArchitecteView-CnYWeBeB.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Archive-BGyaPRGX.js                  
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Archive-CSbYKozF.css                 
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/browser-image-compression-5Xiw9QKB.js
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/BuscadorAjudes-C87fZ3f0.css          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/BuscadorAjudes-mcyJkZGB.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/CategoryManager-DUj-R8i8.js          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatDetail-C1TqH93e.css              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatDetail-Kyt-6SNY.js               
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatEmptyState-BDiuyiUb.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatLayout-D4iSOv3N.css              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatLayout-yqTWcuPl.js               
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ChatManager-BM2OmhCM.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Chrome145Report-B0WUFpwr.js          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/CommunityDirectory-BydRA-MH.css      
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/CommunityDirectory-CkELKGnP.js       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ContextualMenu-Dr7YoZZ9.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/crypto-BT-ag8Mq.js                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/data-CywEAasM.js                     
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/DossierSocis-CPzt207n.js             
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/DossierSocis-CTEy5rsR.css            
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Financament-DNOq48it.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/GenesisViewer-Db_1Uq4M.js            
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/GenesisViewer-DymawR0i.css           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/GlobalAssetAlbum-D7yoZ3Fb.css        
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/GlobalAssetAlbum-DwiMWawe.js         
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Header-4-6rmyPk.js                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Header-BsEq14-o.css                  
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/HubView-Cd5UESpw.js                  
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/HubView-Du_FUwhd.css                 
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/IAIAChatSidebar-D-yJVcd4.js          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/IAIAChatSidebar-DxJn4wMQ.css         
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/index-BLTamFaG.css                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/index-Cv439PPR.js                    
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/InfografiaGallery-De33Rwns.js        
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/InfografiaGallery-DYcImYH8.css       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/LegalNotice-CMNq9FtH.css             
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/LegalNotice-DcehMsYM.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Login-BlqpQfCW.js                    
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Map-CVaF-4PI.css                     
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Map-DCOcH7YA.js                      
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Marketplace-CtLZRH9W.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/MasterCalendar-DoBophYr.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/MasterCalendar-DvuaE9Zw.css          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/MenuManagementView-DTSLUhi0.js       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/NexusFlash-D1xCYxsv.css              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/NexusFlash-R39joQYo.js               
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Notes-D70LMVnH.js                    
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Notes-dJbkyKRC.css                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/OficiDocumentacio-BlCmJR9U.js        
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/OficiDocumentacio-JsmlUKnx.css       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/PDFBategatManager-BKsdKUCx.css       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/PDFBategatManager-drsD2WD_.js        
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ProfilePowerMenu-Bw6Qek4C.css        
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ProfilePowerMenu-Cz1RGW28.js         
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ProfileView-BMs1j-2X.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ProfileView-CClGyn3t.css             
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ResourceDetail-D0JAwOAv.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/rhizome.worker-B8bG4OTb.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/SearchDiscover-DbG7kl8Z.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/SearchDiscover-DlOTuUxN.css          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/seedService-DS_g0GhU.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/SolatgeConsole-BrS_uBlF.js           
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/SolatgeConsole-CTnPWZza.css          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/speechService-Co-rqoLo.js            
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/sqlite3-opfs-async-proxy-BWKAW6aw.js 
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/sqlite3-worker1-jtPPE4oU.js          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/syncService-xfEB3Kb5.js              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/TownDetail-CGxCQnkV.css              
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/TownDetail-CN1OQ4QD.js               
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/trustService-BHHDiJIe.js             
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/ui-CTGrvLr8.js                       
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/Utilitats-CPn_-unP.js                
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/utils-BKcWam9E.js                    
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/vendor-CLNmR7b8.js                   
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/assets/web-DhOuaqaY.js                      
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/cordova_plugins.js                          
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/cordova.js                                  
+android/app/build/intermediates/assets/release/mergeReleaseAssets/public/sw.js                                       
+android/app/src/main/assets/public/assets/AccessHandlePoolVFS-aMhVy1Cb.js                                            
+android/app/src/main/assets/public/assets/AccessHandlePoolVFS-bY3FGBow.js                                            
+android/app/src/main/assets/public/assets/AccessHandlePoolVFS-CsSYiSuG.js                                            
+android/app/src/main/assets/public/assets/AccessibilitatUniversal-BuMfnha4.js                                        
+android/app/src/main/assets/public/assets/AdminPanel-Bt-Jg7RH.js                                                     
+android/app/src/main/assets/public/assets/AdminPanel-DPoqZKxV.css                                                    
+android/app/src/main/assets/public/assets/ArchitecteView-v3RKi2Eb.js                                                 
+android/app/src/main/assets/public/assets/Archive-Dd0r9bSN.css                                                       
+android/app/src/main/assets/public/assets/Archive-DFLOkggj.js                                                        
+android/app/src/main/assets/public/assets/Auth-D_2KRRrr.css                                                          
+android/app/src/main/assets/public/assets/Avatar-CxdcsuEN.js                                                         
+android/app/src/main/assets/public/assets/browser-image-compression-_ZkOCjiO.js                                      
+android/app/src/main/assets/public/assets/bson-BkvxR-ZB.js                                                           
+android/app/src/main/assets/public/assets/BuscadorAjudes-DGhLuq_U.js                                                 
+android/app/src/main/assets/public/assets/BuscadorAjudes-DLAftMMs.css                                                
+android/app/src/main/assets/public/assets/CategoryManager-C00tUkw2.js                                                
+android/app/src/main/assets/public/assets/ChatDetail-BQ7yBM8R.css                                                    
+android/app/src/main/assets/public/assets/ChatDetail-CViya3Zh.js                                                     
+android/app/src/main/assets/public/assets/ChatEmptyState-Cv62wuZH.js                                                 
+android/app/src/main/assets/public/assets/ChatLayout-BZHmEQu0.js                                                     
+android/app/src/main/assets/public/assets/ChatLayout-C_G_29od.css                                                    
+android/app/src/main/assets/public/assets/ChatManager-TpmmRJYt.js                                                    
+android/app/src/main/assets/public/assets/Chrome145Report-Cj8aV1OU.js                                                
+android/app/src/main/assets/public/assets/CommunityDirectory-1vACTzfK.js                                             
+android/app/src/main/assets/public/assets/CommunityDirectory-CZKlV_SK.css                                            
+android/app/src/main/assets/public/assets/ContextualHeader-BUkOzM9S.css                                              
+android/app/src/main/assets/public/assets/ContextualHeader-DBH7rCVx.js                                               
+android/app/src/main/assets/public/assets/ContextualMenu-CAmXbmkT.js                                                 
+android/app/src/main/assets/public/assets/CopyButton-9Hk-GcKy.js                                                     
+android/app/src/main/assets/public/assets/crypto-BT-ag8Mq.js                                                         
+android/app/src/main/assets/public/assets/data-CywEAasM.js                                                           
+android/app/src/main/assets/public/assets/data-DLyROt2z.js                                                           
+android/app/src/main/assets/public/assets/DossierSocis-CWEjx5iq.css                                                  
+android/app/src/main/assets/public/assets/DossierSocis-Dy78NXV1.js                                                   
+android/app/src/main/assets/public/assets/DynamicIcon-BvOUdGLJ.css                                                   
+android/app/src/main/assets/public/assets/eg-walker-CBgmOvMl.js                                                      
+android/app/src/main/assets/public/assets/FacadeVFS-BAPZQWFt.js                                                      
+android/app/src/main/assets/public/assets/FacadeVFS-C_uRDmok.js                                                      
+android/app/src/main/assets/public/assets/FacadeVFS-TGm0luOp.js                                                      
+android/app/src/main/assets/public/assets/Feed-DOaEzaEY.js                                                           
+android/app/src/main/assets/public/assets/Financament-Du_FUwhd.css                                                   
+android/app/src/main/assets/public/assets/Financament-FkipV9U_.js                                                    
+android/app/src/main/assets/public/assets/GenesisViewer-BhvOKEOI.js                                                  
+android/app/src/main/assets/public/assets/GenesisViewer-DymawR0i.css                                                 
+android/app/src/main/assets/public/assets/GlobalAssetAlbum-0sCqrftI.css                                              
+android/app/src/main/assets/public/assets/GlobalAssetAlbum-BZINRqw1.js                                               
+android/app/src/main/assets/public/assets/Header-5dryx9GC.js                                                         
+android/app/src/main/assets/public/assets/HubView-61V2E8is.js                                                        
+android/app/src/main/assets/public/assets/IAIAChatSidebar-BH-ZO17p.css                                               
+android/app/src/main/assets/public/assets/IAIAChatSidebar-BMoiovop.js                                                
+android/app/src/main/assets/public/assets/iaiaWorker-BkKu1p2J.js                                                     
+android/app/src/main/assets/public/assets/IDBBatchAtomicVFS-BrQkENRi.js                                              
+android/app/src/main/assets/public/assets/IDBBatchAtomicVFS-DnrEmLGw.js                                              
+android/app/src/main/assets/public/assets/IDBBatchAtomicVFS-Rb8ukz-j.js                                              
+android/app/src/main/assets/public/assets/ImageCarousel-Ds7QT4Ek.css                                                 
+android/app/src/main/assets/public/assets/ImageCarousel-DV34pJ_p.js                                                  
+android/app/src/main/assets/public/assets/index-DWd8uP50.css                                                         
+android/app/src/main/assets/public/assets/index-f9esRHuB.js                                                          
+android/app/src/main/assets/public/assets/InfografiaGallery-DAlZlxqf.css                                             
+android/app/src/main/assets/public/assets/InfografiaGallery-DdRv4nhk.js                                              
+android/app/src/main/assets/public/assets/ItemDetailModal-BfTELsud.css                                               
+android/app/src/main/assets/public/assets/LegalNotice-BTPishjp.js                                                    
+android/app/src/main/assets/public/assets/Map-DnckhP3f.css                                                           
+android/app/src/main/assets/public/assets/Map-ZleEwBJY.js                                                            
+android/app/src/main/assets/public/assets/MarketItemDetail-B6BVk5-6.js                                               
+android/app/src/main/assets/public/assets/Marketplace-B1GNTL1s.js                                                    
+android/app/src/main/assets/public/assets/Marketplace-BfBjDzoW.css                                                   
+android/app/src/main/assets/public/assets/MasterCalendar-BAV5q_sh.js                                                 
+android/app/src/main/assets/public/assets/MasterCalendar-DvuaE9Zw.css                                                
+android/app/src/main/assets/public/assets/MasterMediaGallery-CPYtZNW_.css                                            
+android/app/src/main/assets/public/assets/MasterMediaGallery-D7r1uZ-j.js                                             
+android/app/src/main/assets/public/assets/mc-wa-sqlite-async-C8ZeJYo1.js                                             
+android/app/src/main/assets/public/assets/mc-wa-sqlite-X1Id_ZcU.js                                                   
+android/app/src/main/assets/public/assets/MenuManagementView-B3NvKHz7.js                                             
+android/app/src/main/assets/public/assets/NexusFlash-BQHYugO5.css                                                    
+android/app/src/main/assets/public/assets/NexusFlash-DzmcH3P1.js                                                     
+android/app/src/main/assets/public/assets/Notes-3JgfYyMi.js                                                          
+android/app/src/main/assets/public/assets/Notes-dJbkyKRC.css                                                         
+android/app/src/main/assets/public/assets/OficiDocumentacio-Bb-x9J9z.js                                              
+android/app/src/main/assets/public/assets/OficiDocumentacio-MsBkI7EU.css                                             
+android/app/src/main/assets/public/assets/OPFSCoopSyncVFS-B23rAG0T.js                                                
+android/app/src/main/assets/public/assets/OPFSCoopSyncVFS-DKKk2yLi.js                                                
+android/app/src/main/assets/public/assets/OPFSCoopSyncVFS-DNTa11AD.js                                                
+android/app/src/main/assets/public/assets/PDFBategatManager-CFnnqz4s.js                                              
+android/app/src/main/assets/public/assets/PDFBategatManager-DzQZHQht.css                                             
+android/app/src/main/assets/public/assets/PostDetail-DdVlRUZB.js                                                     
+android/app/src/main/assets/public/assets/ProfilePowerMenu-cnLZhYQE.css                                              
+android/app/src/main/assets/public/assets/ProfilePowerMenu-mGSudWwe.js                                               
+android/app/src/main/assets/public/assets/ProfileView-DYvWjZW1.css                                                   
+android/app/src/main/assets/public/assets/ProfileView-enUM9S5k.js                                                    
+android/app/src/main/assets/public/assets/ProjectPresentation-Ch12V_K1.css                                           
+android/app/src/main/assets/public/assets/ProjectPresentation-csicLfax.js                                            
+android/app/src/main/assets/public/assets/Register-B6p8XbJM.js                                                       
+android/app/src/main/assets/public/assets/ResourceDetail-BDqb6TsK.js                                                 
+android/app/src/main/assets/public/assets/rhizomeManager-BdTo87e0.js                                                 
+android/app/src/main/assets/public/assets/rhizomeManager-DezeTcdC.css                                                
+android/app/src/main/assets/public/assets/SearchDiscover-CxGkc9ef.js                                                 
+android/app/src/main/assets/public/assets/SearchDiscover-DlL7Ex3G.css                                                
+android/app/src/main/assets/public/assets/seedService-Bxb4c2Yx.js                                                    
+android/app/src/main/assets/public/assets/SEO-WgwZL8oz.js                                                            
+android/app/src/main/assets/public/assets/SharedSyncImplementation.worker-CLtOl0XK.js                                
+android/app/src/main/assets/public/assets/ShareHub-QPgBXFyL.js                                                       
+android/app/src/main/assets/public/assets/ShareHub-R67Spftt.css                                                      
+android/app/src/main/assets/public/assets/SolatgeConsole-CTnPWZza.css                                                
+android/app/src/main/assets/public/assets/SolatgeConsole-DoCENoTL.js                                                 
+android/app/src/main/assets/public/assets/speechService-CK9Rq1Iy.js                                                  
+android/app/src/main/assets/public/assets/sqlite3-opfs-async-proxy--d6widYe.js                                       
+android/app/src/main/assets/public/assets/sqlite3-opfs-async-proxy.js                                                
+android/app/src/main/assets/public/assets/sqlite3-worker1-ClHeWv4i.js                                                
+android/app/src/main/assets/public/assets/StatusLoader-DyOmi-_F.js                                                   
+android/app/src/main/assets/public/assets/syncService-oKrkWHQ-.js                                                    
+android/app/src/main/assets/public/assets/TownDetail-BPcJ_-A1.js                                                     
+android/app/src/main/assets/public/assets/TownDetail-DbsSQiuX.css                                                    
+android/app/src/main/assets/public/assets/Towns-B1dq9OR_.css                                                         
+android/app/src/main/assets/public/assets/Towns-FWebWzP1.js                                                          
+android/app/src/main/assets/public/assets/TownSelectorModal--5wwSWNI.js                                              
+android/app/src/main/assets/public/assets/TownSelectorModal-BwE0w2mB.css                                             
+android/app/src/main/assets/public/assets/ui-BJaMbsTF.js                                                             
+android/app/src/main/assets/public/assets/UniversalCardMedia-BaZZR7V0.js                                             
+android/app/src/main/assets/public/assets/UniversalCardMedia-DPNCyVRT.css                                            
+android/app/src/main/assets/public/assets/Utilitats-GRoUkU6L.js                                                      
+android/app/src/main/assets/public/assets/utils-BRbnp3kv.js                                                          
+android/app/src/main/assets/public/assets/vendor-DRJ1ja8f.js                                                         
+android/app/src/main/assets/public/assets/VisionView-8S1NX4zx.css                                                    
+android/app/src/main/assets/public/assets/VisionView-DVaBrr8f.js                                                     
+android/app/src/main/assets/public/assets/visionWorker-C5_ohZCn.js                                                   
+android/app/src/main/assets/public/assets/wa-sqlite-async-CosggXnK.js                                                
+android/app/src/main/assets/public/assets/wa-sqlite-DDLGr6Vq.js                                                      
+android/app/src/main/assets/public/assets/WASQLiteDB.worker-DkCAAG20.js                                              
+android/app/src/main/assets/public/assets/web-jCS-4mOa.js                                                            
+android/app/src/main/assets/public/coi-serviceworker.js                                                              
+android/app/src/main/assets/public/cordova_plugins.js                                                                
+android/app/src/main/assets/public/cordova.js                                                                        
+android/app/src/main/assets/public/sw.js                                                                             
+auditories/260402_0630_generate_prompt.js                                                                            
+auditories/260403_2349_generate_ona2_prompt.cjs                                                                      
+auditories/260403_2358_generate_ona3_prompt.cjs                                                                      
+dev-dist/registerSW.js                                                                                               
+dev-dist/sw.js                                                                                                       
+dev-dist/workbox-1c2fcea1.js                                                                                         
+dev-dist/workbox-21a80088.js                                                                                         
+docs/_arquitectura_sistema/PROTOCOLS_NUCLEAR_SOLATGE.js                                                              
+docs/_arquitectura_sistema/script_aplanament_autonom.cjs                                                             
+docs/_auditories_red_team/2026-04-22_0630_Lexicon_Kimi.js                                                            
+docs/PROTOCOLS_NUCLEAR_SOLATGE.js                                                                                    
+electron/preload.js                                                                                                  
+find_non_mur.mjs                                                                                                     
+fix_all_images.mjs                                                                                                   
+fix_capitalization.mjs                                                                                               
+fix_data_cards.js                                                                                                    
+fix_data.js                                                                                                          
+fix_paths.mjs                                                                                                        
+fix_remaining.mjs                                                                                                    
+fix-contexts.cjs                                                                                                     
+fix-services.cjs                                                                                                     
+ios/App/App/public/assets/AccessHandlePoolVFS-aMhVy1Cb.js                                                            
+ios/App/App/public/assets/AccessHandlePoolVFS-bY3FGBow.js                                                            
+ios/App/App/public/assets/AccessHandlePoolVFS-CsSYiSuG.js                                                            
+ios/App/App/public/assets/AccessibilitatUniversal-BuMfnha4.js                                                        
+ios/App/App/public/assets/AdminPanel-Bt-Jg7RH.js                                                                     
+ios/App/App/public/assets/AdminPanel-DPoqZKxV.css                                                                    
+ios/App/App/public/assets/ArchitecteView-v3RKi2Eb.js                                                                 
+ios/App/App/public/assets/Archive-Dd0r9bSN.css                                                                       
+ios/App/App/public/assets/Archive-DFLOkggj.js                                                                        
+ios/App/App/public/assets/Auth-D_2KRRrr.css                                                                          
+ios/App/App/public/assets/Avatar-CxdcsuEN.js                                                                         
+ios/App/App/public/assets/browser-image-compression-_ZkOCjiO.js                                                      
+ios/App/App/public/assets/bson-BkvxR-ZB.js                                                                           
+ios/App/App/public/assets/BuscadorAjudes-DGhLuq_U.js                                                                 
+ios/App/App/public/assets/BuscadorAjudes-DLAftMMs.css                                                                
+ios/App/App/public/assets/CategoryManager-C00tUkw2.js                                                                
+ios/App/App/public/assets/ChatDetail-BQ7yBM8R.css                                                                    
+ios/App/App/public/assets/ChatDetail-CViya3Zh.js                                                                     
+ios/App/App/public/assets/ChatEmptyState-Cv62wuZH.js                                                                 
+ios/App/App/public/assets/ChatLayout-BZHmEQu0.js                                                                     
+ios/App/App/public/assets/ChatLayout-C_G_29od.css                                                                    
+ios/App/App/public/assets/ChatManager-TpmmRJYt.js                                                                    
+ios/App/App/public/assets/Chrome145Report-Cj8aV1OU.js                                                                
+ios/App/App/public/assets/CommunityDirectory-1vACTzfK.js                                                             
+ios/App/App/public/assets/CommunityDirectory-CZKlV_SK.css                                                            
+ios/App/App/public/assets/ContextualHeader-BUkOzM9S.css                                                              
+ios/App/App/public/assets/ContextualHeader-DBH7rCVx.js                                                               
+ios/App/App/public/assets/ContextualMenu-CAmXbmkT.js                                                                 
+ios/App/App/public/assets/CopyButton-9Hk-GcKy.js                                                                     
+ios/App/App/public/assets/crypto-BT-ag8Mq.js                                                                         
+ios/App/App/public/assets/data-CywEAasM.js                                                                           
+ios/App/App/public/assets/data-DLyROt2z.js                                                                           
+ios/App/App/public/assets/DossierSocis-CWEjx5iq.css                                                                  
+ios/App/App/public/assets/DossierSocis-Dy78NXV1.js                                                                   
+ios/App/App/public/assets/DynamicIcon-BvOUdGLJ.css                                                                   
+ios/App/App/public/assets/eg-walker-CBgmOvMl.js                                                                      
+ios/App/App/public/assets/FacadeVFS-BAPZQWFt.js                                                                      
+ios/App/App/public/assets/FacadeVFS-C_uRDmok.js                                                                      
+ios/App/App/public/assets/FacadeVFS-TGm0luOp.js                                                                      
+ios/App/App/public/assets/Feed-DOaEzaEY.js                                                                           
+ios/App/App/public/assets/Financament-Du_FUwhd.css                                                                   
+ios/App/App/public/assets/Financament-FkipV9U_.js                                                                    
+ios/App/App/public/assets/GenesisViewer-BhvOKEOI.js                                                                  
+ios/App/App/public/assets/GenesisViewer-DymawR0i.css                                                                 
+ios/App/App/public/assets/GlobalAssetAlbum-0sCqrftI.css                                                              
+ios/App/App/public/assets/GlobalAssetAlbum-BZINRqw1.js                                                               
+ios/App/App/public/assets/Header-5dryx9GC.js                                                                         
+ios/App/App/public/assets/HubView-61V2E8is.js                                                                        
+ios/App/App/public/assets/IAIAChatSidebar-BH-ZO17p.css                                                               
+ios/App/App/public/assets/IAIAChatSidebar-BMoiovop.js                                                                
+ios/App/App/public/assets/iaiaWorker-BkKu1p2J.js                                                                     
+ios/App/App/public/assets/IDBBatchAtomicVFS-BrQkENRi.js                                                              
+ios/App/App/public/assets/IDBBatchAtomicVFS-DnrEmLGw.js                                                              
+ios/App/App/public/assets/IDBBatchAtomicVFS-Rb8ukz-j.js                                                              
+ios/App/App/public/assets/ImageCarousel-Ds7QT4Ek.css                                                                 
+ios/App/App/public/assets/ImageCarousel-DV34pJ_p.js                                                                  
+ios/App/App/public/assets/index-DWd8uP50.css                                                                         
+ios/App/App/public/assets/index-f9esRHuB.js                                                                          
+ios/App/App/public/assets/InfografiaGallery-DAlZlxqf.css                                                             
+ios/App/App/public/assets/InfografiaGallery-DdRv4nhk.js                                                              
+ios/App/App/public/assets/ItemDetailModal-BfTELsud.css                                                               
+ios/App/App/public/assets/LegalNotice-BTPishjp.js                                                                    
+ios/App/App/public/assets/Map-DnckhP3f.css                                                                           
+ios/App/App/public/assets/Map-ZleEwBJY.js                                                                            
+ios/App/App/public/assets/MarketItemDetail-B6BVk5-6.js                                                               
+ios/App/App/public/assets/Marketplace-B1GNTL1s.js                                                                    
+ios/App/App/public/assets/Marketplace-BfBjDzoW.css                                                                   
+ios/App/App/public/assets/MasterCalendar-BAV5q_sh.js                                                                 
+ios/App/App/public/assets/MasterCalendar-DvuaE9Zw.css                                                                
+ios/App/App/public/assets/MasterMediaGallery-CPYtZNW_.css                                                            
+ios/App/App/public/assets/MasterMediaGallery-D7r1uZ-j.js                                                             
+ios/App/App/public/assets/mc-wa-sqlite-async-C8ZeJYo1.js                                                             
+ios/App/App/public/assets/mc-wa-sqlite-X1Id_ZcU.js                                                                   
+ios/App/App/public/assets/MenuManagementView-B3NvKHz7.js                                                             
+ios/App/App/public/assets/NexusFlash-BQHYugO5.css                                                                    
+ios/App/App/public/assets/NexusFlash-DzmcH3P1.js                                                                     
+ios/App/App/public/assets/Notes-3JgfYyMi.js                                                                          
+ios/App/App/public/assets/Notes-dJbkyKRC.css                                                                         
+ios/App/App/public/assets/OficiDocumentacio-Bb-x9J9z.js                                                              
+ios/App/App/public/assets/OficiDocumentacio-MsBkI7EU.css                                                             
+ios/App/App/public/assets/OPFSCoopSyncVFS-B23rAG0T.js                                                                
+ios/App/App/public/assets/OPFSCoopSyncVFS-DKKk2yLi.js                                                                
+ios/App/App/public/assets/OPFSCoopSyncVFS-DNTa11AD.js                                                                
+ios/App/App/public/assets/PDFBategatManager-CFnnqz4s.js                                                              
+ios/App/App/public/assets/PDFBategatManager-DzQZHQht.css                                                             
+ios/App/App/public/assets/PostDetail-DdVlRUZB.js                                                                     
+ios/App/App/public/assets/ProfilePowerMenu-cnLZhYQE.css                                                              
+ios/App/App/public/assets/ProfilePowerMenu-mGSudWwe.js                                                               
+ios/App/App/public/assets/ProfileView-DYvWjZW1.css                                                                   
+ios/App/App/public/assets/ProfileView-enUM9S5k.js                                                                    
+ios/App/App/public/assets/ProjectPresentation-Ch12V_K1.css                                                           
+ios/App/App/public/assets/ProjectPresentation-csicLfax.js                                                            
+ios/App/App/public/assets/Register-B6p8XbJM.js                                                                       
+ios/App/App/public/assets/ResourceDetail-BDqb6TsK.js                                                                 
+ios/App/App/public/assets/rhizomeManager-BdTo87e0.js                                                                 
+ios/App/App/public/assets/rhizomeManager-DezeTcdC.css                                                                
+ios/App/App/public/assets/SearchDiscover-CxGkc9ef.js                                                                 
+ios/App/App/public/assets/SearchDiscover-DlL7Ex3G.css                                                                
+ios/App/App/public/assets/seedService-Bxb4c2Yx.js                                                                    
+ios/App/App/public/assets/SEO-WgwZL8oz.js                                                                            
+ios/App/App/public/assets/SharedSyncImplementation.worker-CLtOl0XK.js                                                
+ios/App/App/public/assets/ShareHub-QPgBXFyL.js                                                                       
+ios/App/App/public/assets/ShareHub-R67Spftt.css                                                                      
+ios/App/App/public/assets/SolatgeConsole-CTnPWZza.css                                                                
+ios/App/App/public/assets/SolatgeConsole-DoCENoTL.js                                                                 
+ios/App/App/public/assets/speechService-CK9Rq1Iy.js                                                                  
+ios/App/App/public/assets/sqlite3-opfs-async-proxy--d6widYe.js                                                       
+ios/App/App/public/assets/sqlite3-opfs-async-proxy.js                                                                
+ios/App/App/public/assets/sqlite3-worker1-ClHeWv4i.js                                                                
+ios/App/App/public/assets/StatusLoader-DyOmi-_F.js                                                                   
+ios/App/App/public/assets/syncService-oKrkWHQ-.js                                                                    
+ios/App/App/public/assets/TownDetail-BPcJ_-A1.js                                                                     
+ios/App/App/public/assets/TownDetail-DbsSQiuX.css                                                                    
+ios/App/App/public/assets/Towns-B1dq9OR_.css                                                                         
+ios/App/App/public/assets/Towns-FWebWzP1.js                                                                          
+ios/App/App/public/assets/TownSelectorModal--5wwSWNI.js                                                              
+ios/App/App/public/assets/TownSelectorModal-BwE0w2mB.css                                                             
+ios/App/App/public/assets/ui-BJaMbsTF.js                                                                             
+ios/App/App/public/assets/UniversalCardMedia-BaZZR7V0.js                                                             
+ios/App/App/public/assets/UniversalCardMedia-DPNCyVRT.css                                                            
+ios/App/App/public/assets/Utilitats-GRoUkU6L.js                                                                      
+ios/App/App/public/assets/utils-BRbnp3kv.js                                                                          
+ios/App/App/public/assets/vendor-DRJ1ja8f.js                                                                         
+ios/App/App/public/assets/VisionView-8S1NX4zx.css                                                                    
+ios/App/App/public/assets/VisionView-DVaBrr8f.js                                                                     
+ios/App/App/public/assets/visionWorker-C5_ohZCn.js                                                                   
+ios/App/App/public/assets/wa-sqlite-async-CosggXnK.js                                                                
+ios/App/App/public/assets/wa-sqlite-DDLGr6Vq.js                                                                      
+ios/App/App/public/assets/WASQLiteDB.worker-DkCAAG20.js                                                              
+ios/App/App/public/assets/web-jCS-4mOa.js                                                                            
+ios/App/App/public/coi-serviceworker.js                                                                              
+ios/App/App/public/cordova_plugins.js                                                                                
+ios/App/App/public/cordova.js                                                                                        
+ios/App/App/public/sw.js                                                                                             
+move_unused_to_nanobanana.mjs                                                                                        
+organize_all_publications.mjs                                                                                        
+organize_like_user_wants.mjs                                                                                         
+parse_data.mjs                                                                                                       
+public/assets/sqlite3-opfs-async-proxy.js                                                                            
+public/coi-serviceworker.js                                                                                          
+public/service-worker.js                                                                                             
+public/sw.js                                                                                                         
+rename_assets.mjs                                                                                                    
+reverse_assets.mjs                                                                                                   
+schema_check.mjs                                                                                                     
+scripts/apply-design-system.js                                                                                       
+scripts/augment_data.cjs                                                                                             
+scripts/build_audit_payload.js                                                                                       
+scripts/build_codex.js                                                                                               
+scripts/build_media_registry.js                                                                                      
+scripts/casa_neta_audit.js                                                                                           
+scripts/check_entities.js                                                                                            
+scripts/chunk_context.cjs                                                                                            
+scripts/cleanup_duplicates.cjs                                                                                       
+scripts/cleanup_duplicates.js                                                                                        
+scripts/create_master.cjs                                                                                            
+scripts/debug_schema.js                                                                                              
+scripts/dump_mkt_verbose.js                                                                                          
+scripts/dump_mkt.js                                                                                                  
+scripts/extract_i18n.js                                                                                              
+scripts/fetch_ghosts_tmp.cjs                                                                                         
+scripts/fetch_null_posts.js                                                                                          
+scripts/fill_posts_nulls.js                                                                                          
+scripts/fill_profile_nulls.js                                                                                        
+scripts/find_and_fix.js                                                                                              
+scripts/find_entity.js                                                                                               
+scripts/find_missing_images.mjs                                                                                      
+scripts/find_mkt.js                                                                                                  
+scripts/find_sp.js                                                                                                   
+scripts/fix_avatar.js                                                                                                
+scripts/fix_fonts.cjs                                                                                                
+scripts/fix_posts.mjs                                                                                                
+scripts/fix_z_index_important.cjs                                                                                    
+scripts/generate_4_audits.cjs                                                                                        
+scripts/generate_audit_context.cjs                                                                                   
+scripts/generate_audit_prompt.cjs                                                                                    
+scripts/generate_claude_payload.mjs                                                                                  
+scripts/generate_gemini_payload.mjs                                                                                  
+scripts/generate_prompt.cjs                                                                                          
+scripts/generate_report.js                                                                                           
+scripts/genetic-lint.js                                                                                              
+scripts/ghost_hunter.js                                                                                              
+scripts/ghost_mother.js                                                                                              
+scripts/ghost_update.js                                                                                              
+scripts/html_to_pdf.js                                                                                               
+scripts/inject_images.cjs                                                                                            
+scripts/inject_images.mjs                                                                                            
+scripts/inject_nano_v2.cjs                                                                                           
+scripts/js_tools/affinity_demo.cjs                                                                                   
+scripts/js_tools/affinity_get_doc.cjs                                                                                
+scripts/js_tools/affinity_read_dom.cjs                                                                               
+scripts/js_tools/affinity_soc_de_poble.cjs                                                                           
+scripts/js_tools/affinity_test.cjs                                                                                   
+scripts/js_tools/append_rich_pages.cjs                                                                               
+scripts/js_tools/complete_book.cjs                                                                                   
+scripts/js_tools/export_epub.cjs                                                                                     
+scripts/js_tools/export_pdf.cjs                                                                                      
+scripts/js_tools/insert_master_view.js                                                                               
+scripts/js_tools/render_mock.js                                                                                      
+scripts/js_tools/screenshot_page02.cjs                                                                               
+scripts/js_tools/test_puppeteer.js                                                                                   
+scripts/js_tools/version_update.js                                                                                   
+scripts/legacy/build_amazon_codex.js                                                                                 
+scripts/migrate_media_taxonomy.mjs                                                                                   
+scripts/migrate_socdepoble_content.js                                                                                
+scripts/neteja_fantasmes_supabase.mjs                                                                                
+scripts/omega_vision_alt_fix.js                                                                                      
+scripts/patch_null_posts.js                                                                                          
+scripts/populate_copy_texto.js                                                                                       
+scripts/pregoner.js                                                                                                  
+scripts/puppeteer_pdf.js                                                                                             
+scripts/purge_ghosts.js                                                                                              
+scripts/replace_roboto_noto.js                                                                                       
+scripts/sanitize_db_nulls.js                                                                                         
+scripts/semantic_zindex.cjs                                                                                          
+scripts/soc-de-poble-pdf.css                                                                                         
+scripts/supa_escoba_lejiaycaustica.js                                                                                
+scripts/supa_omega13_wikipedia.js                                                                                    
+scripts/universal_blog_importer.js                                                                                   
+scripts/update_book.js                                                                                               
+scripts/wikipedia_town_enrichment.js                                                                                 
+src/App.jsx                                                                                                          
+src/app/shell/AppShell.jsx                                                                                           
+src/app/shell/powerMode.js                                                                                           
+src/app/shell/Viewport.jsx                                                                                           
+src/app/styles/Consola.css                                                                                           
+src/app/styles/themes.css                                                                                            
+src/app/sw.js                                                                                                        
+src/barter/barterModel.js                                                                                            
+src/components/AccessibleModal.jsx                                                                                   
+src/components/admin/CitizensModule.jsx                                                                              
+src/components/admin/ForestAlertsPanel.jsx                                                                           
+src/components/admin/FutureFeaturesModule.jsx                                                                        
+src/components/admin/GlobalOverview.jsx                                                                              
+src/components/admin/IdentitiesModule.jsx                                                                            
+src/components/admin/MemexModule.jsx                                                                                 
+src/components/admin/StoreManagementModule.jsx                                                                       
+src/components/admin/SuperRatonControl.jsx                                                                           
+src/components/admin/ZeroDaySetupModule.jsx                                                                          
+src/components/AdminPinnedManager.css                                                                                
+src/components/AdminPinnedManager.jsx                                                                                
+src/components/atoms/MarketCard.jsx                                                                                  
+src/components/AttributionBadge.css                                                                                  
+src/components/AttributionBadge.jsx                                                                                  
+src/components/AuditRoleSwitcher.jsx                                                                                 
+src/components/BackToTop.css                                                                                         
+src/components/BackToTop.jsx                                                                                         
+src/components/BancalStatus.jsx                                                                                      
+src/components/barter/CategoryBadge.jsx                                                                              
+src/components/BarterOfferCard.jsx                                                                                   
+src/components/BatecMonitor.css                                                                                      
+src/components/BatecMonitor.jsx                                                                                      
+src/components/CalendarManagerModal.css                                                                              
+src/components/CalendarManagerModal.jsx                                                                              
+src/components/CaptureStudio.css                                                                                     
+src/components/CaptureStudio.jsx                                                                                     
+src/components/Carousel.css                                                                                          
+src/components/Carousel.jsx                                                                                          
+src/components/CategoryTabs.css                                                                                      
+src/components/CategoryTabs.jsx                                                                                      
+src/components/chat/ChatHeader.jsx                                                                                   
+src/components/chat/ChatInputArea.jsx                                                                                
+src/components/chat/ChatMessageList.jsx                                                                              
+src/components/chat/ChatMoveSelectorModal.jsx                                                                        
+src/components/chat/MessageBubble.jsx                                                                                
+src/components/ChatDetail.css                                                                                        
+src/components/ChatLayout.css                                                                                        
+src/components/Comments.css                                                                                          
+src/components/CopyButton.jsx                                                                                        
+src/components/CreateEventModal.css                                                                                  
+src/components/CronistaSummaryModal.css                                                                              
+src/components/CronistaSummaryModal.jsx                                                                              
+src/components/DAFOCard.css                                                                                          
+src/components/DAFOCard.jsx                                                                                          
+src/components/design/TactileButton.jsx                                                                              
+src/components/design/UiButton.jsx                                                                                   
+src/components/diagnostic/DiagnosticTabs.jsx                                                                         
+src/components/DiagnosticConsole.css                                                                                 
+src/components/DiagnosticConsole.jsx                                                                                 
+src/components/DocumentViewer.css                                                                                    
+src/components/DocumentViewer.jsx                                                                                    
+src/components/DynamicIcon.css                                                                                       
+src/components/DynamicIcon.jsx                                                                                       
+src/components/EntitySelector.css                                                                                    
+src/components/EntitySelector.jsx                                                                                    
+src/components/FallDetectionOverlay.jsx                                                                              
+src/components/Feed.css                                                                                              
+src/components/GestoriaPanel.jsx                                                                                     
+src/components/GlobalDropZone.jsx                                                                                    
+src/components/GlobalErrorBoundary.jsx                                                                               
+src/components/GlobalFooter.jsx                                                                                      
+src/components/GroupCreationModal.css                                                                                
+src/components/GroupCreationModal.jsx                                                                                
+src/components/GuestInteractionModal.jsx                                                                             
+src/components/HabitantsDelMas.css                                                                                   
+src/components/HabitantsDelMas.jsx                                                                                   
+src/components/HistoryModal.jsx                                                                                      
+src/components/IAIAAssistantFlow.css                                                                                 
+src/components/IAIAAssistantFlow.jsx                                                                                 
+src/components/IAIACorrectorOverlay.css                                                                              
+src/components/IAIACorrectorOverlay.jsx                                                                              
+src/components/IAIARoleSelectorModal.css                                                                             
+src/components/IAIARoleSelectorModal.jsx                                                                             
+src/components/IAIATamagotchiSettings.css                                                                            
+src/components/IAIATamagotchiSettings.jsx                                                                            
+src/components/IAIAVozButton.jsx                                                                                     
+src/components/IconPicker.css                                                                                        
+src/components/IconPicker.jsx                                                                                        
+src/components/icons/GrandmaStick.jsx                                                                                
+src/components/ImageCarousel.css                                                                                     
+src/components/ImageCarousel.jsx                                                                                     
+src/components/ImageProjector.css                                                                                    
+src/components/ImageProjector.jsx                                                                                    
+src/components/ImageReframerModal.css                                                                                
+src/components/ImageReframerModal.jsx                                                                                
+src/components/ItemDetailModal.css                                                                                   
+src/components/ItemDetailModal.jsx                                                                                   
+src/components/KnowledgeHub.jsx                                                                                      
+src/components/layout/PageTransition.jsx                                                                             
+src/components/lazy/VisibilityWrapper.jsx                                                                            
+src/components/LazyImage.css                                                                                         
+src/components/LazyImage.jsx                                                                                         
+src/components/Lightbox.css                                                                                          
+src/components/ListManager.css                                                                                       
+src/components/ListManager.jsx                                                                                       
+src/components/LiveStats.css                                                                                         
+src/components/LiveStats.jsx                                                                                         
+src/components/LlarDeFocMenu.css                                                                                     
+src/components/LlarDeFocMenu.jsx                                                                                     
+src/components/MasterConsole.css                                                                                     
+src/components/MasterConsole.jsx                                                                                     
+src/components/MasterEditor.css                                                                                      
+src/components/MasterEditor.jsx                                                                                      
+src/components/MasterMediaGallery.css                                                                                
+src/components/MasterMediaGallery.jsx                                                                                
+src/components/MediaDeduplicationModal.css                                                                           
+src/components/MediaDeduplicationModal.jsx                                                                           
+src/components/MediaPickerModal.css                                                                                  
+src/components/MediaPickerModal.jsx                                                                                  
+src/components/MobileBottomNav.css                                                                                   
+src/components/NanoLoader.jsx                                                                                        
+src/components/NavigationRail.css                                                                                    
+src/components/NotebookList.jsx                                                                                      
+src/components/NotebookSidebar.jsx                                                                                   
+src/components/NotePad.css                                                                                           
+src/components/NotePad.jsx                                                                                           
+src/components/OmniscientViewer.css                                                                                  
+src/components/OmniscientViewer.jsx                                                                                  
+src/components/OnboardingFlow.css                                                                                    
+src/components/OnboardingFlow.jsx                                                                                    
+src/components/PageHeader.jsx                                                                                        
+src/components/patterns/FeedPostCard.jsx                                                                             
+src/components/patterns/ProfileCard.jsx                                                                              
+src/components/patterns/SearchNavBar.jsx                                                                             
+src/components/patterns/SkeletonLoader.jsx                                                                           
+src/components/performance/VirtualMessageList.jsx                                                                    
+src/components/PersonalVault.css                                                                                     
+src/components/PersonalVault.jsx                                                                                     
+src/components/PlaygroundBanner.css                                                                                  
+src/components/PlaygroundBanner.jsx                                                                                  
+src/components/PlazaHandshake.jsx                                                                                    
+src/components/PollManager.css                                                                                       
+src/components/PollManager.jsx                                                                                       
+src/components/profile/EntityProfile.jsx                                                                             
+src/components/ProfileHeaderPremium.css                                                                              
+src/components/ProfileHeaderPremium.jsx                                                                              
+src/components/ProfileSettingsModal.jsx                                                                              
+src/components/ProfileStudioModal.css                                                                                
+src/components/ProfileStudioModal.jsx                                                                                
+src/components/RealmSwitcher.jsx                                                                                     
+src/components/RebostVault.css                                                                                       
+src/components/RebostVault.jsx                                                                                       
+src/components/ReloadPrompt.jsx                                                                                      
+src/components/ResourceCard.css                                                                                      
+src/components/ResourceCard.jsx                                                                                      
+src/components/RhizomeMonitor.jsx                                                                                    
+src/components/RoleSelectorModal.css                                                                                 
+src/components/RoleSelectorModal.jsx                                                                                 
+src/components/RuralIntelligence.css                                                                                 
+src/components/RuralIntelligence.jsx                                                                                 
+src/components/SafeShell.css                                                                                         
+src/components/SafeShell.jsx                                                                                         
+src/components/ScrollToTop.jsx                                                                                       
+src/components/ShareHub.css                                                                                          
+src/components/ShareHub.jsx                                                                                          
+src/components/Skeletons/MarketSkeleton.jsx                                                                          
+src/components/Skeletons/PostSkeleton.jsx                                                                            
+src/components/Skeletons/Skeletons.css                                                                               
+src/components/StableRoutes.jsx                                                                                      
+src/components/SyncBluetoothModal.jsx                                                                                
+src/components/SystemActionBar.jsx                                                                                   
+src/components/SystemLayout.jsx                                                                                      
+src/components/SystemPageLayout.jsx                                                                                  
+src/components/TagSelector.css                                                                                       
+src/components/TagSelector.jsx                                                                                       
+src/components/TallerTrellat.css                                                                                     
+src/components/TallerTrellat.jsx                                                                                     
+src/components/TelephoneModule.jsx                                                                                   
+src/components/ThemeCustomizer.css                                                                                   
+src/components/ThemeCustomizer.jsx                                                                                   
+src/components/TiaMariaChat.css                                                                                      
+src/components/TiaMariaChat.jsx                                                                                      
+src/components/ToastProvider.jsx                                                                                     
+src/components/TownMediaVoting.jsx                                                                                   
+src/components/TownPickerModal.css                                                                                   
+src/components/TownPickerModal.jsx                                                                                   
+src/components/TranslationModal.jsx                                                                                  
+src/components/trust/TrustBadge.jsx                                                                                  
+src/components/trust/TrustProfile.jsx                                                                                
+src/components/ui/GlassCard.jsx                                                                                      
+src/components/ui/RoundButton.jsx                                                                                    
+src/components/ui/SectionHeader.jsx                                                                                  
+src/components/UnifiedStatus.jsx                                                                                     
+src/components/UniversalCard/UniversalCard.types.ts                                                                  
+src/components/UniversalCitation.css                                                                                 
+src/components/UniversalCitation.jsx                                                                                 
+src/components/VersionGatekeeper.css                                                                                 
+src/components/VersionGatekeeper.jsx                                                                                 
+src/components/VirtualizedEventFeed.jsx                                                                              
+src/components/VisionSelectorModal.css                                                                               
+src/components/VisionSelectorModal.jsx                                                                               
+src/components/VoiceMessage.jsx                                                                                      
+src/components/Watermark.css                                                                                         
+src/components/Watermark.jsx                                                                                         
+src/components/WikiPulseSheet.css                                                                                    
+src/components/WikiPulseSheet.jsx                                                                                    
+src/config/iaiesMundialsMap.jsx                                                                                      
+src/constants/masterAssets.js                                                                                        
+src/constants/ruralColors.ts                                                                                         
+src/contexts/RealmContext.jsx                                                                                        
+src/core/crypto/broadcastCrypto.ts                                                                                   
+src/core/crypto/p2pCrypto.ts                                                                                         
+src/core/db/sosp-db.ts                                                                                               
+src/core/mesh/gossipEngine.js                                                                                        
+src/core/mesh/mesh.js                                                                                                
+src/core/mesh/natTraversal.js                                                                                        
+src/core/mesh/presenceProtocol.js                                                                                    
+src/core/mesh/rateLimit.js                                                                                           
+src/core/normalizers/post.normalizer.js                                                                              
+src/core/p2p/sdpOptimizer.ts                                                                                         
+src/core/peer/crypt.ts                                                                                               
+src/core/peer/lockChannel.ts                                                                                         
+src/core/peer/secureChannel.ts                                                                                       
+src/core/pkm/notes-store.js                                                                                          
+src/core/pkm/selection-link.js                                                                                       
+src/core/powersync/connector.js                                                                                      
+src/core/powersync/schema.js                                                                                         
+src/core/rhizome/affinityBridge.js                                                                                   
+src/core/rhizome/epub/EpubManager.js                                                                                 
+src/core/rhizome/livingArchitecture.js                                                                               
+src/core/rhizome/narrativeContinuity.js                                                                              
+src/core/rhizome/peritext-seeds.js                                                                                   
+src/core/rhizome/seeds.js                                                                                            
+src/core/services/architecture/guaitesProtocol.js                                                                    
+src/core/services/architecture/kademliaSharding.js                                                                   
+src/core/services/awarenessProvider.js                                                                               
+src/core/services/backupCardService.js                                                                               
+src/core/services/bluetooth/BluetoothManager.js                                                                      
+src/core/services/bluetooth/RhizomeProtocol.js                                                                       
+src/core/services/bluetooth/YjsBleTransport.js                                                                       
+src/core/services/bluetoothSync.js                                                                                   
+src/core/services/CameraService.js                                                                                   
+src/core/services/cloudErrorReporting.js                                                                             
+src/core/services/coldBackupService.js                                                                               
+src/core/services/columnCacheManager.js                                                                              
+src/core/services/commandProtocol.js                                                                                 
+src/core/services/convergenceAnalytics.js                                                                            
+src/core/services/encryption.js                                                                                      
+src/core/services/feedbackService.js                                                                                 
+src/core/services/groupChatService.js                                                                                
+src/core/services/HistoricalRecoveryService.js                                                                       
+src/core/services/hybridSyncProvider.js                                                                              
+src/core/services/iaiaAuditor.js                                                                                     
+src/core/services/indexedDBService.js                                                                                
+src/core/services/iosSurvivalGuard.js                                                                                
+src/core/services/lifecycleManager.js                                                                                
+src/core/services/localAIService.js                                                                                  
+src/core/services/medicationService.js                                                                               
+src/core/services/MemoriaVivaService.js                                                                              
+src/core/services/MigrationService.js                                                                                
+src/core/services/notionService.js                                                                                   
+src/core/services/recoveryService.js                                                                                 
+src/core/services/RhizomeMesh.js                                                                                     
+src/core/services/rhizomeWorker.js                                                                                   
+src/core/services/storageEngine.js                                                                                   
+src/core/services/transport/bleYjsTransport.js                                                                       
+src/core/services/transport/bluetoothManager.js                                                                      
+src/core/services/transport/chunking.js                                                                              
+src/core/services/transport/hybridSyncProvider.js                                                                    
+src/core/services/transport/index.js                                                                                 
+src/core/services/transport/yjsDocAdapter.js                                                                         
+src/core/services/trustService.js                                                                                    
+src/core/services/wordpressImporter.js                                                                               
+src/core/sync/antiEntropy.js                                                                                         
+src/core/sync/binaryCompression.js                                                                                   
+src/core/sync/ipfsClient.js                                                                                          
+src/core/sync/lruManager.js                                                                                          
+src/core/sync/memoryController.js                                                                                    
+src/core/sync/reconciler.js                                                                                          
+src/core/sync/syncEngine.js                                                                                          
+src/core/sync/uploadManager.js                                                                                       
+src/core/sync/webrtcProvider.js                                                                                      
+src/core/sync/yjsEngine.js                                                                                           
+src/core/wasm/wasmHook.js                                                                                            
+src/core/workers/compression.worker.ts                                                                               
+src/core/workers/cryptoWorker.js                                                                                     
+src/core/workers/epub-parser.worker.ts                                                                               
+src/core/workers/p2pWorker.js                                                                                        
+src/core/workers/preloadKyber.js                                                                                     
+src/core/workers/seo-edge-worker.ts                                                                                  
+src/core/workers/service-worker.ts                                                                                   
+src/core/workers/syncWorker.js                                                                                       
+src/core/workers/worker-dictat.js                                                                                    
+src/crypto/broadcastCrypto.ts                                                                                        
+src/crypto/p2pCrypto.ts                                                                                              
+src/dag/dagEngine.js                                                                                                 
+src/data/broadcast.ts                                                                                                
+src/data/didacticData.js                                                                                             
+src/data/forensicReports.js                                                                                          
+src/data/healthyMenus.js                                                                                             
+src/data/iaia_knowledge.js                                                                                           
+src/data/manualData.js                                                                                               
+src/data/media_registry.js                                                                                           
+src/data/memexData.js                                                                                                
+src/data/mockLoreData.js                                                                                             
+src/data/offline/LifecycleLockGuard.ts                                                                               
+src/data/offline/restoreOptimisticState.ts                                                                           
+src/data/offline/WorkerPool.ts                                                                                       
+src/data/proverbs.js                                                                                                 
+src/data/subsidies.js                                                                                                
+src/data/superRatonData.js                                                                                           
+src/design-system/components/Button/Button.jsx                                                                       
+src/design-system/components/Button/Button.types.ts                                                                  
+src/design-system/components/Button/Button.variants.js                                                               
+src/design-system/components/Button/index.js                                                                         
+src/design-system/components/CMS/CMSRenderer.jsx                                                                     
+src/design-system/components/DataDisplay/Callout.jsx                                                                 
+src/design-system/components/Layout/Stack.jsx                                                                        
+src/design-system/components/Typography/Blockquote.jsx                                                               
+src/design-system/components/Typography/List.jsx                                                                     
+src/design-system/components/Typography/Text.jsx                                                                     
+src/design-system/components/Typography/Text.variants.js                                                             
+src/design-system/nano_banana.css                                                                                    
+src/design-system/tokens.css                                                                                         
+src/design-system/tokens/typography.js                                                                               
+src/domain/crypto/SecureTabBus.ts                                                                                    
+src/domain/crypto/ZeroKnowledgeCRDT.ts                                                                               
+src/domain/p2p/AirgapMeshProtocol.ts                                                                                 
+src/domain/p2p/ExtremeIcePruner.ts                                                                                   
+src/entry.jsx                                                                                                        
+src/features/barter/barterModel.js                                                                                   
+src/features/domain/crypto/SecureTabBus.ts                                                                           
+src/features/domain/crypto/ZeroKnowledgeCRDT.ts                                                                      
+src/features/domain/iaiaDomain.js                                                                                    
+src/features/domain/p2p/AirgapMeshProtocol.ts                                                                        
+src/features/domain/p2p/ExtremeIcePruner.ts                                                                          
+src/features/governance/votingProtocol.js                                                                            
+src/features/identity/cryptoEngine.js                                                                                
+src/features/identity/identity.js                                                                                    
+src/features/identity/reputation.js                                                                                  
+src/features/identity/signatures.js                                                                                  
+src/features/medication/MedicationManager.jsx                                                                        
+src/features/medicina-humana/medication/MedicationManager.jsx                                                        
+src/features/safety/FallDetectionToggle.jsx                                                                          
+src/governance/votingProtocol.js                                                                                     
+src/hooks/useAccessibleSearch.js                                                                                     
+src/hooks/useAtomicGuard.js                                                                                          
+src/hooks/useAttachmentManager.js                                                                                    
+src/hooks/useAttribution.js                                                                                          
+src/hooks/useBackupGuard.js                                                                                          
+src/hooks/useBeforeUnload.js                                                                                         
+src/hooks/useBidirectionalSupabaseSync.js                                                                            
+src/hooks/useBlindatgeOPFS.js                                                                                        
+src/hooks/useCIDRenderer.js                                                                                          
+src/hooks/useCrdtStore.js                                                                                            
+src/hooks/useFallDetection.js                                                                                        
+src/hooks/useGlobalEvent.js                                                                                          
+src/hooks/useGoogleCalendar.js                                                                                       
+src/hooks/useIAIASpeech.js                                                                                           
+src/hooks/useIAIAVoz.js                                                                                              
+src/hooks/useImageInterceptor.js                                                                                     
+src/hooks/useInsectMemory.js                                                                                         
+src/hooks/useLowEndDevice.js                                                                                         
+src/hooks/useMarketItems.js                                                                                          
+src/hooks/useMultiTabSync.ts                                                                                         
+src/hooks/useOfflineMutationQueue.ts                                                                                 
+src/hooks/useOfflineSync.ts                                                                                          
+src/hooks/useOnboarding.js                                                                                           
+src/hooks/usePushNotifications.js                                                                                    
+src/hooks/usePWAInstall.js                                                                                           
+src/hooks/usePwaZombieKiller.js                                                                                      
+src/hooks/useRhizomeAlerts.js                                                                                        
+src/hooks/useRhizomeHydration.js                                                                                     
+src/hooks/useRhizomeMesh.js                                                                                          
+src/hooks/useSeoMeta.js                                                                                              
+src/hooks/useSoftConnectionStatus.js                                                                                 
+src/hooks/useStableBlob.js                                                                                           
+src/hooks/useTabReconciliation.ts                                                                                    
+src/hooks/useTextToSpeech.js                                                                                         
+src/hooks/useThemeCustomizer.js                                                                                      
+src/hooks/useThrottledScroll.js                                                                                      
+src/hooks/useTrellatPersist.js                                                                                       
+src/hooks/useTrellatSync.js                                                                                          
+src/hooks/useUndo.js                                                                                                 
+src/hooks/useUnifiedDocumentStore.js                                                                                 
+src/hooks/useUpdateSW.js                                                                                             
+src/hooks/useVirtualWindow.js                                                                                        
+src/hooks/useVisionCapabilities.js                                                                                   
+src/i18n/config.js                                                                                                   
+src/identity/cryptoEngine.js                                                                                         
+src/identity/identity.js                                                                                             
+src/identity/reputation.js                                                                                           
+src/identity/signatures.js                                                                                           
+src/lib/export/idmlExporter.js                                                                                       
+src/lib/GeoService.js                                                                                                
+src/lib/indexedDBService.js                                                                                          
+src/lib/LoanSystem.js                                                                                                
+src/lib/NotificationService.js                                                                                       
+src/lib/p2pContagion.js                                                                                              
+src/lib/plazaHandshake.js                                                                                            
+src/lib/postQuantum.js                                                                                               
+src/lib/shared-schema.js                                                                                             
+src/lib/syncCRDT.js                                                                                                  
+src/mesh/gossipEngine.js                                                                                             
+src/mesh/mesh.js                                                                                                     
+src/mesh/natTraversal.js                                                                                             
+src/mesh/presenceProtocol.js                                                                                         
+src/mesh/rateLimit.js                                                                                                
+src/p2p/sdpOptimizer.ts                                                                                              
+src/pages/AyuntamientoPage.jsx                                                                                       
+src/pages/CollectionLanding.jsx                                                                                      
+src/pages/CreateEntity.css                                                                                           
+src/pages/CreateEntity.jsx                                                                                           
+src/pages/DidacticManual.css                                                                                         
+src/pages/DossierSocis.css                                                                                           
+src/pages/EntityManagement.css                                                                                       
+src/pages/EntityManagement.jsx                                                                                       
+src/pages/GestioDetail.jsx                                                                                           
+src/pages/HubView.css                                                                                                
+src/pages/LegalNotice.css                                                                                            
+src/pages/MachineSoulBook.jsx                                                                                        
+src/pages/MakingOf.css                                                                                               
+src/pages/MakingOf.jsx                                                                                               
+src/pages/MediaAlbum.css                                                                                             
+src/pages/MediaAlbum.jsx                                                                                             
+src/pages/Notifications.css                                                                                          
+src/pages/Notifications.jsx                                                                                          
+src/pages/ResetPage.jsx                                                                                              
+src/pages/RoadmapSeedView.jsx                                                                                        
+src/pages/SystemPages/Communication.jsx                                                                              
+src/pages/SystemPages/Psychiatry.jsx                                                                                 
+src/pages/SystemPages/QualityISO.jsx                                                                                 
+src/pages/SystemPages/Thermodynamics.jsx                                                                             
+src/pages/UsersDirectory.jsx                                                                                         
+src/peer/crypt.ts                                                                                                    
+src/peer/lockChannel.ts                                                                                              
+src/peer/secureChannel.ts                                                                                            
+src/providers/QueryProvider.jsx                                                                                      
+src/rhizome/crdt/eg-walker.js                                                                                        
+src/rhizome/crdt/peritext.js                                                                                         
+src/rhizome/crdt/vectorClock.js                                                                                      
+src/rhizome/db-core.js                                                                                               
+src/rhizome/peritext-seeds.js                                                                                        
+src/rhizome/rhizome.worker.js                                                                                        
+src/rhizome/seeds.js                                                                                                 
+src/rhizome/sqlite-setup.js                                                                                          
+src/shared/components/AccessibleModal.jsx                                                                            
+src/shared/components/AddItemModal.jsx                                                                               
+src/shared/components/admin/CitizensModule.jsx                                                                       
+src/shared/components/admin/ForestAlertsPanel.jsx                                                                    
+src/shared/components/admin/FutureFeaturesModule.jsx                                                                 
+src/shared/components/admin/GlobalOverview.jsx                                                                       
+src/shared/components/admin/IdentitiesModule.jsx                                                                     
+src/shared/components/admin/MemexModule.jsx                                                                          
+src/shared/components/admin/StoreManagementModule.jsx                                                                
+src/shared/components/admin/SuperRatonControl.jsx                                                                    
+src/shared/components/admin/ZeroDaySetupModule.jsx                                                                   
+src/shared/components/AdminPinnedManager.css                                                                         
+src/shared/components/AdminPinnedManager.jsx                                                                         
+src/shared/components/AgentSelectorModal.css                                                                         
+src/shared/components/AgentSelectorModal.jsx                                                                         
+src/shared/components/AntiTsunamiSync.jsx                                                                            
+src/shared/components/AppLayout.jsx                                                                                  
+src/shared/components/ArchitecteView.jsx                                                                             
+src/shared/components/ArmariDigital.css                                                                              
+src/shared/components/ArmariDigital.jsx                                                                              
+src/shared/components/atoms/MarketCard.jsx                                                                           
+src/shared/components/AttributionBadge.css                                                                           
+src/shared/components/AttributionBadge.jsx                                                                           
+src/shared/components/AuditRoleSwitcher.jsx                                                                          
+src/shared/components/Avatar.jsx                                                                                     
+src/shared/components/BackToTop.css                                                                                  
+src/shared/components/BackToTop.jsx                                                                                  
+src/shared/components/BancalStatus.jsx                                                                               
+src/shared/components/barter/CategoryBadge.jsx                                                                       
+src/shared/components/BarterOfferCard.jsx                                                                            
+src/shared/components/BatecMonitor.css                                                                               
+src/shared/components/BatecMonitor.jsx                                                                               
+src/shared/components/BlueprintOverlay.jsx                                                                           
+src/shared/components/BookViewer/BookViewer.jsx                                                                      
+src/shared/components/boundaries/WaitingForBackend.jsx                                                               
+src/shared/components/BrandLogo.jsx                                                                                  
+src/shared/components/CalendarManagerModal.css                                                                       
+src/shared/components/CalendarManagerModal.jsx                                                                       
+src/shared/components/CalendarMaster/CalendarMaster.css                                                              
+src/shared/components/CalendarMaster/index.jsx                                                                       
+src/shared/components/CaptureStudio.css                                                                              
+src/shared/components/CaptureStudio.jsx                                                                              
+src/shared/components/Carousel.css                                                                                   
+src/shared/components/Carousel.jsx                                                                                   
+src/shared/components/CategoryManager.jsx                                                                            
+src/shared/components/CategoryTabs.css                                                                               
+src/shared/components/CategoryTabs.jsx                                                                               
+src/shared/components/chat/ChatHeader.jsx                                                                            
+src/shared/components/chat/ChatInputArea.jsx                                                                         
+src/shared/components/chat/ChatMessageList.jsx                                                                       
+src/shared/components/chat/ChatMoveSelectorModal.jsx                                                                 
+src/shared/components/chat/MessageBubble.jsx                                                                         
+src/shared/components/ChatDetail.css                                                                                 
+src/shared/components/ChatDetail.jsx                                                                                 
+src/shared/components/ChatEmptyState.jsx                                                                             
+src/shared/components/ChatLayout.css                                                                                 
+src/shared/components/ChatLayout.jsx                                                                                 
+src/shared/components/ChatList.css                                                                                   
+src/shared/components/ChatList.jsx                                                                                   
+src/shared/components/Comments.css                                                                                   
+src/shared/components/ConflictBanner.tsx                                                                             
+src/shared/components/ConnectButton.jsx                                                                              
+src/shared/components/ConnectionSelectorModal.css                                                                    
+src/shared/components/ConnectionSelectorModal.jsx                                                                    
+src/shared/components/ContextualHeader.css                                                                           
+src/shared/components/ContextualHeader.jsx                                                                           
+src/shared/components/ContextualMenu.jsx                                                                             
+src/shared/components/CopyButton.jsx                                                                                 
+src/shared/components/CreateEventModal.css                                                                           
+src/shared/components/CreateEventModal.jsx                                                                           
+src/shared/components/CreatePostModal.css                                                                            
+src/shared/components/CreatePostModal.jsx                                                                            
+src/shared/components/CreationHub.css                                                                                
+src/shared/components/CreationHub.jsx                                                                                
+src/shared/components/CronistaSummaryModal.css                                                                       
+src/shared/components/CronistaSummaryModal.jsx                                                                       
+src/shared/components/DAFOCard.css                                                                                   
+src/shared/components/DAFOCard.jsx                                                                                   
+src/shared/components/DegradedBanner.jsx                                                                             
+src/shared/components/design/TactileButton.jsx                                                                       
+src/shared/components/design/UiButton.jsx                                                                            
+src/shared/components/diagnostic/DiagnosticTabs.jsx                                                                  
+src/shared/components/DiagnosticConsole.css                                                                          
+src/shared/components/DiagnosticConsole.jsx                                                                          
+src/shared/components/DocumentViewer.css                                                                             
+src/shared/components/DocumentViewer.jsx                                                                             
+src/shared/components/DynamicIcon.css                                                                                
+src/shared/components/DynamicIcon.jsx                                                                                
+src/shared/components/EntitySelector.css                                                                             
+src/shared/components/EntitySelector.jsx                                                                             
+src/shared/components/EpubViewer.jsx                                                                                 
+src/shared/components/FallDetectionOverlay.jsx                                                                       
+src/shared/components/Feed.css                                                                                       
+src/shared/components/Feed.jsx                                                                                       
+src/shared/components/FlipbookViewer.jsx                                                                             
+src/shared/components/gates/AuthGate.jsx                                                                             
+src/shared/components/gates/LocalFirstGate.jsx                                                                       
+src/shared/components/gates/OfflineGate.jsx                                                                          
+src/shared/components/GestoriaPanel.jsx                                                                              
+src/shared/components/GlobalDropZone.jsx                                                                             
+src/shared/components/GlobalErrorBoundary.jsx                                                                        
+src/shared/components/GlobalModals.jsx                                                                               
+src/shared/components/GroupCreationModal.css                                                                         
+src/shared/components/GroupCreationModal.jsx                                                                         
+src/shared/components/GuestInteractionModal.jsx                                                                      
+src/shared/components/HabitantsDelMas.css                                                                            
+src/shared/components/HabitantsDelMas.jsx                                                                            
+src/shared/components/Header.jsx                                                                                     
+src/shared/components/IAIAAssistantFlow.jsx                                                                          
+src/shared/components/IAIAChatSidebar.css                                                                            
+src/shared/components/IAIAChatSidebar.jsx                                                                            
+src/shared/components/IAIACorrectorOverlay.css                                                                       
+src/shared/components/IAIACorrectorOverlay.jsx                                                                       
+src/shared/components/IAIARoleSelectorModal.css                                                                      
+src/shared/components/IAIARoleSelectorModal.jsx                                                                      
+src/shared/components/IAIATamagotchiSettings.css                                                                     
+src/shared/components/IAIATamagotchiSettings.jsx                                                                     
+src/shared/components/IAIAVozButton.jsx                                                                              
+src/shared/components/IconPicker.css                                                                                 
+src/shared/components/IconPicker.jsx                                                                                 
+src/shared/components/icons/GrandmaStick.jsx                                                                         
+src/shared/components/icons/IAIAIcon.jsx                                                                             
+src/shared/components/ImageCarousel.css                                                                              
+src/shared/components/ImageCarousel.jsx                                                                              
+src/shared/components/ImageProjector.css                                                                             
+src/shared/components/ImageProjector.jsx                                                                             
+src/shared/components/ImageReframerModal.css                                                                         
+src/shared/components/ImageReframerModal.jsx                                                                         
+src/shared/components/KnowledgeHub.jsx                                                                               
+src/shared/components/LanguageSelector.jsx                                                                           
+src/shared/components/layout/PageTransition.jsx                                                                      
+src/shared/components/lazy/VisibilityWrapper.jsx                                                                     
+src/shared/components/LazyImage.css                                                                                  
+src/shared/components/LazyImage.jsx                                                                                  
+src/shared/components/LegalDocsModal.css                                                                             
+src/shared/components/LegalDocsModal.jsx                                                                             
+src/shared/components/Lightbox.css                                                                                   
+src/shared/components/ListManager.css                                                                                
+src/shared/components/ListManager.jsx                                                                                
+src/shared/components/LiveStats.css                                                                                  
+src/shared/components/LiveStats.jsx                                                                                  
+src/shared/components/LlarDeFocMenu.css                                                                              
+src/shared/components/LlarDeFocMenu.jsx                                                                              
+src/shared/components/MagicPregoner.jsx                                                                              
+src/shared/components/Marketplace.css                                                                                
+src/shared/components/Marketplace.jsx                                                                                
+src/shared/components/MasterConsole.css                                                                              
+src/shared/components/MasterConsole.jsx                                                                              
+src/shared/components/MasterEditor.css                                                                               
+src/shared/components/MasterEditor.jsx                                                                               
+src/shared/components/MasterMediaGallery.css                                                                         
+src/shared/components/MasterMediaGallery.jsx                                                                         
+src/shared/components/MediaDeduplicationModal.css                                                                    
+src/shared/components/MediaDeduplicationModal.jsx                                                                    
+src/shared/components/MediaPickerModal.css                                                                           
+src/shared/components/MediaPickerModal.jsx                                                                           
+src/shared/components/MobileBottomNav.css                                                                            
+src/shared/components/MobileBottomNav.jsx                                                                            
+src/shared/components/NavigationRail.css                                                                             
+src/shared/components/NavigationRail.jsx                                                                             
+src/shared/components/NotebookList.jsx                                                                               
+src/shared/components/NotebookSidebar.jsx                                                                            
+src/shared/components/NotePad.css                                                                                    
+src/shared/components/NotePad.jsx                                                                                    
+src/shared/components/OmniscientViewer.css                                                                           
+src/shared/components/OmniscientViewer.jsx                                                                           
+src/shared/components/OnboardingFlow.css                                                                             
+src/shared/components/OnboardingFlow.jsx                                                                             
+src/shared/components/PageHeader.jsx                                                                                 
+src/shared/components/patterns/FeedPostCard.jsx                                                                      
+src/shared/components/patterns/ProfileCard.jsx                                                                       
+src/shared/components/patterns/SearchNavBar.jsx                                                                      
+src/shared/components/patterns/SkeletonLoader.jsx                                                                    
+src/shared/components/PDFBategatManager.css                                                                          
+src/shared/components/PDFBategatManager.jsx                                                                          
+src/shared/components/performance/VirtualMessageList.jsx                                                             
+src/shared/components/PersonalVault.css                                                                              
+src/shared/components/PersonalVault.jsx                                                                              
+src/shared/components/PlaygroundBanner.css                                                                           
+src/shared/components/PlaygroundBanner.jsx                                                                           
+src/shared/components/PlazaHandshake.jsx                                                                             
+src/shared/components/PollManager.css                                                                                
+src/shared/components/PollManager.jsx                                                                                
+src/shared/components/Portal.jsx                                                                                     
+src/shared/components/profile/EntityProfile.jsx                                                                      
+src/shared/components/profile/MyProcedures.jsx                                                                       
+src/shared/components/ProfileHeaderPremium.css                                                                       
+src/shared/components/ProfileHeaderPremium.jsx                                                                       
+src/shared/components/ProfilePowerMenu.css                                                                           
+src/shared/components/ProfilePowerMenu.jsx                                                                           
+src/shared/components/ProfileSettingsModal.jsx                                                                       
+src/shared/components/ProfileStudioModal.css                                                                         
+src/shared/components/ProfileStudioModal.jsx                                                                         
+src/shared/components/RealmSwitcher.jsx                                                                              
+src/shared/components/RebostVault.css                                                                                
+src/shared/components/RebostVault.jsx                                                                                
+src/shared/components/ReloadPrompt.jsx                                                                               
+src/shared/components/ResourceCard.css                                                                               
+src/shared/components/ResourceCard.jsx                                                                               
+src/shared/components/RhizomeMonitor.jsx                                                                             
+src/shared/components/RoleSelectorModal.css                                                                          
+src/shared/components/RoleSelectorModal.jsx                                                                          
+src/shared/components/RuralIntelligence.css                                                                          
+src/shared/components/RuralIntelligence.jsx                                                                          
+src/shared/components/ScrollToTop.jsx                                                                                
+src/shared/components/ShareHub.css                                                                                   
+src/shared/components/ShareHub.jsx                                                                                   
+src/shared/components/Skeletons/MarketSkeleton.jsx                                                                   
+src/shared/components/Skeletons/PostSkeleton.jsx                                                                     
+src/shared/components/Skeletons/Skeletons.css                                                                        
+src/shared/components/SocialManager.css                                                                              
+src/shared/components/SocialManager.jsx                                                                              
+src/shared/components/StableRoutes.jsx                                                                               
+src/shared/components/StatusLoader.jsx                                                                               
+src/shared/components/SyncBluetoothModal.jsx                                                                         
+src/shared/components/SyncIndicator.jsx                                                                              
+src/shared/components/SystemActionBar.jsx                                                                            
+src/shared/components/SystemLayout.jsx                                                                               
+src/shared/components/SystemPageLayout.jsx                                                                           
+src/shared/components/SystemRoutes.jsx                                                                               
+src/shared/components/TagSelector.css                                                                                
+src/shared/components/TagSelector.jsx                                                                                
+src/shared/components/TallerTrellat.css                                                                              
+src/shared/components/TallerTrellat.jsx                                                                              
+src/shared/components/TelephoneModule.jsx                                                                            
+src/shared/components/ThemeCustomizer.css                                                                            
+src/shared/components/ThemeCustomizer.jsx                                                                            
+src/shared/components/TiaMariaChat.css                                                                               
+src/shared/components/TiaMariaChat.jsx                                                                               
+src/shared/components/TownPickerModal.css                                                                            
+src/shared/components/TownPickerModal.jsx                                                                            
+src/shared/components/TownSelectorModal.css                                                                          
+src/shared/components/TownSelectorModal.jsx                                                                          
+src/shared/components/TramitBaseTemplate.jsx                                                                         
+src/shared/components/trust/TrustBadge.jsx                                                                           
+src/shared/components/trust/TrustProfile.jsx                                                                         
+src/shared/components/ui/GlassCard.jsx                                                                               
+src/shared/components/ui/RoundButton.jsx                                                                             
+src/shared/components/ui/SectionHeader.jsx                                                                           
+src/shared/components/UnifiedEditor/idbStore.js                                                                      
+src/shared/components/UnifiedEditor/UnifiedEditor.css                                                                
+src/shared/components/UnifiedEditor/UnifiedEditor.jsx                                                                
+src/shared/components/UnifiedStatus.jsx                                                                              
+src/shared/components/UniversalCard/index.jsx                                                                        
+src/shared/components/UniversalCard/UniversalCard.Body.jsx                                                           
+src/shared/components/UniversalCard/UniversalCard.css                                                                
+src/shared/components/UniversalCard/UniversalCard.Footer.jsx                                                         
+src/shared/components/UniversalCard/UniversalCard.Header.jsx                                                         
+src/shared/components/UniversalCard/UniversalCard.Media.jsx                                                          
+src/shared/components/UniversalCard/UniversalCard.types.ts                                                           
+src/shared/components/UniversalCard/UniversalCard.variants.js                                                        
+src/shared/components/UniversalCitation.css                                                                          
+src/shared/components/UniversalCitation.jsx                                                                          
+src/shared/components/UniversalGrid.jsx                                                                              
+src/shared/components/VirtualizedEventFeed.jsx                                                                       
+src/shared/components/VisionSelectorModal.css                                                                        
+src/shared/components/VisionSelectorModal.jsx                                                                        
+src/shared/components/VoiceMessage.jsx                                                                               
+src/shared/components/VoiceRecorder.css                                                                              
+src/shared/components/VoiceRecorder.jsx                                                                              
+src/shared/components/Watermark.css                                                                                  
+src/shared/components/Watermark.jsx                                                                                  
+src/shared/components/WikiPulseSheet.css                                                                             
+src/shared/components/WikiPulseSheet.jsx                                                                             
+src/shared/constants/masterAssets.js                                                                                 
+src/shared/constants/ruralColors.ts                                                                                  
+src/shared/data/broadcast.ts                                                                                         
+src/shared/data/calendarData.js                                                                                      
+src/shared/data/didacticData.js                                                                                      
+src/shared/data/forensicReports.js                                                                                   
+src/shared/data/healthyMenus.js                                                                                      
+src/shared/data/manualData.js                                                                                        
+src/shared/data/memexData.js                                                                                         
+src/shared/data/offline/LifecycleLockGuard.ts                                                                        
+src/shared/data/offline/restoreOptimisticState.ts                                                                    
+src/shared/data/offline/WorkerPool.ts                                                                                
+src/shared/data/roadmapAudits.js                                                                                     
+src/shared/data/superRatonData.js                                                                                    
+src/shared/design-system/components/Button/Button.jsx                                                                
+src/shared/design-system/components/Button/Button.types.ts                                                           
+src/shared/design-system/components/Button/Button.variants.js                                                        
+src/shared/design-system/components/Button/index.js                                                                  
+src/shared/design-system/components/CMS/CMSRenderer.jsx                                                              
+src/shared/design-system/components/DataDisplay/Callout.jsx                                                          
+src/shared/design-system/components/Layout/Box.jsx                                                                   
+src/shared/design-system/components/Layout/HStack.jsx                                                                
+src/shared/design-system/components/Layout/Stack.jsx                                                                 
+src/shared/design-system/components/Typography/Blockquote.jsx                                                        
+src/shared/design-system/components/Typography/List.jsx                                                              
+src/shared/design-system/components/Typography/Text.jsx                                                              
+src/shared/design-system/components/Typography/Text.variants.js                                                      
+src/shared/design-system/nano_banana.css                                                                             
+src/shared/design-system/tokens/typography.js                                                                        
+src/shared/export/exporterBinaryMCP.js                                                                               
+src/shared/export/ExportPipeline.js                                                                                  
+src/shared/export/IndestructibleExporter.js                                                                          
+src/shared/hooks/useAttachmentManager.js                                                                             
+src/shared/hooks/useAttribution.js                                                                                   
+src/shared/hooks/useBackupGuard.js                                                                                   
+src/shared/hooks/useBeforeUnload.js                                                                                  
+src/shared/hooks/useChatState.js                                                                                     
+src/shared/hooks/useCrdtStore.js                                                                                     
+src/shared/hooks/useEpubOffline.js                                                                                   
+src/shared/hooks/useFallDetection.js                                                                                 
+src/shared/hooks/useFeedFilters.js                                                                                   
+src/shared/hooks/useGlobalEvent.js                                                                                   
+src/shared/hooks/useGoogleAuthCalendar.js                                                                            
+src/shared/hooks/useGoogleCalendar.js                                                                                
+src/shared/hooks/useIAIAAutonomousInteractions.js                                                                    
+src/shared/hooks/useIAIAVoz.js                                                                                       
+src/shared/hooks/useInsectMemory.js                                                                                  
+src/shared/hooks/useInternalCalendar.js                                                                              
+src/shared/hooks/useIntersectionObserver.js                                                                          
+src/shared/hooks/useMarketItems.js                                                                                   
+src/shared/hooks/useModalFocusTrap.js                                                                                
+src/shared/hooks/useMountTransition.js                                                                               
+src/shared/hooks/useMultiTabSync.ts                                                                                  
+src/shared/hooks/useOfflineMutationQueue.ts                                                                          
+src/shared/hooks/useOfflineSync.ts                                                                                   
+src/shared/hooks/useOnboarding.js                                                                                    
+src/shared/hooks/usePushNotifications.js                                                                             
+src/shared/hooks/usePWAInstall.js                                                                                    
+src/shared/hooks/usePwaZombieKiller.js                                                                               
+src/shared/hooks/useRhizomeAlerts.js                                                                                 
+src/shared/hooks/useRhizomeEvents.js                                                                                 
+src/shared/hooks/useRhizomeHydration.js                                                                              
+src/shared/hooks/useRhizomeMesh.js                                                                                   
+src/shared/hooks/useSeoMeta.js                                                                                       
+src/shared/hooks/useSnapToBottom.js                                                                                  
+src/shared/hooks/useSoftConnectionStatus.js                                                                          
+src/shared/hooks/useStableBlob.js                                                                                    
+src/shared/hooks/useTextToSpeech.js                                                                                  
+src/shared/hooks/useThemeCustomizer.js                                                                               
+src/shared/hooks/useThrottledScroll.js                                                                               
+src/shared/hooks/useTrellatSync.js                                                                                   
+src/shared/hooks/useUndo.js                                                                                          
+src/shared/hooks/useUnifiedExporter.js                                                                               
+src/shared/hooks/useUpdateSW.js                                                                                      
+src/shared/hooks/useVirtualWindow.js                                                                                 
+src/shared/hooks/useVisionCapabilities.js                                                                            
+src/shared/hooks/useWorkerOrchestrator.js                                                                            
+src/shared/lib/GeoService.js                                                                                         
+src/shared/lib/indexedDBService.js                                                                                   
+src/shared/lib/LoanSystem.js                                                                                         
+src/shared/lib/NotificationService.js                                                                                
+src/shared/lib/p2pContagion.js                                                                                       
+src/shared/lib/plazaHandshake.js                                                                                     
+src/shared/lib/postQuantum.js                                                                                        
+src/shared/lib/resilience/useResilientLoader.js                                                                      
+src/shared/lib/shared-schema.js                                                                                      
+src/shared/lib/syncCRDT.js                                                                                           
+src/shared/network/affinityWebSocketChunked.js                                                                       
+src/shared/network/disasterRecovery.js                                                                               
+src/shared/serializers/affinitySerializer.js                                                                         
+src/shared/serializers/epub3Suprem.js                                                                                
+src/shared/serializers/serializerOrthographic.js                                                                     
+src/shared/utils/audioConverter.js                                                                                   
+src/shared/utils/chaosMonkey.js                                                                                      
+src/shared/utils/ContrastGuard.js                                                                                    
+src/shared/utils/crc32.js                                                                                            
+src/shared/utils/crdt-query-bridge.js                                                                                
+src/shared/utils/DocumentModel.js                                                                                    
+src/shared/utils/epubExporter.js                                                                                     
+src/shared/utils/exportTestament.js                                                                                  
+src/shared/utils/handshakePlaza.js                                                                                   
+src/shared/utils/imports/importHistorical.js                                                                         
+src/shared/utils/markdownParser.js                                                                                   
+src/shared/utils/masterReset.js                                                                                      
+src/shared/utils/offlineQueue.js                                                                                     
+src/shared/utils/progressiveSync.js                                                                                  
+src/shared/utils/storageGuard.js                                                                                     
+src/shared/utils/syncTransport.js                                                                                    
+src/shared/utils/town_content_generator.js                                                                           
+src/shared/utils/uuid.js                                                                                             
+src/shell/AppShell.jsx                                                                                               
+src/shell/powerMode.js                                                                                               
+src/shell/Viewport.jsx                                                                                               
+src/styles/accessibility-presets.css                                                                                 
+src/styles/Consola.css                                                                                               
+src/styles/pkm-notes.css                                                                                             
+src/styles/themes.css                                                                                                
+src/sw.js                                                                                                            
+src/sync/antiEntropy.js                                                                                              
+src/sync/binaryCompression.js                                                                                        
+src/sync/ipfsClient.js                                                                                               
+src/sync/lruManager.js                                                                                               
+src/sync/memoryController.js                                                                                         
+src/sync/reconciler.js                                                                                               
+src/sync/syncEngine.js                                                                                               
+src/sync/uploadManager.js                                                                                            
+src/sync/webrtcProvider.js                                                                                           
+src/sync/yjsEngine.js                                                                                                
+src/tests/omega-stress-test.js                                                                                       
+src/utils/affinityMCP.js                                                                                             
+src/utils/arquitectura_a10.js                                                                                        
+src/utils/audioConverter.js                                                                                          
+src/utils/bancalDB.js                                                                                                
+src/utils/ContrastGuard.js                                                                                           
+src/utils/crdt-query-bridge.js                                                                                       
+src/utils/crypto.js                                                                                                  
+src/utils/epubGenerator.js                                                                                           
+src/utils/exportTestament.js                                                                                         
+src/utils/handshakePlaza.js                                                                                          
+src/utils/HapticFeedback.js                                                                                          
+src/utils/imports/importHistorical.js                                                                                
+src/utils/markdownParser.js                                                                                          
+src/utils/masterReset.js                                                                                             
+src/utils/offlineQueue.js                                                                                            
+src/utils/offlineStorage.js                                                                                          
+src/utils/progressiveSync.js                                                                                         
+src/utils/publishAnnaNews.js                                                                                         
+src/utils/sanitizeHtml.js                                                                                            
+src/utils/storageGuard.js                                                                                            
+src/utils/syncTransport.js                                                                                           
+src/utils/tocParser.js                                                                                               
+src/utils/town_content_generator.js                                                                                  
+src/wasm/wasmHook.js                                                                                                 
+src/workers/compression.worker.ts                                                                                    
+src/workers/cryptoWorker.js                                                                                          
+src/workers/epub-parser.worker.ts                                                                                    
+src/workers/p2pWorker.js                                                                                             
+src/workers/preloadKyber.js                                                                                          
+src/workers/seo-edge-worker.ts                                                                                       
+src/workers/service-worker.ts                                                                                        
+src/workers/visionWorker.js                                                                                          
+src/workers/worker-dictat.js                                                                                         
+supabase/functions/auto-provision-town/index.ts                                                                      
+supabase/functions/gemini-proxy/index.ts                                                                             
+supabase/functions/gemini/index.ts                                                                                   
+supabase/functions/health-check/index.ts                                                                             
+supabase/functions/pin-to-ipfs/index.ts                                                                              
+supabase/functions/push/index.ts                                                                                     
+supabase/functions/translation/index.ts                                                                              
+supabase/functions/whatsapp/index.ts                                                                                 
+test_db.js                                                                                                           
+Unused dependencies (35)
+@capacitor-community/bluetooth-le  package.json:36:6 
+@capacitor/assets                  package.json:38:6 
+@capacitor/ios                     package.json:42:6 
+@capacitor/splash-screen           package.json:43:6 
+@capacitor/status-bar              package.json:44:6 
+@fullcalendar/react                package.json:49:6 
+@google/genai                      package.json:51:6 
+@tailwindcss/postcss               package.json:60:6 
+@tanstack/react-query-devtools     package.json:63:6 
+axios                              package.json:76:6 
+cheerio                            package.json:79:6 
+coi-serviceworker                  package.json:82:6 
+emoji-picker-react                 package.json:86:6 
+epubjs                             package.json:87:6 
+framer-motion                      package.json:89:6 
+leaflet                            package.json:96:6 
+lib0                               package.json:97:6 
+multiformats                       package.json:99:6 
+pdf-lib                            package.json:101:6
+pdfjs-dist                         package.json:102:6
+qrcode                             package.json:103:6
+react-chartjs-2                    package.json:105:6
+react-leaflet                      package.json:111:6
+react-reader                       package.json:112:6
+react-virtuoso                     package.json:114:6
+react-window                       package.json:115:6
+util                               package.json:118:6
+workbox-expiration                 package.json:123:6
+workbox-routing                    package.json:124:6
+workbox-strategies                 package.json:125:6
+xml2js                             package.json:127:6
+y-indexeddb                        package.json:128:6
+y-webrtc                           package.json:129:6
+y-websocket                        package.json:130:6
+y-webtransport                     package.json:131:6
+Unused devDependencies (9)
+@testing-library/user-event  package.json:142:6
+@types/dompurify             package.json:143:6
+@vitejs/plugin-basic-ssl     package.json:146:6
+@vitest/coverage-v8          package.json:148:6
+autoprefixer                 package.json:150:6
+ftp                          package.json:159:6
+postcss                      package.json:167:6
+workbox-core                 package.json:172:6
+workbox-precaching           package.json:173:6
+Unlisted dependencies (9)
+electron                 electron/main.js:1:45                   
+electron-serve           electron/main.js:4:19                   
+@libp2p/websockets       src/core/services/ipfsManager.js:2:28   
+@libp2p/webrtc           src/core/services/ipfsManager.js:3:24   
+@chainsafe/libp2p-noise  src/core/services/ipfsManager.js:5:23   
+@chainsafe/libp2p-yamux  src/core/services/ipfsManager.js:6:23   
+@libp2p/mplex            src/core/services/ipfsManager.js:7:23   
+@libp2p/bootstrap        src/core/services/ipfsManager.js:8:27   
+simple-peer              src/core/services/rhizomeManager.js:2:18
+Unlisted binaries (4)
+electron          package.json
+electron-builder  package.json
+copy              package.json
+gcloud            package.json
+Unused exports (90)
+IAIES_MUNDIALS                         src/app/config/iaiesMundialsMap.jsx:9:14        
+useAuthActions                         src/app/context/AuthContext.jsx:427:14          
+useThemeCustomizer                     src/app/context/ThemeContext.jsx:39:14          
+useRealm                               src/app/contexts/RealmContext.jsx:32:14         
+AGENTS_MAP                             src/config/agentsMap.js:1:14                    
+getPersonaKeyByUUID                    src/config/agentsMap.js:376:14                  
+CRITICAL_THRESHOLD                     src/constants.js:6:14                           
+USER_ROLES                             src/constants.js:22:14                          
+CREATOR_EMAILS                         src/constants.js:35:14                          
+MANAGED_ENTITIES                       src/constants.js:42:14                          
+ENTITY_TYPES                           src/constants.js:52:14                          
+ROLE_LABELS                            src/constants.js:62:14                          
+AUTH_EVENTS                            src/constants.js:71:14                          
+ENABLE_MOCKS                           src/constants.js:78:14                          
+THEMES                                 src/constants.js:82:14                          
+default                      class     src/core/rhizome/crdt/peritext.js:75:16         
+trackEvent                             src/core/services/analyticsService.js:24:14     
+default                      variable  src/core/services/errorTrackingService.js:260:16
+default                      variable  src/core/services/hapticService.js:184:16       
+default                      variable  src/core/services/healthCheckService.js:248:16  
+default                      variable  src/core/services/iaiaService.js:1025:16        
+default                      variable  src/core/services/notificationService.js:125:16 
+default                      variable  src/core/services/pushNotifications.js:186:16   
+default                      variable  src/core/services/raindropService.js:96:16      
+connectedPeers                         src/core/services/rhizomeManager.js:387:14      
+setupTrellatMesh                       src/core/services/rhizomeManager.js:389:14      
+relaxedIdRegex                         src/core/services/schemas.js:5:14               
+unifiedSearch                          src/core/services/supabaseService.js:214:14     
+isFictiveProfile                       src/core/services/supabaseService.js:443:14     
+MOCK_CHATS                             src/data.js:2:14                                
+MOCK_MESSAGES                          src/data.js:66:14                               
+MOCK_TOWNS                             src/data.js:1450:14                             
+MOCK_DAFOS                             src/data.js:1532:14                             
+ENABLE_MOCKS                           src/data.js:1627:14                             
+initDB                       function  src/data/offline/mutation-queue.ts:19:23        
+enqueueMutation              function  src/data/offline/mutation-queue.ts:44:23        
+getPendingMutations          function  src/data/offline/mutation-queue.ts:62:23        
+getFailedMutations           function  src/data/offline/mutation-queue.ts:71:23        
+getMutationById              function  src/data/offline/mutation-queue.ts:80:23        
+markMutationFailed           function  src/data/offline/mutation-queue.ts:97:23        
+clearQueue                   function  src/data/offline/mutation-queue.ts:111:23       
+mergeIncomingCRDTs           function  src/data/offline/mutation-queue.ts:133:23       
+isIAIAOfficial                         src/domain/iaiaDomain.js:2:14                   
+isIAIAMarIA                            src/domain/iaiaDomain.js:8:14                   
+isImmersiveAI                          src/domain/iaiaDomain.js:13:14                  
+postsTable                             src/powersync/schema.js:3:14                    
+bategatsTable                          src/powersync/schema.js:22:14                   
+townsTable                             src/powersync/schema.js:33:14                   
+useToast                               src/shared/components/ToastProvider.jsx:9:14    
+CRITICAL_THRESHOLD                     src/shared/constants.js:6:14                    
+MANAGED_ENTITIES                       src/shared/constants.js:42:14                   
+ENTITY_TYPES                           src/shared/constants.js:52:14                   
+ROLE_LABELS                            src/shared/constants.js:62:14                   
+THEMES                                 src/shared/constants.js:82:14                   
+MOCK_TOWNS                             src/shared/data.js:1705:14                      
+ENABLE_MOCKS                           src/shared/data.js:1882:14                      
+initDB                       function  src/shared/data/offline/mutation-queue.ts:19:23 
+enqueueMutation              function  src/shared/data/offline/mutation-queue.ts:44:23 
+getFailedMutations           function  src/shared/data/offline/mutation-queue.ts:71:23 
+getMutationById              function  src/shared/data/offline/mutation-queue.ts:80:23 
+removeMutation               function  src/shared/data/offline/mutation-queue.ts:88:23 
+markMutationFailed           function  src/shared/data/offline/mutation-queue.ts:97:23 
+clearQueue                   function  src/shared/data/offline/mutation-queue.ts:111:23
+resetMutationFailed          function  src/shared/data/offline/mutation-queue.ts:119:23
+mergeIncomingCRDTs           function  src/shared/data/offline/mutation-queue.ts:133:23
+useAccessibleSearch                    src/shared/hooks/useAccessibleSearch.js:3:14    
+deriveKeyFromPassword        function  src/shared/utils/crypto.js:20:23                
+Haptics                                src/shared/utils/HapticFeedback.js:6:14         
+isStrictUUID                           src/shared/utils/identityUtils.js:16:14         
+isGuestUser                            src/shared/utils/identityUtils.js:24:14         
+isIAIAAgent                            src/shared/utils/identityUtils.js:31:14         
+isLegacyMock                           src/shared/utils/identityUtils.js:38:14         
+isSdPOficial                           src/shared/utils/identityUtils.js:55:14         
+canBroadcastAuthoritatively            src/shared/utils/identityUtils.js:70:14         
+SILENCE_PATTERNS                       src/shared/utils/logger.js:4:14                 
+createLogger                           src/shared/utils/logger.js:82:14                
+default                      variable  src/shared/utils/logger.js:90:16                
+clearToastRegistry                     src/shared/utils/toast.js:9:14                  
+default                      variable  src/shared/utils/toast.js:57:16                 
+isStrictUUID                           src/utils/identityUtils.js:16:14                
+isGuestUser                            src/utils/identityUtils.js:24:14                
+isIAIAAgent                            src/utils/identityUtils.js:31:14                
+isRealDBUUID                           src/utils/identityUtils.js:48:14                
+canBroadcastAuthoritatively            src/utils/identityUtils.js:70:14                
+SILENCE_PATTERNS                       src/utils/logger.js:4:14                        
+checkSilence                           src/utils/logger.js:46:14                       
+createLogger                           src/utils/logger.js:82:14                       
+default                      variable  src/utils/logger.js:90:16                       
+getToastRegistry                       src/utils/toast.js:7:14                         
+clearToastRegistry                     src/utils/toast.js:9:14                         
+Unused exported types (3)
+Mutation  type       src/data/offline/mutation-queue.ts:6:13        
+Post      interface  src/domain/posts/usePostsStore.ts:3:18         
+Post      interface  src/features/domain/posts/usePostsStore.ts:3:18
+Duplicate exports (12)
+errorTrackingService|default  src/core/services/errorTrackingService.js
+hapticService|default         src/core/services/hapticService.js       
+healthCheckService|default    src/core/services/healthCheckService.js  
+notificationService|default   src/core/services/notificationService.js 
+pushNotifications|default     src/core/services/pushNotifications.js   
+raindropService|default       src/core/services/raindropService.js     
+useAccessibleSearch|default   src/shared/hooks/useAccessibleSearch.js  
+Haptics|default               src/shared/utils/HapticFeedback.js       
+logger|default                src/shared/utils/logger.js               
+toast|default                 src/shared/utils/toast.js                
+logger|default                src/utils/logger.js                      
+toast|default                 src/utils/toast.js                       

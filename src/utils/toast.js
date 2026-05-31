@@ -1,15 +1,10 @@
 import { toast as hotToast } from 'react-hot-toast';
-import { hapticService } from '../services/hapticService';
+import { hapticService } from '../core/services/hapticService';
 
 // Simple registry for "Read Later" functionality
 let toastRegistry = [];
 
 export const getToastRegistry = () => [...toastRegistry];
-
-export const clearToastRegistry = () => {
-    toastRegistry = [];
-    window.dispatchEvent(new CustomEvent('toast-registry-updated'));
-};
 
 const logToRegistry = (message, type, options = {}) => {
     const entry = {
@@ -53,5 +48,3 @@ export const toast = {
         return hotToast.promise(promise, msgs, options);
     }
 };
-
-export default toast;

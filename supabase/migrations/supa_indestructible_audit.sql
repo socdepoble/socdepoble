@@ -60,19 +60,13 @@ BEGIN
     -- Limpieza de simulaciones del Ajuntament
     UPDATE posts
     SET author = 'Simulación Ajuntament la Torre',
-        author_user_id = '11111111-1a1a-0000-0000-000000000000'::uuid,
-        author_avatar = '/assets/avatars/comic/iaia_comic_matriarch.png',
-        author_role = 'official',
-        author_type = 'entity'
+        author_user_id = '11111111-1a1a-0000-0000-000000000000'::uuid
     WHERE author ILIKE '%Ajuntament Torremanzanas%' 
        OR author ILIKE '%Ajuntament de la Torre%';
 
     -- Limpieza de Instituciones a IAIA
     UPDATE posts
-    SET author_user_id = '11111111-1a1a-0000-0000-000000000000'::uuid,
-        author_avatar = '/assets/avatars/comic/iaia_comic_matriarch.png',
-        author_role = 'official',
-        author_type = 'entity'
+    SET author_user_id = '11111111-1a1a-0000-0000-000000000000'::uuid
     WHERE author IN ('Banda de Música La Lira', 'Floristeria L''Aroma')
        OR author ILIKE '%Associació%';
 
@@ -81,17 +75,11 @@ BEGIN
         agent := agents->idx;
         UPDATE posts
         SET author = agent->>'full_name',
-            author_user_id = (REGEXP_REPLACE(agent->>'id', '[^a-fA-F0-9\-]', '', 'g'))::uuid,
-            author_avatar = agent->>'avatar',
-            author_role = agent->>'role',
-            author_type = agent->>'type'
+            author_user_id = (REGEXP_REPLACE(agent->>'id', '[^a-fA-F0-9\-]', '', 'g'))::uuid
         WHERE id = rec.id;
         idx := (idx + 1) % jsonb_array_length(agents);
     END LOOP;
 
-    -- Forzar valores por defecto sanos a posts de mortales si les faltan
-    UPDATE posts SET author_role = 'gent' WHERE author_role IS NULL;
-    UPDATE posts SET author_type = 'user' WHERE author_type IS NULL;
 
     -------------------------------------------------------------------
     -- FASE 3: SANEAMIENTO PROFUNDO DE MARKET_ITEMS
@@ -135,6 +123,110 @@ BEGIN
         SET participant_2_id = '11111111-1a1a-0000-0000-000000000005'::uuid,
             participant_2_type = 'ai'
         WHERE participant_2_id IS NULL;
+
+        -- Sanejar last_message_content i last_message_at per evitar trencar la llista de converses amb Lore real
+        WITH lore_messages AS (
+            SELECT unnest(ARRAY[
+                'Quin oratge fa per la Carrasqueta?',
+                'He deixat les tomaques preparades al bancal.',
+                'A quina hora és la processó de demà?',
+                'Xe, quina calor que fa hui!',
+                'Tens el tractor arreglat ja?',
+                'Ens veiem a la plaça després de missa.',
+                'He fet arròs al forn, passeu-vos!',
+                'Com van les oliveres este any?',
+                'Aneu amb compte amb la gelada d''esta nit.'
+            ]) AS msg
+        )
+        UPDATE conversations
+        SET last_message_content = (
+            SELECT msg FROM lore_messages ORDER BY random() LIMIT 1
+        )
+        WHERE last_message_content IS NULL OR last_message_content = '...';
+
+        UPDATE conversations
+        SET last_message_at = created_at
+        WHERE last_message_at IS NULL;
+    EXCEPTION WHEN undefined_table THEN NULL; END;
+    -------------------------------------------------------------------
+    -- FASE 5: SANEAMIENTO DE CMS_PAGES (L'Arxiu Oficial)
+    -------------------------------------------------------------------
+    BEGIN
+        -- Si hi ha una pàgina CMS sense autor, l'assumeix Joan Batiste ("Tots els documents en regla")
+        UPDATE cms_pages
+        SET author_id = '11111111-1111-4111-a111-000000000008'::uuid
+        WHERE author_id IS NULL;
+
+        -- Si published_at és NULL, utilitzem la data de creació com a referència.
+        UPDATE cms_pages
+        SET published_at = created_at
+        WHERE published_at IS NULL;
+    EXCEPTION WHEN undefined_table THEN NULL; END;
+    -------------------------------------------------------------------
+    -- FASE 6: SANEAMIENTO DE CONNECTIONS (Xarxa Social)
+    -------------------------------------------------------------------
+    BEGIN
+        -- Si hi ha una connexió sense seguidor, l'assumeix IAIA MarIA
+        UPDATE connections
+        SET follower_id = '11111111-1a1a-0000-0000-000000000000'::uuid
+        WHERE follower_id IS NULL;
+
+        -- Si hi ha una connexió sense objectiu, l'assumeix IAIA MarIA
+        UPDATE connections
+        SET target_id = '11111111-1a1a-0000-0000-000000000000'::uuid
+        WHERE target_id IS NULL;
+        
+        -- Estat per defecte
+        UPDATE connections
+        SET status = 'accepted'
+        WHERE status IS NULL;
+    EXCEPTION WHEN undefined_table THEN NULL; END;
+
+    -------------------------------------------------------------------
+    -- FASE 7: POPULACIÓ D'ENTITATS I MEMBRES (Fundació del Poble)
+    -------------------------------------------------------------------
+    BEGIN
+        -- Injectar les entitats fundacionals si no existixen
+        -- IMPORTANTE: "Gent de..." y "Ajuntament de Prova" para no suplantar entidades reales.
+        INSERT INTO entities (id, name, type, avatar_url, owner_id, town_name)
+        VALUES 
+            ('22222222-2a2a-0000-0000-000000000001'::uuid, 'Ajuntament de Prova', 'institution', '/assets/avatars/comic/el_cronista.png', '11111111-1a1a-0000-0000-000000000000'::uuid, 'La Torre de les Maçanes'),
+            ('22222222-2a2a-0000-0000-000000000002'::uuid, 'Cooperativa Agrícola de Prova', 'business', '/assets/avatars/comic/tia_maria_comic.png', '11111111-1a1a-0001-0000-000000000001'::uuid, 'La Torre de les Maçanes'),
+            ('22222222-2a2a-0000-0000-000000000003'::uuid, 'Sóc de Poble', 'company', '/assets/avatars/comic/iaia_comic_matriarch.png', '11111111-1a1a-0000-0000-000000000005'::uuid, 'La Torre de les Maçanes'),
+            ('22222222-2a2a-0000-0000-000000000004'::uuid, 'El Rentonar', 'group', '/assets/avatars/comic/joan_batiste.png', '11111111-1a1a-0000-0000-000000000005'::uuid, 'La Torre de les Maçanes')
+        ON CONFLICT (id) DO UPDATE 
+        SET name = EXCLUDED.name, 
+            town_name = EXCLUDED.town_name, 
+            type = EXCLUDED.type;
+
+        -- Injectar els membres (agents IA i representants) a les seues respectives entitats
+        INSERT INTO entity_members (id, entity_id, user_id, role)
+        VALUES 
+            ('33333333-3a3a-0000-0000-000000000001'::uuid, '22222222-2a2a-0000-0000-000000000001'::uuid, '11111111-1a1a-0000-0000-000000000000'::uuid, 'admin'),
+            ('33333333-3a3a-0000-0000-000000000002'::uuid, '22222222-2a2a-0000-0000-000000000001'::uuid, '11111111-1111-4111-a111-000000000008'::uuid, 'member'),
+            ('33333333-3a3a-0000-0000-000000000003'::uuid, '22222222-2a2a-0000-0000-000000000002'::uuid, '11111111-1a1a-0001-0000-000000000001'::uuid, 'admin'),
+            ('33333333-3a3a-0000-0000-000000000004'::uuid, '22222222-2a2a-0000-0000-000000000003'::uuid, '11111111-1a1a-0000-0000-000000000005'::uuid, 'admin'),
+            ('33333333-3a3a-0000-0000-000000000005'::uuid, '22222222-2a2a-0000-0000-000000000004'::uuid, '11111111-1a1a-0000-0000-000000000005'::uuid, 'admin')
+        ON CONFLICT (id) DO NOTHING;
+    EXCEPTION WHEN undefined_table THEN NULL; END;
+
+    -------------------------------------------------------------------
+    -- FASE 8: AUDITORIA I SANEJAMENT DE L'ARXIU LÈXIC (Lexicon)
+    -------------------------------------------------------------------
+    BEGIN
+        -- Sanejar els valors NULL en les columnes principals del Lèxic per respectar el Trellat
+        UPDATE lexicon
+        SET 
+            term = COALESCE(term, 'Paraula sense definir'),
+            definition = COALESCE(definition, 'Definició pendent segons el Trellat valencià.'),
+            category = COALESCE(category, 'general'),
+            source = COALESCE(source, 'system'),
+            is_official = COALESCE(is_official, false),
+            user_id = COALESCE(user_id, '11111111-1a1a-0000-0000-000000000000'::uuid); -- Assumit per IAIA MarIA si és orfe
+
+        -- Esborrar entrades completament buides o inútils (sense contingut rellevant)
+        DELETE FROM lexicon
+        WHERE (term = 'Paraula sense definir' AND definition = 'Definició pendent segons el Trellat valencià.');
     EXCEPTION WHEN undefined_table THEN NULL; END;
 
     RAISE NOTICE '¡AUTO-AUDITORÍA Y BLINDAJE COMPLETADO! Supabase está ahora blindado de forma absoluta con el Rol Local.';

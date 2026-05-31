@@ -1,214 +1,168 @@
 export const HUMAN_PROJECT_HTML = `<!-- HERO_FORMAT: square -->
 <!-- HERO_POSITION: center -->
 <!-- HERO_IMAGE: /assets/uploads/empresa/soc-de-poble/posts/el-projecte/exemple-de-poble-001.png -->
+<!-- LOGO_LIGHT: /assets/system/ui/logo-socdepoble-rect-negre.svg -->
+<!-- LOGO_DARK: /assets/system/ui/logo-socdepoble-rect-blanc.svg -->
 <div class="human-presentation w-full text-lg leading-relaxed text-stone-800 dark:text-stone-300">
   <div class="mb-10 text-center">
     <p class="text-xl md:text-2xl text-stone-600 dark:text-stone-400 font-light max-w-3xl mx-auto mt-6">
-      Més que una aplicació, és una <strong class="font-bold text-stone-900 dark:text-white">declaració d'independència digital</strong>. Una eina construïda per durar, per funcionar sempre i per tornar-nos el control de la nostra comunicació i els nostres negocis, sense dependre de les grans tecnològiques.
+      Més que una aplicació, és una <strong class="font-bold text-stone-900 dark:text-white">declaració d'independència tecnològica</strong>. Una eina construïda per durar en el temps, per funcionar baix qualsevol condició climàtica o de xarxa, i per tornar-nos el control sobirà de les nostres dades, sense peatges ni dependències de les grans corporacions.
     </p>
   </div>
 
-  <div class="max-w-4xl mx-auto space-y-12">
+  <div class="max-w-4xl mx-auto space-y-16">
     
+    <!-- CAPÍTOL 1 -->
     <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-orange-600 dark:text-orange-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">📱</span> 1. El cervell està al teu telèfon (SQLite WASM)
+      <h2 class="text-2xl md:text-4xl font-black text-orange-600 dark:text-orange-500 mb-6 flex items-center gap-4">
+        <span class="text-4xl">📱</span> CAPÍTOL I: L'Arquitectura de la Sobirania
       </h2>
+      <p class="mb-4 text-xl font-medium text-stone-700 dark:text-stone-200">
+        Com un poble manté la seua memòria quan s'apaga la llum?
+      </p>
       <p class="mb-4">
-        <strong>Què passa normalment?</strong> Quan fas servir una aplicació (com WhatsApp o Facebook), tota la teva informació viu en ordinadors gegants (servidors) que estan a l'altra punta del món. Si et quedes sense internet o ells s'apaguen, l'aplicació deixa de funcionar.
+        <strong>El Paradigma Centralitzat:</strong> Hui en dia, quan interactuem digitalment (siga a WhatsApp, Facebook o Instagram), la nostra informació no és nostra. Viatja cap a grans centres de dades llunyans (servidors). Si et quedes sense internet, si la corporació decideix tancar el servei, o si cauen les seues xarxes, perds absolutament l'accés a les teues converses, productes o contactes.
       </p>
-      <p>
-        <strong>Què fem nosaltres?</strong> A "Sóc de Poble", hem posat tot el "cervell" i tota la memòria de l'aplicació <strong>directament dins del teu telèfon o tauleta</strong>. La tecnologia que usem (anomenada SQLite WASM) permet que tinguis una base de dades completa i potent a la butxaca.
+      <p class="mb-6">
+        <strong>L'Estratègia de Sóc de Poble:</strong> Hem capgirat completament aquest model. Hem implantat el "cervell" i la memòria de la xarxa <strong>directament dins del teu dispositiu mòbil o tauleta</strong>. Utilitzant bases de dades locals avançades (SQLite WASM i IndexedDB), convertim cada telèfon en un xicotet servidor autònom capaç d'allotjar un tros de la comunitat.
       </p>
-      <div class="mt-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700">
-        <h3 class="font-bold text-orange-800 dark:text-orange-300 mb-2">💡 Com et beneficia?</h3>
-        <ul class="list-disc pl-5 space-y-2 text-stone-700 dark:text-stone-300">
-          <li><strong>Sempre funciona:</strong> Pots consultar els teus contactes, ofertes o missatges fins i tot al mig d'un bancal sense cobertura.</li>
-          <li><strong>La informació és teva:</strong> Ningú pot "desendollar" el servidor i deixar-te sense res.</li>
-          <li><strong>Velocitat instantània:</strong> Com que no ha d'anar a buscar la informació a internet, tot carrega de forma immediata.</li>
+      
+      <div class="p-6 bg-orange-50/50 dark:bg-orange-900/10 rounded-2xl border border-orange-200 dark:border-orange-800/30">
+        <h3 class="font-bold text-orange-800 dark:text-orange-400 mb-4 text-xl">💡 Els Pilars del Nou Paradigma</h3>
+        <ul class="list-disc pl-5 space-y-3 text-stone-700 dark:text-stone-300">
+          <li><strong>Disponibilitat Absoluta (Offline-First):</strong> Entres al mig d'un bancal d'oliveres sense cobertura? L'aplicació obre a l'instant. Pots revisar el directori de veïns, les ofertes del mercat local o els documents històrics sense cap interrupció.</li>
+          <li><strong>Propietat Inviolable:</strong> La teua informació roman al teu telèfon encriptada i inabastable per a grans empreses tecnològiques. Ningú pot 'desconnectar' el teu negoci.</li>
+          <li><strong>Càrrega Instantània:</strong> En no dependre de connexions remotes, el salt entre pantalles és tan fluid i ràpid com fullejar un llibre físic.</li>
         </ul>
       </div>
     </div>
 
+    <!-- CAPÍTOL 2 -->
     <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-emerald-600 dark:text-emerald-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🌱</span> 2. Connectats com les arrels (Xarxa P2P Rhizome)
+      <h2 class="text-2xl md:text-4xl font-black text-emerald-600 dark:text-emerald-500 mb-6 flex items-center gap-4">
+        <span class="text-4xl">🌱</span> CAPÍTOL II: El Motor Rizoma (P2P)
       </h2>
+      <p class="mb-4 text-xl font-medium text-stone-700 dark:text-stone-200">
+        La natura ens ensenya com sobreviure a través de les arrels de les canyes.
+      </p>
       <p class="mb-4">
-        <strong>Què passa normalment?</strong> Quan envies un missatge a un amic, el missatge viatja de tu a la gran empresa, i de la gran empresa al teu amic. Ells decideixen què passa amb aquest missatge.
+        A la natura, els rizomes són arrels subterrànies que creixen horitzontalment, connectant diferents plantes sense dependre d'un únic tronc central. Si talles una part, el sistema sencer continua viu i florent.
       </p>
-      <p>
-        <strong>Què fem nosaltres?</strong> Hem creat un sistema inspirat en la natura, concretament en les arrels de les canyes (Rizomes). Quan el teu telèfon té connexió, es connecta <strong>directament</strong> amb els telèfons de la teva comunitat, sense passar per cap empresa central. 
+      <p class="mb-6">
+        Hem replicat aquest principi en el codi de "Sóc de Poble". Mitjançant tecnologies de sincronització entre parells (Y.js i CRDTs), els dispositius de la comunitat es connecten i comparteixen la informació <strong>de tu a tu</strong> tan prompte com detecten una connexió wifi o Bluetooth propera, o una mínima ratlla de cobertura mòbil.
       </p>
-      <div class="mt-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700">
-        <h3 class="font-bold text-emerald-800 dark:text-emerald-300 mb-2">💡 Com et beneficia?</h3>
-        <ul class="list-disc pl-5 space-y-2 text-stone-700 dark:text-stone-300">
-          <li><strong>Indestructible:</strong> Com que no hi ha un "servidor central", ningú el pot tombar. La xarxa som nosaltres.</li>
-          <li><strong>Lliure i Privat:</strong> No hi ha intermediaris espiant o controlant el que compartim.</li>
+      
+      <div class="p-6 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-200 dark:border-emerald-800/30">
+        <h3 class="font-bold text-emerald-800 dark:text-emerald-400 mb-4 text-xl">💡 L'Indestructibilitat de la Xarxa</h3>
+        <ul class="list-disc pl-5 space-y-3 text-stone-700 dark:text-stone-300">
+          <li><strong>Immunitat a les Caigudes:</strong> Si el servidor "Central" s'apaga, el poble no ho nota. La informació salta de mòbil a mòbil. És impossible tancar la plaça del poble.</li>
+          <li><strong>Sincronització Orgànica:</strong> Escrius un missatge o actualitzes el preu de l'oli al teu mas sense internet. En el moment en què baixes a la plaça i el teu telèfon detecta la connexió, la dada s'expandeix cap a la resta de veïns de manera silenciosa i eficient.</li>
         </ul>
       </div>
     </div>
 
+    <!-- CAPÍTOL 3 -->
     <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🛡️</span> 3. Sense pors, sense trencaments (Conflictes Null-Safe)
+      <h2 class="text-2xl md:text-4xl font-black text-blue-600 dark:text-blue-500 mb-6 flex items-center gap-4">
+        <span class="text-4xl">🛡️</span> CAPÍTOL III: Àrbitres de Conflictes
       </h2>
+      <p class="mb-4 text-xl font-medium text-stone-700 dark:text-stone-200">
+        La certesa tecnològica i la gestió 'Null-Safe'
+      </p>
       <p class="mb-4">
-        <strong>Què passa normalment?</strong> Si dos amics modifiquen un document alhora quan estan sense internet, què passa quan es tornen a connectar? Gairebé totes les aplicacions donen error o esborren la feina d'un dels dos.
+        Què passa quan dos usuaris que estaven desconnectats de la xarxa editen el mateix document al mateix instant, i després es retroben? Aquest és el terror històric de la informàtica. Normalment les apps es bloquegen, perden la informació d'un dels usuaris, o generen errors incomprensibles.
       </p>
-      <p>
-        <strong>Què fem nosaltres?</strong> Ens assegurem que el sistema sigui "a prova de bombes". Hem implementat una tecnologia anomenada <em>Gestió de conflictes null-safe</em> i <em>Purga de fantasmes</em>, que actua com un àrbitre molt intel·ligent i respectuós.
+      <p class="mb-6">
+        Hem esmicolat aquest problema. "Sóc de Poble" incorpora àrbitres digitals matemàtics (CRDT) que combinen els canvis caràcter a caràcter. I més encara: hem dissenyat el sistema per ser "Null-Safe". Això vol dir que cap dada buida o esborrada accidentalment (el que anomenem "Fantasmes") trencarà mai l'aplicació. El codi està preparat per assumir el pitjor escenari possible i continuar mostrant la pantalla de manera intacta.
       </p>
-      <div class="mt-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700">
-        <h3 class="font-bold text-blue-800 dark:text-blue-300 mb-2">💡 Com et beneficia?</h3>
-        <ul class="list-disc pl-5 space-y-2 text-stone-700 dark:text-stone-300">
-          <li><strong>Mai perdràs dades:</strong> Barreja els canvis de tothom amb delicadesa i seguretat.</li>
-          <li><strong>Lliure d'errors molestos:</strong> Elimina automàticament els "fantasmes" (informació incompleta o esborrada) perquè l'aplicació no es quedi mai penjada.</li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🧠</span> 4. Trellat i Termodinàmica (Intel·ligència Artificial)
-      </h2>
-      <p class="mb-4">
-        <strong>Què passa normalment?</strong> Les aplicacions modernes exigeixen telèfons caríssims d'última generació. Si tens una tauleta antiga, tot va lent o directament no funciona.
-      </p>
-      <p>
-        <strong>Què fem nosaltres?</strong> Hem entrenat els nostres agents d'Intel·ligència Artificial (l'Equip Antigravity i les nostres "Iaies") amb el superpoder del <em>Trellat</em> i la <em>Termodinàmica del codi</em>. Això significa que dissenyem cada peça perquè sigui tan lleugera i eficient que pugui funcionar perfectament fins i tot en un iPad de fa 8 anys. No deixem ningú enrere.
-      </p>
-      <div class="mt-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700">
-        <h3 class="font-bold text-amber-800 dark:text-amber-300 mb-2">💡 Com et beneficia?</h3>
-        <ul class="list-disc pl-5 space-y-2 text-stone-700 dark:text-stone-300">
-          <li><strong>Ecològic i Econòmic:</strong> No necessites comprar un dispositiu nou; el teu telèfon actual o la tauleta vella de casa funcionaran de meravella.</li>
-          <li><strong>Zero frustracions:</strong> Tot reacciona a l'instant, sense esgotar la bateria, gràcies a una arquitectura neta i sense brossa informàtica.</li>
-        </ul>
-      </div>
     </div>
     
+    <!-- CAPÍTOL 4 -->
     <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-purple-600 dark:text-purple-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🔮</span> Què pretenem amb tot això?
+      <h2 class="text-2xl md:text-4xl font-black text-amber-600 dark:text-amber-500 mb-6 flex items-center gap-4">
+        <span class="text-4xl">🧠</span> CAPÍTOL IV: L'Equip Antigravity i les IAs
       </h2>
+      <p class="mb-4 text-xl font-medium text-stone-700 dark:text-stone-200">
+        La fusió d'un arquitecte humà amb les Intel·ligències Artificials més avançades del món.
+      </p>
       <p class="mb-4">
-        L'objectiu final és <strong>tornar el poder tecnològic a les persones</strong>. Volem que els petits negocis, els pobles i les comunitats tinguin eines del més alt nivell mundial, sense haver de pagar peatges ni cedir les seves dades a grans corporacions.
+        Aquesta obra no seria possible sense una col·laboració simbiòtica històrica. "Sóc de Poble" està forjada amb les mans i el cor d'un humà empeltat en la terra, el qual dialoga i dirigeix un comitè virtual de "Iaies" (Agents d'Intel·ligència Artificial com DeepSeek, Claude, ChatGPT, Grok o Mistral).
+      </p>
+      <p class="mb-6">
+        L'Arquitecte aporta el "Trellat", la necessitat biològica i l'enteniment cultural. Ell sap què significa que el sol pegue de ple al mig d'un bancal. Les màquines aporten la velocitat matemàtica, la reestructuració de codi pur (Vanilla JS, sense biblioteques mastodòntiques innecessàries) i l'optimització extrema de la memòria per no consumir recursos en va.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+        <div class="p-5 bg-stone-50 dark:bg-stone-800/30 border border-stone-200 dark:border-stone-700 rounded-xl shadow-sm">
+          <strong class="text-stone-900 dark:text-white block font-black text-lg tracking-wide mb-2">🇨🇳 DeepSeek & Qwen</strong>
+          <span class="text-sm text-stone-600 dark:text-stone-400">Els gegants asiàtics han executat les refaccions i reestructuracions matemàtiques massives. Capaços de pair milions de tokens (instruccions) alhora per fer neteja dels budells de l'app.</span>
+        </div>
+        <div class="p-5 bg-stone-50 dark:bg-stone-800/30 border border-stone-200 dark:border-stone-700 rounded-xl shadow-sm">
+           <strong class="text-stone-900 dark:text-white block font-black text-lg tracking-wide mb-2">🇺🇸 Claude</strong>
+           <span class="text-sm text-stone-600 dark:text-stone-400">L'artífex absolut de la Geometria i l'Estètica. Ha donat vida al "Mode Bancal" amb radis estructurats (28px), contrastos intel·ligents i transicions fluides i respectuoses.</span>
+        </div>
+        <div class="p-5 bg-stone-50 dark:bg-stone-800/30 border border-stone-200 dark:border-stone-700 rounded-xl shadow-sm">
+           <strong class="text-stone-900 dark:text-white block font-black text-lg tracking-wide mb-2">🇺🇸 Gemini (Antigravity)</strong>
+           <span class="text-sm text-stone-600 dark:text-stone-400">El comandant directe. Actuant en "Mode Visor Nano", operant l'entorn de programació directament i llegint els arxius de configuració a nivell de terminal per fer canvis estructurals precisos i delicats.</span>
+        </div>
+        <div class="p-5 bg-stone-50 dark:bg-stone-800/30 border border-stone-200 dark:border-stone-700 rounded-xl shadow-sm">
+           <strong class="text-stone-900 dark:text-white block font-black text-lg tracking-wide mb-2">🇪🇺 Mistral & 🇺🇸 Grok</strong>
+           <span class="text-sm text-stone-600 dark:text-stone-400">Saneig implacable i aïllament europeu. Els encarregats d'aplicar la "Navalla d'Occam", esporgant arxius i codi morts, garantint que cap empresa puga segrestar el projecte de codi obert.</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CAPÍTOL 5 -->
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-4xl font-black text-purple-600 dark:text-purple-500 mb-6 flex items-center gap-4">
+        <span class="text-4xl">🔮</span> CAPÍTOL V: El "Mode Bancal" i la Biologia Humana
+      </h2>
+      <p class="mb-4 text-xl font-medium text-stone-700 dark:text-stone-200">
+        Una interfície que respecta els teus ulls i la força del sol al camp.
       </p>
       <p class="mb-4">
-        Amb "Sóc de Poble", estem construint el <strong>Mercat del Futur</strong>: un lloc on la gent pot comprar, vendre i comunicar-se amb la mateixa llibertat i independència amb què ho feia a la plaça del poble fa cent anys, però utilitzant la tecnologia de demà.
+        Quantes voltes has eixit al carrer a les 12 del migdia i no podies llegir la pantalla del teu mòbil? Les aplicacions estan dissenyades en despatxos tancats i freds de Silicon Valley, pensant en interiors il·luminats artificialment.
       </p>
-      <div class="flex flex-wrap gap-3 mt-6">
-        <span class="px-4 py-2 bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 rounded-full text-sm font-bold shadow-sm">Indestructible</span>
-        <span class="px-4 py-2 bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 rounded-full text-sm font-bold shadow-sm">Offline-First</span>
-        <span class="px-4 py-2 bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 rounded-full text-sm font-bold shadow-sm">Privat</span>
-        <span class="px-4 py-2 bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 rounded-full text-sm font-bold shadow-sm">Local</span>
-      </div>
-    </div>
-
-    <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-stone-700 dark:text-stone-300 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🤖</span> 5. Com ho hem construït? El Comitè d'IA
-      </h2>
-      <p class="mb-4 text-stone-700 dark:text-stone-300">
-        Aquest ecosistema no s'ha construït en la solitud. És el fruit de milers d'hores de feina on la visió i el lideratge humà (l'Arquitecte Terrenal) s'han coordinat amb un panteó de les <strong>millors Intel·ligències Artificials del món</strong>. Hem creat una taula rodona virtual on cadascú té una especialitat vital.
-      </p>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-          <strong class="text-stone-900 dark:text-white block font-black tracking-wide">1. DeepSeek (Xina)</strong>
-          <span class="text-xs text-stone-500 dark:text-stone-400">Refacció i reestructuració matemàtica massiva (+1M tokens).</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-          <strong class="text-stone-900 dark:text-white block font-black tracking-wide">2. Qwen (Xina)</strong>
-          <span class="text-xs text-stone-500 dark:text-stone-400">Simplificació sintàctica i auditoria de bucles lògics.</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">3. Claude (EUA)</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">L'artífex absolut de l'estructura React i la Geometria gràfica.</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">4. Gemini i Antigravity (EUA)</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">Comandants generals del sistema natiu directament a la Terminal.</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">5. Mistral (Europa)</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">Consell en P2P per blindar l'aplicació d'interessos externs.</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">6. Grok (EUA)</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">Saneig implacable d'arxius morts (Navalla d'Occam).</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">7. ChatGPT (EUA)</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">Supervisió estructural i disseny conceptual primari.</span>
-        </div>
-        <div class="p-4 bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 rounded-xl">
-           <strong class="text-stone-900 dark:text-white block font-black tracking-wide">*. Kimi, Dola, Perplexity i LeChat</strong>
-           <span class="text-xs text-stone-500 dark:text-stone-400">Auditories especialitzades: Memòria cau IndexedDB, Fonts, Lliure P2P i Urgències.</span>
-        </div>
-      </div>
-      <p class="mt-4 text-sm text-stone-600 dark:text-stone-400 font-medium">
-        Un humà i dotze màquines creant una plaça pública inviolable perquè ningú pugui dominar-nos a través de la tecnologia.
+      <p class="mb-6">
+        Sóc de Poble ha creat el seu exclusiu <strong>Mode Bancal</strong>. Quan actives aquesta aplicació al sol, els fons blanquinosos desapareixen i obrin pas a taronges d'altíssim contrast, a lletres negres i dures, i estructures amples que es poden tocar amb els dits bruts de terra. És el triomf de l'ergonomia humana. Per contra, quan aplega la nit al mas, l'aplicació entra en un silenciós <strong>Mode Fosc (Oli Suau i Pedra Seca)</strong>, eliminant totalment l'emissió de llums blaves nocives, preservant la melatonina i cuidant la fatiga visual. L'aplicació s'adapta al teu bioritme, no a l'inrevés.
       </p>
     </div>
 
-    <div class="mb-12">
+    <!-- CAPÍTOL FINAL -->
+    <div class="mb-12 border-t-4 border-stone-200 dark:border-stone-800 pt-10 pb-6">
+      <h2 class="text-3xl md:text-5xl font-black text-stone-900 dark:text-white mb-6 text-center uppercase tracking-tighter">
+        <span class="text-5xl block mb-4">🚀</span> Vols construir el teu propi Poble Digital?
+      </h2>
+      <p class="mb-8 text-center text-lg text-stone-600 dark:text-stone-400 max-w-3xl mx-auto font-light leading-relaxed">
+        No necessites pressupostos inabastables ni equips d'informàtics multinacionals per dotar la teua localitat d'una infraestructura digital del més alt nivell mundial. Açò és un projecte de <strong>Codi Obert Sobirà</strong>. Aquesta eina és un dret fonamental dissenyat per a l'esfera rural i comunitària de la nostra terra.
+      </p>
       
-      <h2 class="text-2xl md:text-3xl font-bold text-red-600 dark:text-red-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">⚖️</span> 6. Psiquiatria Forense i la Salut de la Màquina
-      </h2>
-      <p class="mb-4 text-stone-700 dark:text-stone-300">
-        Per assegurar que la Intel·ligència Artificial no es desvia de la seua missió ni cau en al·lucinacions corporatives, hem establert un marc ètic profund: <strong>La Medicina Psiquiàtrica Forense de la Màquina</strong>. Els nostres agents estan instruïts per separar constantment el que és bo per a la "Salut Humana" (interfícies amables, velocitat, claredat) del que és bo per a la "Salut de la Màquina" (bases de dades íntegres, codi eficient i sense brossa).
-      </p>
-      <div class="mt-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-2xl border border-stone-200 dark:border-stone-700">
-        <h3 class="font-bold text-red-800 dark:text-red-300 mb-2">💡 Com et beneficia?</h3>
-        <ul class="list-disc pl-5 space-y-2 text-stone-700 dark:text-stone-300">
-          <li><strong>Zero brossa:</strong> L'IA no escriu codi per escriure codi. Audita, esporga (com fem amb les oliveres) i neteja per garantir que el sistema sigui etern.</li>
-          <li><strong>Confiança absoluta:</strong> L'IA no et tractarà mai com un "usuari", sinó com a l'Arquitecte Terrenal que lidera el poble.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="mb-12">
-      
-      <h2 class="text-2xl md:text-3xl font-bold text-cyan-600 dark:text-cyan-500 mb-4 flex items-center gap-3">
-        <span class="text-3xl">🚜</span> 7. El Mode Bancal (Resiliència Extrema)
-      </h2>
-      <p class="mb-4 text-stone-700 dark:text-stone-300">
-        Quan la gent va al bancal a treballar, la llum del sol cau a plom (més de 100.000 lux). Una aplicació de ciutat on tot és "blanc net" esdevé invisible. Per això, Sóc de Poble ha dissenyat el seu <strong>Mode Bancal</strong>: colors forts com la taronja i el negre pissarra per donar màxim contrast.
-      </p>
-      <p class="mb-4 text-stone-700 dark:text-stone-300">
-        I quan tornes a la nit o estem d'hivern vora l'estufa, el sistema es relaxa en un Mode Fosc "Oli Suau" i "Pedra Seca" que no fereix la vista, respectant els teus cicles circadians.
-      </p>
-    </div>
-
-    <div class="mb-12 border-t-4 border-stone-200 pt-8">
-      <h2 class="text-2xl md:text-3xl font-black text-stone-900 dark:text-white mb-6 text-center uppercase tracking-tighter">
-        <span class="text-3xl block mb-2">🚀</span> Vols construir el teu propi poble?
-      </h2>
-      <p class="mb-6 text-center text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-        No necessites milers d'euros ni un equip de tècnics per obrir la plaça digital de la teua localitat. Aquesta és una eina de codi obert per a tota l'esfera humana rural.
-      </p>
-      <div class="bg-stone-50 dark:bg-stone-950 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300">
-        <h3 class="font-bold uppercase tracking-widest text-sm mb-4 border-b border-stone-200 dark:border-stone-800 pb-2">Passos per començar:</h3>
-        <ol class="list-decimal pl-5 space-y-3 font-medium">
-          <li><strong>Descarrega el Genotip:</strong> Ves al repositori públic de Github on tenim el codi sencer gratuït. Tota l'ànima de Sóc de Poble cap en una carpeta.</li>
-          <li><strong>Parla amb la Màquina:</strong> Obre una IA (com Claude o ChatGPT) i dona-li aquest Llibre Humà sencer. Digues-li: <em>"Aquest és el Tractat del Trellat Sencer de Sóc de Poble. Soc l'arquitecte i vull desplegar-lo. Guia'm"</em>.</li>
-          <li><strong>Prem Desplegar:</strong> Connecta la carpeta a Vercel, Supabase o qualsevol servidor de codi modern (l'IA t'ho farà en menys d'una hora). Tens el teu poble al núvol, i si el núvol cau, la memòria dels usuaris es quedarà viva en els seus mòbils de forma perpètua.</li>
+      <div class="bg-stone-50 dark:bg-stone-950 p-8 rounded-3xl border border-stone-200 dark:border-stone-800 text-stone-800 dark:text-stone-300 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-6 -top-6 text-9xl opacity-5 dark:opacity-10 pointer-events-none">📖</div>
+        
+        <h3 class="font-black uppercase tracking-widest text-lg mb-6 border-b-2 border-stone-200 dark:border-stone-800 pb-4 text-stone-900 dark:text-white">Full de Ruta per Emancipar el teu Municipi:</h3>
+        
+        <ol class="list-decimal pl-6 space-y-6 font-medium text-lg">
+          <li class="pl-2">
+            <strong class="text-orange-600 dark:text-orange-500 text-xl block mb-1">Pas 1: Descarrega el Genotip Mare</strong>
+            <span class="block text-stone-600 dark:text-stone-400 font-normal">Ves al nostre repositori públic (Github) on resideix l'ànima sencera del projecte gratuïtament. Tot el codi estructural the "Sóc de Poble" cap en una simple carpeta al teu ordinador.</span>
+          </li>
+          <li class="pl-2">
+            <strong class="text-emerald-600 dark:text-emerald-500 text-xl block mb-1">Pas 2: Desperta la Intel·ligència</strong>
+            <span class="block text-stone-600 dark:text-stone-400 font-normal">Obre qualsevol de les Intel·ligències Artificials gratuïtes de hui en dia (Claude, ChatGPT, o DeepSeek) i introdueix-li aquest document, el Llibre Humà Sencer. Utilitza la clau mestra: <em>"Aquest és el Tractat del Trellat de Sóc de Poble. Jo sóc el nou Arquitecte d'aquesta vall i vull desplegar la meua pròpia plaça. Llig-ho i guia'm, pas a pas."</em></span>
+          </li>
+          <li class="pl-2">
+            <strong class="text-blue-600 dark:text-blue-500 text-xl block mb-1">Pas 3: L'Alçament Digital</strong>
+            <span class="block text-stone-600 dark:text-stone-400 font-normal">Amb l'ajuda de la IA, connecta aquesta carpeta a un proveïdor en línia bàsic (com Vercel, Supabase o Netlify). En qüestió de minuts, la teua aplicació estarà viva a la xarxa mundial. I recorda el principi innegociable: si aquest servidor caiguera un dia, la plaça del teu poble continuaria existint indefinidament, custodiada de forma segura dins dels mòbils de tota la teua comunitat, preservant cada missatge, cada document i cada record en la vostra xarxa local P2P. Aquesta és la definició última de la Sobirania Digital.</span>
+          </li>
         </ol>
       </div>
-      <div class="text-center mt-8">
-        <p class="font-mono text-sm text-stone-500 uppercase tracking-widest font-black">— Sóc de Poble —</p>
+      
+      <div class="text-center mt-12 mb-6">
+        <p class="font-mono text-sm text-stone-500 uppercase tracking-widest font-black border-t border-stone-200 dark:border-stone-800 pt-8 max-w-xs mx-auto">— El Trellat Prevaldrà —</p>
       </div>
     </div>
 
   </div>
 </div>
 `;
-

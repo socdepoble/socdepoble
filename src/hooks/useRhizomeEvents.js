@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { rhizomeManager } from '../services/rhizomeManager';
+import { rhizomeManager } from '../core/services/rhizomeManager';
 
 /**
  * Hook màgic que connecta el CRDT (Yjs) amb React.

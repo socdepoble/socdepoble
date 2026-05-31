@@ -1,0 +1,244 @@
+import { logger } from '../../utils/logger';
+
+// Importem el worker com a URL lògic aïllat heretant CORS per defecte de la finestra
+import RhizomeWorker from './rhizome.worker.js?worker&inline';
+
+/**
+ * Function to calculate simple SHA-256 hash.
+ */
+async function calculateChecksum(dataObj) {
+    if (typeof crypto === 'undefined' || !crypto.subtle) return 'no-crypto';
+    try {
+        const text = JSON.stringify(dataObj);
+        const msgUint8 = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch {
+        return 'hash-error';
+    }
+}
+
+/**
+ * RhizomeDB: Persistent SQLite + OPFS Layer [MASTER/FLASH]
+ * 
+ * Basat en l'auditoria v3.0: 
+ * - Utilitza OPFS per a persistència real (no volàtil).
+ * - Emmagatzema el graf d'operacions (Eg-walker).
+ * - Suporta snapshots per a càrrega ràpida amb validació d'integritat (Checksums).
+ */
+class RhizomeDB {
+    constructor() {
+        this.worker = null;
+        this.pendingRequests = new Map();
+        this.initPromise = null;
+    }
+
+    /**
+     * Inicialitza el motor SQLite amb suport OPFS.
+     */
+    async init() {
+        if (this.initPromise) return this.initPromise;
+
+        const bootPromise = (async () => {
+            try {
+                // Instanciem el worker inlined
+                this.worker = new RhizomeWorker();
+
+                this.worker.onmessage = (e) => this.handleWorkerMessage(e);
+                this.worker.onerror = (err) => this.handleWorkerCrash(err);
+                this.worker.onmessageerror = (err) => this.handleWorkerCrash(err);
+
+                return new Promise((resolve, reject) => {
+                    this.sendToWorker('INIT', { origin: window.location.origin }, (res) => {
+                        if (res.type === 'INIT_OK') {
+                            logger.log('📡 RhizomeDB Proxy connectat al Worker');
+                            resolve();
+                        } else {
+                            reject(new Error(res.payload));
+                        }
+                    });
+                });
+            } catch (err) {
+                logger.error('❌ Error inicialitzant Rhizome Worker:', err);
+                throw err;
+            }
+        })();
+
+        this.initPromise = bootPromise.catch((err) => {
+            this.initPromise = null;
+            throw err;
+        });
+
+        return this.initPromise;
+    }
+
+    handleWorkerMessage(e) {
+        const { id, type, payload } = e.data;
+
+        if (type === 'LOG') { logger.log(payload); return; }
+        if (type === 'DEBUG') { if (logger.debug) logger.debug(payload); return; }
+        if (type === 'ERROR' && !id) { logger.error(payload); return; }
+
+        if (!this.pendingRequests) {
+            this.pendingRequests = new Map();
+        }
+
+        const callback = this.pendingRequests.get(id);
+        if (callback) {
+            this.pendingRequests.delete(id);
+            callback(e.data);
+        } else if (id) {
+            logger.warn(`L'event amb ID ${id} enviat des del Worker no té callback registrats.`);
+        }
+    }
+
+    handleWorkerCrash(err) {
+        logger.error('❌ Rhizome Worker crash/message error:', err?.message || err);
+        const pending = this.pendingRequests || new Map();
+        for (const [id, callback] of pending.entries()) {
+            if (typeof callback === 'function') {
+                callback({ type: 'ERROR', payload: 'Rhizome Worker no disponible (crashed)' });
+            }
+            pending.delete(id);
+        }
+        this.worker = null;
+        this.initPromise = null;
+    }
+
+    sendToWorker(type, payload, callback, timeoutMs = 15000) {
+        if (!this.worker) {
+            logger.error('❌ Rhizome Worker no inicialitzat al intentar enviar:', type);
+            if (callback) callback({ type: 'ERROR', payload: 'Worker no inicialitzat' });
+            return;
+        }
+
+        if (!this.pendingRequests) {
+            this.pendingRequests = new Map();
+        }
+        
+        const id = (typeof crypto !== 'undefined' && crypto.randomUUID) 
+            ? crypto.randomUUID() 
+            : (Date.now().toString(36) + Math.random().toString(36).substring(2));
+        
+        if (callback) {
+            const timeoutId = setTimeout(() => {
+                if (this.pendingRequests.has(id)) {
+                    this.pendingRequests.delete(id);
+                    logger.warn(`[RhizomeDB] Timeout (${timeoutMs}ms) esperant resposta del worker per a: ${type}`);
+                    callback({ type: 'ERROR', payload: `Worker timeout (${timeoutMs}ms) per a l'operació ${type}` });
+                }
+            }, timeoutMs);
+
+            this.pendingRequests.set(id, (res) => {
+                clearTimeout(timeoutId);
+                callback(res);
+            });
+        }
+        
+        this.worker.postMessage({ id, type, payload });
+    }
+
+    async saveOperation(op) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_OP', op, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
+        });
+    }
+
+    async saveOperationsBatch(ops) {
+        await this.init();
+        if (!ops || ops.length === 0) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_OPS_BATCH', { ops }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
+        });
+    }
+
+    async getOperations(docId) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_OPS', { docId }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve(res.payload);
+            });
+        });
+    }
+
+    async saveSnapshot(docId, data, lastOpId, vectorClock) {
+        await this.init();
+        const checksum = await calculateChecksum(data);
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('SAVE_SNAPSHOT', { docId, data, lastOpId, vectorClock, checksum }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else {
+                    logger.debug(`[Rhizome/DB] Snapshot desat per a ${docId}. Checksum: ${checksum.substring(0,8)}...`);
+                    resolve();
+                }
+            });
+        });
+    }
+
+    async getSnapshot(docId) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_SNAPSHOT', { docId }, async (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else {
+                    const snapshot = res.payload;
+                    if (snapshot && snapshot.checksum && snapshot.checksum !== 'no-crypto' && snapshot.checksum !== 'hash-error') {
+                        const currentChecksum = await calculateChecksum(snapshot.data);
+                        if (currentChecksum !== snapshot.checksum) {
+                            logger.error(`🚨 [Rhizome/DB] CORRUPCIÓ DETECTADA en el Snapshot de ${docId}! Checksum esperat: ${snapshot.checksum}, calculat: ${currentChecksum}`);
+                            // En cas de corrupció retornem null per forçar reconstrucció des de l'historial d'operacions
+                            return resolve(null);
+                        }
+                    }
+                    resolve(snapshot);
+                }
+            });
+        });
+    }
+
+    async purgeOperations(docId, keepLimit = 50) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('PURGE_OPS', { docId, keepLimit }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve();
+            });
+        });
+    }
+
+    async getTrustScore(myDid, targetDid) {
+        await this.init();
+        return new Promise((resolve, reject) => {
+            this.sendToWorker('GET_TRUST_SCORE', { myDid, targetDid }, (res) => {
+                if (res.type === 'ERROR') reject(new Error(res.payload));
+                else resolve(res.payload);
+            });
+        });
+    }
+
+    dispose() {
+        if (this.worker) {
+            this.worker.terminate();
+            this.worker = null;
+        }
+        const pending = this.pendingRequests || new Map();
+        for (const [id, callback] of pending.entries()) {
+            if (typeof callback === 'function') {
+                callback({ type: 'ERROR', payload: 'RhizomeDB disposed' });
+            }
+            pending.delete(id);
+        }
+        this.initPromise = null;
+    }
+}
+
+export const rhizomeDb = new RhizomeDB();

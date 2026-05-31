@@ -1,0 +1,298 @@
+.cart-manager-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+.cart-manager-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cart-manager-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100%;
+    background: var(--theme-bg-primary, #ffffff);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+}
+
+.cart-manager-container.open {
+    transform: translateX(0);
+}
+
+.dark .cart-manager-container {
+    background: var(--theme-bg-primary, #111111);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.5);
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--theme-border-color, #E5E7EB);
+    background: var(--theme-bg-secondary, #F9FAFB);
+}
+
+.dark .cart-header {
+    border-bottom-color: #374151;
+    background: #1F2937;
+}
+
+.cart-title {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 900;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-primary, #111111);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dark .cart-title {
+    color: #F9FAFB;
+}
+
+.cart-close-btn {
+    background: none;
+    border: none;
+    color: var(--theme-text-secondary, #6B7280);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.cart-close-btn:hover {
+    background: rgba(0,0,0,0.05);
+    color: var(--theme-text-primary, #111111);
+}
+
+.dark .cart-close-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: #F9FAFB;
+}
+
+.cart-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cart-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--theme-text-secondary, #6B7280);
+    text-align: center;
+    gap: 12px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--theme-border-color, #E5E7EB);
+}
+
+.dark .cart-item {
+    border-bottom-color: #374151;
+}
+
+.cart-item-image {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #F3F4F6;
+}
+
+.dark .cart-item-image {
+    background: #374151;
+}
+
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-item-title {
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    color: var(--theme-text-primary, #111111);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.dark .cart-item-title {
+    color: #F9FAFB;
+}
+
+.cart-item-price {
+    font-weight: 900;
+    color: #4F46E5;
+}
+
+.dark .cart-item-price {
+    color: #F97316;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--theme-bg-secondary, #F9FAFB);
+    border-radius: 20px;
+    padding: 2px 4px;
+    border: 1px solid var(--theme-border-color, #E5E7EB);
+}
+
+.dark .quantity-selector {
+    background: #1F2937;
+    border-color: #374151;
+}
+
+.qty-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--theme-text-primary, #111111);
+    border-radius: 50%;
+}
+
+.dark .qty-btn {
+    color: #F9FAFB;
+}
+
+.qty-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.dark .qty-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.qty-value {
+    font-weight: 700;
+    font-size: 0.875rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #EF4444;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.remove-btn:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 2px solid var(--theme-border-color, #E5E7EB);
+    background: var(--theme-bg-secondary, #F9FAFB);
+}
+
+.dark .cart-footer {
+    border-top-color: #374151;
+    background: #1F2937;
+}
+
+.cart-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 1.125rem;
+    font-weight: 900;
+    color: var(--theme-text-primary, #111111);
+}
+
+.dark .cart-summary-row {
+    color: #F9FAFB;
+}
+
+.cart-checkout-btn {
+    width: 100%;
+    padding: 16px;
+    background: #4F46E5;
+    color: white;
+    border: none;
+    border-radius: 32px;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: transform 0.1s ease, background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cart-checkout-btn:active {
+    transform: scale(0.98);
+}
+
+.dark .cart-checkout-btn {
+    background: #F97316;
+    color: #111111;
+}
+
+@media (max-width: 640px) {
+    .cart-manager-container {
+        /* On mobile, standard bottom-sheet behavior can be tricky without extra libraries. 
+           We stick to side-drawer but cover the full screen or match max-width to 100%. */
+        max-width: 100%;
+    }
+}

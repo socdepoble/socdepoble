@@ -1,7 +1,7 @@
 /**
  * Script to populate Anna Climent's Healthy Menu News.
  */
-import { supabaseService } from '../services/supabaseService';
+import { supabaseService } from '../core/services/supabaseService';
 import { logger } from './logger';
 
 export const healthyPlates = [

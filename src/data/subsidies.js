@@ -65,7 +65,7 @@ export const MOCK_SUBSIDIES = [
     deadline: "10/03/2026",
     status: "oberta",
     requirements: [
-      "Ser PIME industrial de la Comunitat Valenciana.",
+      "Ser PIME industrial de les nostres comarques.",
       "Realitzar inversions en actius materials o immaterials.",
       "Mantenir l'ocupació durant 3 anys.",
     ],

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Genotip - Sóc de Poble</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Small delay just to ensure DOM finishes its logic if any
+      setTimeout(() => hljs.highlightAll(), 100);
+    });
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;800&family=JetBrains+Mono&display=swap');
+    
+    /* Small amount of critical styles (fallbacks for pure HTML) */
+    body { font-family: 'Noto Sans', system-ui, sans-serif; }
+    code { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    
+    /* Toggles for standalone HTML (React strips this but we'll apply it inline or React level if needed) */
+    body.show-machine article[data-type="machine"] { display: none !important; }
+    body.show-machine article[data-type="human"] { display: none !important; }
+    body.show-machine .human-intro { display: none !important; }
+    
+    /* Machine mode standalone overrides */
+    article { scroll-margin-top: 150px; }
+    body.show-machine { background-color: #1c1917; color: #10b981; }
+
+    /* Nav bar styling overrides overrides */
+    .nav-controls button.active#btn-human { background-color: #ea580c; color: white !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    .nav-controls button.active#btn-machine { background-color: #059669; color: white !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    .nav-controls button.active#btn-all { background-color: #44403c; color: white !important; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    body.show-machine #stickyNavGlobals { background-color: rgba(28, 25, 23, 0.95); border-color: #10b981; }
+    body.show-machine #stickyNavGlobals #nav-mode-label { color: #10b981; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="show-human bg-stone-50 text-stone-900 antialiased selection:bg-orange-200">
+  
+  <!-- Interfície Global de Modes (Sóc de Poble OS) -->
+  <div id="stickyNavGlobals" class="sticky top-0 z-50 bg-stone-100/95 backdrop-blur-md border-b-[3px] border-stone-300 shadow-sm py-3 px-4 w-full flex flex-col md:flex-row items-center justify-between gap-4 transition-colors duration-300">
+    <div class="flex items-center gap-2 text-stone-800 font-black tracking-widest md:text-lg">
+      ⚡ <span id="nav-mode-label" class="uppercase">| Tomo 2 (Codi)</span>
+    </div>
+    <div class="nav-controls flex bg-stone-200 p-1 rounded-md border border-stone-300 shadow-inner max-w-full overflow-x-auto custom-scrollbar items-center">
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Inici / Índex" class="text-xs sm:text-sm font-black uppercase tracking-wider px-3 md:px-4 py-2 rounded transition-all whitespace-nowrap text-stone-700 hover:bg-stone-300 mr-2 border border-stone-300 shadow-sm focus:outline-none flex items-center justify-center">⇧</button>
+      <button id="btn-human" onclick="window.location.href='/llibres/llibre-humans.html'" class="text-xs sm:text-sm font-bold uppercase tracking-wider px-3 md:px-5 py-2 rounded transition-all whitespace-nowrap text-stone-600 hover:text-stone-900 focus:outline-none">Versió Humans</button>
+      <button id="btn-machine" onclick="selectAndEnter('machine')" class="active text-xs sm:text-sm font-bold uppercase tracking-wider px-3 md:px-5 py-2 rounded transition-all whitespace-nowrap text-stone-600 hover:text-stone-900 focus:outline-none">Còdex Màquina</button>
+    </div>
+  </div>
+
+  <div role="region" aria-label="Contingut Principal" id="bookContent" class="pt-8 px-4 sm:px-8 md:px-12 max-w-4xl mx-auto pb-32">
+    
+    <section class="mb-16 text-center mt-8 human-intro">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-stone-800 mb-6 uppercase tracking-tighter w-full">El Còdex (Màquina).</h1>
+      <p class="text-xl md:text-2xl text-stone-500 font-medium max-w-2xl mx-auto leading-relaxed">
+        Benvingut al cor del projecte <strong class="text-stone-800">Sóc de Poble</strong>.
+      </p>
+      
+      <div class="mt-12 mb-10 w-full flex flex-col items-center gap-6">
+        <h3 class="text-stone-600 uppercase tracking-widest font-bold border-b border-stone-300 pb-2">Estructura del Genotip</h3>
+        <p class="text-sm text-stone-500 max-w-lg mb-2 text-center">L'extensió completa d'aquest document combina narrativa i codi (el projecte global inclou aproximadament 0 pàgines humanes i 0 de codi si ho imprimim).</p>
+      </div>
+
+      <div class="mt-8 bg-stone-100 p-6 rounded-lg border border-stone-200 text-left w-full h-full max-w-2xl mx-auto shadow-inner text-sm md:text-base text-stone-700">
+        <h4 class="font-black uppercase tracking-wider mb-2 text-stone-800">Principis d'Aquest Document:</h4>
+        <ol class="list-decimal pl-5 space-y-2 marker:font-bold marker:text-stone-400">
+           <li>És un <strong>Tractat Immutable</strong> de tota l'arquitectura.</li>
+           <li>Qualsevol IA pot regenerar Sóc de Poble des d'aquest HTML.</li>
+           <li>Certifica l'esforç col·laboratiu entre intel·ligència humana i artificial de forma totalment Autosuficient i Local-First.</li>
+        </ol>
+      </div>
+    </section>
+
+
+<div id="codex-machine-content" data-type="machine">
+
+<div id="stickyNav" class="bg-[var(--bg-panel)] border border-[var(--border-master)] rounded-3xl p-6 md:p-8 mb-12 shadow-inner">
+  <h2 class="text-2xl font-black text-theme-text uppercase tracking-tight flex items-center gap-3 mb-6"><span class="text-3xl">🗂️</span> Índex del Còdex (Màquina)</h2>
+  <div class="overflow-y-auto max-h-[40vh] pr-4 custom-scrollbar">
+    <ul class="space-y-2 text-sm md:text-base font-mono">
+ 
+    </ul>
+  </div>
+</div>
+
+</div>
+
+  </div>
+  
+  <div id="lightbox">
+    <button id="lb-close" onclick="closeLightbox()">&times;</button>
+    <button id="lb-prev" class="lb-btn" onclick="prevImg()">&lt;</button>
+    <img id="lb-img" src="" alt="Lightbox">
+    <p id="lb-caption" class="caption"></p>
+    <button id="lb-next" class="lb-btn" onclick="nextImg()">&gt;</button>
+  </div>
+
+  <div id="floating-page-tracker" class="fixed bottom-6 right-6 bg-stone-900/90 backdrop-blur-sm border border-stone-700/80 text-stone-200 px-5 py-2.5 rounded-full font-mono text-sm shadow-[0_4px_20px_rgba(0,0,0,0.5)] z-50 flex items-center gap-2 transition-all duration-300 pointer-events-none hover:opacity-100 opacity-90">
+     Pàg <span id="current-page-num" class="font-bold text-orange-400">1</span> / <span id="total-page-num">--</span>
+  </div>
+
+  <footer style="margin-top: 6rem; padding-top: 3rem; border-top: 1px solid var(--border); text-align: center; color: #a8a29e; font-size: 1.1rem; padding-bottom: 4rem;">
+    <p>Sóc de Poble • Memòria Llauradora Immortal • <span id="page-count" style="font-weight:bold; color:var(--text);">4</span> pàgines estimades</p>
+    <script>
+      // Calculations
+      const words = document.body.innerText.split(/\s+/).length;
+      let totalPgs = Math.max(1, Math.ceil(words / 250));
+      document.getElementById('page-count').textContent = totalPgs;
+      document.getElementById('total-page-num').textContent = totalPgs;
+      
+      // Select Mode & Enter the Portal
+      function selectAndEnter(mode) {
+         setMode(mode);
+         document.getElementById('bookContent').classList.add('visible');
+         document.getElementById('bookContent').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // UX Logic for the Code/Human toggle
+      function setMode(mode) {
+        document.body.className = '';
+        if (mode !== 'all') {
+          document.body.classList.add('show-' + mode);
+        }
+        
+        // Update massive door buttons
+        ['door-human', 'door-machine', 'door-all'].forEach(id => {
+           const el = document.getElementById(id);
+           if(el) {
+              if (id === 'door-human') {
+                  el.style.transform = id === 'door-' + mode ? 'scale(1.02)' : 'none';
+                  el.style.opacity = id === 'door-' + mode ? '1' : '0.6';
+              } else {
+                  el.style.background = id === 'door-' + mode ? 'var(--text)' : 'transparent';
+                  el.style.color = id === 'door-' + mode ? 'var(--surface)' : 'var(--text)';
+              }
+           }
+        });
+
+        // Update sticky nav buttons
+        document.querySelectorAll('.nav-controls button').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-' + mode).classList.add('active');
+        
+        // Update Sticky Label
+        const label = '| Tomo 1 (Ànima)';
+        document.getElementById('nav-mode-label').textContent = label;
+
+        // Update word count and pages (Using actual DOM height A4 Standard)
+        setTimeout(() => {
+           const docHeight = Math.max(
+             document.body.scrollHeight, document.documentElement.scrollHeight,
+             document.body.offsetHeight, document.documentElement.offsetHeight,
+             document.body.clientHeight, document.documentElement.clientHeight
+           );
+           const maxPags = Math.max(1, Math.ceil(docHeight / 1123));
+           
+           document.getElementById('page-count').textContent = maxPags;
+           totalPgs = maxPags;
+           document.getElementById('total-page-num').textContent = maxPags;
+        }, 300);
+      }
+
+      // Page Tracker Logic (Stable A4 Mapping)
+      window.addEventListener('scroll', () => {
+         const tracker = document.getElementById('floating-page-tracker');
+         const currPNum = document.getElementById('current-page-num');
+         if (!tracker) return;
+         
+         const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+         // A4 page reference approx 1123px height on screen
+         const a4Height = 1123;
+         const current = Math.floor(scrollY / a4Height) + 1;
+         
+         // Update visually
+         currPNum.textContent = Math.min(totalPgs, current);
+      });
+      
+      // Auto-Toggle Mode When Clicking Hash Links
+      document.addEventListener('DOMContentLoaded', () => {
+         setTimeout(() => {
+             document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                   const targetId = a.getAttribute('href').substring(1);
+                   const targetEl = document.getElementById(targetId);
+                   if (targetEl) {
+                       targetEl.scrollIntoView({ behavior: 'smooth' });
+                   }
+                });
+             });
+         }, 500);
+      });
+
+      // Lightbox / Carousel logic
+      let currentArticleImages = [];
+      let currentIdx = 0;
+      
+      document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'IMG' && e.target.closest('.content')) {
+          const article = e.target.closest('article');
+          currentArticleImages = Array.from(article.querySelectorAll('img'));
+          currentIdx = currentArticleImages.indexOf(e.target);
+          if (currentIdx !== -1) {
+            openLightbox(e.target.src, e.target.alt);
+          }
+        }
+      });
+
+      function openLightbox(src, alt) {
+        document.getElementById('lb-img').src = src;
+        document.getElementById('lb-caption').textContent = alt || '';
+        document.getElementById('lightbox').classList.add('visible');
+      }
+
+      function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('visible');
+      }
+
+      function prevImg() {
+        if (currentArticleImages.length > 0) {
+          currentIdx = (currentIdx - 1 + currentArticleImages.length) % currentArticleImages.length;
+          const img = currentArticleImages[currentIdx];
+          openLightbox(img.src, img.alt);
+        }
+      }
+
+      function nextImg() {
+        if (currentArticleImages.length > 0) {
+          currentIdx = (currentIdx + 1) % currentArticleImages.length;
+          const img = currentArticleImages[currentIdx];
+          openLightbox(img.src, img.alt);
+        }
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (!document.getElementById('lightbox').classList.contains('visible')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') prevImg();
+        if (e.key === 'ArrowRight') nextImg();
+      });
+      
+      // Copy Prompt
+      function copyMasterPrompt() {
+          const code = document.getElementById('master-prompt-code').innerText;
+          navigator.clipboard.writeText(code).then(() => {
+              const btn = document.getElementById('copy-prompt-btn');
+              const originalFormat = btn.innerHTML;
+              btn.innerHTML = '✅ COPIAT A PORTA-RETALLS!';
+              btn.classList.add('bg-orange-500', '!border-orange-700');
+              setTimeout(() => {
+                  btn.innerHTML = originalFormat;
+                  btn.classList.remove('bg-orange-500', '!border-orange-700');
+              }, 3000);
+          });
+      }
+    </script>
+  </footer>
+</body>
+</html>

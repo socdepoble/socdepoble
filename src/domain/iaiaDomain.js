@@ -1,4 +1,3 @@
-import { USER_ROLES } from '../constants';
 
 export const isIAIAOfficial = (post) => {
     return post.author_entity_id === 'socdepoble' || 
@@ -8,7 +7,7 @@ export const isIAIAOfficial = (post) => {
 
 export const isIAIAMarIA = (post, authorIdCheck) => {
     return authorIdCheck === '11111111-1111-4111-a111-000000000000' || 
-           post.author_role === USER_ROLES.AMBASSADOR;
+           post.author_name === 'IAIA MarIA';
 };
 
 export const isImmersiveAI = (post, authorIdCheck) => {

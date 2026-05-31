@@ -1,4 +1,4 @@
-import { supabaseService } from '../services/supabaseService';
+import { supabaseService } from '../core/services/supabaseService';
 
 export class SupabaseConnector {
   async fetchCredentials() {

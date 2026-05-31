@@ -1,0 +1,111 @@
+/* 🔡 PROTOCOL NOTO SANS [MASTER v1.0] 🏛️ */
+
+/* 1. Noto Sans (Principal) */
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/noto/NotoSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/noto/NotoSans-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/noto/NotoSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/fonts/noto/NotoSans-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* 2. Noto Sans Condensed (Estalvi d'espai) */
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("/fonts/noto/NotoSans-Condensed.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("/fonts/noto/NotoSans-CondensedBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 3. Noto Sans Mono (Dades i Codi) */
+@font-face {
+  font-family: "Noto Sans Mono";
+  src: url("/fonts/noto/NotoSansMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Noto Sans Mono";
+  src: url("/fonts/noto/NotoSansMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  /* COLORS MESTRES (Sacred Palette - v1.6.3) */
+  --sdp-terracotta: #FF6D23;
+  --sdp-blau: #00F2FF;
+  --sdp-neon-pulse: #FF6D23;
+
+  /* CONTRAST WEBER CLASS 6 (Sol Directe) */
+  --sdp-bg-dark: #0a0a0a;
+  --sdp-bg-surface: #1c1b1f;
+  --sdp-text-high: #e6e1e5;
+  --sdp-text-med: #938f99;
+
+  /* SUPERFÍCIES GLASSMORPHISM (Pilar 3) */
+  --sdp-glass-bg: rgba(28, 27, 31, 0.7);
+  --sdp-glass-border: rgba(255, 255, 255, 0.08);
+  --sdp-glass-blur: 40px;
+
+  /* BANCAL MODE TOKENS (Sóc de Poble Gènesi - Auditoria X) */
+  --sdp-boina-taronja: var(--sdp-terracotta);
+  --sdp-fons-crema: #fdf5e6;
+  --sdp-paper-rustic: #FDFCF9;
+  --sdp-text-fosc: #111827;
+  --sdp-radius-card: 28px;
+  --sdp-radius-button: 100px;
+
+  /* GEOMETRIA (Master Monolith v10.30.0) */
+  --sdp-radius-lg: var(--sdp-radius-card);
+  --sdp-radius-genesis: var(--sdp-radius-card);
+  --sdp-radius-tactile: var(--sdp-radius-button);
+
+  /* 🔡 UNIFICACIÓ TIPOGRÀFICA [PROTOCOL NOTO SANS VARIABLE] */
+  --sdp-font-sans: "Noto Sans Condensed", sans-serif;
+  --sdp-font-serif: "Noto Serif", "Georgia", serif;
+  --sdp-font-mono: "Noto Sans Mono", monospace;
+  --sdp-font-condensed: "Noto Sans Condensed", sans-serif;
+
+  /* Variables llegades */
+  --sdp-font-booter: var(--sdp-font-sans);
+  --sdp-font-playball: var(--sdp-font-sans);
+  --sdp-font-pump: var(--sdp-font-sans);
+  --sdp-font-dearjoefour: var(--sdp-font-sans);
+  --sdp-font-myriadpro: var(--sdp-font-sans);
+  --sdp-font-respublica: var(--sdp-font-sans);
+}
+
+body {
+  font-family: var(--sdp-font-sans);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}

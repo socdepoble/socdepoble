@@ -1,12 +1,83 @@
 <!DOCTYPE html>
 <html lang="ca">
   <head>
+    
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    
+    <!-- [SILENT GUARDIAN] Filtra l'advertència obsoleta d'esdeveniments 'unload' generada per l'SDK de PowerSync -->
+    <script>
+      (function() {
+        var orig = EventTarget.prototype.addEventListener;
+        EventTarget.prototype.addEventListener = function(type, listener, options) {
+          if (type === 'unload') return orig.call(this, 'pagehide', listener, options);
+          return orig.call(this, type, listener, options);
+        };
+      })();
+    </script>
+    <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
+    <title>Sóc de Poble | El Sistema Operatiu Rural</title>
+    <meta
+      name="description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital en la xarxa social KM 0."
+    />
+    <meta name="keywords" content="xarxa social rural, pobles connectats, IAIA, memòria històrica, comerç local, sobirania digital, valencià" />
+    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
+    <link rel="author" href="https://socdepoble.org" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://socdepoble.org/" />
+    <meta
+      property="og:title"
+      content="Sóc de Poble | El Sistema Operatiu Rural"
+    />
+    <meta
+      property="og:description"
+      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
+    />
+    <meta
+      property="og:image"
+      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Infografia de l'ecosistema Sóc de Poble" />
+    <meta property="og:site_name" content="Sóc de Poble" />
+    <meta property="og:locale" content="ca_ES" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@socdepoble" />
+    <meta name="twitter:creator" content="@socdepoble" />
+    <meta
+      name="twitter:title"
+      content="Sóc de Poble | El Sistema Operatiu Rural"
+    />
+    <meta
+      name="twitter:description"
+      content="Connecta amb la teua comunitat i recupera el trellat. Mercat rural, memòria viva i sobirania digital."
+    />
+    <meta
+      name="twitter:image"
+      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
+    />
+
     <!-- 🚨 EMERGENCY PWA KILL-SWITCH - SOC DE POBLE - 2026-04-07 (QWEN AUDITED) -->
     <script>
       (function () {
         "use strict";
         // GEM MODERN: Determini i Sobirania. Pujem la versió per executar en sec.
-        var FORCE_UPDATE_VERSION = "v-emergency-4-trellat";
+        var FORCE_UPDATE_VERSION = "v-emergency-6-trellat";
 
         function log(m) {
           // Colors oficials: Taronja i Blau Sóc de Poble aplicats a la consola per mantenir identitat
@@ -167,65 +238,7 @@
         }
       })();
     </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
-    <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
-    <title>Sóc de Poble | El Sistema Operatiu Rural</title>
-    <meta
-      name="description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital en la xarxa social KM 0."
-    />
-    <meta name="keywords" content="xarxa social rural, pobles connectats, IAIA, memòria històrica, comerç local, sobirania digital, valencià" />
-    <meta name="theme-color" content="#f97316" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
-    <link rel="author" href="https://socdepoble.org" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://socdepoble.org/" />
-    <meta
-      property="og:title"
-      content="Sóc de Poble | El Sistema Operatiu Rural"
-    />
-    <meta
-      property="og:description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
-    />
-    <meta
-      property="og:image"
-      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:alt" content="Infografia de l'ecosistema Sóc de Poble" />
-    <meta property="og:site_name" content="Sóc de Poble" />
-    <meta property="og:locale" content="ca_ES" />
-    <link rel="canonical" href="https://socdepoble.org/" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@socdepoble" />
-    <meta name="twitter:creator" content="@socdepoble" />
-    <meta
-      name="twitter:title"
-      content="Sóc de Poble | El Sistema Operatiu Rural"
-    />
-    <meta
-      name="twitter:description"
-      content="Connecta amb la teua comunitat i recupera el trellat. Mercat rural, memòria viva i sobirania digital."
-    />
-    <meta
-      name="twitter:image"
-      content="https://socdepoble.org/assets/infographics/presentacio.jpg?v=codex"
-    />
-    <!-- [Mestre: Bloqueig de FOUC] Erradicació del llamp visual de tema (FOUC) -->
+<!-- [Mestre: Bloqueig de FOUC] Erradicació del llamp visual de tema (FOUC) -->
     <script>
       (function() {
         try {
@@ -357,9 +370,19 @@
         background-size: 20px 20px;
       }
 
-      /* Ruler Overlay */
       .forense-active * {
         outline: 1px solid rgba(249, 115, 22, 0.1) !important;
+      }
+
+      /* Google Translate fixes per a PWA */
+      .goog-te-banner-frame.skiptranslate {
+        display: none !important;
+      }
+      body {
+        top: 0px !important;
+      }
+      #goog-gt-tt {
+        display: none !important;
       }
     </style>
     <meta name="sp-version" content="v10.34.0" />
@@ -380,6 +403,9 @@
       }
     }
     </script>
+    <!-- [PERFORMANCE] Preload per als logos LCP per reduir el Load Delay -->
+    <link rel="preload" as="image" href="/assets/system/ui/logo-socdepoble-rect-negre.svg" fetchpriority="high" media="(prefers-color-scheme: light)" />
+    <link rel="preload" as="image" href="/assets/system/ui/logo-socdepoble-rect-blanc.svg" fetchpriority="high" media="(prefers-color-scheme: dark)" />
   </head>
   <body>
     <!-- Hidden H1 for SEO -->
@@ -406,7 +432,7 @@
     <!-- [PWA GHOST LOCK] Pre-Boot Failsafe -->
     <script>
       (async function() {
-        const APP_CODE_VERSION = 14;
+        const APP_CODE_VERSION = 15;
         function getIDBVersion() {
           return new Promise((resolve) => {
             try {
@@ -467,7 +493,7 @@
     </script>
     
     <!-- Modern App Entry -->
-    <script type="module" src="/src/entry.jsx"></script>
+    <script type="module" src="/src/app/entry.jsx"></script>
 
     <!-- [BATEGAT FAILSAFE v3] Si el Mas no arranca en 4 segons, obrim panell d'emergència -->
     <script>
@@ -486,7 +512,7 @@
             </div>
           `;
         }
-      }, 4000);
+      }, 12000);
     </script>
   </body>
 </html>

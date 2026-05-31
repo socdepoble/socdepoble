@@ -1,0 +1,86 @@
+/* src/pages/MasterCalendar.css */
+
+/* FullCalendar: dejarlo respirar */
+.calendar-master-page .fc {
+    contain: none;
+    will-change: auto;
+    color: var(--text-main) !important;
+    font-family: var(--font-sans);
+}
+
+/* Aseguramos que el calendario respete el flujo flex sin desbordarse */
+.calendar-master-page .fc .fc-view-harness {
+    content-visibility: visible;
+    contain: none;
+    contain-intrinsic-size: auto;
+    min-height: 0;
+}
+
+/* ENCABEZADO DEL CALENDARIO (DÍAS DE LA SEMANA) */
+.calendar-master-page .fc-col-header-cell {
+    background: linear-gradient(to bottom, rgba(249, 115, 22, 0.05), rgba(249, 115, 22, 0.15));
+    padding: 12px 0;
+    border-bottom: 2px solid #F97316 !important;
+    border-top: none !important;
+}
+
+.calendar-master-page .fc-col-header-cell-cushion {
+    color: var(--text-main) !important;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.calendar-master-page .fc-daygrid-day-number {
+    font-weight: 700;
+    font-family: var(--font-sans);
+    padding: 8px !important;
+    font-size: 0.95rem;
+    color: var(--text-main) !important;
+    text-decoration: none !important;
+}
+
+/* DÍA HOY (TODAY) */
+.calendar-master-page .fc-day-today {
+    background: rgba(249, 115, 22, 0.05) !important;
+}
+.calendar-master-page .fc-day-today .fc-daygrid-day-number {
+    color: #F97316 !important;
+    background: rgba(249, 115, 22, 0.15);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+}
+
+/* CELDAS Y BORDES */
+.calendar-master-page .fc-theme-standard td, 
+.calendar-master-page .fc-theme-standard th {
+    border-color: rgba(128, 128, 128, 0.15);
+}
+
+/* ESTILO EVENTOS (CAPSULAS) */
+.calendar-master-page .fc-event-capsule {
+    color: #ffffff !important; 
+    text-decoration: none !important;
+    border: none !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calendar-master-page .fc-event-capsule:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* ANTI-FANTASMAS FULLCALENDAR (Light/Dark mode) */
+.calendar-master-page .fc-list-day-text,
+.calendar-master-page .fc-list-day-side-text {
+    color: var(--text-main) !important;
+    text-decoration: none !important;
+}

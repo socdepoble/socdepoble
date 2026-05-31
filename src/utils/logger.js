@@ -76,15 +76,3 @@ export const logger = {
     }
 };
 
-/**
- * Creates a prefixed logger for a specific component.
- */
-export const createLogger = (prefix) => ({
-    log: (...args) => logger.log(`[${prefix}]`, ...args),
-    error: (...args) => logger.error(`[${prefix}]`, ...args),
-    warn: (...args) => logger.warn(`[${prefix}]`, ...args),
-    info: (...args) => logger.info(`[${prefix}]`, ...args),
-    debug: (...args) => logger.debug(`[${prefix}]`, ...args),
-});
-
-export default logger;

@@ -1,5 +1,4 @@
-import React from 'react';
-import UniversalCard from '../UniversalCard';
+import UniversalCard from '../ui/universal-card';
 
 const ProfileCard = ({
     id,

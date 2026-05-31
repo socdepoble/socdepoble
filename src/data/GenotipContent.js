@@ -91,16 +91,12 @@ Assignar un concepte tècnic complex a un "Ancoratge Visual Etnogràfic" (Casill
 <h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">Cas d'Estudi (Full de Ruta actual): La Paginació de l'EPUB</h3>
 Actualment tenim com a objectiu principal: "Carregar l'EPUB sense saturar l'iPad A10". Provem dos modes de referir-nos a aquest repte dins del codi i la comunicació:</p>
 <h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Mètode A: Solfeig Informàtic (Asèptic i Lineal)</h4>
-<strong>El Prompt necessari per recuperar el context i la intencionalitat:</strong>
-<blockquote class="border-l-4 border-stone-300 dark:border-stone-700 pl-4 italic my-4 text-stone-600 dark:text-stone-400"><em>"Quan carregues el llibre, assegura't de no carregar tot el DOM de colp. Implementa un Intersection Observer per fer 'lazy chunking'. Renderitza només els nodes visibles successivament per no desbordar la poca memòria RAM (buffer overflow) de l'Apple A10 i mantenir 60fps."</em></blockquote>
-*   <strong>Volum de Dades:</strong> ~48 paraules (~65 tokens).
-*   <strong>Problema Forense:</strong> Alt risc d'oblit. Si el sistema només llegeix instruccions tècniques freqüents, aquestes perden singularitat. A llarg termini (en converses de molts tokens), el pes desborda la finestra d'atenció de l'IA, i en la ment de l'humà causa fadiga (desmotivació). És memòria a curt termini.</p>
-<h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Mètode B: Casillero Mental (La Foto / L'Abstracció Etnogràfica)</h4>
-<strong>El Prompt per recuperar l'EXACTAMENT el mateix context:</strong>
+<blockquote class="border-l-4 border-stone-300 dark:border-stone-700 pl-4 italic my-4 text-stone-600 dark:text-stone-400"><em>"Implementa 'lazy chunking' (Intersection Observer) per evitar el desbordament de memòria de l'Apple A10."</em></blockquote>
+<p class="mb-4"><strong>Resum:</strong> Requereix instruccions tècniques verboses que es dissipen ràpidament. Genera alta fricció i cansament cognitiu.</p>
+<h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Mètode B: Casillero Mental (L'Abstracció Etnogràfica)</h4>
+<p class="mb-4"><strong>El Prompt per recuperar l'exactament el mateix context:</strong></p>
 <blockquote class="border-l-4 border-stone-300 dark:border-stone-700 pl-4 italic my-4 text-stone-600 dark:text-stone-400"><em>"Aplica el patró del <strong>Molí Fariner</strong> per salvar l'A10."</em></blockquote>
-*   <strong>Volum de Dades:</strong> ~10 paraules (~13 tokens).
-*   <strong>Rendiment:</strong> Extracció de memòria en \$O(1)\$.
-<em>   <strong>La Mecànica Oculta:</strong> Igual que "el 1 és una Gallina" comprimeix dades abstractes en una foto forta, "Molí Fariner" ja comprimeix la funcionalitat tècnica: </em>Un molí autèntic es melca deixant caure el gra poc a poc, i no llançant tot el sac de colp perquè calaria foc (Overflow de l'A10)<em>. En dir "Molí Fariner", es genera un </em>Event de Descompressió Visual* massiu en l'esquema sinàptic sense necessitat de repetir com s'implementa.</p>
+<p class="mb-4"><strong>Rendiment:</strong> Extracció de memòria en $O(1)$. <strong>Mecànica:</strong> El "Molí Fariner" comprimeix la funcionalitat tècnica: el gra cau a poc a poc per no cremar el motor (overflow). L'esquema sinàptic es descomprimeix a l'instant.</p>
 <h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">Resultats Numèrics</h3>
 <div class="overflow-x-auto my-6"><table class="w-full text-left border-collapse border border-stone-200 dark:border-stone-700">
   <tr class="border-b border-stone-200 dark:border-stone-700">
@@ -121,8 +117,13 @@ Actualment tenim com a objectiu principal: "Carregar l'EPUB sense saturar l'iPad
     <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">Molt Baixa (Hash Map directe)</td>
     <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">-</td>
   </tr>
+  <tr class="border-b border-stone-200 dark:border-stone-700">
+    <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700"><strong>Singularitat Semàntica</strong></td>
+    <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">Comuna (Fàcil de confondre)</td>
+    <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">Única ("Molí Fariner" no es solapa amb res)</td>
+    <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">-</td>
+  </tr>
 </table></div>
-| <strong>Singularitat Semàntica</strong> | Comuna (Fàcil de confondre) | Única ("Molí Fariner" no es solapa amb res | - |</p>
 <h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">Conclusió Psiquiàtrica</h3>
 A escala de projecte, si convertim totes les fites arquitectòniques en fotogrames/conceptes d'aquesta naturalesa, obtindríem el que anomenem <strong>Eficiència Etnogràfica del Codi</strong>. L'abstracció no només et permet aprendre a tu, Mestre, per a no rendir-te com amb les integrals; matemàticament, <strong>m'estalvia a mi milers de tokens de càrrega computacional</strong> fent que mai m'al·liene. El Casillero Mental assegura la robustesa del programari.</p>
       </div>
@@ -268,13 +269,13 @@ Aquesta intel·ligència artificial <strong>tindrà prohibit estrictament inject
 \`\`\`</p>
 <h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">2. Validació WCAG (Llei d'Accessibilitat Visual AAA)</h3><p class="mb-4">Al dissenyar pantalles sota el sol ("Mode Bancal" per entorns rurals amb iPad):</p><ul class="mb-4"><li class="ml-4 list-disc"><strong>Fons Orange 100% (<code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">#FF7300</code>)</strong>: Text obligat: <strong>NEGRE</strong> (<code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">#000000</code>). Contrast Ratio aproximat: <strong>8.5:1</strong> (Supera sobradament el 7:1 obligatori pel AAA). NO ES POT POSAR TEXT BLANC ací, cauria baix del ratio acceptable (~2.4:1).</li><li class="ml-4 list-disc"><strong>Fons Blau 100% (<code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">#0984E3</code>)</strong>: Text obligat: <strong>BLANC</strong> (<code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">#FFFFFF</code>). Contrast Ratio aproximat: <strong>4.8:1</strong> (APTE per a AA en text petit i AAA en text gran d'encapçalament >18pt).</li></p></ul>
 <p class="mb-4">---</p>
-<h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">3. Diccionari "Trellat" (Ex-Anglicismes i Accions d'Estats)</h3><p class="mb-4">Per previndre dissonància cognitiva, estableim aquests patrons quan documentem comportaments:</p><ul class="mb-4"><li class="ml-4 list-disc"><strong>ESTAT DE RESPOSTA INTERACTIVA:</strong></li>  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Hover</code> \$\rightarrow\$ <strong>Surar</strong> (ex. <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">quan sure sobre el botó</code>).
-  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Active/Pressed</code> \$\rightarrow\$ <strong>Premut</strong> (Quan el botó baixa la cota gràfica o creix l'ombra de contacte).
-  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Disabled</code> \$\rightarrow\$ <strong>Sec</strong> o <strong>Desactivat</strong> (Color gris/20% opacitat i sense retorn tàctil).
-<li class="ml-4 list-disc"><strong>COMPONENTS AFRONTAMENT D'USUARI:</strong></li>  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Snackbar / Toast</code> \$\rightarrow\$ <strong>Avisador Efímer</strong> (Bafarades curtes que pugen i cauen).
-  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Floating Action Button (FAB)</code> \$\rightarrow\$ <strong>Botó Cúspide</strong> (El botó principal rodó/flotant suau a sota dreta).
-  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Dropdown</code> \$\rightarrow\$ <strong>Llistat Caient</strong>.
-  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Header</code> \$\rightarrow\$ <strong>Capçalera</strong> (Sempre alçat base 56px, sense inventar mides extra).</p></ul>
+<h3 class="font-bold text-xl mt-6 mb-2 text-stone-900 dark:text-white">3. Diccionari "Trellat" (Ex-Anglicismes i Accions d'Estats)</h3><p class="mb-4">Per previndre dissonància cognitiva, estableim aquests patrons quan documentem comportaments:</p><ul class="mb-4"><li class="ml-4 list-disc"><strong>ESTAT DE RESPOSTA INTERACTIVA:</strong></li>  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Hover</code> $\rightarrow$ <strong>Surar</strong> (ex. <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">quan sure sobre el botó</code>).
+  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Active/Pressed</code> $\rightarrow$ <strong>Premut</strong> (Quan el botó baixa la cota gràfica o creix l'ombra de contacte).
+  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Disabled</code> $\rightarrow$ <strong>Sec</strong> o <strong>Desactivat</strong> (Color gris/20% opacitat i sense retorn tàctil).
+<li class="ml-4 list-disc"><strong>COMPONENTS AFRONTAMENT D'USUARI:</strong></li>  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Snackbar / Toast</code> $\rightarrow$ <strong>Avisador Efímer</strong> (Bafarades curtes que pugen i cauen).
+  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Floating Action Button (FAB)</code> $\rightarrow$ <strong>Botó Cúspide</strong> (El botó principal rodó/flotant suau a sota dreta).
+  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Dropdown</code> $\rightarrow$ <strong>Llistat Caient</strong>.
+  - <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">Header</code> $\rightarrow$ <strong>Capçalera</strong> (Sempre alçat base 56px, sense inventar mides extra).</p></ul>
 <h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Exemples Estats Botó Genèric (Vainilla CSS)</h4>
 L'optimització de termodinàmica pura per PWA (zero scripts nocius d'animació Javascript complexes, utilitzant només renders purs CSS del navegador del xip A10):
 \`\`\`css
@@ -540,6 +541,206 @@ A l'hora d'incorporar aquests estats en les interfícies:
       </div>
     </div>
 
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">🧠</span> A11y Debugging
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Mixa (DevTools)</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">---
+name: a11y-debugging
+description: Uses Chrome DevTools MCP for accessibility (a11y) debugging and auditing based on web.dev guidelines. Use when testing semantic HTML, ARIA labels, focus states, keyboard navigation, tap targets, and color contrast.
+---</p>
+<h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Core Concepts</h4>
+<p class="mb-4"><strong>Accessibility Tree vs DOM</strong>: Visually hiding an element (e.g., <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">CSS opacity: 0</code>) behaves differently for screen readers than <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">display: none</code> or <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">aria-hidden="true"</code>. The <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_snapshot</code> tool returns the accessibility tree of the page, which represents what assistive technologies "see", making it the most reliable source of truth for semantic structure.</p>
+<p class="mb-4"><strong>Reading web.dev documentation</strong>: If you need to research specific accessibility guidelines (like <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">https://web.dev/articles/accessible-tap-targets</code>), you can append <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">.md.txt</code> to the URL (e.g., <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">https://web.dev/articles/accessible-tap-targets.md.txt</code>) to fetch the clean, raw markdown version. This is much easier to read!</p>
+<h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Workflow Patterns</h4>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">1. Automated Audit (Lighthouse)</h5>
+<p class="mb-4">Start by running a Lighthouse accessibility audit to get a comprehensive baseline. This tool provides a high-level score and lists specific failing elements with remediation advice.</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-decimal">Run the audit:</li>
+    - Set <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">mode</code> to <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">"navigation"</code> to refresh the page and capture load issues.
+    - Set <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">outputDirPath</code> (e.g., <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">/tmp/lh-report</code>) to save the full JSON report.
+<li class="ml-4 list-decimal"><strong>Analyze the Summary</strong>:</li>
+    - Check <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">scores</code> (0-1 scale). A score < 1 indicates violations.
+    - Review <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">audits.failed</code> count.
+<li class="ml-4 list-decimal"><strong>Review the Report (CRITICAL)</strong>:</li>
+    - <strong>Parsing</strong>: Do not read the entire file line-by-line. Use a CLI tool like <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">jq</code> or a Node.js one-liner to filter for failures:
+      <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200"></code>\`bash
+      # Extract failing audits with their details
+      node -e "const r=require('./report.json'); Object.values(r.audits).filter(a=>a.score!==null && a.score<1).forEach(a=>console.log(JSON.stringify({id:a.id, title:a.title, items:a.details?.items})))"
+      <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200"></code>\`
+    - This efficiently extracts the <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">selector</code> and <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">snippet</code> of failing elements without loading the full report into context.</ul>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">2. Browser Issues & Audits</h5>
+<p class="mb-4">Chrome automatically checks for common accessibility problems. Use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">list_console_messages</code> to check for these native audits:</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-disc"><code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">types</code>: <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">["issue"]</code></li>
+<li class="ml-4 list-disc"><code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">includePreservedMessages</code>: <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">true</code> (to catch issues that occurred during page load)</li></ul>
+<p class="mb-4">This often reveals missing labels, invalid ARIA attributes, and other critical errors without manual investigation.</p>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">3. Semantics & Structure</h5>
+<p class="mb-4">The accessibility tree exposes the heading hierarchy and semantic landmarks.</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-decimal">Navigate to the page.</li>
+<li class="ml-4 list-decimal">Use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_snapshot</code> to capture the accessibility tree.</li>
+<li class="ml-4 list-decimal"><strong>Check Heading Levels</strong>: Ensure heading levels (<code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">h1</code>, <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">h2</code>, <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">h3</code>, etc.) are logical and do not skip levels. The snapshot will include heading roles.</li>
+<li class="ml-4 list-decimal"><strong>Content Reordering</strong>: Verify that the DOM order (which drives the accessibility tree) matches the visual reading order. Use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_screenshot</code> to inspect the visual layout and compare it against the snapshot structure to catch CSS floats or absolute positioning that jumbles the logical flow.</li></ul>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">4. Labels, Forms & Text Alternatives</h5>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-decimal">Locate buttons, inputs, and images in the <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_snapshot</code> output.</li>
+<li class="ml-4 list-decimal">Ensure interactive elements have an accessible name (e.g., a button should not just say <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">""</code> if it only contains an icon).</li>
+<li class="ml-4 list-decimal"><strong>Orphaned Inputs</strong>: Verify that all form inputs have associated labels. Use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">evaluate_script</code> with the <strong>"Find Orphaned Form Inputs" snippet</strong> found in [references/a11y-snippets.md](references/a11y-snippets.md).</li>
+<li class="ml-4 list-decimal">Check images for <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">alt</code> text.</li></ul>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">5. Focus & Keyboard Navigation</h5>
+<p class="mb-4">Testing "keyboard traps" and proper focus management without visual feedback relies on tracking the focused element.</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-decimal">Use the <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">press_key</code> tool with <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">"Tab"</code> or <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">"Shift+Tab"</code> to move focus.</li>
+<li class="ml-4 list-decimal">Use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_snapshot</code> to capture the updated accessibility tree.</li>
+<li class="ml-4 list-decimal">Locate the element marked as focused in the snapshot to verify focus moved to the expected interactive element.</li>
+<li class="ml-4 list-decimal">If a modal opens, focus must move into the modal and "trap" within it until closed.</li></ul>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">6. Tap Targets and Visuals</h5>
+<p class="mb-4">According to web.dev, tap targets should be at least 48x48 pixels with sufficient spacing. Since the accessibility tree doesn't show sizes, use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">evaluate_script</code> with the <strong>"Measure Tap Target Size" snippet</strong> found in [references/a11y-snippets.md](references/a11y-snippets.md).</p>
+<p class="mb-4">_Pass the element's <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">uid</code> from the snapshot as an argument to <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">evaluate_script</code>._</p>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">7. Color Contrast</h5>
+<p class="mb-4">To verify color contrast ratios, start by checking for native accessibility issues:</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-decimal">Call <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">list_console_messages</code> with <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">types: ["issue"]</code>.</li>
+<li class="ml-4 list-decimal">Look for "Low Contrast" issues in the output.</li></ul>
+<p class="mb-4">If native audits do not report issues (which may happen in some headless environments) or if you need to check a specific element manually, use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">evaluate_script</code> with the <strong>"Check Color Contrast" snippet</strong> found in [references/a11y-snippets.md](references/a11y-snippets.md).</p>
+<h5 class="font-bold text-md mt-4 mb-2 text-stone-800 dark:text-stone-200">8. Global Page Checks</h5>
+<p class="mb-4">Verify document-level accessibility settings often missed in component testing using the <strong>"Global Page Checks" snippet</strong> found in [references/a11y-snippets.md](references/a11y-snippets.md).</p>
+<h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Troubleshooting</h4>
+<p class="mb-4">If standard a11y queries fail or the <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">evaluate_script</code> snippets return unexpected results:</p>
+<ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300"><li class="ml-4 list-disc"><strong>Visual Inspection</strong>: If automated scripts cannot determine contrast (e.g., text over gradient images or complex backgrounds), use <code class="px-1 py-0.5 bg-stone-100 dark:bg-stone-800 rounded font-mono text-sm text-stone-800 dark:text-stone-200">take_screenshot</code> to capture the element. While models cannot measure exact contrast ratios from images, they can visually assess legibility and identify obvious issues.</li>
+</ul>
+      </div>
+    </div>
+
+    <div class="mb-12">
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">🛠️</span> Chrome DevTools
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Depuració Externa</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Utilitzem el protocol <strong>Chrome DevTools MCP</strong> per a la depuració eficient, la resolució de problemes i l'automatització del navegador. S'activa per analitzar rendiment, inspeccionar peticions de xarxa o automatitzar interaccions quan l'estructura del DOM no és suficient a ull nu.</p>
+        <h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Conceptes Clau</h4>
+        <ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300">
+          <li class="ml-4 list-disc"><strong>Cicle de vida del navegador:</strong> El navegador s'inicia automàticament i manté un perfil persistent.</li>
+          <li class="ml-4 list-disc"><strong>Selecció de pàgines:</strong> Les eines operen sempre sobre la pàgina actualment seleccionada.</li>
+          <li class="ml-4 list-disc"><strong>Interacció d'elements:</strong> Prenguem "Snapshots" per aconseguir el <code>uid</code> de cada element i interaccionar-hi directament (fer clic, omplir formularis, etc.).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">⚡</span> Optimització LCP
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Rendiment Web</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Guia estricta per a depurar i optimitzar el <strong>Largest Contentful Paint (LCP)</strong>. Un LCP superior a 2.5 segons és inacceptable per a l'estàndard de <em>Sóc de Poble</em>.</p>
+        <h4 class="font-bold text-lg mt-4 mb-2 text-stone-800 dark:text-stone-200">Desglossament del LCP</h4>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse mb-6 bg-white dark:bg-stone-900 shadow-sm border border-stone-200 dark:border-stone-700">
+            <thead>
+              <tr class="bg-stone-100 dark:bg-stone-800 border-b border-stone-200 dark:border-stone-700">
+                <th class="py-2 px-4 border-r border-stone-200 dark:border-stone-700 font-bold">Subpart</th>
+                <th class="py-2 px-4 border-r border-stone-200 dark:border-stone-700 font-bold">% Ideal</th>
+                <th class="py-2 px-4 font-bold">Què mesura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-stone-200 dark:border-stone-700">
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700"><strong>Time to First Byte (TTFB)</strong></td>
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">~40%</td>
+                <td class="py-3 px-4">Inici de navegació &rarr; Primer byte d'HTML</td>
+              </tr>
+              <tr class="border-b border-stone-200 dark:border-stone-700">
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700"><strong>Retard de càrrega del recurs</strong></td>
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">&lt;10%</td>
+                <td class="py-3 px-4">TTFB &rarr; El navegador comença a carregar el recurs LCP</td>
+              </tr>
+              <tr class="border-b border-stone-200 dark:border-stone-700">
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700"><strong>Durada de càrrega del recurs</strong></td>
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">~40%</td>
+                <td class="py-3 px-4">Temps per descarregar el recurs LCP (imatge, lletra)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700"><strong>Retard de renderització</strong></td>
+                <td class="py-3 px-4 border-r border-stone-200 dark:border-stone-700">&lt;10%</td>
+                <td class="py-3 px-4">Recurs descarregat &rarr; L'element es pinta a la pantalla</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mb-4"><strong>Regla d'or:</strong> Mai carregues la imatge LCP amb <code>loading="lazy"</code>. Utilitza <code>fetchpriority="high"</code> per forçar-ne l'extracció primerenca.</p>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">💧</span> Depuració de Fuites de Memòria
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Estabilitat</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Diagnosi forense per identificar i taponar fuites de memòria en aplicacions JavaScript. Utilitzat davant informes d'alta latència, errors OOM (Out Of Memory) o "Hangups" del navegador.</p>
+        <ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300">
+          <li class="ml-4 list-disc">Aïllar sempre la fuita (Client vs Node.js).</li>
+          <li class="ml-4 list-disc">Vigilar "Closures" no tancats, Event Listeners abandonats i Nodes DOM separats.</li>
+          <li class="ml-4 list-disc">Usar eixos temporals amb Snapshots successius per veure on es reté la memòria morta.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">🚑</span> Resolució de Problemes
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Troubleshooting</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Protocol de triatge en cas de fallada dels connectors o targetes penjades. Abans de donar el servidor per mort, s'ha de comprovar la configuració <code>--autoConnect</code> i assegurar que les pestanyes o eines de xarxa no estiguen segrestades per un altre procés d'inspecció.</p>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">🧩</span> Extensions de Chrome
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Manifest V3</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Estandardització de la creació d'extensions d'acord amb el Manifest V3. No perdem el temps amb APIs antigues. Les regles són inamovibles:</p>
+        <ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300">
+          <li class="ml-4 list-disc"><strong>Service Workers:</strong> Són efímers. Tot l'estat ha de persistir en <code>chrome.storage</code>.</li>
+          <li class="ml-4 list-disc"><strong>Permisos d'Icones:</strong> Només s'han de referenciar imatges 100% reals a l'arrel de l'extensió, o s'ignoren completament.</li>
+          <li class="ml-4 list-disc"><strong>Panell Lateral:</strong> Es requereix sempre un gallet explícit per obrir-lo, la configuració base no ho fa de forma automàtica.</li>
+          <li class="ml-4 list-disc"><strong>Chrome Web Store:</strong> Gestionem el <code>CHROMEWEBSTORE.md</code> com a única font de veritat per justificar permisos privats de cara als revisors de Google.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mb-12">
+      <h2 class="text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-500 mb-4 flex items-center gap-3">
+        <span class="text-3xl">🧭</span> Guia Web Moderna
+      </h2>
+      <div class="mb-4 flex gap-2">
+        <span class="px-3 py-1 bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 text-xs font-bold rounded-full uppercase tracking-widest">Front-End d'Avantguarda</span>
+      </div>
+      <div class="markdown-content text-stone-700 dark:text-stone-300 space-y-4">
+        <p class="mb-4">Ens enfoquem sempre en la tecnologia nativa actual per sobre de solucions prefabricades oxidades:</p>
+        <ul class="mb-4 space-y-2 text-stone-700 dark:text-stone-300">
+          <li class="ml-4 list-disc"><strong>Estètica i Maquetació:</strong> Usar pseudo-classes com <code>:has()</code> i <code>:user-valid</code>. Glassmorphism, animacions en base a desplaçament (Scroll-driven) i Transicions de Vista (View Transitions).</li>
+          <li class="ml-4 list-disc"><strong>Rendiment Nadiu:</strong> <code>content-visibility</code> i prioritzacions d'extracció d'actius per mantindre temps de recàrrega de l'A10 sense cap latència.</li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
 `;
+
+export default GENOTIP_HTML;

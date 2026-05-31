@@ -6,9 +6,10 @@ export const sanitizeHtml = (html) => {
     return DOMPurify.sanitize(html, {
         ALLOWED_TAGS: [
             'h1','h2','h3','h4','h5','p','b','i','strong','em','u',
-            'ul','ol','li','br','hr','a','span','div','img','blockquote','section','article','main','button','pre','code','video','source'
+            'ul','ol','li','br','hr','a','span','div','img','blockquote','section','article','main','button','pre','code','video','source',
+            'details','summary','table','thead','tbody','tr','th','td'
         ],
-        ALLOWED_ATTR: ['href','title','target','src','alt','class','id','style','width','height','loading','onclick','autoplay','loop','muted','playsinline','controls'],
+        ALLOWED_ATTR: ['href','title','target','src','alt','class','id','style','width','height','loading','onclick','autoplay','loop','muted','playsinline','controls','open'],
         KEEP_CONTENT: true,
         ALLOW_DATA_ATTR: true,
         RETURN_DOM: false,

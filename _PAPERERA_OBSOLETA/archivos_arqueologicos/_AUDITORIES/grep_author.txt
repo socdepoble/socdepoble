@@ -1,5 +1,0 @@
-103 .theme-light .universal-card .card-header-boina .master-author-name {
-130 .universal-card.view-mode-grid .master-author-name {
-150 .card-header-boina .master-author-name {
-255 .master-author-name {
-1068   .master-author-name {

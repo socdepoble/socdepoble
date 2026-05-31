@@ -50,7 +50,7 @@ function initClients() {
 // 1. Generate Content with Vertex AI
 async function generateNewsletterContent(recentEvents) {
     const prompt = `
-    Eres el experto en marketing de "Sóc de Poble", una app para pueblos de la Comunidad Valenciana.
+    Eres el experto en marketing de "Sóc de Poble", una app para pueblos de nuestras comarcas.
     Tu tono es cercano, divertido, "de pueblo" pero profesional. A veces usas expresiones valencianas típicas (con naturalidad).
     
     Genera el cuerpo HTML (solo el contenido, sin <html> ni <body>) para un boletín semanal basado en estos eventos recientes:

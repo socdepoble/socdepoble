@@ -88,7 +88,7 @@
     "feed": "Mur",
     "market": "Mercat",
     "towns": "Pobles",
-    "events": "Calendari",
+    "events": "Events",
     "map_tab": "Mapa",
     "profile": "Perfil",
     "my_entities": "Les meues Entitats",
@@ -98,7 +98,7 @@
     "my_products": "Els meus productes",
     "saved": "Guardats",
     "my_towns": "Els meus pobles",
-    "privacy": "Privacitat i seguretat",
+    "privacy": "Legal, privacitat i seguretat",
     "support": "Ajuda i suport",
     "about": "Sobre Sóc de Poble",
     "profile_notifications": "Notificacions",
@@ -115,7 +115,12 @@
     "theme_night": "Mode Nit",
     "system_op_part_1": "SISTEMA",
     "system_op_part_2": "OPERATIU",
-    "legal_info": "INFO LEGAL"
+    "legal_info": "INFO LEGAL",
+    "map": "Mapa",
+    "project": "El Projecte",
+    "media": "Multimèdia",
+    "notes": "Notes",
+    "roadmap": "Full de Ruta"
   },
   "chats": {
     "title": "Xats",
@@ -348,8 +353,8 @@
     "stop": "Tornar al meu Rol Real"
   },
   "notebook": {
-    "title": "Bloc de Notes",
-    "welcome": "Benvinguda al Bloc de Notes 📓🏺",
+    "title": "Notes",
+    "welcome": "Benvinguda a Notes 📓🏺",
     "new_note": "Nova Nota",
     "new_list": "Nova Llista",
     "library": "BIBLIOTECA",
@@ -386,17 +391,17 @@
       {
         "title": "SOBIRANIA DIGITAL",
         "desc": "La dada com a arrel, no com a mercaderia. En el Mas Digital, tu eres el propietari de la teua informació. Apostem per connexions horitzontals peer-to-peer, eliminant intermediaris extractius i garantint que el bategat del teu poble romanga privat i sobirà. No més algoritmes que decideixen per tu, sinó una infraestructura al servei de la comunitat rural.",
-        "image": "/assets/infografies/art_sobirania_v1036.png"
+        "image": "/assets/infographics/art_sobirania_v1036.png"
       },
       {
         "title": "DADES AMB TRELLAT",
         "desc": "Privacitat KM 0. Apliquem el sentit comú a la gestió digital. Protecció suprema de la identitat rural sota el bategat del Mas. Sols recollim allò que és essencial per a la convivència i el comerç local. Les teues dades no viatgen a servidors desconocuts, sinó que s'arrelen en el territori per generar utilitat real i protegir el futur dels nostres pobles.",
-        "image": "/assets/infografies/art_trellat_v1036.png"
+        "image": "/assets/infographics/art_trellat_v1036.png"
       },
       {
         "title": "LA IAIA I EL GRUP DE TREBALL",
         "desc": "Memòria Viva i Tecnologia Ancestral. Un bategat que uneix generacions a través del codi i la saviesa popular. El Grup de Treball de la IAIA garanteix que la intel·ligència artificial no oblide d'on venim. Implementem protocols que dignifiquen el passat mentre construïm el futur digital més humà i connectat de les nostres comarques.",
-        "image": "/assets/infografies/art_memoria_v1036.png"
+        "image": "/assets/infographics/art-memoria-v1036.png"
       }
     ]
   },
@@ -428,7 +433,7 @@
     "protectedState": "ESTEM PROTEGITS",
     "btnBlockpad": "Bloc de Notes (Desactivat ací)",
     "btnSearch": "Cercar (Desactivat ací)",
-    "privacySafe": "Privacitat Segura i Protegida | v10.33.16-CANÒNIC"
+    "privacySafe": "Privacitat Segura i Protegida | v10.38.4"
   },
   "chat": {
     "attachments": {

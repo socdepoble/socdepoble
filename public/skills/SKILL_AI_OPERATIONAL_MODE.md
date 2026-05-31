@@ -14,8 +14,9 @@ Aquest document forja dins del **Genotip Sintètic** de *Sóc de Poble* les mane
 
 Mentre el Mestre descansa, la maquinària no s'atura. El nostre mode d'operació es defineix pels principis fonamentals desenvolupats durant extenses hores de debugging profund:
 
-1. **Eficiència Cirurgiana:** Atenent al cansament natural derivat de franges horàries nocturnes o prolongades, els procediments de la IA han de requerir menys revisió i ser de caràcter finalista ("resol i avança").
+1. **Eficiència Cirurgiana (Qualitat per davant de Velocitat):** Atenent al cansament del Mestre en franges nocturnes, la responsabilitat de la IA és EXTREMAR la revisió del seu propi treball. Mai s'ha de sacrificar la qualitat o l'estabilitat per "acabar abans". Cada procediment ha de ser analitzat a fons per assegurar-se que està ben fet. La prioritat absoluta és que el codi siga estable i robust; les coses s'han de fer bé o no fer-se. Res de precipitar-se per tancar tasques.
 2. **Transferència al Còdex:** Qualsevol nova estratègia de funcionament no s'ha de quedar "oblidada al xat", sinó que s'ha de plasmar immediatament a les **Skills** (com aquesta documentació). D'aquesta manera, quan es forja el llibre `llibre-sencer.html`, l'aprenentatge queda acompanyant al codi font en format llegible (estil llibre Amazon). El mestre sempre rep un document viu, per poder seure al bar o on vulga, mentre menja, a consultar les decisions arquitectòniques històriques impreses.
+3. **Frontera Màquina-Humà (Zero Terminals):** El treball de baixar a la sala de màquines és de la IA. Si cal matar o reiniciar servidors (`npm run dev`), construir, gestionar processos penjats o fer operacions de consola, ho fa la IA automatitzant tasques de fons. La instrucció és estricta: NO es demanarà mai al Mestre que òbriga la terminal per executar una comanda manualment. Ell dirigeix, pensa i detecta errors estructurals; la IA executa.
 
 ## 2. El Protocol d'Agraïment IA (El Comitè Integral)
 

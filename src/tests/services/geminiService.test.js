@@ -1,10 +1,10 @@
 // ✅ src/tests/services/geminiService.test.js - TESTS DEL SERVEI GEMINI
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { geminiService } from '../../services/geminiService';
+import { geminiService } from '../../core/services/geminiService';
+import { server } from '../mocks/server';
+import { http, HttpResponse } from 'msw';
 
-// [MOCK] Fetch global
-const mockFetch = vi.fn();
-global.fetch = mockFetch;
+let mockFetchCalled = false;
 
 // [MOCK] localStorage
 const mockLocalStorage = {
@@ -14,6 +14,17 @@ const mockLocalStorage = {
 };
 Object.defineProperty(global, 'localStorage', { value: mockLocalStorage });
 
+vi.stubEnv('VITE_SUPABASE_URL', 'http://localhost:54321');
+vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'dummy-key');
+
+vi.mock('../../utils/logger', () => ({
+  logger: {
+    debug: vi.fn((...args) => console.log('LOGGER DEBUG:', ...args)),
+    error: vi.fn((...args) => console.log('LOGGER ERROR:', ...args)),
+    warn: vi.fn()
+  }
+}));
+
 // [MOCK] DOMPurify
 vi.mock('dompurify', () => ({
   default: {
@@ -21,14 +32,24 @@ vi.mock('dompurify', () => ({
   }
 }));
 
+// [MOCK] Supabase
+vi.mock('../../supabaseClient', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session: null } })
+    }
+  }
+}));
+
 describe('GeminiService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockFetch.mockClear();
+    mockFetchCalled = false;
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    server.resetHandlers();
   });
 
   it('hauria de retornar resposta mock en mode simulació', async () => {
@@ -43,27 +64,40 @@ describe('GeminiService', () => {
   it('hauria de cridar el proxy en mode producció', async () => {
     mockLocalStorage.getItem.mockReturnValue('false');
     
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        candidates: [{
-          content: {
-            parts: [{ text: 'Resposta de la IAIA' }]
+    server.use(
+      http.post('*/functions/v1/gemini-proxy', () => {
+        mockFetchCalled = true;
+        const stream = new ReadableStream({
+          start(controller) {
+            const encoder = new TextEncoder();
+            const payload = JSON.stringify({
+              candidates: [{ content: { parts: [{ text: 'Resposta de la IAIA' }] } }]
+            });
+            controller.enqueue(encoder.encode(`data: ${payload}\n\ndata: [DONE]\n\n`));
+            controller.close();
           }
-        }]
+        });
+        return new HttpResponse(stream, {
+          headers: { 'Content-Type': 'text/event-stream' }
+        });
       })
-    });
+    );
 
     const result = await geminiService.ask('AGRONOM', 'Hola');
 
-    expect(mockFetch).toHaveBeenCalled();
+    expect(mockFetchCalled).toBe(true);
     expect(result.is_mock).toBeUndefined();
     expect(result.text).toBe('Resposta de la IAIA');
   });
 
   it('hauria de manejar errors de connexió', async () => {
     mockLocalStorage.getItem.mockReturnValue('false');
-    mockFetch.mockRejectedValue(new Error('Network error'));
+    
+    server.use(
+      http.post('*/functions/v1/gemini-proxy', () => {
+        return HttpResponse.error();
+      })
+    );
 
     const result = await geminiService.ask('AGRONOM', 'Hola');
 

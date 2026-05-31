@@ -22,7 +22,13 @@
     "market": "Mercato",
     "towns": "Paesi",
     "profile": "Profilo",
-    "notifications": "Notifiche"
+    "notifications": "Notifiche",
+    "map": "Mappa",
+    "project": "Il Progetto",
+    "media": "Media",
+    "notes": "Blocco Note",
+    "roadmap": "Tabella di Marcia",
+    "events": "Eventi"
   },
   "auth": {
     "login": "Accedi",

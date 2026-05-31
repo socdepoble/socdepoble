@@ -33,7 +33,7 @@ export const MOCK_LORE_POSTS = {
             author_id: '11111111-1111-4111-a111-000000000004',
             author_name: 'Maria "Mèl"',
             author_role: 'user',
-            image_url: '/assets/brand/maria_mel.png'
+            image_url: '/assets/brand/maria-mel.png'
         },
         {
             id: 'lp-m2',
@@ -101,9 +101,21 @@ export const MOCK_LORE_POSTS = {
     // Sóc de Poble (Oficial)
     'socdepoble': [
         {
+            id: 'lp-sdp-0',
+            content: "<h1>📜 BANDO OFICIAL: MANUAL D'IDENTITAT I DISSENY</h1>\n<h2>Les noves normes de trellat per a la nostra arquitectura.</h2>\n<p>El poble avança. S'ha publicat l'extens i rigorós <strong>Manual d'Identitat i Disseny de la Marca Sóc de Poble</strong> per a establir el marc termodinàmic, semàntic i visual (SVG/Affinity) del nostre motor.</p>\n<p><a href=\"/Manual_Identitat_Extens.html\" target=\"_blank\" class=\"font-bold text-cyan-400 hover:underline\">👉 LLEGIR EL MANUAL ACI</a></p>\n<p>Amb la benedicció de La Yaya i el mode Foraster activat. <em>Zero DOM Depth.</em></p>",
+            created_at: new Date().toISOString(),
+            author_id: 'socdepoble',
+            author_name: 'Sóc de Poble',
+            author_role: 'official',
+            town_name: 'La Torre de les Maçanes',
+            type: 'bando',
+            is_pinned: true,
+            is_iaia_inspired: true
+        },
+        {
             id: 'lp-sdp-1',
             content: "<h1>PRESENTACIÓ DEL PROJECTE</h1>\n<h2>La memòria viva de la nostra terra bategant en digital.</h2>\n<p>Tenim el plaer de presentar el vídeo oficial de Sóc de Poble. Una obra bategada des de l'arrel per l'equip master.</p>\n<p>Creativitat i Art: <strong>Anna Calvo</strong> (Artista Oficial)\nDirecció i Visió: <strong>Javi Llinares</strong> (Project Lead)</p>",
-            created_at: new Date().toISOString(),
+            created_at: new Date(Date.now() - 3600000).toISOString(),
             author_id: 'socdepoble',
             author_name: 'Sóc de Poble',
             author_role: 'official',

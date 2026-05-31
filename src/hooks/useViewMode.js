@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useSystemEnvironment } from '../components/layout/SystemContainers';
 
 /**
  * useViewMode - Hook Universal per a la gestió de columnes, resize i localStorage
@@ -7,6 +8,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
  * @param {string} externalMode - Mode extern si es força des de dalt (per incrustacions)
  */
 export function useViewMode(storageKey, defaultMode = 'grid', externalMode = null) {
+    const { env } = useSystemEnvironment();
+    
     const [internalViewMode, setInternalViewModeState] = useState(() => {
         if (!storageKey) return defaultMode;
         return localStorage.getItem(storageKey) || defaultMode;
@@ -21,7 +24,7 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
         }
     }, [storageKey]);
 
-    const calculateColumns = useCallback((width, mode) => {
+    const calculateColumns = useCallback((width, mode, currentEnv) => {
         if (mode === 'list' || mode === 'single' || mode === 'masonry') return 1;
         
         // Matemàtica de sistema de disseny: 
@@ -32,13 +35,14 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
         const availableWidth = Math.max(0, width - 64); 
         
         let cols = Math.floor((availableWidth + GAP) / (CARD_MIN_WIDTH + GAP));
-        return Math.max(1, Math.min(cols, 4));
+        const maxCols = currentEnv === 'root' ? 3 : 2;
+        return Math.max(1, Math.min(cols, maxCols));
     }, []);
 
     const [columnCount, setColumnCount] = useState(() => {
         if (typeof window !== 'undefined') {
             const estimatedContainerWidth = Math.min(window.innerWidth - (window.innerWidth > 1024 ? 300 : 0), 1600);
-            return calculateColumns(estimatedContainerWidth, viewMode);
+            return calculateColumns(estimatedContainerWidth, viewMode, env);
         }
         return 1;
     });
@@ -55,7 +59,7 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
                 if (rafId) cancelAnimationFrame(rafId);
                 
                 rafId = requestAnimationFrame(() => {
-                    setColumnCount(calculateColumns(width, viewMode));
+                    setColumnCount(calculateColumns(width, viewMode, env));
                 });
             }
         });
@@ -66,7 +70,7 @@ export function useViewMode(storageKey, defaultMode = 'grid', externalMode = nul
              observer.disconnect();
              if (rafId) cancelAnimationFrame(rafId);
         };
-    }, [viewMode, calculateColumns]);
+    }, [viewMode, calculateColumns, env]);
 
     // effectiveViewMode prevé que si el grid cau a 1 columna naturalment,
     // es mostre visualment com un "single" si utilitzem UniversalCard

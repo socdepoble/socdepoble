@@ -5,6 +5,7 @@ import { comlink } from "vite-plugin-comlink";
 import { VitePWA } from "vite-plugin-pwa";
 import wasm from "vite-plugin-wasm";
 import topLevelAwait from "vite-plugin-top-level-await";
+import { mediaApiPlugin } from "./scripts/vite-media-api.js";
 
 function staticAssetsReload() {
   return {
@@ -21,6 +22,7 @@ function staticAssetsReload() {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    mediaApiPlugin(),
     wasm(),
     topLevelAwait(),
     staticAssetsReload(),
@@ -29,15 +31,15 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       strategies: 'injectManifest',
-      srcDir: 'src',
-      filename: 'sw.js',
+      srcDir: 'src/workers',
+      filename: 'service-worker.ts',
       registerType: 'autoUpdate',
       injectRegister: 'inline',
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
         maximumFileSizeToCacheInBytes: 100 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,onnx}'],
-        globIgnores: ['llibre-sencer.html', 'skills/**', 'assets/books/**']
+        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
@@ -89,6 +91,9 @@ export default defineConfig({
     host: true,
     port: 3333,
     strictPort: true,
+    watch: {
+      ignored: ['**/public/**']
+    },
     headers: {
       "Cache-Control":
         "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
@@ -112,8 +117,12 @@ export default defineConfig({
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
           ui: ["lucide-react"],
-          data: ["@supabase/supabase-js"],
+          data: ["@supabase/supabase-js", "idb-keyval"],
           utils: ["i18next", "react-i18next", "zod"],
+          calendar: ["@fullcalendar/core", "@fullcalendar/react", "@fullcalendar/daygrid", "@fullcalendar/timegrid", "@fullcalendar/list", "@fullcalendar/interaction"],
+          editor: ["@tiptap/react", "@tiptap/starter-kit", "@tiptap/extension-color", "@tiptap/extension-text-style", "@tiptap/extension-link", "@tiptap/extension-image", "@tiptap/extension-text-align", "@tiptap/extension-underline", "@tiptap/extension-list-item"],
+          maps: ["react-leaflet", "leaflet"],
+          auth: ["@react-oauth/google"]
         },
       },
     },

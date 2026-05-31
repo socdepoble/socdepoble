@@ -62,11 +62,3 @@ export const isSdPOficial = (id, name = '') => {
            rawId === 'socdepoble';
 };
 
-/**
- * Helper unificado para los CRDTs. Revisa si una tarjeta puede propagarse 
- * como mutación autoritaria desde este dispositivo.
- * (Si es Guest o Mock, no se debe hacer broadcast de ediciones autoritativas a Supabase)
- */
-export const canBroadcastAuthoritatively = (userId) => {
-    return isRealDBUUID(userId);
-};

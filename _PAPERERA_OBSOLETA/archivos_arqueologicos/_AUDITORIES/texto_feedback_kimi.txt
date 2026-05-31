@@ -1,6 +1,0 @@
-Gracias a tu auditoría exhaustiva, hemos implementado las correcciones exactas en el núcleo de Sóc de Poble:
-
-1. **Memoria y Garbage Collection en Yjs:** Hemos reestructurado `useCrdtStore` para implementar un contador de referencias (`refCount`) que lanza activamente `store.destroy()` en el desmontaje. Además, en `yjsEngine.js` hemos clausurado la fuga recursiva del `setInterval`. Esto nos ha garantizado que el Garbage Collector sanee correctamente los objetos al saltar de un poble a otro sin asfixiar la RAM.
-2. **Memoitzación y Cascada de Contextos:** Hemos envuelto la invocación pura a `UniversalCard` en un `ParamsWrapper` que aísla las escuchas a `DesignContext` y `AuthContext`. También extrajimos las funciones `inline` a componentes como `FeedPostCard` y `MarketCard` bloqueados con `React.memo`. El impacto real de esto es que hemos detenido en seco los eventos de pintado masivo en los bucles principales (como el Mur o el Mercat).
-
-Estas implementaciones han sido clave para conseguir que nuestra Fase 15.0 evite roturas de hardware; ahora conseguimos estabilizar el Genotipo y hacer que dispositivos con 2GB de RAM (iPads A10) sigan funcionando fluidamente y con menor temperatura en los scrolls pesados o los cambios de tema.

@@ -18,7 +18,9 @@ export const useFeedData = ({ activeTown, customPosts }) => {
     const { data: psPosts, isLoading } = useQuery(query, params);
 
     useEffect(() => {
-        if (!customPosts) {
+        if (customPosts) {
+            setPostsState(customPosts);
+        } else {
             // Mix the MOCK_FEED (Lore) with the dynamic DB posts so the wall is never empty
             const dbPosts = psPosts || [];
             
@@ -34,7 +36,7 @@ export const useFeedData = ({ activeTown, customPosts }) => {
                 return true;
             });
 
-            // eslint-disable-next-line react-hooks/set-state-in-effect
+             
             setPostsState(uniquePosts);
         }
     }, [psPosts, customPosts]);

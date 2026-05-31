@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { secureTokenStorage } from '../services/secureTokenStorage';
+import { secureTokenStorage } from '../core/services/secureTokenStorage';
 
 /**
  * Mòdul mestre de connexió bidireccional amb Google Calendar a través d'OAuth2

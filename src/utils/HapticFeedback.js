@@ -3,7 +3,7 @@
  * Standardized vibration patterns for Sóc de Poble.
  */
 
-export const Haptics = {
+const Haptics = {
     // Tecla suau (clic botó)
     light: [10],
 

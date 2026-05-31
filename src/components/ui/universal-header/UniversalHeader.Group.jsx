@@ -1,0 +1,22 @@
+import React from 'react';
+
+/**
+ * UniversalHeader.Group
+ * Contenidor indestructible per als grups de botons de l'esquerra o la dreta.
+ */
+const UniversalHeaderGroup = React.memo(({ position = 'left', children, className = '' }) => {
+    // left: conté el menú i el logo
+    // right: conté els botons d'eines (idioma, cercador, visió, etc.)
+    const baseClass = position === 'left' 
+        ? "flex items-center justify-start pl-2 sm:pl-4 shrink-0 z-10 gap-3"
+        : "flex items-center gap-0.5 sm:gap-1 lg:gap-3 ml-auto h-full z-10 relative shrink-0";
+
+    return (
+        <div className={`${baseClass} ${className}`}>
+            {children}
+        </div>
+    );
+});
+UniversalHeaderGroup.displayName = 'UniversalHeaderGroup';
+
+export default UniversalHeaderGroup;

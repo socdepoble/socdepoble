@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePowerSync } from '@powersync/react';
-import { WifiOff, AlertTriangle, RefreshCw } from 'lucide-react';
 
 /**
  * WaitingForBackend - Fallback Boundary per indicar falta de connexió al servidor o errors persistents de Sync.

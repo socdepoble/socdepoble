@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
-import { ArrowLeft, Search, X } from 'lucide-react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import hapticService from '../../services/hapticService';
+import { ArrowLeft, Search, X } from 'lucide-react';
+import { hapticService } from '../../core/services/hapticService';
 
 const SearchNavBar = ({ 
     query, 

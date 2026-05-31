@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { iaiaService } from '../services/iaiaService';
+import { iaiaService } from '../core/services/iaiaService';
 
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;

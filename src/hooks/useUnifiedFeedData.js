@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useFeedData } from './useFeedData';
 import { MOCK_EVENTS, MOCK_MARKET_ITEMS } from '../data';
 import { logger } from '../utils/logger';
-import { marketService } from '../services/marketService';
+import { marketService } from '../core/services/marketService';
+import { AGENTS_MAP } from '../app/config/agentsMap';
 
 const getDeterministicDate = (idStr) => {
     let hash = 0;
@@ -81,17 +82,63 @@ export const useUnifiedFeedData = ({ activeTown, townName, isPlayground, user, i
 
     // 4. Merge & Sort Chronologically
     const unifiedPosts = useMemo(() => {
+        const projectCardPost = {
+            id: 'static-project-card',
+            uuid: 'static-project-card',
+            type: 'page',
+            slug: 'el-projecte',
+            title: "El Projecte",
+            subtitle: "Què és \"Sóc de Poble\"?",
+            content: "Més que una aplicació, és una **declaració d'independència digital**. Una eina construïda per durar, per funcionar sempre i per tornar-nos el control de la nostra comunicació i els nostres negocis, sense dependre de les grans tecnològiques.",
+            tags: ["Sóc de Poble", "Projecte"],
+            author: "Sóc de Poble",
+            author_name: "Sóc de Poble",
+            author_type: "empresa",
+            author_slug: "soc-de-poble",
+            author_avatar: "/assets/system/ui/logo-socdepoble-cuadrat-verd.svg",
+            author_role: "Portal Oficial",
+            is_official: true,
+            is_pinned: true,
+            pinned_position: 2,
+            created_at: new Date().toISOString(),
+            image_url: "/assets/uploads/empresa/soc-de-poble/posts/el-projecte/exemple-de-poble-001.png",
+            town_name: "La Torre de les Maçanes",
+            town_uuid: "201"
+        };
+
         const allItems = [
-            ...feedPosts.map(p => ({
-                ...p,
-                created_at: safeIsoString(p.created_at, p.id || p.uuid)
-            })), 
-            ...marketItems.map(m => ({ 
-                ...m, 
-                type: 'mercat', 
-                uuid: m.id, 
-                created_at: safeIsoString(m.created_at, m.id)
-            })),
+            projectCardPost,
+            ...feedPosts.map(p => {
+                let enhancedPost = {
+                    ...p,
+                    created_at: safeIsoString(p.created_at, p.id || p.uuid)
+                };
+                
+                // Recover AI ecosystem cards attribution
+                if (p.author_user_id && String(p.author_user_id).startsWith('11111111-')) {
+                    const agent = Object.values(AGENTS_MAP).find(a => String(a.id) === String(p.author_user_id));
+                    if (agent) {
+                        enhancedPost.author_avatar = agent.avatar_url;
+                        enhancedPost.author_name = agent.name;
+                        enhancedPost.author_role = 'master';
+                        enhancedPost.is_iaia_inspired = true;
+                    }
+                }
+                
+                return enhancedPost;
+            }), 
+            ...marketItems.map(m => {
+                const isSamarreta = String(m.id).includes('samarreta-soc-de-poble');
+                return {
+                    ...m, 
+                    type: 'mercat', 
+                    uuid: m.id, 
+                    is_pinned: isSamarreta ? true : (m.is_pinned || m.pinned),
+                    pinned_position: isSamarreta ? 1 : m.pinned_position,
+                    created_at: safeIsoString(m.created_at, m.id),
+                    ...(isSamarreta ? { town_name: "La Torre de les Maçanes", town_uuid: "201", author_name: "Sóc de Poble", author_slug: "soc-de-poble", author_type: "empresa" } : {})
+                };
+            }),
             ...formattedEvents
         ];
 
@@ -102,6 +149,12 @@ export const useUnifiedFeedData = ({ activeTown, townName, isPlayground, user, i
             // Pineado siempre sale delante
             if (a.is_pinned && !b.is_pinned) return -1;
             if (!a.is_pinned && b.is_pinned) return 1;
+            if (a.is_pinned && b.is_pinned) {
+
+                const posA = a.pinned_position || Number.MAX_SAFE_INTEGER;
+                const posB = b.pinned_position || Number.MAX_SAFE_INTEGER;
+                if (posA !== posB) return posA - posB;
+            }
 
             const dateA = new Date(a.created_at || 0).getTime();
             const dateB = new Date(b.created_at || 0).getTime();

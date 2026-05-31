@@ -1,0 +1,11 @@
+THE ACTUAL ERROR IS: InternalError: [MSW] Cannot bypass a request when using the "error" strategy for the "onUnhandledRequest" option.
+    at applyStrategy (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/msw/lib/core/utils/request/onUnhandledRequest.mjs:21:15)
+    at onUnhandledRequest (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/msw/lib/core/utils/request/onUnhandledRequest.mjs:50:5)
+    at handleRequest (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/msw/lib/core/utils/handleRequest.mjs:31:5)
+    at _Emitter.<anonymous> (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/msw/lib/node/index.mjs:41:26)
+    at emitAsync (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/@mswjs/interceptors/lib/node/handleRequest-Y97UwBbF.mjs:33:36)
+    at file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/@mswjs/interceptors/lib/node/handleRequest-Y97UwBbF.mjs:144:3
+    at until (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/@open-draft/until/lib/index.mjs:4:18)
+    at handleRequest (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/@mswjs/interceptors/lib/node/handleRequest-Y97UwBbF.mjs:138:17)
+    at globalThis.fetch (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/@mswjs/interceptors/lib/node/fetch-G1DVwDKG.mjs:242:4)
+    at /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/services/geminiService.js:230:30

@@ -1,1186 +1,1096 @@
 {
   "meta": {
-    "lastUpdated": "2026-04-07T23:29:42.209Z"
+    "lastUpdated": "2026-05-20T22:02:52.055Z"
   },
   "media": [
     {
-      "id": "7cbd75b05c8f",
-      "path": "/assets/avatars/avatar_lucia_comic.png",
-      "filename": "avatar_lucia_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "a917a2fc8039",
-      "path": "/assets/avatars/avatar_man_1.png",
-      "filename": "avatar_man_1.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "83a5c68ad30e",
-      "path": "/assets/avatars/avatar_man_old.png",
-      "filename": "avatar_man_old.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "208144eb0826",
-      "path": "/assets/avatars/avatar_marc_comic.png",
-      "filename": "avatar_marc_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "011165bdeb03",
-      "path": "/assets/avatars/avatar_samir_comic.png",
-      "filename": "avatar_samir_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "0c1e7e6d5128",
-      "path": "/assets/avatars/avatar_woman_1.png",
-      "filename": "avatar_woman_1.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "a9cfbbba0381",
-      "path": "/assets/avatars/bando_nano_v2.png",
-      "filename": "bando_nano_v2.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "9bd6018d8119",
-      "path": "/assets/avatars/beatriz_escola_1774192995479.png",
-      "filename": "beatriz_escola_1774192995479.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "d9e6d0376625",
-      "path": "/assets/avatars/beatriz_ortega_comic.png",
-      "filename": "beatriz_ortega_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "1fe40d6d29dc",
-      "path": "/assets/avatars/beatriz_somriure_1774195114538.png",
-      "filename": "beatriz_somriure_1774195114538.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "4c50158d3a3d",
-      "path": "/assets/avatars/beatriz_xiquets_1774195132098.png",
-      "filename": "beatriz_xiquets_1774195132098.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "ae74c221b74b",
-      "path": "/assets/avatars/hero_nano_final.png",
-      "filename": "hero_nano_final.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "62b729922029",
-      "path": "/assets/avatars/hiker.png",
-      "filename": "hiker.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "252bdcf4b874",
-      "path": "/assets/avatars/iaia_comic_archon.png",
-      "filename": "iaia_comic_archon.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "f82cbf2f1ef3",
-      "path": "/assets/avatars/iaia_comic_matriarch.png",
-      "filename": "iaia_comic_matriarch.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "c96141f320c3",
-      "path": "/assets/avatars/iaia_comic_rebost.png",
-      "filename": "iaia_comic_rebost.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "23391d4575f3",
-      "path": "/assets/avatars/iaia_comic_ull.png",
-      "filename": "iaia_comic_ull.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "40e07959579e",
-      "path": "/assets/avatars/iaia_guiding_family_mobile.png",
-      "filename": "iaia_guiding_family_mobile.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "bfb3c3a0ab32",
-      "path": "/assets/avatars/iaia_memory.png",
-      "filename": "iaia_memory.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "c570c50e4a5c",
-      "path": "/assets/avatars/iaia_secretary.png",
-      "filename": "iaia_secretary.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "bce7d57bb325",
-      "path": "/assets/avatars/iaia_silhouette_official.png",
-      "filename": "iaia_silhouette_official.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "613d4d44f62d",
-      "path": "/assets/avatars/javi_avatar.jpg",
-      "filename": "javi_avatar.jpg",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "8289c9e4fc50",
-      "path": "/assets/avatars/nano_arxiver_arrels.png",
-      "filename": "nano_arxiver_arrels.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "5fb38eaf4b56",
-      "path": "/assets/avatars/nano_banana.png",
-      "filename": "nano_banana.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "bcda943b6295",
-      "path": "/assets/avatars/nano_banana_3d.png",
-      "filename": "nano_banana_3d.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "5d570d15b268",
-      "path": "/assets/avatars/nano_banana_comic.png",
-      "filename": "nano_banana_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "34d53ae67f81",
-      "path": "/assets/avatars/nano_banana_vidre_1774195043000.png",
-      "filename": "nano_banana_vidre_1774195043000.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "d4fc2b46f3a0",
-      "path": "/assets/avatars/nano_botiguer_smart.png",
-      "filename": "nano_botiguer_smart.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "199859046e82",
-      "path": "/assets/avatars/nano_cita_metge.png",
-      "filename": "nano_cita_metge.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "f50eed79d12d",
-      "path": "/assets/avatars/nano_cooperativa_signada_1774195556874.png",
-      "filename": "nano_cooperativa_signada_1774195556874.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "2ecb1d98dc66",
-      "path": "/assets/avatars/nano_cooperativa_xilella_1774195451171.png",
-      "filename": "nano_cooperativa_xilella_1774195451171.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "778ff5869a6d",
-      "path": "/assets/avatars/nano_cor_comarca.png",
-      "filename": "nano_cor_comarca.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "211c0643eaf2",
-      "path": "/assets/avatars/nano_curs_pell_1774197033405.png",
-      "filename": "nano_curs_pell_1774197033405.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "78a0440639e0",
-      "path": "/assets/avatars/nano_dron_agricola.png",
-      "filename": "nano_dron_agricola.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "47ca8011249a",
-      "path": "/assets/avatars/nano_escola_comic.png",
-      "filename": "nano_escola_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "d9a905106d67",
-      "path": "/assets/avatars/nano_fibra_espart.png",
-      "filename": "nano_fibra_espart.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "e5d68284db05",
-      "path": "/assets/avatars/nano_flash_fibra.png",
-      "filename": "nano_flash_fibra.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "4501086b1de7",
-      "path": "/assets/avatars/nano_herbero_mariola.png",
-      "filename": "nano_herbero_mariola.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "005f19ecfeb2",
-      "path": "/assets/avatars/nano_llibre_memoria.png",
-      "filename": "nano_llibre_memoria.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "1f073778788c",
-      "path": "/assets/avatars/nano_mixa_qa.png",
-      "filename": "nano_mixa_qa.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "8b2c4914ea7a",
-      "path": "/assets/avatars/nano_rato_calendari.png",
-      "filename": "nano_rato_calendari.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "ae71a5399435",
-      "path": "/assets/avatars/nano_rhizome_sobirana_1774235342885.png",
-      "filename": "nano_rhizome_sobirana_1774235342885.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "a4b5e5ae1674",
-      "path": "/assets/avatars/nano_rosa_horta_1774196037465.png",
-      "filename": "nano_rosa_horta_1774196037465.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "1ce49521278b",
-      "path": "/assets/avatars/nano_salut_comic.png",
-      "filename": "nano_salut_comic.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "1733586f8b32",
-      "path": "/assets/avatars/nano_simbiosi_sobirana.png",
-      "filename": "nano_simbiosi_sobirana.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "58767731f5f5",
-      "path": "/assets/avatars/nano_sonambulo.png",
-      "filename": "nano_sonambulo.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "c5675d2869d1",
-      "path": "/assets/avatars/nano_sultan_lleis.png",
-      "filename": "nano_sultan_lleis.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "04cb8db4b406",
-      "path": "/assets/avatars/nano_viatjant_presentacio.png",
-      "filename": "nano_viatjant_presentacio.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "1cb0f0213656",
-      "path": "/assets/avatars/personatge_excursionista.jpg",
-      "filename": "personatge_excursionista.jpg",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "f3a294ac826a",
-      "path": "/assets/avatars/soc_de_poble_book_comic_nano_1770526279743.png",
-      "filename": "soc_de_poble_book_comic_nano_1770526279743.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "b2ccb2e33c7c",
-      "path": "/assets/avatars/stone_wall_memoria_viva_nano_1770526249617.png",
-      "filename": "stone_wall_memoria_viva_nano_1770526249617.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "6c0a31830136",
-      "path": "/assets/avatars/tramit_nano_v2.png",
-      "filename": "tramit_nano_v2.png",
-      "folder": "avatars",
-      "type": "image",
-      "tags": [
-        "avatars"
-      ]
-    },
-    {
-      "id": "cd1c8fd4b3f7",
-      "path": "/assets/brand/Javi_Llinares-Foto_perfil-1.jpg",
-      "filename": "Javi_Llinares-Foto_perfil-1.jpg",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "2820c3a41d55",
-      "path": "/assets/brand/andreu_soler_comic.png",
-      "filename": "andreu_soler_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "640b4fb8ed0a",
-      "path": "/assets/brand/antigravity_badge.png",
-      "filename": "antigravity_badge.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "5129eb8c3d58",
-      "path": "/assets/brand/audit_zod_master.png",
-      "filename": "audit_zod_master.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "d3910cbc2931",
-      "path": "/assets/brand/brand_cinematic.png",
-      "filename": "brand_cinematic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "6a1ea965239b",
-      "path": "/assets/brand/carla_soriano_comic.png",
-      "filename": "carla_soriano_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "b40ae9afd56c",
-      "path": "/assets/brand/carmen_forn_comic.png",
-      "filename": "carmen_forn_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "509ed7ddae99",
-      "path": "/assets/brand/chat_preview_guest.png",
-      "filename": "chat_preview_guest.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "a68a2c3219a5",
-      "path": "/assets/brand/damia_agutzil_comic.png",
-      "filename": "damia_agutzil_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "52ca01e104de",
-      "path": "/assets/brand/damia_architect.png",
-      "filename": "damia_architect.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "256181734556",
-      "path": "/assets/brand/elena_popova_comic.png",
-      "filename": "elena_popova_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "03fba4948c33",
-      "path": "/assets/brand/flash_comic.png",
-      "filename": "flash_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "d26a342c5500",
-      "path": "/assets/brand/hero_banner_sdp.png",
-      "filename": "hero_banner_sdp.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "b72b3f6c2b82",
-      "path": "/assets/brand/hero_panoramic.png",
-      "filename": "hero_panoramic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "61280f70aec2",
-      "path": "/assets/brand/hero_square.png",
-      "filename": "hero_square.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "02b92786a144",
-      "path": "/assets/brand/img_benimassot_main.jpg",
-      "filename": "img_benimassot_main.jpg",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "c06f07d34931",
-      "path": "/assets/brand/img_la_torre_de_les_ma_anes_main.jpg",
-      "filename": "img_la_torre_de_les_ma_anes_main.jpg",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "f77b59d37131",
-      "path": "/assets/brand/img_pen_guila_main.jpg",
-      "filename": "img_pen_guila_main.jpg",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "cbf51fc3a38e",
-      "path": "/assets/brand/javi_design_studio_cinematic.png",
-      "filename": "javi_design_studio_cinematic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "dfc85bd56f2f",
-      "path": "/assets/brand/joan_batiste_comic.png",
-      "filename": "joan_batiste_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "96d74aa16c47",
-      "path": "/assets/brand/joanet_serra_comic.png",
-      "filename": "joanet_serra_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "156e1399273f",
-      "path": "/assets/brand/logo-genius.png",
-      "filename": "logo-genius.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "3be7b8b182cc",
-      "path": "/assets/brand/logo.png",
-      "filename": "logo.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "cacc369b28dd",
-      "path": "/assets/brand/logo_el_carrero.png",
-      "filename": "logo_el_carrero.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "68c8e61bfabc",
-      "path": "/assets/brand/logo_sdp_white.png",
-      "filename": "logo_sdp_white.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "7e520fe4ab4a",
-      "path": "/assets/brand/logo_socdepoble_green_square.png",
-      "filename": "logo_socdepoble_green_square.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "dcc01a9801f6",
-      "path": "/assets/brand/logo_socdepoble_white_clean.png",
-      "filename": "logo_socdepoble_white_clean.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "6c30e261b0f7",
-      "path": "/assets/brand/maria_mel.png",
-      "filename": "maria_mel.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "710282d6eb62",
-      "path": "/assets/brand/master_notebooklm_nexus.png",
-      "filename": "master_notebooklm_nexus.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
       "id": "70dc29dec6bd",
-      "path": "/assets/brand/media__1770526425766.png",
-      "filename": "media__1770526425766.png",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-02-08_05-53_legacy_media.png",
+      "filename": "2026-02-08_05-53_legacy_media.png",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
       "id": "fe640468e0b3",
-      "path": "/assets/brand/media__1770911715741.png",
-      "filename": "media__1770911715741.png",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-02-12_16-55_legacy_media.png",
+      "filename": "2026-02-12_16-55_legacy_media.png",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
       "id": "1f5990e01bbd",
-      "path": "/assets/brand/media__1770913827006.jpg",
-      "filename": "media__1770913827006.jpg",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-02-12_17-30_legacy_media.jpg",
+      "filename": "2026-02-12_17-30_legacy_media.jpg",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
       "id": "a74fc02e9f81",
-      "path": "/assets/brand/media__1771574113162.png",
-      "filename": "media__1771574113162.png",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-02-20_08-55_legacy_media.png",
+      "filename": "2026-02-20_08-55_legacy_media.png",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "2b676c507f2c",
-      "path": "/assets/brand/media__1771574290947.png",
-      "filename": "media__1771574290947.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
       "id": "c3319ca9a064",
-      "path": "/assets/brand/media__1771574303026.png",
-      "filename": "media__1771574303026.png",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-02-20_08-58_legacy_media.png",
+      "filename": "2026-02-20_08-58_legacy_media.png",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
       "id": "9b589fda28d1",
-      "path": "/assets/brand/media__1775288802790.jpg",
-      "filename": "media__1775288802790.jpg",
-      "folder": "brand",
+      "path": "/assets/uploads/users/humans/legacy_admin/posts/2026-04-04_09-46_legacy_media.jpg",
+      "filename": "2026-04-04_09-46_legacy_media.jpg",
+      "folder": "users/humans/legacy_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/legacy_admin/posts"
       ]
     },
     {
-      "id": "fcf97e2423ef",
-      "path": "/assets/brand/mixa_comic.png",
-      "filename": "mixa_comic.png",
-      "folder": "brand",
+      "id": "640b4fb8ed0a",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/antigravity_badge.png",
+      "filename": "antigravity_badge.png",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
+      ]
+    },
+    {
+      "id": "5129eb8c3d58",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/audit_zod_master.png",
+      "filename": "audit_zod_master.png",
+      "folder": "users/ia/nano_banana/posts",
+      "type": "image",
+      "tags": [
+        "users/ia/nano_banana/posts"
+      ]
+    },
+    {
+      "id": "d3910cbc2931",
+      "path": "/assets/uploads/users/posts/brand_cinematic.png",
+      "filename": "brand_cinematic.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "6a1ea965239b",
+      "path": "/assets/uploads/ia/05-carla_soriano-doctora/avatars/carla_soriano_ibanez.png",
+      "filename": "carla_soriano_ibanez.png",
+      "folder": "ia/05-carla_soriano-doctora/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/carla_soriano/posts"
+      ]
+    },
+    {
+      "id": "509ed7ddae99",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/chat_preview_guest.png",
+      "filename": "chat_preview_guest.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "52ca01e104de",
+      "path": "/assets/uploads/users/humans/damia_agutzil/posts/damia_architect.png",
+      "filename": "damia_architect.png",
+      "folder": "users/humans/damia_agutzil/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/damia_agutzil/posts"
+      ]
+    },
+    {
+      "id": "d26a342c5500",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/hero_banner_sdp.png",
+      "filename": "hero_banner_sdp.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "b72b3f6c2b82",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/hero_panoramic.png",
+      "filename": "hero_panoramic.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "ae74c221b74b",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/hero_presentation.png",
+      "filename": "hero_presentation.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "61280f70aec2",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/hero_square.png",
+      "filename": "hero_square.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "02b92786a144",
+      "path": "/assets/uploads/towns/benimassot/avatars/img_benimassot_main.jpg",
+      "filename": "img_benimassot_main.jpg",
+      "folder": "towns/benimassot/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "c06f07d34931",
+      "path": "/assets/uploads/towns/la_torre_de_les_macanes/posts/img_la_torre_de_les_ma_anes_main.jpg",
+      "filename": "img_la_torre_de_les_ma_anes_main.jpg",
+      "folder": "towns/la_torre_de_les_macanes/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "f77b59d37131",
+      "path": "/assets/uploads/towns/penaguila/avatars/img_pen_guila_main.jpg",
+      "filename": "img_pen_guila_main.jpg",
+      "folder": "towns/penaguila/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "cbf51fc3a38e",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/javi_design_studio_cinematic.png",
+      "filename": "javi_design_studio_cinematic.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "156e1399273f",
+      "path": "/assets/uploads/users/posts/logo-genius.png",
+      "filename": "logo-genius.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "3be7b8b182cc",
+      "path": "/assets/uploads/users/posts/logo.png",
+      "filename": "logo.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "cacc369b28dd",
+      "path": "/assets/uploads/users/posts/logo_el_carrero.png",
+      "filename": "logo_el_carrero.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "68c8e61bfabc",
+      "path": "/assets/uploads/users/posts/logo_sdp_white.png",
+      "filename": "logo_sdp_white.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "7e520fe4ab4a",
+      "path": "/assets/uploads/users/posts/logo_socdepoble_green_square.png",
+      "filename": "logo_socdepoble_green_square.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "dcc01a9801f6",
+      "path": "/assets/uploads/users/posts/logo_socdepoble_white_clean.png",
+      "filename": "logo_socdepoble_white_clean.png",
+      "folder": "_legacy_brand",
+      "type": "image",
+      "tags": [
+        "_legacy_brand"
+      ]
+    },
+    {
+      "id": "6c30e261b0f7",
+      "path": "/assets/uploads/users/humans/javi_llinares/posts/maria_mel.png",
+      "filename": "maria_mel.png",
+      "folder": "users/humans/javi_llinares/posts",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/posts"
+      ]
+    },
+    {
+      "id": "710282d6eb62",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/master_notebooklm_nexus.png",
+      "filename": "master_notebooklm_nexus.png",
+      "folder": "users/ia/nano_banana/posts",
+      "type": "image",
+      "tags": [
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "2edc8a7a2e5c",
-      "path": "/assets/brand/nanobanana_agro_camp_1772350140809.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_agro_camp_1772350140809.png",
       "filename": "nanobanana_agro_camp_1772350140809.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "402e861445a0",
-      "path": "/assets/brand/nanobanana_asso_identity_1772350128114.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_asso_identity_1772350128114.png",
       "filename": "nanobanana_asso_identity_1772350128114.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "a95c385dc8df",
-      "path": "/assets/brand/nanobanana_banc_hisenda_1772350168169.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_banc_hisenda_1772350168169.png",
       "filename": "nanobanana_banc_hisenda_1772350168169.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "8e129eb296cf",
-      "path": "/assets/brand/nanobanana_herencia_1772350195319.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_herencia_1772350195319.png",
       "filename": "nanobanana_herencia_1772350195319.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "515aae6719d3",
-      "path": "/assets/brand/nanobanana_kit_digital_1772350182419.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_kit_digital_1772350182419.png",
       "filename": "nanobanana_kit_digital_1772350182419.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "f9a76f5cc573",
-      "path": "/assets/brand/nanobanana_urban_venda_1772350155362.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/nanobanana_urban_venda_1772350155362.png",
       "filename": "nanobanana_urban_venda_1772350155362.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "2aa756808238",
-      "path": "/assets/brand/night_party.png",
+      "path": "/assets/uploads/users/humans/system_admin/posts/night_party.png",
       "filename": "night_party.png",
-      "folder": "brand",
+      "folder": "users/humans/system_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "593e14986f29",
-      "path": "/assets/brand/pepica_vall_comic.png",
-      "filename": "pepica_vall_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
+        "users/humans/system_admin/posts"
       ]
     },
     {
       "id": "edcb7c7ac4b1",
-      "path": "/assets/brand/post_carla_salut.png",
+      "path": "/assets/uploads/ia/05-carla_soriano-doctora/posts/post_carla_salut.png",
       "filename": "post_carla_salut.png",
-      "folder": "brand",
+      "folder": "ia/05-carla_soriano-doctora/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/carla_soriano/posts"
       ]
     },
     {
       "id": "d1c85db240bc",
-      "path": "/assets/brand/post_gall_meteo.png",
+      "path": "/assets/uploads/ia/15-marc_el_gall-el_temps/posts/post_gall_meteo.png",
       "filename": "post_gall_meteo.png",
-      "folder": "brand",
+      "folder": "ia/15-marc_el_gall-el_temps/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/gall_meteo/posts"
       ]
     },
     {
       "id": "ddf50767e3c7",
-      "path": "/assets/brand/post_pepica_cuina.png",
+      "path": "/assets/uploads/ia/06-pepica_la_vall-cuinera/posts/post_pepica_cuina.png",
       "filename": "post_pepica_cuina.png",
-      "folder": "brand",
+      "folder": "ia/06-pepica_la_vall-cuinera/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/pepica_vall/posts"
       ]
     },
     {
       "id": "9ea1f8cdbc76",
-      "path": "/assets/brand/rural_tech_future_valencia.png",
+      "path": "/assets/uploads/users/ia/nano_banana/posts/rural_tech_future_valencia.png",
       "filename": "rural_tech_future_valencia.png",
-      "folder": "brand",
+      "folder": "users/ia/nano_banana/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/ia/nano_banana/posts"
       ]
     },
     {
       "id": "a167cc1b4d8c",
-      "path": "/assets/brand/rustic_detail.png",
+      "path": "/assets/uploads/users/humans/system_admin/posts/rustic_detail.png",
       "filename": "rustic_detail.png",
-      "folder": "brand",
+      "folder": "users/humans/system_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/system_admin/posts"
       ]
     },
     {
       "id": "0ff6fd5ba8d8",
-      "path": "/assets/brand/smart-city-hero.png",
+      "path": "/assets/uploads/users/humans/system_admin/posts/smart-city-hero.png",
       "filename": "smart-city-hero.png",
-      "folder": "brand",
+      "folder": "users/humans/system_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "c4cf375c67a5",
-      "path": "/assets/brand/sultan_comic.png",
-      "filename": "sultan_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
-      ]
-    },
-    {
-      "id": "4c94e320b69d",
-      "path": "/assets/brand/tio_colau_comic.png",
-      "filename": "tio_colau_comic.png",
-      "folder": "brand",
-      "type": "image",
-      "tags": [
-        "brand"
+        "users/humans/system_admin/posts"
       ]
     },
     {
       "id": "e60a58097a7a",
-      "path": "/assets/brand/torre_macanes_cover.png",
+      "path": "/assets/uploads/users/humans/system_admin/posts/torre_macanes_cover.png",
       "filename": "torre_macanes_cover.png",
-      "folder": "brand",
+      "folder": "users/humans/system_admin/posts",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/system_admin/posts"
+      ]
+    },
+    {
+      "id": "cd1c8fd4b3f7",
+      "path": "/assets/uploads/users/javi_llinares/avatars/Javi_Llinares-Foto_perfil-1.jpg",
+      "filename": "Javi_Llinares-Foto_perfil-1.jpg",
+      "folder": "users/javi_llinares/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/javi_llinares/avatars"
+      ]
+    },
+    {
+      "id": "2820c3a41d55",
+      "path": "/assets/uploads/ia/07-andreu_soler-capatas/avatars/andreu_soler_comic.png",
+      "filename": "andreu_soler_comic.png",
+      "folder": "ia/07-andreu_soler-capatas/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/andreu_soler/avatars"
+      ]
+    },
+    {
+      "id": "6f30d488bff7",
+      "path": "/assets/uploads/ia/15-marc_el_gall-el_temps/avatars/avatar_marc_comic.png",
+      "filename": "avatar_marc_comic.png",
+      "folder": "ia/15-marc_el_gall-el_temps/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/marc/avatars"
+      ]
+    },
+    {
+      "id": "8d48231f68b7",
+      "path": "/assets/uploads/ia/12-el_ratoli-informatic/avatars/avatar_ratoli_comic.png",
+      "filename": "avatar_ratoli_comic.png",
+      "folder": "ia/12-el_ratoli-informatic/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/ratoli/avatars"
+      ]
+    },
+    {
+      "id": "d15dd29b5a14",
+      "path": "/assets/uploads/users/humans/samir/avatars/avatar_samir_comic.png",
+      "filename": "avatar_samir_comic.png",
+      "folder": "users/humans/samir/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/samir/avatars"
+      ]
+    },
+    {
+      "id": "b40ae9afd56c",
+      "path": "/assets/uploads/ia/04-beatriz_ortega-mestra/avatars/beatriz_ortega_comic.png",
+      "filename": "beatriz_ortega_comic.png",
+      "folder": "ia/04-beatriz_ortega-mestra/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/beatriz_ortega/avatars"
+      ]
+    },
+    {
+      "id": "a68a2c3219a5",
+      "path": "/assets/uploads/users/humans/damia_agutzil/avatars/damia_agutzil_comic.png",
+      "filename": "damia_agutzil_comic.png",
+      "folder": "users/humans/damia_agutzil/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/damia_agutzil/avatars"
+      ]
+    },
+    {
+      "id": "256181734556",
+      "path": "/assets/uploads/ia/08-elena_popova-music/avatars/elena_popova_comic.png",
+      "filename": "elena_popova_comic.png",
+      "folder": "ia/08-elena_popova-music/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/elena_popova/avatars"
+      ]
+    },
+    {
+      "id": "03fba4948c33",
+      "path": "/assets/uploads/ia/13-flash-carter/avatars/flash_comic.png",
+      "filename": "flash_comic.png",
+      "folder": "ia/13-flash-carter/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/flash/avatars"
+      ]
+    },
+    {
+      "id": "47c6c1bc3651",
+      "path": "/assets/uploads/users/ia/iaia_matriarca/avatars/iaia_comic_matriarch.png",
+      "filename": "iaia_comic_matriarch.png",
+      "folder": "users/ia/iaia_matriarca/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/iaia_matriarca/avatars"
+      ]
+    },
+    {
+      "id": "dfc85bd56f2f",
+      "path": "/assets/uploads/ia/09-joan_batiste-arxiver/avatars/joan_batiste_comic.png",
+      "filename": "joan_batiste_comic.png",
+      "folder": "ia/09-joan_batiste-arxiver/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/joan_batiste/avatars"
+      ]
+    },
+    {
+      "id": "96d74aa16c47",
+      "path": "/assets/uploads/ia/10-joanet_serra-xiquet/avatars/joanet_serra_comic.png",
+      "filename": "joanet_serra_comic.png",
+      "folder": "ia/10-joanet_serra-xiquet/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/joanet_serra/avatars"
+      ]
+    },
+    {
+      "id": "fcf97e2423ef",
+      "path": "/assets/uploads/ia/14-la_mixa-gestora/avatars/mixa_comic.png",
+      "filename": "mixa_comic.png",
+      "folder": "ia/14-la_mixa-gestora/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/mixa/avatars"
+      ]
+    },
+    {
+      "id": "58767731f5f5",
+      "path": "/assets/uploads/ia/02-nano_banana-artiste/avatars/nano_banana_comic.png",
+      "filename": "nano_banana_comic.png",
+      "folder": "ia/02-nano_banana-artiste/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/nano_banana/avatars"
+      ]
+    },
+    {
+      "id": "593e14986f29",
+      "path": "/assets/uploads/ia/06-pepica_la_vall-cuinera/avatars/pepica_vall_comic.png",
+      "filename": "pepica_vall_comic.png",
+      "folder": "ia/06-pepica_la_vall-cuinera/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/pepica_vall/avatars"
+      ]
+    },
+    {
+      "id": "c4cf375c67a5",
+      "path": "/assets/uploads/users/ia/sultan/avatars/sultan_comic.png",
+      "filename": "sultan_comic.png",
+      "folder": "users/ia/sultan/avatars",
+      "type": "image",
+      "tags": [
+        "users/ia/sultan/avatars"
+      ]
+    },
+    {
+      "id": "4c94e320b69d",
+      "path": "/assets/uploads/ia/11-tio_colau-viajant/avatars/tio_colau_comic.png",
+      "filename": "tio_colau_comic.png",
+      "folder": "ia/11-tio_colau-viajant/avatars",
+      "type": "image",
+      "tags": [
+        "users/humans/tio_colau/avatars"
       ]
     },
     {
       "id": "52d66a8b0ae3",
-      "path": "/assets/brand/vicent_ferris_comic.png",
+      "path": "/assets/uploads/ia/03-vicent_ferris-agronom/avatars/vicent_ferris_comic.png",
       "filename": "vicent_ferris_comic.png",
-      "folder": "brand",
+      "folder": "ia/03-vicent_ferris-agronom/avatars",
       "type": "image",
       "tags": [
-        "brand"
+        "users/humans/vicent_ferris/avatars"
       ]
     },
     {
-      "id": "769d15a351f6",
-      "path": "/assets/events/nano_aplec_danses.png",
-      "filename": "nano_aplec_danses.png",
-      "folder": "events",
+      "id": "d7d16869cd47",
+      "path": "/assets/uploads/companies/mercat/aitana.png",
+      "filename": "aitana.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "9e0cee53f036",
-      "path": "/assets/events/nano_crema_agricola_1774195433973.png",
-      "filename": "nano_crema_agricola_1774195433973.png",
-      "folder": "events",
+      "id": "08f7acb13c4b",
+      "path": "/assets/uploads/companies/mercat/art_codig_v2.png",
+      "filename": "art_codig_v2.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "dc2dab8b9584",
-      "path": "/assets/events/nano_crema_signada_1774195540836.png",
-      "filename": "nano_crema_signada_1774195540836.png",
-      "folder": "events",
+      "id": "2f7f62833880",
+      "path": "/assets/uploads/companies/mercat/art_codig_v3.png",
+      "filename": "art_codig_v3.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "4bc3b40b632d",
-      "path": "/assets/events/nano_forja_ferro.png",
-      "filename": "nano_forja_ferro.png",
-      "folder": "events",
+      "id": "21feb4658e34",
+      "path": "/assets/uploads/companies/mercat/art_iaia_v3.png",
+      "filename": "art_iaia_v3.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "6e0a339663ad",
-      "path": "/assets/events/nano_mercat_llaurador_1774197050578.png",
-      "filename": "nano_mercat_llaurador_1774197050578.png",
-      "folder": "events",
+      "id": "e7a09e7ef5c6",
+      "path": "/assets/uploads/companies/mercat/art_iaia_v4.png",
+      "filename": "art_iaia_v4.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "6200d688a73a",
-      "path": "/assets/events/nano_mercat_llavors.png",
-      "filename": "nano_mercat_llavors.png",
-      "folder": "events",
+      "id": "465e5273ade3",
+      "path": "/assets/uploads/companies/mercat/art_memoria_v1036.png",
+      "filename": "art_memoria_v1036.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "3dac47295d5d",
-      "path": "/assets/events/nano_mixa_socis.png",
-      "filename": "nano_mixa_socis.png",
-      "folder": "events",
+      "id": "6bf5c191364f",
+      "path": "/assets/uploads/companies/mercat/art_sobirania_v1036.png",
+      "filename": "art_sobirania_v1036.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "eee274b65aeb",
-      "path": "/assets/events/nano_olleta_alcoi_1774235360622.png",
-      "filename": "nano_olleta_alcoi_1774235360622.png",
-      "folder": "events",
+      "id": "46aeec3d7940",
+      "path": "/assets/uploads/companies/mercat/art_sobirania_v1038.png",
+      "filename": "art_sobirania_v1038.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "f6b195470924",
-      "path": "/assets/events/nano_sessio_treball.png",
-      "filename": "nano_sessio_treball.png",
-      "folder": "events",
+      "id": "561177239a60",
+      "path": "/assets/uploads/companies/mercat/art_sobirania_v2.png",
+      "filename": "art_sobirania_v2.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "ec97c2650311",
-      "path": "/assets/events/nano_socis_tecnologics_1774235328704.png",
-      "filename": "nano_socis_tecnologics_1774235328704.png",
-      "folder": "events",
+      "id": "de4354e4af60",
+      "path": "/assets/uploads/companies/mercat/art_trellat_v1036.png",
+      "filename": "art_trellat_v1036.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
       ]
     },
     {
-      "id": "09cefb0cd69e",
-      "path": "/assets/events/vicent_workshop.png",
-      "filename": "vicent_workshop.png",
-      "folder": "events",
+      "id": "179052052a2b",
+      "path": "/assets/uploads/companies/mercat/art_trellat_v1038.png",
+      "filename": "art_trellat_v1038.png",
+      "folder": "content/mercat",
       "type": "image",
       "tags": [
-        "events"
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "344903fdea4a",
+      "path": "/assets/uploads/companies/mercat/art_trellat_v2.png",
+      "filename": "art_trellat_v2.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "f738a78d69bd",
+      "path": "/assets/uploads/companies/mercat/art_trellat_v3.png",
+      "filename": "art_trellat_v3.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "f21c0345d117",
+      "path": "/assets/uploads/companies/mercat/aviso_oficial.png",
+      "filename": "aviso_oficial.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "48da8e2e3458",
+      "path": "/assets/uploads/companies/mercat/banda_musica.png",
+      "filename": "banda_musica.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "a14cf5d56ab8",
+      "path": "/assets/uploads/companies/mercat/bus_stop.png",
+      "filename": "bus_stop.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "1ae4be949068",
+      "path": "/assets/uploads/companies/mercat/camiseta_portada.png",
+      "filename": "camiseta_portada.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "79deb1952c16",
+      "path": "/assets/uploads/companies/mercat/chica_jersey.jpg",
+      "filename": "chica_jersey.jpg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "2270c02c7b22",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic.png",
+      "filename": "cover_nano_comic.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "d88442e22c5d",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_1776488840218.png",
+      "filename": "cover_nano_comic_1776488840218.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "9fe227afd860",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_v10.png",
+      "filename": "cover_nano_comic_v10.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "ebaa8f05e64f",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_v13.png",
+      "filename": "cover_nano_comic_v13.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "7f9b9592f663",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_v14.png",
+      "filename": "cover_nano_comic_v14.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "da7583983124",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_v3_1776489490791.png",
+      "filename": "cover_nano_comic_v3_1776489490791.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "48e5d7186e30",
+      "path": "/assets/uploads/companies/mercat/cover_nano_comic_v9.png",
+      "filename": "cover_nano_comic_v9.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "38716aa2230a",
+      "path": "/assets/uploads/companies/mercat/dansa_festa.png",
+      "filename": "dansa_festa.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "fef0acbc39c9",
+      "path": "/assets/uploads/companies/mercat/flowers_bouquet.png",
+      "filename": "flowers_bouquet.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "d89bac17f635",
+      "path": "/assets/uploads/companies/mercat/generic_market.png",
+      "filename": "generic_market.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "88cac91dce95",
+      "path": "/assets/uploads/companies/mercat/generic_street.png",
+      "filename": "generic_street.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "23c65e455055",
+      "path": "/assets/uploads/companies/mercat/hero_presentacion_user.webm",
+      "filename": "hero_presentacion_user.webm",
+      "folder": "content/mercat",
+      "type": "video",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "df5fea8257b1",
+      "path": "/assets/uploads/companies/mercat/iaia_psychiatry.png",
+      "filename": "iaia_psychiatry.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "36921f3a2fdf",
+      "path": "/assets/uploads/companies/mercat/infografia_placeholder.jpg",
+      "filename": "infografia_placeholder.jpg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "06fab114ef5b",
+      "path": "/assets/uploads/companies/mercat/lexicon.png",
+      "filename": "lexicon.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "a38b71090a45",
+      "path": "/assets/uploads/companies/mercat/memoria_v1035_sq.png",
+      "filename": "memoria_v1035_sq.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "d830936d5ab9",
+      "path": "/assets/uploads/companies/mercat/nano_ajuntament_comic.png",
+      "filename": "nano_ajuntament_comic.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "4cc59dae1a76",
+      "path": "/assets/uploads/companies/mercat/nano_biblioteca_signada_1774195608514.png",
+      "filename": "nano_biblioteca_signada_1774195608514.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "4f6ea56368d9",
+      "path": "/assets/uploads/companies/mercat/nano_palau_signat_1774195592870.png",
+      "filename": "nano_palau_signat_1774195592870.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "4929d621341c",
+      "path": "/assets/uploads/companies/mercat/nano_porta_signada_1774195575764.png",
+      "filename": "nano_porta_signada_1774195575764.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "45766fd649be",
+      "path": "/assets/uploads/companies/mercat/notice.png",
+      "filename": "notice.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "9cbf4dc5cce5",
+      "path": "/assets/uploads/companies/mercat/palau_cocentaina.png",
+      "filename": "palau_cocentaina.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "1a25a71a4b12",
+      "path": "/assets/uploads/companies/mercat/pizarra_nano.jpg",
+      "filename": "pizarra_nano.jpg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "6813faf8ee49",
+      "path": "/assets/uploads/companies/mercat/plaza-infinita.webp",
+      "filename": "plaza-infinita.webp",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "4df39bdc0ed5",
+      "path": "/assets/uploads/companies/mercat/presentacio.jpg",
+      "filename": "presentacio.jpg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "677bfc58ade8",
+      "path": "/assets/uploads/companies/mercat/presentacion_nano.jpg",
+      "filename": "presentacion_nano.jpg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "938ebd6b782c",
+      "path": "/assets/uploads/companies/mercat/senderisme_aitana.png",
+      "filename": "senderisme_aitana.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "ba645b28feb5",
+      "path": "/assets/uploads/companies/mercat/sobirania_v1035_sq.png",
+      "filename": "sobirania_v1035_sq.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "72c02701fbf3",
+      "path": "/assets/uploads/companies/mercat/town_square.png",
+      "filename": "town_square.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "aa23b79d3ed6",
+      "path": "/assets/uploads/companies/mercat/trellat_v1035_sq.png",
+      "filename": "trellat_v1035_sq.png",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
+      ]
+    },
+    {
+      "id": "7ae4ed8f8a04",
+      "path": "/assets/uploads/companies/mercat/vite_motor.svg",
+      "filename": "vite_motor.svg",
+      "folder": "content/mercat",
+      "type": "image",
+      "tags": [
+        "content/mercat"
       ]
     },
     {
@@ -1264,641 +1174,356 @@
       ]
     },
     {
-      "id": "08f7acb13c4b",
-      "path": "/assets/infographics/art_codig_v2.png",
-      "filename": "art_codig_v2.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "2f7f62833880",
-      "path": "/assets/infographics/art_codig_v3.png",
-      "filename": "art_codig_v3.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "21feb4658e34",
-      "path": "/assets/infographics/art_iaia_v3.png",
-      "filename": "art_iaia_v3.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "e7a09e7ef5c6",
-      "path": "/assets/infographics/art_iaia_v4.png",
-      "filename": "art_iaia_v4.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "465e5273ade3",
-      "path": "/assets/infographics/art_memoria_v1036.png",
-      "filename": "art_memoria_v1036.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "6bf5c191364f",
-      "path": "/assets/infographics/art_sobirania_v1036.png",
-      "filename": "art_sobirania_v1036.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "46aeec3d7940",
-      "path": "/assets/infographics/art_sobirania_v1038.png",
-      "filename": "art_sobirania_v1038.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "561177239a60",
-      "path": "/assets/infographics/art_sobirania_v2.png",
-      "filename": "art_sobirania_v2.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "de4354e4af60",
-      "path": "/assets/infographics/art_trellat_v1036.png",
-      "filename": "art_trellat_v1036.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "179052052a2b",
-      "path": "/assets/infographics/art_trellat_v1038.png",
-      "filename": "art_trellat_v1038.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "344903fdea4a",
-      "path": "/assets/infographics/art_trellat_v2.png",
-      "filename": "art_trellat_v2.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "f738a78d69bd",
-      "path": "/assets/infographics/art_trellat_v3.png",
-      "filename": "art_trellat_v3.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "79deb1952c16",
-      "path": "/assets/infographics/chica_jersey.jpg",
-      "filename": "chica_jersey.jpg",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
       "id": "027f84033df4",
-      "path": "/assets/infographics/infografia_master_amazon_flash.png",
+      "path": "/assets/llibre/infografia_master_amazon_flash.png",
       "filename": "infografia_master_amazon_flash.png",
-      "folder": "infographics",
+      "folder": "llibre",
       "type": "image",
       "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "36921f3a2fdf",
-      "path": "/assets/infographics/infografia_placeholder.jpg",
-      "filename": "infografia_placeholder.jpg",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
+        "llibre"
       ]
     },
     {
       "id": "003ee36bb7b2",
-      "path": "/assets/infographics/infografia_solutia_final.jpg",
+      "path": "/assets/llibre/infografia_solutia_final.jpg",
       "filename": "infografia_solutia_final.jpg",
-      "folder": "infographics",
+      "folder": "llibre",
       "type": "image",
       "tags": [
-        "infographics"
+        "llibre"
       ]
     },
     {
-      "id": "a38b71090a45",
-      "path": "/assets/infographics/memoria_v1035_sq.png",
-      "filename": "memoria_v1035_sq.png",
-      "folder": "infographics",
+      "id": "b11d64be3c8a",
+      "path": "/assets/ui/2026-05-16_01-37_hero_projecte.jpg",
+      "filename": "2026-05-16_01-37_hero_projecte.jpg",
+      "folder": "ui",
       "type": "image",
       "tags": [
-        "infographics"
+        "ui"
       ]
     },
     {
-      "id": "1a25a71a4b12",
-      "path": "/assets/infographics/pizarra_nano.jpg",
-      "filename": "pizarra_nano.jpg",
-      "folder": "infographics",
+      "id": "a6b815b6ff3e",
+      "path": "/assets/ui/hero_projecte_final.jpg",
+      "filename": "hero_projecte_final.jpg",
+      "folder": "ui",
       "type": "image",
       "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "6813faf8ee49",
-      "path": "/assets/infographics/plaza-infinita.webp",
-      "filename": "plaza-infinita.webp",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "4df39bdc0ed5",
-      "path": "/assets/infographics/presentacio.jpg",
-      "filename": "presentacio.jpg",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "677bfc58ade8",
-      "path": "/assets/infographics/presentacion_nano.jpg",
-      "filename": "presentacion_nano.jpg",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "ba645b28feb5",
-      "path": "/assets/infographics/sobirania_v1035_sq.png",
-      "filename": "sobirania_v1035_sq.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "aa23b79d3ed6",
-      "path": "/assets/infographics/trellat_v1035_sq.png",
-      "filename": "trellat_v1035_sq.png",
-      "folder": "infographics",
-      "type": "image",
-      "tags": [
-        "infographics"
-      ]
-    },
-    {
-      "id": "23c65e455055",
-      "path": "/assets/master/hero_presentacion_user.webm",
-      "filename": "hero_presentacion_user.webm",
-      "folder": "master",
-      "type": "video",
-      "tags": [
-        "master"
-      ]
-    },
-    {
-      "id": "096c37f70f20",
-      "path": "/assets/master/logo-socdepoble-rect-negre.svg",
-      "filename": "logo-socdepoble-rect-negre.svg",
-      "folder": "master",
-      "type": "image",
-      "tags": [
-        "master"
+        "ui"
       ]
     },
     {
       "id": "c390d917359c",
-      "path": "/assets/master/logo-socdepoble-rect.svg",
-      "filename": "logo-socdepoble-rect.svg",
-      "folder": "master",
+      "path": "/assets/ui/logo-socdepoble-rect-blanc.svg",
+      "filename": "logo-socdepoble-rect-blanc.svg",
+      "folder": "ui",
       "type": "image",
       "tags": [
-        "master"
+        "ui"
       ]
     },
     {
-      "id": "7ae4ed8f8a04",
-      "path": "/assets/master/vite_motor.svg",
-      "filename": "vite_motor.svg",
-      "folder": "master",
+      "id": "096c37f70f20",
+      "path": "/assets/ui/logo-socdepoble-rect-negre.svg",
+      "filename": "logo-socdepoble-rect-negre.svg",
+      "folder": "ui",
       "type": "image",
       "tags": [
-        "master"
+        "ui"
       ]
     },
     {
-      "id": "47c6c1bc3651",
-      "path": "/assets/places/iaia_comic_jutjat.png",
-      "filename": "iaia_comic_jutjat.png",
-      "folder": "places",
+      "id": "944a6a91c839",
+      "path": "/assets/uploads/towns/la_torre_de_les_macanes/avatars/gentdelatorre-logo-bn-q.png",
+      "filename": "gentdelatorre-logo-bn-q.png",
+      "folder": "towns/la_torre_de_les_macanes/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "towns/la_torre_de_les_macanes/avatars"
       ]
     },
     {
-      "id": "d830936d5ab9",
-      "path": "/assets/places/nano_ajuntament_comic.png",
-      "filename": "nano_ajuntament_comic.png",
-      "folder": "places",
+      "id": "c8edc8753cf0",
+      "path": "/assets/uploads/towns/la_torre_de_les_macanes/avatars/gentdelatorre-logo-bn-r-trans.png",
+      "filename": "gentdelatorre-logo-bn-r-trans.png",
+      "folder": "towns/la_torre_de_les_macanes/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "towns/la_torre_de_les_macanes/avatars"
       ]
     },
     {
-      "id": "c3539498b139",
-      "path": "/assets/places/nano_alcoleja.png",
-      "filename": "nano_alcoleja.png",
-      "folder": "places",
+      "id": "12d54216d83d",
+      "path": "/assets/uploads/towns/la_torre_de_les_macanes/avatars/gentdelatorre-logo-bn-r.png",
+      "filename": "gentdelatorre-logo-bn-r.png",
+      "folder": "towns/la_torre_de_les_macanes/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "towns/la_torre_de_les_macanes/avatars"
       ]
     },
     {
-      "id": "b0e2c577c56d",
-      "path": "/assets/places/nano_benifallim.png",
-      "filename": "nano_benifallim.png",
-      "folder": "places",
+      "id": "208f31900f99",
+      "path": "/assets/uploads/companies/soc_de_poble/avatars/logo-socdepoble-cuadrat-verd.svg",
+      "filename": "logo-socdepoble-cuadrat-verd.svg",
+      "folder": "companies/soc_de_poble/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/avatars"
       ]
     },
     {
-      "id": "00f21b76e27a",
-      "path": "/assets/places/nano_biblioteca_muro_1774195499415.png",
-      "filename": "nano_biblioteca_muro_1774195499415.png",
-      "folder": "places",
+      "id": "43b114c7f2f1",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/01-chica_jersey.png",
+      "filename": "01-chica_jersey.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "4cc59dae1a76",
-      "path": "/assets/places/nano_biblioteca_signada_1774195608514.png",
-      "filename": "nano_biblioteca_signada_1774195608514.png",
-      "folder": "places",
+      "id": "1425f4de9247",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/02-samarreta-socdepoble-roly-plom-oscur-1024px.png",
+      "filename": "02-samarreta-socdepoble-roly-plom-oscur-1024px.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "44f5a4c9d00e",
-      "path": "/assets/places/nano_elena_rentonar.png",
-      "filename": "nano_elena_rentonar.png",
-      "folder": "places",
+      "id": "30e80331d23b",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/03-young_man_tshirt.png",
+      "filename": "03-young_man_tshirt.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "53efffda07ec",
-      "path": "/assets/places/nano_palau_comtal_1774195484197.png",
-      "filename": "nano_palau_comtal_1774195484197.png",
-      "folder": "places",
+      "id": "05968857c57d",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/04-iaia_tshirt.png",
+      "filename": "04-iaia_tshirt.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "4f6ea56368d9",
-      "path": "/assets/places/nano_palau_signat_1774195592870.png",
-      "filename": "nano_palau_signat_1774195592870.png",
-      "folder": "places",
+      "id": "1383d67ec0a8",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/06-group_tshirt.png",
+      "filename": "06-group_tshirt.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "ce86c0c07dcb",
-      "path": "/assets/places/nano_pedra_seca.png",
-      "filename": "nano_pedra_seca.png",
-      "folder": "places",
+      "id": "4d856b280a04",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/07-rustic_detail.png",
+      "filename": "07-rustic_detail.png",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "c4a7c1b263d4",
-      "path": "/assets/places/nano_porta_masia_1774197069297.png",
-      "filename": "nano_porta_masia_1774197069297.png",
-      "folder": "places",
+      "id": "5e8e0498121c",
+      "path": "/assets/uploads/groups/el_rentonar/avatars/logo-rentonar-socdepoble-1600-c.jpg",
+      "filename": "logo-rentonar-socdepoble-1600-c.jpg",
+      "folder": "groups/el_rentonar/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "groups/el_rentonar/posts"
       ]
     },
     {
-      "id": "78568c53e6a6",
-      "path": "/assets/places/nano_porta_masia_roure_1774195469079.png",
-      "filename": "nano_porta_masia_roure_1774195469079.png",
-      "folder": "places",
+      "id": "1941f0c45320",
+      "path": "/assets/uploads/companies/soc_de_poble/posts/samarreta_soc_de_poble/08-javi_llinares-perfil-1024px.jpg",
+      "filename": "08-javi_llinares-perfil-1024px.jpg",
+      "folder": "companies/soc_de_poble/posts/samarreta_soc_de_poble",
       "type": "image",
       "tags": [
-        "places"
+        "companies/soc_de_poble/posts/samarreta_soc_de_poble"
       ]
     },
     {
-      "id": "4929d621341c",
-      "path": "/assets/places/nano_porta_signada_1774195575764.png",
-      "filename": "nano_porta_signada_1774195575764.png",
-      "folder": "places",
+      "id": "65bd8523abf1",
+      "path": "/assets/uploads/users/javi_llinares/avatars/javi_llinares-perfil-1200px.jpg",
+      "filename": "javi_llinares-perfil-1200px.jpg",
+      "folder": "users/javi_llinares/avatars",
       "type": "image",
       "tags": [
-        "places"
+        "users/javi_llinares/avatars"
       ]
     },
     {
-      "id": "1f22949fb3bf",
-      "path": "/assets/places/nano_relleu.png",
-      "filename": "nano_relleu.png",
-      "folder": "places",
+      "id": "47073120e21f",
+      "path": "/assets/uploads/users/javi_llinares/avatars/javi_llinares-perfil-1600px.jpg",
+      "filename": "javi_llinares-perfil-1600px.jpg",
+      "folder": "users/javi_llinares/avatars",
       "type": "image",
       "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "2474a0d9c02a",
-      "path": "/assets/places/nano_rentonar_arquitectura_1774196001924.png",
-      "filename": "nano_rentonar_arquitectura_1774196001924.png",
-      "folder": "places",
-      "type": "image",
-      "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "8104f21dc3e0",
-      "path": "/assets/places/nano_rentonar_sega_1774196023321.png",
-      "filename": "nano_rentonar_sega_1774196023321.png",
-      "folder": "places",
-      "type": "image",
-      "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "bf717c605965",
-      "path": "/assets/places/nano_sella.png",
-      "filename": "nano_sella.png",
-      "folder": "places",
-      "type": "image",
-      "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "60ec869b7dca",
-      "path": "/assets/places/nano_tibi.png",
-      "filename": "nano_tibi.png",
-      "folder": "places",
-      "type": "image",
-      "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "49152378ca7b",
-      "path": "/assets/places/nano_xixona.png",
-      "filename": "nano_xixona.png",
-      "folder": "places",
-      "type": "image",
-      "tags": [
-        "places"
-      ]
-    },
-    {
-      "id": "4a39397f0ac8",
-      "path": "/assets/products/avatar_mariamel_comic.png",
-      "filename": "avatar_mariamel_comic.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "624e772547cd",
-      "path": "/assets/products/avatar_ratoli_comic.png",
-      "filename": "avatar_ratoli_comic.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "54667c9cdd2b",
-      "path": "/assets/products/camiseta_nano_detall.png",
-      "filename": "camiseta_nano_detall.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "c3deb36861da",
-      "path": "/assets/products/camiseta_nano_oficial.jpg",
-      "filename": "camiseta_nano_oficial.jpg",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "8b3ffa319ee8",
-      "path": "/assets/products/group_tshirt.png",
-      "filename": "group_tshirt.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "a10e9fb6737b",
-      "path": "/assets/products/iaia_tshirt.png",
-      "filename": "iaia_tshirt.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "dda62a377daf",
-      "path": "/assets/products/mel_nano_v2.png",
-      "filename": "mel_nano_v2.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "2aa6eeecb4fe",
-      "path": "/assets/products/nano_figuera_frut_1774197087933.png",
-      "filename": "nano_figuera_frut_1774197087933.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "4f6df28a49ff",
-      "path": "/assets/products/nano_ratoli_dades.png",
-      "filename": "nano_ratoli_dades.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "79a6b52ae763",
-      "path": "/assets/products/oli_nano_v2.png",
-      "filename": "oli_nano_v2.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "7dd126200de0",
-      "path": "/assets/products/samarreta-soc-de-poble.png",
-      "filename": "samarreta-soc-de-poble.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
-      ]
-    },
-    {
-      "id": "d80bea387912",
-      "path": "/assets/products/young_man_tshirt.png",
-      "filename": "young_man_tshirt.png",
-      "folder": "products",
-      "type": "image",
-      "tags": [
-        "products"
+        "users/javi_llinares/avatars"
       ]
     }
   ],
   "duplicates": [
     {
-      "original": "/assets/avatars/beatriz_ortega_comic.png",
-      "duplicate": "/assets/avatars/beatriz_ortega_ibanez.png",
-      "hash": "d9e6d037662541f2cd5370a65b47a480"
-    },
-    {
-      "original": "/assets/avatars/javi_avatar.jpg",
-      "duplicate": "/assets/avatars/javi_cover.jpg",
-      "hash": "613d4d44f62d46527d9db7e3a27639cd"
-    },
-    {
-      "original": "/assets/avatars/iaia_comic_archon.png",
-      "duplicate": "/assets/avatars/nano_archon_1774192140980.png",
-      "hash": "252bdcf4b874b051f848a0b2a58812b1"
-    },
-    {
-      "original": "/assets/avatars/iaia_comic_rebost.png",
-      "duplicate": "/assets/avatars/nano_rebost_1774192095512.png",
-      "hash": "c96141f320c3c5315f6f59d2c03119c1"
-    },
-    {
-      "original": "/assets/avatars/iaia_comic_ull.png",
-      "duplicate": "/assets/avatars/nano_ull_1774192128281.png",
-      "hash": "23391d4575f36be58d972205d30798ec"
-    },
-    {
-      "original": "/assets/avatars/beatriz_escola_1774192995479.png",
-      "duplicate": "/assets/avatars/post_beatriz_escola.png",
-      "hash": "9bd6018d8119ecb00da9cf53a7186edf"
-    },
-    {
-      "original": "/assets/brand/brand_cinematic.png",
-      "duplicate": "/assets/brand/brand_cinematic_2.png",
+      "original": "/assets/uploads/users/posts/brand_cinematic.png",
+      "duplicate": "/assets/uploads/users/posts/brand_cinematic_2.png",
       "hash": "d3910cbc29319a562bfc2029f365ea7b"
     },
     {
-      "original": "/assets/brand/carla_soriano_comic.png",
-      "duplicate": "/assets/brand/carla_soriano_ibanez.png",
+      "original": "/assets/uploads/users/posts/carla_soriano_ibanez.png",
+      "duplicate": "/assets/uploads/users/avatars/carla_soriano_comic.png",
       "hash": "6a1ea965239b12fc3844d5940303e927"
     },
     {
-      "original": "/assets/avatars/hero_nano_final.png",
-      "duplicate": "/assets/brand/hero_presentation.png",
-      "hash": "ae74c221b74b88d296eaa3c487693d2f"
+      "original": "/assets/uploads/users/avatars/iaia_comic_matriarch.png",
+      "duplicate": "/assets/uploads/companies/mercat/iaia_comic_jutjat.png",
+      "hash": "47c6c1bc3651fc3a8b555d20222e1633"
     },
     {
-      "original": "/assets/avatars/nano_sonambulo.png",
-      "duplicate": "/assets/infographics/nano_banana.png",
+      "original": "/assets/uploads/users/avatars/nano_banana_comic.png",
+      "duplicate": "/assets/uploads/companies/mercat/nano_banana.png",
       "hash": "58767731f5f5e1d6c2387a2a7f09ba02"
     },
     {
-      "original": "/assets/places/iaia_comic_jutjat.png",
-      "duplicate": "/assets/places/nano_jutjat_1774192111409.png",
+      "original": "/assets/uploads/users/avatars/iaia_comic_matriarch.png",
+      "duplicate": "/assets/uploads/companies/mercat/nano_jutjat_1774192111409.png",
       "hash": "47c6c1bc3651fc3a8b555d20222e1633"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_codig_v2.png",
+      "duplicate": "/assets/llibre/art_codig_v2.png",
+      "hash": "08f7acb13c4bae85bdd82211447f3db4"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_codig_v3.png",
+      "duplicate": "/assets/llibre/art_codig_v3.png",
+      "hash": "2f7f628338805e9d8455b67b15657168"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_iaia_v3.png",
+      "duplicate": "/assets/llibre/art_iaia_v3.png",
+      "hash": "21feb4658e3438a4427167a5604f3428"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_iaia_v4.png",
+      "duplicate": "/assets/llibre/art_iaia_v4.png",
+      "hash": "e7a09e7ef5c65010d9ea3279765137bc"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_memoria_v1036.png",
+      "duplicate": "/assets/llibre/art_memoria_v1036.png",
+      "hash": "465e5273ade327d88477d057cce2de1a"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_sobirania_v1036.png",
+      "duplicate": "/assets/llibre/art_sobirania_v1036.png",
+      "hash": "6bf5c191364f22b426b78e4898e2f690"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_sobirania_v1038.png",
+      "duplicate": "/assets/llibre/art_sobirania_v1038.png",
+      "hash": "46aeec3d7940650d2663866d4460eef8"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_sobirania_v2.png",
+      "duplicate": "/assets/llibre/art_sobirania_v2.png",
+      "hash": "561177239a60a3d02eda0f136701083d"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_trellat_v1036.png",
+      "duplicate": "/assets/llibre/art_trellat_v1036.png",
+      "hash": "de4354e4af60e05a30c9426ea7e1223b"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_trellat_v1038.png",
+      "duplicate": "/assets/llibre/art_trellat_v1038.png",
+      "hash": "179052052a2b8ebb5a99c5534d704426"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_trellat_v2.png",
+      "duplicate": "/assets/llibre/art_trellat_v2.png",
+      "hash": "344903fdea4a786711275835534fb488"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/art_trellat_v3.png",
+      "duplicate": "/assets/llibre/art_trellat_v3.png",
+      "hash": "f738a78d69bd1d5bdc74667299dd0cc0"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/chica_jersey.jpg",
+      "duplicate": "/assets/llibre/chica_jersey.jpg",
+      "hash": "79deb1952c1600cb64f8cdcb54ba33ba"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/infografia_placeholder.jpg",
+      "duplicate": "/assets/llibre/infografia_placeholder.jpg",
+      "hash": "36921f3a2fdfe15ecc4bae7f12ffc3c2"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/memoria_v1035_sq.png",
+      "duplicate": "/assets/llibre/memoria_v1035_sq.png",
+      "hash": "a38b71090a45fceb9cf03f76a8b07f2d"
+    },
+    {
+      "original": "/assets/uploads/users/avatars/nano_banana_comic.png",
+      "duplicate": "/assets/llibre/nano_banana.png",
+      "hash": "58767731f5f5e1d6c2387a2a7f09ba02"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/pizarra_nano.jpg",
+      "duplicate": "/assets/llibre/pizarra_nano.jpg",
+      "hash": "1a25a71a4b12bb6c18bfdb96cbbbde89"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/plaza-infinita.webp",
+      "duplicate": "/assets/llibre/plaza-infinita.webp",
+      "hash": "6813faf8ee49795e031d507c57b2f916"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/presentacio.jpg",
+      "duplicate": "/assets/llibre/presentacio.jpg",
+      "hash": "4df39bdc0ed5dca13d45082324cabd1b"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/presentacion_nano.jpg",
+      "duplicate": "/assets/llibre/presentacion_nano.jpg",
+      "hash": "677bfc58ade84f94dd826e4a05670e64"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/sobirania_v1035_sq.png",
+      "duplicate": "/assets/llibre/sobirania_v1035_sq.png",
+      "hash": "ba645b28feb5e8aec15e01713bccb9cb"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/trellat_v1035_sq.png",
+      "duplicate": "/assets/llibre/trellat_v1035_sq.png",
+      "hash": "aa23b79d3ed6d3235c8bd6fdb2162438"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/hero_presentacion_user.webm",
+      "duplicate": "/assets/master/hero_presentacion_user.webm",
+      "hash": "23c65e455055be0e2672eae0c6de5ea7"
+    },
+    {
+      "original": "/assets/ui/logo-socdepoble-rect-blanc.svg",
+      "duplicate": "/assets/ui/logo-socdepoble-rect.svg",
+      "hash": "c390d917359cb9dc2bbaf6a6126cb75e"
+    },
+    {
+      "original": "/assets/uploads/companies/mercat/vite_motor.svg",
+      "duplicate": "/assets/ui/vite_motor.svg",
+      "hash": "7ae4ed8f8a0457e9e8722fd81e504747"
     }
   ]
 }

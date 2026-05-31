@@ -1,6 +1,5 @@
-import React from 'react';
-import { useAuth } from '../../context/AuthContext';
-import BrandLogo from '../BrandLogo';
+import { useAuth } from '../../app/context/AuthContext';
+import BrandLogo from '../ui/BrandLogo';
 
 /**
  * [GATEKEEPER] AuthGate

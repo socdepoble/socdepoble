@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { supabaseService } from '../services/supabaseService';
+import { supabaseService } from '../core/services/supabaseService';
 import { logger } from '../utils/logger';
-import { AGENTS } from '../constants/agents';
-import { chatService } from '../services/chatService';
+import { AGENTS } from '../constants';
+import { chatService } from '../core/services/chatService';
 
 // GROK V3 EXTREME AUDIT FIX:
 // - Eliminat isMounted flag en favor d'AbortController.

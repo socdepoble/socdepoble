@@ -55,7 +55,13 @@
     "market": "Marché",
     "towns": "Villages",
     "profile": "Profil",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "map": "Carte",
+    "project": "Le Projet",
+    "media": "Médias",
+    "notes": "Bloc-notes",
+    "roadmap": "Feuille de Route",
+    "events": "Événements"
   },
   "auth": {
     "login": "Connexion",

@@ -1,13 +1,13 @@
 
-import React, { useState, useEffect, useRef, useMemo } from "react";
-import { PowerSyncContext } from "@powersync/react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { PowerSyncDatabase } from "@powersync/web";
+import { PowerSyncContext } from "@powersync/react";
 import { AppSchema } from "../../powersync/schema";
 import { SupabaseConnector } from "../../powersync/connector";
-import { LocalFirstStatusContext } from "../../context/LocalFirstStatusContext";
-import BrandLogo from "../BrandLogo";
-import { SyncIndicator } from "../SyncIndicator";
+import { LocalFirstStatusContext } from "../../app/context/LocalFirstStatusContext";
 import { WaitingForBackend } from "../boundaries/WaitingForBackend";
+import { SyncIndicator } from "../ui/SyncIndicator";
+import BrandLogo from "../ui/BrandLogo";
 
 // ─── Tipus d'Estat Honests ──────────────────────────────────────────────────
 const STATUS = {
@@ -93,20 +93,31 @@ export default function LocalFirstGate({ children }) {
       const connector = connectorRef.current;
 
       try {
-        const timeoutPromise = new Promise((_, reject) =>
+        console.log("[LocalFirstGate] Iniciant OPFS (db.init)...");
+        const initTimeout = new Promise((_, reject) =>
           setTimeout(() => reject(new Error("TIMEOUT_OPFS")), OPFS_TIMEOUT_MS)
         );
 
-        await Promise.race([db.init(), timeoutPromise]);
-        await db.connect(connector);
+        await Promise.race([db.init(), initTimeout]);
+        console.log("[LocalFirstGate] OPFS iniciat amb èxit. Connectant a Supabase...");
+        
+        // Timeout independent per evitar que la connexió pengi la PWA en "CONNECTANT..." indefinidament
+        const connectTimeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("TIMEOUT_CONNECT")), OPFS_TIMEOUT_MS + 1500)
+        );
+
+        await Promise.race([db.connect(connector), connectTimeout]);
+        console.log("[LocalFirstGate] Supabase connectat. Sistema READY.");
 
         setDbInstance(db);
         setStatus(STATUS.READY);
       } catch (err) {
+        console.warn(`[LocalFirstGate] Aturat durant la seqüència d'inici: ${err.message}`);
         const isOpfsError = err.message === "TIMEOUT_OPFS" || String(err).toLowerCase().includes("opfs") || String(err).toLowerCase().includes("lock");
+        const isConnectError = err.message === "TIMEOUT_CONNECT";
 
-        if (isOpfsError) {
-          console.warn("[LocalFirstGate] Bypass d'Emergència: Mode degradat actiu (OPFS WriteLock)");
+        if (isOpfsError || isConnectError) {
+          console.warn(`[LocalFirstGate] Bypass d'Emergència: Mode degradat actiu (Motiu: ${isConnectError ? 'Timeout Connexió' : 'OPFS Lock'})`);
           setDbInstance(dbRef.current);
           setStatus(STATUS.DEGRADED);
         } else {
@@ -210,7 +221,7 @@ export default function LocalFirstGate({ children }) {
     return (
       <div className="min-h-screen flex items-center justify-center flex-col relative overflow-hidden" style={{ background: "#0b0b0b" }}>
         <div className="absolute inset-0 bg-gradient-to-br from-[#00f2ff]/5 to-transparent pointer-events-none" />
-        <img src="/assets/master/logo-socdepoble-rect.svg" alt="Sóc de Poble" className="h-10 w-auto mb-8 opacity-80 animate-pulse" style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.3))" }} />
+        <BrandLogo className="h-20 w-auto mb-8 opacity-80 animate-pulse text-white" style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.3))" }} />
         <div className="flex justify-center gap-2 mb-6">
           {[0, 150, 300].map((delay) => (
             <div key={delay} className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80" style={{ animationDelay: `${delay}ms` }} />

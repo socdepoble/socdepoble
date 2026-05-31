@@ -1,0 +1,37 @@
+
+> soc-de-poble-app@10.38.1 prebuild
+> npm run build:codex
+
+
+> soc-de-poble-app@10.38.1 build:codex
+> node scripts/build_amazon_codex.js
+
+📝 Trobat un total de 2 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a public/llibre-humans.html. (31 pàgines)
+✅ Llibre Màquina forjat a public/llibre-maquina.html. (4 pàgines)
+
+> soc-de-poble-app@10.38.1 build
+> vite build && npm run copy-wasm
+
+vite v7.3.1 building client environment for production...
+transforming...
+
+&#039;/assets/patterns/noise.png&#039; referenced in & didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/patterns/noise.png referenced in /assets/patterns/noise.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+✓ 127 modules transformed.
+✗ Build failed in 623ms
+error during build:
+[vite-plugin-pwa:build] [plugin vite-plugin-pwa:build] src/components/ErrorBoundary.jsx: There was an error during the build:
+  Could not resolve "../services/forensicService" from "src/components/ErrorBoundary.jsx"
+Additionally, handling the error in the 'buildEnd' hook caused the following error:
+  Could not resolve "../services/forensicService" from "src/components/ErrorBoundary.jsx"
+file: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/ErrorBoundary.jsx
+    at getRollupError (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/rollup/dist/es/shared/parseAst.js:401:41)
+    at file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/rollup/dist/es/shared/node-entry.js:23467:39
+    at async catchUnfinishedHookActions (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/rollup/dist/es/shared/node-entry.js:22925:16)
+    at async rollupInternal (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/rollup/dist/es/shared/node-entry.js:23450:5)
+    at async buildEnvironment (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:33541:12)
+    at async Object.build (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:33900:19)
+    at async Object.buildApp (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:33897:153)
+    at async CAC.<anonymous> (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/cli.js:629:3)

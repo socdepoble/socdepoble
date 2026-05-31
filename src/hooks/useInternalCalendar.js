@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { calendarService } from '../services/calendarService';
-import { useAuth } from '../context/AuthContext';
+import { calendarService } from '../core/services/calendarService';
+import { useAuth } from '../app/context/AuthContext';
 
 export const useInternalCalendar = (currentDate) => {
     const { user, isAdmin } = useAuth();

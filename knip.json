@@ -1,0 +1,13 @@
+{
+  "ignore": [
+    "android/**",
+    "ios/**",
+    "scripts/**",
+    "vite.config.js",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "eslint.config.js"
+  ],
+  "ignoreExportsUsedInFile": true,
+  "project": ["src/**/*.{js,jsx,ts,tsx}"]
+}

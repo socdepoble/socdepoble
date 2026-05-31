@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ArrowLeft, Book, Plus, Search, MessageCircle, Minimize, Maximize, Share2, ChevronUp, ChevronDown, X, Globe, Database } from 'lucide-react';
 import FloatingIndex from '../../components/ui/FloatingIndex';
-const ProjectPresentation = lazy(() => import('../../pages/public/ProjectPresentationNew'));
+
 const RichTextEditor = lazy(() => import('../../components/ui/RichTextEditor'));
 import { useAuth } from '../../app/context/AuthContext';
 import { supabase } from '../../supabaseClient';
@@ -27,6 +27,7 @@ import { MEDIA_REGISTRY } from '../../data/media_registry';
 import { VERSIONS_HTML } from '../../data/VersionsContent';
 import { GENOTIP_HTML } from '../../data/GenotipContent';
 import { IAIES_MUNDIALS_HTML } from '../../data/IaiesMundialsContent';
+import { HUMAN_PROJECT_HTML } from '../../data/HumanProjectContent';
 import ContentWithShortcodes from '../../components/core/ContentWithShortcodes';
 
 const resolveMedia = (originalPath) => {
@@ -53,7 +54,9 @@ const UniversalPage = ({
     renderCalendar = null,
     renderDocument = null,
     seoImage = null,
-    customActions = null
+    customActions = null,
+    forcedHeroImage = null,
+    children
 }) => {
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -64,9 +67,10 @@ const UniversalPage = ({
     const [htmlContent, setHtmlContent] = useState('');
     const [pageId, setPageId] = useState(null);
     const [routeSlug, setRouteSlug] = useState('');
-    const [title, setTitle] = useState('');
-    const [subtitle, setSubtitle] = useState('');
+    const [title, setTitle] = useState(forcedTitle || '');
+    const [subtitle, setSubtitle] = useState(forcedSubtitle || '');
     const [collaborators, setCollaborators] = useState([]);
+    const [pageAuthor, setPageAuthor] = useState('');
 
     const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
@@ -83,14 +87,20 @@ const UniversalPage = ({
     const [mediaViewerImages, setMediaViewerImages] = useState([]);
 
     // VISTA DE RENDER (Document/Calendari/Kanban)
-    const [currentViewMode] = useState(defaultViewMode);
+    const [currentViewMode, setViewMode] = useState(defaultViewMode);
 
     // FORMATO HERO DEL PROYECTO
     const [heroFormat, setHeroFormat] = useState('square');
     const [heroPosition, setHeroPosition] = useState('center');
     const [heroImage, setHeroImage] = useState('');
-    const [logoLight, setLogoLight] = useState('');
-    const [logoDark, setLogoDark] = useState('');
+    const [logoLight, setLogoLight] = useState(() => {
+        const _s = slug || window.location.pathname.replace(/^\/+/, '');
+        return ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '';
+    });
+    const [logoDark, setLogoDark] = useState(() => {
+        const _s = slug || window.location.pathname.replace(/^\/+/, '');
+        return ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '';
+    });
 
     // OMEGA TRANSLATE STATE
     const [translating, setTranslating] = useState(false);
@@ -168,6 +178,9 @@ const UniversalPage = ({
                 updates.subtitle = localCache.subtitle;
                 updates.pageId = localCache.pageId;
                 updates.collaborators = localCache.collaborators || [];
+                updates.pageAuthor = localCache.pageAuthor || '';
+                if (localCache.logoLight) setLogoLight(localCache.logoLight);
+                if (localCache.logoDark) setLogoDark(localCache.logoDark);
                 
                 setHtmlContent(updates.htmlContent);
                 setTitle(updates.title);
@@ -185,10 +198,10 @@ const UniversalPage = ({
 
             if (error) throw error;
 
-            if (data || _slug === 'genotip' || _slug === 'versions' || _slug === 'iaies-mundials') {
+            if (data || ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug)) {
                 let content = data?.html_content || '';
                 
-                if (!content || content.includes('Aquest text és provisional') || content.includes('Aquesta funcionalitat està en desenvolupament')) {
+                if (!content || content.includes('Aquest text és provisional') || content.includes('Aquesta funcionalitat està en desenvolupament') || content.includes('Aquesta pàgina encara no té contingut')) {
                     if (_slug === 'genotip') {
                         content = GENOTIP_HTML;
                         updates.title = "Genotip";
@@ -201,13 +214,19 @@ const UniversalPage = ({
                         content = IAIES_MUNDIALS_HTML;
                         updates.title = "Iaies Mundials";
                         updates.subtitle = "Conexions globals";
+                    } else if (_slug === 'el-projecte' || _slug === 'projecte') {
+                        content = HUMAN_PROJECT_HTML;
+                        updates.title = "Sóc de Poble: El Llibre";
+                        updates.subtitle = "Projecte Documental Transmèdia";
                     }
                 }
                 
                 const formatMatch = content.match(/<!-- HERO_FORMAT: (.*?) -->\n?/);
                 if (formatMatch && formatMatch[1]) {
-                    setHeroFormat(formatMatch[1]);
+                    setHeroFormat(['projecte', 'el-projecte'].includes(_slug) ? 'square' : formatMatch[1]);
                     content = content.replace(formatMatch[0], '');
+                } else {
+                    setHeroFormat(['projecte', 'el-projecte'].includes(_slug) ? 'square' : 'horizontal');
                 }
                 const positionMatch = content.match(/<!-- HERO_POSITION: (.*?) -->\n?/);
                 if (positionMatch && positionMatch[1]) {
@@ -219,20 +238,39 @@ const UniversalPage = ({
                     setHeroImage(imageMatch[1]);
                     content = content.replace(imageMatch[0], '');
                 }
+                const isSocDePobleAuthor = data?.author === 'Sóc de Poble' || data?.author_name === 'Sóc de Poble' || ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
+                updates.pageAuthor = isSocDePobleAuthor ? 'Sóc de Poble' : (data?.author || data?.author_name || '');
+
                 const logoLightMatch = content.match(/<!-- LOGO_LIGHT: (.*?) -->\n?/);
-                if (logoLightMatch && logoLightMatch[1]) {
-                    setLogoLight(logoLightMatch[1]);
+                let parsedLogoLight = logoLightMatch ? logoLightMatch[1]?.trim() : null;
+                if (parsedLogoLight === 'null' || parsedLogoLight === 'undefined' || parsedLogoLight === '') parsedLogoLight = null;
+                
+                if (parsedLogoLight) {
+                    setLogoLight(parsedLogoLight);
                     content = content.replace(logoLightMatch[0], '');
                 } else {
-                    setLogoLight('/assets/system/ui/logo-socdepoble-rect-negre.svg');
+                    setLogoLight(isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '');
                 }
+
                 const logoDarkMatch = content.match(/<!-- LOGO_DARK: (.*?) -->\n?/);
-                if (logoDarkMatch && logoDarkMatch[1]) {
-                    setLogoDark(logoDarkMatch[1]);
+                let parsedLogoDark = logoDarkMatch ? logoDarkMatch[1]?.trim() : null;
+                if (parsedLogoDark === 'null' || parsedLogoDark === 'undefined' || parsedLogoDark === '') parsedLogoDark = null;
+
+                if (parsedLogoDark) {
+                    setLogoDark(parsedLogoDark);
                     content = content.replace(logoDarkMatch[0], '');
                 } else {
-                    setLogoDark('/assets/system/ui/logo-socdepoble-rect-blanc.svg');
+                    setLogoDark(isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '');
                 }
+
+                console.log("[DEBUG LOGO FETCH]", {
+                    slug: _slug,
+                    isSocDePobleAuthor,
+                    parsedLogoLight,
+                    parsedLogoDark,
+                    logoLightSetTo: parsedLogoLight || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : ''),
+                    logoDarkSetTo: parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '')
+                });
 
                 updates.htmlContent = content;
                 updates.title = updates.title || data?.title || '';
@@ -247,6 +285,9 @@ const UniversalPage = ({
                         subtitle: updates.subtitle,
                         pageId: updates.pageId,
                         collaborators: updates.collaborators,
+                        pageAuthor: updates.pageAuthor,
+                        logoLight: updates.logoLight || parsedLogoLight || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : ''),
+                        logoDark: updates.logoDark || parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : ''),
                         timestamp: Date.now()
                     });
                     
@@ -536,21 +577,6 @@ const UniversalPage = ({
 
     const PagePresentationHeader = (
         <div className="w-full flex flex-col items-center justify-center px-6 relative group pt-8">
-            {logoLight && logoDark && (
-                <>
-                    <img 
-                        src={logoLight || undefined} 
-                        alt="Logo (Clar)" 
-                        className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all dark:hidden" 
-                    />
-                    <img 
-                        src={logoDark || undefined} 
-                        alt="Logo (Fosc)" 
-                        className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all hidden dark:block" 
-                    />
-                </>
-            )}
-            
             {(routeSlug === 'codex' || collaborators.length > 0) && (
                 <div className="flex -space-x-3 mb-6 opacity-90 transition-opacity hover:opacity-100 items-center justify-center">
                     <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
@@ -609,9 +635,38 @@ const UniversalPage = ({
                 </div>
             ) : (
                 <div className="flex flex-col items-center w-full max-w-4xl">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase mb-6 mt-4">
-                        {title || "Pàgina Sense Títol"}
+                    {(() => {
+                        console.log("[DEBUG RENDER LOGO]", { logoLight, logoDark });
+                        return null;
+                    })()}
+                    {(logoLight || logoDark) && (
+                        <>
+                            {logoLight && (
+                                <img 
+                                    src={logoLight} 
+                                    alt="Logo (Clar)" 
+                                    className={`h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
+                                />
+                            )}
+                            {logoDark && (
+                                <img 
+                                    src={logoDark} 
+                                    alt="Logo (Fosc)" 
+                                    className={`h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
+                                />
+                            )}
+                        </>
+                    )}
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase mb-6 mt-4 flex items-center justify-center gap-4 flex-wrap">
+                        {(title || "Pàgina Sense Títol").replace(/^Sóc de Poble:\s*/i, '')}
                     </h1>
+                    
+                    {/* Elements Custom Renderitzats Sota el H1 */}
+                    <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-8">
+                        {renderKanban && <div className="w-full">{typeof renderKanban === 'function' ? renderKanban() : renderKanban}</div>}
+                        {renderCalendar && <div className="w-full">{typeof renderCalendar === 'function' ? renderCalendar() : renderCalendar}</div>}
+                        {customActions && <div className="w-full flex items-center justify-center gap-2 flex-wrap">{customActions}</div>}
+                    </div>
                 </div>
             )}
         </div>
@@ -790,33 +845,16 @@ const UniversalPage = ({
                 ) : (
                     <div className="flex-1 w-full h-full min-h-0 relative flex flex-col items-center">
                         <div className="app-cms-content w-full h-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-12 py-10 md:py-12">
-                            {processedHtml && processedHtml.includes('[TABS_START]') ? (
+                            {children ? (
+                                children
+                            ) : activeHtmlContent && activeHtmlContent.includes('[TABS_START]') ? (
                                 <ContentWithShortcodes content={processedHtml} />
                             ) : (
                                 <LazyHtmlRenderer htmlContent={processedHtml} className="w-full h-full" />
                             )}
                         </div>
 
-                        {(location.pathname.includes('projecte') || routeSlug?.includes('projecte')) && (
-                            <div className="mt-12 p-8 bg-stone-100 dark:bg-stone-800/80 rounded-3xl border border-stone-200 dark:border-stone-700 shadow-xl flex flex-col items-center w-full max-w-4xl mb-16 relative z-20">
-                                <h3 className="text-2xl font-black text-stone-800 dark:text-white mb-3 text-center uppercase tracking-wider">Vols aprofundir en el codi?</h3>
-                                <p className="text-stone-600 dark:text-stone-400 mb-8 text-center max-w-2xl text-lg">
-                                    Per als més curiosos, o si ets una Intel·ligència Artificial llegint-nos per entendre les nostres entranyes. Dos accessos reservats per a arquitectes del sistema.
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-6 justify-center w-full max-w-3xl">
-                                    <a href="/llibres/llibre-maquina.html" target="_blank" rel="noopener noreferrer" className="select-none !no-underline !text-inherit cursor-pointer group flex-1 flex flex-col items-center justify-center p-6 bg-stone-900 dark:bg-white rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 outline outline-2 outline-transparent hover:outline-stone-500">
-                                        <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">🤖</span>
-                                        <span className="text-white dark:text-stone-900 font-black uppercase tracking-widest text-sm text-center">Llegir el Llibre</span>
-                                        <span className="text-stone-400 dark:text-stone-500 text-xs mt-1 font-medium text-center">El codi font obert i sencer</span>
-                                    </a>
-                                    <Link to="/genotip" className="select-none !no-underline !text-white cursor-pointer group flex-1 flex flex-col items-center justify-center p-6 bg-orange-600 rounded-2xl transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 outline outline-2 outline-transparent hover:outline-orange-400">
-                                        <span className="text-4xl mb-3 group-hover:scale-110 transition-transform">🧬</span>
-                                        <span className="text-white font-black uppercase tracking-widest text-sm text-center">Explorar el Genotip</span>
-                                        <span className="text-orange-200 text-xs mt-1 font-medium text-center">L'ADN artificial del sistema</span>
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
+
                     </div>
                 )}
             </div>
@@ -867,136 +905,43 @@ const UniversalPage = ({
                     url={routeSlug} 
                 />
             )}
-            
-            {/* 3. ACTION BAR: PATRÓN PRIORITY+ (ARRIBA, FUERA DEL SCROLL) */}
-            <header className="z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
-                <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4 w-full max-w-7xl mx-auto overflow-hidden">
-                    
-                    {/* Esquerra: Tornar i Llibre */}
-                    <div className="flex items-center justify-start gap-1 shrink-0">
-                        <button 
-                            onClick={() => navigate(-1)} 
-                            className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation shrink-0"
-                            aria-label="Tornar arrere"
-                        >
-                            <ArrowLeft size={20} strokeWidth={2.5} />
-                        </button>
-                        
-                        <button 
-                            className="flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm"
-                            aria-label={t('project.open_search', "Obrir Cercador")}
-                            title={t('project.open_search', "Obrir Cercador")}
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
-                        >
-                            <Search size={20} strokeWidth={2.5} />
-                        </button>
 
-                        <button 
-                            className="hidden md:flex items-center justify-center min-h-[44px] w-[44px] hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation shrink-0" 
-                            title={isFullscreen ? "Surt de Pantalla Completa" : "Llegit a Pantalla Completa"}
-                            onClick={toggleFullscreen}
-                        >
-                            {isFullscreen ? <Minimize size={20} strokeWidth={2.5} /> : <Maximize size={20} strokeWidth={2.5} />}
-                        </button>
-                    </div>
-
-                    {/* Centre: Buit en aquesta configuració */}
-                    <div className="flex items-center justify-center shrink-0 mx-2">
-                        {/* Es pot utilitzar per posar un títol si s'escau */}
-                    </div>
-
-                    {/* Dreta: Connectar, Traduir, Comentar, etc. */}
-                    <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0 overflow-x-auto no-scrollbar scroll-smooth">
-                        <button 
-                            className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
-                            aria-label="Traduir Pàgina"
-                            onClick={() => openTranslationModal({ postId: routeSlug || 'projecte', title: title })}
-                            disabled={translating}
-                        >
-                            {translating ? (
-                                <Globe size={20} strokeWidth={2.5} className="animate-spin" />
-                            ) : (
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
-                            )}
-                            <span className="hidden xl:inline tracking-wider">{t('project.translate', 'Traduir')}</span>
-                        </button>
-
-                        <button 
-                            className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" 
-                            onClick={() => navigate('/chats/socdepoble')}
-                        >
-                            <MessageCircle size={20} /><span className="hidden xl:inline tracking-wider">{t('project.comment', 'Comentar')}</span>
-                        </button>
-
-                        <button 
-                            className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" 
-                            onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }}
-                        >
-                            <Share2 size={20} /><span className="hidden xl:inline tracking-wider">{t('project.share', 'Compartir')}</span>
-                        </button>
-
-                        <button 
-                            className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0 bg-white text-[#4F46E5] dark:bg-[#111111] dark:text-[#F97316]"
-                            aria-label={t('common.add', 'Connectar')}
-                            onClick={() => navigate('/connectar')}
-                        >
-                            <Plus size={20} strokeWidth={3} />
-                            <span className="hidden sm:inline tracking-wider">{t('common.add', 'Connectar')}</span>
-                        </button>
-                    </div>
-
-                </div>
-                {/* Buscador Desplegable con 44x44px Targets */}
-                {isSearchOpen && (
-                    <div className="w-full bg-[var(--bg-panel)] border-b border-[var(--border-master)] p-2 z-[var(--z-nav,40)] shadow-inner animate-in slide-in-from-top-2">
-                        <div className="flex max-w-2xl w-full mx-auto bg-black/5 dark:bg-white/5 rounded-xl border border-[var(--border-master)] overflow-hidden items-center p-1 gap-1">
-                            <Search size={20} className="text-theme-muted ml-2 shrink-0" />
-                            <input 
-                                type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        searchEngine.search(searchText);
-                                    }
-                                }}
-                                placeholder="Cerca al document..."
-                                className="flex-1 bg-transparent px-2 min-h-[40px] outline-none text-[var(--text-main)] w-[100px] sm:w-auto" autoFocus
-                            />
-                            
-                            {searchEngine.matchCount > 0 && (
-                                <div className="flex items-center gap-1.5 mr-1 bg-black/5 dark:bg-white/5 pr-1 py-1 pl-3 rounded-lg border border-black/5 dark:border-white/5 shrink-0">
-                                    <span className="text-[13px] font-bold text-theme-muted tabular-nums whitespace-nowrap min-w-[36px] text-center">
-                                        {searchEngine.currentMatchIndex + 1} / {searchEngine.matchCount}
-                                    </span>
-                                    <div className="flex items-center ml-1">
-                                        <button onClick={() => searchEngine.prev()} className="p-1.5 min-w-[32px] min-h-[32px] hover:bg-black/10 dark:hover:bg-white/10 active:bg-black/20 rounded-md transition-colors text-theme-text flex items-center justify-center touch-manipulation" aria-label="Resultat anterior">
-                                            <ChevronUp size={18} strokeWidth={2.5} />
-                                        </button>
-                                        <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5"></div>
-                                        <button onClick={() => searchEngine.next()} className="p-1.5 min-w-[32px] min-h-[32px] hover:bg-black/10 dark:hover:bg-white/10 active:bg-black/20 rounded-md transition-colors text-theme-text flex items-center justify-center touch-manipulation" aria-label="Resultat següent">
-                                            <ChevronDown size={18} strokeWidth={2.5} />
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <button
-                                onClick={() => searchEngine.search(searchText)} 
-                                className="min-w-[44px] min-h-[44px] px-3 font-bold text-[var(--theme-accent-primary)] hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95 shrink-0 hidden sm:block"
-                            >
-                                {t('project.search', 'Cercar')}
+            {/* PEÇA 1: SYSTEM NAV BAR (LA BARRA BLAUA OFICIAL) */}
+            <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
+                    <div className="flex items-center justify-between min-h-[50px] sm:min-h-[56px] px-2 sm:px-4 flex-wrap relative">
+                        {/* Esquerra: Tornar i Llibre */}
+                        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                            <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+                                <ArrowLeft size={24} strokeWidth={3} />
                             </button>
+                            <button onClick={() => { navigate('/reader'); }} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" title="Llegir Sistema Operatiu">
+                                <Book size={24} strokeWidth={2.5} />
+                            </button>
+                        </div>
+
+                        {/* Dreta: Traductor, Comentar, Compartir, Connectar */}
+                        <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0">
                             <button 
-                                onClick={() => { searchEngine.clear(); setIsSearchOpen(false); }} 
-                                className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-black/5 dark:hover:bg-white/5 rounded-lg touch-manipulation active:scale-95 shrink-0"
+                                onClick={() => openTranslationModal({ postId: routeSlug || 'projecte', title: title })} 
+                                className={`flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${translating ? "animate-pulse" : ""}`}
                             >
-                                <X className="size-5 text-theme-text"/>
+                                {translating ? <Globe size={20} className="animate-spin" /> : <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />}
+                            </button>
+                            <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white">
+                                <MessageCircle size={20} />
+                            </button>
+                            <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white">
+                                <Share2 size={20} />
+                            </button>
+                            <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
+                                <Plus size={20} strokeWidth={3} className="hidden sm:block" />
+                                CONNECTAR
                             </button>
                         </div>
                     </div>
-                )}
-            </header>
+                </header>
 
-            {/* 4. SCROLL CONTAINER NADIU VERTICAL */}
+            {/* PEÇA 3: MAIN SCROLL AREA (CONTENIDOR CENTRAL) */}
             <main 
                 ref={scrollContainerRef}
                 className={standAlone
@@ -1005,14 +950,18 @@ const UniversalPage = ({
                 inert={(isActionMenuOpen || isHistoryOpen || !!mediaViewerSrc) ? true : undefined}
                 style={{ scrollBehavior: 'smooth' }}
             >
-                {/* 1. INVERTED TAB: PORTADA I TÍTOL */}
-                <section className="w-full flex flex-col items-center justify-center bg-[var(--bg-panel)] relative z-10">
-                    <div className="w-full relative z-0 group flex flex-col items-center justify-center overflow-hidden">
-                       {HeroBanner}
+                {/* PEÇA 5: HERO MEDIA (LA PORTADA) */}
+                <section className="w-full flex flex-col items-center justify-center bg-black relative z-10">
+                    <div className="w-full relative z-0 flex flex-col items-center justify-center overflow-hidden bg-[#222222]">
+                        {(forcedHeroImage || heroImage) ? (
+                            <img src={resolveMedia(forcedHeroImage || heroImage)} alt="Portada" className="w-full h-auto block opacity-100" />
+                        ) : (
+                            <div className="w-full h-12 bg-gradient-to-b from-[#333333] to-[#1a1a1a]"></div>
+                        )}
                     </div>
                 </section>
 
-                {/* 2. CAPUCHA NARANJA FIXA */}
+                {/* PEÇA 6: UNIVERSAL CARD HEADER (LA CAPUTXA D'IDENTITAT TARONJA) */}
                 <div className="sticky top-0 z-[190] w-full shrink-0 shadow-sm">
                     <UniversalCardHeader
                         item={null}
@@ -1030,12 +979,64 @@ const UniversalPage = ({
                     />
                 </div>
 
-                <section className="w-full flex flex-col items-center justify-center pb-8 bg-[var(--bg-panel)] rounded-b-[2.5rem] shadow-sm mb-6 relative z-10">
-                    {PagePresentationHeader}
+                {/* PEÇA 7: DECORATED TITLE (EL QUADRE DE PRESENTACIÓ) */}
+                <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-10 mt-0 mb-8">
+                    <div className="bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm p-8 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
+                        <img 
+                            src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
+                            alt="Logo Sóc de Poble (Clar)" 
+                            fetchPriority="high"
+                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-sm object-contain transition-all dark:hidden" 
+                        />
+                        <img 
+                            src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
+                            alt="Logo Sóc de Poble (Fosc)" 
+                            fetchPriority="high"
+                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-sm object-contain transition-all hidden dark:block" 
+                        />
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F97316] uppercase tracking-tight leading-none max-w-2xl break-words">
+                            {title || "Cànon Sóc de Poble"}
+                        </h1>
+                        {subtitle && (
+                            <h2 className="text-xl sm:text-2xl font-bold text-gray-500 uppercase mt-4">
+                                {subtitle}
+                            </h2>
+                        )}
+                    </div>
                 </section>
                 
-                {/* 6. CONTENIDO (EPUB / CALENDAR / KANBAN) */}
-                <section id="dynamic-content-section" className="w-full flex-1 shrink-0 relative flex flex-col">
+                {/* BARRA DE VISTES (VIEW SELECTOR) */}
+                {(renderKanban || renderCalendar) && (
+                    <div className="w-full flex justify-center mb-6 relative z-20 px-4">
+                        <div className="bg-white dark:bg-[#222] border border-black/10 dark:border-white/10 rounded-full p-1 flex items-center shadow-sm">
+                            <button 
+                                onClick={() => setViewMode('document')}
+                                className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
+                            >
+                                Llistat
+                            </button>
+                            {renderKanban && (
+                                <button 
+                                    onClick={() => setViewMode('kanban')}
+                                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
+                                >
+                                    Tauler
+                                </button>
+                            )}
+                            {renderCalendar && (
+                                <button 
+                                    onClick={() => setViewMode('calendar')}
+                                    className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[#F97316] text-white shadow-md' : 'text-gray-500 hover:text-black dark:hover:text-white'}`}
+                                >
+                                    Línia de Temps
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+                
+                {/* 8. CONTENIDO DINÀMIC (RICH TEXT O CHILDREN) */}
+                <section id="dynamic-content-section" className="w-full flex-1 shrink-0 relative flex flex-col items-center">
                     {ActualContent}
                 </section>
                 
@@ -1047,50 +1048,7 @@ const UniversalPage = ({
                 )}
             </main>
 
-            {/* 7. KEBAB MENU BOTTOM SHEET (Exclusivo Móvil) */}
-            {isActionMenuOpen && (
-                <div className="fixed inset-0 z-[var(--z-modal,60)] flex flex-col justify-end touch-none lg:hidden" role="dialog" aria-modal="true">
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-in fade-in" onClick={() => setIsActionMenuOpen(false)} aria-hidden="true" />
-                    <div className="relative w-full bg-[var(--bg-panel)] border-t border-[var(--border-master)] rounded-t-[2.5rem] shadow-2xl p-4 pt-3 pb-[max(env(safe-area-inset-bottom),1.5rem)] animate-in slide-in-from-bottom isolate">
-                        {/* Píldora de arrastre UI */}
-                        <div className="w-12 h-1.5 bg-black/10 dark:bg-white/10 rounded-full mx-auto mb-6" />
-                        
-                        <menu className="flex flex-col gap-2 p-0 m-0">
-                            <button onClick={() => { navigate('/chats/socdepoble'); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
-                                <div className="w-10 h-10 rounded-full bg-[#F97316]/10 dark:bg-[#4F46E5]/10 flex items-center justify-center text-[#F97316] dark:text-[#4F46E5]">
-                                    <MessageCircle className="size-5 shrink-0" /> 
-                                </div>
-                                {t('project.comment_chat', 'Comentar al Xat')}
-                            </button>
-                            <button onClick={() => { if (navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
-                                <div className="w-10 h-10 rounded-full bg-[#F97316]/10 dark:bg-[#4F46E5]/10 flex items-center justify-center text-[#F97316] dark:text-[#4F46E5]">
-                                    <Share2 className="size-5 shrink-0" />
-                                </div>
-                                {t('project.share_page', 'Compartir Pàgina')}
-                            </button>
-                            <button onClick={() => { exportService.downloadNoteAsPDF({ title: title || "Projecte", content: processedHtml }); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold">
-                                <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                                    <Book className="size-5 shrink-0 text-emerald-500" />
-                                </div>
-                                Descarregar E-Book
-                            </button>
-                            <button onClick={() => { navigate('/reader'); setIsActionMenuOpen(false); }} className="flex items-center gap-4 w-full px-4 py-3 min-h-[48px] rounded-2xl hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 text-[var(--text-main)] transition-all touch-manipulation font-bold cursor-pointer">
-                                <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                                    <Database className="size-5 shrink-0 text-emerald-500 animate-pulse" />
-                                </div>
-                                <div className="flex flex-col text-left">
-                                    <span className="leading-tight">Obrir OS</span>
-                                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 uppercase tracking-widest font-black">Llegir Sistema Operatiu</span>
-                                </div>
-                            </button>
-                        </menu>
-                    </div>
-                </div>
-            )}
-
-
-
-            {/* 9. MEDIA VIEWER (Desmontable) */}
+            {/* MEDIA VIEWER (Desmontable) */}
             {!!mediaViewerSrc && (
                 <MediaViewerModal 
                     isOpen={true} 
@@ -1106,7 +1064,6 @@ const UniversalPage = ({
             )}
 
             {/* SCROLL TO TOP & INDEX BUTTONS */}
-            {console.log("RENDER FLOATING INDEX IN UNIVERSAL PAGE:", scrollContainerRef.current)}
             <FloatingIndex scrollRef={scrollContainerRef} />
         </div>
     );

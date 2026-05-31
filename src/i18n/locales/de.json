@@ -22,7 +22,13 @@
     "market": "Markt",
     "towns": "Dörfer",
     "profile": "Profil",
-    "notifications": "Benachrichtigungen"
+    "notifications": "Benachrichtigungen",
+    "map": "Karte",
+    "project": "Das Projekt",
+    "media": "Medien",
+    "notes": "Notizblock",
+    "roadmap": "Fahrplan",
+    "events": "Veranstaltungen"
   },
   "auth": {
     "login": "Anmelden",
