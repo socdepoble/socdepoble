@@ -93,19 +93,10 @@ const UniversalCardHeader = ({
     return (
         <div 
             className={`flex items-center justify-between px-4 py-2 h-[64px] min-h-[64px] max-h-[64px] shrink-0 bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors ${!isPageHeader ? 'rounded-t-[28px]' : ''} ${className || ''}`} 
-            onClick={handleAuthorClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleAuthorClick(e);
-                }
-            }}
         >
             <div className={`flex items-center gap-3 overflow-hidden min-w-0 ${hasNotice || infoText ? 'pr-[120px]' : 'pr-[72px]'}`}>
-                <div 
-                    className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden cursor-pointer active:scale-95 transition-all duration-300 ease-out flex items-center justify-center bg-black/5 dark:bg-white/5"
+                <button 
+                    className="flex items-center gap-3 overflow-hidden min-w-0 text-left outline-none bg-transparent border-none p-0 cursor-pointer group rounded-xl focus-visible:ring-2 focus-visible:ring-white/50"
                     onClick={(e) => {
                         e.stopPropagation();
                         if (finalAvatarRole === 'master') {
@@ -114,36 +105,24 @@ const UniversalCardHeader = ({
                             handleAuthorClick(e);
                         }
                     }}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (finalAvatarRole === 'master') {
-                                navigate('/iaia');
-                            } else {
-                                handleAuthorClick(e);
-                            }
-                        }
-                    }}
                     aria-label={`Veure perfil de ${displayAuthor}`}
                 >
-                    <Avatar 
-                        name={displayAuthor} 
-                        src={finalAvatarSrc} 
-                        role={finalAvatarRole}
-                        size="md"
-                    />
-                </div>
-                
-                <div className="flex flex-col min-w-0">
-                    <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0 cursor-pointer active:opacity-70 transition-opacity">
-                        <div className="truncate"><span>{displayAuthor}</span></div>
-                        {item?.is_iaia_inspired && (
-                            <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
-                        )}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-black/5 dark:bg-white/5 group-active:scale-95 transition-all duration-300 ease-out">
+                        <Avatar 
+                            name={displayAuthor} 
+                            src={finalAvatarSrc} 
+                            role={finalAvatarRole}
+                            size="md"
+                        />
                     </div>
+                    
+                    <div className="flex flex-col min-w-0 group-active:opacity-70 transition-opacity">
+                        <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0">
+                            <div className="truncate"><span>{displayAuthor}</span></div>
+                            {item?.is_iaia_inspired && (
+                                <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
+                            )}
+                        </div>
                     
                     <div className="flex items-center gap-2 min-w-0">
                         {((cardVariant === 'agent' ? item?.town_name : displayTown) && (cardVariant === 'agent' ? item?.town_name : displayTown) !== displayAuthor) && (
@@ -154,6 +133,7 @@ const UniversalCardHeader = ({
                         )}
                     </div>
                 </div>
+                </button>
             </div>
 
             <div className="absolute right-[10px] top-0 bottom-0 flex flex-row items-center justify-end gap-1.5 shrink-0 pointer-events-none">
@@ -165,7 +145,7 @@ const UniversalCardHeader = ({
                         className={`pointer-events-auto shadow-[0_4px_12px_rgba(0,0,0,0.25)] bg-[#111111]/10 dark:bg-white/10 hover:bg-[#111111]/20 dark:hover:bg-white/20 border-none !h-[40px] ${((hasNotice && isPinned) || (infoText && infoText.length <= 3)) ? 'px-0 w-[40px]' : 'px-4'}`} 
                         title="Més informació"
                         onClick={handleInfoClick}
-                        aria-label="Més informació"
+                        aria-label={hasNotice ? (isPinned ? "Més informació: Destacat" : `Més informació: ${t('card.agenda_tag') || 'AGENDA'}`) : `Més informació: ${infoText}`}
                     >
                         {hasNotice ? (
                             <div className="flex items-center gap-1">

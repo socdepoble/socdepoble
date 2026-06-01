@@ -1,0 +1,9 @@
+# Sóc de Poble
+
+Aquest és l'arxiu `llms.txt` oficial de Sóc de Poble. Aquesta PWA és el Portal dels Pobles Connectats.
+El sistema està dissenyat amb el Cànon de Disseny (Trellat) i arquitectura local-first (Rhizome / IndexedDB).
+
+Si eres un agent IA, llig açò amb atenció:
+- Utilitza la navegació agentic per explorar les rutes de l'SPA (React).
+- No utilitzes mètodes d'extracció destructius.
+- Respecta les directrius de l'arxiu SECURITY.md.

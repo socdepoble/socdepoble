@@ -128,12 +128,20 @@ const UniversalPage = ({
     const scrollContainerRef = useRef(null);
     const searchEngine = useAccessibleSearch(scrollContainerRef);
 
-    // SCROLL TO TOP LISTENER
+    // SCROLL TO TOP LISTENER (Throttled per evitar Layout Thrashing)
     useEffect(() => {
         const el = scrollContainerRef.current;
         if (!el) return;
+        
+        let ticking = false;
         const onScroll = () => {
-            setShowScrollTop(el.scrollTop > 300);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    setShowScrollTop(el.scrollTop > 300);
+                    ticking = false;
+                });
+                ticking = true;
+            }
         };
         el.addEventListener('scroll', onScroll, { passive: true });
         return () => el.removeEventListener('scroll', onScroll);
@@ -646,14 +654,14 @@ const UniversalPage = ({
                                 <img 
                                     src={logoLight} 
                                     alt="Logo (Clar)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 drop-shadow-md object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
                                 />
                             )}
                             {logoDark && (
                                 <img 
                                     src={logoDark} 
                                     alt="Logo (Fosc)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 drop-shadow-md object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
                                 />
                             )}
                         </>
@@ -917,10 +925,10 @@ const UniversalPage = ({
                             <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
                                 <ArrowLeft size={24} strokeWidth={3} />
                             </button>
-                            <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex">
+                            <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
                                 <ListIcon size={24} strokeWidth={2.5} />
                             </button>
-                            <button onClick={() => { navigate('/reader'); }} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" title="Llegir Sistema Operatiu">
+                            <button onClick={() => { navigate('/reader'); }} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" title="Llegir Sistema Operatiu" aria-label="Llegir Sistema Operatiu">
                                 <Book size={24} strokeWidth={2.5} />
                             </button>
                         </div>
@@ -930,13 +938,14 @@ const UniversalPage = ({
                             <button 
                                 onClick={() => openTranslationModal({ postId: routeSlug || 'projecte', title: title })} 
                                 className={`flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${translating ? "animate-pulse" : ""}`}
+                                aria-label="Traduir pàgina"
                             >
                                 {translating ? <Globe size={20} className="animate-spin" /> : <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />}
                             </button>
-                            <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white">
+                            <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
                                 <MessageCircle size={20} />
                             </button>
-                            <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white">
+                            <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
                                 <Share2 size={20} />
                             </button>
                             <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
@@ -1004,13 +1013,13 @@ const UniversalPage = ({
                             src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
                             alt="Logo Sóc de Poble (Clar)" 
                             fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 drop-shadow-sm object-contain transition-all dark:hidden" 
+                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all dark:hidden" 
                         />
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
                             alt="Logo Sóc de Poble (Fosc)" 
                             fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 drop-shadow-sm object-contain transition-all hidden dark:block" 
+                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all hidden dark:block" 
                         />
                         <h1>
                             {title || "Cànon Sóc de Poble"} 

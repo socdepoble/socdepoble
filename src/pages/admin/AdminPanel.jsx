@@ -167,10 +167,20 @@ const AdminPanel = () => {
                                 <h3>Directori de Gent</h3>
                             </div>
 
-                            {/* MODULE 3: AUTO-HEALING (New) */}
-                            <div className="module-card cyan" onClick={() => {
-                                addLog('Iniciant sessió de curació manual...', 'action');
-                                setTimeout(() => addLog('Caché purgada en 3 nodes (Mobile/Web).', 'success'), 1500);
+                            {/* MODULE 3: AUTO-HEALING (Real SG Cache Flush) */}
+                            <div className="module-card cyan" onClick={async () => {
+                                addLog('Iniciant sessió de curació manual (SiteGround Purge)...', 'action');
+                                try {
+                                    const response = await fetch('/sg-cache-flush.php?token=trellat_purga_maxima_482');
+                                    const data = await response.json();
+                                    if (response.ok) {
+                                        addLog('Caché purgada en els 4 dominis. El SiteGround està net.', 'success');
+                                    } else {
+                                        addLog(`Alerta en purgar la caché: ${data.message}`, 'warn');
+                                    }
+                                } catch (error) {
+                                    addLog(`Error purgant la caché: ${error.message}`, 'error');
+                                }
                             }}>
                                 <div className="module-icon-wrapper">
                                     <Zap size={18} />

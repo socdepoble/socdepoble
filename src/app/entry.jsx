@@ -64,68 +64,103 @@ console.info = (...args) => { if (!isNoise(args)) originalInfo.apply(console, ar
 
 const CURRENT_MASTER_VERSION = APP_VERSION;
 
-// Simplified Version Gatekeeper
-// [RESILIENT VERSION GATEKEEPER] Protocol de Prevenció de Bucles
-const savedVersion = localStorage.getItem("sp_app_version");
-const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0");
-const now = Date.now();
+import { registerSW } from 'virtual:pwa-register';
 
-if (savedVersion && savedVersion !== CURRENT_MASTER_VERSION) {
-    if (now - lastReload < 120000) { 
-        // Resolució del decalatge de versions silenciada per no embrutar la consola amb fantasmes
-        // Forçar l'actualització perquè el Gatekeeper pugui avançar i no es quedi encallat 2 minuts.
-        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
-    } else {
-        localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
-        localStorage.setItem("sp_last_version_reload", now.toString());
-        if ('caches' in window) {
-            caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
-        }
-        window.location.reload(true);
+async function preBootCheck() {
+    const savedVersion = localStorage.getItem("sp_app_version");
+    const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0");
+    const now = Date.now();
+
+    // Protocol de Prevenció de Bucles
+    if (now - lastReload < 10000) {
+        return true; 
     }
-} else if (!savedVersion) {
-    localStorage.setItem("sp_app_version", CURRENT_MASTER_VERSION);
+
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1500);
+        const res = await fetch('/version.json?v=' + now, { 
+            cache: 'no-store',
+            signal: controller.signal
+        });
+        const data = await res.json();
+        clearTimeout(timeoutId);
+
+        const serverVersion = data.version;
+
+        if (savedVersion && serverVersion !== savedVersion) {
+            console.warn(`[BOOT] Nova versió detectada (${serverVersion} vs ${savedVersion}). Purgant Zombi...`);
+            localStorage.setItem("sp_app_version", serverVersion);
+            localStorage.setItem("sp_last_version_reload", now.toString());
+            
+            if ('serviceWorker' in navigator) {
+                const regs = await navigator.serviceWorker.getRegistrations();
+                for (const reg of regs) {
+                    await reg.unregister();
+                }
+            }
+            
+            if ('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(k => caches.delete(k)));
+            }
+            
+            window.location.reload(true);
+            return false; // No muntar React
+        } else if (!savedVersion) {
+            localStorage.setItem("sp_app_version", serverVersion || CURRENT_MASTER_VERSION);
+        }
+    } catch (e) {
+        console.warn("[BOOT] Verificació de versió omesa (offline o error).");
+    }
+    return true; // Continuar amb el muntatge
 }
 
-const container = document.getElementById("root");
-if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+preBootCheck().then((shouldMount) => {
+    if (!shouldMount) return;
 
-window.__SDP_ROOT__.render(
-    <ErrorBoundary fallbackMessage="💀 ROOT CRASH: Fallada Crítica en el Render Inicial">
-      <QueryProvider>
-        <HelmetProvider>
-          <BrowserRouter>
-          <DesignProvider>
-            <ThemeProvider>
-              <I18nProvider>
-                <RealmProvider>
-                  <AuthProvider>
-                    <SocialProvider>
-                      <CartProvider>
-                        <NavigationProvider>
-                          <ModalProvider>
-                            <ToastProvider>
-                              <VersionGatekeeper>
-                                <SafeShell>
-                                  <App />
-                                </SafeShell>
-                              </VersionGatekeeper>
-                            </ToastProvider>
-                          </ModalProvider>
-                        </NavigationProvider>
-                      </CartProvider>
-                    </SocialProvider>
-                  </AuthProvider>
-                </RealmProvider>
-              </I18nProvider>
-            </ThemeProvider>
-          </DesignProvider>
-          </BrowserRouter>
-        </HelmetProvider>
-      </QueryProvider>
-    </ErrorBoundary>
-);
+    registerSW({ immediate: true });
 
-// Signalejar al Failsafe de index.html que hem arrancat amb èxit
-window.__SDP_ROOT_MOUNTED = true;
+    const container = document.getElementById("root");
+    if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+
+    window.__SDP_ROOT__.render(
+        <ErrorBoundary fallbackMessage="💀 ROOT CRASH: Fallada Crítica en el Render Inicial">
+          <QueryProvider>
+            <HelmetProvider>
+              <BrowserRouter>
+              <DesignProvider>
+                <ThemeProvider>
+                  <I18nProvider>
+                    <RealmProvider>
+                      <AuthProvider>
+                        <SocialProvider>
+                          <CartProvider>
+                            <NavigationProvider>
+                              <ModalProvider>
+                                <ToastProvider>
+                                  <VersionGatekeeper>
+                                    <SafeShell>
+                                      <App />
+                                    </SafeShell>
+                                  </VersionGatekeeper>
+                                </ToastProvider>
+                              </ModalProvider>
+                            </NavigationProvider>
+                          </CartProvider>
+                        </SocialProvider>
+                      </AuthProvider>
+                    </RealmProvider>
+                  </I18nProvider>
+                </ThemeProvider>
+              </DesignProvider>
+              </BrowserRouter>
+            </HelmetProvider>
+          </QueryProvider>
+        </ErrorBoundary>
+    );
+
+    // Signalejar al Failsafe de index.html que hem arrancat amb èxit
+    window.__SDP_ROOT_MOUNTED = true;
+});
 

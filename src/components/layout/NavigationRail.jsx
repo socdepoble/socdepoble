@@ -36,18 +36,19 @@ const NavigationRail = () => {
     <nav className="w-full h-full flex flex-col bg-transparent relative overflow-hidden notranslate">
       
       {/* 1. BOTÓ D'ACCIÓ RÀPIDA (TOP - PROTOCOL HUB) - FIT 56PX */}
-      <div 
-        className="min-h-[50px] sm:min-h-[56px] w-full shrink-0 flex items-center justify-start px-7 gap-4 bg-[#4F46E5] text-white cursor-pointer hover:opacity-90 transition-opacity z-20 relative"
+      <button 
+        className="min-h-[50px] sm:min-h-[56px] w-full shrink-0 flex items-center justify-start px-7 gap-4 bg-[#4F46E5] text-white cursor-pointer hover:opacity-90 transition-opacity z-20 relative outline-none"
         onClick={() => {
           navigate("/hub");
           handleNavigate();
         }}
+        aria-label={t("common.add", "CONNECTAR")}
       >
         <Plus size={22} strokeWidth={3} className="shrink-0" />
         <span className="font-bold tracking-widest uppercase text-[17px] truncate">
           {t("common.add", "CONNECTAR")}
         </span>
-      </div>
+      </button>
 
       <div className="flex-1 overflow-y-auto stable-scroll custom-scrollbar flex flex-col pt-1 px-3 pb-6">
 
@@ -59,7 +60,7 @@ const NavigationRail = () => {
               return (
                 <li key={item.path} className="relative">
                   {isActive && (
-                    <div className="absolute inset-0 bg-[#F97316] rounded-tactile transition-all duration-200" />
+                    <div className="absolute inset-0 bg-[#F97316] rounded-tactile transition-colors duration-200" />
                   )}
                   <NavLink
                     to={item.path}
@@ -81,7 +82,7 @@ const NavigationRail = () => {
             {isSuperAdmin && (
               <li key="/iaia-sandbox" className="relative mt-2 pt-2 border-t border-[#ffffff14]">
                 {location.pathname.startsWith("/iaia-sandbox") && (
-                  <div className="absolute inset-0 bg-red-500/10 rounded-tactile transition-all duration-200" />
+                  <div className="absolute inset-0 bg-red-500/10 rounded-tactile transition-colors duration-200" />
                 )}
                 <NavLink
                   to="/iaia-sandbox"

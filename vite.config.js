@@ -34,11 +34,11 @@ export default defineConfig({
       srcDir: 'src/workers',
       filename: 'service-worker.ts',
       registerType: 'autoUpdate',
-      injectRegister: 'inline',
+      injectRegister: null,
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
         maximumFileSizeToCacheInBytes: 100 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,wasm,onnx}'],
+        globPatterns: ['**/*.{js,css,ico,png,svg,wasm,onnx}'],
         globIgnores: ['llibres/**', 'skills/**', 'assets/books/**']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],

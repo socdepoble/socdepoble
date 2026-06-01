@@ -5,7 +5,7 @@ export const cardVariants = cva(
     group flex flex-col flex-auto w-full relative
     rounded-[28px]
     text-[#FFFFFF]
-    transition-all duration-300 ease-in-out
+    transition duration-300 ease-in-out
     shadow-xl shadow-black/60
     hover:shadow-2xl hover:shadow-black/80
     transform-gpu

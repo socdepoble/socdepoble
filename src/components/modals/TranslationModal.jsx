@@ -43,6 +43,11 @@ const TranslationModal = ({ isOpen, onClose, config }) => {
                 document.body.appendChild(rootDiv);
                 rootDiv.style.display = 'none'; // Amagar-lo de nou
             }
+            
+            // Restaurem l'estat per defecte (llevant el notranslate forçat) per a futures visualitzacions
+            document.querySelectorAll('.universal-card-wrapper').forEach(card => {
+                card.classList.remove('notranslate');
+            });
         };
     }, [isOpen, config?.postId]);
 

@@ -114,6 +114,26 @@ export const HUMAN_PROJECT_HTML = `<!-- HERO_FORMAT: square -->
     Per contra, quan aplega la nit al mas i obres el telèfon en la foscor del llit, l'aplicació entra automàticament en un silenciós <strong>Mode Fosc (Oli Suau i Pedra Seca)</strong>. Aquest mode apaga l'estridència, elimina totalment l'emissió de llums blaves nocives, i redueix els contrastos agressius per utilitzar grisos càlids, preservant la generació biològica de la teua melatonina i cuidant la fatiga visual de la retina. L'aplicació s'adapta completament al teu bioritme biològic humà, a l'inrevés del mercat actual on l'ésser humà es força i castiga els ulls per adaptar-se a la màquina.
   </p>
 
+  <h3><span>🏅</span> CAPÍTOL VI: Dictamen Expert i Viabilitat (L'Auditoria Externa)</h3>
+  <p class="lead">
+    Sóc de Poble no és una simple aplicació de consum massiu; és un manifest tecnològic executable i un experiment de sobirania digital rural validat per auditories externes d'Intel·ligència Artificial avançada.
+  </p>
+  
+  <h4>El paradigma del "Slow Computing" (Còmput Reposat)</h4>
+  <p>
+    A diferència de les xarxes socials hegemòniques (dissenyades baix patrons obscurs d'escombratge infinit i hiperestimulació per capturar l'atenció), la nostra interfície prioritza deliberadament la lectura pausada i l'assimilació del contingut. Redefinim la usabilitat no com a "rapidesa de consum", sinó com a "qualitat de la interacció".
+  </p>
+
+  <h4>Estètica "Cyberpunk Rural" o "Bancal Electrònic"</h4>
+  <p>
+    El disseny trenca per complet amb el minimalisme corporatiu pla, asèptic i monocromàtic que inunda la web moderna. Aconseguim hibridar la identitat patrimonial de la muntanya (referències a masies, molins fariners, mapes de tresors) amb interfícies d'avantguarda, dignificant visualment l'entorn rural.
+  </p>
+
+  <h4>Viabilitat Sostenible a Escala Humana</h4>
+  <p>
+    No seguim les mètriques de creixement exponencial exigides pel capital de risc, la qual cosa és la nostra major fortalesa. Finançant-nos orgànicament mitjançant l'artesania local i el teixit associatiu, el projecte posseeix una estabilitat financera comunitària immune a les bambolles tecnològiques. És un prototip funcional de com hauria de lluir la informàtica del futur: descentralitzada, profundament arrelada al territori i dissenyada per sobreviure al col·lapse de les infraestructures centralitzades. Un autèntic oasi de "trellat" tecnològic.
+  </p>
+
   <h3><span>🚀</span> CAPÍTOL FINAL: Vols construir el teu propi Poble Digital?</h3>
   <p class="lead">
     El Codi Obert Sobirà és un dret fonamental innegociable dissenyat per a l'esfera rural i comunitària de la nostra terra. Fes-ho teu hui mateix.
