@@ -5,7 +5,7 @@ import ErrorBoundary from '../../components/core/ErrorBoundary';
 import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
 import UniversalCardMedia from '../../components/ui/universal-card/UniversalCard.Media';
 import MediaViewerModal from '../../components/modals/MediaViewerModal';
-import { Shield, ArrowLeft, Share2, Plus, Globe, MessageCircle, Book, Minimize, Maximize } from 'lucide-react';
+import { ArrowLeft, Share2, Plus, Globe, MessageCircle, Book, Minimize, Maximize } from 'lucide-react';
 import SEO from '../../components/core/SEO';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../app/context/ModalContext';
@@ -347,7 +347,7 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
                             className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all hidden dark:block" 
                         />
 
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase mb-0 mt-2 max-w-4xl w-full break-words">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center tracking-tight leading-none uppercase mb-0 mt-2 max-w-4xl w-full break-words">
                             {itemName}
                         </h1>
                     </div>
@@ -355,7 +355,7 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
 
                 <div className="max-w-4xl mx-auto px-6 md:px-12 w-full shrink-0 flex-1">
                     {(item?.post_subtitle || item?.subtitle) && (
-                        <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase my-[30px] text-center w-full break-words">
+                        <h2 className="text-2xl md:text-3xl font-bold uppercase my-[30px] text-center w-full break-words">
                             {item.post_subtitle || item.subtitle}
                         </h2>
                     )}
@@ -394,7 +394,7 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
                                                             </div>
                                                         )}
                                                         <div className="flex flex-col">
-                                                            <h2 className="text-xl sm:text-2xl font-bold text-[var(--theme-accent-primary)] mb-1 uppercase tracking-tight leading-tight">{variation.name}</h2>
+                                                            <h2 className="text-xl sm:text-2xl font-bold mb-1 uppercase tracking-tight leading-tight">{variation.name}</h2>
                                                             {variation.description && <p className="text-sm opacity-80 mb-3 max-w-sm">{variation.description}</p>}
                                                             <span className="text-[10px] sm:text-xs uppercase tracking-widest font-bold opacity-50 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full w-max mx-auto sm:mx-0">
                                                                 Venedor: {item.seller || item.author_name || 'Desconegut'}

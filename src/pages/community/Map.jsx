@@ -252,6 +252,7 @@ const Map = () => {
                 if (matchedTown) {
                     const coords = TOWN_COORDINATES[matchedTown];
                     // Derive a pseudo-random offset based on ID so it's consistent
+                    // eslint-disable-next-line react-hooks/purity
                     const seedStr = (p.id || p.uuid || Math.random()).toString();
                     let hash = 0;
                     for (let i = 0; i < seedStr.length; i++) hash = seedStr.charCodeAt(i) + ((hash << 5) - hash);

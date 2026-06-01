@@ -76,7 +76,7 @@ export default function UniversalAjuntament({ entity, isOwner, onSettingsClick }
               {/* Esquerra: Tornar */}
               <div className="flex items-center justify-start gap-1 shrink-0">
                   <button 
-                      onClick={() = aria-label="Compartir"> navigate(-1)} 
+                      onClick={() => navigate(-1)} 
                       className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
                       aria-label="Tornar arrere"
                   >

@@ -1,8 +1,8 @@
 import { useNavigation } from '../../app/context/NavigationContext';
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../app/context/AuthContext";
-import { Menu, Search, Sun, Moon, UserPlus } from "lucide-react";
 import { useTheme } from "../../app/context/ThemeContext";
+import { Search, Sun, Moon, UserPlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSelector from "../ui/LanguageSelector";
 import { useDesign } from "../../app/context/DesignContext";
@@ -29,7 +29,7 @@ const Header = () => {
     return (
     <UniversalHeader>
       {/* LEFT SIDE: Logo (Obre el menú) */}
-      <UniversalHeader.Group position="left" className="!pl-[30px]">
+      <UniversalHeader.Group position="left" className="!pl-[20px] md:!pl-[30px]">
         <UniversalHeader.Logo onClick={toggleDrawer} />
       </UniversalHeader.Group>
 

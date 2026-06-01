@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, ChevronRight, Folder, FolderPlus, Trash2, Tag, Upload, Download, Library, Tags } from 'lucide-react';
-
+import { ChevronRight, Folder, FolderPlus, Trash2, Tag, Library, Tags } from 'lucide-react';
 const NotebookSidebar = ({ 
     folders, 
     activeFolder, 

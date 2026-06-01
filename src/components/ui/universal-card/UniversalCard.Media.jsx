@@ -18,6 +18,7 @@ const UniversalCardMedia = ({
 
     useEffect(() => {
         if (mediaList && mediaList.length > 1) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsImageLoaded(true);
         }
     }, [mediaList]);

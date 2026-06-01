@@ -25,7 +25,7 @@ const UniversalHeaderLogo = React.memo(({ onClick, className = '' }) => {
             <img
                 src="/assets/system/ui/logo-socdepoble-rect-blanc.svg"
                 alt="Sóc de Poble"
-                className="h-[24px] sm:h-[42px] lg:h-[45px] w-auto object-contain filter drop-shadow-md shrink min-w-0"
+                className="h-[32px] sm:h-[42px] lg:h-[45px] w-auto object-contain filter drop-shadow-md shrink min-w-0"
                 fetchPriority="high"
             />
         </button>

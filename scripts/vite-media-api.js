@@ -65,7 +65,7 @@ export function mediaApiPlugin() {
                                     if (index !== -1) {
                                         const filePathToDelete = path.join(process.cwd(), 'public', registry.media[index].path);
                                         if (fs.existsSync(filePathToDelete)) {
-                                            try { fs.unlinkSync(filePathToDelete); } catch (e) {}
+                                            try { fs.unlinkSync(filePathToDelete); } catch (e) { /* ignore */ }
                                         }
                                         registry.media.splice(index, 1);
                                         deletedCount++;

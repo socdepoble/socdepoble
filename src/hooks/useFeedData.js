@@ -19,6 +19,7 @@ export const useFeedData = ({ activeTown, customPosts }) => {
 
     useEffect(() => {
         if (customPosts) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setPostsState(customPosts);
         } else {
             // Mix the MOCK_FEED (Lore) with the dynamic DB posts so the wall is never empty

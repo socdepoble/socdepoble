@@ -70,7 +70,7 @@ const CalendarGanttView = () => (
         <div className="md:w-32 lg:w-40 shrink-0 sticky top-0 md:top-4 z-10 bg-[var(--bg-panel)]/95 backdrop-blur-md md:bg-transparent py-2 border-b md:border-b-0 border-[var(--theme-accent-primary)] md:border-r-4 pr-4">
           <div className="flex p-3 rounded-lg md:rounded-none bg-transparent items-center gap-3">
              <div className="w-3 h-3 rounded-full bg-[var(--theme-accent-primary)] -ml-2 shrink-0 md:block hidden outline outline-4 outline-[var(--bg-panel)] shadow-md" />
-             <h3 className="font-black text-2xl tracking-tighter text-[var(--theme-accent-primary)] uppercase flex-1 text-left md:text-right m-0 flex items-center justify-start md:justify-end gap-2">
+             <h3 className="font-black text-2xl tracking-tighter uppercase flex-1 text-left md:text-right m-0 flex items-center justify-start md:justify-end gap-2">
               <Calendar size={20} className="md:hidden" /> {q.replace('-', ' ')}
              </h3>
           </div>

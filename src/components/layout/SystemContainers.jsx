@@ -5,6 +5,7 @@ const SystemEnvironmentContext = createContext({
     env: 'root' // 'root' | 'embedded'
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSystemEnvironment = () => useContext(SystemEnvironmentContext);
 
 // 2. Contenidor Arrel (Per a pàgines principals com Mur, Mercat, etc.)

@@ -1,6 +1,6 @@
 import React from 'react';
 import UniversalPage from '../public/UniversalPage';
-import { ArrowLeft, Book, MessageCircle, Share2, Plus, Globe, ChevronLeft, Menu, Search, User, Moon, UserPlus } from 'lucide-react';
+import { ArrowLeft, Book, MessageCircle, Share2, Plus, Search, Moon, UserPlus } from 'lucide-react';
 import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
 import IAIAIcon from '../../components/icons/IAIAIcon';
 import LanguageSelector from '../../components/ui/LanguageSelector';

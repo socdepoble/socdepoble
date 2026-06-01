@@ -325,14 +325,14 @@ const AppLayout = () => {
           <div
             className={`
               flex-shrink-0 transition-transform duration-300 ease-in-out overflow-hidden
-              fixed z-[var(--z-sidebar)] top-0 left-0 h-[100dvh] w-[300px] max-w-[85vw] bg-[#000000] border-r border-[#ffffff14]
+              fixed z-[var(--z-sidebar)] top-[64px] left-0 h-[calc(100dvh-64px)] w-[300px] max-w-[85vw] bg-[#000000] border-r border-[#ffffff14]
               shadow-[4px_0_15px_rgba(0,0,0,0.3)]
               ${
                 isDrawerOpen
                   ? "translate-x-0"
                   : "-translate-x-full"
               }
-              md:relative md:z-[var(--z-sidebar)] md:translate-x-0 md:h-full md:w-[240px] md:border-r-0
+              md:relative md:top-0 md:h-full md:z-[var(--z-sidebar)] md:translate-x-0 md:w-[240px] md:border-r-0
             `}
           >
             <BlueprintOverlay

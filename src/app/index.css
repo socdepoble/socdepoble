@@ -28,10 +28,10 @@
   /* Optims per lectura llegó de llibre: Line Height base 1.6 */
   --cms-lh-base: 1.6;
   --cms-lh-heading: 1.25;
-  --cms-gap-paragraph: 1em;         /* Space AFTER paragraph = exactly 1em as requested */
-  --cms-gap-h2-top: 2.8rem;            /* Space BEFORE H2 */
+  --cms-gap-paragraph: 1.25rem;         /* Space AFTER paragraph (25px) */
+  --cms-gap-h2-top: 1.6rem;            /* Space BEFORE H2 (32px) */
   --cms-gap-h2-bottom: 0.8rem;         /* Space AFTER H2 */
-  --cms-gap-h3-top: 2rem;              /* Space BEFORE H3 */
+  --cms-gap-h3-top: 1.2rem;              /* Space BEFORE H3 (24px) */
   --cms-gap-h3-bottom: 0.5rem;         /* Space AFTER H3 */
   --cms-gap-subtitle-h3: 80px;         /* Specific spacing between Subtitle (H2) and next element as requested */
 
@@ -443,8 +443,25 @@
 
   
   /* Selectors text content */
+  /* [TRELLAT] Cànon Global per a Tipografia (Sense !important, cascada pura) */
+  h1, .app-cms-content h1, .sosp-title-h1 {
+    color: var(--theme-accent-secondary);
+  }
+  h2, .app-cms-content h2, .sosp-section-h2 {
+    color: var(--theme-accent-primary);
+  }
+  h3, .app-cms-content h3, .sosp-heading-h3 {
+    color: var(--theme-accent-secondary);
+  }
+  h4, .app-cms-content h4 {
+    color: var(--theme-accent-primary);
+  }
+  h5, .app-cms-content h5 {
+    color: var(--theme-accent-secondary);
+  }
+
   .app-cms-content h1 {
-    font-size: clamp(1.875rem, 4vw, 2.25rem); /* text-3xl to text-4xl */
+    font-size: clamp(2rem, 5vw, 2.75rem); /* text-4xl to text-5xl */
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.025em;
@@ -454,19 +471,20 @@
   }
   
   .app-cms-content h2 {
-    font-size: clamp(1.25rem, 3vw, 1.5rem); /* text-xl to text-2xl */
-    font-weight: 700;
-    color: var(--theme-accent-secondary);
+    font-size: clamp(1.5rem, 4vw, 1.875rem); /* text-2xl to text-3xl */
+    font-weight: 900;
     text-transform: uppercase;
     margin-top: var(--cms-gap-h2-top);
     margin-bottom: var(--cms-gap-h2-bottom);
     line-height: var(--cms-lh-heading);
-    text-align: left;
+    text-align: center;
   }
   
   .app-cms-content h3 {
-    font-size: 1.125rem; /* text-lg */
+    font-size: clamp(1.125rem, 3vw, 1.5rem); /* text-lg to text-2xl */
+    color: var(--theme-accent-secondary);
     font-weight: 700;
+    text-transform: uppercase;
     margin-top: var(--cms-gap-h3-top);
     margin-bottom: var(--cms-gap-h3-bottom);
     line-height: var(--cms-lh-heading);
@@ -479,30 +497,30 @@
   }
 
   .app-cms-content h4 {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: clamp(1.125rem, 2.75vw, 1.375rem); /* text-lg to ~text-xl */
+    font-weight: 800;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--theme-accent-primary);
     margin-top: var(--spacing-unit);
     margin-bottom: 0.5rem;
     text-align: left;
   }
   
   .app-cms-content h5 {
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 600;
-    color: var(--text-muted);
+    font-size: clamp(1rem, 2.5vw, 1.25rem); /* text-base to text-xl */
+    font-weight: 700;
+    color: var(--theme-accent-secondary);
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     text-align: left;
   }
 
   .app-cms-content h6 {
-    font-size: 0.75rem; /* text-xs, accessible minimum limit */
-    font-weight: 500;
+    font-size: clamp(0.8rem, 1.5vw, 1rem); /* text-xs to text-base */
+    font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--text-muted);
+    color: var(--text-main);
     margin-top: 0.5rem;
     margin-bottom: 0.25rem;
     text-align: left;
@@ -518,23 +536,19 @@
   .app-cms-content :where(ul, ol) {
     font-size: clamp(1.05rem, 1.8vw, 1.15rem);
     margin-bottom: var(--cms-gap-paragraph);
-    display: flex;
-    flex-direction: column;
-    gap: 0.8em;
+    padding-left: 1.5rem;
+    display: block; /* Format llibre clàssic purista */
   }
   
-  /* Llistes numèriques netes (el disseny tàctil base no val ací per lectura llarga,
-     només les apliquem a les de viñetas, mantindrem estil per totes per defecte per ara si no es concreta,
-     però la instrucció deia només estils clean) */
-  .app-cms-content ul, .app-cms-content ol {
-    padding-left: 1.5rem;
-    display: block; /* revertims a block per la legibilitat purista */
+  /* Unificació visual: Paràgraf + Llista com a un sol bloc */
+  .app-cms-content p + :where(ul, ol) {
+    margin-top: -0.75rem; /* Reducció de ~12px per agrupar text i bullets */
   }
   
   /* Llistes anidades: llevem l'enorme gap del margin-bottom perquè no trenqui l'harmonia visual entre viñetas */
   .app-cms-content li :where(ul, ol) {
     margin-bottom: 0;
-    margin-top: 0.25rem;
+    margin-top: 0.12rem;
   }
 
   .app-cms-content ol {
@@ -545,14 +559,32 @@
   }
 
   .app-cms-content li {
-    /* Reset táctil antic: en llibres V12 CMS només apliquem un marge senzill excepte si són llistats interactius, però seguim amb el padding lleuger per ara. */
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.12rem; /* Bullets més agrupats per a fer sensació de llista densa */
   }
   .app-cms-content li > p {
     margin: 0;
   }
 
   /* Blockquotes i Media */
+  /* ENTRADILLA / LEAD PARAGRAPH (SEO Friendly) */
+  .app-cms-content p.lead {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem); /* Lletra gran (xl-2xl) */
+    font-weight: 400; /* Pes normal per guanyar presència i evitar orfandat visual */
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem; /* Ajustat a 1rem (~20px) per cohesionar-lo com un bloc/cita amb el text inferior */
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .app-cms-content p.lead strong {
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
   .app-cms-content blockquote {
     border-left: 4px solid var(--theme-accent-primary);
     padding: 1rem 1rem 1rem 1.5rem;
