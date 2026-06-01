@@ -195,7 +195,7 @@ export default function DesignSystem() {
               displayAuthor={mockItem.authorName}
               avatarSrc={mockItem.avatarUrl}
               avatarRole="official"
-              infoText="V10.38.25"
+              infoText="V10.38.26"
               displayDate="15/5/2026"
               displayTime="12:00"
               isPageHeader={true}
