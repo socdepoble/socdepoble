@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { APP_VERSION } from '../../constants';
 
 /**
- * 🏺 SEO [VIRAL TIERS GOD] - v10.33.16
+ * 🏺 SEO [VIRAL TIERS GOD] - Sincronitzat amb APP_VERSION
  * Gestió dinàmica de l'SEO per a previsualitzacions d'alt impacte.
  * 
  * CARACTERÍSTIQUES:
