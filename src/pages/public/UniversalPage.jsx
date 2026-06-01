@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { ArrowLeft, Book, Plus, Search, MessageCircle, Minimize, Maximize, Share2, ChevronUp, ChevronDown, X, Globe, Database } from 'lucide-react';
+import { ArrowLeft, Book, Plus, Search, MessageCircle, Share2, ChevronUp, ChevronDown, X, Globe, Database } from 'lucide-react';
 import FloatingIndex from '../../components/ui/FloatingIndex';
 
 const RichTextEditor = lazy(() => import('../../components/ui/RichTextEditor'));
@@ -201,7 +201,7 @@ const UniversalPage = ({
             if (data || ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug)) {
                 let content = data?.html_content || '';
                 
-                if (!content || content.includes('Aquest text és provisional') || content.includes('Aquesta funcionalitat està en desenvolupament') || content.includes('Aquesta pàgina encara no té contingut')) {
+                if (['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte'].includes(_slug)) {
                     if (_slug === 'genotip') {
                         content = GENOTIP_HTML;
                         updates.title = "Genotip";
@@ -584,7 +584,7 @@ const UniversalPage = ({
                     </div>
                     {(routeSlug === 'codex' || routeSlug === 'manifest' || collaborators.length > 1) && (
                         <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
-                            <span className="text-[var(--theme-accent-primary)] text-xs font-black tracking-tighter">IA</span>
+                            <span className="text-[var(--theme-accent-secondary)] text-xs font-black tracking-tighter">IA</span>
                         </div>
                     )}
                     <span className="ml-5 text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 flex items-center gap-1.5">
@@ -600,7 +600,7 @@ const UniversalPage = ({
                         type="text" 
                         value={title} 
                         onChange={(e) => setTitle(e.target.value)} 
-                        className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
+                        className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-secondary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
                         placeholder="INTRODUEIX EL TÍTOL (H1)"
                     />
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/10 dark:border-white/10">
@@ -645,24 +645,26 @@ const UniversalPage = ({
                                 <img 
                                     src={logoLight} 
                                     alt="Logo (Clar)" 
-                                    className={`h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 drop-shadow-md object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
                                 />
                             )}
                             {logoDark && (
                                 <img 
                                     src={logoDark} 
                                     alt="Logo (Fosc)" 
-                                    className={`h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 drop-shadow-md object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
                                 />
                             )}
                         </>
                     )}
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-primary)] text-center tracking-tight leading-none uppercase mb-6 mt-4 flex items-center justify-center gap-4 flex-wrap">
-                        {(title || "Pàgina Sense Títol").replace(/^Sóc de Poble:\s*/i, '')}
-                    </h1>
+                    <div className="app-cms-content w-full flex flex-col items-center justify-center">
+                        <h1>
+                            {(title || "Pàgina Sense Títol").replace(/^Sóc de Poble:\s*/i, '')}
+                        </h1>
+                    </div>
                     
                     {/* Elements Custom Renderitzats Sota el H1 */}
-                    <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-8">
+                    <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-[25px]">
                         {renderKanban && <div className="w-full">{typeof renderKanban === 'function' ? renderKanban() : renderKanban}</div>}
                         {renderCalendar && <div className="w-full">{typeof renderCalendar === 'function' ? renderCalendar() : renderCalendar}</div>}
                         {customActions && <div className="w-full flex items-center justify-center gap-2 flex-wrap">{customActions}</div>}
@@ -844,7 +846,7 @@ const UniversalPage = ({
                     </div>
                 ) : (
                     <div className="flex-1 w-full h-full min-h-0 relative flex flex-col items-center">
-                        <div className="app-cms-content w-full h-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-12 py-10 md:py-12">
+                        <div className="app-cms-content w-full h-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-12 pb-12">
                             {children ? (
                                 children
                             ) : activeHtmlContent && activeHtmlContent.includes('[TABS_START]') ? (
@@ -991,37 +993,37 @@ const UniversalPage = ({
                     />
                 </div>
 
-                {/* PEÇA 7: DECORATED TITLE (EL QUADRE DE PRESENTACIÓ) */}
-                <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-10 mt-0 mb-8">
-                    <div className="bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm p-8 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
+                {/* PEÇA 7: DECORATED TITLE (EL QUADRE DE PRESENTACIÓ) - FORCED RELOAD */}
+                <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-10 mt-0 mb-0">
+                    <div className="app-cms-content bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm px-6 py-6 pb-0 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
                             alt="Logo Sóc de Poble (Clar)" 
                             fetchPriority="high"
-                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-sm object-contain transition-all dark:hidden" 
+                            className="w-[600px] max-w-full h-auto mb-4 drop-shadow-sm object-contain transition-all dark:hidden" 
                         />
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
                             alt="Logo Sóc de Poble (Fosc)" 
                             fetchPriority="high"
-                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-sm object-contain transition-all hidden dark:block" 
+                            className="w-[600px] max-w-full h-auto mb-4 drop-shadow-sm object-contain transition-all hidden dark:block" 
                         />
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#F97316] uppercase tracking-tight leading-none max-w-2xl break-words">
-                            {title || "Cànon Sóc de Poble"}
+                        <h1>
+                            {title || "Cànon Sóc de Poble"} 
                         </h1>
                         {(renderKanban || renderCalendar) && (
-                            <div className="flex justify-center mt-6 w-full">
+                            <div className="flex justify-center mt-6 w-full mb-[25px]">
                                 <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
                                     <button 
                                         onClick={() => setViewMode('document')}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                        className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
                                     >
                                         Llistat
                                     </button>
                                     {renderKanban && (
                                         <button 
                                             onClick={() => setViewMode('kanban')}
-                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
                                         >
                                             Tauler
                                         </button>
@@ -1029,7 +1031,7 @@ const UniversalPage = ({
                                     {renderCalendar && (
                                         <button 
                                             onClick={() => setViewMode('calendar')}
-                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-primary)] dark:hover:text-[var(--theme-accent-primary)]'}`}
+                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
                                         >
                                             Línia de Temps
                                         </button>
