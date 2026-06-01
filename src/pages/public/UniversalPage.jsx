@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { ArrowLeft, Book, Plus, Search, MessageCircle, Share2, ChevronUp, ChevronDown, X, Globe, Database } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft, Book, Plus, MessageCircle, Share2, Globe } from 'lucide-react';
 import FloatingIndex from '../../components/ui/FloatingIndex';
 
 const RichTextEditor = lazy(() => import('../../components/ui/RichTextEditor'));
 import { useAuth } from '../../app/context/AuthContext';
 import { supabase } from '../../supabaseClient';
-import { exportService } from '../../core/services/exportService';
 import { useModal } from '../../app/context/ModalContext';
 const HistoryModal = lazy(() => import('../../components/modals/HistoryModal'));
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
@@ -278,7 +277,7 @@ const UniversalPage = ({
                 updates.pageId = data?.id;
                 updates.collaborators = data?.collaborators || [];
                 
-                if (JSON.stringify(localCache?.html) !== JSON.stringify(content)) {
+                if (JSON.stringify(localCache?.html) !== JSON.stringify(content) || localCache?.subtitle !== updates.subtitle || localCache?.title !== updates.title) {
                     await set(cacheKey, {
                         html: content,
                         title: updates.title,
@@ -290,13 +289,14 @@ const UniversalPage = ({
                         logoDark: updates.logoDark || parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : ''),
                         timestamp: Date.now()
                     });
-                    
-                    setHtmlContent(updates.htmlContent);
-                    setTitle(updates.title);
-                    setSubtitle(updates.subtitle);
-                    setPageId(updates.pageId);
-                    setCollaborators(updates.collaborators);
                 }
+                
+                // ALWAYS update React state to ensure missing subtitles (or title changes) are reflected immediately
+                setHtmlContent(updates.htmlContent);
+                setTitle(updates.title);
+                setSubtitle(updates.subtitle);
+                setPageId(updates.pageId);
+                setCollaborators(updates.collaborators);
             } else {
                 updates.htmlContent = "<p>Aquesta pàgina encara no té contingut. (Error 404 local)</p>";
                 updates.title = "Pàgina No Trobada";
