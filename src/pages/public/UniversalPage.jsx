@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Book, Plus, MessageCircle, Share2, Globe } from 'lucide-react';
+import { ArrowLeft, Book, Plus, MessageCircle, Share2, Globe, List as ListIcon } from 'lucide-react';
 import FloatingIndex from '../../components/ui/FloatingIndex';
 
 const RichTextEditor = lazy(() => import('../../components/ui/RichTextEditor'));
@@ -74,6 +74,7 @@ const UniversalPage = ({
     const [isLoadingPage, setIsLoadingPage] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [isIndexOpen, setIsIndexOpen] = useState(false);
     
     // Trellat: Guardas atómicas
     const { atomicYSave, startCritical } = useAtomicGuard();
@@ -911,10 +912,13 @@ const UniversalPage = ({
             {/* PEÇA 1: SYSTEM NAV BAR (LA BARRA BLAUA OFICIAL) */}
             <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
                     <div className="flex items-center justify-between min-h-[50px] sm:min-h-[56px] px-2 sm:px-4 flex-wrap relative">
-                        {/* Esquerra: Tornar i Llibre */}
+                        {/* Esquerra: Tornar i Llibre i Índex */}
                         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
                             <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
                                 <ArrowLeft size={24} strokeWidth={3} />
+                            </button>
+                            <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex">
+                                <ListIcon size={24} strokeWidth={2.5} />
                             </button>
                             <button onClick={() => { navigate('/reader'); }} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" title="Llegir Sistema Operatiu">
                                 <Book size={24} strokeWidth={2.5} />
@@ -1071,7 +1075,7 @@ const UniversalPage = ({
             )}
 
             {/* SCROLL TO TOP & INDEX BUTTONS */}
-            <FloatingIndex scrollRef={scrollContainerRef} />
+            <FloatingIndex scrollRef={scrollContainerRef} isOpen={isIndexOpen} onToggle={setIsIndexOpen} />
         </div>
     );
 };
