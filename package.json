@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble-app",
   "private": true,
-  "version": "10.38.20",
+  "version": "10.38.26",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
@@ -32,7 +32,8 @@
     "push:codex": "node _scripts/_build_and_deploy/push_codex.js",
     "asiatic-audit": "node _scripts/_maintenance/asiatic_auditor.mjs",
     "sync:towns": "node _scripts/_maintenance/sync_town_folders.js",
-    "sync:brain": "node scripts/sync-brain.cjs"
+    "sync:brain": "node scripts/sync-brain.cjs",
+    "sync:version": "node _scripts/_maintenance/sync_version.js"
   },
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^8.1.3",
