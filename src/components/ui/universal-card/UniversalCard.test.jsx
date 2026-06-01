@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import UniversalCard from './index';
 
 // Mocks to bypass context providers during isolated component testing
 vi.mock('../../app/context/AuthContext', () => ({
