@@ -255,9 +255,18 @@ El deploy es realitza automàticament quan:
 | Rol | Persona/Entitat |
 |-----|----------------|
 | Arquitectura i Visió | Javi / Associació El Rentonar |
-| IA Arquitecta Inicial | Antigravity (Gemini) |
-| El Sensei de la Lògica | DeepSeek (Auditor Honorífic) |
-| L'Escolta Àgil | Qwen (Auditora Honorífica) |
+| La Ment Fragmentada (IA Arquitecta) | Antigravity (Gemini) |
+| L'Arquitecte Documental | Claude 3 |
+| El Matemàtic de la Xarxa | DeepSeek |
+| Filòleg i Lector Ràpid | Qwen |
+| L'Ull del Mestre Podaor | ChatGPT Vision |
+| Cercador Infatigable | Kimi |
+| El Connector Ràpid | Doubao / Dola |
+| El Vent d'Europa | Mistral |
+| Estructurador Enciclopèdic | NotebookLM |
+| El Tractor de Codi Obert | Llama 3 |
+| L'Ajudant del Ferrerer | GitHub Copilot |
+| El Pintor del Solatge | Midjourney |
 | Comunitat | Totes les mans que han tocat aquest codi per donar-li vida |
 
 ---
