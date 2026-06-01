@@ -829,13 +829,13 @@ export const supabaseService = {
 
             const { data, error } = await supabase
                 .from('post_comments')
-                .select('*, profiles!user_id(full_name, avatar_url)')
+                .select('*, profiles(full_name, avatar_url)')
                 .eq('post_uuid', postId)
                 .order('created_at', { ascending: true });
 
             if (error) {
-                if (error.code === '42P01') {
-                    logger.warn('post_comments table missing, returning empty array');
+                if (error.code === '42P01' || error.code === 'PGRST205' || error.code === 'PGRST201') {
+                    logger.warn('post_comments table or relationship missing, returning empty array');
                     return [];
                 }
                 throw error;
@@ -1706,7 +1706,7 @@ export const supabaseService = {
                     votes_count, 
                     uploader_id,
                     created_at,
-                    profiles!uploader_id (
+                    profiles (
                         username,
                         avatar_url
                     )
@@ -1714,7 +1714,13 @@ export const supabaseService = {
                 .eq('town_id', townId)
                 .order('votes_count', { ascending: false });
 
-            if (error) throw error;
+            if (error) {
+                if (error.code === '42P01' || error.code === 'PGRST205' || error.code === 'PGRST201') {
+                    logger.warn('town_media table or relationship missing, returning empty array');
+                    return [];
+                }
+                throw error;
+            }
             return data;
         } catch (e) {
             logger.error(`Error fetching town media for ${townId}:`, e);
