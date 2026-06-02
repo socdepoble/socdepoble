@@ -281,6 +281,12 @@
             localStorage.removeItem('sp_app_version');
             localStorage.removeItem('sp_last_version_reload');
             
+            // ELIMINAR LA BD DE INDEXEDDB PER TREURE LA VERSIÓ OBSOLETA
+            try {
+              indexedDB.deleteDatabase('rhizome-v1');
+            } catch(e) {}
+
+            
             setTimeout(() => {
               const url = new URL(window.location.href);
               url.searchParams.set('_ghost', Date.now().toString(36));
