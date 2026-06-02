@@ -4,7 +4,7 @@
 
 > **La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.**
 
-[![Versió](https://img.shields.io/badge/versió-10.38.26--BATEGA-orange)](https://socdepoble.org)
+[![Versió](https://img.shields.io/badge/versió-10.38.29--BATEGA-orange)](https://socdepoble.org)
 [![License](https://img.shields.io/badge/licència-AGPL--3.0-blue)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/socdepoble/ci.yml?branch=main)](https://github.com/socdepoble/socdepoble/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/socdepoble/socdepoble)](https://codecov.io/gh/socdepoble/socdepoble)

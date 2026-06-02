@@ -610,6 +610,13 @@
     transition: transform var(--motion-quick) ease, opacity var(--motion-quick) ease;
   }
   
+  /* Excepció per als logos o imatges que no vulguem que tinguen format de foto de CMS */
+  .app-cms-content img.drop-shadow-none {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+  }
+  
   .app-cms-content img:hover {
     opacity: 0.9;
     transform: scale(1.01);

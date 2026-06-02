@@ -1,7 +1,7 @@
 {
   "name": "soc-de-poble-app",
   "private": true,
-  "version": "10.38.26",
+  "version": "10.38.29",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
