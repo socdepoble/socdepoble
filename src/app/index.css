@@ -976,3 +976,151 @@
     border: 1px solid CanvasText !important;
   }
 }
+
+/* =========================================================================
+   COMPONENTS DEL SISTEMA GEM MODERN (Trellat)
+   ========================================================================= */
+@layer components {
+  /* 1. Botons Canònics */
+  .btn-primari, .btn-secundari {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    padding: var(--sp-espai-3) var(--sp-espai-6);
+    border-radius: var(--sp-radius-mestre);
+    font-family: var(--sp-font-sans);
+    font-weight: 700;
+    font-size: var(--sp-text-base);
+    transition: all var(--sp-trans-immediata);
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .btn-primari {
+    background-color: var(--sp-orange-500);
+    color: var(--sp-black-100);
+    box-shadow: var(--sp-ombra-1);
+  }
+
+  .btn-primari:hover {
+    background-color: var(--sp-orange-400);
+    transform: translateY(-2px);
+    box-shadow: var(--sp-ombra-2);
+  }
+
+  .btn-primari:active {
+    background-color: var(--sp-orange-500);
+    transform: translateY(0);
+    box-shadow: var(--sp-ombra-1);
+  }
+
+  .btn-primari:disabled {
+    background-color: var(--sp-orange-600);
+    color: var(--sp-gray-800);
+    box-shadow: none;
+    transform: none;
+    cursor: not-allowed;
+  }
+
+  .btn-secundari {
+    background-color: transparent;
+    color: var(--sp-white-100);
+    border: 2px solid var(--sp-blue-500);
+  }
+  
+  @media (prefers-color-scheme: light) {
+    .btn-secundari {
+      color: var(--sp-black-100);
+    }
+  }
+
+  .btn-secundari:hover {
+    background-color: rgba(9, 132, 227, 0.1);
+  }
+
+  /* 2. Botó Cúspide (FAB) */
+  .boto-cuspide {
+    position: fixed;
+    bottom: var(--sp-espai-8);
+    right: var(--sp-espai-8);
+    width: 64px;
+    height: 64px;
+    border-radius: var(--sp-radius-pindola);
+    background-color: var(--sp-orange-500);
+    color: var(--sp-black-100);
+    border: none;
+    box-shadow: var(--sp-ombra-cuspide);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--sp-trans-estandar);
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .boto-cuspide:hover {
+    background-color: var(--sp-orange-400);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 10px 24px rgba(255, 115, 0, 0.3);
+  }
+
+  .boto-cuspide:active {
+    transform: scale(0.95);
+  }
+
+  /* 3. Targeta de Memòria */
+  .targeta-memoria {
+    background-color: var(--sp-gray-900);
+    border: 1px solid var(--sp-gray-800);
+    border-radius: var(--sp-radius-mestre);
+    box-shadow: var(--sp-ombra-2);
+    padding: var(--sp-espai-6);
+    margin-bottom: var(--sp-espai-4);
+    transition: border-color var(--sp-trans-estandar);
+    overflow: hidden;
+  }
+
+  @media (prefers-color-scheme: light) {
+    .targeta-memoria {
+      background-color: var(--sp-white-100);
+      border-color: var(--sp-gray-200);
+    }
+  }
+
+  .targeta-memoria:hover {
+    border-color: var(--sp-blue-500);
+    /* L'ombra NO es mou per estalviar repintats (Cost termodinàmic 0) */
+  }
+
+  /* 4. Avisador Efímer (Snackbar/Toast) */
+  .avisador-efimer {
+    position: fixed;
+    bottom: var(--sp-espai-6);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background-color: var(--sp-gray-800);
+    color: var(--sp-white-100);
+    padding: var(--sp-espai-3) var(--sp-espai-6);
+    border-radius: var(--sp-radius-menor);
+    font-size: var(--sp-text-sm);
+    box-shadow: var(--sp-ombra-4);
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform var(--sp-trans-teatral), opacity var(--sp-trans-teatral);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .avisador-efimer {
+      background-color: var(--sp-gray-900);
+    }
+  }
+
+  .avisador-efimer.actiu {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

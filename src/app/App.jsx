@@ -9,6 +9,7 @@ import { logger } from '../utils/logger';
 import { useLowEndDevice } from '../hooks/useLowEndDevice';
 import { useTabReconciliation } from '../hooks/useTabReconciliation';
 import { useBlindatgeOPFS } from '../hooks/useBlindatgeOPFS';
+import { useVersionWatchdog } from '../hooks/useVersionWatchdog';
 import { useLocation } from 'react-router-dom';
 import useTrellatPersist from '../hooks/useTrellatPersist';
 
@@ -61,6 +62,9 @@ const App = () => {
 
     // Sanea "Amnesia BFCache"
     useTabReconciliation();
+
+    // Sentinel·la Perenne (Version Watchdog)
+    useVersionWatchdog();
 
     // [MONITORING AND CLEANUP] Inicialitzar error tracking y purga fantasma
     useEffect(() => {

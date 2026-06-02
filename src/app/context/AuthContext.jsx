@@ -362,7 +362,14 @@ export const AuthProvider = ({ children }) => {
         const setupSubscription = () => {
              const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
                 if (!mountedRef.current) return;
+                
                 if (_event === 'SIGNED_OUT') {
+                    // [BÚNQUER D'IDENTITAT] Evita expulsar a l'usuari si caduca el token offline
+                    if (!navigator.onLine) {
+                        console.warn('[AuthContext] SUPABASE SIGNED_OUT INTERCEPTAT! Estem offline. Posant en Quarantena, no expulsem el llaurador de les seues dades.');
+                        window.dispatchEvent(new CustomEvent('sdp:offline-quarantine'));
+                        return; // Omitim continuar amb el procés de sortida local.
+                    }
                     console.log('[AuthContext] Signed out detected. Removing cache.');
                     localStorage.removeItem('sp_user_cache');
                 }

@@ -654,14 +654,14 @@ const UniversalPage = ({
                                 <img 
                                     src={logoLight} 
                                     alt="Logo (Clar)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all ${logoDark ? 'dark:hidden' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoDark ? 'dark:hidden' : ''}`}
                                 />
                             )}
                             {logoDark && (
                                 <img 
                                     src={logoDark} 
                                     alt="Logo (Fosc)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all ${logoLight ? 'hidden dark:block' : ''}`}
+                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoLight ? 'hidden dark:block' : ''}`}
                                 />
                             )}
                         </>
@@ -911,8 +911,8 @@ const UniversalPage = ({
             {standAlone && (
                 <SEO 
                     title={title || "Sóc de Poble: El Projecte"} 
-                    description="La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat." 
-                    image="/uploads/avatars/soc-de-poble_book_comic_nano_1770526279743.png"
+                    description={subtitle || "La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat."} 
+                    image={heroImage || (forcedImages ? forcedImages[0] : "/uploads/avatars/soc-de-poble_book_comic_nano_1770526279743.png")}
                     url={routeSlug} 
                 />
             )}
@@ -1013,13 +1013,13 @@ const UniversalPage = ({
                             src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
                             alt="Logo Sóc de Poble (Clar)" 
                             fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all dark:hidden" 
+                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none dark:hidden" 
                         />
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
                             alt="Logo Sóc de Poble (Fosc)" 
                             fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all hidden dark:block" 
+                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none hidden dark:block" 
                         />
                         <h1>
                             {title || "Cànon Sóc de Poble"} 

@@ -19,9 +19,39 @@ function staticAssetsReload() {
   }
 }
 
+function versionContractPlugin() {
+  const versionData = JSON.stringify({
+    version: process.env.VITE_APP_HASH || Date.now().toString(36),
+    hash: process.env.VITE_APP_HASH || Date.now().toString(36),
+    timestamp: new Date().toISOString()
+  });
+
+  return {
+    name: 'version-contract',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.startsWith('/version.json')) {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(versionData);
+        } else {
+          next();
+        }
+      });
+    },
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: versionData
+      });
+    }
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    versionContractPlugin(),
     mediaApiPlugin(),
     wasm(),
     topLevelAwait(),
@@ -33,13 +63,13 @@ export default defineConfig({
       strategies: 'injectManifest',
       srcDir: 'src/workers',
       filename: 'service-worker.ts',
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       injectRegister: null,
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 100 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,ico,png,svg,wasm,onnx}'],
-        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**']
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+        globPatterns: ['**/*.{html,json,js,css,ico,png,svg}'],
+        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**', '**/*.onnx', '**/*.wasm']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {

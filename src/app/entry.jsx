@@ -62,70 +62,50 @@ console.info = (...args) => { if (!isNoise(args)) originalInfo.apply(console, ar
 
 
 
+import { registerSW } from 'virtual:pwa-register';
+import { preBootCheck } from './preBootCheck';
+import { SystemGuardian } from './SystemGuardian';
+
 const CURRENT_MASTER_VERSION = APP_VERSION;
 
-import { registerSW } from 'virtual:pwa-register';
+// Registre del SW AMB gestió d'actualitzacions
+let swUpdate = null;
 
-async function preBootCheck() {
-    const savedVersion = localStorage.getItem("sp_app_version");
-    const lastReload = parseInt(localStorage.getItem("sp_last_version_reload") || "0");
-    const now = Date.now();
+const updateSW = registerSW({
+  immediate: true,
+  onNeedRefresh() {
+    // El SW nou està esperant. Li ordenem que avance.
+    if (swUpdate) swUpdate();
+  },
+  onOfflineReady() {
+    console.log('[PWA] App llista per a treballar fora de línia.');
+  }
+});
 
-    // Protocol de Prevenció de Bucles
-    if (now - lastReload < 10000) {
-        return true; 
-    }
+swUpdate = updateSW;
 
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 1500);
-        const res = await fetch('/version.json?v=' + now, { 
-            cache: 'no-store',
-            signal: controller.signal
-        });
-        const data = await res.json();
-        clearTimeout(timeoutId);
+async function bootSequence() {
+  if (sessionStorage.getItem('sw_updating')) {
+    sessionStorage.removeItem('sw_updating');
+  }
 
-        const serverVersion = data.version;
+  const container = document.getElementById("root");
+  if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
 
-        if (savedVersion && serverVersion !== savedVersion) {
-            console.warn(`[BOOT] Nova versió detectada (${serverVersion} vs ${savedVersion}). Purgant Zombi...`);
-            localStorage.setItem("sp_app_version", serverVersion);
-            localStorage.setItem("sp_last_version_reload", now.toString());
-            
-            if ('serviceWorker' in navigator) {
-                const regs = await navigator.serviceWorker.getRegistrations();
-                for (const reg of regs) {
-                    await reg.unregister();
-                }
-            }
-            
-            if ('caches' in window) {
-                const keys = await caches.keys();
-                await Promise.all(keys.map(k => caches.delete(k)));
-            }
-            
-            window.location.reload(true);
-            return false; // No muntar React
-        } else if (!savedVersion) {
-            localStorage.setItem("sp_app_version", serverVersion || CURRENT_MASTER_VERSION);
-        }
-    } catch (e) {
-        console.warn("[BOOT] Verificació de versió omesa (offline o error).");
-    }
-    return true; // Continuar amb el muntatge
-}
+  const setStatus = (k, payload) => {
+    console.info('[preBoot]', k, payload || '');
+  };
 
-preBootCheck().then((shouldMount) => {
-    if (!shouldMount) return;
+  const result = await preBootCheck({ onStatus: setStatus });
 
-    registerSW({ immediate: true });
+  // Si el preBootCheck determina mode readonly, llancem event per a SystemGuardian
+  if (result.mode === 'readonly') {
+     setTimeout(() => window.dispatchEvent(new CustomEvent('sdp:offline-quarantine')), 100);
+  }
 
-    const container = document.getElementById("root");
-    if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
-
-    window.__SDP_ROOT__.render(
-        <ErrorBoundary fallbackMessage="💀 ROOT CRASH: Fallada Crítica en el Render Inicial">
+  window.__SDP_ROOT__.render(
+      <ErrorBoundary fallbackMessage="💀 ROOT CRASH: Fallada Crítica en el Render Inicial">
+        <SystemGuardian>
           <QueryProvider>
             <HelmetProvider>
               <BrowserRouter>
@@ -157,10 +137,13 @@ preBootCheck().then((shouldMount) => {
               </BrowserRouter>
             </HelmetProvider>
           </QueryProvider>
-        </ErrorBoundary>
-    );
+        </SystemGuardian>
+      </ErrorBoundary>
+  );
 
-    // Signalejar al Failsafe de index.html que hem arrancat amb èxit
-    window.__SDP_ROOT_MOUNTED = true;
-});
+  // Signalejar al Failsafe de index.html que hem arrancat amb èxit
+  window.__SDP_ROOT_MOUNTED = true;
+}
+
+bootSequence();
 

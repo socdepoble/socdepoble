@@ -339,12 +339,12 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
                             alt="Logo Sóc de Poble (Negre)" 
-                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all dark:hidden" 
+                            className="h-24 sm:h-32 w-auto mb-6 object-contain transition-all dark:hidden" 
                         />
                         <img 
                             src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
                             alt="Logo Sóc de Poble (Fosc)" 
-                            className="h-24 sm:h-32 w-auto mb-6 drop-shadow-md object-contain transition-all hidden dark:block" 
+                            className="h-24 sm:h-32 w-auto mb-6 object-contain transition-all hidden dark:block" 
                         />
 
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center tracking-tight leading-none uppercase mb-0 mt-2 max-w-4xl w-full break-words">

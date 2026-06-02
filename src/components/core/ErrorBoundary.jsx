@@ -17,15 +17,27 @@ class ErrorBoundary extends React.Component {
         }
 
         // [RESILIENCE] ChunkLoadError / Failed to fetch dynamic module:
-        // We force a hard reload immediately to clear the asset cache mismatch.
         if (errorMsg.includes('Failed to fetch dynamically imported module') ||
             errorMsg.includes('ChunkLoadError')) {
             logger.error('[ErrorBoundary] Module Load Error. Forcing hard reload...');
             
             if (typeof window !== 'undefined') {
-                setTimeout(() => {
-                    window.location.reload(true);
-                }, 500);
+                const reloads = parseInt(sessionStorage.getItem('chunk_reload_count') || '0');
+                if (reloads < 2) {
+                    sessionStorage.setItem('chunk_reload_count', (reloads + 1).toString());
+                    const delay = Math.min(3000 * Math.pow(2, reloads), 30000); // Exponential backoff (Consell Copilot)
+                    
+                    setTimeout(() => {
+                        // [MASTER PROTOCOL] Alliberar RAM abans de reiniciar a l'iPad A10
+                        if (window.__SDP_ROOT__) {
+                            window.__SDP_ROOT__.unmount();
+                        }
+                        window.location.reload(true);
+                    }, delay);
+                    return { hasError: true, error: "Sincronitzant versió del Mas... Re-bategant..." };
+                } else {
+                    return { hasError: true, error: "Estàs fora de línia o l'arxiu s'ha perdut. No s'ha pogut carregar un component." };
+                }
             }
             
             return { hasError: true, error: "Sincronitzant versió del Mas... Re-bategant..." };
@@ -50,7 +62,8 @@ class ErrorBoundary extends React.Component {
 
     render() {
         if (this.state.hasError) {
-            const errorText = `${this.state.error?.toString() || ''}\n${this.state.errorInfo?.componentStack || ''}`;
+            // No renderitzar el stack sencer a la RAM de l'usuari (Ring buffer protection)
+            const errorText = `${this.state.error?.toString() || ''}`;
 
             return (
                 <div className="error-boundary-container" style={{ padding: '40px 20px', textAlign: 'center', color: '#666' }}>
@@ -82,11 +95,6 @@ class ErrorBoundary extends React.Component {
                     <p style={{ marginTop: '20px', color: 'var(--color-text-muted)', fontSize: '14px' }}>
                         {this.state.error && this.state.error.toString()}
                     </p>
-                    {this.state.errorInfo && (
-                        <pre style={{ textAlign: 'left', fontSize: '10px', overflow: 'auto', background: '#eee', padding: 10 }}>
-                            {this.state.errorInfo.componentStack}
-                        </pre>
-                    )}
                 </div>
             );
         }

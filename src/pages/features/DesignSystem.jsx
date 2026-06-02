@@ -36,34 +36,27 @@ export default function DesignSystem() {
     >
       <div className="w-full max-w-4xl mx-auto app-cms-content pb-32">
         
-        <p className="lead text-center max-w-2xl mx-auto mb-12">
+        <p className="lead text-center max-w-2xl mx-auto">
           Aquest és el Llibre Oficial del Sistema de Disseny (Inspirat en M3). Un catàleg immutable de les peces estructurals que formen qualsevol interfície de Sóc de Poble. Aquest document és el <strong>Source of Truth</strong>.
         </p>
 
         {/* =========================================
-            PART 1: FONAMENTS
+            PART 1: THEMING (Els Fonaments)
             ========================================= */}
-        <h2 id="fonaments">1. FONAMENTS (Foundations)</h2>
-        <p>La base atòmica del sistema. Regles inquebrantables que sostenen la resta de l'arquitectura.</p>
-        
-        <h3 id="principi-trellat">1.1. Filosofia "Trellat"</h3>
-        <div className="bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 p-5 rounded-2xl mb-6">
-          <p className="mb-0 text-sm">
-            <strong>Accessibilitat Rural (Mode Bancal):</strong> Dissenyem per ser llegits a ple sol a la serra amb un iPad, i per iaies amb visió reduïda. Contrast AAA, formes geomètriques amples (GEM 28px) i zero animacions innecessàries que saturen el xip A10.
-          </p>
-        </div>
+        <h2 id="theming">PART 1: THEMING (Els Fonaments)</h2>
+        <p>L'arquitectura atòmica de Sóc de Poble. Aquí es defineixen les primitives que construiran tota la resta de components: el Color, la Tipografia i les Formes.</p>
 
-        <h3 id="colors">1.2. Identitat Cromàtica (Colors)</h3>
-        <p>Colors purs i vibrants preparats per al contrast màxim en mode fosc i clar. Calcats de la normativa oficial de disseny.</p>
+        <h3 id="color">1.1. Identitat Cromàtica (Color)</h3>
+        <p>
+          <strong>El Trellat del Color:</strong> Sempre utilitzarem els rols semàntics (Primary, Secondary, Surface) actuant sobre variables CSS, en lloc de colors hardcoded. Açò garanteix el contrast AAA tant en Light com en Dark Mode per a les iaies.
+        </p>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8 notranslate">
           {/* Primary */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-primary text-m3-on-primary rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/5">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Primary</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-primary)</span>
-              </div>
+            <div className="bg-primary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+              <span className="font-bold text-sm">Primary</span>
+              <span className="opacity-80 font-mono text-[10px] break-all">var(--theme-accent-primary)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
               {['bg-orange-950','bg-orange-900','bg-orange-800','bg-orange-700','bg-orange-600','bg-orange-500','bg-orange-400','bg-orange-300','bg-orange-200','bg-orange-100'].map(cls => (
@@ -74,11 +67,9 @@ export default function DesignSystem() {
 
           {/* Secondary */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-secondary text-m3-on-secondary rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/5">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Secondary</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-secondary)</span>
-              </div>
+            <div className="bg-secondary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+              <span className="font-bold text-sm">Secondary</span>
+              <span className="opacity-80 font-mono text-[10px] break-all">var(--theme-accent-secondary)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
               {['bg-sky-950','bg-sky-900','bg-sky-800','bg-sky-700','bg-sky-600','bg-sky-500','bg-sky-400','bg-sky-300','bg-sky-200','bg-sky-100'].map(cls => (
@@ -87,30 +78,26 @@ export default function DesignSystem() {
             </div>
           </div>
 
-          {/* Tertiary */}
+          {/* Tertiary / Panel */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-surface text-m3-on-surface rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/10">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Tertiary / Surface</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-surface)</span>
-              </div>
+            <div className="bg-theme-panel text-theme-text rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+              <span className="font-bold text-sm">Surface / Panel</span>
+              <span className="opacity-80 font-mono text-[10px] break-all">var(--bg-panel)</span>
             </div>
-            <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10">
-              {['bg-gray-900','bg-gray-800','bg-gray-700','bg-gray-600','bg-gray-500','bg-gray-400','bg-gray-300','bg-gray-200','bg-gray-100','bg-white'].map(cls => (
+            <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
+              {['bg-white','bg-gray-100','bg-gray-200','bg-gray-300','bg-gray-400','bg-gray-500','bg-gray-600','bg-gray-700','bg-gray-800','bg-gray-900'].map(cls => (
                 <div key={cls} className={`flex-1 ${cls}`}></div>
               ))}
             </div>
           </div>
 
-          {/* Neutral */}
+          {/* Foreground / Text */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-on-surface text-m3-surface rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-white/10">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Neutral / Base</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-on-surface)</span>
-              </div>
+            <div className="bg-theme-text text-theme-base rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+              <span className="font-bold text-sm">Text / Foreground</span>
+              <span className="opacity-80 font-mono text-[10px] break-all">var(--text-main)</span>
             </div>
-            <div className="flex w-full h-8 rounded-full overflow-hidden border border-white/20">
+            <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
               {['bg-black','bg-zinc-900','bg-zinc-800','bg-zinc-700','bg-zinc-600','bg-zinc-500','bg-zinc-400','bg-zinc-300','bg-zinc-200','bg-zinc-100'].map(cls => (
                 <div key={cls} className={`flex-1 ${cls}`}></div>
               ))}
@@ -118,34 +105,89 @@ export default function DesignSystem() {
           </div>
         </div>
 
-        <h3 id="tipografia">1.3. Tipografia, Textos i "Dark Mode"</h3>
+        {/* 1.2 TIPOGRAFIA (0) */}
+        <h3 id="tipografia">1.2. Tipografia, Textos i "Dark Mode"</h3>
         <p><strong>Què és i per a què serveix:</strong> El manual definitiu de tipografia per a tota l'App. Resolucions al mil·límetre per a garantir la perfecció visual i contrast adequat (Light vs Dark).</p>
-        <p>En el mode fosc (<code>Dark Mode</code>), l'aplicació usa fons <code>#111827</code> (Gris molt fosc, gairebé negre) i el text general s'inverteix a <code>#F3F4F6</code> per garantir la llegibilitat. En el mode clar, el fons és <code>#F3F4F6</code> i el text <code>#1F2937</code>.</p>
+        <p>En el mode fosc (<code>Dark Mode</code>), l'aplicació usa fons <code>#111827</code> i el text s'inverteix a <code>#F3F4F6</code> per garantir la llegibilitat extrema.</p>
         
-          <h1>H1: Títol de Pàgina (Blau)</h1>
-          <p><strong>Color H1:</strong> var(--theme-accent-secondary) / Blau Fuerte (#0984E3).</p>
+        <h1>H1: Títol de Pàgina</h1>
+        <p>Només un per pàgina. Normalment generat per l'UniversalPage.</p>
+        <p><strong>REGLA D'ARQUITECTURA EDITORIAL:</strong> Sempre que després d'un H1 ve un H2, el nostre sistema de treball és col·locar l'H2 <strong>directament</strong>. Entre H1 i H2 en principi pot haver-hi el que siga, però <strong>per defecte és H2 directament</strong> sense elements intermedis.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--theme-accent-secondary) / Blau Fuerte (#0984E3).</li>
+          <li><strong>Mida:</strong> 32px a 44px (Augmentat).</li>
+          <li><strong>Pes:</strong> Black (900).</li>
+        </ul>
 
-          <h2>H2: Subtítol Principal (Taronja)</h2>
-          <p className="lead">
-            Això és un exemple d'entradilla lleugera (lead). Una <strong>presentació opcional</strong> dissenyada específicament per a introduir el context sota els grans titulars amb la màxima elegància SEO i un text més prim per contrastar.
-          </p>
-          <p><strong>Color H2:</strong> var(--theme-accent-primary) / Taronja Fuerte (#F97316).</p>
+        <h2>H2: Subtítol Principal</h2>
+        <p className="lead">
+          Això és un exemple d'entradilla lleugera (lead). Una <strong>presentació opcional</strong> dissenyada específicament per a introduir el context sota els grans titulars amb la màxima elegància SEO. L'entradilla associada sempre ha d'anar emmarcada per un H2; si no el té, l'arquitectura està fallant.
+        </p>
+        <p>Seccions mestres de la pàgina. Ara centrat per defecte.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--theme-accent-primary) / Taronja Fuerte (#F97316).</li>
+          <li><strong>Mida:</strong> 24px a 30px.</li>
+          <li><strong>Entradilla associada (p.lead):</strong> Text introductori <strong>TOTALMENT OPCIONAL</strong> (<code>&lt;p className="lead"&gt;</code>) sota l'H2. Pots posar un paràgraf normal just davall si vols. Quan s'activa l'entradilla, utilitza un pes tipogràfic Normal (400) que fa de contrapès elegant al Black (900) del títol.</li>
+        </ul>
 
-          <h3>H3: Component o Subsecció (Blau)</h3>
-          <p><strong>Color H3:</strong> var(--theme-accent-secondary) / Blau (#0984E3).</p>
-          
-          <h4>H4: Etiqueta Destacada</h4>
-          <p>Titulars de llistes, formularis o blocs secundaris. Color: Taronja.</p>
-          
-          <h5>H5: Títol de Targeta Xicoteta</h5>
-          <p>Text de suport on l'espai és reduït. Color: Blau.</p>
-          
-          <h6>H6: Micro-etiqueta (Kicker)</h6>
-          <p>Dates, tags, o petites instruccions. Color: Negre / Blanc.</p>
+        <h3>H3: Component o Subsecció</h3>
+        <p>Blocs interns o components dins d'un H2.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--theme-accent-secondary) / Blau (#0984E3).</li>
+          <li><strong>Mida:</strong> 18px a 24px (Augmentat).</li>
+          <li><strong>Pes:</strong> Bold (700).</li>
+        </ul>
 
-        <h3 id="espaiat">1.4. Lleis d'Espaiat i Contenidors</h3>
-        <ol>
-          <li><strong>Cap duplicació de Paddings:</strong> Si <code>AppLayout</code> o <code>UniversalPage</code> ja proporcionen <code>px-6</code>, cap element fill hauria de tindre <code>px-4</code> a menys que siga explícitament una targeta interior (<code>card</code>).</li>
+        <h4>H4: Etiqueta Destacada</h4>
+        <p>Titulars de llistes, formularis o blocs secundaris.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--theme-accent-primary) / Taronja Fuerte (#F97316).</li>
+          <li><strong>Mida:</strong> 18px a 22px (Augmentat per compensar pes visual).</li>
+          <li><strong>Pes:</strong> Extra-Bold (800).</li>
+        </ul>
+
+        <h5>H5: Títol de Targeta Xicoteta</h5>
+        <p>Text de suport on l'espai és reduït.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--theme-accent-secondary) / Blau (#0984E3).</li>
+          <li><strong>Mida:</strong> 16px a 20px (Augmentat en proporció a H4).</li>
+          <li><strong>Pes:</strong> Bold (700).</li>
+        </ul>
+
+        <h6>H6: Micro-etiqueta (Kicker)</h6>
+        <p>Dates, tags, o petites instruccions.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> var(--text-main) / Negre per Light Mode i invers per Dark Mode.</li>
+          <li><strong>Mida:</strong> 12px a 16px.</li>
+          <li><strong>Pes:</strong> Black (900).</li>
+        </ul>
+
+        <p><strong>P (Cos de Text):</strong> Exemple per veure com respira la tipografia. Utilitzem un interlineat obert (1.625) pensat per a lectures llargues, com llibres o documents. El color hereta sempre del contenidor per adaptar-se perfectament al Light/Dark mode.</p>
+        <p>Articles, contingut principal.</p>
+        <ul className="mb-8 ml-6 list-disc">
+          <li><strong>Color:</strong> Text Main (#F3F4F6 o #1F2937).</li>
+          <li><strong>Mida:</strong> 16.8px a 18.4px.</li>
+          <li><strong>Pes:</strong> Regular (400).</li>
+        </ul>
+
+        {/* 1.3 FORMES */}
+        <h3 id="formes">1.3. Formes i Geometria (Shapes)</h3>
+        <div className="flex gap-4 items-center p-6 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-black/5 dark:border-white/5 my-6">
+           <div className="w-16 h-16 bg-[var(--theme-accent-primary)] rounded-3xl flex items-center justify-center text-white font-bold shadow-md">24px</div>
+           <p className="m-0 text-sm flex-1">La geometria "Bento" de Sóc de Poble es caracteritza per cantonades molt arrodonides (<code className="bg-black/5 dark:bg-white/10 px-1 rounded">rounded-3xl</code> o 24px/28px) per a targetes i contenidors mestres, oferint una sensació orgànica i amigable en tauletes i mòbils.</p>
+        </div>
+
+        <hr className="my-16 border-white/10" />
+
+        {/* =========================================
+            PART 2: LAYOUT (L'Arquitectura Espacial)
+            ========================================= */}
+        <h2 id="layout">PART 2: LAYOUT (L'Arquitectura Espacial)</h2>
+        <p>Com es distribueixen les peces a l'espai per crear predicibilitat (a l'estil M3) i accessibilitat rural.</p>
+
+        <h3 id="contenidor">2.1. El Contenidor Base i L'Espaiat</h3>
+        <ol className="mb-8 ml-6 list-disc space-y-2">
+          <li><strong>Cap duplicació de Paddings:</strong> Si <code>AppLayout</code> o <code>UniversalPage</code> ja proporcionen espaiat horitzontal (<code>px-6</code>), cap element fill hauria de tindre paddings extres als costats a menys que siga explícitament una targeta interior (<code>card</code>).</li>
           <li><strong>Ritme Vertical (Vertical Rhythm):</strong> L'espai entre grans seccions (H2) es gestiona de forma centralitzada mitjançant pare flex amb <code>gap-12</code> (48px) o <code>gap-16</code> (64px). Dins de les seccions s'usa <code>gap-4</code>.</li>
           <li><strong>Relació Títol-Text:</strong> Mai separar un H3 del seu paràgraf amb més de 16px (<code>mb-4</code> o <code>gap-4</code>). Ha de semblar que el títol "cau" sobre el text.</li>
         </ol>
