@@ -6,6 +6,35 @@ import unusedImports from "eslint-plugin-unused-imports";
 import reactPlugin from "eslint-plugin-react";
 import { defineConfig, globalIgnores } from "eslint/config";
 
+const architectureGuardPlugin = {
+  rules: {
+    "no-core-imports": {
+      create(context) {
+        return {
+          ImportDeclaration(node) {
+            const importPath = node.source.value;
+            const filePath = context.filename;
+            if (filePath.includes('/src/components/') && (importPath.includes('@powersync') || importPath.includes('src/core/internals'))) {
+               context.report({ node, message: "🛑 [ARCH SHIELD] UI Components cannot import internal core or powersync directly. Use DAL or facades." });
+            }
+          }
+        };
+      }
+    },
+    "no-unsafe-pwa": {
+      create(context) {
+        return {
+          Property(node) {
+            if (node.key && node.key.name === 'registerType' && node.value && node.value.value === 'autoUpdate') {
+               context.report({ node, message: "🛑 [ARCH SHIELD] registerType MUST be 'prompt' for iOS safety." });
+            }
+          }
+        };
+      }
+    }
+  }
+};
+
 export default defineConfig([
   globalIgnores([
     "dist/**",
@@ -51,6 +80,7 @@ export default defineConfig([
     plugins: {
       "unused-imports": unusedImports,
       "react": reactPlugin,
+      "architecture-guard": architectureGuardPlugin,
     },
     rules: {
       "no-unused-vars": "off",
@@ -58,6 +88,8 @@ export default defineConfig([
       "unused-imports/no-unused-vars": "off",
       "react/jsx-uses-react": "error",
       "react/jsx-uses-vars": "error",
+      "architecture-guard/no-core-imports": "error",
+      "architecture-guard/no-unsafe-pwa": "error",
     },
   },
 ]);

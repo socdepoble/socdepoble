@@ -154,6 +154,22 @@
         }
       }
 
+      @keyframes spin-local { to { transform: rotate(360deg); } }
+      #app-shell-fallback {
+        position: fixed; inset: 0; background: #09090b;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        z-index: 9999; font-family: 'Noto Sans', sans-serif;
+        transition: opacity 0.3s ease-out;
+      }
+      html.light #app-shell-fallback {
+        background: #ffffff;
+      }
+      .fallback-spinner {
+        width: 32px; height: 32px; border: 3px solid rgba(249, 115, 22, 0.2);
+        border-top: 3px solid #f97316; border-radius: 50%;
+        animation: spin-local 1s linear infinite;
+      }
+
       .blueprint-grid {
         background-image: linear-gradient(
             to right,
@@ -221,53 +237,70 @@
     >
       Sóc de Poble - La teua xarxa de territori i sobirania digital
     </h1>
+    <div id="app-shell-fallback">
+      <div class="fallback-spinner"></div>
+    </div>
     <div id="root"></div>
 
 
     <!-- Google Identity Services per a One-Tap Login -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-    <!-- [PWA GHOST LOCK] Pre-Boot Failsafe -->
+    <!-- [PWA GHOST LOCK] Pre-Boot Failsafe OPTIMITZAT (Timeout Strict) -->
     <script>
-      (async function() {
+      (function() {
         const APP_CODE_VERSION = 15;
+        const TIMEOUT_MS = 400; // Protecció contra Lighthouse/WebKit Hanging Promises
+
         function getIDBVersion() {
           return new Promise((resolve) => {
             try {
-              const req = indexedDB.open('rhizome-v1');
+              const req = window.indexedDB.open('rhizome-v1');
               req.onupgradeneeded = (e) => {
-                // If it doesn't exist, we don't have a newer version
                 e.target.transaction.abort();
-                resolve(0);
+                resolve({ status: 'OK', version: 0 });
               };
               req.onsuccess = (e) => {
                 const db = e.target.result;
                 if (!db.objectStoreNames.contains('keyval')) {
-                  resolve(0);
+                  db.close();
+                  resolve({ status: 'OK', version: 0 });
                   return;
                 }
                 const tx = db.transaction('keyval', 'readonly');
                 const store = tx.objectStore('keyval');
                 const getReq = store.get('_sdp_schema_version');
-                getReq.onsuccess = () => resolve(getReq.result || 0);
-                getReq.onerror = () => resolve(0);
+                getReq.onsuccess = () => {
+                  db.close();
+                  resolve({ status: 'OK', version: getReq.result || 0 });
+                };
+                getReq.onerror = () => {
+                  db.close();
+                  resolve({ status: 'OK', version: 0 });
+                };
               };
-              req.onerror = () => resolve(0);
-            } catch { resolve(0); }
+              req.onerror = () => resolve({ status: 'ERROR', reason: 'OPEN_FAILED' });
+              req.onblocked = () => resolve({ status: 'BLOCKED', reason: 'DB_LOCKED' });
+            } catch (err) {
+              resolve({ status: 'EXCEPTION', reason: err.message });
+            }
           });
         }
         
-        try {
-          const idbVersion = await getIDBVersion();
-          // CORRECCIÓ: Detecta QUALSEVOL discrepància bidireccional
-          if (idbVersion !== 0 && idbVersion !== APP_CODE_VERSION) {
-            window.__SDP_BOOT_ABORT = true; // Sincronització amb entry.jsx
-            document.body.innerHTML = `
-              <div style="background: var(--blau-socdepoble, #06b6d4); color: var(--taronja-socdepoble, #ea580c); font-size: 28px; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 28px; line-height: 1.4; font-family: 'Noto Sans', sans-serif;">
-                El Mas Digital s'ha reformat.<br><span style="font-size: 22px; color: white;">Netejant la memòria...</span>
-              </div>`;
+        const timeoutPromise = new Promise(resolve => 
+          setTimeout(() => resolve({ status: 'TIMEOUT', reason: 'IDB_HUNG' }), TIMEOUT_MS)
+        );
+
+        window.__PRE_BOOT_STATE__ = Promise.race([getIDBVersion(), timeoutPromise]);
+
+        // Lògica de neteja asíncrona (NO bloqueja el FCP)
+        window.__PRE_BOOT_STATE__.then(async (result) => {
+          if (result.status === 'OK' && result.version !== 0 && result.version !== APP_CODE_VERSION) {
+            console.warn("[TRELLAT] Corrupció detectada. Netejant...");
+            window.__SDP_BOOT_ABORT = true;
+            document.getElementById('app-shell-fallback').innerHTML = `<div style="color: #ea580c; font-size: 20px; font-weight: bold;">Netejant memòria...</div>`;
             
-            // Purga COMPLETA abans del reload
+            // Purga COMPLETA
             if ('caches' in window) {
               const keys = await caches.keys();
               await Promise.all(keys.map(k => caches.delete(k)));
@@ -277,26 +310,22 @@
               await Promise.all(regs.map(r => r.unregister()));
             }
             
-            // Neteja localStorage i sessionStorage per a assegurar boot net
             localStorage.removeItem('sp_app_version');
             localStorage.removeItem('sp_last_version_reload');
             
-            // ELIMINAR LA BD DE INDEXEDDB PER TREURE LA VERSIÓ OBSOLETA
             try {
-              indexedDB.deleteDatabase('rhizome-v1');
+              window.indexedDB.deleteDatabase('rhizome-v1');
             } catch(e) {}
-
             
             setTimeout(() => {
               const url = new URL(window.location.href);
               url.searchParams.set('_ghost', Date.now().toString(36));
               window.location.href = url.toString();
-            }, 1000);
-            throw new Error("[TRELLAT] Boot abortat per prevenir corrupció d'UI fantasma.");
+            }, 500);
+          } else if (result.status === 'TIMEOUT' || result.status === 'ERROR' || result.status === 'BLOCKED') {
+            console.warn('[Pre-Boot] IDB compromès o penjat a Lighthouse/Safari Private.', result);
           }
-        } catch (e) {
-          if (e.message && e.message.includes("[TRELLAT]")) throw e;
-        }
+        });
       })();
     </script>
 

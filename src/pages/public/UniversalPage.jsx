@@ -13,7 +13,7 @@ import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import useAccessibleSearch from '../../hooks/useAccessibleSearch';
 import SEO from '../../components/core/SEO';
 import { APP_VERSION } from '../../constants';
-import GlobalFooter from '../../components/layout/GlobalFooter';
+
 import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
 import MediaViewerModal from '../../components/modals/MediaViewerModal';
 import ImageCarousel from '../../components/ui/ImageCarousel';
@@ -1060,12 +1060,6 @@ const UniversalPage = ({
                     {ActualContent}
                 </section>
                 
-                {/* PEU DE PÀGINA */}
-                {standAlone && (
-                    <section className="w-full shrink-0 flex flex-col items-center justify-center mt-0 pb-0">
-                        <GlobalFooter />
-                    </section>
-                )}
             </main>
 
             {/* MEDIA VIEWER (Desmontable) */}

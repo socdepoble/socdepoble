@@ -64,6 +64,11 @@ self.addEventListener('message', async (event: any) => {
   if (msg.type === 'SYNC_MUTATIONS') {
     event.waitUntil(processOutbox());
   }
+
+  if (msg.type === 'PING') {
+    const port = event.ports[0];
+    if (port) port.postMessage({ type: 'PONG' });
+  }
   
   // Handshake Atòmic (Consell Copilot)
   if (msg.type === 'sw:prepare-update') {

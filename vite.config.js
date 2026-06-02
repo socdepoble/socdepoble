@@ -64,12 +64,12 @@ export default defineConfig({
       srcDir: 'src/workers',
       filename: 'service-worker.ts',
       registerType: 'prompt',
-      injectRegister: null,
+      injectRegister: 'auto',
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
-        globPatterns: ['**/*.{html,json,js,css,ico,png,svg}'],
-        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
+        globPatterns: ['**/*.{html,json,js,css,ico,png,svg,woff2,woff,ttf,eot}'],
+        globIgnores: ['**/node_modules/**/*', '**/*.map', 'sw.js', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {

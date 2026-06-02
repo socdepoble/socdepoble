@@ -4,7 +4,7 @@
 .calendar-master-page .fc {
     contain: none;
     will-change: auto;
-    color: var(--text-main) !important;
+    color: var(--text-main);
     font-family: var(--font-sans);
 }
 
@@ -20,13 +20,13 @@
 .calendar-master-page .fc-col-header-cell {
     background: linear-gradient(to bottom, rgba(249, 115, 22, 0.05), rgba(249, 115, 22, 0.15));
     padding: 12px 0;
-    border-bottom: 2px solid #F97316 !important;
-    border-top: none !important;
+    border-bottom: 2px solid #F97316;
+    border-top: none;
 }
 
 .calendar-master-page .fc-col-header-cell-cushion {
-    color: var(--text-main) !important;
-    text-decoration: none !important;
+    color: var(--text-main);
+    text-decoration: none;
     text-transform: uppercase;
     font-size: 0.85rem;
     font-weight: 800;
@@ -36,18 +36,18 @@
 .calendar-master-page .fc-daygrid-day-number {
     font-weight: 700;
     font-family: var(--font-sans);
-    padding: 8px !important;
+    padding: 8px;
     font-size: 0.95rem;
-    color: var(--text-main) !important;
-    text-decoration: none !important;
+    color: var(--text-main);
+    text-decoration: none;
 }
 
 /* DÍA HOY (TODAY) */
 .calendar-master-page .fc-day-today {
-    background: rgba(249, 115, 22, 0.05) !important;
+    background: rgba(249, 115, 22, 0.05);
 }
 .calendar-master-page .fc-day-today .fc-daygrid-day-number {
-    color: #F97316 !important;
+    color: #F97316;
     background: rgba(249, 115, 22, 0.15);
     border-radius: 50%;
     width: 32px;
@@ -66,9 +66,9 @@
 
 /* ESTILO EVENTOS (CAPSULAS) */
 .calendar-master-page .fc-event-capsule {
-    color: #ffffff !important; 
-    text-decoration: none !important;
-    border: none !important;
+    color: #ffffff; 
+    text-decoration: none;
+    border: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -81,6 +81,6 @@
 /* ANTI-FANTASMAS FULLCALENDAR (Light/Dark mode) */
 .calendar-master-page .fc-list-day-text,
 .calendar-master-page .fc-list-day-side-text {
-    color: var(--text-main) !important;
-    text-decoration: none !important;
+    color: var(--text-main);
+    text-decoration: none;
 }

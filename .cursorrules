@@ -1,0 +1,27 @@
+# ==================================================
+# 🚨 REGLAS IRRENUNCIABLES — ARQUITECTURA PARA SAFARI/IOS
+# PROHIBIDO MODIFICAR SIN AUTORIZACIÓN DEL ARQUITECTO JEFE
+# ==================================================
+
+## CONTEXTO CRÍTICO
+Esta aplicación está optimizada EXCLUSIVAMENTE para el ecosistema Apple (iOS 15+, iPadOS, macOS Safari). WebKit tiene comportamientos únicos, errores no documentados y restricciones de privacidad que rompen la app si se ignora el "Tier 0".
+
+## CAPA 0 (NÚCLEO INMUTABLE) — PROHIBIDO TOCAR
+Los siguientes archivos contienen "Workarounds Críticos" para Safari.
+Si los modificas, causarás "ChunkLoadErrors", bucles infinitos de PWA, o cuelgues por ITP.
+
+- `src/workers/service-worker.ts`
+- `vite.config.js`
+- `src/components/pwa/PwaUpdater.jsx`
+- `src/components/gates/LocalFirstGate.jsx`
+- `src/utils/GlobalErrorInterceptor.js`
+- `src/utils/storageProbe.js`
+- `src/core/dal.js`
+
+### INVARIANTES
+- `registerType` DEBE ser "prompt". NUNCA "autoUpdate".
+- PowerSync DEBE poder arrancar con `:memory:`. No quites el fallback.
+- ChunkLoadError DEBE estar envuelto en el interceptor.
+
+NO intentes "limpiar", "modernizar" o "refactorizar" estos archivos.
+Su aparente redundancia es Defensiva.

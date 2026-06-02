@@ -75,14 +75,24 @@ export default function LocalFirstGate({ children }) {
       }
 
       if (!dbRef.current) {
-        dbRef.current = new PowerSyncDatabase({
+        const { checkStorageCapabilities } = await import('../../utils/storageProbe');
+        const caps = await checkStorageCapabilities();
+        let dbConfig = {
           schema: AppSchema,
           database: {
             dbFilename: "socdepoble.db",
             vfs: "OPFSCoopSyncVFS",
           },
           flags: { enableMultiTabs: true },
-        });
+        };
+        
+        if (caps.privateMode || (!caps.opfs && !caps.indexedDB)) {
+          console.warn('🛡️ [ARCH SHIELD] Safari Private Mode or missing storage capabilities detected. Forcing fallback to :memory: DB to prevent OOM hang.');
+          dbConfig.database = { dbFilename: ':memory:' };
+          dbConfig.flags = { enableMultiTabs: false };
+        }
+
+        dbRef.current = new PowerSyncDatabase(dbConfig);
       }
 
       if (!connectorRef.current) {

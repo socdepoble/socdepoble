@@ -73,8 +73,8 @@ const UniversalCardMedia = ({
             >
             
             {/* SKELETON LAYER (Manejado por isImageLoaded) */}
-            <div className={`absolute inset-0 z-0 bg-theme-base animate-pulse transition-opacity duration-700 ease-in-out ${isImageLoaded ? 'opacity-0' : 'opacity-100'}`}>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-muted/10 to-transparent skew-x-12 animate-pulse" />
+            <div className={`absolute inset-0 z-0 bg-theme-base ${(isImageLoaded || hasImageError || !displayImage) ? 'hidden' : 'block'}`}>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-muted/10 to-transparent skew-x-12" />
             </div>
 
             {mediaList && mediaList.length > 1 ? (

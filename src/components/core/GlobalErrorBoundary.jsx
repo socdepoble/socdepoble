@@ -6,7 +6,7 @@ import TactileButton from '../design/TactileButton';
 class GlobalErrorBoundary extends Component {
     constructor(props) {
         super(props);
-        this.state = { hasError: false, error: null, isHealing: false };
+        this.state = { hasError: false, error: null, isHealing: false, isPrivateMode: false };
     }
 
     static getDerivedStateFromError(error) {
@@ -15,6 +15,18 @@ class GlobalErrorBoundary extends Component {
 
     componentDidCatch(error, errorInfo) {
         logger.error('[ErrorBoundary] Error capturat:', error, errorInfo);
+
+        // Detectar si l'error és exclusiu de Mode Privat de Safari / Bloqueig de DB
+        const errorString = String(error?.name) + ' ' + String(error?.message);
+        if (
+            errorString.includes('UnknownError') || 
+            errorString.includes('transient reason') || 
+            errorString.includes('SecurityError') ||
+            errorString.includes('InvalidStateError') // Safari IDB blocked
+        ) {
+            this.setState({ isPrivateMode: true });
+            return;
+        }
 
         // === AUTOSANACIÓ QUIRÚRGICA ===
         const criticalErrors = [
@@ -30,11 +42,12 @@ class GlobalErrorBoundary extends Component {
             error.name?.includes(msg) || error.message?.includes(msg)
         );
 
-        if (isCritical) {
+        if (isCritical && !this.state.isPrivateMode) {
             this.setState({ isHealing: true });
-            this.healDatabase().then(() => {
-                // Reset noble després de purgar
-                window.location.href = '/?healed=true&v=' + Date.now();
+            this.healDatabase().then((success) => {
+                if (success) {
+                    window.location.href = '/?healed=true&v=' + Date.now();
+                }
             });
         }
     }
@@ -43,29 +56,57 @@ class GlobalErrorBoundary extends Component {
         try {
             logger.warn('[AUTOSANACIÓ] Detectada corrupció crítica – iniciant purga quirúrgica...');
 
-            // Purga totes les taules del Rhizome
             const db = await openDB('rhizome-v1', 1);
             const tx = db.transaction('rhizome', 'readwrite');
-            await tx.store.clear(); // esborra tot el CRDT + identitats xifrades
+            await tx.store.clear();
 
-            // Purga també el store sobirà si existeix
             try {
                 await db.delete('sovereign-identity');
             } catch {
-                // Ignore errors if the store doesn't exist
+                // Ignore
             }
 
             await tx.done;
             logger.info('[AUTOSANACIÓ] Base de dades purgada i restaurada amb èxit');
+            return true;
         } catch (e) {
             logger.error('[AUTOSANACIÓ] Error durant la purga:', e);
-            // Últim recurs: neteja completa
+            const errorString = String(e?.name) + ' ' + String(e?.message);
+            if (errorString.includes('UnknownError') || errorString.includes('transient reason')) {
+                this.setState({ isPrivateMode: true, isHealing: false });
+                return false; // No recarreguem, mostrem l'avís de mode privat
+            }
             localStorage.clear();
             sessionStorage.clear();
+            return true;
         }
     }
 
     render() {
+        if (this.state.isPrivateMode) {
+            return (
+                <div className="min-h-screen bg-[#050505] flex items-center justify-center p-8 text-white text-center">
+                    <div className="max-w-xl">
+                        <div className="mb-8 flex justify-center">
+                            <div className="w-24 h-24 bg-[#F97316]/10 rounded-full flex items-center justify-center border border-[#F97316]/30">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#F97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h1 className="text-3xl font-black mb-4">Mode Privat Detectat</h1>
+                        <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+                            El teu navegador està bloquejant l'emmagatzematge local de dades perquè estàs en <strong>Navegació Privada</strong>.
+                        </p>
+                        <p className="text-gray-400 mb-10 text-lg">
+                            Sóc de Poble és una aplicació Offline-First. Necessita guardar les converses al teu dispositiu per a ser ultra ràpida.
+                            Per favor, <strong>tanca aquesta pestanya i obre'n una de normal</strong> per accedir al poble.
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
         if (this.state.hasError) {
             return (
                 <div className="min-h-screen bg-black flex items-center justify-center p-8 text-white">

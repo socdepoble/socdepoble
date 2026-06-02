@@ -62,27 +62,16 @@ console.info = (...args) => { if (!isNoise(args)) originalInfo.apply(console, ar
 
 
 
-import { registerSW } from 'virtual:pwa-register';
 import { preBootCheck } from './preBootCheck';
 import { SystemGuardian } from './SystemGuardian';
+import { PwaUpdater } from '../components/pwa/PwaUpdater';
+import { initGlobalErrorInterceptor } from '../utils/GlobalErrorInterceptor';
+import { runArchitectureGuard } from '../core/CoreArchitectureGuard';
+
+initGlobalErrorInterceptor();
+runArchitectureGuard();
 
 const CURRENT_MASTER_VERSION = APP_VERSION;
-
-// Registre del SW AMB gestió d'actualitzacions
-let swUpdate = null;
-
-const updateSW = registerSW({
-  immediate: true,
-  onNeedRefresh() {
-    // El SW nou està esperant. Li ordenem que avance.
-    if (swUpdate) swUpdate();
-  },
-  onOfflineReady() {
-    console.log('[PWA] App llista per a treballar fora de línia.');
-  }
-});
-
-swUpdate = updateSW;
 
 async function bootSequence() {
   if (sessionStorage.getItem('sw_updating')) {
@@ -91,6 +80,11 @@ async function bootSequence() {
 
   const container = document.getElementById("root");
   if (!window.__SDP_ROOT__) window.__SDP_ROOT__ = ReactDOM.createRoot(container);
+
+  if (window.__PRE_BOOT_STATE__) {
+    await window.__PRE_BOOT_STATE__;
+    if (window.__SDP_BOOT_ABORT) return;
+  }
 
   const setStatus = (k, payload) => {
     console.info('[preBoot]', k, payload || '');
@@ -121,6 +115,7 @@ async function bootSequence() {
                                 <ToastProvider>
                                   <VersionGatekeeper>
                                     <SafeShell>
+                                      <PwaUpdater />
                                       <App />
                                     </SafeShell>
                                   </VersionGatekeeper>
@@ -143,6 +138,17 @@ async function bootSequence() {
 
   // Signalejar al Failsafe de index.html que hem arrancat amb èxit
   window.__SDP_ROOT_MOUNTED = true;
+
+  // ─── Ocultar App Shell desprès d'hidratar ───
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const shell = document.getElementById('app-shell-fallback');
+      if (shell) {
+        shell.style.opacity = '0';
+        setTimeout(() => shell.remove(), 300);
+      }
+    });
+  });
 }
 
 bootSequence();
