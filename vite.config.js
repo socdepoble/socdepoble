@@ -69,7 +69,7 @@ export default defineConfig({
       injectManifest: {
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         globPatterns: ['**/*.{html,json,js,css,ico,png,svg}'],
-        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**', '**/*.onnx', '**/*.wasm']
+        globIgnores: ['llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
