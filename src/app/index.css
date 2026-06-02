@@ -51,7 +51,7 @@
 }
 
 @layer base {
-  * { margin: 0; padding: 0; box-sizing: border-box; font-style: normal !important; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-style: normal; }
   html { scroll-behavior: smooth; }
   body { -webkit-font-smoothing: antialiased; }
 
@@ -314,14 +314,14 @@
       .app-cms-content .page p,
       .app-cms-content .page li,
       .app-cms-content .page strong {
-        color: #000 !important;
+        color: #000;
       }
       .app-cms-content .page h2 {
-          color: var(--theme-accent-secondary) !important;
+          color: var(--theme-accent-secondary);
       }
       .app-cms-content .page .text-theme-muted,
       .app-cms-content .page p.text-muted {
-          color: #555 !important;
+          color: #555;
       }
   }
 
@@ -612,9 +612,9 @@
   
   /* Excepció per als logos o imatges que no vulguem que tinguen format de foto de CMS */
   .app-cms-content img.drop-shadow-none {
-    border: none !important;
-    box-shadow: none !important;
-    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
   }
   
   .app-cms-content img:hover {
@@ -820,7 +820,7 @@
   }
   @media print {
     .app-cms-content {
-      display: block !important;
+      display: block;
     }
   }
 
@@ -947,10 +947,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+    scroll-behavior: auto;
   }
 }
 
@@ -980,7 +980,7 @@
 
 @media screen and (forced-colors: active) {
   button, a, input, select, textarea, .btn-primary, .btn-secondary {
-    border: 1px solid CanvasText !important;
+    border: 1px solid CanvasText;
   }
 }
 
