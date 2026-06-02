@@ -106,8 +106,6 @@ export async function runMigrations({ onProgress = () => {}, ownerId = String(Ma
 
     await setCheckpoint(null); // tot complet, netejar checkpoint
     return { ok: true };
-  } catch (err) {
-    throw err;
   } finally {
     await releaseLock(ownerId);
   }
