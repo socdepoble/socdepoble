@@ -149,6 +149,7 @@ export default defineConfig({
       Expires: "0",
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "credentialless",
+      "Service-Worker-Allowed": "/"
     },
   },
   worker: {
