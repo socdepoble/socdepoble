@@ -35,7 +35,7 @@ const ACTIVATION_WAIT_MS = 5000;
 self.addEventListener('install', (event) => {
   LOG({ event: 'install', phase: 'start', ts: Date.now() });
   // Forcem que el SW arribe a installed
-  self.skipWaiting();
+  // Eliminar self.skipWaiting() ací perquè ho controle PwaUpdater manualment
   event.waitUntil((async () => {
     LOG({ event: 'install', phase: 'done', ts: Date.now() });
   })());

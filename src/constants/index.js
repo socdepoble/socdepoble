@@ -2,7 +2,7 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "V10.38.29";
+export const APP_VERSION = "V10.38.30";
 
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";
