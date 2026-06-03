@@ -22,10 +22,7 @@ import ErrorBoundary from '../components/core/ErrorBoundary';
 import OfflineGate from '../components/gates/OfflineGate';
 import LocalFirstGate from '../components/gates/LocalFirstGate';
 import AuthGate from '../components/gates/AuthGate';
-import { APIProvider } from '@vis.gl/react-google-maps';
-
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
-const MAPS_LIBRARIES = ['marker'];
 
 const LayoutBoundary = () => {
     const location = useLocation();
@@ -201,11 +198,7 @@ const App = () => {
         </>
     );
 
-    return GOOGLE_MAPS_API_KEY ? (
-        <APIProvider apiKey={GOOGLE_MAPS_API_KEY} version="quarterly" libraries={MAPS_LIBRARIES}>
-            {AppContent}
-        </APIProvider>
-    ) : AppContent;
+    return AppContent;
 };
 
 export default App;

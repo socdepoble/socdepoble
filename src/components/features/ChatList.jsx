@@ -278,7 +278,7 @@ const ChatList = () => {
             <Search
               size={18}
               strokeWidth={3}
-              className="text-gray-400 group-focus-within:text-[#F97316] transition-colors"
+              className="text-gray-500 group-focus-within:text-[#F97316] transition-colors"
             />
           </div>
           <input
@@ -355,7 +355,7 @@ const ChatList = () => {
                 />
                 {chat.id?.startsWith('11111111') && (
                   <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
-                    <span className="text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
+                    <span className="text-[#C25300] dark:text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
                   </div>
                 )}
               </div>
@@ -364,14 +364,14 @@ const ChatList = () => {
               <div className="flex-1 min-w-0 flex flex-col justify-center h-[72px] pr-4 border-b border-gray-200 dark:border-white/5 group-last:border-0">
                  {/* Fila Superior: Nom + Temps */}
                  <div className="flex justify-between items-center mb-0.5 gap-2">
-                  <h4 className="m-0 truncate text-[17px] md:text-[19px] font-semibold text-[#111B21] dark:text-[#E9EDEF] transition-colors tracking-normal">
+                  <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold text-[#111B21] dark:text-[#E9EDEF] transition-colors tracking-normal">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
                         : chat.p1_info?.name) ||
                       "Sóc de Poble"}
-                  </h4>
-                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal text-[#667781] dark:text-[#8696A0] ml-2">
+                  </div>
+                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal text-[#54656F] dark:text-[#8696A0] ml-2">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return time || day;
@@ -381,7 +381,7 @@ const ChatList = () => {
                 
                 {/* Fila Inferior: Missatge */}
                 <div className="flex items-center text-[15px] font-normal transition-colors">
-                  <p className="m-0 truncate w-full text-[#667781] dark:text-[#8696A0]">
+                  <p className="m-0 truncate w-full text-[#54656F] dark:text-[#8696A0]">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </p>
                 </div>
@@ -397,7 +397,7 @@ const ChatList = () => {
             <p className="text-gray-900 dark:text-white text-[16px] font-bold tracking-wide">
               {t("chat.silence_total")}
             </p>
-            <p className="text-gray-500 dark:text-white/50 text-[14px] mt-2">
+            <p className="text-gray-600 dark:text-white/50 text-[14px] mt-2">
               {t("chat.start_conversation_wall")}
             </p>
           </div>

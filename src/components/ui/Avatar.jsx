@@ -22,7 +22,7 @@ const getAvatarColor = (role) => {
         case ROLES.OFFICIAL: return '#4F46E5';
         case ROLES.BUSINESS: return 'var(--color-secondary)';
         case ROLES.GROUPS: // Falls through to default orange
-        default: return '#FF7300'; // Taronja Corporatiu Sóc de Poble (Protocol OMEGA)
+        default: return '#CC5C00'; // Taronja enfosquit per A11y (Contrast amb text blanc)
     }
 };
 

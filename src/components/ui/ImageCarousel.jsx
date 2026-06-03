@@ -56,7 +56,8 @@ const ImageCarousel = ({ images, onImageClick, aspectMode = 'square' }) => {
                         <img
                             src={img || undefined}
                             alt={`Slide ${idx + 1}`}
-                            loading="lazy"
+                            loading={idx === 0 ? "eager" : "lazy"}
+                            fetchPriority={idx === 0 ? "high" : "auto"}
                             decoding="async"
                             onClick={() => onImageClick && onImageClick(idx)}
                             role={onImageClick ? "button" : "img"}

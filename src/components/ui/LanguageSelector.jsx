@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useI18n } from '../../app/context/I18nContext';
+import { useNavigate } from 'react-router-dom';
 import { Globe, Check } from 'lucide-react';
 
 const LANGUAGES = [
@@ -14,26 +15,13 @@ const LANGUAGES = [
 const LanguageSelector = ({ variant = 'header' }) => {
   const { i18n } = useTranslation();
   const { setLanguage } = useI18n();
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   // Normalitzem l'idioma per coincidir exactament
   const activeLangCode = i18n.language?.split('-')[0] || 'va';
-  const currentLang = LANGUAGES.find(l => l.code === activeLangCode) || LANGUAGES[0];
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   const handleSelect = (code) => {
     setLanguage(code);
-    setIsOpen(false);
     // També guardem la preferència perquè persistesca
     localStorage.setItem('sp_language', code);
   };
@@ -67,31 +55,14 @@ const LanguageSelector = ({ variant = 'header' }) => {
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative">
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => navigate('/traduccions')}
         className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
         title="Canviar idioma / Change language"
       >
         <Globe size={36} className="w-[36px] h-[36px] shrink-0" />
       </button>
-
-      {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-[#111827]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-dropdown animate-in fade-in slide-in-from-top-2">
-          {LANGUAGES.map(lang => (
-            <button
-              key={lang.code}
-              onClick={() => handleSelect(lang.code)}
-              className={`w-full text-left px-5 py-3.5 text-sm flex items-center justify-between transition-colors
-                ${activeLangCode === lang.code ? 'bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold' : 'text-white/80 hover:bg-white/5'}
-              `}
-            >
-              <span>{lang.label}</span>
-              {activeLangCode === lang.code && <Check size={16} />}
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

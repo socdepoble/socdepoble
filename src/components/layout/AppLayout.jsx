@@ -58,6 +58,7 @@ const Notes = lazy(() => import("../../pages/features/Notes"));
 const IAIAChatSidebar = lazy(() => import("../features/IAIAChatSidebar"));
 const ProfilePowerMenu = lazy(() => import("../ui/ProfilePowerMenu"));
 const Chrome145Report = lazy(() => import("../../pages/admin/Chrome145Report"));
+const Translations = lazy(() => import("../../pages/features/Translations"));
 
 
 // Legal Pages (Virtual Store Compliance)
@@ -384,6 +385,7 @@ const AppLayout = () => {
                     <Route path="/pobles/:id" element={<ProfileView />} />
                     <Route path="/mapa" element={<MapaActius />} />
                     <Route path="/calendari" element={<CalendariMaster />} />
+                    <Route path="/traduccions" element={<Translations />} />
 
                     <Route path="/chats/*" element={<ChatLayout />}>
                       <Route index element={<ChatEmptyState />} />

@@ -5,7 +5,7 @@ import { resolveImageUrl } from '../../utils/urlHelper';
 import { useUnifiedFeedData } from '../../hooks/useUnifiedFeedData';
 import { useAuth } from '../../app/context/AuthContext';
 import { useDesign } from '../../app/context/DesignContext';
-import { useMap, Map as GoogleMap, AdvancedMarker, InfoWindow } from '@vis.gl/react-google-maps';
+import { useMap, Map as GoogleMap, AdvancedMarker, InfoWindow, APIProvider } from '@vis.gl/react-google-maps';
 import { useViewMode } from '../../hooks/useViewMode';
 import SystemPageLayout from '../../components/layout/SystemPageLayout';
 import ContextualHeader from '../../components/layout/ContextualHeader';
@@ -303,70 +303,72 @@ const Map = () => {
                     {/* Native Google Maps Engine */}
                     <div className="absolute inset-0 z-0 map-container-custom">
                         {GOOGLE_MAPS_API_KEY ? (
-                            <GoogleMap
-                                defaultCenter={{ lat: 38.6042, lng: -0.4266 }}
-                                defaultZoom={12}
-                                mapId="DEMO_MAP_ID"
-                                disableDefaultUI={true}
-                                gestureHandling={isAccessible ? 'none' : 'greedy'}
-                                onClick={handleMapClick}
-                                style={{ width: '100%', height: '100%' }}
-                            >
-                                {/* Main Markers */}
-                                {selectedCategories.includes('pobles') && (
-                                    <>
-                                        <AdvancedMarker position={TOWN_COORDINATES.latorre} onClick={() => navigate('/pobles/gent-de-la-torre')}><TownPin colorClass="text-orange-500" label="La Torre de les Maçanes" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.penaguila} onClick={() => navigate('/pobles/gent-de-penaguila')}><TownPin colorClass="text-indigo-500" label="Penàguila" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.benifallim} onClick={() => navigate('/pobles/gent-de-benifallim')}><TownPin colorClass="text-emerald-500" label="Benifallim" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.sella} onClick={() => navigate('/pobles/gent-de-sella')}><TownPin colorClass="text-blue-400" label="Sella" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.orxeta} onClick={() => navigate('/pobles/gent-de-orxeta')}><TownPin colorClass="text-yellow-500" label="Orxeta" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.relleu} onClick={() => navigate('/pobles/gent-de-relleu')}><TownPin colorClass="text-red-500" label="Relleu" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.alcoleja} onClick={() => navigate('/pobles/gent-de-alcoleja')}><TownPin colorClass="text-green-500" label="Alcoleja" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.xixona} onClick={() => navigate('/pobles/gent-de-xixona')}><TownPin colorClass="text-amber-600" label="Xixona" /></AdvancedMarker>
-                                        <AdvancedMarker position={TOWN_COORDINATES.tibi} onClick={() => navigate('/pobles/gent-de-tibi')}><TownPin colorClass="text-cyan-500" label="Tibi" /></AdvancedMarker>
-                                    </>
-                                )}
+                            <APIProvider apiKey={GOOGLE_MAPS_API_KEY} version="quarterly" libraries={LIBRARIES}>
+                                <GoogleMap
+                                    defaultCenter={{ lat: 38.6042, lng: -0.4266 }}
+                                    defaultZoom={12}
+                                    mapId="DEMO_MAP_ID"
+                                    disableDefaultUI={true}
+                                    gestureHandling={isAccessible ? 'none' : 'greedy'}
+                                    onClick={handleMapClick}
+                                    style={{ width: '100%', height: '100%' }}
+                                >
+                                    {/* Main Markers */}
+                                    {selectedCategories.includes('pobles') && (
+                                        <>
+                                            <AdvancedMarker position={TOWN_COORDINATES.latorre} onClick={() => navigate('/pobles/gent-de-la-torre')}><TownPin colorClass="text-orange-500" label="La Torre de les Maçanes" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.penaguila} onClick={() => navigate('/pobles/gent-de-penaguila')}><TownPin colorClass="text-indigo-500" label="Penàguila" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.benifallim} onClick={() => navigate('/pobles/gent-de-benifallim')}><TownPin colorClass="text-emerald-500" label="Benifallim" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.sella} onClick={() => navigate('/pobles/gent-de-sella')}><TownPin colorClass="text-blue-400" label="Sella" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.orxeta} onClick={() => navigate('/pobles/gent-de-orxeta')}><TownPin colorClass="text-yellow-500" label="Orxeta" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.relleu} onClick={() => navigate('/pobles/gent-de-relleu')}><TownPin colorClass="text-red-500" label="Relleu" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.alcoleja} onClick={() => navigate('/pobles/gent-de-alcoleja')}><TownPin colorClass="text-green-500" label="Alcoleja" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.xixona} onClick={() => navigate('/pobles/gent-de-xixona')}><TownPin colorClass="text-amber-600" label="Xixona" /></AdvancedMarker>
+                                            <AdvancedMarker position={TOWN_COORDINATES.tibi} onClick={() => navigate('/pobles/gent-de-tibi')}><TownPin colorClass="text-cyan-500" label="Tibi" /></AdvancedMarker>
+                                        </>
+                                    )}
 
-                                {/* Dynamic Post Markers */}
-                                {activeMarkers.map((post, index) => {
-                                    const rawUrl = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.image || post.seo_image || post.header_image_url || post.logo_url || post.avatar_url);
-                                    const imgUrl = resolveImageUrl(rawUrl);
-                                    const lat = parseFloat(post.lat);
-                                    const lng = parseFloat(post.lng);
-                                    
-                                    if (isNaN(lat) || isNaN(lng)) return null;
+                                    {/* Dynamic Post Markers */}
+                                    {activeMarkers.map((post, index) => {
+                                        const rawUrl = Array.isArray(post.image_url) ? post.image_url[0] : (post.image_url || post.image || post.seo_image || post.header_image_url || post.logo_url || post.avatar_url);
+                                        const imgUrl = resolveImageUrl(rawUrl);
+                                        const lat = parseFloat(post.lat);
+                                        const lng = parseFloat(post.lng);
+                                        
+                                        if (isNaN(lat) || isNaN(lng)) return null;
 
-                                    return (
-                                        <AdvancedMarker 
-                                            key={`post-${post.id || post.uuid || index}`}
-                                            position={post.position}
-                                            onClick={() => setSelectedPost(post)}
+                                        return (
+                                            <AdvancedMarker 
+                                                key={`post-${post.id || post.uuid || index}`}
+                                                position={post.position}
+                                                onClick={() => setSelectedPost(post)}
+                                            >
+                                                <PostPin imageUrl={imgUrl} type={post.type} category={post.category} tags={post.tags} />
+                                            </AdvancedMarker>
+                                        );
+                                    })}
+
+                                    {/* InfoWindow for selected post */}
+                                    {selectedPost && selectedPost.lat && selectedPost.lng && (
+                                        <InfoWindow
+                                            position={{ lat: parseFloat(selectedPost.lat), lng: parseFloat(selectedPost.lng) }}
+                                            onCloseClick={() => setSelectedPost(null)}
                                         >
-                                            <PostPin imageUrl={imgUrl} type={post.type} category={post.category} tags={post.tags} />
-                                        </AdvancedMarker>
-                                    );
-                                })}
+                                             <div 
+                                                 className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master" 
+                                                 onClick={() => navigate(selectedPost.type === 'mercat' ? `/mercat/${selectedPost.id || selectedPost.uuid}` : `/post/${selectedPost.id || selectedPost.uuid}`)}
+                                             >
+                                                 <h4 className="text-base font-black block text-theme-text line-clamp-2 leading-tight m-0 tracking-wide">
+                                                     {selectedPost.title || selectedPost.content?.substring(0, 30) + '...'}
+                                                 </h4>
+                                                 <span className="text-[11px] text-[#F97316] mt-2 block font-bold uppercase tracking-wider">PEL {selectedPost.author}</span>
+                                             </div>
+                                        </InfoWindow>
+                                    )}
 
-                                {/* InfoWindow for selected post */}
-                                {selectedPost && selectedPost.lat && selectedPost.lng && (
-                                    <InfoWindow
-                                        position={{ lat: parseFloat(selectedPost.lat), lng: parseFloat(selectedPost.lng) }}
-                                        onCloseClick={() => setSelectedPost(null)}
-                                    >
-                                         <div 
-                                             className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master" 
-                                             onClick={() => navigate(selectedPost.type === 'mercat' ? `/mercat/${selectedPost.id || selectedPost.uuid}` : `/post/${selectedPost.id || selectedPost.uuid}`)}
-                                         >
-                                             <h4 className="text-base font-black block text-theme-text line-clamp-2 leading-tight m-0 tracking-wide">
-                                                 {selectedPost.title || selectedPost.content?.substring(0, 30) + '...'}
-                                             </h4>
-                                             <span className="text-[11px] text-[#F97316] mt-2 block font-bold uppercase tracking-wider">PEL {selectedPost.author}</span>
-                                         </div>
-                                    </InfoWindow>
-                                )}
-
-                                <InteractiveControls isPlacingPost={isPlacingPost} setIsPlacingPost={setIsPlacingPost} isAccessible={isAccessible} />
-                            </GoogleMap>
+                                    <InteractiveControls isPlacingPost={isPlacingPost} setIsPlacingPost={setIsPlacingPost} isAccessible={isAccessible} />
+                                </GoogleMap>
+                            </APIProvider>
                         ) : (
                             <div className="w-full h-full flex flex-col items-center justify-center bg-theme-panel p-8 text-center decoration-none relative overflow-hidden">
                                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)]"></div>
