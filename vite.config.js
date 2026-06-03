@@ -68,7 +68,7 @@ export default defineConfig({
       injectManifest: {
         rollupFormat: 'es',
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,mp3}'],
-        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js', '**/*.worker*.js', '**/*.wasm', '**/*.map', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js', '**/*.worker*.js', '**/*.wasm', '**/*.map', '**/.*', 'llibres/**', 'ia_skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx'],
         navigateFallback: '/index.html',
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
         cleanupOutdatedCaches: true,
