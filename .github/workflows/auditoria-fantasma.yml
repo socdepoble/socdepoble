@@ -1,0 +1,36 @@
+name: Auditoria Fantasmes i Salut Forense
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main ]
+
+jobs:
+  ghost-tracker-and-memory-forense:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instal·lar dependències
+        run: npm ci
+
+      - name: Executar Rastrejador de Fantasmes
+        run: node tools/ghost-tracker.cjs
+
+      - name: Executar Health Sentinel amb Anàlisi Forense
+        run: node tools/full-memory-audit.cjs
+
+      - name: Pujar Reports de Memòria (Artifacts)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: memory-forense-reports
+          path: reports/
+          retention-days: 7

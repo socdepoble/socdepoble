@@ -1,0 +1,352 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Consell de la Petorreta <dev@petorreta.local>
+Date: Wed, 03 Jun 2026 07:00:00 +0200
+Subject: [PATCH] Afegir SW handshake i PwaUpdater; configurar Vite PWA; tests Playwright
+
+---
+ Afegeix sw.js, PwaUpdater.jsx, configuració Vite PWA i tests Playwright.
+ ---
+ src/components/PwaUpdater.jsx      | 220 +++++++++++++++++++++++++++++++
+ src/sw.js                         | 220 +++++++++++++++++++++++++++++++
+ tests/playwright/handshake-server.js |  61 +++++++
+ tests/playwright/handshake.spec.js |  86 ++++++++++
+ tests/playwright/playwright.config.js |  24 +++
+ vite.config.js                    |  28 +++
+ 6 files changed, 639 insertions(+)
+ create mode 100644 src/components/PwaUpdater.jsx
+ create mode 100644 src/sw.js
+ create mode 100644 tests/playwright/handshake-server.js
+ create mode 100644 tests/playwright/handshake.spec.js
+ create mode 100644 tests/playwright/playwright.config.js
+--- a/dev/null
++++ b/src/sw.js
+@@
++/* sw.js - injectManifest compatible amb vite-plugin-pwa */
++import {precacheAndRoute} from 'workbox-precaching';
++import {registerRoute, NavigationRoute} from 'workbox-routing';
++import {NetworkFirst, CacheFirst} from 'workbox-strategies';
++
++const LOG = (...args) => {
++  try { console.log(JSON.stringify({sw: true, payload: args})); } catch(e) {}
++};
++
++precacheAndRoute(self.__WB_MANIFEST || [], {
++  ignoreURLParametersMatching: [/^_v$/]
++});
++
++LOG({event: 'precache_done', count: (self.__WB_MANIFEST || []).length, ts: Date.now()});
++
++const pendingActivationConfirmations = new Map();
++const ACTIVATION_WAIT_MS = 5000;
++
++self.addEventListener('install', (event) => {
++  LOG({event: 'install', phase: 'start', ts: Date.now()});
++  self.skipWaiting();
++  event.waitUntil((async () => {
++    LOG({event: 'install', phase: 'done', ts: Date.now()});
++  })());
++});
++
++self.addEventListener('activate', (event) => {
++  LOG({event: 'activate', phase: 'start', ts: Date.now()});
++  event.waitUntil((async () => {
++    const clientsList = await self.clients.matchAll({includeUncontrolled: true});
++    const clientIds = clientsList.map(c => c.id);
++    LOG({event: 'activate', phase: 'announce_ready', clients: clientIds, ts: Date.now()});
++
++    const confirmations = clientIds.map(clientId => {
++      return new Promise((resolve) => {
++        pendingActivationConfirmations.set(clientId, {resolved: false, resolve});
++      });
++    });
++
++    for (const client of clientsList) {
++      try { client.postMessage({type: 'ready-to-activate', ts: Date.now()}); } catch(e) {
++        LOG({event: 'activate', phase: 'postMessage_error', clientId: client.id, error: String(e)});
++      }
++    }
++
++    await Promise.race([ Promise.all(confirmations), new Promise(res => setTimeout(res, ACTIVATION_WAIT_MS)) ]);
++
++    pendingActivationConfirmations.clear();
++    try {
++      await self.clients.claim();
++      LOG({event: 'activate', phase: 'claimed', ts: Date.now()});
++    } catch (e) {
++      LOG({event: 'activate', phase: 'claim_error', error: String(e), ts: Date.now()});
++    }
++  })());
++});
++
++self.addEventListener('message', (event) => {
++  const data = event.data || {};
++  const clientId = event.source && event.source.id;
++  LOG({event: 'message_received', data, clientId, ts: Date.now()});
++
++  if (data && data.type === 'purged-caches' && clientId) {
++    const entry = pendingActivationConfirmations.get(clientId);
++    if (entry && !entry.resolved) {
++      entry.resolved = true;
++      entry.resolve(true);
++      LOG({event: 'purged_caches_ack', clientId, ts: Date.now()});
++    }
++  }
++
++  if (data && data.type === 'SKIP_WAITING') {
++    LOG({event: 'skip_waiting_requested', clientId, ts: Date.now()});
++    self.skipWaiting();
++  }
++});
++
++registerRoute(
++  new NavigationRoute(async ({request}) => {
++    const url = new URL(request.url);
++    LOG({event: 'navigation_request', url: url.href, ts: Date.now()});
++    try {
++      const networkResponse = await fetch(request);
++      LOG({event: 'navigation_network_success', url: url.href, status: networkResponse.status, ts: Date.now()});
++      return networkResponse;
++    } catch (err) {
++      LOG({event: 'navigation_network_failed', url: url.href, error: String(err), ts: Date.now()});
++      const cache = await caches.open('workbox-precache');
++      const precached = await cache.match('/index.html');
++      if (precached) {
++        LOG({event: 'navigation_served_precache', url: url.href, ts: Date.now()});
++        return precached;
++      }
++      LOG({event: 'navigation_no_fallback', url: url.href, ts: Date.now()});
++      return new Response('Offline', {status: 503, statusText: 'Offline'});
++    }
++  })
++);
++
++registerRoute(
++  ({request}) => request.destination === 'script' || request.destination === 'style' || request.destination === 'image',
++  new CacheFirst({ cacheName: 'static-resources' })
++);
++
++self.addEventListener('fetch', (event) => {
++  if (event.request.mode === 'navigate') {
++    LOG({event: 'fetch_navigate', url: event.request.url, ts: Date.now()});
++  }
++});
+--- a/dev/null
++++ b/src/components/PwaUpdater.jsx
+@@
++import React, {useEffect, useState, useRef} from 'react';
++
++const sleep = (ms) => new Promise(r => setTimeout(r, ms));
++
++export default function PwaUpdater({registration}) {
++  const [waitingWorker, setWaitingWorker] = useState(null);
++  const [status, setStatus] = useState('idle');
++  const controllerChangeHandled = useRef(false);
++
++  useEffect(() => {
++    if (!registration) return;
++    if (registration.waiting) { setWaitingWorker(registration.waiting); setStatus('ready'); }
++    const onUpdateFound = () => {
++      const newWorker = registration.installing;
++      if (!newWorker) return;
++      newWorker.addEventListener('statechange', () => {
++        if (newWorker.state === 'installed' && registration.waiting) {
++          setWaitingWorker(registration.waiting);
++          setStatus('ready');
++        }
++      });
++    };
++    registration.addEventListener('updatefound', onUpdateFound);
++    return () => { try { registration.removeEventListener('updatefound', onUpdateFound); } catch(e) {} };
++  }, [registration]);
++
++  useEffect(() => {
++    const onControllerChange = () => {
++      if (controllerChangeHandled.current) return;
++      controllerChangeHandled.current = true;
++      setStatus('activating');
++    };
++    navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
++    return () => navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
++  }, []);
++
++  const purgeClientCaches = async () => {
++    try {
++      const cacheNames = await caches.keys();
++      for (const name of cacheNames) {
++        if (name === 'workbox-precache') continue;
++        await caches.delete(name);
++      }
++      return true;
++    } catch (e) {
++      console.error('Error purgant caches', e);
++      return false;
++    }
++  };
++
++  const onUpdateNow = async () => {
++    if (!waitingWorker) return;
++    setStatus('activating');
++    try {
++      waitingWorker.postMessage({type: 'SKIP_WAITING'});
++      const readyPromise = new Promise((resolve, reject) => {
++        const onMessage = (ev) => {
++          const data = ev.data || {};
++          if (data && data.type === 'ready-to-activate') {
++            navigator.serviceWorker.removeEventListener('message', onMessage);
++            resolve(data);
++          }
++        };
++        const timeout = setTimeout(() => {
++          navigator.serviceWorker.removeEventListener('message', onMessage);
++          reject(new Error('timeout_ready_to_activate'));
++        }, 5000);
++        navigator.serviceWorker.addEventListener('message', onMessage);
++      });
++
++      await readyPromise;
++      const purged = await purgeClientCaches();
++      if (navigator.serviceWorker.controller) {
++        navigator.serviceWorker.controller.postMessage({type: 'purged-caches', ts: Date.now()});
++      }
++      await sleep(2000);
++      const base = window.location.href.split('?')[0];
++      window.location.href = base + '?_v=' + Date.now();
++    } catch (err) {
++      console.error('Error en procés d\'actualització', err);
++      setStatus('error');
++      try {
++        const base = window.location.href.split('?')[0];
++        window.location.href = base + '?_v=' + Date.now();
++      } catch (e) { console.error('Fallback reload failed', e); }
++    }
++  };
++
++  if (status === 'idle') return null;
++
++  return (
++    <div aria-live="polite" style={{position: 'fixed', bottom: 12, right: 12, zIndex: 9999}}>
++      {status === 'ready' && (
++        <div style={{background: '#ffcc00', padding: 12, borderRadius: 6}}>
++          <div style={{fontWeight: '700'}}>Nova versió disponible</div>
++          <div style={{marginTop: 8}}>
++            <button onClick={onUpdateNow} style={{padding: '8px 12px'}}>Actualitzar ara</button>
++          </div>
++        </div>
++      )}
++      {status === 'activating' && (
++        <div style={{background: '#00aaff', padding: 12, borderRadius: 6, color: '#fff'}}>Activant nova versió...</div>
++      )}
++      {status === 'error' && (
++        <div style={{background: '#ff4444', padding: 12, borderRadius: 6, color: '#fff'}}>Error actualitzant. Prova a tancar la pestanya i obrir de nou.</div>
++      )}
++    </div>
++  );
++}
+--- a/dev/null
++++ b/tests/playwright/handshake-server.js
+@@
++const express = require('express');
++const path = require('path');
++const app = express();
++let appVersion = 1;
++
++app.use((req, res, next) => {
++  res.setHeader('X-App-Version', String(appVersion));
++  res.setHeader('Cache-Control', 'no-cache, must-revalidate');
++  next();
++});
++
++app.get('/invalidate', (req, res) => {
++  appVersion += 1;
++  res.setHeader('X-App-Version', String(appVersion));
++  res.send({ok: true, version: appVersion});
++});
++
++app.use(express.static(path.join(__dirname, '../../dist')));
++
++const server = app.listen(5174, () => {
++  console.log('handshake-server listening on http://localhost:5174');
++});
++
++process.on('SIGINT', () => server.close());
+--- a/dev/null
++++ b/tests/playwright/handshake.spec.js
+@@
++const { test, expect } = require('@playwright/test');
++const fetch = require('node-fetch');
++
++test.describe('SW Activation Handshake', () => {
++  test('handshake and hard navigation', async ({ browser }) => {
++    const context = await browser.newContext({ userAgent: 'Playwright WebKit', viewport: { width: 1024, height: 768 } });
++    const page = await context.newPage();
++
++    await page.goto('http://localhost:5174', { waitUntil: 'networkidle' });
++
++    const swRegistered = await page.evaluate(() => {
++      return navigator.serviceWorker.getRegistration().then(r => !!r);
++    });
++    expect(swRegistered).toBeTruthy();
++
++    await fetch('http://localhost:5174/invalidate');
++
++    await page.waitForSelector('text=Nova versió disponible', { timeout: 10000 });
++    await page.click('text=Actualitzar ara');
++
++    await page.waitForNavigation({ url: /_v=/, timeout: 15000 });
++    const url = page.url();
++    expect(url).toMatch(/_v=\d+/);
++
++    const resp = await fetch('http://localhost:5174');
++    const header = resp.headers.get('x-app-version');
++    expect(Number(header)).toBeGreaterThan(1);
++
++    await context.close();
++  });
++});
+--- a/dev/null
++++ b/tests/playwright/playwright.config.js
+@@
++const { devices } = require('@playwright/test');
++module.exports = {
++  timeout: 60000,
++  use: {
++    browserName: 'webkit',
++    headless: true
++  },
++  projects: [
++    { name: 'webkit', use: { ...devices['iPad (gen 7)'] } }
++  ]
++};
+--- a/vite.config.js
++++ b/vite.config.js
+@@
+-import { defineConfig } from 'vite';
++import { defineConfig } from 'vite';
++import { VitePWA } from 'vite-plugin-pwa';
+ 
+ export default defineConfig({
+   plugins: [
+-    react(),
++    react(),
++    VitePWA({
++      srcDir: 'src',
++      filename: 'sw.js',
++      strategies: 'injectManifest',
++      injectRegister: false,
++      workbox: {
++        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
++        ignoreURLParametersMatching: [/^_v$/]
++      }
++    })
+   ],
+   build: {
+-    rollupOptions: {
+-      output: { manualChunks: undefined }
+-    }
++    rollupOptions: {
++      output: { manualChunks: undefined }
++    }
+   }
+ });
+--
+2.40.1

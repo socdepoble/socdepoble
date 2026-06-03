@@ -1,0 +1,182 @@
+name: Deploy SDP with Rollback
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+env:
+  ANSIBLE_HOST_KEY_CHECKING: 'False'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Ansible and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ansible==8.9.0 paramiko cryptography
+
+      - name: Prepare SSH key
+        env:
+          DEPLOY_KEY: ${{ secrets['DEPLOY_SSH_KEY'] }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/deploy_key
+          # Afegir known_hosts per al node (substituir per la variable DEPLOY_HOST)
+          ssh-keyscan -H "${{ secrets['DEPLOY_HOST'] }}" >> ~/.ssh/known_hosts
+
+      - name: Write Ansible inventory
+        run: |
+          cat > inventory.ini <<EOF
+          [edge]
+          ${{ secrets['DEPLOY_HOST'] }} ansible_user=${{ secrets['DEPLOY_USER'] }} ansible_port=${{ secrets['DEPLOY_PORT'] || '22' }}
+          EOF
+
+      - name: Provide Vault password file
+        env:
+          VAULT_PASS: ${{ secrets['ANSIBLE_VAULT_PASSWORD'] }}
+        run: |
+          # Escriure la contrasenya del Vault en un fitxer temporal segur
+          echo "$VAULT_PASS" > .vault_pass
+          chmod 600 .vault_pass
+
+      - name: Ensure logs exist
+        run: |
+          touch ansible.log || true
+          touch rollback.log || true
+
+      - name: Generate deploy ZIP
+        run: |
+          npm ci
+          node tools/generate-ansible-zip.cjs
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload deploy ZIP artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-ansible-package
+          path: deploy-ansible-package.zip
+
+      - name: Run Ansible Playbook (deploy)
+        id: run_playbook
+        run: |
+          set -o pipefail
+          # Executar el playbook i capturar el codi de sortida
+          ansible-playbook -i inventory.ini playbook.yml --vault-password-file .vault_pass 2>&1 | tee ansible.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "ansible_exit_code=${EXIT_CODE}" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Upload Ansible log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansible-log-${{ github.run_id }}
+          path: ansible.log
+
+      - name: Decide deploy outcome
+        id: outcome
+        run: |
+          # Llegir el codi de sortida que hem guardat
+          EXIT_CODE="${{ steps.run_playbook.outputs.ansible_exit_code }}"
+          if [ -z "$EXIT_CODE" ]; then
+            # fallback: buscar "failed=" a l'output
+            if grep -q "failed=" ansible.log; then
+              echo "deploy_status=failure" >> $GITHUB_OUTPUT
+            else
+              echo "deploy_status=success" >> $GITHUB_OUTPUT
+            fi
+          else
+            if [ "$EXIT_CODE" -eq 0 ]; then
+              echo "deploy_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "deploy_status=failure" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Rollback on failure
+        if: steps.outcome.outputs.deploy_status == 'failure'
+        id: rollback
+        run: |
+          echo "Deploy fallat, executant rollback..."
+          set -o pipefail
+          ansible-playbook -i inventory.ini rollback.yml --vault-password-file .vault_pass 2>&1 | tee rollback.log
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "rollback_exit_code=${EXIT_CODE}" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Upload rollback log
+        if: steps.outcome.outputs.deploy_status == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: rollback-log-${{ github.run_id }}
+          path: rollback.log
+
+      - name: Notify Telegram on failure
+        if: steps.outcome.outputs.deploy_status == 'failure'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets['TELEGRAM_BOT_TOKEN'] }}
+          TELEGRAM_CHAT_ID: ${{ secrets['TELEGRAM_CHAT_ID'] }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "Skipping Telegram notification (no credentials)"
+            exit 0
+          fi
+          TEXT="⚠️ Deploy fallat per ${REPO}\nRun: ${RUN_ID}\nS'ha executat rollback automàtic.\nRevisa els logs a GitHub Actions."
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\":\"${TELEGRAM_CHAT_ID}\",\"parse_mode\":\"Markdown\",\"text\":\"${TEXT}\"}"
+
+      - name: Notify webhook on failure
+        if: steps.outcome.outputs.deploy_status == 'failure'
+        env:
+          WEBHOOK_URL: ${{ secrets['WEBHOOK_URL'] }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "Skipping Webhook (no URL provided)"
+            exit 0
+          fi
+          curl -s -X POST "${WEBHOOK_URL}" -H "Content-Type: application/json" -d "{\"event\":\"deploy_failed\",\"run_id\":\"${RUN_ID}\"}"
+
+      - name: Notify success
+        if: steps.outcome.outputs.deploy_status == 'success'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets['TELEGRAM_BOT_TOKEN'] }}
+          TELEGRAM_CHAT_ID: ${{ secrets['TELEGRAM_CHAT_ID'] }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "Skipping Telegram notification (no credentials)"
+            exit 0
+          fi
+          TEXT="✅ Deploy complet per ${REPO}\nRun: ${RUN_ID}\nCanari publicat. Comprova el Dashboard."
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\":\"${TELEGRAM_CHAT_ID}\",\"parse_mode\":\"Markdown\",\"text\":\"${TEXT}\"}"
+
+      - name: Upload final artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-artifacts-${{ github.run_id }}
+          path: |
+            ansible.log
+            rollback.log

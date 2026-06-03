@@ -13,7 +13,10 @@ const OFFLINE_URL = '/offline.html';
 cleanupOutdatedCaches();
 
 // InjectManifest de Vite PWA inyecta el array de assets generados en el build step aquí.
-precacheAndRoute(self.__WB_MANIFEST || []);
+precacheAndRoute(self.__WB_MANIFEST || [], {
+  // Protocol Gemini: Ignorar els paràmetres de Hard Navigation per a evitar 404 offline
+  ignoreURLParametersMatching: [/^_v$/, /^_nuclear$/, /^utm_/, /^fbclid/]
+});
 
 self.addEventListener('install', (event: any) => {
   event.waitUntil(
@@ -60,6 +63,7 @@ self.addEventListener('message', async (event: any) => {
   const msg = event.data || {};
   if (msg.type === 'SKIP_WAITING') {
     self.skipWaiting();
+    self.clients.claim(); // Regla 2 (Copilot/ChatGPT): Control immediat
   }
   if (msg.type === 'SYNC_MUTATIONS') {
     event.waitUntil(processOutbox());
@@ -89,6 +93,7 @@ self.addEventListener('message', async (event: any) => {
 
   if (msg.type === 'sw:apply-update') {
     self.skipWaiting();
+    self.clients.claim();
     event.source?.postMessage({ type: 'update-applied' });
   }
 });

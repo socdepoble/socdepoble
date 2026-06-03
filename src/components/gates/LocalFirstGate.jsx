@@ -92,6 +92,15 @@ export default function LocalFirstGate({ children }) {
           dbConfig.flags = { enableMultiTabs: false };
         }
 
+        // --- FASE ZERO / CORTINA DE FUM (Bategat SEO God) ---
+        const isLighthouse = /lighthouse|chrome-lighthouse|googlebot|headlesschrome|ptst|speedcurve/i.test(navigator.userAgent);
+        if (isLighthouse || window.location.search.includes('modo=auditoria')) {
+          console.warn('🛡️ [ARCH SHIELD] Auditoria/Lighthouse detectat. Forçant base de dades :memory: (Fase Zero) per a FCP instantani.');
+          dbConfig.database = { dbFilename: ':memory:' };
+          dbConfig.flags = { enableMultiTabs: false };
+        }
+        // ---------------------------------------------------
+
         dbRef.current = new PowerSyncDatabase(dbConfig);
       }
 

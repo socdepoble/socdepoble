@@ -6,6 +6,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
+    <!-- ⚠️ CRITICAL: Loop Breaker MUST be first -->
+    <script src="/loop-breaker.js"></script>
+    
     <!-- [SILENT GUARDIAN] Filtra l'advertència obsoleta d'esdeveniments 'unload' generada per l'SDK de PowerSync -->
     <script>
       (function() {
@@ -17,6 +20,8 @@
       })();
     </script>
     <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://socdepoble.org/" />
     <title>Sóc de Poble | El Sistema Operatiu Rural</title>
     <meta
       name="description"
@@ -217,8 +222,8 @@
     }
     </script>
     <!-- [PERFORMANCE] Preload per als logos LCP per reduir el Load Delay -->
-    <link rel="preload" as="image" href="/assets/system/ui/logo-socdepoble-rect-negre.svg" fetchpriority="high" media="(prefers-color-scheme: light)" />
-    <link rel="preload" as="image" href="/assets/system/ui/logo-socdepoble-rect-blanc.svg" fetchpriority="high" media="(prefers-color-scheme: dark)" />
+    <link rel="preload" as="image" type="image/svg+xml" href="/assets/system/ui/logo-socdepoble-rect-negre.svg" fetchpriority="high" media="(prefers-color-scheme: light)" />
+    <link rel="preload" as="image" type="image/svg+xml" href="/assets/system/ui/logo-socdepoble-rect-blanc.svg" fetchpriority="high" media="(prefers-color-scheme: dark)" />
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

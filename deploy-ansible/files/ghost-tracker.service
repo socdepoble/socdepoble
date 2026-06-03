@@ -1,0 +1,15 @@
+[Unit]
+Description=Ghost Tracker AST Analyzer run
+After=network.target
+
+[Service]
+Type=oneshot
+User=sdp
+Group=sdp
+WorkingDirectory=/opt/sdp
+ExecStart=/usr/bin/node /opt/sdp/tools/ghost-tracker.cjs --root /opt/sdp --out /var/lib/sdp-reports/ghost-report.json
+TimeoutStartSec=600
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+---
+sdp_user: sdp
+sdp_group: sdp
+install_dir: /opt/sdp
+reports_dir: /var/lib/sdp-reports
+dashboard_dir: /var/www/sdp-dashboard
+nginx_site: /etc/nginx/sites-available/sdp-dashboard.conf
+domain_name: dashboard.socdepoble.org
+email_admin: ops@socdepoble.org
+certbot_webroot: /var/lib/letsencrypt
+ufw_allowed_ports:
+  - 22
+  - 80
+  - 443

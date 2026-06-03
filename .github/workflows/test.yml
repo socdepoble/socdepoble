@@ -1,0 +1,182 @@
+name: PWA WKWebView CI/CD Pipeline
+
+# --- Disparadors: push i pull_request a main ---
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# --- Variables d'entorn globals ---
+env:
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  # Configura aquest secret a GitHub
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}  # Token del bot de Telegram
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}  # ID del chat de Telegram
+  DEPLOY_ENV: "production"  # Entorn de desplegament (simulat)
+
+# --- Jobs del workflow ---
+jobs:
+  # --- JOB 1: TESTS E2E (Obligatori) ---
+  test:
+    name: 🧪 Executa Tests E2E amb Playwright + WKWebView
+    runs-on: ubuntu-22.04
+    outputs:
+      test_status: ${{ steps.test_outcome.outputs.status }}  # Pass/Fail per a el job de deploy
+
+    steps:
+      # --- Pas 1: Checkout del repositori ---
+      - name: Checkout del codi
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # --- Pas 2: Configurar Docker ---
+      - name: Configurar Docker
+        uses: docker/setup-buildx-action@v3
+
+      # --- Pas 3: Iniciar serveis Docker ---
+      - name: Iniciar serveis Docker
+        run: |
+          docker-compose -f docker-compose.yml up -d --build
+          sleep 10
+
+      # --- Pas 4: Comprovar HTTPS ---
+      - name: Comprovar connexió HTTPS
+        run: |
+          for i in {1..10}; do
+            if curl -k https://localhost:5173 > /dev/null 2>&1; then
+              echo "✅ Vite està servint a HTTPS://localhost:5173"
+              exit 0
+            fi
+            sleep 5
+            echo "⏳ Esperant que Vite estigui llest (intent $i/10)..."
+          done
+          echo "❌ Error: Vite no ha arrencat en 50 segons"
+          exit 1
+
+      # --- Pas 5: Executar tests de Playwright ---
+      - name: Executar tests E2E
+        id: playwright_tests
+        run: |
+          docker-compose exec pwa-tests npx playwright test --project=webkit --reporter=json,html,junit
+        continue-on-error: true  # Permet continuar per a enviar notificacions fins i tot si fallen
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      # --- Pas 6: Guardar artifacts (informe HTML, JSON, JUnit) ---
+      - name: Guardar resultats dels tests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: |
+            test-results/
+            pwa-tests_1.log
+          retention-days: 30
+
+      # --- Pas 7: Generar resum dels tests (JUnit per a notificacions) ---
+      - name: Generar resum dels tests
+        if: always()
+        id: test_outcome
+        run: |
+          # Conta tests passats/fallats
+          PASSED=$(grep -o '"passed": [0-9]*' test-results/json-report.json | grep -o '[0-9]*' | head -1)
+          FAILED=$(grep -o '"failed": [0-9]*' test-results/json-report.json | grep -o '[0-9]*' | head -1)
+          TOTAL=$((PASSED + FAILED))
+          echo "📊 Tests: $PASSED/$TOTAL passats"
+          if [ "$FAILED" -gt 0 ]; then
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "❌ $FAILED tests han fallat"
+          else
+            echo "status=passed" >> $GITHUB_OUTPUT
+            echo "✅ Tots els tests han passat"
+          fi
+
+      # --- Pas 8: Notificar a Slack (Èxit o Error) ---
+      - name: Notificar a Slack
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: ${{ steps.test_outcome.outputs.status == 'passed' && 'good' || 'danger' }}
+          SLACK_TITLE: "${{ github.workflow }} (${{ steps.test_outcome.outputs.status == 'passed' && '✅ ÈXIT' || '❌ ERROR' }})"
+          SLACK_MESSAGE: |
+            *Repositori:* ${{ github.repository }}
+            *Branca:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Tests:* ${{ steps.test_outcome.outputs.status == 'passed' && 'Tots passats' || 'Alguns han fallat' }}
+            *Durada:* ${{ steps.playwright_tests.outcome == 'success' && format('{0} min', steps.playwright_tests.duration / 60) || 'N/A' }}
+            *Artifacts:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      # --- Pas 9: Notificar a Telegram (Èxit o Error) ---
+      - name: Notificar a Telegram
+        if: always()
+        uses: appleboy/telegram-action@v1
+        with:
+          to: ${{ env.TELEGRAM_CHAT_ID }}
+          token: ${{ env.TELEGRAM_BOT_TOKEN }}
+          message: |
+            *🚀 ${{ github.workflow }}*
+            *Repositori:* ${{ github.repository }}
+            *Branca:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Resultat:* ${{ steps.test_outcome.outputs.status == 'passed' && '✅ TOTS ELS TESTS HAN PASSAT' || '❌ ALGUNS TESTS HAN FALLAT' }}
+            *Artifacts:* [Descàrrega](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          format: markdown
+  # --- JOB 2: DESPLEGAMENT (Condicional) ---
+  deploy:
+    name: 🚀 Desplegament a Producció
+    needs: test  # Depèn del job "test"
+    runs-on: ubuntu-22.04
+    if: |
+      github.ref == 'refs/heads/main' &&
+      needs.test.outputs.test_status == 'passed'  # Només si els tests passen a main
+
+    steps:
+      # --- Pas 1: Checkout del codi (per a accedir als fitxers) ---
+      - name: Checkout del codi
+        uses: actions/checkout@v4
+
+      # --- Pas 2: Simular preparació de desplegament ---
+      - name: Preparar assets per a desplegament
+        run: |
+          echo "🔧 Preparant assets per a desplegament a ${{ env.DEPLOY_ENV }}..."
+          mkdir -p dist
+          cp -r public/* dist/ || true  # Copia assets estàtics (ajusta al teu projecte)
+          echo "📦 Assets preparats a /dist"
+
+      # --- Pas 3: Simular upload a CDN o servidor ---
+      - name: "Simular upload a servidor (ex: S3, SFTP, etc.)"
+        run: |
+          echo "🚀 Simulant upload a ${DEPLOY_ENV}..."
+          echo "📌 Fitxers a desplegar:"
+          ls -lh dist/ || true
+          echo "✅ Upload simulat amb èxit (en un entorn real, usa 'aws s3 sync', 'rsync', etc.)"
+
+      # --- Pas 4: Notificar desplegament a Slack ---
+      - name: Notificar desplegament a Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: good
+          SLACK_TITLE: "🚀 Desplegament Realitzat"
+          SLACK_MESSAGE: |
+            *Desplegament a ${{ env.DEPLOY_ENV }}*
+            *Repositori:* ${{ github.repository }}
+            *Branca:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Trigger:* Tests passats + Branca main
+
+      # --- Pas 5: Notificar desplegament a Telegram ---
+      - name: Notificar desplegament a Telegram
+        uses: appleboy/telegram-action@v1
+        with:
+          to: ${{ env.TELEGRAM_CHAT_ID }}
+          token: ${{ env.TELEGRAM_BOT_TOKEN }}
+          message: |
+            *🚀 Desplegament Realitzat a ${{ env.DEPLOY_ENV }}*
+            *Repositori:* ${{ github.repository }}
+            *Branca:* ${{ github.ref_name }}
+            *Commit:* ${{ github.sha }}
+            *Trigger:* ✅ Tests passats + Branca main
+          format: markdown

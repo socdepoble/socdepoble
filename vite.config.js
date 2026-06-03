@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { comlink } from "vite-plugin-comlink";
 import { VitePWA } from "vite-plugin-pwa";
 import wasm from "vite-plugin-wasm";
-import topLevelAwait from "vite-plugin-top-level-await";
+
 import { mediaApiPlugin } from "./scripts/vite-media-api.js";
 
 function staticAssetsReload() {
@@ -54,22 +54,22 @@ export default defineConfig({
     versionContractPlugin(),
     mediaApiPlugin(),
     wasm(),
-    topLevelAwait(),
     staticAssetsReload(),
     comlink(),
     react(),
     tailwindcss(),
     VitePWA({
       strategies: 'injectManifest',
-      srcDir: 'src/workers',
-      filename: 'service-worker.ts',
+      srcDir: 'src',
+      filename: 'sw.js',
       registerType: 'prompt',
-      injectRegister: 'auto',
+      injectRegister: false,
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
+        rollupFormat: 'es',
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
         globPatterns: ['**/*.{html,json,js,css,ico,png,svg,woff2,woff,ttf,eot}'],
-        globIgnores: ['**/node_modules/**/*', '**/*.map', 'sw.js', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
+        globIgnores: ['**/node_modules/**/*', '**/*.map', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
@@ -141,6 +141,7 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
+    target: 'esnext',
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {

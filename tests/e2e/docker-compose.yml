@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  pwa-tests:
+    build:
+      context: ../../
+      dockerfile: tests/e2e/Dockerfile
+    container_name: pwa-webkit-tests
+    ports:
+      - "5173:5173"  # Vite (HTTPS)
+      - "9222:9222"  # Playwright Debug (opcional)
+    volumes:
+      - ../../:/app  # Munta el directori local per a desenvolupament
+      - /app/node_modules  # Evita sobrescriure node_modules
+    environment:
+      - NODE_ENV=development
+    command: tail -f /dev/null  # Manté el contenidor actiu

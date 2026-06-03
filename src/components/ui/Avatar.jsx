@@ -80,26 +80,8 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
 
     let normalizedSrc = resolveImageUrl(rawNormalizedSrc);
 
-    // We attempt to load the image in the background first to avoid noisy 400/404 errors 
-    // from triggering before we have a chance to show the fallback.
-    const [isPreloading, setIsPreloading] = React.useState(!!normalizedSrc);
-
     React.useEffect(() => {
         setHasError(false);
-        setIsPreloading(!!normalizedSrc);
-        
-        if (!normalizedSrc) {
-            setIsPreloading(false);
-            return;
-        }
-
-        const img = new Image();
-        img.src = normalizedSrc;
-        img.onload = () => setIsPreloading(false);
-        img.onerror = () => {
-            setHasError(true);
-            setIsPreloading(false);
-        };
     }, [normalizedSrc]);
 
     // [MASTER DYNAMIC ICON] 
@@ -125,23 +107,17 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
         );
     }
 
-    if ((normalizedSrc || fallbackImage) && !hasError && !isPreloading) {
+    if ((normalizedSrc || fallbackImage) && !hasError) {
         return (
             <div style={style} className={`avatar-container ${className}`}>
                 <img
                     src={(normalizedSrc || fallbackImage) || undefined}
                     alt={name ? `Avatar de ${name}` : 'Avatar'}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', color: 'transparent' }}
                     onError={() => setHasError(true)}
                 />
-            </div>
-        );
-    }
-
-    if (isPreloading) {
-        return (
-            <div style={style} className={`avatar-container loading ${className}`}>
-                {/* Minimal placeholder while preloading to prevent flicker */}
             </div>
         );
     }

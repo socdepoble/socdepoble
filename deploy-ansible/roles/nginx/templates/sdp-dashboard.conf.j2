@@ -1,0 +1,78 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name {{ domain_name }};
+
+  location /.well-known/acme-challenge/ {
+    root {{ certbot_webroot }};
+  }
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name {{ domain_name }};
+
+  ssl_certificate /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{ domain_name }}/privkey.pem;
+  ssl_trusted_certificate /etc/letsencrypt/live/{{ domain_name }}/chain.pem;
+
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_prefer_server_ciphers on;
+  ssl_session_timeout 1d;
+  ssl_session_cache shared:SSL:50m;
+  ssl_session_tickets off;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  resolver 1.1.1.1 8.8.8.8 valid=300s;
+  resolver_timeout 5s;
+
+  add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+  add_header X-Frame-Options "DENY" always;
+  add_header X-Content-Type-Options "nosniff" always;
+  add_header Referrer-Policy "no-referrer-when-downgrade" always;
+  add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" always;
+  add_header X-XSS-Protection "1; mode=block" always;
+  add_header Cache-Control "no-store";
+
+  client_max_body_size 1M;
+  client_body_timeout 10s;
+  send_timeout 10s;
+  keepalive_timeout 15s;
+  limit_req_zone $binary_remote_addr zone=one:10m rate=10r/m;
+
+  root {{ dashboard_dir }};
+  index index.html;
+
+  location = / {
+    try_files /index.html =404;
+  }
+
+  location /assets/ {
+    try_files $uri $uri/ =404;
+    access_log off;
+    expires 1d;
+  }
+
+  location ^~ /reports/ {
+    alias {{ reports_dir }}/;
+    autoindex off;
+    add_header X-Content-Type-Options nosniff;
+    add_header Cache-Control "no-store";
+    limit_req zone=one burst=5 nodelay;
+    if ($request_method !~ ^(GET|HEAD)$) {
+      return 405;
+    }
+  }
+
+  location / {
+    return 404;
+  }
+
+  access_log /var/log/nginx/sdp-dashboard.access.log combined buffer=16k;
+  error_log /var/log/nginx/sdp-dashboard.error.log warn;
+}

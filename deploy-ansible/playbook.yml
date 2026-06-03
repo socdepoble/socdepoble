@@ -1,0 +1,37 @@
+---
+- name: Desplegament Soc de Poble modular
+  hosts: edge
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - vault/secrets.yml
+
+  pre_tasks:
+    - name: Crear directori de backups si no existeix
+      file:
+        path: /var/backups/sdp-snapshots
+        state: directory
+        owner: root
+        group: root
+        mode: '0750'
+
+    - name: Crear snapshot abans del deploy
+      command: /opt/sdp/scripts/snapshot-before-deploy.sh
+      args:
+        creates: /var/backups/sdp-snapshots/latest
+      register: snapshot_result
+      changed_when: false
+
+  roles:
+    - node
+    - nginx
+    - certbot
+    - ufw
+    - systemd
+
+  post_tasks:
+    - name: Comprovar nginx i serveis
+      shell: |
+        nginx -t && systemctl is-active --quiet nginx
+      register: check_result
+      failed_when: check_result.rc != 0

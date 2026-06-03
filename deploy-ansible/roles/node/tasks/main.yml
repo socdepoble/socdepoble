@@ -1,0 +1,26 @@
+---
+- name: Instal·lar dependències per Node
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+  ignore_errors: yes
+
+- name: Afegir repositori NodeSource
+  apt_repository:
+    repo: "deb https://deb.nodesource.com/node_20.x {{ ansible_distribution_release }} main"
+    state: present
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Instal·lar nodejs
+  apt:
+    name: nodejs
+    state: present
+    update_cache: yes
+
+- name: Crear directori d'instal·lació
+  file:
+    path: "{{ install_dir }}"
+    state: directory
+    owner: "{{ sdp_user }}"
+    group: "{{ sdp_group }}"
+    mode: '0750'

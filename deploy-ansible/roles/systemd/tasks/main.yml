@@ -1,0 +1,28 @@
+---
+- name: Copiar unitats systemd al node
+  copy:
+    src: "{{ item }}"
+    dest: /etc/systemd/system/{{ item }}
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - health-sentinel.service
+    - health-sentinel.timer
+    - ghost-tracker.service
+    - ghost-tracker.timer
+    - sdp-certbot-renew.service
+    - sdp-certbot-renew.timer
+
+- name: Recarregar systemd
+  command: systemctl daemon-reload
+
+- name: Habilitar i iniciar timers i serveis
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - health-sentinel.timer
+    - ghost-tracker.timer
+    - sdp-certbot-renew.timer

@@ -201,7 +201,7 @@ const AppLayout = () => {
     location.pathname.startsWith("/chats") ||
     location.pathname.startsWith("/ofici/xats") ||
     location.pathname.startsWith("/ofici/menu") ||
-    location.pathname === "/genotip" ||
+    location.pathname === "/skills" ||
     location.pathname === "/versions" ||
     location.pathname === "/notes",
   [location.pathname, isReaderRoute]);
@@ -442,7 +442,7 @@ const AppLayout = () => {
                     />
                     <Route path="/nexus" element={<NexusFlash />} />
                     <Route path="/genesis" element={<GenesisViewer />} />
-                    <Route path="/genotip" element={<UniversalPage slug="genotip" standAlone={false} />} />
+                    <Route path="/skills" element={<UniversalPage slug="skills" standAlone={false} />} />
                     <Route path="/disseny" element={<DesignSystem />} />
                     <Route path="/ruta" element={<RoadmapView />} />
                     <Route path="/directori" element={<DirectoriComunitat />} />

@@ -1,0 +1,35 @@
+---
+- name: Instal·lar certbot i plugin nginx
+  apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+    update_cache: yes
+
+- name: Crear webroot per ACME
+  file:
+    path: "{{ certbot_webroot }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Sol·licitar certificat Let's Encrypt webroot
+  command: >
+    certbot certonly --webroot -w {{ certbot_webroot }}
+    -d {{ domain_name }} --email {{ email_admin }} --agree-tos --non-interactive
+  register: certbot_result
+  changed_when: "'Congratulations' in certbot_result.stdout or certbot_result.rc == 0"
+  failed_when: certbot_result.rc not in [0,1]
+  notify: Reload nginx
+  ignore_errors: yes
+
+- name: Copiar unitat de renovació certbot
+  copy:
+    src: sdp-certbot-renew.service
+    dest: /etc/systemd/system/sdp-certbot-renew.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: systemd daemon-reload

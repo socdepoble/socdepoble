@@ -172,9 +172,12 @@ const App = () => {
                     }
                 });
             } else {
-                navigator.serviceWorker.register('/sw.js').then(() => {
-                    // logger.log('[ServiceWorker] Trellat Shield Activado');
-                }).catch(e => logger.error('[ServiceWorker] Failed', e));
+                // [TÀCTICA ATRC] Retardem 3.5s el registre del SW per no ofegar el fil principal durant el First Paint en iPads antics (Recomanat pel Consell)
+                setTimeout(() => {
+                    navigator.serviceWorker.register('/sw.js').then(() => {
+                        // logger.log('[ServiceWorker] Trellat Shield Activado');
+                    }).catch(e => logger.error('[ServiceWorker] Failed', e));
+                }, 3500);
             }
         }
         requestPersist();

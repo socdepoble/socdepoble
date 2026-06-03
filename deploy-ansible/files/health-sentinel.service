@@ -1,0 +1,17 @@
+[Unit]
+Description=Health Sentinel for Soc de Poble
+After=network.target
+
+[Service]
+Type=simple
+User=sdp
+Group=sdp
+WorkingDirectory=/opt/sdp
+ExecStart=/usr/bin/node /opt/sdp/tools/health-sentinel.cjs --mode runtime --baseUrl http://localhost:5173 --webhook https://hooks.example.com/health --interval 300000
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=4096
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

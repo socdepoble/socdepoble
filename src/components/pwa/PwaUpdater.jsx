@@ -53,7 +53,12 @@ export function PwaUpdater() {
       const currentCount = parseInt(sessionStorage.getItem(RELOAD_COUNT_KEY) || '0', 10);
       sessionStorage.setItem(RELOAD_COUNT_KEY, (currentCount + 1).toString());
       
-      window.location.reload();
+      // Regla Dola & Kimi: Esperar 2000ms per a WebKit i forçar Hard Navigation Nuclear
+      console.log('[PwaUpdater] Controller changed. Waiting 2000ms for WebKit...');
+      setTimeout(() => {
+        sessionStorage.setItem('updateInProgress', 'true');
+        window.location.replace(window.location.href.split('?')[0] + '?_v=' + Date.now());
+      }, 2000);
     };
 
     if ('serviceWorker' in navigator) {

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Health Sentinel periodic quick check
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=10min
+Unit=health-sentinel.service
+
+[Install]
+WantedBy=timers.target

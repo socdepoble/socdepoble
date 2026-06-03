@@ -1,0 +1,19 @@
+---
+- name: Instal·lar ufw
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: Permetre ports essencials
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop: "{{ ufw_allowed_ports }}"
+
+- name: Establir política per defecte deny incoming
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
+  ignore_errors: yes

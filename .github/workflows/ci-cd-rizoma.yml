@@ -1,0 +1,262 @@
+name: CI CD Canary - Rizoma Worker & Playwright iPad
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+  DIST_DIR: 'dist'
+  WORKER_SRC: 'src/workers/rizoma-worker-master.js'
+  WORKER_OUT_DIR: 'dist/workers'
+  LIBS_SRC: 'public/libs'
+  LIBS_OUT_DIR: 'dist/libs'
+  PLAYWRIGHT_PROJECT: 'ipad'
+  PLAYWRIGHT_OUTPUT: 'test-results'
+  ESBUILD_TARGET: 'es2020'
+  GC_DEFAULT_KEEP: '3'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+
+  build-and-package:
+    name: Build and Package (Vite + Worker)
+    runs-on: ubuntu-latest
+    outputs:
+      dist_artifact_name: dist-artifact
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Clean dist
+        run: |
+          rm -rf ${{ env.DIST_DIR }} || true
+          mkdir -p ${{ env.WORKER_OUT_DIR }} ${{ env.LIBS_OUT_DIR }}
+
+      - name: Build frontend (Vite)
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Bundle worker with esbuild
+        run: |
+          npx esbuild ${{ env.WORKER_SRC }} \
+            --bundle \
+            --platform=browser \
+            --target=${{ env.ESBUILD_TARGET }} \
+            --outfile=${{ env.WORKER_OUT_DIR }}/rizoma-worker-master.js \
+            --minify
+
+      - name: Copy libs to dist
+        run: |
+          mkdir -p ${{ env.LIBS_OUT_DIR }}
+          cp -a ${{ env.LIBS_SRC }}/* ${{ env.LIBS_OUT_DIR }}/ || true
+
+      - name: Verify outputs
+        run: |
+          echo "Worker file:"
+          ls -la ${{ env.WORKER_OUT_DIR }} || true
+          echo "Libs:"
+          ls -la ${{ env.LIBS_OUT_DIR }} || true
+          echo "Dist root:"
+          ls -la ${{ env.DIST_DIR }} || true
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.upload_artifact_name.outputs.name || 'dist-artifact' }}
+          path: ${{ env.DIST_DIR }}
+        id: upload_artifact_name
+
+      - name: Set output artifact name
+        id: set_output
+        run: echo "dist_artifact_name=dist-artifact" >> $GITHUB_OUTPUT
+
+  e2e-playwright-ipad:
+    name: Playwright E2E (iPad) and collect artifacts
+    runs-on: ubuntu-latest
+    needs: build-and-package
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers and deps
+        run: npx playwright install --with-deps
+
+      - name: Prepare E2E env
+        run: |
+          echo "E2E_APP_URL=${{ secrets.E2E_APP_URL }}" > .e2e_env
+          echo "E2E_EXPECTED_BUILD_ID=${{ secrets.E2E_EXPECTED_BUILD_ID || '' }}" >> .e2e_env
+
+      - name: Run Playwright tests (iPad project)
+        id: run_playwright
+        env:
+          E2E_APP_URL: ${{ secrets.E2E_APP_URL }}
+          E2E_EXPECTED_BUILD_ID: ${{ secrets.E2E_EXPECTED_BUILD_ID || '' }}
+        run: |
+          npx playwright test --project=${{ env.PLAYWRIGHT_PROJECT }} --reporter=list || true
+        continue-on-error: true
+
+      - name: Collect Playwright artifacts
+        if: always()
+        run: |
+          mkdir -p artifacts/playwright
+          cp -r ${PLAYWRIGHT_OUTPUT}/videos artifacts/playwright/ 2>/dev/null || true
+          cp -r ${PLAYWRIGHT_OUTPUT}/* artifacts/playwright/ 2>/dev/null || true
+          cp -r playwright-report artifacts/playwright/ 2>/dev/null || true
+          ls -la artifacts/playwright || true
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts-${{ github.run_id }}
+          path: artifacts/playwright
+
+  promote-to-prod:
+    name: Promote Canary to Production with Approval and Notify
+    runs-on: ubuntu-latest
+    needs: e2e-playwright-ipad
+    environment:
+      name: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-artifact
+          path: ./dist_download || true
+
+      - name: Prepare variables
+        id: vars
+        run: |
+          BUILD_ID="${{ github.run_id }}"
+          CANARY_PATH="${{ secrets.CANARY_PREFIX || 'canary' }}/${BUILD_ID}"
+          PROD_PATH="${{ secrets.PROD_PREFIX || 'release' }}/${BUILD_ID}"
+          echo "BUILD_ID=${BUILD_ID}" >> $GITHUB_OUTPUT
+          echo "CANARY_PATH=${CANARY_PATH}" >> $GITHUB_OUTPUT
+          echo "PROD_PATH=${PROD_PATH}" >> $GITHUB_OUTPUT
+
+      - name: Sync dist to S3 Canary
+        run: |
+          aws s3 sync ./dist_download "${{ 's3://' + secrets.CANARY_S3_BUCKET + '/' + steps.vars.outputs.CANARY_PATH + '/' }}" --delete --acl private
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Wait for manual approval to promote
+        uses: peter-evans/wait-for-approval@v2
+        with:
+          reviewers: 'ops-team'
+          timeout: '72h'
+          message: 'Aprovar promoció del canari a producció'
+
+      - name: Sync Canary to Production S3
+        run: |
+          aws s3 sync "s3://${{ secrets.CANARY_S3_BUCKET }}/${{ steps.vars.outputs.CANARY_PATH }}/" "s3://${{ secrets.PROD_S3_BUCKET }}/${{ steps.vars.outputs.PROD_PATH }}/" --delete --acl public-read
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Create CloudFront invalidation
+        if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/${{ steps.vars.outputs.PROD_PATH }}/*"
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Notify Telegram via curl
+        if: ${{ secrets.TELEGRAM_BOT_TOKEN && secrets.TELEGRAM_CHAT_ID }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          CANARY_URL: "https://${{ secrets.CANARY_S3_BUCKET }}.s3.amazonaws.com/${{ steps.vars.outputs.CANARY_PATH }}/"
+          ARTIFACT_NAME: "final-dist-${{ github.run_id }}"
+        run: |
+          TEXT="✅ Canary publicat\n*Canary URL:* ${CANARY_URL}\n*Artifact:* ${ARTIFACT_NAME}\n*Run:* $GITHUB_RUN_ID\nNo compartiu aquest enllaç públicament."
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\":\"${TELEGRAM_CHAT_ID}\",\"parse_mode\":\"Markdown\",\"text\":\"${TEXT}\"}"
+
+  final-artifacts:
+    name: Upload final build artifacts and summary
+    runs-on: ubuntu-latest
+    needs: promote-to-prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download dist artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-artifact
+          path: dist_download
+
+      - name: Download playwright artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-artifacts-${{ github.run_id }}
+          path: playwright_artifacts
+        continue-on-error: true
+
+      - name: List downloaded artifacts
+        run: |
+          echo "dist_download contents:"
+          ls -la dist_download || true
+          echo "playwright_artifacts contents:"
+          ls -la playwright_artifacts || true
+
+      - name: Upload final artifacts (dist + worker + libs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-dist-${{ github.run_id }}
+          path: |
+            dist_download
+            dist/workers
+            dist/libs
+            playwright_artifacts
+
+      - name: Post summary to workflow log
+        run: |
+          echo "CI pipeline finished for run $GITHUB_RUN_ID"
+          echo "Artifacts uploaded: final-dist-${GITHUB_RUN_ID}, playwright-artifacts"

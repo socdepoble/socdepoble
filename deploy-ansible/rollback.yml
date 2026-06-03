@@ -1,0 +1,58 @@
+---
+- name: Rollback Soc de Poble a snapshot anterior
+  hosts: edge
+  become: true
+  vars_files:
+    - group_vars/all.yml
+    - vault/secrets.yml
+
+  tasks:
+    - name: Trobar snapshot latest
+      stat:
+        path: /var/backups/sdp-snapshots/latest
+      register: latest_snap
+
+    - name: Error si no hi ha snapshot
+      fail:
+        msg: "No hi ha snapshot per restaurar"
+      when: not latest_snap.stat.exists
+
+    - name: Parar nginx per restauració segura
+      service:
+        name: nginx
+        state: stopped
+
+    - name: Executar script de restauració
+      command: /opt/sdp/scripts/restore-snapshot.sh /var/backups/sdp-snapshots/latest
+      register: restore_out
+      failed_when: restore_out.rc != 0
+
+    - name: Recarregar nginx
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Reiniciar timers i serveis systemd
+      systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - health-sentinel.timer
+        - ghost-tracker.timer
+        - sdp-certbot-renew.timer
+
+    - name: Notificar rollback via webhook si definit
+      uri:
+        url: "{{ webhook_url }}"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+        body: >
+          {
+            "event": "rollback",
+            "run_id": "{{ lookup('env','GITHUB_RUN_ID') | default('manual') }}",
+            "snapshot": "/var/backups/sdp-snapshots/latest",
+            "timestamp": "{{ ansible_date_time.iso8601 }}"
+          }
+        status_code: 200,201,202
+      when: webhook_url is defined

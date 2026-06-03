@@ -24,7 +24,7 @@ import { get, set } from 'idb-keyval';
 import { useAtomicGuard } from '../../hooks/useAtomicGuard';
 import { MEDIA_REGISTRY } from '../../data/media_registry';
 import { VERSIONS_HTML } from '../../data/VersionsContent';
-import { GENOTIP_HTML } from '../../data/GenotipContent';
+import { SKILLS_HTML } from '../../data/SkillsContent';
 import { IAIES_MUNDIALS_HTML } from '../../data/IaiesMundialsContent';
 import { HUMAN_PROJECT_HTML } from '../../data/HumanProjectContent';
 import ContentWithShortcodes from '../../components/core/ContentWithShortcodes';
@@ -95,11 +95,11 @@ const UniversalPage = ({
     const [heroImage, setHeroImage] = useState('');
     const [logoLight, setLogoLight] = useState(() => {
         const _s = slug || window.location.pathname.replace(/^\/+/, '');
-        return ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '';
+        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '';
     });
     const [logoDark, setLogoDark] = useState(() => {
         const _s = slug || window.location.pathname.replace(/^\/+/, '');
-        return ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '';
+        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '';
     });
 
     // OMEGA TRANSLATE STATE
@@ -197,6 +197,32 @@ const UniversalPage = ({
                 setCollaborators(updates.collaborators);
                 setIsLoadingPage(false);
             }
+            
+            // OPTIMITZACIÓ EXTREMA LCP/FCP: Evitar bloqueig de Supabase per a plantilles hardcoded en incògnit o buides
+            const isHardcoded = ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
+            if (!localCache && isHardcoded) {
+                let tempContent = '';
+                if (_slug === 'skills') { tempContent = SKILLS_HTML; updates.title = "Skills"; updates.subtitle = "Tot el que em fa ser qui sóc"; }
+                else if (_slug === 'versions') { tempContent = VERSIONS_HTML; updates.title = "Versions del Sistema"; updates.subtitle = "Historial d'actualitzacions i memòria tècnica"; }
+                else if (_slug === 'iaies-mundials') { tempContent = IAIES_MUNDIALS_HTML; updates.title = "Iaies Mundials"; updates.subtitle = "Conexions globals"; }
+                else if (_slug === 'el-projecte' || _slug === 'projecte') { tempContent = HUMAN_PROJECT_HTML; updates.title = "Sóc de Poble: El Llibre"; updates.subtitle = "Projecte Documental Transmèdia"; }
+                
+                if (tempContent) {
+                    const formatMatch = tempContent.match(/<!-- HERO_FORMAT: (.*?) -->\n?/);
+                    setHeroFormat(formatMatch && formatMatch[1] ? formatMatch[1] : (['projecte', 'el-projecte'].includes(_slug) ? 'square' : 'horizontal'));
+                    
+                    const positionMatch = tempContent.match(/<!-- HERO_POSITION: (.*?) -->\n?/);
+                    if (positionMatch && positionMatch[1]) setHeroPosition(positionMatch[1]);
+                    
+                    const imageMatch = tempContent.match(/<!-- HERO_IMAGE: (.*?) -->\n?/);
+                    if (imageMatch && imageMatch[1]) setHeroImage(imageMatch[1]);
+                    
+                    setHtmlContent(tempContent);
+                    setTitle(updates.title);
+                    setSubtitle(updates.subtitle);
+                    setIsLoadingPage(false); // Allibera el render del LoadingSpinner IM-ME-DIA-TA-MENT
+                }
+            }
 
             const { data, error } = await supabase
                 .from('cms_pages')
@@ -206,14 +232,14 @@ const UniversalPage = ({
 
             if (error) throw error;
 
-            if (data || ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug)) {
+            if (data || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug)) {
                 let content = data?.html_content || '';
                 
-                if (['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte'].includes(_slug)) {
-                    if (_slug === 'genotip') {
-                        content = GENOTIP_HTML;
-                        updates.title = "Genotip";
-                        updates.subtitle = "L'ADN artificial del sistema";
+                if (['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte'].includes(_slug)) {
+                    if (_slug === 'skills') {
+                        content = SKILLS_HTML;
+                        updates.title = "Skills";
+                        updates.subtitle = "Tot el que em fa ser qui sóc";
                     } else if (_slug === 'versions') {
                         content = VERSIONS_HTML;
                         updates.title = "Versions del Sistema";
@@ -246,7 +272,7 @@ const UniversalPage = ({
                     setHeroImage(imageMatch[1]);
                     content = content.replace(imageMatch[0], '');
                 }
-                const isSocDePobleAuthor = data?.author === 'Sóc de Poble' || data?.author_name === 'Sóc de Poble' || ['genotip', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
+                const isSocDePobleAuthor = data?.author === 'Sóc de Poble' || data?.author_name === 'Sóc de Poble' || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
                 updates.pageAuthor = isSocDePobleAuthor ? 'Sóc de Poble' : (data?.author || data?.author_name || '');
 
                 const logoLightMatch = content.match(/<!-- LOGO_LIGHT: (.*?) -->\n?/);
@@ -926,9 +952,6 @@ const UniversalPage = ({
                                 <ArrowLeft size={24} strokeWidth={3} />
                             </button>
                             <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
-                                <ListIcon size={24} strokeWidth={2.5} />
-                            </button>
-                            <button onClick={() => { navigate('/reader'); }} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" title="Llegir Sistema Operatiu" aria-label="Llegir Sistema Operatiu">
                                 <Book size={24} strokeWidth={2.5} />
                             </button>
                         </div>
@@ -972,7 +995,8 @@ const UniversalPage = ({
                             <img 
                                 src={resolveMedia(forcedHeroImage || heroImage)} 
                                 alt="Portada" 
-                                className="w-full h-auto block opacity-100 cursor-pointer hover:opacity-95 transition-opacity" 
+                                fetchPriority="high"
+                                className={`w-full block opacity-100 cursor-pointer hover:opacity-95 transition-opacity ${heroFormat === 'horizontal' ? 'aspect-video object-cover' : 'aspect-[4/5] sm:aspect-square object-cover'} min-h-[300px]`} 
                                 onClick={(e) => {
                                     const mainSrc = resolveMedia(forcedHeroImage || heroImage);
                                     // Gather other images on the page for the scroll gallery

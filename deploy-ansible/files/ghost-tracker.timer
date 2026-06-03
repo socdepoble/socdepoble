@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Ghost Tracker nightly
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+Persistent=true
+Unit=ghost-tracker.service
+
+[Install]
+WantedBy=timers.target

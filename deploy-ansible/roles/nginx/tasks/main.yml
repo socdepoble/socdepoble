@@ -1,0 +1,36 @@
+---
+- name: Instal·lar nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Crear directori per al dashboard
+  file:
+    path: "{{ dashboard_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+
+- name: Plantilla nginx site
+  template:
+    src: sdp-dashboard.conf.j2
+    dest: "{{ nginx_site }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Test nginx config and reload
+
+- name: Enllaçar site a sites-enabled
+  file:
+    src: "{{ nginx_site }}"
+    dest: /etc/nginx/sites-enabled/sdp-dashboard.conf
+    state: link
+  notify: Test nginx config and reload
+
+- name: Eliminar default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Test nginx config and reload

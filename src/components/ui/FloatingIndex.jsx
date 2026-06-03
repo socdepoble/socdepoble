@@ -12,11 +12,14 @@ const FloatingIndex = ({ scrollRef, contentSelector = '.app-cms-content', isOpen
 
     useEffect(() => {
         if (!showIndex) return;
-        const contentDiv = document.querySelector(contentSelector);
-        if (!contentDiv) return;
+        const contentDivs = document.querySelectorAll(contentSelector);
+        if (!contentDivs || contentDivs.length === 0) return;
 
         const timer = setTimeout(() => {
-            const hTags = Array.from(contentDiv.querySelectorAll('h1, h2, h3, h4, h5, h6'));
+            let hTags = [];
+            contentDivs.forEach(div => {
+                hTags = hTags.concat(Array.from(div.querySelectorAll('h1, h2, h3, h4, h5, h6')));
+            });
             const hList = hTags.map((el, i) => {
                 if (!el.id) {
                     const text = el.innerText;

@@ -40,7 +40,8 @@ export const SILENCE_PATTERNS = [
     "@Current",
     "Purga fantasma",
     "[BUNKER]",
-    "NoteBookLM"
+    "NoteBookLM",
+    "fetchpriority"
 ];
 
 export const checkSilence = (msg) => {
