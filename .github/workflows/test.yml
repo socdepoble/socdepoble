@@ -105,13 +105,13 @@ jobs:
             *Branca:* ${{ github.ref_name }}
             *Commit:* ${{ github.sha }}
             *Tests:* ${{ steps.test_outcome.outputs.status == 'passed' && 'Tots passats' || 'Alguns han fallat' }}
-            *Durada:* ${{ steps.playwright_tests.outcome == 'success' && format('{0} min', steps.playwright_tests.duration / 60) || 'N/A' }}
+            *Durada:* ${{ steps.playwright_tests.outcome == 'success' && 'Temps registrat' || 'N/A' }}
             *Artifacts:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       # --- Pas 9: Notificar a Telegram (Èxit o Error) ---
       - name: Notificar a Telegram
         if: always()
-        uses: appleboy/telegram-action@v1
+        uses: appleboy/telegram-action@master
         with:
           to: ${{ env.TELEGRAM_CHAT_ID }}
           token: ${{ env.TELEGRAM_BOT_TOKEN }}
@@ -128,9 +128,7 @@ jobs:
     name: 🚀 Desplegament a Producció
     needs: test  # Depèn del job "test"
     runs-on: ubuntu-22.04
-    if: |
-      github.ref == 'refs/heads/main' &&
-      needs.test.outputs.test_status == 'passed'  # Només si els tests passen a main
+    if: github.ref == 'refs/heads/main' && needs.test.outputs.test_status == 'passed'
 
     steps:
       # --- Pas 1: Checkout del codi (per a accedir als fitxers) ---
@@ -169,7 +167,7 @@ jobs:
 
       # --- Pas 5: Notificar desplegament a Telegram ---
       - name: Notificar desplegament a Telegram
-        uses: appleboy/telegram-action@v1
+        uses: appleboy/telegram-action@master
         with:
           to: ${{ env.TELEGRAM_CHAT_ID }}
           token: ${{ env.TELEGRAM_BOT_TOKEN }}
