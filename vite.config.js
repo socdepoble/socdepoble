@@ -67,9 +67,27 @@ export default defineConfig({
       devOptions: { enabled: false, type: 'module' },
       injectManifest: {
         rollupFormat: 'es',
-        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
-        globPatterns: ['**/*.{html,json,js,css,ico,png,svg,woff2,woff,ttf,eot}'],
-        globIgnores: ['**/node_modules/**/*', '**/*.map', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx', '**/*.wasm']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json,mp3}'],
+        globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js', '**/*.worker*.js', '**/*.wasm', '**/*.map', '**/.*', 'llibres/**', 'skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx'],
+        navigateFallback: '/index.html',
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
+        cleanupOutdatedCaches: true,
+        runtimeCaching: [
+          {
+            urlPattern: /.*\.(?:worker-.*\.js|wasm)$/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'wasm-worker-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 30 * 24 * 60 * 60,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          }
+        ]
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {

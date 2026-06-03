@@ -8,7 +8,7 @@
 
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 
 const LOG = (...args) => {
   try { console.log(JSON.stringify({ sw: true, payload: args })); } catch (e) { /* no-op */ }
@@ -126,10 +126,30 @@ registerRoute(
   })
 );
 
+// ... (altres rutes) ...
+
 // Recursos estàtics amb CacheFirst per rendiment
 registerRoute(
   ({ request }) => request.destination === 'script' || request.destination === 'style' || request.destination === 'image',
   new CacheFirst({ cacheName: 'static-resources' })
+);
+
+// [BUGFIX FIREFOX WASM] Excepció per a Web Workers i WASM.
+// Firefox bloca agressivament els Web Workers servits des de la Cache del SW.
+registerRoute(
+  ({ request, url }) => request.destination === 'worker' || url.pathname.endsWith('.wasm') || url.pathname.includes('.worker'),
+  new NetworkFirst({ 
+    cacheName: 'wasm-worker-cache',
+    plugins: [{
+      cacheWillUpdate: async ({ response }) => {
+        if (response && response.status === 200) {
+          // Assegurem que tinga el MIME type correcte si el necessitem (opcional)
+          return response;
+        }
+        return null;
+      }
+    }]
+  })
 );
 
 // Log de navegacions per diagnosi addicional
