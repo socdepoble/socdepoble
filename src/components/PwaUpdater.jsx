@@ -1,15 +1,12 @@
 // PwaUpdater.jsx
-// Component React en valencià que gestiona l'actualització:
+// Component React en valencià que gestiona l'actualització de forma ESPARTANA:
 // - Detecta waiting worker
-// - Inicia handshake: SKIP_WAITING -> espera ready-to-activate -> purga caches -> envia purged-caches -> respir 2000ms -> Hard Navigation Nuclear
-import React, { useEffect, useState, useRef } from 'react';
-
-const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+// - Botó de forçar actualització: envia SKIP_WAITING i recarrega immediatament (Hard Navigation).
+import React, { useEffect, useState } from 'react';
 
 export default function PwaUpdater({ registration }) {
   const [waitingWorker, setWaitingWorker] = useState(null);
-  const [status, setStatus] = useState('idle'); // idle | ready | activating | error
-  const controllerChangeHandled = useRef(false);
+  const [status, setStatus] = useState('idle'); // idle | ready | activating
 
   useEffect(() => {
     if (!registration) return;
@@ -23,8 +20,8 @@ export default function PwaUpdater({ registration }) {
       const newWorker = registration.installing;
       if (!newWorker) return;
       newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed' && registration.waiting) {
-          setWaitingWorker(registration.waiting);
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          setWaitingWorker(newWorker);
           setStatus('ready');
         }
       });
@@ -36,83 +33,16 @@ export default function PwaUpdater({ registration }) {
     };
   }, [registration]);
 
-  useEffect(() => {
-    const onControllerChange = () => {
-      if (controllerChangeHandled.current) return;
-      controllerChangeHandled.current = true;
-      setStatus('activating');
-    };
-    navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
-    return () => navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
-  }, []);
-
-  const purgeClientCaches = async () => {
-    try {
-      const cacheNames = await caches.keys();
-      for (const name of cacheNames) {
-        // Conservar workbox-precache per garantir App Shell offline mínim
-        if (name === 'workbox-precache') continue;
-        await caches.delete(name);
-      }
-      // Nota: si feu servir IndexedDB/OPFS, afegiu aquí la neteja específica
-      return true;
-    } catch (e) {
-      console.error('Error purgant caches', e);
-      return false;
-    }
-  };
-
-  const onUpdateNow = async () => {
+  const onUpdateNow = () => {
     if (!waitingWorker) return;
     setStatus('activating');
 
-    try {
-      // 1) Demanem al SW que skipWaiting
-      waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+    // 1) Demanem al SW que salte l'espera de forma immediata
+    waitingWorker.postMessage({ type: 'SKIP_WAITING' });
 
-      // 2) Esperem ready-to-activate del SW (timeout per evitar bloqueig)
-      const readyPromise = new Promise((resolve, reject) => {
-        const onMessage = (ev) => {
-          const data = ev.data || {};
-          if (data && data.type === 'ready-to-activate') {
-            navigator.serviceWorker.removeEventListener('message', onMessage);
-            resolve(data);
-          }
-        };
-        const timeout = setTimeout(() => {
-          navigator.serviceWorker.removeEventListener('message', onMessage);
-          reject(new Error('timeout_ready_to_activate'));
-        }, 5000);
-        navigator.serviceWorker.addEventListener('message', onMessage);
-      });
-
-      await readyPromise;
-
-      // 3) Purga caches locals
-      const purged = await purgeClientCaches();
-
-      // 4) Informem al SW que hem purgat
-      if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'purged-caches', ts: Date.now() });
-      }
-
-      // 5) Respir per WebKit (2000ms) per alliberar memòria i evitar errors de claim
-      await sleep(2000);
-
-      // 6) Hard Navigation Nuclear: forcem nova navegació amb parametre _v únic
-      const base = window.location.href.split('?')[0];
-      window.location.href = base + '?_v=' + Date.now();
-    } catch (err) {
-      console.error('Error en procés d\'actualització', err);
-      setStatus('error');
-      // Fallback: intentar igualment la navegació forçada
-      try {
-        const base = window.location.href.split('?')[0];
-        window.location.href = base + '?_v=' + Date.now();
-      } catch (e) {
-        console.error('Fallback reload failed', e);
-      }
-    }
+    // 2) Hard Navigation Nuclear: trenquem la cau del navegador de forma determinista
+    const base = window.location.href.split('?')[0];
+    window.location.href = base + '?_v=' + Date.now();
   };
 
   if (status === 'idle') return null;
@@ -130,11 +60,6 @@ export default function PwaUpdater({ registration }) {
       {status === 'activating' && (
         <div style={{ background: '#00aaff', padding: 12, borderRadius: 6, color: '#fff' }}>
           Activant nova versió...
-        </div>
-      )}
-      {status === 'error' && (
-        <div style={{ background: '#ff4444', padding: 12, borderRadius: 6, color: '#fff' }}>
-          Error actualitzant. Prova a tancar la pestanya i obrir de nou.
         </div>
       )}
     </div>
