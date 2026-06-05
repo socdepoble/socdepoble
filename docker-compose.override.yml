@@ -1,0 +1,101 @@
+version: '3.8'
+services:
+  orchestrator:
+    # En CI volem usar la imatge ja construïda per evitar builds locals inesperats
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-orchestrator-ci
+    working_dir: /app
+    volumes:
+      - ./:/app:ro
+    environment:
+      - NODE_ENV=test
+      - CI=true
+    entrypoint: ["/bin/bash","-c","./scripts/network_test_runner.sh"]
+    restart: "no"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+  node1:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node1-ci
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node1
+      - DATA_DIR=/data/node1
+      - PORT=8081
+    volumes:
+      - ./data/node1:/data/node1
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    # No exposar ports en CI
+    ports: []
+    entrypoint: ["node","./scripts/start_test_server_node.js"]
+    restart: "no"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL","curl -f http://localhost:8081/health || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+
+  node2:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node2-ci
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node2
+      - DATA_DIR=/data/node2
+      - PORT=8082
+    volumes:
+      - ./data/node2:/data/node2
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    ports: []
+    entrypoint: ["node","./scripts/start_test_server_node.js"]
+    restart: "no"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL","curl -f http://localhost:8082/health || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+
+  node3:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node3-ci
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node3
+      - DATA_DIR=/data/node3
+      - PORT=8083
+    volumes:
+      - ./data/node3:/data/node3
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    ports: []
+    entrypoint: ["node","./scripts/start_test_server_node.js"]
+    restart: "no"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL","curl -f http://localhost:8083/health || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 10

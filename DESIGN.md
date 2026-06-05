@@ -18,3 +18,13 @@ The system utilizes a dynamic aesthetic combining 'Pill-Brutalism' with glassmor
 *   **Roundness:** `ROUND_FULL` for buttons. `28px` for Universal Cards.
 *   **Shadows:** Shadows are used carefully. Glassmorphism overlays (`glass-theme-bg`) and pure black solid backgrounds are heavily layered to avoid overlapping semi-transparent boundaries.
 *   **No Dividers:** Avoid 1px dividers; use background-color shifts instead.
+
+## 5. Universal Card Header Logic
+La caputxa (orange header) contains two main action button areas on the right side:
+1.  **Date/Time Block (Calendari):** This is the permanent, fixed block. It displays the `displayTime` and `displayDate`. It **MUST** always be visible across all pages. Clicking it links directly to the `/calendari` page for that specific day.
+2.  **Ghost Action Button (infoText/hasNotice):** This field is optional and dynamic.
+    *   It is used to **pin** a page (e.g., showing a Pin icon for Destacats/Mur).
+    *   It can be used to show a small, important note (e.g., "AGENDA", or a critical tag).
+    *   It should **NOT** be used to display the global app version number on every page. The version number is irrelevant for daily navigation and clutters the UI.
+
+**Important Rule:** When building these buttons in HTML/JSX, always document *what they are* and *what they link to* in the code (e.g., Calendari links to Calendari). Ensure interactive elements like `UniversalCardActionButton` have `pointer-events-auto` if placed inside a `pointer-events-none` container.

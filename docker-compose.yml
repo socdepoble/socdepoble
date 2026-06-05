@@ -1,0 +1,70 @@
+version: '3.8'
+services:
+  # Orquestrador que llança el runner i recull resultats
+  orchestrator:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-orchestrator
+    working_dir: /app
+    volumes:
+      - ./:/app:delegated
+    entrypoint: ["/bin/bash","-c","./scripts/network_test_runner.sh"]
+    environment:
+      - NODE_ENV=test
+    depends_on:
+      - node1
+      - node2
+      - node3
+
+  # Node 1
+  node1:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node1
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node1
+      - DATA_DIR=/data/node1
+      - PORT=8081
+    volumes:
+      - ./data/node1:/data/node1
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    ports:
+      - "8081:8081"
+    entrypoint: ["node","./scripts/start_test_server_node.js"]
+
+  # Node 2
+  node2:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node2
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node2
+      - DATA_DIR=/data/node2
+      - PORT=8082
+    volumes:
+      - ./data/node2:/data/node2
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    ports:
+      - "8082:8082"
+    entrypoint: ["node","./scripts/start_test_server_node.js"]
+
+  # Node 3
+  node3:
+    image: ${IMAGE_NAME:-socdepoble-tests}
+    container_name: socdepoble-node3
+    working_dir: /app
+    environment:
+      - NODE_ENV=test
+      - NODE_ID=node3
+      - DATA_DIR=/data/node3
+      - PORT=8083
+    volumes:
+      - ./data/node3:/data/node3
+      - ./scripts:/app/scripts:ro
+      - ./tests:/app/tests:ro
+    ports:
+      - "8083:8083"
+    entrypoint: ["node","./scripts/start_test_server_node.js"]

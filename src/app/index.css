@@ -662,7 +662,8 @@
     padding: 0;
     border: none;
     color: inherit;
-    font-size: inherit;
+    font-size: clamp(0.75rem, 1.2vw, 0.85rem); /* Petit, format 'unicode' o 'code' programació */
+    line-height: 1.4;
     white-space: pre-wrap;
   }
   

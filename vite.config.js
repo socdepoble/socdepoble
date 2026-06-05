@@ -69,25 +69,7 @@ export default defineConfig({
         rollupFormat: 'es',
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,mp3}'],
         globIgnores: ['**/node_modules/**/*', 'sw.js', 'workbox-*.js', '**/*.worker*.js', '**/*.wasm', '**/*.map', '**/.*', 'llibres/**', 'ia_skills/**', 'assets/books/**', 'assets/uploads/**', '**/*.onnx'],
-        navigateFallback: '/index.html',
         maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
-        cleanupOutdatedCaches: true,
-        runtimeCaching: [
-          {
-            urlPattern: /.*\.(?:worker-.*\.js|wasm)$/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'wasm-worker-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 30 * 24 * 60 * 60,
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          }
-        ]
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
@@ -99,11 +81,6 @@ export default defineConfig({
         display: 'standalone',
         orientation: 'portrait-primary',
         icons: [
-          {
-            src: '/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
           {
             src: '/icon-512x512.png',
             sizes: '512x512',
@@ -133,7 +110,22 @@ export default defineConfig({
       "@dashlane/pqc-kem-kyber768-wasm"
     ],
     // Explicit runtime dependencies to speed up HMR
-    include: ["react-router-dom", "lucide-react", "axios"]
+    include: [
+      "react-router-dom", 
+      "lucide-react", 
+      "axios",
+      "@tanstack/react-query",
+      "@tiptap/react",
+      "@tiptap/core",
+      "@tiptap/starter-kit",
+      "@tiptap/extension-text-align",
+      "@tiptap/extension-image",
+      "@tiptap/extension-link",
+      "@tiptap/extension-underline",
+      "@tiptap/extension-text-style",
+      "@tiptap/extension-color",
+      "@tiptap/extension-list-item"
+    ]
   },
   server: {
     host: true,
@@ -160,12 +152,13 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
-    target: 'esnext',
+    target: 'es2020',
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
+          sqlite: ["@powersync/web", "@journeyapps/wa-sqlite", "@sqlite.org/sqlite-wasm"],
           ui: ["lucide-react"],
           data: ["@supabase/supabase-js", "idb-keyval"],
           utils: ["i18next", "react-i18next", "zod"],

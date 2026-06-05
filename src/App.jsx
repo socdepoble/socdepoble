@@ -1,6 +1,7 @@
 // src/App.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import PwaUpdater from './components/PwaUpdater';
+import { useSeoTrellat } from './hooks/useSeoTrellat';
 
 /*
   App.jsx - registre robust del Service Worker i integració de PwaUpdater
@@ -105,6 +106,13 @@ export default function App() {
   const [serverVersion, setServerVersion] = useState(null);
   const [checking, setChecking] = useState(false);
   const [updateAvailable, setUpdateAvailable] = useState(false);
+
+  // Injecció de SEO base de l'aplicació
+  useSeoTrellat({
+    titol: 'Inici',
+    descripcio: 'Xarxa social rural i sobirana',
+    urlCanonica: '/',
+  });
 
   // Llegir X-App-Version del servidor per diagnosi; no bloqueja la UI
   useEffect(() => {

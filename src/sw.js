@@ -6,7 +6,7 @@
    - Logs estructurats JSON-friendly per diagnosi en dispositius antics
 */
 
-import { precacheAndRoute } from 'workbox-precaching';
+import { precacheAndRoute, matchPrecache } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 
@@ -62,12 +62,13 @@ registerRoute(
     try {
       const networkResponse = await fetch(request);
       LOG({ event: 'navigation_network_success', url: url.href, status: networkResponse.status, ts: Date.now() });
+      if (networkResponse.status === 404) {
+          throw new Error('404 from server, fallback to precache index');
+      }
       return networkResponse;
     } catch (err) {
       LOG({ event: 'navigation_network_failed', url: url.href, error: String(err), ts: Date.now() });
-      const cache = await caches.open('workbox-precache');
-      // Precache ignora _v, així que podem buscar index.html directament
-      const precached = await cache.match('/index.html');
+      const precached = await matchPrecache('/index.html');
       if (precached) {
         LOG({ event: 'navigation_served_precache', url: url.href, ts: Date.now() });
         return precached;

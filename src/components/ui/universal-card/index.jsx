@@ -244,7 +244,7 @@ const UniversalCardInner = ({
 
         const id = item?.uuid || item?.id;
         if (item?.type === 'page' && item?.slug) {
-            if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest'].includes(item.slug)) {
+            if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest', 'skills'].includes(item.slug)) {
                 navigate(`/${item.slug}`);
             } else {
                 navigate(`/page/${item.slug}`);

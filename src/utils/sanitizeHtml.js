@@ -5,7 +5,7 @@ export const sanitizeHtml = (html) => {
     
     return DOMPurify.sanitize(html, {
         ALLOWED_TAGS: [
-            'h1','h2','h3','h4','h5','p','b','i','strong','em','u',
+            'h1','h2','h3','h4','h5','h6','p','b','i','strong','em','u',
             'ul','ol','li','br','hr','a','span','div','img','blockquote','section','article','main','button','pre','code','video','source',
             'details','summary','table','thead','tbody','tr','th','td'
         ],

@@ -9,7 +9,7 @@ const UniversalHeaderGroup = React.memo(({ position = 'left', children, classNam
     // right: conté els botons d'eines (idioma, cercador, visió, etc.)
     const baseClass = position === 'left' 
         ? "flex items-center justify-start pl-2 sm:pl-4 shrink-0 z-10 gap-3"
-        : "flex items-center gap-[4px] sm:gap-[20px] ml-auto h-full z-10 relative shrink-0 pr-[2px] sm:pr-[32px]";
+        : "flex items-center gap-0 sm:gap-[20px] ml-auto h-full z-10 relative shrink-0 pr-[2px] sm:pr-[32px]";
 
     return (
         <div className={`${baseClass} ${className}`}>

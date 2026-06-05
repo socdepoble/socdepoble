@@ -27,6 +27,16 @@ $rutes_conegudes = [
         'titol' => 'Versions del Sistema | Sóc de Poble',
         'descripcio' => 'Historial d\'actualitzacions i memòria tècnica de l\'evolució de l\'Eixam.',
         'imatge' => '/uploads/avatars/soc-de-poble_book_comic_nano_1770526279743.png'
+    ],
+    'skills' => [
+        'titol' => 'Skills | Sóc de Poble',
+        'descripcio' => 'Tot el que em fa ser qui sóc. L\'ànima de la màquina.',
+        'imatge' => '/assets/uploads/empresa/soc-de-poble/posts/genotip/portada_genotip.png'
+    ],
+    'iaies-mundials' => [
+        'titol' => 'Iaies Mundials | Sóc de Poble',
+        'descripcio' => 'Conexions globals i arquitectura descentralitzada.',
+        'imatge' => '/assets/uploads/brain/media__1775601829353.jpg'
     ]
 ];
 

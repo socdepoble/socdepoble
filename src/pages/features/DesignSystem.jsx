@@ -6,6 +6,7 @@ import UniversalCard from '../../components/ui/universal-card';
 import { Button } from '../../components/ui/Button';
 import IAIAIcon from '../../components/icons/IAIAIcon';
 import LanguageSelector from '../../components/ui/LanguageSelector';
+import { DESIGN_HTML } from '../../data/SkillsContent';
 
 export default function DesignSystem() {
   
@@ -362,6 +363,15 @@ export default function DesignSystem() {
 
         <h3 id="contingut">3.4. La Zona de Contingut (MainScrollArea)</h3>
         <p>És l'única part de la pantalla que fa "scroll" vertical independentment de la resta. Tot el contingut que esteu llegint ara mateix es troba dins d'aquesta àrea segura amb el seu propi <code>content-visibility: auto</code> per estalviar memòria al navegador.</p>
+
+        {/* =========================================
+            PART 4: DOCUMENTACIÓ MESTRA (UNIVERSAL MAQUETATION)
+            ========================================= */}
+        <hr className="my-16 border-white/10" />
+        <div 
+          className="design-system-docs" 
+          dangerouslySetInnerHTML={{ __html: DESIGN_HTML }} 
+        />
 
       </div>
     </UniversalPage>
