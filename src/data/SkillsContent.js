@@ -3361,3 +3361,5 @@ Si creus que per a complir una ordre de l'usuari has de desmuntar un pilar estru
   </div>
 </div>
 `;
+
+export const DESIGN_HTML = `<div><p>El disseny ha estat compilat dins de les Skills Mestre.</p></div>`;

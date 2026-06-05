@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PwaUpdater from './components/PwaUpdater';
 import { useSeoTrellat } from './hooks/useSeoTrellat';
+import VisorNano from './components/core/VisorNano';
 
 /*
   App.jsx - registre robust del Service Worker i integració de PwaUpdater
@@ -225,6 +226,7 @@ export default function App() {
 
       {/* Muntatge del PwaUpdater: li passem la registration perquè gestione waiting worker i l'handshake */}
       <PwaUpdater registration={registration} />
+      <VisorNano />
 
       <footer style={{ padding: 12, borderTop: '1px solid #eee', fontSize: 12, color: '#666', textAlign: 'center' }}>
         <div>Consell de la Petorreta · Arquitectura local-first</div>
