@@ -1,0 +1,123 @@
+name: Weekly S3 Backup and Integrity Check
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # every Monday 03:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+      S3_PREFIX: backups
+      S3_REGION: ${{ secrets.AWS_REGION }}
+      ENCRYPT_KEY: ${{ secrets.BACKUP_ENCRYPT_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install puppeteer
+        run: npm ci --no-audit --no-fund || true
+
+      - name: Run backup via Puppeteer (dump localStorage)
+        id: dump
+        run: |
+          mkdir -p backups_localstorage
+          node - <<'NODE'
+const fs=require('fs');
+const puppeteer=require('puppeteer');
+(async()=>{
+  const url=process.env.TEST_URL || 'http://localhost:3000/';
+  const browser=await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
+  const page=await browser.newPage();
+  await page.goto(url,{waitUntil:'networkidle2',timeout:60000});
+  const prefix=process.env.PREFIX || 'socdepoble_';
+  const data=await page.evaluate((prefix)=>{
+    const out={};
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k && k.indexOf(prefix)===0){
+        try{ out[k]=JSON.parse(localStorage.getItem(k)); }catch(e){ out[k]=localStorage.getItem(k); }
+      }
+    }
+    return out;
+  }, process.env.PREFIX || 'socdepoble_');
+  const ts=new Date().toISOString().replace(/[:.]/g,'-');
+  const file=`backups_localstorage/localstorage_${process.env.PREFIX||'socdepoble_'}_${ts}.json`;
+  fs.writeFileSync(file, JSON.stringify({ts:Date.now(),prefix:process.env.PREFIX||'socdepoble_',data},null,2));
+  console.log(file);
+  await browser.close();
+})();
+NODE
+          echo "::set-output name=file::$(ls -1t backups_localstorage/*.json | head -n1)"
+
+      - name: Compute SHA256 checksum
+        id: checksum
+        run: |
+          FILE="${{ steps.dump.outputs.file }}"
+          sha256sum "$FILE" | awk '{print $1}' > "${FILE}.sha256"
+          echo "checksum=$(cat ${FILE}.sha256)" >> $GITHUB_OUTPUT
+          echo "file=$FILE" >> $GITHUB_OUTPUT
+
+      - name: Encrypt backup if key present
+        id: encrypt
+        run: |
+          FILE="${{ steps.dump.outputs.file }}"
+          if [ -n "${ENCRYPT_KEY:-}" ]; then
+            openssl enc -aes-256-cbc -salt -pbkdf2 -pass pass:"${ENCRYPT_KEY}" -in "$FILE" -out "${FILE}.enc"
+            mv "${FILE}.enc" "${FILE}.upload"
+            openssl enc -aes-256-cbc -salt -pbkdf2 -pass pass:"${ENCRYPT_KEY}" -in "${FILE}.sha256" -out "${FILE}.sha256.enc"
+            mv "${FILE}.sha256.enc" "${FILE}.sha256.upload"
+          else
+            cp "$FILE" "${FILE}.upload"
+            cp "${FILE}.sha256" "${FILE}.sha256.upload"
+          fi
+          echo "upload_file=${FILE}.upload" >> $GITHUB_OUTPUT
+          echo "upload_checksum=${FILE}.sha256.upload" >> $GITHUB_OUTPUT
+
+      - name: Upload to S3
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          FILE="${{ steps.encrypt.outputs.upload_file }}"
+          CHECK="${{ steps.encrypt.outputs.upload_checksum }}"
+          KEY="${{ env.S3_PREFIX }}/$(basename "$FILE")"
+          aws s3 cp "$FILE" "s3://${{ env.S3_BUCKET }}/${KEY}" --region "${{ env.S3_REGION }}"
+          aws s3 cp "$CHECK" "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/$(basename "$CHECK")" --region "${{ env.S3_REGION }}"
+          echo "s3_key=$KEY" >> $GITHUB_OUTPUT
+
+      - name: Verify integrity (download and compare checksum)
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          FILE="${{ steps.encrypt.outputs.upload_file }}"
+          BASENAME="$(basename "$FILE")"
+          TMPDIR=$(mktemp -d)
+          aws s3 cp "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/${BASENAME}" "$TMPDIR/$BASENAME" --region "${{ env.S3_REGION }}"
+          aws s3 cp "s3://${{ env.S3_BUCKET }}/${{ env.S3_PREFIX }}/$(basename "${{ steps.encrypt.outputs.upload_checksum }}")" "$TMPDIR/check.sha" --region "${{ env.S3_REGION }}"
+          if [ -n "${ENCRYPT_KEY:-}" ]; then
+            openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:"${ENCRYPT_KEY}" -in "$TMPDIR/$BASENAME" -out "$TMPDIR/dec" || (echo "Decryption failed" && exit 2)
+            openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:"${ENCRYPT_KEY}" -in "$TMPDIR/check.sha" -out "$TMPDIR/check.sha.dec" || (echo "Checksum decryption failed" && exit 2)
+            sha256sum "$TMPDIR/dec" | awk '{print $1}' > "$TMPDIR/check2"
+            cmp -s "$TMPDIR/check2" "$TMPDIR/check.sha.dec" || (echo "Integrity check failed" && exit 3)
+          else
+            sha256sum "$TMPDIR/$BASENAME" | awk '{print $1}' > "$TMPDIR/check2"
+            cmp -s "$TMPDIR/check2" "$TMPDIR/check.sha" || (echo "Integrity check failed" && exit 3)
+          fi
+          echo "Integrity check passed"
+
+      - name: Cleanup note
+        run: |
+          echo "Recommend configuring S3 lifecycle rules for automatic retention and legal compliance."
+
