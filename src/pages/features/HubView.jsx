@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../app/context/AuthContext';
 import { useModalDispatch } from '../../app/context/ModalContext';
 import PageHeader from '../../components/layout/PageHeader';
-import { Button } from '../../components/ui/Button/Button';
+import { UniversalButton as Button } from '../../components/ui/Button/UniversalButton';
 import { Newspaper, Store, Calendar, MapPin, Bot, StickyNote, Shield, Cpu, LogOut } from 'lucide-react';
 
 const HubView = () => {

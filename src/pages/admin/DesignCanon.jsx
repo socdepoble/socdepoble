@@ -78,7 +78,7 @@ const DesignCanon = () => {
                         <Sparkles size={16} />
                         <span>ESTÈTICA MESTRA</span>
                     </div>
-                    <h1>Cànon GEM MODERN v2.0</h1>
+                    <h1>Cànon Pedra Seca v2.0</h1>
                     <p>La síntesi de l'estètica clara (Llum i Vida) adaptada al bategat rural amb geometria bento (28px).</p>
                 </div>
             </div>
@@ -117,7 +117,7 @@ const DesignCanon = () => {
                     </div>
                     <p>
                         No busquem només funcionalitat, sinó una <strong>simbiosi</strong> mestre entre l'elegància clara i la resiliència del camp.
-                        Basat en el cànon <strong>GEM MODERN</strong>: Claredat, Orgànica i Tech Rural.
+                        Basat en el cànon <strong>Pedra Seca</strong>: Claredat, Orgànica i Tech Rural.
                     </p>
                     <div className="design-stats-mini">
                         <div className="stat-pill">

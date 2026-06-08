@@ -27,7 +27,7 @@ export const CALENDAR_EVENTS = [
         type: 'docs',
         id: 'amazon-book',
         file: 'ABSTRACCIONS_LLIBRE_AMAZON.md',
-        description: 'Conceptualització de la Masia Digital i el llibre per a Amazon.',
+        description: 'Conceptualització del projecte Sóc de Poble i el llibre per a Amazon.',
         author_name: 'Carla Soriano',
         author_avatar: '/uploads/avatars/carla-soriano_comic.png'
     },

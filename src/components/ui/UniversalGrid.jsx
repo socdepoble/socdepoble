@@ -45,7 +45,7 @@ export const UniversalGridRow = React.memo(React.forwardRef(({
      */
     const gridStyle = React.useMemo(() => ({
         display: 'grid',
-        gridTemplateColumns: `repeat(${actualColumns}, minmax(min(100%, 340px), 1fr))`,
+        gridTemplateColumns: `repeat(${actualColumns}, minmax(min(100%, 300px), 1fr))`,
         gap: '24px',
         boxSizing: 'border-box',
     }), [actualColumns]);

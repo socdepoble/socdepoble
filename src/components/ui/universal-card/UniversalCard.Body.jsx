@@ -74,7 +74,7 @@ const UniversalCardBody = React.memo(({
     const id = item?.uuid || item?.id;
     let computedUrl = id ? `/post/${id}` : '#';
     if (item?.type === 'page' && item?.slug) {
-        if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest'].includes(item.slug)) {
+        if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest', 'disseny', 'ruta', 'skills', 'iaies-mundials'].includes(item.slug)) {
             computedUrl = `/${item.slug}`;
         } else {
             computedUrl = `/page/${item.slug}`;

@@ -2,7 +2,7 @@
 
 # 6. DOC TO APP (TRANSFORMACIÓ IAIA) 📄➡️📱
 
-![Logo Sóc de Poble](file:///Users/javillinares/Documents/Antigravity/Sóc de Poble/public/assets/master/logo_socdepoble_white_full.png)
+![Logo Sóc de Poble](/assets/master/logo_socdepoble_white_full.png)
 
 ## MISSIÓ DEL PROTOCOL
 

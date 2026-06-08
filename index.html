@@ -4,10 +4,16 @@
     
     
     <meta charset="UTF-8" />
+    <script>
+      // [TRELLAT SEO] Redireccions JS eliminades per evitar penalitzacions de Googlebot
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <!-- ⚠️ CRITICAL: Loop Breaker MUST be first -->
     <script src="/loop-breaker.js"></script>
+    
+    <!-- Mòdul Vanilla JS — Mode Lupa | Sincronització Tèrmica (Anti-FOUC) -->
+    <script src="/lupa.js"></script>
     
     <!-- CRÍTIC: Preconnect a orígens externs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -24,6 +30,9 @@
       .spinner-rustic { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid #ff8c00; border-radius: 50%; animation: gira 1s linear infinite; }
       @keyframes gira { 100% { transform: rotate(360deg); } }
     </style>
+    
+    <!-- [TRELLAT] Telemetria Lliure i Sobirana (Umami) -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="6ffce900-c41a-470e-9b12-38fb6028db18"></script>
     
     <!-- [SILENT GUARDIAN] Filtra l'advertència obsoleta d'esdeveniments 'unload' generada per l'SDK de PowerSync -->
     <script>
@@ -49,6 +58,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
+    <meta name="google" content="notranslate" /> <!-- Elimina el banner invasiu de Chrome -->
     <link rel="author" href="https://socdepoble.org" />
 
     <meta property="og:type" content="website" />
@@ -236,9 +246,7 @@
       }
     }
     </script>
-    <!-- [PERFORMANCE] Preload per als logos LCP per reduir el Load Delay -->
-    <link rel="preload" as="image" type="image/svg+xml" href="/assets/system/ui/logo-socdepoble-rect-negre.svg" fetchpriority="high" media="(prefers-color-scheme: light)" />
-    <link rel="preload" as="image" type="image/svg+xml" href="/assets/system/ui/logo-socdepoble-rect-blanc.svg" fetchpriority="high" media="(prefers-color-scheme: dark)" />
+    <!-- [PERFORMANCE] Els preloads de logos s'han eliminat per evitar advertències a la consola -->
   </head>
   <body>
     <!-- Hidden H1 for SEO -->

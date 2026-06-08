@@ -24,12 +24,12 @@ const UniversalShell = memo(({
 }) => {
 
     const {
-        seo,
-        page,
-        presentation,
-        hero,
-        media
-    } = viewModel;
+        seo = {},
+        page = {},
+        presentation = {},
+        hero = {},
+        media = {}
+    } = viewModel || {};
 
     const {
         isIndexOpen = false,
@@ -76,11 +76,11 @@ const UniversalShell = memo(({
                     <UniversalCardHeader
                         item={page.item}
                         cardVariant="project"
-                        displayTown={page.item?.town_name || page.item?.town || ''}
-                        displayAuthor={page.item?.author_name || page.item?.author || ''}
-                        avatarSrc={page.item?.author_avatar || page.item?.logo_url || ''}
-                        avatarRole={page.item?.author_role}
-                        isOfficial={page.item?.is_official || page.item?.official}
+                        displayTown={page.item?.town_name || page.item?.town || page.town || ''}
+                        displayAuthor={page.item?.author_name || page.item?.author || page.author || 'Sóc de Poble'}
+                        avatarSrc={page.item?.author_avatar || page.item?.logo_url || page.logo || ''}
+                        avatarRole={page.item?.author_role || page.role}
+                        isOfficial={page.item?.is_official || page.item?.official || true}
                         displayDate={page.item?.created_at ? new Date(page.item.created_at).toLocaleDateString('ca-ES') : ''}
                         displayTime={page.item?.time || ''}
                         isPageHeader

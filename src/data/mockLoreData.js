@@ -8,7 +8,7 @@ export const MOCK_LORE_POSTS = {
     '11111111-1111-4111-a111-000000000001': [
         {
             id: 'lp-v1',
-            content: "Acabant de restaurar la porta principal de la Masia del Pi. La fusta de roure té una vida eterna si se sap cuidar. #Artesania #LaTorre",
+            content: "Acabant de restaurar la porta principal del mas del Pi. La fusta de roure té una vida eterna si se sap cuidar. #Artesania #LaTorre",
             created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
             author_id: '11111111-1111-4111-a111-000000000001',
             author_name: 'Vicent Ferris',
@@ -82,7 +82,7 @@ export const MOCK_LORE_POSTS = {
     'damia-arq-1': [
         {
             id: 'lp-d1',
-            content: "Revisitant les mides de la Masia. El futur de Sóc de Poble es construeix sobre fonaments sòlids i identitat de terra. Gràcies per la vostra confiança!",
+            content: "Revisitant les mides del projecte. El futur de Sóc de Poble es construeix sobre fonaments sòlids i identitat de terra. Gràcies per la vostra confiança!",
             created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
             author_id: 'damia-arq-1',
             author_name: 'Damià',

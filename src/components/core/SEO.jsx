@@ -25,10 +25,10 @@ const SEO = ({
 }) => {
   // [VALIDACIÓ] Títol per defecte si no es proporciona
   const siteTitle = 'Sóc de Poble';
-  const showVersion = typeof window !== 'undefined' && !window.HIDE_SEO_VERSION;
-  const versionString = APP_VERSION;
-  const displayTitle = title ? title : siteTitle;
-  const fullTitle = showVersion ? `${displayTitle} | ${siteTitle} ${versionString}` : `${displayTitle} | ${siteTitle}`;
+  
+  // Neteja del títol per evitar redundàncies i complir l'exigència: "Sóc de Poble | pàgina"
+  const cleanTitle = title ? title.replace(/^Sóc de Poble(\s*\|?\s*|:\s*)/i, '').trim() : '';
+  const fullTitle = cleanTitle && cleanTitle !== siteTitle ? `${siteTitle} | ${cleanTitle}` : siteTitle;
   
   // [VALIDACIÓ] URL canònica automàtica completíssima i absoluta
   const baseUrl = 'https://socdepoble.org';

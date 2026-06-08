@@ -283,7 +283,7 @@ export default function EntityProfile({ entity, isOwner, onSettingsClick }) {
              <div className="w-full">
                {displayPosts.length > 0 ? (
                  <div className="min-h-[500px]">
-                   <Feed hideHeader={true} customPosts={displayPosts} externalViewMode={viewMode} />
+                   <Feed hideHeader={true} customPosts={displayPosts} externalViewMode={viewMode} isProfileOwner={isOwner} />
                  </div>
                ) : (
                  <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
@@ -318,7 +318,7 @@ export default function EntityProfile({ entity, isOwner, onSettingsClick }) {
   );
 }
 
-// Componente helper para tabs táctiles GEM Modern
+// Componente helper para tabs táctiles Pedra Seca
 const TabButton = ({ active, onClick, icon, label }) => (
   <button 
     onClick={onClick}

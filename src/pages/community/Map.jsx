@@ -49,6 +49,7 @@ const TownPin = ({ colorClass, label }) => (
 );
 
 const PostPin = ({ imageUrl, type, category, tags }) => {
+    const [imgError, setImgError] = React.useState(false);
     let Icon = MessageCircle;
     let bgColor = 'bg-[#F97316]';
     
@@ -68,20 +69,13 @@ const PostPin = ({ imageUrl, type, category, tags }) => {
 
     return (
         <div className={`w-12 h-12 rounded-[20px] border-none shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-visible bg-theme-panel hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto ring-2 ring-white/20`}>
-            {imageUrl ? (
+            {imageUrl && !imgError ? (
                 <>
                     <img 
                         src={imageUrl} 
                         className="w-full h-full rounded-[20px] object-cover bg-theme-base text-[10px]" 
                         alt="Pin" 
-                        onError={(e) => { 
-                            const fallbackSrc = '/uploads/avatars/nano_llibre_memoria.png';
-                            if (!e.target.src.includes(fallbackSrc)) {
-                                e.target.src = fallbackSrc;
-                            } else {
-                                e.target.style.display = 'none';
-                            }
-                        }}
+                        onError={() => setImgError(true)}
                     />
                     <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full ${bgColor} flex items-center justify-center shadow-lg border-2 border-theme-panel`}>
                         <Icon className="text-white w-3 h-3" />

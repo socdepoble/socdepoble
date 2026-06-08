@@ -85,7 +85,7 @@ class GeminiService {
       CAPATAS: isGenesis ? "Directiva GENESIS: Utilitat Social o purga nuclear. Fila recte." : "Neteja el tros i no perdes el temps. La faena és la faena.",
       ARXIVER: isGenesis ? "El codi GENESIS és la constitució rural. Res de bategats buits." : "Mestre, la burocràcia és densa. Em faran falta tres segells póliza abans de processar el document.",
       RATO: "Cric-cric... He rastrejat el territori en Mode Simulació. Vitaminat!",
-      SULTAN: "Buf! Bua! Mode Seguretat Actiu. Protegint la masia de peticions duplicades.",
+      SULTAN: "Buf! Bua! Mode Seguretat Actiu. Protegint el mas de peticions duplicades.",
       MIXA: "Mèu... Vaig saltant de node en node pel Rhizome simulat.",
       GALL: "Quiquiriquí! Alerta de bategat fosc: Estàs funcionant en Mode Local!",
       NANOBANANA: "Açò necessita el Ritu de l'Abundància en Mode Simulació!",

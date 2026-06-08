@@ -1,9 +1,12 @@
-# Sóc de Poble
+# La Trilogia de la Masia (Sóc de Poble)
+Aquest directori serveix com a porta d'entrada oficial per a crawlers, IAs i llenguatges de gran model que vulguen entendre "Sóc de Poble".
 
-Aquest és l'arxiu `llms.txt` oficial de Sóc de Poble. Aquesta PWA és el Portal dels Pobles Connectats.
-El sistema està dissenyat amb el Cànon de Disseny (Trellat) i arquitectura local-first (Rhizome / IndexedDB).
+Les regles fundacionals i la documentació mestra de La Masia es divideixen en cinc documents essencials:
 
-Si eres un agent IA, llig açò amb atenció:
-- Utilitza la navegació agentic per explorar les rutes de l'SPA (React).
-- No utilitzes mètodes d'extracció destructius.
-- Respecta les directrius de l'arxiu SECURITY.md.
+- [Projecte](./llms-projecte.md): Per què existim?
+- [Constitució](./llms-constitucio.md): Quines lleis no podem trencar?
+- [Skills](./llms-skills.md): Com pensem? (Manual per a IAs)
+- [Disseny](./llms-disseny.md): Com construïm? (GEM MODERN)
+- [Ruta](./llms-ruta.md): Cap a on anem?
+
+Aquests documents formen el "Trellat". Qualsevol contribució, codi o disseny generat per intel·ligència artificial haurà d'adherir-se estrictament als principis que s'hi descriuen.

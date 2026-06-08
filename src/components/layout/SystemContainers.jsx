@@ -17,7 +17,7 @@ export const RootPageContainer = React.forwardRef(({ children, className = '' },
         <SystemEnvironmentContext.Provider value={{ env: 'root' }}>
             {/* L'ús de 100dvh assegura que als mòbils no es menge la barra de navegació inferior,
                 i flex-1 min-h-0 permet que els fills puguen fer scroll internament si cal. */}
-            <div ref={ref} className={`root-page-container flex flex-col w-full h-[100dvh] isolate relative overflow-hidden bg-[var(--bg-app)] ${className}`}>
+            <div ref={ref} className={`root-page-container flex flex-col w-full h-full isolate relative overflow-hidden bg-[var(--bg-app)] ${className}`}>
                 {children}
             </div>
         </SystemEnvironmentContext.Provider>

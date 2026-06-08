@@ -1,0 +1,53 @@
+/* 
+ * UNIVERSAL HEADER - GEM MODERN
+ * Capçalera resilient per a qualsevol vista, amagant l'scroll i fixant l'altura
+ */
+
+.header-container {
+  height: 56px; /* Altura fixa unificada amb la resta de l'app a 56px */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-espai-4, 16px);
+  background-color: var(--sp-white-100, #ffffff);
+  border-bottom: 1px solid rgba(0,0,0,0.05); /* Pedra seca */
+  
+  /* L'sticky està implementat amb classes de Tailwind des de fora per a més flexibilitat 
+     (e.g., sticky top-0 z-50), però ací es defineix la cota estètica. */
+}
+
+/* Quan volem que la capçalera tinga l'efecte de cristall (backdrop blur) */
+.header-container.glass {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.title {
+  margin: 0;
+  color: var(--sp-orange-100, #FF7300);
+  font-size: var(--sp-text-xl, 1.25rem);
+  font-weight: 800;
+  text-align: center;
+  flex: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slot-left,
+.slot-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-espai-2, 8px);
+}
+
+.slot-left {
+  justify-content: flex-start;
+}
+
+.slot-right {
+  justify-content: flex-end;
+}

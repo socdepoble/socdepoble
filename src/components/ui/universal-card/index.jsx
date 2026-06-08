@@ -12,11 +12,13 @@ import UniversalCardBody from './UniversalCard.Body';
 import UniversalCardFooter from './UniversalCard.Footer';
 import BlueprintOverlay from '../../ui/BlueprintOverlay';
 
+import PedraPanel from '../PedraPanel';
 import { normalizePostData } from '../../../normalizers/post.normalizer';
 import { resolveImageUrl } from '../../../utils/urlHelper';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { cardVariants } from './UniversalCard.variants';
+import { useCardTranslation } from '../../../hooks/useCardTranslation';
 import './UniversalCard.css';
 
 
@@ -79,12 +81,13 @@ const UniversalCardInner = ({
     user,
     openViewer, // del ModalContext
     infoText, // Permetre infoText explícit
-    aspectMode = 'auto' // Default a 'auto' para respetar imágenes horizontales por defecto
+    aspectMode = 'auto', // Default a 'auto' para respetar imágenes horizontales por defecto
+    forceEditOption = false
 }) => {
     const cardVariant = (variant === "post" && mode && mode !== "post") ? mode : (variant || mode);
     const isForensic = forcedForensic || contextForensic;
     const navigate = useNavigate();
-    const isMaster = isAdmin || user?.app_metadata?.role === 'master';
+    const isMaster = isAdmin || user?.app_metadata?.role === 'master' || forceEditOption;
     const isChatRoute = useIsChatRoute();
     const isMarket = cardVariant === 'market' || cardVariant === 'mercat' || cardVariant === 'product';
     const computedAspectMode = 'square';
@@ -148,51 +151,8 @@ const UniversalCardInner = ({
         [excerpt, item?.description, item?.content]
     );
 
-    // ESTAT DE TRADUCCIÓ NATIVA PER TARGETA
-    const [translatedTitle, setTranslatedTitle] = useState(null);
-    const [translatedExcerpt, setTranslatedExcerpt] = useState(null);
-    const [isTranslating, setIsTranslating] = useState(false);
-
-    useEffect(() => {
-        const handleTranslateRequest = async (e) => {
-            const { postId, targetLang } = e.detail;
-            const cardId = item?.id || item?.uuid || baseTitle;
-            if (postId !== cardId && postId !== 'unknown') return;
-
-            setIsTranslating(true);
-            try {
-                const { data, error } = await supabase.functions.invoke('translation', {
-                    body: { 
-                        text: `<h1>${baseTitle}</h1><p>${baseExcerpt}</p>`, 
-                        targetLang: targetLang,
-                        postId: cardId
-                    }
-                });
-                if (data && data.status === 'success') {
-                    const html = data.translatedHtml;
-                    const h1Match = html.match(/<h1>(.*?)<\/h1>/si);
-                    const pMatch = html.match(/<p>(.*?)<\/p>/si);
-                    if (h1Match) setTranslatedTitle(h1Match[1]);
-                    if (pMatch) setTranslatedExcerpt(pMatch[1]);
-                } else {
-                    throw new Error("Proxy returned non-success status");
-                }
-            } catch (error) {
-                console.warn("Card translation AI failed (likely CORS), falling back to Google Translate:", error);
-                // Si falla l'IA, forcem el traductor de Google global (però protegit per notranslate a la UI)
-                const select = document.querySelector('.goog-te-combo');
-                if (select) {
-                    select.value = targetLang;
-                    select.dispatchEvent(new Event('change'));
-                }
-            } finally {
-                setIsTranslating(false);
-            }
-        };
-
-        window.addEventListener('omega-translate-request', handleTranslateRequest);
-        return () => window.removeEventListener('omega-translate-request', handleTranslateRequest);
-    }, [item?.id, item?.uuid, baseTitle, baseExcerpt]);
+    const cardId = item?.id || item?.uuid || baseTitle;
+    const { translatedTitle, translatedExcerpt, isTranslating } = useCardTranslation(cardId, baseTitle, baseExcerpt);
 
     const displayTitle = translatedTitle || baseTitle;
     const displayExcerpt = translatedExcerpt || baseExcerpt;
@@ -315,14 +275,14 @@ const UniversalCardInner = ({
     }, [cardVariant]);
 
     const CardContent = (
-        <article 
-            className={`${cardClasses} h-full universal-card-wrapper cursor-pointer rounded-[28px] bg-[#000000] [.theme-light_&]:bg-[#FFFFFF] relative group`}
+        <PedraPanel 
+            className={`${cardClasses} h-full universal-card-wrapper cursor-pointer relative group`}
             aria-label={displayTitle}
             itemScope
             itemType={itemTypeUrl}
             data-post-id={item?.id || item?.uuid || baseTitle}
         >
-            <div className="w-full h-full flex-auto relative flex flex-col rounded-[28px] [mask-image:-webkit-radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
+            <div className="w-full h-full flex-auto relative flex flex-col">
             {viewMode === 'list' ? (
                 <div className="flex flex-col w-full flex-auto">
                     <UniversalCardHeader 
@@ -343,11 +303,11 @@ const UniversalCardInner = ({
                                 <img
                                     src={displayImage}
                                     alt={displayTitle}
-                                    className={`w-[120px] h-[120px] md:w-[140px] md:h-[140px] rounded-[28px] hover:scale-110 transition-transform duration-500 ${cardVariant === 'agent' ? 'object-contain bg-white p-2' : 'object-cover'}`}
+                                    className={`w-[120px] h-[120px] md:w-[140px] md:h-[140px] rounded-[length:var(--sp-radius-mestre,28px)] hover:scale-110 transition-transform duration-500 ${cardVariant === 'agent' ? 'object-contain bg-white p-2' : 'object-cover'}`}
                                     loading="lazy"
                                 />
                             ) : (
-                                <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] flex items-center justify-center rounded-[28px] bg-white/5">
+                                <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] flex items-center justify-center rounded-[length:var(--sp-radius-mestre,28px)] bg-white/5">
                                     <ImageIcon size={32} className="text-gray-500" />
                                 </div>
                             )}
@@ -437,7 +397,7 @@ const UniversalCardInner = ({
                 </>
             )}
             </div>
-        </article>
+        </PedraPanel>
     );
 
     const FinalCard = CardContent;
@@ -474,7 +434,8 @@ const propsAreEqual = (prevProps, nextProps) => {
         prevProps.forensicMode === nextProps.forensicMode &&
         prevProps.gloveMode === nextProps.gloveMode &&
         prevProps.seniorMode === nextProps.seniorMode &&
-        prevProps.isAdmin === nextProps.isAdmin
+        prevProps.isAdmin === nextProps.isAdmin &&
+        prevProps.forceEditOption === nextProps.forceEditOption
     );
 };
 
@@ -506,6 +467,7 @@ const UniversalCardParamsWrapper = (props) => {
             hapticService={hapticService}
             isAdmin={isAdmin}
             user={user}
+            forceEditOption={props.forceEditOption}
         />
     );
 };

@@ -14,7 +14,7 @@ const GhostMemorial = () => {
         {
             id: 'legacy-css',
             title: 'La Morca del CSS',
-            description: 'Estils perduts que intenten forçar geometries del passat sobre la nova realitat GEM MODERN.',
+            description: 'Estils perduts que intenten forçar geometries del passat sobre la nova realitat Pedra Seca.',
             icon: <Cpu size={32} />,
             status: 'PURGAT'
         },

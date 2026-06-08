@@ -1,0 +1,33 @@
+.virtualized-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sp-bg-app, #ffffff);
+  color: var(--sp-text-main, #1a1a1a);
+}
+
+.virtualized-container--buit {
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+/* Quan Lupa està activa, els items no han de transicionar
+   perquè la mesura del virtualitzador necessita valors finals. */
+html.lupa--active .virtualized-container [data-virtual-index] {
+  transition: none !important;
+}
+
+/* Feedback tàctil per a iPad A10 (sense backdrop-filter) */
+.virtualized-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.virtualized-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.virtualized-container::-webkit-scrollbar-thumb {
+  background-color: var(--sp-border-master, rgba(0,0,0,0.15));
+  border-radius: 3px;
+}

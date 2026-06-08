@@ -1,6 +1,6 @@
 /* =========================================================================
    SISTEMA DE DISSENY GEM MODERN (Cànon de Trellat Digital)
-   V1.6 - Consolidat pel Consell de la Petorreta
+   V2.0 - Operació Masia - Neo-Brutalisme i Silenci Visual
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
@@ -31,79 +31,158 @@
 }
 
 :root {
+  /* =========================================
+     2. LUPA MESTRE (El cor geomètric)
+     Totes les mesures depenen d'aquest valor.
+     ========================================= */
+  --ps-lupa-escala: 1;
+
   /* -------------------------------------------------------------------------
-     2. PALETA CROMÀTICA CANÒNICA (Zero RGBA per a Estats)
+     3. PALETA CROMÀTICA (El Taronja és Sagrat)
      ------------------------------------------------------------------------- */
-  /* Colors Primaris */
   --sp-black-100: #000000;
   --sp-white-100: #FFFFFF;
-  --sp-orange-500: #FF7300;
-  --sp-blue-500: #0984E3;
+  
+  /* El Taronja només per a accions i CTAs */
+  --sp-orange-100: #FF7300;
+  --sp-accent-primary: #EA580C;
+  --sp-accent-secondary: #C2410C;
+  --sp-accent-tertiary: #F97316;
+
+  /* Fons: Pedra i Silenci */
+  --sp-bg-app: #F5F5F0;           /* Pedra crua per al fons global */
+  --sp-bg-panel: #FFFFFF;         /* Targetes i modals */
+  --sp-bg-panel-warm: #FFF7ED;    /* Panells taronja suau per destacar */
+  --sp-bg-input: #FAFAF8;         /* Inputs */
+
+  /* Textos: Alt Contrast */
+  --sp-text-main: #1A1A1A;
+  --sp-text-muted: #666660;
+  --sp-text-inverse: #FFFFFF;
+
+  /* Bordes i Línies Dures */
+  --sp-border-master: rgba(0, 0, 0, 0.08);
+  --sp-border-strong: rgba(0, 0, 0, 0.15);
+  
+  /* Compatibilitat vella */
+  --sp-blue-100: #0066CC;
   --sp-green-500: #2E7D32;
   --sp-red-500: #D32F2F;
-
-  /* Colors Secundaris i Estats (Pre-calculats per a cost termodinàmic 0) */
-  --sp-orange-400: #FF8F33; /* Taronja Surar */
-  --sp-orange-600: #CC5C00; /* Taronja Sec */
-  
-  --sp-blue-400: #3A9EF6;   /* Blau Surar */
-  --sp-blue-600: #0765B8;   /* Blau Sec */
-
   --sp-gray-50:  #F2F2F2;
-  --sp-gray-200: #D4D4D4;   /* Gris Sec Clar */
-  --sp-gray-600: #757575;   /* Text Secundari */
-  --sp-gray-800: #424242;   /* Fons Fosc Secundari */
-  --sp-gray-900: #1A1A1A;   /* Text Principal Gris/Negre */
+  --sp-gray-200: #D4D4D4;
+  --sp-gray-600: #757575;
+  --sp-gray-800: #424242;
+  --sp-gray-900: #1A1A1A;
 
   /* -------------------------------------------------------------------------
-     3. TIPOGRAFIA I ESCALA
+     4. TIPOGRAFIA I ESCALA (Fluida amb Lupa)
      ------------------------------------------------------------------------- */
   --sp-font-sans: "Noto Sans", system-ui, -apple-system, sans-serif;
+  --sp-font-body: var(--sp-font-sans);
   
-  --sp-text-xs: 0.75rem;     /* 12px - Graella de Camp */
-  --sp-text-sm: 0.875rem;    /* 14px - Peu de Camí */
-  --sp-text-base: 1rem;      /* 16px - Cos de Trellat */
-  --sp-text-lg: 1.25rem;     /* 20px - Subcapçalera */
-  --sp-text-xl: 1.5rem;      /* 24px - Capçalera Bancal */
-  --sp-text-2xl: 2rem;       /* 32px - Títol Principal */
-  --sp-text-3xl: 2.5rem;     /* 40px - Títol Masover */
+  /* Mides base lligades a lupa-escala directament pel calc */
+  --sp-text-xs: calc(0.75rem * var(--ps-lupa-escala));
+  --sp-text-sm: calc(0.875rem * var(--ps-lupa-escala));
+  --sp-text-base: calc(1rem * var(--ps-lupa-escala));
+  --sp-text-lg: calc(1.25rem * var(--ps-lupa-escala));
+  --sp-text-xl: calc(1.5rem * var(--ps-lupa-escala));
+  --sp-text-2xl: calc(2rem * var(--ps-lupa-escala));
+  --sp-text-3xl: calc(2.5rem * var(--ps-lupa-escala));
 
   /* -------------------------------------------------------------------------
-     4. GEOMETRIA I ESPAIAT
+     5. GEOMETRIA I ESPAIAT (Neo-Brutalisme Matemàtic)
      ------------------------------------------------------------------------- */
-  /* Radis de Curvatura */
-  --sp-radius-mestre: 28px; /* 1.75rem - Botons Cúspide, Targetes, Panells */
-  --sp-radius-menor: 16px;  /* 1rem - Inputs, Etiquetes */
-  --sp-radius-minim: 8px;   /* 0.5rem - Separadors petits */
-  --sp-radius-pindola: 9999px; /* Píndoles completes */
+  /* Radis Durs */
+  --sp-radius-trellat: calc(1.5rem * var(--ps-lupa-escala));
+  --sp-radius-pedra: calc(0.75rem * var(--ps-lupa-escala));
+  --sp-radius-mestre: var(--sp-radius-trellat); /* Alias fallback */
+  --sp-radius-menor: var(--sp-radius-pedra); /* Alias fallback */
+  --sp-radius-minim: calc(8px * var(--ps-lupa-escala));
+  --sp-radius-pindola: 9999px;
 
-  /* Espaiat (Sistema Base 4px) */
-  --sp-espai-1: 0.25rem;  /* 4px */
-  --sp-espai-2: 0.5rem;   /* 8px */
-  --sp-espai-3: 0.75rem;  /* 12px */
-  --sp-espai-4: 1rem;     /* 16px */
-  --sp-espai-6: 1.5rem;   /* 24px */
-  --sp-espai-8: 2rem;     /* 32px */
-  --sp-espai-12: 3rem;    /* 48px */
-  --sp-espai-16: 4rem;    /* 64px */
+  /* Sistema d'espaiat rígid de Pedra Seca (Lligat a la Lupa) */
+  --sp-space-1: calc(0.25rem * var(--ps-lupa-escala));  /* 4px */
+  --sp-space-2: calc(0.5rem * var(--ps-lupa-escala));   /* 8px */
+  --sp-space-3: calc(0.75rem * var(--ps-lupa-escala));  /* 12px */
+  --sp-space-4: calc(1rem * var(--ps-lupa-escala));     /* 16px */
+  --sp-space-5: calc(1.5rem * var(--ps-lupa-escala));   /* 24px */
+  --sp-space-6: calc(2rem * var(--ps-lupa-escala));     /* 32px */
+  --sp-space-8: calc(2rem * var(--ps-lupa-escala));     /* Legacy */
+  --sp-space-12: calc(3rem * var(--ps-lupa-escala));    /* Legacy */
+  --sp-space-16: calc(4rem * var(--ps-lupa-escala));    /* Legacy */
 
-  /* -------------------------------------------------------------------------
-     5. ELEVACIÓ TERMODINÀMICA (Ombres Fixes)
-     ------------------------------------------------------------------------- */
-  /* N1: Ombres per a botons */
-  --sp-ombra-1: 0 2px 8px rgba(0, 0, 0, 0.08);
-  /* N2: Targetes estàtiques */
-  --sp-ombra-2: 0 6px 20px rgba(0, 0, 0, 0.12);
-  /* N3: Avisador Efímer, Modals */
-  --sp-ombra-3: 0 12px 32px rgba(0, 0, 0, 0.16);
-  
-  /* Elevació especial per al Botó Cúspide (Taronja sobre negre) */
-  --sp-ombra-cuspide: 0 6px 16px rgba(255, 115, 0, 0.25);
-  
-  /* -------------------------------------------------------------------------
-     6. TEMPS I MOVIMENT
-     ------------------------------------------------------------------------- */
-  --sp-trans-immediata: 150ms ease-out;
-  --sp-trans-estandar: 250ms ease-out;
-  --sp-trans-teatral: 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Safe Area */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Touch Rural */
+  --sp-touch-bancal: calc(56px * var(--ps-lupa-escala));
+}
+
+/* =========================================================================
+   6. MODE FOSC (Sense filtres ni gradacions)
+   ========================================================================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sp-bg-app: #121212;
+    --sp-bg-panel: #1A1A1A;
+    --sp-bg-panel-warm: #2A1F15;
+    --sp-bg-input: #242424;
+    --sp-text-main: #F5F5F0;
+    --sp-text-muted: #A3A39A;
+    --sp-border-master: rgba(255, 255, 255, 0.08);
+    --sp-border-strong: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* =========================================================================
+   7. HTML BASE I LUPA ACTIVA (Llei d'Aplanament WebKit)
+   ========================================================================= */
+html {
+  font-family: var(--sp-font-body);
+  font-size: calc(16px * var(--ps-lupa-escala));
+  -webkit-text-size-adjust: 100%; /* Llei d'Or per iPad A10 */
+  background-color: var(--sp-bg-app);
+  color: var(--sp-text-main);
+}
+
+body {
+  margin: 0;
+  background-color: var(--sp-bg-app);
+}
+
+/* Silenci Visual Global (Llei de ChatGPT) */
+.sp-silenci-visual {
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html.lupa--active {
+  --ps-lupa-escala: 1.75;
+  transition: font-size 0.2s ease-out; /* Única transició legal en lupa */
+}
+
+/* Matar les altres transicions en Lupa */
+html.lupa--active * {
+  transition-duration: 0ms !important;
+  animation-duration: 0ms !important;
+}
+
+/* Excepció arrel */
+html.lupa--active {
+  transition-duration: 0.2s !important;
+}
+
+/* Compatibilitat iOS Antic */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+  }
 }

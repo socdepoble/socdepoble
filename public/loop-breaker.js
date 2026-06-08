@@ -68,6 +68,12 @@
     window.__sp_nuclear_purge = function() {
       sessionStorage.clear();
       localStorage.clear();
+      
+      // Esborrar IndexedDB (idb-keyval)
+      try {
+          indexedDB.deleteDatabase('keyval-store');
+      } catch(e) {}
+
       if ('caches' in window) {
         caches.keys().then(function(keys) {
           return Promise.all(keys.map(function(k) { return caches.delete(k); }));

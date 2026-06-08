@@ -332,7 +332,7 @@ export default function UniversalGentDePoble({ entity, isOwner, onSettingsClick 
   );
 }
 
-// Componente helper para tabs táctiles GEM Modern
+// Componente helper para tabs táctiles Pedra Seca
 const TabButton = ({ active, onClick, icon, label }) => (
   <button 
     onClick={onClick}

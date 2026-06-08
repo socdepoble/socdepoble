@@ -5,7 +5,7 @@ import ErrorBoundary from '../../components/core/ErrorBoundary';
 import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
 import UniversalCardMedia from '../../components/ui/universal-card/UniversalCard.Media';
 import MediaViewerModal from '../../components/modals/MediaViewerModal';
-import { ArrowLeft, Share2, Plus, Globe, MessageCircle, Book, Minimize, Maximize } from 'lucide-react';
+import { ArrowLeft, Share2, Plus, Globe, MessageCircle, Book, Minimize, Maximize, AlertTriangle } from 'lucide-react';
 import SEO from '../../components/core/SEO';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../app/context/ModalContext';
@@ -90,7 +90,7 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
     if (!item) {
         return (
             <div className="flex flex-col items-center justify-center p-8 text-center min-h-[50vh]">
-                <IconAlertTriangle size={64} className="text-theme-text opacity-50 mb-6" />
+                <AlertTriangle size={64} className="text-theme-text opacity-50 mb-6" />
                 <h2 className="text-2xl font-bold mb-4">No S'ha Trobat</h2>
                 <p className="text-theme-text opacity-70 max-w-md mb-8 font-medium">No hem pogut trobar la informació de l'article que busques o ja no està disponible.</p>
                 <button 

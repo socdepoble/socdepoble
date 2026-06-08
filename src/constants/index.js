@@ -2,7 +2,9 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
-export const APP_VERSION = "V10.38.33";
+export const APP_ID = "org.socdepoble.app";
+export const APP_VERSION = "V10.38.35";
+export const APP_STORE_URL = "https://play.google.com/store/apps/details?id=org.socdepoble.app";
 
 
 export const DEMO_USER_ID = "11111111-0000-0000-0000-000000000001";

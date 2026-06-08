@@ -1,0 +1,324 @@
+/* ============================================================
+ * SISTEMA NERVIÓS AUTÒNOM — .acte-reflex
+ * SOSP Universal Design System · GEM MODERN
+ * Versió auditada pel Consell (Claude) — Juny 2026
+ * ============================================================
+ *
+ * INSTRUCCIÓ D'ÚS:
+ * Embolica qualsevol zona de contingut HTML dinàmic (posts,
+ * descripcions de producte, contingut CMS, Markdown renderitzat)
+ * amb la classe .acte-reflex i es maquerarà sol.
+ * Zero classes Tailwind en el contingut intern.
+ * ============================================================ */
+
+/* ─── 1. VARIABLES GLOBALS REQUERIDES AL :root ─────────────────────────── */
+:root {
+  /* Tipografia */
+  --sp-font-sans: 'Noto Sans', system-ui, -apple-system, sans-serif;
+  --sp-font-mono: 'Noto Sans Mono', ui-monospace, 'Cascadia Code', monospace;
+
+/* Paleta semàntica GEM MODERN (capa d'abstracció) */
+  /* PER DEFECTE: DARK MODE (Estàndard Sóc de Poble) */
+  --sp-color-heading:    #fafafa;
+  --sp-color-body:       #a1a1aa;
+  --sp-color-subtle:     #71717a;
+  --sp-color-accent:     #FF7300;
+  --sp-color-link:       #60a5fa;
+  --sp-color-link-hover: #FF7300;
+  --sp-color-border:     rgba(255, 255, 255, 0.10);
+  --sp-color-code-bg:    rgba(255, 255, 255, 0.08);
+  
+  --sp-bg-blockquote:    rgba(255, 115, 0, 0.07);
+  --sp-bg-th:            rgba(255, 115, 0, 0.10);
+}
+
+:root.light {
+  /* LIGHT MODE OVERRIDE */
+  --sp-color-heading:    #09090b;  /* Zinc-950 */
+  --sp-color-body:       #3f3f46;  /* Zinc-700 */
+  --sp-color-subtle:     #71717a;  /* Zinc-500 */
+  --sp-color-link:       #185FA5;  /* Blau SOSP */
+  --sp-color-border:     rgba(0, 0, 0, 0.10);
+  --sp-color-code-bg:    rgba(0, 0, 0, 0.05);
+
+  --sp-bg-blockquote:    rgba(255, 115, 0, 0.04);
+  --sp-bg-th:            rgba(255, 115, 0, 0.06);
+
+  /* Escala d'espaiat SOSP (multiplicadors de 4px amb nomenclatura local) */
+  --sp-espai-batec:  0.25rem;   /* 4px  — Separació mínima icona-text */
+  --sp-espai-pas:    0.5rem;    /* 8px  — Entre ítems relacionats */
+  --sp-espai-carrer: 1rem;      /* 16px — Marge global, padding lateral */
+  --sp-espai-placa:  1.5rem;    /* 24px — Entre blocs o seccions */
+  --sp-espai-bancal: 2rem;      /* 32px — Salt de secció important */
+
+  /* Àlies numèrics Tailwind-compatibles (apunten als semàntics) */
+  --sp-espai-1: var(--sp-espai-batec);
+  --sp-espai-2: var(--sp-espai-pas);
+  --sp-espai-4: var(--sp-espai-carrer);
+  --sp-espai-6: var(--sp-espai-placa);
+  --sp-espai-8: var(--sp-espai-bancal);
+
+  /* Escala tipogràfica M3 */
+  --sp-text-sm:   0.875rem;  /* 14px */
+  --sp-text-base: 1rem;      /* 16px — mínim absolut en mòbil (iOS zoom) */
+  --sp-text-lg:   1.125rem;  /* 18px */
+  --sp-text-xl:   1.25rem;   /* 20px */
+  --sp-text-2xl:  1.5rem;    /* 24px */
+  --sp-text-3xl:  1.875rem;  /* 30px */
+  --sp-text-4xl:  2.25rem;   /* 36px — Display/H1 de pàgina */
+
+  /* Geometria (28px és la signatura SOSP) */
+  --sp-radius-menor:    12px;    /* Imatges, inputs secundaris */
+  --sp-radius-estandar: 16px;    /* Inputs principals */
+  --sp-radius-card:     28px;    /* Targetes — geometria signature */
+  --sp-radius-pill:     9999px;  /* Badges, etiquetes */
+
+  /* Elevació M3 — 5 nivells */
+  --sp-ombra-0: none;
+  --sp-ombra-1: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --sp-ombra-2: 0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+  --sp-ombra-3: 0 8px 16px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+  --sp-ombra-4: 0 12px 24px rgba(0,0,0,0.10), 0 6px 12px rgba(0,0,0,0.06);
+  --sp-ombra-5: 0 24px 48px rgba(0,0,0,0.12), 0 12px 24px rgba(0,0,0,0.06);
+
+  /* Transicions */
+  --sp-trans-rapida:    100ms ease;
+  --sp-trans-estandar: 200ms ease;
+  --sp-trans-lenta:    350ms ease;
+}
+
+/* ─── 2. CONTENIDOR PRINCIPAL ───────────────────────────────────────────── */
+.acte-reflex {
+  font-family: var(--sp-font-sans);
+  font-size: var(--sp-text-base);
+  color: var(--sp-color-body);
+  line-height: 1.625;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  max-width: 65ch;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overscroll-behavior-y: contain; /* Fora rebots globals */
+  -webkit-overflow-scrolling: touch; /* Millora scroll iOS */
+}
+
+.acte-reflex > *:first-child {
+  margin-top: 0;
+}
+
+/* ─── 3. CAPÇALERES ─────────────────────────────────────────────────────── */
+.acte-reflex h1,
+.acte-reflex h2,
+.acte-reflex h3,
+.acte-reflex h4 {
+  font-family: var(--sp-font-sans);
+  font-weight: 700;
+  color: var(--sp-color-heading);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-top: var(--sp-espai-bancal);
+  margin-bottom: var(--sp-espai-pas);
+}
+
+.acte-reflex h1 {
+  font-size: var(--sp-text-3xl);
+}
+
+.acte-reflex h2 {
+  font-size: var(--sp-text-2xl);
+  padding-left: var(--sp-espai-carrer);
+  border-left: 3px solid var(--sp-color-accent);
+}
+
+.acte-reflex h3 {
+  font-size: var(--sp-text-xl);
+}
+
+.acte-reflex h4 {
+  font-size: var(--sp-text-lg);
+  font-weight: 600;
+}
+
+/* ─── 4. COS I ELEMENTS INLINE ──────────────────────────────────────────── */
+.acte-reflex p {
+  font-size: var(--sp-text-base);
+  margin-top: 0;
+  margin-bottom: var(--sp-espai-carrer);
+}
+
+.acte-reflex strong {
+  font-weight: 700;
+  color: var(--sp-color-heading);
+}
+
+.acte-reflex em {
+  font-style: italic;
+  color: inherit;
+}
+
+/* ─── 5. ENLLAÇOS ───────────────────────────────────────────────────────── */
+.acte-reflex a {
+  color: var(--sp-color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color var(--sp-trans-estandar),
+              text-decoration-color var(--sp-trans-estandar);
+}
+
+.acte-reflex a:hover {
+  color: var(--sp-color-link-hover);
+}
+
+/* ─── 6. IMATGES I FIGURES ──────────────────────────────────────────────── */
+.acte-reflex img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--sp-radius-menor);
+  box-shadow: var(--sp-ombra-2);
+  margin-top: var(--sp-espai-placa);
+  margin-bottom: var(--sp-espai-placa);
+}
+
+.acte-reflex figure {
+  margin: var(--sp-espai-placa) 0;
+}
+
+.acte-reflex figure img {
+  margin: 0;
+  border-radius: var(--sp-radius-menor) var(--sp-radius-menor) 0 0;
+}
+
+.acte-reflex figcaption {
+  font-size: var(--sp-text-sm);
+  color: var(--sp-color-subtle);
+  padding: var(--sp-espai-pas) var(--sp-espai-carrer);
+  border: 1px solid var(--sp-color-border);
+  border-top: none;
+  border-radius: 0 0 var(--sp-radius-menor) var(--sp-radius-menor);
+  line-height: 1.4;
+}
+
+/* ─── 7. LLISTES ────────────────────────────────────────────────────────── */
+.acte-reflex ul,
+.acte-reflex ol {
+  margin-top: 0;
+  margin-bottom: var(--sp-espai-carrer);
+  padding-left: var(--sp-espai-placa);
+}
+
+.acte-reflex ul { list-style-type: disc; }
+.acte-reflex ol { list-style-type: decimal; }
+
+.acte-reflex li {
+  font-size: var(--sp-text-base);
+  margin-bottom: var(--sp-espai-pas);
+  line-height: 1.6;
+}
+
+.acte-reflex li > ul,
+.acte-reflex li > ol {
+  margin-top: var(--sp-espai-pas);
+  margin-bottom: 0;
+}
+
+/* ─── 8. CITES TEXTUALS ─────────────────────────────────────────────────── */
+.acte-reflex blockquote {
+  margin: var(--sp-espai-placa) 0;
+  padding: var(--sp-espai-carrer) var(--sp-espai-placa);
+  border-left: 3px solid var(--sp-color-accent);
+  background: var(--sp-bg-blockquote);
+  border-radius: 0 var(--sp-radius-menor) var(--sp-radius-menor) 0;
+  color: var(--sp-color-body);
+  font-style: italic;
+}
+
+.acte-reflex blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── 9. CODI ───────────────────────────────────────────────────────────── */
+.acte-reflex code {
+  font-family: var(--sp-font-mono);
+  font-size: 0.875em;
+  background: var(--sp-color-code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  color: var(--sp-color-heading);
+}
+
+.acte-reflex pre {
+  background: #09090b;
+  border-radius: var(--sp-radius-menor);
+  padding: var(--sp-espai-carrer);
+  overflow-x: auto;
+  margin: var(--sp-espai-placa) 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.acte-reflex pre code {
+  background: transparent;
+  padding: 0;
+  color: #e4e4e7;
+  font-size: var(--sp-text-sm);
+  line-height: 1.7;
+}
+
+/* ─── 10. SEPARADORS ────────────────────────────────────────────────────── */
+.acte-reflex hr {
+  border: none;
+  border-top: 1px solid var(--sp-color-border);
+  margin: var(--sp-espai-bancal) 0;
+}
+
+/* ─── 11. TAULES ────────────────────────────────────────────────────────── */
+.acte-reflex table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sp-text-sm);
+  margin: var(--sp-espai-placa) 0;
+  border-radius: var(--sp-radius-menor);
+  overflow: hidden;
+}
+
+.acte-reflex th {
+  font-weight: 600;
+  text-align: left;
+  padding: var(--sp-espai-pas) var(--sp-espai-carrer);
+  background: var(--sp-bg-th);
+  color: var(--sp-color-heading);
+  border-bottom: 2px solid var(--sp-color-accent);
+}
+
+.acte-reflex td {
+  padding: var(--sp-espai-pas) var(--sp-espai-carrer);
+  border-bottom: 1px solid var(--sp-color-border);
+  color: var(--sp-color-body);
+}
+
+.acte-reflex tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==================================================
+   VIBRACIÓ ÒPTICA — Per a iOS antics sense Haptics
+   Només si l'usuari NO ha desactivat moviments
+================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .acte-reflex .tactil:active,
+  .acte-reflex button:active,
+  .acte-reflex a[role="button"]:active {
+    transform: scale(0.96); /* Contracció subtil = confirmació visual */
+    transition: transform 0.05s ease; /* Latència zero percebuda */
+  }
+
+  .acte-reflex .tactil:hover,
+  .acte-reflex button:hover,
+  .acte-reflex a[role="button"]:hover {
+    transform: translateY(-1px); /* Efecte Surar */
+    transition: transform var(--sp-trans-estandar);
+  }
+}
+
+/* Lògica de Dark Mode ja resolta a dalt amb :root.light i :root */

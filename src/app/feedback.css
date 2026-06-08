@@ -1,0 +1,109 @@
+/* feedback.css — Micro-interaccions purament CSS per a iPad A10 */
+
+/* =========================================================================
+   1. LA FÍSICA TÀCTIL (ps-interaccio-tactil)
+   Llei de l'Aixada: Feedback immediat, sense ripples, accelerat per GPU.
+========================================================================= */
+.ps-interaccio-tactil {
+  transform: translateZ(0); /* Força l'acceleració GPU i crea context 3D per evitar flickering */
+  transition: transform 0.1s ease-out, opacity 0.15s ease-out;
+  will-change: transform;
+  touch-action: manipulation; /* Elimina els 300ms de delay en taps d'iOS */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Evitar callout natiu d'iOS */
+  -webkit-touch-callout: none;
+}
+
+/* Hover només en escriptori */
+@media (hover: hover) {
+  .ps-interaccio-tactil:hover {
+    transform: translateY(-2px) translateZ(0);
+    opacity: 0.95;
+  }
+}
+
+/* El colp sec (tap) */
+.ps-interaccio-tactil:active {
+  transform: scale(0.97) translateZ(0) !important;
+  opacity: 0.9 !important;
+  transition-duration: 0.05s !important;
+}
+
+/* =========================================================================
+   2. BOTONS (btn-pedra)
+   Botons robusts amb la física tàctil incorporada.
+========================================================================= */
+.btn-pedra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-space-2);
+  min-height: max(56px, 3.5rem); /* WCAG AAA + Uelo */
+  min-width: max(56px, 3.5rem);
+  padding: var(--sp-space-3) var(--sp-space-4);
+  border-radius: var(--sp-radius-pedra);
+  font-family: var(--sp-font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  background: var(--sp-accent-primary);
+  color: var(--sp-text-inverse);
+  border: 2px solid transparent;
+  box-shadow: none; /* Sense ombres difuses (Neo-Brutalisme) */
+  contain: layout paint; /* Protecció GPU */
+}
+
+/* Focus visible per accessibilitat de teclat */
+.btn-pedra:focus-visible {
+  outline: 3px solid var(--sp-accent-tertiary);
+  outline-offset: 2px;
+}
+
+.btn-pedra:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+/* =========================================================================
+   3. INPUTS BANCAL (Sense Auto-Zoom en iOS)
+========================================================================= */
+.bancal-input {
+  /* La mida MÍNIMA ha de ser 16px físics perquè iOS Safari no faça zoom automàtic */
+  font-size: max(16px, 1rem); 
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+  padding: var(--sp-space-3) var(--sp-space-4);
+  border: 2px solid var(--sp-border-master);
+  border-radius: var(--sp-radius-pedra);
+  background: var(--sp-bg-input);
+  color: var(--sp-text-main);
+  width: 100%;
+  transition: border-color 0.2s ease;
+  box-shadow: none !important; /* Zero glow effects */
+  appearance: none;
+}
+
+.bancal-input:focus {
+  border-color: var(--sp-accent-primary);
+  outline: none;
+}
+
+/* =========================================================================
+   4. REDUÏT MOTION (Silenci Total)
+========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .ps-interaccio-tactil,
+  .btn-pedra,
+  .bancal-input,
+  * {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -27,7 +27,7 @@ MD
   if command -v pandoc >/dev/null 2>&1; then
     pandoc "$md" -o "$pdf" --pdf-engine=xelatex -V geometry:margin=1in || true
   else
-    node - <<'NODE'
+    node - "$md" "$pdf" <<'NODE'
 const fs=require('fs');
 const puppeteer=require('puppeteer');
 (async()=>{
@@ -42,11 +42,10 @@ const puppeteer=require('puppeteer');
   console.log(out);
 })();
 NODE
-    "$md" "$pdf"
   fi
 
   # preview
-  node - <<'NODE'
+  node - "$pdf" "$png" <<'NODE'
 const fs=require('fs');
 const puppeteer=require('puppeteer');
 (async()=>{
@@ -63,7 +62,6 @@ const puppeteer=require('puppeteer');
   console.log(out);
 })();
 NODE
-  "$pdf" "$png"
   echo "PDF: $pdf"
   echo "Preview: $png"
 }

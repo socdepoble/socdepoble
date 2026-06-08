@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./reconstruction-asiatica.css";
+@import "./acte-reflex.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -530,6 +531,11 @@
     font-size: clamp(1.05rem, 1.8vw, 1.15rem); 
     line-height: var(--cms-lh-base);
     margin-bottom: var(--cms-gap-paragraph);
+  }
+
+  /* El Mestre ha dictaminat suprimir les línies separadores (hr) del Markdown */
+  .app-cms-content hr {
+    display: none;
   }
 
   /* Llistes */

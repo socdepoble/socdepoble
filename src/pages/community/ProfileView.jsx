@@ -108,12 +108,8 @@ const ProfileView = () => {
         const currentPath = window.location.pathname;
         const normalizedId = id ? id.toLowerCase() : '';
         const isSocDePoble = normalizedId === 'socdepoble' || normalizedId === 'soc-de-poble' || normalizedId === 'soc-de-poble_official';
-        const isJavi = normalizedId === 'javi-llinares' || normalizedId === 'javillinares';
-
         if (isSocDePoble && currentPath !== '/empresa/socdepoble') {
             navigate('/empresa/socdepoble', { replace: true });
-        } else if (isJavi && currentPath !== '/gent/javillinares') {
-            navigate('/gent/javillinares', { replace: true });
         }
     }, [id, navigate]);
 
@@ -281,7 +277,8 @@ const ProfileView = () => {
                             .replace(/Iaia Maria/ig, 'IAIA MarIA')
                             .trim();
                             
-                        if (id === 'javillinares' || id === 'javi-llinares') cleanName = 'Javi Llinares';
+                            
+
                             
                         targetProfile = {
                             id: `mock_${id}`,
@@ -327,19 +324,7 @@ const ProfileView = () => {
                         || `node_${targetProfile.id?.substring(0,6) || 'bategant'}`;
                 }
 
-                // ---------- EXCEPCIÓ SOBIRANA: Javi Llinares (hardcoded) ----------
-                if (
-                    String(effectiveName).toLowerCase().includes('javi llinares') || 
-                    targetProfile?.username === 'javillinares' || 
-                    targetProfile?.id === '25218ea4-5d7d-4db4-bdc5-7ae035629242'
-                ) {
-                    effectiveUsername = 'JaviLlinares';
-                    if (targetProfile) {
-                        targetProfile.avatar_url = '/uploads/avatars/nano-banana-comic.png';
-                        targetProfile.cover_url = '/assets/brand/antigravity-badge.png';
-                        targetProfile.header_image_url = '/assets/brand/antigravity-badge.png';
-                    }
-                }
+
 
                 const effectiveAvatar = targetProfile.avatar_url || '/uploads/avatars/nano-banana-comic.png';
                 let effectiveCover = targetProfile.cover_url || targetProfile.header_image_url;

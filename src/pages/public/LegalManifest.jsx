@@ -1,0 +1,61 @@
+import { useTranslation } from 'react-i18next';
+import UniversalPage from './UniversalPage';
+import UmamiDashboard from '../../components/ui/UmamiDashboard';
+
+export const CentroLegal = () => {
+    const { t } = useTranslation();
+
+    const htmlContent = `
+<p class="lead">El Manifest del Projecte Sóc de Poble</p>
+<p>Aquest document no és una simple política de privacitat copiada per un bufet d'advocats o un formulari genèric d'internet. És el veritable contracte social d'aquest projecte. És la pedra fundacional tecnològica sobre la qual s'alça Sóc de Poble: una arquitectura digital concebuda expressament per a resistir, per a ser autònoma a la muntanya profunda i per a retornar la sobirania tecnològica al territori rural.</p>
+<p>Aquesta és la teua "Constitució Digital". Llig-la amb l'atenció que mereix la protecció de la teua identitat i la llibertat de la teua comunitat.</p>
+
+<h3>1. Identitat de la Xarxa i Avís Legal Integral</h3>
+<p>En estricte compliment de la Llei 34/2002, d'11 de juliol, de Serveis de la Societat de la Informació i de Comerç Electrònic (LSSI-CE), així com de la normativa subsidiària, manifestem sense reserves que Sóc de Poble no és una corporació tradicional, ni una start-up de Silicon Valley amb intencions d'extracció massiva de dades o capitalització a curt termini. Som un ecosistema social, artístic i tecnològic sense ànim de lucre financer hegemònic, operat col·lectivament pels mateixos membres de la comunitat per a cohesionar els pobles d'interior.</p>
+<p>L'ús d'aquesta plataforma et converteix, a ulls de la llei i del nostre sistema operatiu, en "Usuari" o "Veí". L'entrada al sistema implica l'acceptació incondicional d'aquestes regles ètiques i estructurals. Si el teu únic objectiu ací és difamar, vendre massivament de forma no circular, o no combregues amb la filosofia del "Trellat", et convidem cordialment a no ingressar i buscar alternatives comercials estàndard.</p>
+<p>El creador i els mantenedors de la infraestructura —habitualment denominats com "Masovers"— actuen com a simples facilitadors de les canonades digitals, no sentint-se responsables legals de l'ús il·lícit, les disputes personals o el context extemporani que determinats individus puguen donar a la plataforma, salvant les responsabilitats per defecte de l'Estat.</p>
+
+<h3>2. La Sobirania de les Dades i l'Arquitectura Local-First</h3>
+<p>Ens prenem molt seriosament la protecció de la teua intimitat. Mentre que el món corporatiu globalitzat ha pres la determinació de segrestar informació massiva de la ciutadania dins de centres de dades llunyans (Núvols Centrals), aquest mas virtual opera a la inversa: ací, el teu telèfon mòbil és el teu castell infranquejable.</p>telèfon mòbil és el teu castell infranquejable.</p>
+<p>Utilitzant una revolució anomenada "Local-First" amb tecnologies de bases de dades locals (IndexedDB, Storage Sync), prop del 90% de la teua informació personal, la teua memòria compartida, l'àlies identificatiu i el registre criptogràfic de seguretat, viuen única i exclusivament a l'interior de la memòria sòlida del teu dispositiu. Al nostre servidor central únicament puja la fracció d'informació indispensable per a garantir la sincronització bàsica amb la resta del poble (el principi de resiliència fora de línia), mitjançant un sofisticat model de resolució CRDT.</p>
+<p>Complim escrupolosament amb els mandats del Reglament (UE) 2016/679 (RGPD) i la Llei Orgànica 3/2018 (LOPDGDD). Però no ho fem per imperatiu legal, ho fem per principi existencial. Com que tu eres amo absolut de la teua informació i aquesta resideix físicament a la teua butxaca, exercir els teus drets ARCO (Accés, Rectificació, Cancel·lació, Oposició, Oblid) no passa per un tràmit administratiu complex; pots autodestruir el teu usuari directament polsant un botó a l'app.</p>
+
+<h3>3. Transparència Radical i la Guerra contra les Cookies</h3>
+<p>El model econòmic del "Capitalisme de Vigilància" basat a vendre la teua atenció, espiar per on navegues per la web i comercialitzar perfils per a que empreses estrangeres et bombardegen a publicitat... no té cabuda ací. Sóc de Poble ha declarat oficialment i irreversiblement la "Guerra a les Cookies de Tercers".</p>
+<p>Al nostre portal mai trobaràs ni el pèrfid "Pixel" de Facebook, ni "Google Analytics", ni scripts ocults de rastreig comportamental. Som intencionadament "foscos" i invisibles per al mercat publicitari global. Aquesta política és la raó exacta i única per la qual ací mai rebràs el temut i invasiu pop-up sobre la "Tractament i Política de Galetes". Com que només gastem elements de persistència local necessaris per recordar qui eres al sistema per qüestions estrictes de funcionament de la xarxa, estem absolutament exempts de sol·licitar consentiments de rastreig comercial, pel simple fet que no n'existeixen.</p>
+<p>Només gastem "Umami", un programari de codi obert europeu extremadament respectuós que no associa ni la teua adreça IP ni la teua cara a cap registre temporal, emprat exclusivament perquè el nostre equip d'Enginyers puga diagnosticar els bloquejos del sistema, saber quants telèfons s'han connectat hui i quin nivell d'estrès sofreixen els microprocessadors del servidor. Les regles del "Trellat" t'obliguen a fiar-te de nosaltres, però per no demanar un acte de fe cega, hem trencat el darrer límit de la privadesa web: ens despullem. El mateix tauler de monitorització oculta que gastem per administrar el corrent, el podràs veure més avall incrustat al final d'aquesta mateixa pantalla en temps real i sense restriccions, en una aposta ferma per la "Transparència Radical".</p>
+
+<h3>4. L'Àgora i el Mercat P2P: Nova Economia Circular</h3>
+<p>Sóc de Poble inclou l'anomenat "Mercat", un espai que emula amb exactitud mil·limètrica les places dels pobles on durant segles els nostres avantpassats han realitzat mercadeig: és un lloc de lliure intercanvi (Peer-to-Peer).</p>
+<p>La plataforma, exactament igual que el ciment de la plaça d'un poble, només aporta el pis físic on succeeix l'acord. La nostra xarxa no reté fons monetaris de cap tipus, no cobra intermediacions, ni posseeix autoritat arbitral immediata. Qualsevol transacció, des d'un regal solidari o l'intercanvi de collites del camp fins a la compravenda d'una relíquia, serà un tracte d'honor basat en un encaixada de mans virtual exclusivament entre el comprador i el venedor a través dels Xats privats.</p>
+<p>Caldrà recordar permanentment a la Comunitat que tot intercanvi econòmic està emparat dins dels codis civils i fiscals nacionals, i per tant, cadascú és responsable ineludible d'ingressar, reportar o suportar l'IVA i restants derivacions impositives en l'àmbit particular. La publicació i oferiment d'artefactes sostrets, béns il·legals o intents generalitzats de fraus ("Phishing") representen un acte d'ofensa imperdonable als valors de Sóc de Poble i conclouran automàticament i sense avís amb la col·laboració directa entre l'administració de la plataforma i les autoritats legals competents de l'Estat Espanyol.</p>
+
+<h3>5. La Propietat del Codi com a Bé Comú i Herència Col·lectiva</h3>
+<p>Diferenciem perfectament l'Arquitectura del Contingut. A Sóc de Poble apliquem normes escrupoloses sobre la identitat intel·lectual:</p>
+<p>D'una banda, qualsevol imatge d'un iaio, poema oblidat, cançó del camp, memòria transmesa en forma de missatge escrit, i crònica fotogràfica de la llar pertanyerà a perpetuïtat inalienable al ciutadà que ho haja introduït al sistema. Ara bé, pel sol fet de compartir-ho en societat (pujar-ho a Sóc de Poble), l'usuari atorga de forma gratuïta, vitalícia i inqüestionable un permís a l'estructura del sistema per a que aquest document i imatge es puga duplicar i difondre pels servidors i xarxes p2p fins arribar a cada un dels veïns que el vulguen emmagatzemar als seus dispositius. Sóc de Poble com a entitat adquireix així la missió del "Llibre Major": assegurar-se que els documents sobrevisquen a cataclismes o a la censura del temps mitjançant la xarxa descentralitzada.</p>
+<p>D'altra banda, "El Motor de Temes SOSP v2.0", l'arquitectura "Rhizome", el Codi Font general d'aquesta PWA i qualsevol algorisme visual que faça bategar Sóc de Poble, són obres propietat intel·lectual exclusiva de la companyia creadora o autor del projecte. Resta prohibidíssima per tant, qualsevol enginyeria inversa dedicada al lucre capitalitzador i parasitari del sector tecnològic tradicional. Convidem i aplaudim en canvi, a tota auditoria "White Hat" emparada a fer la vida del codi obert rural millor i més resistent.</p>
+<p>Addicionalment, el pes teòric fundacional de la xarxa (com l'estil, documents i aquest mateix Manifest actual) queden sotmesos al règim legal de la llicència Creative Commons Atribució-CompartirIgual (CC BY-SA 4.0), perquè l'alliberament col·lectiu ha de ser una pedra de toc perpètua.</p>
+
+<h3>6. Extinció, Moderació de Conflictes i Furs d'Aplicació Legal</h3>
+<p>Els Masovers de la plataforma —que actuen tant per vocació com pel mandat de mantindre el "Trellat" establert anteriorment— es reserven l'absolut i total dret de vetar, modificar, silenciar i expulsar permanentment del nucli informàtic qualsevol usuari o col·lectiu que atempte de forma reiterada contra l'esperit moral d'aquesta terra. Actes com l'odi organitzat, el ciberassetjament o la violació del "Respecte i Concòrdia del Veïnat" comportaran purges immediates als sistemes de base de dades locals mitjançant l'actualització remota. Aquesta decisió vindrà acompanyada per un Consell Assessor o pel Tribunal Major d'Usuaris.</p>
+<p>Pel que fa al component estrictament jurídic, qualsevol contenciós d'implicacions civils, laborals o criminals haurà de regir-se ineludiblement i exclusiva mitjançant la submissió a l'autoritat judicial dictaminada pels Jutjats pertinents radicats territorialment en els territoris on la seu tècnica o creadora de la Comunitat Valenciana determine en l'actualitat aplicable, eximint per complet furs internacionals corporatius i qualsevol altre espai d'apreciació allunyat del territori valencià i l'Estat Espanyol.</p>
+
+<h3>7. Apèndix: Tauler Directe de Telemetria i Salut Pública</h3>
+<p>Complint de forma fidedigna la nostra paraula referent a la "Transparència Radical", a continuació s'annexa directament en aquesta pàgina la via directa i viva del programari *Umami*. Sense ocultismes de corporacions opaques: açò és allò que sabem que ocurreix tècnicament al territori de Sóc de Poble i tu tens tant dret a veure-ho, estudiar-ho i analitzar-ho com els enginyers fundadors. Observa la freqüència cardíaca de la xarxa.</p>
+`;
+
+    return (
+        <UniversalPage 
+            standAlone={true}
+            forcedTitle="Legal, Privacitat i Seguretat"
+            forcedSubtitle="Política de la Plataforma"
+            forcedHeroImage={'/assets/uploads/brain/llibre_anima_cover_1776032370908.png'}
+        >
+            <div className="universal-content markdown-body w-full" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+            
+            {/* TAULER NADIU D'ESTADÍSTIQUES */}
+            <UmamiDashboard />
+            
+        </UniversalPage>
+    );
+};

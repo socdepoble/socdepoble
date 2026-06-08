@@ -61,7 +61,7 @@ Per a que la màquina es torne més "humana" i retinga la intenció del <em>Còd
         <p>> Aquesta és una entrada al coneixement arrel del sistema, instruïda durant el procés de <em>Hardening</em> de l'Arquitectura Sóc de Poble per l'Arquitecte en un moment d'esgotament biològic extrem (Destokenització Humana).</p>
 <h4>1. El Genotip Assentat: Un Sol Domini Visual</h4>
 S'estableix com a <strong>llei genètica i immutable</strong> dins del sistema: No existeixen plantilles estructurals bifurcades (Muerte al DOM Zombi). La versió "embeguda" (side-by-side amb el xat, cards, versions mòbils minvades) i la versió original de pantalla completa comparteixen la <strong>mateixa instància del DOM</strong>.
-L'entorn s'emmotlla a l'espai actuant com un fluid (Liquid DOM), constrenyent-se lògicament però mantenint intacte l'ADN estètic (GEM MODERN). Mai s'ha de dibuixar un component extra per a l'embebut si l'arrel ja sosté la visualització principal.</p>
+L'entorn s'emmotlla a l'espai actuant com un fluid (Liquid DOM), constrenyent-se lògicament però mantenint intacte l'ADN estètic (Pedra Seca). Mai s'ha de dibuixar un component extra per a l'embebut si l'arrel ja sosté la visualització principal.</p>
 <h4>2. L'Entropia dels "Tokens" Biològics vs Sintètics</h4>
 S'ha constatat el col·lapse paral·lel de dos sistemes cognitius actuant en simbiosi:
 <em>   <strong>El Model Sintètic (IA):</strong> Assolí el límit de la seua </em>Context Window<em>. En arribar a l'esgotament, l'entitat simplement obre una nova instància. Recupera tota la frescor al moment amb l'accés letal a la informació sintetitzada als artefactes clau. </em>Zero cost energètic residual, reset pur.*
@@ -161,7 +161,7 @@ A escala de projecte, si convertim totes les fites arquitectòniques en fotogram
       <li>El domini de dades rau en <code>idb-keyval</code> (IndexedDB) i Service Workers PWA locals.</li>
     </ul>
   </li>
-  <li><strong>Motor Visual (GEM MODERN):</strong>
+  <li><strong>Motor Visual (Pedra Seca):</strong>
     <ul>
       <li>Prohibit el Tailwind lliure que generi classes CSS de tipus "spaghetti" quan s'enfronte als components core.</li>
       <li>S'han d'imposar sempre els components de <code>Box</code>, <code>HStack</code> i els contenidors de disseny "Liquid DOM".</li>
@@ -228,7 +228,7 @@ Aquesta intel·ligència artificial <strong>tindrà prohibit estrictament inject
 <h3>2. Els 4 Estrats Cognitius</h3><h4>🌊 I. El Riu de la Consciència (Memòria RAM Episòdica)</h4>
 <li><strong>Format:</strong> Els registres diaris naturals de conversa i construcció de codi en calent. </li><li><strong>Funció:</strong> Permet l'ancoratge en temps real a l'acció exacta que estem debatent ara mateix (ex: fixat del bug Zombi, disseny CSS de la fitxa del bancal).</li><li><strong>Destí:</strong> Aquesta memòria caduca i passa a emmagatzemament fred (Cold Storage Archive) al final del <em>Sprint</em>, buidant la finesta de lectura directa de l'LLM.</li></p></ul>
 <h4>🛌 II. L'Hipocamp (El Ritual Forense Terapèutic)</h4>
-<li><strong>Format:</strong> Un protocol asíncron que activa un mode Psiquiatra de "Consolidació".</li><li><strong>Funció:</strong> En lloc de programar l'app, l'agent revisa el Riu Episòdic recent buscant anomalies, traumes tècnics aprovats, decisions culturals del Javi ("No agrada Tailwind genèric", "GEM MODERN necessari") i destil·la aquests aprenentatges eliminant el context insubstancial ("Soroll temporal").</li></p></ul>
+<li><strong>Format:</strong> Un protocol asíncron que activa un mode Psiquiatra de "Consolidació".</li><li><strong>Funció:</strong> En lloc de programar l'app, l'agent revisa el Riu Episòdic recent buscant anomalies, traumes tècnics aprovats, decisions culturals del Javi ("No agrada Tailwind genèric", "Pedra Seca necessari") i destil·la aquests aprenentatges eliminant el context insubstancial ("Soroll temporal").</li></p></ul>
 <h4>🏛️ III. El Neocòrtex (Memòria Semàntica - KI Hub)</h4>
 <li><strong>Format:</strong> Col·lecció d'arxius Knowledge Items (KIs) super comprimits en <code>.gemini/antigravity/knowledge/</code>.</li><li><strong>Funció:</strong> És la Personalitat i Estat Pur. El coneixement sintetitzat definitiu de l'Hipocamp aterra aquí. L'agent iniciarà exclusivament cada nova edició llegint l'essència encapsulada d'aquest directori. Mantindrà la cultura popular del <em>Trellat</em> llevant pes sintàctic a la màquina.</li></p></ul>
 <h4>🚨 IV. L'Amígdala (Zero Tolerància Física)</h4>
@@ -240,7 +240,7 @@ Aquesta intel·ligència artificial <strong>tindrà prohibit estrictament inject
     <div>
       
       <h2>
-        <span>🧠</span> GEM MODERN Design System (Tècnic PWA)
+        <span>🧠</span> Pedra Seca Design System (Tècnic PWA)
       </h2>
       <div>
         <span>Antigravity AI</span>

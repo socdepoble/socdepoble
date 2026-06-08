@@ -20,12 +20,22 @@ export const SystemGuardian = ({ children }) => {
       document.documentElement.style.setProperty('--mode-bancal', '1');
     };
 
+    const handleOfflineConflict = (e) => {
+      console.error('[SystemGuardian] Conflicte Offline Detectat! Naufragant a /conflict');
+      // Passem les dades per sessionStorage per sobreviure a la recàrrega de window.location
+      if (e.detail) {
+          sessionStorage.setItem('sdp_conflict_data', JSON.stringify(e.detail));
+      }
+      window.location.href = '/conflict';
+    };
+
     const handleUpdateAvailable = (e) => {
       console.info('[SystemGuardian] Nova versió detectada.', e.detail);
       // Ací podríem mostrar el botó d'actualització de forma elegant
     };
 
     window.addEventListener('sdp:offline-quarantine', handleOfflineQuarantine);
+    window.addEventListener('sdp:offline-conflict', handleOfflineConflict);
     window.addEventListener('sdp:update-available', handleUpdateAvailable);
 
     // Detectar BFCache Restore
@@ -39,6 +49,7 @@ export const SystemGuardian = ({ children }) => {
 
     return () => {
       window.removeEventListener('sdp:offline-quarantine', handleOfflineQuarantine);
+      window.removeEventListener('sdp:offline-conflict', handleOfflineConflict);
       window.removeEventListener('sdp:update-available', handleUpdateAvailable);
       window.removeEventListener('pageshow', handlePageShow);
     };

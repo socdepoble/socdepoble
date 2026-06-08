@@ -68,7 +68,7 @@ export const paymentService = {
   },
 
   /**
-   * Propagació asíncrona cap als nodes de Masia i Padrins.
+   * Propagació asíncrona cap als nodes del Mas i Padrins.
    */
   async _propagateTransaction() {
     // [PILLAR 3] Node de la Federació (Cooperativa)

@@ -1,0 +1,120 @@
+/* 
+ * UNIVERSAL BUTTON - GEM MODERN
+ * Codi lliure de Tailwind per a la capa estètica (Només Termodinàmica i Estètica SOSP)
+ */
+
+ .universal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-espai-2, 8px);
+  min-height: 56px; /* Tacte per a dits de llaurador */
+  padding: 0 1.5rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--sp-radius-main, 28px);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+  will-change: transform; /* Optimitza la GPU de l'A10 */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* ==================================================
+   VARIANTS
+================================================== */
+
+.primary {
+  background-color: var(--sp-orange-100, #FF7300);
+  color: var(--sp-black-100, #000000); /* Llei WCAG Mode Bancal */
+}
+
+.secondary {
+  background-color: var(--sp-blue-100, #0984E3);
+  color: var(--sp-white-100, #FFFFFF); /* Llei WCAG Mode Bancal */
+}
+
+/* ==================================================
+   ESTATS TERMODINÀMICS (Hover, Active, Disabled)
+================================================== */
+
+.primary:hover:not(:disabled) {
+  /* SURAR */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 115, 0, 0.3);
+}
+
+.primary:active:not(:disabled) {
+  /* PREMUT */
+  transform: translateY(1px);
+  box-shadow: none; /* Apaga ombra en prémer */
+}
+
+.secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(9, 132, 227, 0.3);
+}
+
+.secondary:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.danger {
+  background-color: #E53E3E; /* Roig perill */
+  color: var(--sp-white-100, #FFFFFF);
+}
+
+.danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(229, 62, 62, 0.3);
+}
+
+.danger:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.ghost {
+  background-color: transparent;
+  color: var(--sp-black-100, #000000);
+}
+
+.ghost:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.ghost:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.universal-button:disabled {
+  /* SEC */
+  background-color: var(--sp-black-100, #000000);
+  opacity: 0.15;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ==================================================
+   SPINNER DE CÀRREGA
+================================================== */
+
+.spinner {
+  animation: spin 1s linear infinite;
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-right: 0.5rem;
+  margin-left: -0.25rem;
+  color: inherit;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

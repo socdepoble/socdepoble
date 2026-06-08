@@ -8,6 +8,7 @@ const FloatingIndex = ({ scrollRef, contentSelector = '.app-cms-content', isOpen
     const setShowIndex = onToggle !== undefined ? onToggle : setInternalShowIndex;
     const [headings, setHeadings] = useState([]);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [activeId, setActiveId] = useState(null);
     const indexRef = useRef(null);
 
     useEffect(() => {
@@ -39,17 +40,35 @@ const FloatingIndex = ({ scrollRef, contentSelector = '.app-cms-content', isOpen
     }, [showIndex, contentSelector]);
 
     useEffect(() => {
+        const target = scrollRef?.current || window;
         const handleScroll = () => {
             if (scrollRef?.current) {
                 setShowScrollTop(scrollRef.current.scrollTop > 300);
             }
+            
+            if (!showIndex || headings.length === 0) return;
+            let currentActive = null;
+            let minDistance = Infinity;
+            headings.forEach(h => {
+                if (!h.element) return;
+                const rect = h.element.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2) {
+                    const distance = Math.abs(rect.top - 100);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        currentActive = h.id;
+                    }
+                }
+            });
+            if (currentActive) setActiveId(currentActive);
         };
-        const el = scrollRef?.current;
-        if (el) el.addEventListener('scroll', handleScroll, { passive: true });
+        
+        target.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
         return () => {
-            if (el) el.removeEventListener('scroll', handleScroll);
+            target.removeEventListener('scroll', handleScroll);
         };
-    }, [scrollRef]);
+    }, [scrollRef, showIndex, headings]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -121,25 +140,31 @@ const FloatingIndex = ({ scrollRef, contentSelector = '.app-cms-content', isOpen
                         <p className="text-sm text-gray-400">No hi ha cap títol en aquest document.</p>
                     ) : (
                         <ul className="space-y-1">
-                            {headings.map(h => (
-                                <li key={h.id}>
+                            {headings.map((h, i) => {
+                                const isActive = activeId === h.id;
+                                return (
+                                <li key={`${h.id}-${i}`}>
                                     <button
                                         onClick={() => {
                                             h.element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                            if (window.innerWidth < 1024) {
+                                            if (window.innerWidth < 1024 && !isPinned) {
                                                 setShowIndex(false);
                                             }
                                         }}
-                                        className={`text-left w-full px-3 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 text-sm text-[var(--text-main)] transition-colors line-clamp-2
-                                            ${h.tagName === 'h1' ? 'font-bold text-base mt-2' : ''}
-                                            ${h.tagName === 'h2' ? 'ml-2 font-medium' : ''}
-                                            ${h.tagName === 'h3' ? 'ml-4 text-stone-500 dark:text-stone-400' : ''}
+                                        className={`text-left w-full px-3 py-2 rounded-xl transition-colors text-sm break-words leading-relaxed
+                                            ${isActive ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-bold shadow-sm border border-[var(--theme-accent-primary)]/20' : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-main)]'}
+                                            ${h.tagName === 'h1' ? 'font-black uppercase tracking-widest text-base mt-4 mb-1' : ''}
+                                            ${h.tagName === 'h2' ? 'ml-2 font-bold mt-2' : ''}
+                                            ${h.tagName === 'h3' ? 'ml-4 font-medium text-stone-600 dark:text-stone-300' : ''}
+                                            ${h.tagName === 'h4' ? 'ml-6 text-stone-500 dark:text-stone-400 text-[11px] uppercase tracking-wider font-bold border-l-2 border-stone-300 dark:border-stone-700 pl-3 mt-1' : ''}
+                                            ${h.tagName === 'h5' || h.tagName === 'h6' ? 'ml-8 text-stone-400 dark:text-stone-500 text-[11px] italic' : ''}
                                         `}
                                     >
                                         {h.text}
                                     </button>
                                 </li>
-                            ))}
+                                );
+                            })}
                         </ul>
                     )}
                 </div>

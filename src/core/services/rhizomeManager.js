@@ -46,7 +46,7 @@ class RhizomeManager {
                         this.yDoc.destroy();
                         this.yDoc = new Y.Doc(); 
                         
-                        // 3. UX GEM MODERN: Disparamos evento al store global para notificar
+                        // 3. UX Pedra Seca: Disparamos evento al store global para notificar
                         if (typeof window !== 'undefined') {
                             window.dispatchEvent(new CustomEvent('TRELLAT_HEALING_MODE', {
                                 detail: {

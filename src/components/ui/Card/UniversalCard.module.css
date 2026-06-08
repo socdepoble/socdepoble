@@ -1,0 +1,37 @@
+/* 
+ * UNIVERSAL CARD - GEM MODERN
+ * Codi lliure de Tailwind per a la capa estètica.
+ * Ús: <UniversalCard className="w-full flex-col"> ... </UniversalCard>
+ */
+
+ .universal-card {
+  background-color: var(--sp-white-100, #FFFFFF);
+  border-radius: var(--sp-radius-main, 28px); /* 28px Innegociable */
+  padding: var(--sp-espai-6, 24px); /* Espai "Plaça" */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06); /* Ombra eficient SOSP */
+  border: 1px solid rgba(0,0,0,0.02); /* Pedra Seca base de suport offline */
+  
+  /* L'esquelet intern pot usar Tailwind per a la graella,
+     però es recomana flex per defecte si no es passa res */
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-espai-4, 16px);
+  overflow: hidden; /* Màgia de Pedra Seca per a les corbes d'imatges internes */
+}
+
+/* Quan la targeta és un element interactiu sencer */
+.universal-card.interactive {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.universal-card.interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.universal-card.interactive:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}

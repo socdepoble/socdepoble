@@ -36,6 +36,12 @@ export default {
       spacing: {
         header: "var(--spacing-header)",
         sidebar: "var(--spacing-sidebar)",
+        'sp-1': 'var(--sp-space-1, 0.25rem)',
+        'sp-2': 'var(--sp-space-2, 0.5rem)',
+        'sp-3': 'var(--sp-space-3, 0.75rem)',
+        'sp-4': 'var(--sp-space-4, 1rem)',
+        'sp-5': 'var(--sp-space-5, 1.5rem)',
+        'sp-6': 'var(--sp-space-6, 2rem)',
       },
       borderRadius: {
         genesis: "var(--radius-genesis)",
@@ -55,10 +61,10 @@ export default {
         glass: "var(--glass-shadow)",
       },
       padding: {
-        'safe-top': 'env(safe-area-inset-top)',
-        'safe-bottom': 'env(safe-area-inset-bottom)',
-        'safe-left': 'env(safe-area-inset-left)',
-        'safe-right': 'env(safe-area-inset-right)',
+        'safe-top': 'var(--safe-top, env(safe-area-inset-top))',
+        'safe-bottom': 'var(--safe-bottom, env(safe-area-inset-bottom))',
+        'safe-left': 'var(--safe-left, env(safe-area-inset-left))',
+        'safe-right': 'var(--safe-right, env(safe-area-inset-right))',
       },
       minHeight: {
         'dvh': '100dvh',

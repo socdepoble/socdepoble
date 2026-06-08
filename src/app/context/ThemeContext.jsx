@@ -9,7 +9,7 @@ export const ThemeProvider = ({ children }) => {
     const availableThemes = [
         { id: 'pedra-seca', name: 'Pedra Seca (Bàsic)' },
         { id: 'oli-suau', name: 'Oli Suau (Terrenal)' },
-        { id: 'gem-modern', name: 'GEM Modern (Net)' }
+        { id: 'gem-modern', name: 'Pedra Seca (Net)' }
     ];
 
     const resetTheme = () => {

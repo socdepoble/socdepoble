@@ -53,7 +53,7 @@ const CorruptedCardPlaceholder = () => (
     </div>
 );
 
-const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false, externalViewMode = null }) => {
+const Feed = ({ townId = null, townName = null, customPosts = null, contentMode = 'batec', hideHeader = false, externalViewMode = null, isProfileOwner = false }) => {
     const { iaiaLevel, gloveMode } = useDesign();
     const { selectedTown, enabledAgentIds } = useNavigation();
     const { t } = useTranslation();
@@ -143,7 +143,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
         }
         return parentRef.current;
     }, []);
-    const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 120 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
+    const estimateSize = useCallback(() => effectiveViewMode === 'list' ? 300 : (effectiveViewMode === 'single' ? 600 : 900), [effectiveViewMode]);
 
     const rowVirtualizer = useVirtualizer({
         count: rowCount,
@@ -218,7 +218,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
      * Es passa directament via onNavigate al UniversalCard.
      */
 
-    const FeedPostCard = React.memo(({ post, effectiveViewMode, handleHeaderClick, gloveMode }) => {
+    const FeedPostCard = React.memo(({ post, effectiveViewMode, handleHeaderClick, gloveMode, isProfileOwner }) => {
         const isOptimistic = post.metadata?.isOptimistic;
         const isDissolving = post.metadata?.isDissolving;
 
@@ -251,6 +251,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                     viewMode={effectiveViewMode}
                     className={`universal-card-virtual ${isOptimistic ? 'optimistic' : ''} ${post.is_iaia_inspired ? 'animate-bategat' : ''} ${gloveMode ? 'mode-guants' : ''}`}
                     variant={post.type === 'bando' ? 'ajuntament' : (post.type === 'tramit' ? 'mur' : (post.type === 'mercat' ? 'mercat' : 'post'))}
+                    forceEditOption={isProfileOwner}
                 >
                     {post.is_iaia_inspired && (
                         <div className="iaia-transparency-genesis mt-2 mb-1">
@@ -266,8 +267,8 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
     const renderPost = useCallback((post) => {
         const pid = post.uuid || post.id || `temp-${post.author_user_id || 'anon'}-${post.created_at || (post.content ? post.content.substring(0, 15) : 'unknown')}`;
-        return <FeedPostCard key={pid} post={post} effectiveViewMode={effectiveViewMode} handleHeaderClick={handleHeaderClick} gloveMode={gloveMode} />;
-    }, [handleHeaderClick, effectiveViewMode, gloveMode]);
+        return <FeedPostCard key={pid} post={post} effectiveViewMode={effectiveViewMode} handleHeaderClick={handleHeaderClick} gloveMode={gloveMode} isProfileOwner={isProfileOwner} />;
+    }, [handleHeaderClick, effectiveViewMode, gloveMode, isProfileOwner]);
 
     if (loading && posts.length === 0) {
         return (
@@ -318,7 +319,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
             <div
                 ref={parentRef}
-                className="flex-1 pb-20 w-full scroll-container-y min-h-0"
+                className="flex-1 pb-20 w-full overflow-y-auto min-h-0"
                 style={{ contain: 'content', overflowAnchor: 'none' }}
                 role="region"
                 aria-label="Llista de publicacions"
@@ -326,6 +327,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
                 <ConflictBanner />
                 <UniversalGridWrapper viewMode={viewMode}>
                     <div
+                        key={viewMode}
                         ref={containerRef}
                         className="feed-list mx-auto w-full max-w-7xl relative"
                         role="feed"

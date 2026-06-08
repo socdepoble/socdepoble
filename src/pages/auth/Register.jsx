@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { ChevronRight, MapPin, CheckCircle2, Zap, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { supabaseService } from "../../core/services/supabaseService";
 
@@ -11,6 +12,8 @@ import { hapticService } from "../../core/services/hapticService";
 import { APP_VERSION } from "../../constants";
 import "./Auth.css";
 import { authService } from '../../core/services/authService';
+import BrandLogo from "../../components/ui/BrandLogo";
+import TownSelectorModal from "../../components/modals/TownSelectorModal";
 
 /**
  * [FLASH MASTERPIECE] Register.jsx v2.0

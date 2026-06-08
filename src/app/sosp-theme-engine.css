@@ -1,0 +1,804 @@
+/*
+ * ╔══════════════════════════════════════════════════════════════════════════╗
+ * ║           SOSP THEME ENGINE v2.0 — MOTOR DE TEMES PARAMÈTRIC           ║
+ * ║                    Sóc de Poble · Mas Virtual Hiper Resilient                   ║
+ * ║                                                                          ║
+ * ║  Mandat: Tota aparença del sistema deriva d'aquestes variables.        ║
+ * ║  Cap color, radi, moció o ombra no pot estar hardcodejat fora d'ací.   ║
+ * ║  El Panell de Control modifica només les variables de la secció 0.       ║
+ * ║  La resta es calcula automàticament via color-mix() i funcions CSS.    ║
+ * ╚══════════════════════════════════════════════════════════════════════════╝
+ */
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * SECCIÓ 0: PALETA PRIMÀRIA — ÚNICA ZONA EDITABLE DES DEL PANELL DE CONTROL
+ * ────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* 🎨 COLORS PRIMARIS — Aquests són els "punts d'ancoratge" del sistema.
+   *    El Panell de Control només toca aquestes 4 variables.
+   *    Tota la resta de la paleta (§1) es genera matemàticament. */
+  --theme-color-primary: #FF7300;
+  --theme-color-secondary: #0066CC;
+  --theme-color-tertiary: #6B4F3A;   /* Marró terra, per a connectar amb l'arrel rural */
+  --theme-color-error: #B3261E;
+
+  /* 🌗 MODE DE BASE — "light" o "dark". Canvia tota la lògica de derivació. */
+  --theme-mode: light;
+
+  /* 📐 GEOMETRIA I FORMES — Control total de l'arrodoniment */
+  --theme-radius-unit: 4px;           /* Unitat base de radi (multiplicador de 4px) */
+  --theme-radius-factor: 7;         /* 4px × 7 = 28px per defecte. Si l'usuari vol quadrat, posa 1 (4px) */
+  --theme-radius-button: calc(var(--theme-radius-unit) * var(--theme-radius-factor));
+  --theme-radius-card: calc(var(--theme-radius-unit) * var(--theme-radius-factor));
+  --theme-radius-input: calc(var(--theme-radius-unit) * max(var(--theme-radius-factor) - 3, 1));
+  --theme-radius-chip: calc(var(--theme-radius-unit) * max(var(--theme-radius-factor) - 2, 1));
+  --theme-radius-full: 9999px;
+
+  /* 🖋️ TIPOGRAFIA — Família i escala */
+  --theme-font-family: 'Noto Sans', 'Noto Sans SC', 'Noto Sans TC', 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+  --theme-font-mono: 'Noto Sans Mono', 'SF Mono', 'Cascadia Code', monospace;
+  --theme-font-display: var(--theme-font-family);
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 1: PALETA DERIVADA — GENERADA AUTOMÀTICAMENT AMB color-mix()
+   * ─────────────────────────────────────────────────────────────────────── */
+
+  /* 🏠 Surfaces (fons) — L'escala de grisos deriva del to primari per a calidesa */
+  --theme-color-surface: #FFFBFE;
+  --theme-color-surface-dim: color-mix(in srgb, var(--theme-color-surface) 90%, #000000 10%);
+  --theme-color-surface-bright: color-mix(in srgb, var(--theme-color-surface) 98%, #FFFFFF 2%);
+  --theme-color-surface-container-lowest: color-mix(in srgb, var(--theme-color-surface) 96%, #000000 4%);
+  --theme-color-surface-container-low: color-mix(in srgb, var(--theme-color-surface) 94%, #000000 6%);
+  --theme-color-surface-container: color-mix(in srgb, var(--theme-color-surface) 92%, #000000 8%);
+  --theme-color-surface-container-high: color-mix(in srgb, var(--theme-color-surface) 88%, #000000 12%);
+  --theme-color-surface-container-highest: color-mix(in srgb, var(--theme-color-surface) 84%, #000000 16%);
+  --theme-color-surface-variant: color-mix(in srgb, var(--theme-color-surface) 85%, var(--theme-color-primary) 15%);
+
+  /* 🎨 Primari i els seus derivats (containers, on-colors, variants) */
+  --theme-color-primary-container: color-mix(in srgb, var(--theme-color-primary) 10%, var(--theme-color-surface) 90%);
+  --theme-color-primary-container-hover: color-mix(in srgb, var(--theme-color-primary) 15%, var(--theme-color-surface) 85%);
+  --theme-color-on-primary: #000000; /* Text sobre primari pur */
+  --theme-color-on-primary-container: color-mix(in srgb, var(--theme-color-primary) 90%, #000000 10%);
+
+  /* 🎨 Secundari i derivats */
+  --theme-color-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 10%, var(--theme-color-surface) 90%);
+  --theme-color-secondary-container-hover: color-mix(in srgb, var(--theme-color-secondary) 15%, var(--theme-color-surface) 85%);
+  --theme-color-on-secondary: #FFFFFF;
+  --theme-color-on-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 90%, #FFFFFF 10%);
+
+  /* 🎨 Terciari (Terra) i derivats */
+  --theme-color-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 10%, var(--theme-color-surface) 90%);
+  --theme-color-tertiary-container-hover: color-mix(in srgb, var(--theme-color-tertiary) 15%, var(--theme-color-surface) 85%);
+  --theme-color-on-tertiary: #FFFFFF;
+  --theme-color-on-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 90%, #FFFFFF 10%);
+
+  /* ⚠️ Error i derivats */
+  --theme-color-error-container: color-mix(in srgb, var(--theme-color-error) 10%, var(--theme-color-surface) 90%);
+  --theme-color-on-error: #FFFFFF;
+  --theme-color-on-error-container: color-mix(in srgb, var(--theme-color-error) 90%, #000000 10%);
+
+  /* 📝 Textos neutres — Deriven del surface per a coherència cromàtica */
+  --theme-color-on-surface: color-mix(in srgb, #000000 87%, var(--theme-color-surface) 13%);
+  --theme-color-on-surface-variant: color-mix(in srgb, #000000 60%, var(--theme-color-surface) 40%);
+  --theme-color-outline: color-mix(in srgb, var(--theme-color-on-surface-variant) 38%, var(--theme-color-surface) 62%);
+  --theme-color-outline-variant: color-mix(in srgb, var(--theme-color-on-surface-variant) 16%, var(--theme-color-surface) 84%);
+
+  /* 🌈 Inverse (per a Snackbars, Banners, Tooltips) */
+  --theme-color-inverse-surface: color-mix(in srgb, var(--theme-color-on-surface) 90%, var(--theme-color-surface) 10%);
+  --theme-color-inverse-on-surface: color-mix(in srgb, var(--theme-color-surface) 90%, var(--theme-color-on-surface) 10%);
+  --theme-color-inverse-primary: color-mix(in srgb, var(--theme-color-primary) 80%, var(--theme-color-surface) 20%);
+
+  /* 🌟 Estat i Feedback (Hover, Press, Drag, Focus) — Calculats dinàmicament */
+  --theme-color-hover-overlay: color-mix(in srgb, var(--theme-color-on-surface) 8%, transparent);
+  --theme-color-focus-overlay: color-mix(in srgb, var(--theme-color-on-surface) 12%, transparent);
+  --theme-color-pressed-overlay: color-mix(in srgb, var(--theme-color-on-surface) 12%, transparent);
+  --theme-color-dragged-overlay: color-mix(in srgb, var(--theme-color-on-surface) 16%, transparent);
+  --theme-color-disabled-opacity: 0.38;
+  --theme-color-disabled-container: color-mix(in srgb, var(--theme-color-on-surface) 12%, var(--theme-color-surface) 88%);
+  --theme-color-disabled-on-container: color-mix(in srgb, var(--theme-color-on-surface) 38%, var(--theme-color-surface) 62%);
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 2: ESCALA D'ESPAIAT — SOSP Grid & Spacing (Multiplicador de 4px)
+   * ─────────────────────────────────────────────────────────────────────── */
+  --theme-space-unit: 4px;
+  --theme-space-batec: calc(var(--theme-space-unit) * 1);   /* 4px  — Separació mínima icona+text */
+  --theme-space-pas: calc(var(--theme-space-unit) * 2);     /* 8px  — Ítems relacionats */
+  --theme-space-carrer: calc(var(--theme-space-unit) * 4);  /* 16px — Marge global mòbil */
+  --theme-space-placa: calc(var(--theme-space-unit) * 6);   /* 24px — Separació blocs grans */
+  --theme-space-bancal: calc(var(--theme-space-unit) * 8);  /* 32px — Salt de secció */
+  --theme-space-riuera: calc(var(--theme-space-unit) * 12); /* 48px — Separació majúscula */
+  --theme-space-muntanya: calc(var(--theme-space-unit) * 16); /* 64px — Hero / Landing */
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 3: TIPOGRAFIA — Noto Sans M3 Scale (Mode Bancal / Sol)
+   * ─────────────────────────────────────────────────────────────────────── */
+  --theme-type-scale-unit: 1rem; /* 16px base */
+
+  /* Display / H1 — Noms de pàgina, impacte majúscul */
+  --theme-type-display-size: calc(var(--theme-type-scale-unit) * 2.5); /* 40px */
+  --theme-type-display-line: 1.1;
+  --theme-type-display-weight: 700;
+  --theme-type-display-tracking: -0.02em;
+
+  /* Headline / H2 — Títols de secció */
+  --theme-type-headline-size: calc(var(--theme-type-scale-unit) * 2); /* 32px */
+  --theme-type-headline-line: 1.15;
+  --theme-type-headline-weight: 600;
+  --theme-type-headline-tracking: -0.01em;
+
+  /* Title / H3 — Targetes, diàlegs, app bars */
+  --theme-type-title-size: calc(var(--theme-type-scale-unit) * 1.375); /* 22px */
+  --theme-type-title-line: 1.25;
+  --theme-type-title-weight: 600;
+
+  /* Body Large / H4 — Títols de posts, productes */
+  --theme-type-body-large-size: calc(var(--theme-type-scale-unit) * 1.125); /* 18px */
+  --theme-type-body-large-line: 1.4;
+  --theme-type-body-large-weight: 500;
+
+  /* Body Medium — Text descriptiu general (MÍNIM 16px en mòbil) */
+  --theme-type-body-size: var(--theme-type-scale-unit); /* 16px */
+  --theme-type-body-line: 1.5;
+  --theme-type-body-weight: 400;
+
+  /* Body Small — Peus de pàgina, metadades secundàries */
+  --theme-type-body-small-size: calc(var(--theme-type-scale-unit) * 0.875); /* 14px */
+  --theme-type-body-small-line: 1.4;
+  --theme-type-body-small-weight: 400;
+
+  /* Label / Kicker — Etiquetes, hores, tipus d'elements */
+  --theme-type-label-size: calc(var(--theme-type-scale-unit) * 0.75); /* 12px */
+  --theme-type-label-line: 1.2;
+  --theme-type-label-weight: 600;
+  --theme-type-label-tracking: 0.05em;
+  --theme-type-label-transform: uppercase;
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 4: FÍSIQUES I MOCIÓ — Coherència Cinètica M3 (Termodinàmica)
+   * ─────────────────────────────────────────────────────────────────────── */
+
+  /* ⏱️ Duracions — Escala logarítmica per a no ferir hardware antic */
+  --theme-motion-duration-instant: 0ms;     /* Canvis d'estat immediats (checkbox) */
+  --theme-motion-duration-fast: 50ms;     /* Microinteraccions (ripple, toggle) */
+  --theme-motion-duration-short: 100ms;   /* Hover, focus, press (botons) */
+  --theme-motion-duration-medium: 200ms;  /* Transicions de components (targetes, chips) */
+  --theme-motion-duration-long: 300ms;    /* Canvis de secció, navegació */
+  --theme-motion-duration-emphasis: 500ms; /* Diàlegs, drawers, hero animations */
+
+  /* 🌊 Easing Curves — M3 Standard + adaptacions rurals (menys agressives) */
+  --theme-motion-easing-linear: linear;
+  --theme-motion-easing-standard: cubic-bezier(0.2, 0.0, 0.0, 1.0);      /* M3 Standard */
+  --theme-motion-easing-standard-accelerate: cubic-bezier(0.3, 0.0, 1.0, 1.0);
+  --theme-motion-easing-standard-decelerate: cubic-bezier(0.0, 0.0, 0.0, 1.0);
+  --theme-motion-easing-emphasized: cubic-bezier(0.2, 0.0, 0.0, 1.0);   /* M3 Emphasized (entrada suau) */
+  --theme-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1.0); /* Sortida elegant */
+  --theme-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0.0, 0.8, 0.15);
+
+  /* 🎚️ Springs — Per a microinteraccions táctils (iPads A10: usar amb moderació) */
+  --theme-motion-spring-subtle: cubic-bezier(0.34, 1.56, 0.64, 1);      /* Petits "pop" (chips, badges) */
+  --theme-motion-spring-bouncy: cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Diàlegs, modals (ocasional) */
+
+  /* 🎛️ Stagger i Delay — Per a llistes i grids */
+  --theme-motion-stagger-unit: 20ms;
+  --theme-motion-stagger-fast: calc(var(--theme-motion-stagger-unit) * 1);
+  --theme-motion-stagger-medium: calc(var(--theme-motion-stagger-unit) * 2);
+  --theme-motion-stagger-slow: calc(var(--theme-motion-stagger-unit) * 4);
+
+  /* 🏋️ Físiques d'Interacció — "Surar", "Sec", "Premut" */
+  --theme-physics-hover-lift: -2px;
+  --theme-physics-hover-lift-large: -4px;
+  --theme-physics-hover-scale: 1.02;
+  --theme-physics-hover-scale-subtle: 1.01;
+  --theme-physics-active-scale: 0.96;        /* M3: 0.95, però 0.96 és més suau per a hardware antic */
+  --theme-physics-active-scale-subtle: 0.98;
+  --theme-physics-touch-feedback-duration: var(--theme-motion-duration-fast);
+  --theme-physics-ripple-opacity: 0.12;
+  --theme-physics-ripple-color: var(--theme-color-on-surface);
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 5: ELEVACIONS I OMBRES — M3 Elevation System (dp → CSS)
+   * ─────────────────────────────────────────────────────────────────────── */
+
+  /* ☀️ Ombres per a Mode Clar — Suaves, difuses, per a no competir amb el sol */
+  --theme-elevation-0: 0 0 0 0 transparent;
+  --theme-elevation-1: 0 1px 2px 0 color-mix(in srgb, #000000 30%, transparent), 0 1px 3px 1px color-mix(in srgb, #000000 15%, transparent);
+  --theme-elevation-2: 0 1px 2px 0 color-mix(in srgb, #000000 30%, transparent), 0 2px 6px 2px color-mix(in srgb, #000000 15%, transparent);
+  --theme-elevation-3: 0 1px 3px 0 color-mix(in srgb, #000000 30%, transparent), 0 4px 8px 3px color-mix(in srgb, #000000 15%, transparent);
+  --theme-elevation-4: 0 2px 3px 0 color-mix(in srgb, #000000 30%, transparent), 0 6px 10px 4px color-mix(in srgb, #000000 15%, transparent);
+  --theme-elevation-5: 0 4px 4px 0 color-mix(in srgb, #000000 30%, transparent), 0 8px 12px 6px color-mix(in srgb, #000000 15%, transparent);
+
+  /* 🌙 Ombres per a Mode Fosc — Més pronunciades per a compensar la falta de llum */
+  --theme-elevation-dark-1: 0 1px 2px 0 color-mix(in srgb, #000000 60%, transparent), 0 1px 3px 1px color-mix(in srgb, #000000 30%, transparent);
+  --theme-elevation-dark-2: 0 1px 2px 0 color-mix(in srgb, #000000 60%, transparent), 0 2px 6px 2px color-mix(in srgb, #000000 30%, transparent);
+  --theme-elevation-dark-3: 0 1px 3px 0 color-mix(in srgb, #000000 60%, transparent), 0 4px 8px 3px color-mix(in srgb, #000000 30%, transparent);
+  --theme-elevation-dark-4: 0 2px 3px 0 color-mix(in srgb, #000000 60%, transparent), 0 6px 10px 4px color-mix(in srgb, #000000 30%, transparent);
+  --theme-elevation-dark-5: 0 4px 4px 0 color-mix(in srgb, #000000 60%, transparent), 0 8px 12px 6px color-mix(in srgb, #000000 30%, transparent);
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 6: ARQUITECTURA DE LAYOUT — Capa de Ceba & Grids
+   * ─────────────────────────────────────────────────────────────────────── */
+  --theme-layout-header-height: 64px;
+  --theme-layout-header-height-compact: 56px;
+  --theme-layout-footer-height: 56px;
+  --theme-layout-max-width: 1200px;
+  --theme-layout-sidebar-width: 280px;
+  --theme-layout-safe-area-top: env(safe-area-inset-top, 0px);
+  --theme-layout-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --theme-layout-safe-area-left: env(safe-area-inset-left, 0px);
+  --theme-layout-safe-area-right: env(safe-area-inset-right, 0px);
+
+  /* Graella M3 SOSP — Container Queries intrínseques */
+  --theme-grid-min-item: 300px;
+  --theme-grid-gap: var(--theme-space-placa); /* 24px */
+  --theme-grid-padding: var(--theme-space-carrer); /* 16px */
+
+  /* ───────────────────────────────────────────────────────────────────────
+   * SECCIÓ 7: Z-INDEX SOSP — Escala fixa per a evitar guerres de z-index
+   * ─────────────────────────────────────────────────────────────────────── */
+  --theme-z-base: 0;
+  --theme-z-content: 10;
+  --theme-z-sticky: 20;
+  --theme-z-header: 50;
+  --theme-z-drawer: 100;
+  --theme-z-dropdown: 200;
+  --theme-z-modal: 300;
+  --theme-z-toast: 400;
+  --theme-z-tooltip: 500;
+  --theme-z-ripple: 999;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * MODO FOSC (Dark Mode) — Inversió paramètrica completa
+ * ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --theme-mode: dark;
+
+    /* Surfaces inverses: el fons és quasi negre, amb calidesa del primari */
+    --theme-color-surface: #1C1B1F;
+    --theme-color-surface-dim: #141218;
+    --theme-color-surface-bright: #2B2930;
+    --theme-color-surface-container-lowest: #0F0D13;
+    --theme-color-surface-container-low: #1C1B1F;
+    --theme-color-surface-container: #211F26;
+    --theme-color-surface-container-high: #2B2930;
+    --theme-color-surface-container-highest: #36343B;
+    --theme-color-surface-variant: color-mix(in srgb, var(--theme-color-surface) 80%, var(--theme-color-primary) 20%);
+
+    /* Textos inversos — Blancs amb calidesa del primari */
+    --theme-color-on-surface: color-mix(in srgb, #FFFFFF 87%, var(--theme-color-surface) 13%);
+    --theme-color-on-surface-variant: color-mix(in srgb, #FFFFFF 60%, var(--theme-color-surface) 40%);
+    --theme-color-outline: color-mix(in srgb, var(--theme-color-on-surface-variant) 38%, var(--theme-color-surface) 62%);
+    --theme-color-outline-variant: color-mix(in srgb, var(--theme-color-on-surface-variant) 16%, var(--theme-color-surface) 84%);
+
+    /* Containers amb més saturació en fosc per a visibilitat */
+    --theme-color-primary-container: color-mix(in srgb, var(--theme-color-primary) 25%, var(--theme-color-surface) 75%);
+    --theme-color-primary-container-hover: color-mix(in srgb, var(--theme-color-primary) 30%, var(--theme-color-surface) 70%);
+    --theme-color-on-primary-container: color-mix(in srgb, var(--theme-color-primary) 90%, #FFFFFF 10%);
+
+    --theme-color-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 25%, var(--theme-color-surface) 75%);
+    --theme-color-secondary-container-hover: color-mix(in srgb, var(--theme-color-secondary) 30%, var(--theme-color-surface) 70%);
+    --theme-color-on-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 90%, #FFFFFF 10%);
+
+    --theme-color-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 25%, var(--theme-color-surface) 75%);
+    --theme-color-tertiary-container-hover: color-mix(in srgb, var(--theme-color-tertiary) 30%, var(--theme-color-surface) 70%);
+    --theme-color-on-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 90%, #FFFFFF 10%);
+
+    --theme-color-error-container: color-mix(in srgb, var(--theme-color-error) 25%, var(--theme-color-surface) 75%);
+    --theme-color-on-error-container: color-mix(in srgb, var(--theme-color-error) 90%, #FFFFFF 10%);
+
+    /* Overlays d'estat — Més visibles en fosc */
+    --theme-color-hover-overlay: color-mix(in srgb, var(--theme-color-on-surface) 10%, transparent);
+    --theme-color-focus-overlay: color-mix(in srgb, var(--theme-color-on-surface) 14%, transparent);
+    --theme-color-pressed-overlay: color-mix(in srgb, var(--theme-color-on-surface) 14%, transparent);
+    --theme-color-dragged-overlay: color-mix(in srgb, var(--theme-color-on-surface) 18%, transparent);
+    --theme-color-disabled-container: color-mix(in srgb, var(--theme-color-on-surface) 16%, var(--theme-color-surface) 84%);
+    --theme-color-disabled-on-container: color-mix(in srgb, var(--theme-color-on-surface) 42%, var(--theme-color-surface) 58%);
+
+    /* Inverse per a Snackbars/Tooltips */
+    --theme-color-inverse-surface: color-mix(in srgb, var(--theme-color-surface) 90%, var(--theme-color-on-surface) 10%);
+    --theme-color-inverse-on-surface: color-mix(in srgb, var(--theme-color-on-surface) 90%, var(--theme-color-surface) 10%);
+    --theme-color-inverse-primary: color-mix(in srgb, var(--theme-color-primary) 80%, var(--theme-color-on-surface) 20%);
+  }
+}
+
+/* Classe manual per a forçar dark mode (per si l'usuari ho tria al Panell) */
+[data-theme-mode="dark"] {
+  --theme-mode: dark;
+  --theme-color-surface: #1C1B1F;
+  --theme-color-surface-dim: #141218;
+  --theme-color-surface-bright: #2B2930;
+  --theme-color-surface-container-lowest: #0F0D13;
+  --theme-color-surface-container-low: #1C1B1F;
+  --theme-color-surface-container: #211F26;
+  --theme-color-surface-container-high: #2B2930;
+  --theme-color-surface-container-highest: #36343B;
+  --theme-color-surface-variant: color-mix(in srgb, var(--theme-color-surface) 80%, var(--theme-color-primary) 20%);
+  --theme-color-on-surface: color-mix(in srgb, #FFFFFF 87%, var(--theme-color-surface) 13%);
+  --theme-color-on-surface-variant: color-mix(in srgb, #FFFFFF 60%, var(--theme-color-surface) 40%);
+  --theme-color-outline: color-mix(in srgb, var(--theme-color-on-surface-variant) 38%, var(--theme-color-surface) 62%);
+  --theme-color-outline-variant: color-mix(in srgb, var(--theme-color-on-surface-variant) 16%, var(--theme-color-surface) 84%);
+  --theme-color-primary-container: color-mix(in srgb, var(--theme-color-primary) 25%, var(--theme-color-surface) 75%);
+  --theme-color-primary-container-hover: color-mix(in srgb, var(--theme-color-primary) 30%, var(--theme-color-surface) 70%);
+  --theme-color-on-primary-container: color-mix(in srgb, var(--theme-color-primary) 90%, #FFFFFF 10%);
+  --theme-color-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 25%, var(--theme-color-surface) 75%);
+  --theme-color-secondary-container-hover: color-mix(in srgb, var(--theme-color-secondary) 30%, var(--theme-color-surface) 70%);
+  --theme-color-on-secondary-container: color-mix(in srgb, var(--theme-color-secondary) 90%, #FFFFFF 10%);
+  --theme-color-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 25%, var(--theme-color-surface) 75%);
+  --theme-color-tertiary-container-hover: color-mix(in srgb, var(--theme-color-tertiary) 30%, var(--theme-color-surface) 70%);
+  --theme-color-on-tertiary-container: color-mix(in srgb, var(--theme-color-tertiary) 90%, #FFFFFF 10%);
+  --theme-color-error-container: color-mix(in srgb, var(--theme-color-error) 25%, var(--theme-color-surface) 75%);
+  --theme-color-on-error-container: color-mix(in srgb, var(--theme-color-error) 90%, #FFFFFF 10%);
+  --theme-color-hover-overlay: color-mix(in srgb, var(--theme-color-on-surface) 10%, transparent);
+  --theme-color-focus-overlay: color-mix(in srgb, var(--theme-color-on-surface) 14%, transparent);
+  --theme-color-pressed-overlay: color-mix(in srgb, var(--theme-color-on-surface) 14%, transparent);
+  --theme-color-dragged-overlay: color-mix(in srgb, var(--theme-color-on-surface) 18%, transparent);
+  --theme-color-disabled-container: color-mix(in srgb, var(--theme-color-on-surface) 16%, var(--theme-color-surface) 84%);
+  --theme-color-disabled-on-container: color-mix(in srgb, var(--theme-color-on-surface) 42%, var(--theme-color-surface) 58%);
+  --theme-color-inverse-surface: color-mix(in srgb, var(--theme-color-surface) 90%, var(--theme-color-on-surface) 10%);
+  --theme-color-inverse-on-surface: color-mix(in srgb, var(--theme-color-on-surface) 90%, var(--theme-color-surface) 10%);
+  --theme-color-inverse-primary: color-mix(in srgb, var(--theme-color-primary) 80%, var(--theme-color-on-surface) 20%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * MODO BANCAL — Alt contrast per a pantalles sota el sol (accessibilitat rural)
+ * ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-contrast: more) {
+  :root {
+    /* Augmentem la separació cromàtica entre surface i text */
+    --theme-color-on-surface: color-mix(in srgb, #000000 95%, var(--theme-color-surface) 5%);
+    --theme-color-on-surface-variant: color-mix(in srgb, #000000 75%, var(--theme-color-surface) 25%);
+    --theme-color-outline: color-mix(in srgb, var(--theme-color-on-surface) 60%, var(--theme-color-surface) 40%);
+    --theme-color-outline-variant: color-mix(in srgb, var(--theme-color-on-surface) 30%, var(--theme-color-surface) 70%);
+
+    /* Primari més saturat per a visibilitat extrema */
+    --theme-color-primary-container: color-mix(in srgb, var(--theme-color-primary) 20%, var(--theme-color-surface) 80%);
+    --theme-color-on-primary-container: color-mix(in srgb, var(--theme-color-primary) 100%, #000000 0%);
+
+    /* Ombres eliminades — En sol directe, les ombres no es veuen i confonen */
+    --theme-elevation-1: 0 0 0 1px var(--theme-color-outline);
+    --theme-elevation-2: 0 0 0 2px var(--theme-color-outline);
+    --theme-elevation-3: 0 0 0 2px var(--theme-color-outline);
+    --theme-elevation-4: 0 0 0 3px var(--theme-color-outline);
+    --theme-elevation-5: 0 0 0 3px var(--theme-color-outline);
+
+    /* Tipografia més pesada per a llegibilitat solar */
+    --theme-type-body-weight: 500;
+    --theme-type-body-large-weight: 600;
+    --theme-type-label-weight: 700;
+  }
+}
+
+/* Classe manual per a forçar Mode Bancal */
+[data-theme-contrast="high"] {
+  --theme-color-on-surface: color-mix(in srgb, #000000 95%, var(--theme-color-surface) 5%);
+  --theme-color-on-surface-variant: color-mix(in srgb, #000000 75%, var(--theme-color-surface) 25%);
+  --theme-color-outline: color-mix(in srgb, var(--theme-color-on-surface) 60%, var(--theme-color-surface) 40%);
+  --theme-color-outline-variant: color-mix(in srgb, var(--theme-color-on-surface) 30%, var(--theme-color-surface) 70%);
+  --theme-color-primary-container: color-mix(in srgb, var(--theme-color-primary) 20%, var(--theme-color-surface) 80%);
+  --theme-color-on-primary-container: color-mix(in srgb, var(--theme-color-primary) 100%, #000000 0%);
+  --theme-elevation-1: 0 0 0 1px var(--theme-color-outline);
+  --theme-elevation-2: 0 0 0 2px var(--theme-color-outline);
+  --theme-elevation-3: 0 0 0 2px var(--theme-color-outline);
+  --theme-elevation-4: 0 0 0 3px var(--theme-color-outline);
+  --theme-elevation-5: 0 0 0 3px var(--theme-color-outline);
+  --theme-type-body-weight: 500;
+  --theme-type-body-large-weight: 600;
+  --theme-type-label-weight: 700;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * REDUCED MOTION — Per a usuaris sensibles o hardware molt antic (A10)
+ * ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --theme-motion-duration-instant: 0ms;
+    --theme-motion-duration-fast: 0ms;
+    --theme-motion-duration-short: 0ms;
+    --theme-motion-duration-medium: 0ms;
+    --theme-motion-duration-long: 0ms;
+    --theme-motion-duration-emphasis: 0ms;
+    --theme-motion-easing-standard: linear;
+    --theme-motion-easing-emphasized: linear;
+    --theme-motion-spring-subtle: linear;
+    --theme-motion-spring-bouncy: linear;
+    --theme-physics-hover-lift: 0px;
+    --theme-physics-hover-lift-large: 0px;
+    --theme-physics-hover-scale: 1;
+    --theme-physics-hover-scale-subtle: 1;
+    --theme-physics-active-scale: 1;
+    --theme-physics-active-scale-subtle: 1;
+  }
+}
+
+/* Classe manual per a forçar reduced motion (PWA offline-first, bateria baixa) */
+[data-theme-motion="reduced"] {
+  --theme-motion-duration-instant: 0ms;
+  --theme-motion-duration-fast: 0ms;
+  --theme-motion-duration-short: 0ms;
+  --theme-motion-duration-medium: 0ms;
+  --theme-motion-duration-long: 0ms;
+  --theme-motion-duration-emphasis: 0ms;
+  --theme-motion-easing-standard: linear;
+  --theme-motion-easing-emphasized: linear;
+  --theme-motion-spring-subtle: linear;
+  --theme-motion-spring-bouncy: linear;
+  --theme-physics-hover-lift: 0px;
+  --theme-physics-hover-lift-large: 0px;
+  --theme-physics-hover-scale: 1;
+  --theme-physics-hover-scale-subtle: 1;
+  --theme-physics-active-scale: 1;
+  --theme-physics-active-scale-subtle: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * UTILITATS I HELPERS — Classes d'ús intern, NO per a components de negoci
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 🧱 Capa de Ceba — Arquitectura de Layout obligatòria (§5 del Manual) */
+.sosp-root-page {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--theme-color-surface);
+  position: relative;
+  isolation: isolate;
+}
+
+.sosp-header {
+  height: var(--theme-layout-header-height);
+  flex-shrink: 0;
+  width: 100%;
+  z-index: var(--theme-z-header);
+  background-color: var(--theme-color-surface-container);
+  border-bottom: 1px solid var(--theme-color-outline-variant);
+  padding-top: var(--theme-layout-safe-area-top);
+  padding-left: var(--theme-layout-safe-area-left);
+  padding-right: var(--theme-layout-safe-area-right);
+}
+
+.sosp-header-compact {
+  height: var(--theme-layout-header-height-compact);
+}
+
+.sosp-scrollable-canvas {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: var(--theme-layout-safe-area-bottom);
+  padding-left: var(--theme-layout-safe-area-left);
+  padding-right: var(--theme-layout-safe-area-right);
+}
+
+/* 🏗️ Graella M3 SOSP — Container Queries intrínseques */
+.sosp-universal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--theme-grid-min-item)), 1fr));
+  gap: var(--theme-grid-gap);
+  padding-bottom: var(--theme-space-bancal);
+}
+
+/* 🎯 Targeta Universal — Base paramètrica per a <UniversalCard> */
+.sosp-universal-card {
+  border-radius: var(--theme-radius-card);
+  background-color: var(--theme-color-surface-container-low);
+  border: 1px solid var(--theme-color-outline-variant);
+  overflow: hidden;
+  transition:
+    box-shadow var(--theme-motion-duration-medium) var(--theme-motion-easing-standard),
+    transform var(--theme-motion-duration-short) var(--theme-motion-easing-standard);
+}
+
+.sosp-universal-card:hover {
+  box-shadow: var(--theme-elevation-2);
+  transform: translateY(var(--theme-physics-hover-lift));
+}
+
+.sosp-universal-card:active {
+  transform: scale(var(--theme-physics-active-scale-subtle));
+}
+
+.sosp-universal-card > img,
+.sosp-universal-card > .sosp-card-media {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+.sosp-universal-card > .sosp-card-media-wide {
+  aspect-ratio: 16 / 9;
+}
+
+.sosp-universal-card > .sosp-card-content {
+  padding: var(--theme-space-carrer);
+}
+
+/* 🔘 Botó Universal — Base paramètrica per a <UniversalButton> */
+.sosp-universal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--theme-space-batec);
+  border-radius: var(--theme-radius-button);
+  font-family: var(--theme-font-family);
+  font-size: var(--theme-type-body-size);
+  font-weight: 600;
+  line-height: var(--theme-type-body-line);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    background-color var(--theme-motion-duration-short) var(--theme-motion-easing-standard),
+    box-shadow var(--theme-motion-duration-short) var(--theme-motion-easing-standard),
+    transform var(--theme-motion-duration-fast) var(--theme-motion-easing-standard);
+}
+
+/* Variant Filled (Primari) */
+.sosp-universal-btn--filled {
+  background-color: var(--theme-color-primary);
+  color: var(--theme-color-on-primary);
+  box-shadow: var(--theme-elevation-1);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.sosp-universal-btn--filled:hover {
+  background-color: var(--theme-color-primary-container-hover);
+  box-shadow: var(--theme-elevation-2);
+  transform: translateY(var(--theme-physics-hover-lift));
+}
+
+.sosp-universal-btn--filled:active {
+  box-shadow: var(--theme-elevation-0);
+  transform: scale(var(--theme-physics-active-scale));
+}
+
+.sosp-universal-btn--filled:disabled {
+  background-color: var(--theme-color-disabled-container);
+  color: var(--theme-color-disabled-on-container);
+  box-shadow: var(--theme-elevation-0);
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Variant Tonal (Secundari suau) */
+.sosp-universal-btn--tonal {
+  background-color: var(--theme-color-primary-container);
+  color: var(--theme-color-on-primary-container);
+  box-shadow: var(--theme-elevation-0);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.sosp-universal-btn--tonal:hover {
+  background-color: var(--theme-color-primary-container-hover);
+  box-shadow: var(--theme-elevation-1);
+  transform: translateY(var(--theme-physics-hover-lift));
+}
+
+.sosp-universal-btn--tonal:active {
+  transform: scale(var(--theme-physics-active-scale));
+}
+
+.sosp-universal-btn--tonal:disabled {
+  background-color: var(--theme-color-disabled-container);
+  color: var(--theme-color-disabled-on-container);
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Variant Outlined */
+.sosp-universal-btn--outlined {
+  background-color: transparent;
+  color: var(--theme-color-primary);
+  border: 1px solid var(--theme-color-outline);
+  box-shadow: var(--theme-elevation-0);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.sosp-universal-btn--outlined:hover {
+  background-color: var(--theme-color-hover-overlay);
+  border-color: var(--theme-color-on-surface-variant);
+}
+
+.sosp-universal-btn--outlined:active {
+  background-color: var(--theme-color-pressed-overlay);
+  transform: scale(var(--theme-physics-active-scale));
+}
+
+/* Variant Text (Ghost) */
+.sosp-universal-btn--text {
+  background-color: transparent;
+  color: var(--theme-color-primary);
+  box-shadow: var(--theme-elevation-0);
+  padding: var(--theme-space-pas) var(--theme-space-pas);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.sosp-universal-btn--text:hover {
+  background-color: var(--theme-color-hover-overlay);
+}
+
+.sosp-universal-btn--text:active {
+  background-color: var(--theme-color-pressed-overlay);
+  transform: scale(var(--theme-physics-active-scale));
+}
+
+/* Variant Elevated */
+.sosp-universal-btn--elevated {
+  background-color: var(--theme-color-surface-container-low);
+  color: var(--theme-color-primary);
+  box-shadow: var(--theme-elevation-1);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.sosp-universal-btn--elevated:hover {
+  background-color: var(--theme-color-surface-container);
+  box-shadow: var(--theme-elevation-2);
+  transform: translateY(var(--theme-physics-hover-lift));
+}
+
+.sosp-universal-btn--elevated:active {
+  box-shadow: var(--theme-elevation-1);
+  transform: scale(var(--theme-physics-active-scale));
+}
+
+/* 📝 Input Universal — Base paramètrica per a <UniversalInput> */
+.sosp-universal-input {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--theme-font-family);
+  font-size: var(--theme-type-body-size);
+  font-weight: var(--theme-type-body-weight);
+  line-height: var(--theme-type-body-line);
+  color: var(--theme-color-on-surface);
+  background-color: var(--theme-color-surface-container-highest);
+  border: 1px solid var(--theme-color-outline);
+  border-radius: var(--theme-radius-input);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  min-height: 48px;
+  width: 100%;
+  transition:
+    border-color var(--theme-motion-duration-short) var(--theme-motion-easing-standard),
+    box-shadow var(--theme-motion-duration-short) var(--theme-motion-easing-standard),
+    background-color var(--theme-motion-duration-short) var(--theme-motion-easing-standard);
+}
+
+.sosp-universal-input::placeholder {
+  color: var(--theme-color-on-surface-variant);
+  opacity: 0.7;
+}
+
+.sosp-universal-input:hover {
+  border-color: var(--theme-color-on-surface-variant);
+}
+
+.sosp-universal-input:focus {
+  outline: none;
+  border-color: var(--theme-color-primary);
+  box-shadow: 0 0 0 3px var(--theme-color-primary-container);
+  background-color: var(--theme-color-surface);
+}
+
+.sosp-universal-input:disabled {
+  background-color: var(--theme-color-disabled-container);
+  color: var(--theme-color-disabled-on-container);
+  border-color: var(--theme-color-outline-variant);
+  cursor: not-allowed;
+}
+
+.sosp-universal-input--error {
+  border-color: var(--theme-color-error);
+}
+
+.sosp-universal-input--error:focus {
+  box-shadow: 0 0 0 3px var(--theme-color-error-container);
+}
+
+/* 🏷️ Chip / Etiqueta Universal */
+.sosp-universal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--theme-space-batec);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  border-radius: var(--theme-radius-chip);
+  font-family: var(--theme-font-family);
+  font-size: var(--theme-type-label-size);
+  font-weight: var(--theme-type-label-weight);
+  letter-spacing: var(--theme-type-label-tracking);
+  text-transform: var(--theme-type-label-transform);
+  line-height: var(--theme-type-label-line);
+  background-color: var(--theme-color-surface-container-highest);
+  color: var(--theme-color-on-surface-variant);
+  border: 1px solid var(--theme-color-outline-variant);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--theme-motion-duration-short) var(--theme-motion-easing-standard),
+    transform var(--theme-motion-duration-fast) var(--theme-motion-easing-standard);
+  min-height: 32px;
+}
+
+.sosp-universal-chip:hover {
+  background-color: var(--theme-color-hover-overlay);
+}
+
+.sosp-universal-chip:active {
+  transform: scale(var(--theme-physics-active-scale-subtle));
+}
+
+.sosp-universal-chip--selected {
+  background-color: var(--theme-color-primary-container);
+  color: var(--theme-color-on-primary-container);
+  border-color: var(--theme-color-primary);
+}
+
+/* 📢 Snackbar / Banner (Inverse Surface) */
+.sosp-universal-snackbar {
+  background-color: var(--theme-color-inverse-surface);
+  color: var(--theme-color-inverse-on-surface);
+  border-radius: var(--theme-radius-card);
+  padding: var(--theme-space-pas) var(--theme-space-carrer);
+  box-shadow: var(--theme-elevation-3);
+  font-family: var(--theme-font-family);
+  font-size: var(--theme-type-body-size);
+  line-height: var(--theme-type-body-line);
+}
+
+/* 🔄 Divider / Separator */
+.sosp-universal-divider {
+  height: 1px;
+  background-color: var(--theme-color-outline-variant);
+  margin: var(--theme-space-placa) 0;
+  border: none;
+}
+
+.sosp-universal-divider--vertical {
+  width: 1px;
+  height: auto;
+  margin: 0 var(--theme-space-placa);
+}
+
+/* 🖼️ Aspect Ratios forçats — Per a imatges dins de targetes */
+.sosp-aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.sosp-aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.sosp-aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.sosp-object-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * NOTA FINAL PER A LES IAs DEL CONSELL:
+ * ──────────────────────────────────────────────────────────────────────────
+ * Aquest fitxer és la CONSTITUCIÓ CROMÀTICA i CINÈTICA del Mas Virtual.
+ * NO hardcodegeu colors, radis, duracions ni easing fora d'aquest motor.
+ * Si necessiteu un valor nou, AFEGIU una variable aquí abans d'usar-la.
+ * Si voleu canviar l'aparença, modifiqueu NOMÉS les 4 variables de la §0.
+ * La resta és matemàtica pura. color-mix() és la vostra destral.
+ * Endavant, Consell. El Poble vos escolta.
+ * ────────────────────────────────────────────────────────────────────────── */

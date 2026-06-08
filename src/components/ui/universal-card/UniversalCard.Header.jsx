@@ -91,8 +91,8 @@ const UniversalCardHeader = ({
     const finalAvatarRole = avatarRole || item?.author_role;
 
     return (
-        <div 
-            className={`flex items-center justify-between px-4 py-2 h-[64px] min-h-[64px] max-h-[64px] shrink-0 bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors ${!isPageHeader ? 'rounded-t-[28px]' : ''} ${className || ''}`} 
+        <header 
+            className={`flex flex-wrap items-center justify-between px-[var(--sp-space-4)] h-[56px] min-h-[56px] gap-[var(--sp-space-2)] shrink-0 bg-[var(--sp-accent-primary)] text-[var(--sp-text-inverse)] relative z-10 w-full transition-colors border-b border-[var(--sp-border-strong)] ${className || ''}`} 
         >
             <div className={`flex items-center gap-3 overflow-hidden min-w-0 ${hasNotice || infoText ? 'pr-[120px]' : 'pr-[72px]'}`}>
                 <button 
@@ -117,10 +117,10 @@ const UniversalCardHeader = ({
                     </div>
                     
                     <div className="flex flex-col min-w-0 group-active:opacity-70 transition-opacity">
-                        <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0">
+                        <div className="text-[var(--sp-black-100)] dark:text-[var(--sp-white-100)] text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0">
                             <div className="truncate"><span>{displayAuthor}</span></div>
                             {item?.is_iaia_inspired && (
-                                <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
+                                <Sparkles size={14} className="text-[var(--sp-black-100)] dark:text-[var(--sp-orange-500)] shrink-0" fill="currentColor" />
                             )}
                         </div>
                     
@@ -136,20 +136,20 @@ const UniversalCardHeader = ({
                 </button>
             </div>
 
-            <div className="absolute right-[10px] top-0 bottom-0 flex flex-row items-center justify-end gap-1.5 shrink-0 pointer-events-none">
+            <div className="flex flex-row items-center justify-end gap-1.5 shrink-0 pointer-events-none ml-auto">
                 {(infoText || hasNotice) && (
                     <Button 
                         intent="ghost"
                         shape="pill"
                         size="touch"
-                        className={`pointer-events-auto shadow-[0_4px_12px_rgba(0,0,0,0.25)] bg-[#111111]/10 dark:bg-white/10 hover:bg-[#111111]/20 dark:hover:bg-white/20 border-none !h-[40px] ${((hasNotice && isPinned) || (infoText && infoText.length <= 3)) ? 'px-0 w-[40px]' : 'px-4'}`} 
+                        className={`pointer-events-auto shadow-[0_4px_12px_rgba(0,0,0,0.25)] bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 border-none !h-[40px] ${((hasNotice && isPinned) || (infoText && infoText.length <= 3)) ? 'px-0 w-[40px]' : 'px-4'}`} 
                         title="Més informació"
                         onClick={handleInfoClick}
                         aria-label={hasNotice ? (isPinned ? "Més informació: Destacat" : `Més informació: ${t('card.agenda_tag') || 'AGENDA'}`) : `Més informació: ${infoText}`}
                     >
                         {hasNotice ? (
                             <div className="flex items-center gap-1">
-                                {isPinned ? <Pin size={16} fill="currentColor" /> : isEventOrAgenda ? <Info size={14} className="text-[#F97316]" fill="currentColor" /> : null}
+                                {isPinned ? <Pin size={16} fill="currentColor" /> : isEventOrAgenda ? <Info size={14} className="text-[var(--sp-orange-500)]" fill="currentColor" /> : null}
                                 {!isPinned && <span className="text-[12px] font-black uppercase tracking-wider leading-none mt-0.5">{t('card.agenda_tag') || 'AGENDA'}</span>}
                             </div>
                         ) : (
@@ -173,7 +173,7 @@ const UniversalCardHeader = ({
                     {displayDate && <div className="text-[12px] opacity-90 leading-none"><span>{displayDate}</span></div>}
                 </UniversalCardActionButton>
             </div>
-        </div>
+        </header>
     );
 };
 

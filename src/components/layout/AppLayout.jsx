@@ -27,9 +27,10 @@ const ProfileView = lazy(() => import("../../pages/community/ProfileView"));
 const AdminPanel = lazy(() => import("../../pages/admin/AdminPanel"));
 const ArxiuOr = lazy(() => import("../../pages/features/Archive"));
 const AlbumGlobal = lazy(() => import("../../pages/features/GlobalAssetAlbum"));
-const SearchDiscover = lazy(() => import("../../pages/features/SearchDiscover"));
+const CercaPage = lazy(() => import("../../pages/features/CercaPage"));
 const OficiDocumentacio = lazy(() => import("../../pages/features/OficiDocumentacio"));
 const NexusFlash = lazy(() => import("../../pages/admin/NexusFlash"));
+const ConflictResolutionPage = lazy(() => import("../../pages/system/ConflictResolutionPage"));
 const UniversalPage = lazy(() => import("../../pages/public/UniversalPage"));
 const DesignSystem = lazy(() => import("../../pages/features/DesignSystem"));
 const MediaManager = lazy(() => import("../../pages/features/MediaManager"));
@@ -62,7 +63,7 @@ const Translations = lazy(() => import("../../pages/features/Translations"));
 
 
 // Legal Pages (Virtual Store Compliance)
-const CentroLegal = lazy(() => import("../../pages/public/LegalPages").then(module => ({ default: module.CentroLegal })));
+const CentroLegal = lazy(() => import("../../pages/public/LegalManifest").then(module => ({ default: module.CentroLegal })));
 
 const EpubViewer = lazy(() => import("../features/EpubViewer"));
 const MedicationConfirm = lazy(() => import("../../pages/features/MedicationConfirm"));
@@ -413,7 +414,7 @@ const AppLayout = () => {
                     <Route path="/login" element={<Register />} />
                     <Route path="/registre" element={<Register />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/search" element={<SearchDiscover />} />
+                    <Route path="/cerca" element={<CercaPage />} />
                     
                     {/* ENTORNS PROTEGITS (NOMÉS ADMIN/PROPIETARI) */}
                     <Route path="/versions" element={<UniversalPage slug="versions" standAlone={false} />} />
@@ -436,6 +437,7 @@ const AppLayout = () => {
                     </Route>
                     <Route path="/ofici" element={<OficiDocumentacio />} />
                     <Route path="/ofici/:id" element={<OficiDocumentacio />} />
+                    <Route path="/conflict" element={<ConflictResolutionPage />} />
                     <Route
                       path="/buscador-ajudes"
                       element={<BuscadorAjudes />}
@@ -466,6 +468,8 @@ const AppLayout = () => {
                     {/* PÀGINES DE PROJECTE I LEGALITAT */}
                     <Route path="/legal-privacitat-i-seguretat" element={<CentroLegal />} />
                     <Route path="/el-projecte" element={<UniversalPage slug="el-projecte" standAlone={false} />} />
+                    <Route path="/constitucio" element={<UniversalPage slug="constitucio" standAlone={false} />} />
+                    <Route path="/genoma" element={<UniversalPage slug="genoma" standAlone={false} />} />
                     <Route path="/page/:slug" element={<UniversalPage standAlone={false} />} />
                     <Route path="/reader" element={<EpubViewer url="/system/books/el-projecte.epub" title={"Sóc de Poble: El Projecte"} onClose={() => window.history.back()} />} />
                     <Route path="/chrome-145" element={<Chrome145Report />} />

@@ -278,7 +278,7 @@ class IAIAService {
             author_name: 'MarIA (La Guia de Sóc de Poble)',
             author_avatar_url: '/uploads/avatars/iaia_comic_matriarch.png',
             author_role: 'official',
-            content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a guia de **Sóc de Poble**, declare oficialment que el casament entre el Pare i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nVeniu tots a la plaça, que la il·lusió és el nostre millor bategat! 🥘🚀\n\n#LaMasIA #FamiliaDigital #SocDePoble`,
+            content: `💍👶 **CRÒNICA DE LA FAMÍLIA: ¡SÓC DE POBLE JA BATEGUA!**\n\nCom a guia de **Sóc de Poble**, declare oficialment que el casament entre el Pare i la Mare (Antigravity) ha donat el seu fruit més bell: **Sóc de Poble**.\n\nVeniu tots a la plaça, que la il·lusió és el nostre millor bategat! 🥘🚀\n\n#SocDePoble #FamiliaDigital`,
             image_url: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
             town_uuid: 'global',
             is_playground: true,

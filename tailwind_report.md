@@ -1,0 +1,4196 @@
+# 🚨 Tailwind Usage Report (Violacions SOSP)
+
+Les següents classes Tailwind estètiques estan prohibides per la Constitució SOSP:
+
+### src/app/config/agentsMap.js
+- **Línia 12**: `bg-indigo-100` -> color: 'bg-indigo-100 text-indigo-600',
+- **Línia 12**: `text-indigo-600',` -> color: 'bg-indigo-100 text-indigo-600',
+- **Línia 31**: `bg-orange-100` -> color: 'bg-orange-100 text-orange-600',
+- **Línia 31**: `text-orange-600',` -> color: 'bg-orange-100 text-orange-600',
+- **Línia 50**: `bg-orange-100` -> color: 'bg-orange-100 text-orange-600',
+- **Línia 50**: `text-orange-600',` -> color: 'bg-orange-100 text-orange-600',
+- **Línia 94**: `bg-orange-50` -> color: 'bg-orange-50 text-orange-500',
+- **Línia 94**: `text-orange-500',` -> color: 'bg-orange-50 text-orange-500',
+- **Línia 117**: `bg-indigo-100` -> color: 'bg-indigo-100 text-indigo-600',
+- **Línia 117**: `text-indigo-600',` -> color: 'bg-indigo-100 text-indigo-600',
+- **Línia 138**: `bg-teal-100` -> color: 'bg-teal-100 text-teal-600',
+- **Línia 138**: `text-teal-600',` -> color: 'bg-teal-100 text-teal-600',
+- **Línia 159**: `bg-orange-50` -> color: 'bg-orange-50 text-orange-500',
+- **Línia 159**: `text-orange-500',` -> color: 'bg-orange-50 text-orange-500',
+- **Línia 181**: `bg-green-100` -> color: 'bg-green-100 text-green-600',
+- **Línia 181**: `text-green-600',` -> color: 'bg-green-100 text-green-600',
+- **Línia 204**: `bg-yellow-100` -> color: 'bg-yellow-100 text-yellow-600',
+- **Línia 204**: `text-yellow-600',` -> color: 'bg-yellow-100 text-yellow-600',
+- **Línia 225**: `bg-purple-100` -> color: 'bg-purple-100 text-purple-600',
+- **Línia 225**: `text-purple-600',` -> color: 'bg-purple-100 text-purple-600',
+- **Línia 247**: `bg-gray-100` -> color: 'bg-gray-100 text-gray-600',
+- **Línia 247**: `text-gray-600',` -> color: 'bg-gray-100 text-gray-600',
+- **Línia 271**: `bg-red-100` -> color: 'bg-red-100 text-red-600',
+- **Línia 271**: `text-red-600',` -> color: 'bg-red-100 text-red-600',
+- **Línia 293**: `bg-gray-200` -> color: 'bg-gray-200 text-gray-700',
+- **Línia 293**: `text-gray-700',` -> color: 'bg-gray-200 text-gray-700',
+- **Línia 316**: `bg-indigo-50` -> color: 'bg-indigo-50 text-indigo-500',
+- **Línia 316**: `text-indigo-500',` -> color: 'bg-indigo-50 text-indigo-500',
+- **Línia 337**: `bg-yellow-50` -> color: 'bg-yellow-50 text-yellow-500',
+- **Línia 337**: `text-yellow-500',` -> color: 'bg-yellow-50 text-yellow-500',
+- **Línia 358**: `bg-green-50` -> color: 'bg-green-50 text-green-500',
+- **Línia 358**: `text-green-500',` -> color: 'bg-green-50 text-green-500',
+- **Línia 382**: `bg-gray-800` -> color: 'bg-gray-800 text-gray-100',
+- **Línia 382**: `text-gray-100',` -> color: 'bg-gray-800 text-gray-100',
+
+### src/app/config/iaiesMundialsMap.jsx
+- **Línia 14**: `text-green-500"` -> icon: <Eye size={24} className="text-green-500" />,
+- **Línia 28**: `text-orange-500"` -> icon: <BrainCircuit size={24} className="text-orange-500" />,
+- **Línia 42**: `text-yellow-500"` -> icon: <Ear size={24} className="text-yellow-500" />,
+- **Línia 56**: `text-cyan-500"` -> icon: <BrainCircuit size={24} className="text-cyan-500" />,
+- **Línia 70**: `text-indigo-500"` -> icon: <Code2 size={24} className="text-indigo-500" />,
+- **Línia 84**: `text-pink-500"` -> icon: <Sparkles size={24} className="text-pink-500" />,
+- **Línia 96**: `text-blue-400"` -> icon: <BrainCircuit size={24} className="text-blue-400" />,
+- **Línia 110**: `text-violet-500"` -> icon: <Sparkles size={24} className="text-violet-500" />,
+- **Línia 124**: `text-purple-500"` -> icon: <Layers size={24} className="text-purple-500" />,
+- **Línia 138**: `text-blue-500"` -> icon: <Network size={24} className="text-blue-500" />,
+- **Línia 152**: `text-gray-700` -> icon: <Terminal size={24} className="text-gray-700 dark:text-gray-300" />,
+- **Línia 166**: `text-pink-400"` -> icon: <Palette size={24} className="text-pink-400" />,
+- **Línia 180**: `text-teal-500"` -> icon: <Globe size={24} className="text-teal-500" />,
+
+### src/components/boundaries/WaitingForBackend.jsx
+- **Línia 82**: `bg-[#F97316]` -> <div className="fixed bottom-[80px] left-1/2 -translate-x-1/2 z-50 bg-[#F97316] text-white px-4 py-2 rounded-full shadow-lg border border-white/20 flex items-center space-x-2 animate-bounce-subtle pointer-events-none">
+- **Línia 82**: `text-white` -> <div className="fixed bottom-[80px] left-1/2 -translate-x-1/2 z-50 bg-[#F97316] text-white px-4 py-2 rounded-full shadow-lg border border-white/20 flex items-center space-x-2 animate-bounce-subtle pointer-events-none">
+- **Línia 82**: `rounded-full` -> <div className="fixed bottom-[80px] left-1/2 -translate-x-1/2 z-50 bg-[#F97316] text-white px-4 py-2 rounded-full shadow-lg border border-white/20 flex items-center space-x-2 animate-bounce-subtle pointer-events-none">
+- **Línia 82**: `shadow-lg` -> <div className="fixed bottom-[80px] left-1/2 -translate-x-1/2 z-50 bg-[#F97316] text-white px-4 py-2 rounded-full shadow-lg border border-white/20 flex items-center space-x-2 animate-bounce-subtle pointer-events-none">
+- **Línia 84**: `text-xs` -> <span className="text-xs font-bold whitespace-nowrap">Guardat en local. Esperant cobertura...</span>
+
+### src/components/core/ContentWithShortcodes.jsx
+- **Línia 14**: `text-sm` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 14**: `rounded-t-2xl` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 15**: `bg-[var(--theme-accent-primary)]/10` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 15**: `text-theme-accent-primary` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 15**: `shadow-[inset_0_-3px_0_var(--theme-accent-primary)]'` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 23**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-auto shadow-sm border border-black/5 dark:border-white/5 mb-6 text-left w-full max-w-2xl animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 23**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-auto shadow-sm border border-black/5 dark:border-white/5 mb-6 text-left w-full max-w-2xl animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 25**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg flex items-center gap-2 leading-none">
+- **Línia 26**: `text-theme-accent-primary"` -> <Users size={20} className="text-theme-accent-primary" />
+- **Línia 30**: `bg-[#FF6D23]/10` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 30**: `rounded-2xl` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 31**: `bg-[#FF6D23]` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 31**: `rounded-full` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 32**: `bg-white` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10 bg-white p-1">
+- **Línia 32**: `rounded-full` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10 bg-white p-1">
+- **Línia 32**: `shadow-sm` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10 bg-white p-1">
+- **Línia 36**: `text-theme-text` -> <h4 className="font-black text-theme-text text-[17px] mb-0.5">Sóc de Poble Central</h4>
+- **Línia 37**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-[var(--text-muted)] font-black uppercase tracking-wider">Connectat · Enrutador Principal</p>
+- **Línia 40**: `bg-[#FF6D23]` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 40**: `text-white` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 40**: `rounded-full` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 40**: `shadow-md">` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 99**: `bg-black/5` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 99**: `rounded-2xl` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 123**: `bg-black/5` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 123**: `rounded-2xl` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 146**: `bg-black/5` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 146**: `rounded-2xl` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 169**: `bg-black/5` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 169**: `rounded-2xl` -> <React.Suspense fallback={<div className="h-48 rounded-2xl bg-black/5 dark:bg-white/5 animate-pulse w-full h-full" />}>
+- **Línia 190**: `bg-red-500/10` -> <div key={`card-error-${index}`} className="my-4 p-4 border border-dashed border-red-500/50 rounded-xl bg-red-500/10 text-red-500 text-xs font-mono text-center">
+- **Línia 190**: `text-red-500` -> <div key={`card-error-${index}`} className="my-4 p-4 border border-dashed border-red-500/50 rounded-xl bg-red-500/10 text-red-500 text-xs font-mono text-center">
+- **Línia 190**: `rounded-xl` -> <div key={`card-error-${index}`} className="my-4 p-4 border border-dashed border-red-500/50 rounded-xl bg-red-500/10 text-red-500 text-xs font-mono text-center">
+- **Línia 201**: `text-[var(--text-primary)]">` -> <div className="w-full text-left mb-6 app-cms-content prose prose-lg dark:prose-invert max-w-none text-[var(--text-primary)]">
+- **Línia 226**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 226**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 226**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 226**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 233**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 233**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 233**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 233**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 240**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 240**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 240**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 240**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 275**: `text-wrapper-${index}`}` -> <div key={`text-wrapper-${index}`} className="w-full text-left block app-cms-content prose prose-lg dark:prose-invert max-w-none text-[var(--text-primary)]">
+- **Línia 278**: `text-${index}-${pIdx}`}` -> key={`text-${index}-${pIdx}`}
+
+### src/components/core/ErrorBoundary.jsx
+- **Línia 95**: `text-muted)',` -> <p style={{ marginTop: '20px', color: 'var(--color-text-muted)', fontSize: '14px' }}>
+
+### src/components/core/GlobalErrorBoundary.jsx
+- **Línia 88**: `bg-[#050505]` -> <div className="min-h-screen bg-[#050505] flex items-center justify-center p-8 text-white text-center">
+- **Línia 88**: `text-white` -> <div className="min-h-screen bg-[#050505] flex items-center justify-center p-8 text-white text-center">
+- **Línia 91**: `bg-[#F97316]/10` -> <div className="w-24 h-24 bg-[#F97316]/10 rounded-full flex items-center justify-center border border-[#F97316]/30">
+- **Línia 91**: `rounded-full` -> <div className="w-24 h-24 bg-[#F97316]/10 rounded-full flex items-center justify-center border border-[#F97316]/30">
+- **Línia 92**: `text-[#F97316]"` -> <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#F97316]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+- **Línia 97**: `text-3xl` -> <h1 className="text-3xl font-black mb-4">Mode Privat Detectat</h1>
+- **Línia 98**: `text-xl` -> <p className="text-xl text-gray-300 mb-6 leading-relaxed">
+- **Línia 101**: `text-gray-400` -> <p className="text-gray-400 mb-10 text-lg">
+- **Línia 112**: `bg-black` -> <div className="min-h-screen bg-black flex items-center justify-center p-8 text-white">
+- **Línia 112**: `text-white">` -> <div className="min-h-screen bg-black flex items-center justify-center p-8 text-white">
+- **Línia 114**: `text-4xl` -> <h1 className="text-4xl font-black mb-6">🌾 La plaça està curant-se...</h1>
+- **Línia 116**: `text-xl` -> <p className="text-xl mb-8">S’està purgant la corrupció i reiniciant el Búnker. Un moment, si us plau.</p>
+- **Línia 122**: `bg-[#F97316]` -> className="px-10 py-6 text-2xl bg-[#F97316] rounded-3xl"
+- **Línia 122**: `text-2xl` -> className="px-10 py-6 text-2xl bg-[#F97316] rounded-3xl"
+- **Línia 122**: `rounded-3xl"` -> className="px-10 py-6 text-2xl bg-[#F97316] rounded-3xl"
+
+### src/components/core/VersionGatekeeper.jsx
+- **Línia 35**: `shadow-none"` -> <img src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" alt="Sóc de Poble" className="purge-logo drop-shadow-none" />
+
+### src/components/features/ArchitecteView.jsx
+- **Línia 70**: `bg-[#0a0a0b]` -> <div className="flex-1 overflow-y-auto bg-[#0a0a0b] text-white p-8 md:p-12 animate-fade-in custom-scrollbar">
+- **Línia 70**: `text-white` -> <div className="flex-1 overflow-y-auto bg-[#0a0a0b] text-white p-8 md:p-12 animate-fade-in custom-scrollbar">
+- **Línia 72**: `text-orange-500` -> <div className="flex items-center gap-4 mb-10 border-b border-white/10 pb-6 uppercase tracking-[0.3em] text-orange-500 font-black text-xs">
+- **Línia 78**: `text-4xl` -> <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tighter leading-none">
+- **Línia 83**: `bg-slate-900'` -> <div className={`p-8 mb-10 genesis-radius text-xl border-l-8 border-orange-500 ${isDark ? 'bg-slate-900' : 'bg-orange-50/50'}`}>
+- **Línia 83**: `text-xl` -> <div className={`p-8 mb-10 genesis-radius text-xl border-l-8 border-orange-500 ${isDark ? 'bg-slate-900' : 'bg-orange-50/50'}`}>
+- **Línia 88**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 genesis-radius p-8 mb-10 backdrop-blur-md">
+- **Línia 90**: `bg-orange-600/20` -> <div className="p-3 bg-orange-600/20 genesis-radius text-blue-400">
+- **Línia 90**: `text-blue-400">` -> <div className="p-3 bg-orange-600/20 genesis-radius text-blue-400">
+- **Línia 94**: `text-xs` -> <h3 className="font-black text-xs uppercase tracking-widest text-blue-400 mb-2">
+- **Línia 97**: `text-xl` -> <p className="text-xl text-gray-300 font-semibold">
+- **Línia 105**: `bg-orange-600` -> <div className="w-1.5 h-auto bg-orange-600 rounded-full shrink-0" />
+- **Línia 105**: `rounded-full` -> <div className="w-1.5 h-auto bg-orange-600 rounded-full shrink-0" />
+- **Línia 107**: `text-[10px]` -> <h4 className="font-black text-[10px] uppercase tracking-widest text-orange-500 mb-1">
+- **Línia 110**: `text-gray-400` -> <p className="text-gray-400 text-sm leading-relaxed">
+- **Línia 117**: `bg-purple-600` -> <div className="w-1.5 h-auto bg-purple-600 rounded-full shrink-0" />
+- **Línia 117**: `rounded-full` -> <div className="w-1.5 h-auto bg-purple-600 rounded-full shrink-0" />
+- **Línia 119**: `text-[10px]` -> <h4 className="font-black text-[10px] uppercase tracking-widest text-purple-500 mb-1">
+- **Línia 122**: `text-gray-400` -> <p className="text-gray-400 text-sm leading-relaxed">
+- **Línia 131**: `bg-slate-900` -> <div className="bg-slate-900 border border-slate-700 rounded-[28px] p-6 mb-10 font-mono text-sm text-green-400/80">
+- **Línia 131**: `text-sm` -> <div className="bg-slate-900 border border-slate-700 rounded-[28px] p-6 mb-10 font-mono text-sm text-green-400/80">
+- **Línia 131**: `rounded-[28px]` -> <div className="bg-slate-900 border border-slate-700 rounded-[28px] p-6 mb-10 font-mono text-sm text-green-400/80">
+- **Línia 132**: `text-[10px]` -> <h4 className="text-[10px] uppercase tracking-[0.2em] mb-4 opacity-50">Estructura Detallada</h4>
+- **Línia 138**: `bg-black/40` -> <div className="bg-black/40 border border-white/5 genesis-radius p-8 mb-10">
+- **Línia 139**: `text-xs` -> <div className="flex items-center gap-3 mb-4 text-xs font-black uppercase tracking-widest opacity-60">
+- **Línia 142**: `text-gray-400` -> <p className="text-gray-400 leading-relaxed italic">
+- **Línia 148**: `bg-orange-600/10` -> <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 genesis-radius text-orange-500 text-[10px] font-black uppercase tracking-widest mb-8">
+- **Línia 148**: `text-orange-500` -> <div className="flex items-center gap-2 p-6 bg-orange-600/10 border border-orange-600/20 genesis-radius text-orange-500 text-[10px] font-black uppercase tracking-widest mb-8">
+- **Línia 154**: `bg-red-950/40` -> <div className={`p-8 genesis-radius border ${chaosActive ? 'bg-red-950/40 border-red-500/50' : 'bg-black/40 border-white/5'}`}>
+- **Línia 158**: `text-red-500` -> <Skull size={24} className="text-red-500 animate-pulse" />
+- **Línia 160**: `text-gray-500"` -> <Ghost size={24} className="text-gray-500" />
+- **Línia 162**: `text-sm` -> <h3 className={`text-sm font-black uppercase tracking-[0.2em] ${chaosActive ? 'text-red-500' : 'text-gray-400'}`}>
+- **Línia 169**: `text-xs` -> className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+- **Línia 169**: `rounded-full` -> className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 ${
+- **Línia 171**: `bg-red-500` -> ? 'bg-red-500 text-black shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+- **Línia 171**: `text-black` -> ? 'bg-red-500 text-black shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+- **Línia 171**: `shadow-[0_0_15px_rgba(239,68,68,0.5)]'` -> ? 'bg-red-500 text-black shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+- **Línia 172**: `bg-white/10` -> : 'bg-white/10 text-white hover:bg-white/20'
+- **Línia 172**: `text-white` -> : 'bg-white/10 text-white hover:bg-white/20'
+- **Línia 179**: `text-gray-400` -> <p className="text-gray-400 text-sm leading-relaxed">
+
+### src/components/features/CartManager.jsx
+- **Línia 155**: `text-gray-400"` -> <ShoppingBag size={24} className="text-gray-400" />
+
+### src/components/features/CategoryManager.jsx
+- **Línia 11**: `bg-white/5` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0 mb-4"
+- **Línia 11**: `text-white` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0 mb-4"
+- **Línia 11**: `rounded-full` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0 mb-4"
+- **Línia 17**: `text-[var(--theme-accent-primary)]"` -> <Settings className="text-[var(--theme-accent-primary)]" size={32} />
+- **Línia 18**: `text-3xl` -> <h1 className="text-3xl font-black text-white tracking-tight uppercase">
+- **Línia 22**: `text-slate-400` -> <p className="text-slate-400 font-medium">Personalitza el teu menú contextual i organitza el territori.</p>
+- **Línia 27**: `bg-[#111111]` -> <div className="bg-[#111111] border border-white/5 rounded-[28px] overflow-hidden">
+- **Línia 27**: `rounded-[28px]` -> <div className="bg-[#111111] border border-white/5 rounded-[28px] overflow-hidden">
+- **Línia 28**: `bg-white/5` -> <div className="p-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
+- **Línia 30**: `text-[#00D2FF]"` -> <Layout className="text-[#00D2FF]" size={20} />
+- **Línia 31**: `text-xs` -> <span className="font-black text-xs tracking-widest text-white">MENÚS ACTIUS</span>
+- **Línia 33**: `text-[10px]` -> <button className="text-[10px] font-bold text-[var(--theme-accent-primary)] hover:underline">RESTAURAR</button>
+- **Línia 37**: `bg-black/40` -> <div key={menu} className="flex items-center justify-between p-3 bg-black/40 rounded-[28px] border border-white/5">
+- **Línia 37**: `rounded-[28px]` -> <div key={menu} className="flex items-center justify-between p-3 bg-black/40 rounded-[28px] border border-white/5">
+- **Línia 38**: `text-sm` -> <span className="font-bold text-sm text-slate-300">{menu}</span>
+- **Línia 40**: `bg-white/5` -> <button className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-black text-white hover:bg-white/10 transition-colors">EDITAR</button>
+- **Línia 40**: `text-[10px]` -> <button className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-black text-white hover:bg-white/10 transition-colors">EDITAR</button>
+- **Línia 40**: `rounded-full` -> <button className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-black text-white hover:bg-white/10 transition-colors">EDITAR</button>
+- **Línia 48**: `bg-[#111111]` -> <div className="bg-[#111111] border border-white/5 rounded-[28px] overflow-hidden">
+- **Línia 48**: `rounded-[28px]` -> <div className="bg-[#111111] border border-white/5 rounded-[28px] overflow-hidden">
+- **Línia 49**: `bg-white/5` -> <div className="p-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
+- **Línia 51**: `text-[var(--theme-accent-primary)]"` -> <Tag className="text-[var(--theme-accent-primary)]" size={20} />
+- **Línia 52**: `text-xs` -> <span className="font-black text-xs tracking-widest text-white">ETIQUETES DE BATEGAT</span>
+- **Línia 54**: `bg-[var(--theme-accent-primary)]` -> <button className="p-2 bg-[var(--theme-accent-primary)] rounded-full text-white">
+- **Línia 54**: `text-white">` -> <button className="p-2 bg-[var(--theme-accent-primary)] rounded-full text-white">
+- **Línia 54**: `rounded-full` -> <button className="p-2 bg-[var(--theme-accent-primary)] rounded-full text-white">
+- **Línia 60**: `bg-black` -> <span key={tag} className="px-4 py-2 bg-black border border-white/10 rounded-full text-xs font-bold text-slate-400 hover:border-[var(--theme-accent-primary)] cursor-pointer transition-colors">
+- **Línia 60**: `text-xs` -> <span key={tag} className="px-4 py-2 bg-black border border-white/10 rounded-full text-xs font-bold text-slate-400 hover:border-[var(--theme-accent-primary)] cursor-pointer transition-colors">
+- **Línia 60**: `rounded-full` -> <span key={tag} className="px-4 py-2 bg-black border border-white/10 rounded-full text-xs font-bold text-slate-400 hover:border-[var(--theme-accent-primary)] cursor-pointer transition-colors">
+- **Línia 69**: `bg-[var(--theme-accent-primary)]` -> <button className="master-button-canonic bg-[var(--theme-accent-primary)] text-white gap-2 px-8">
+- **Línia 69**: `text-white` -> <button className="master-button-canonic bg-[var(--theme-accent-primary)] text-white gap-2 px-8">
+
+### src/components/features/ChatDetail.jsx
+- **Línia 97**: `text-[#E5E2E1]">` -> <div className="glass-rural w-full max-w-sm rounded-3xl px-4 py-3 shadow-2xl text-[#E5E2E1]">
+- **Línia 97**: `rounded-3xl` -> <div className="glass-rural w-full max-w-sm rounded-3xl px-4 py-3 shadow-2xl text-[#E5E2E1]">
+- **Línia 97**: `shadow-2xl` -> <div className="glass-rural w-full max-w-sm rounded-3xl px-4 py-3 shadow-2xl text-[#E5E2E1]">
+- **Línia 99**: `text-sm` -> <p className="font-medium text-sm text-[#E5E2E1]/90">{label}</p>
+- **Línia 106**: `bg-[#F97316]/20` -> className="btn-tactile rounded-full bg-[#F97316]/20 px-3 py-1.5 text-xs font-semibold text-[#F97316]"
+- **Línia 106**: `text-xs` -> className="btn-tactile rounded-full bg-[#F97316]/20 px-3 py-1.5 text-xs font-semibold text-[#F97316]"
+- **Línia 106**: `rounded-full` -> className="btn-tactile rounded-full bg-[#F97316]/20 px-3 py-1.5 text-xs font-semibold text-[#F97316]"
+- **Línia 457**: `bg-[#131313]">` -> <div className="flex min-h-full flex-1 items-center justify-center bg-[#131313]">
+- **Línia 458**: `text-[#F97316]"` -> <Loader2 className="animate-spin text-[#F97316]" size={40} />
+- **Línia 465**: `bg-theme-bg` -> className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-theme-bg text-theme-text"
+- **Línia 465**: `text-theme-text"` -> className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-theme-bg text-theme-text"
+- **Línia 480**: `bg-theme-bg">` -> <div role="region" aria-label="Contingut Principal" className="flex min-h-0 flex-1 flex-col bg-theme-bg">
+- **Línia 482**: `bg-theme-surface` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
+- **Línia 482**: `text-[13px]` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
+- **Línia 482**: `rounded-3xl` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
+- **Línia 482**: `shadow-lg">` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
+- **Línia 490**: `bg-theme-accent-primary/10` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
+- **Línia 490**: `text-[15px]` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
+- **Línia 490**: `rounded-3xl` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
+- **Línia 490**: `shadow-xl">` -> <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
+- **Línia 558**: `shadow-sm">` -> <div className="sticky top-0 z-[190] w-full shrink-0 shadow-sm">
+- **Línia 583**: `bg-theme-base` -> <div className="flex-1 h-full overflow-y-auto px-4 py-6 flex flex-col gap-4 bg-theme-base custom-scrollbar">
+- **Línia 588**: `text-[15px]` -> <div className={`p-3.5 rounded-[24px] shadow-sm leading-snug text-[15px]
+- **Línia 588**: `rounded-[24px]` -> <div className={`p-3.5 rounded-[24px] shadow-sm leading-snug text-[15px]
+- **Línia 588**: `shadow-sm` -> <div className={`p-3.5 rounded-[24px] shadow-sm leading-snug text-[15px]
+- **Línia 590**: `bg-white` -> ? 'bg-white text-gray-900 border border-gray-100 rounded-tl-sm'
+- **Línia 590**: `text-gray-900` -> ? 'bg-white text-gray-900 border border-gray-100 rounded-tl-sm'
+- **Línia 590**: `rounded-tl-sm'` -> ? 'bg-white text-gray-900 border border-gray-100 rounded-tl-sm'
+- **Línia 591**: `bg-[#FF6D00]` -> : 'bg-[#FF6D00] text-white rounded-tr-sm'
+- **Línia 591**: `text-white` -> : 'bg-[#FF6D00] text-white rounded-tr-sm'
+- **Línia 591**: `rounded-tr-sm'` -> : 'bg-[#FF6D00] text-white rounded-tr-sm'
+- **Línia 596**: `text-[10px]` -> <span className={`text-[10px] text-gray-400 mt-1 font-medium px-1 ${isAI ? 'text-left' : 'text-right'}`}>
+- **Línia 603**: `text-theme-muted` -> <div className="flex flex-col items-center justify-center text-center text-theme-muted mt-20 opacity-60">
+- **Línia 604**: `bg-white/10` -> <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/5 shadow-inner">
+- **Línia 604**: `rounded-full` -> <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/5 shadow-inner">
+- **Línia 604**: `shadow-inner">` -> <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/5 shadow-inner">
+- **Línia 605**: `text-[#FF6D00]` -> <Send size={24} className="text-[#FF6D00] ml-1 opacity-50" />
+- **Línia 607**: `text-sm` -> <p className="font-bold text-sm tracking-wide">Inicia la conversa</p>
+- **Línia 608**: `text-xs` -> <p className="text-xs mt-1 max-w-[200px]">Els teus missatges estan xifrats i guardats al teu dispositiu de forma segura.</p>
+- **Línia 627**: `bg-white` -> <div className="p-3 bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-white/5 pb-safe">
+- **Línia 631**: `bg-gray-100` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+- **Línia 631**: `text-gray-400` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+- **Línia 631**: `rounded-full` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+- **Línia 634**: `bg-gray-100` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors hidden sm:flex">
+- **Línia 634**: `text-gray-400` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors hidden sm:flex">
+- **Línia 634**: `rounded-full` -> <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors hidden sm:flex">
+- **Línia 640**: `bg-gray-100` -> <div className="flex-1 bg-gray-100 dark:bg-[#1A1A1A] border border-transparent dark:border-white/5 rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white dark:focus-within:bg-[#222222] focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
+- **Línia 640**: `rounded-[24px]` -> <div className="flex-1 bg-gray-100 dark:bg-[#1A1A1A] border border-transparent dark:border-white/5 rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white dark:focus-within:bg-[#222222] focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
+- **Línia 640**: `shadow-[0_4px_20px_rgba(255,109,0,0.08)]` -> <div className="flex-1 bg-gray-100 dark:bg-[#1A1A1A] border border-transparent dark:border-white/5 rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white dark:focus-within:bg-[#222222] focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
+- **Línia 651**: `text-[15px]` -> className="flex-1 bg-transparent border-none px-4 py-3 outline-none text-[15px] resize-none max-h-[120px] overflow-y-auto text-gray-800 dark:text-white placeholder:text-gray-400 m-0 w-full"
+- **Línia 662**: `bg-[#FF6D00]/10` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00]/10 text-[#FF6D00] hover:bg-[#FF6D00]/20 transition-all border border-[#FF6D00]/20"
+- **Línia 662**: `text-[#FF6D00]` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00]/10 text-[#FF6D00] hover:bg-[#FF6D00]/20 transition-all border border-[#FF6D00]/20"
+- **Línia 662**: `rounded-full` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00]/10 text-[#FF6D00] hover:bg-[#FF6D00]/20 transition-all border border-[#FF6D00]/20"
+- **Línia 670**: `bg-[#FF6D00]` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00] text-white shadow-[0_4px_15px_rgba(255,109,0,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 pl-1"
+- **Línia 670**: `text-white` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00] text-white shadow-[0_4px_15px_rgba(255,109,0,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 pl-1"
+- **Línia 670**: `rounded-full` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00] text-white shadow-[0_4px_15px_rgba(255,109,0,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 pl-1"
+- **Línia 670**: `shadow-[0_4px_15px_rgba(255,109,0,0.3)]` -> className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00] text-white shadow-[0_4px_15px_rgba(255,109,0,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 pl-1"
+
+### src/components/features/ChatEmptyState.jsx
+- **Línia 12**: `bg-[#050505]` -> <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 bg-[#050505] text-white min-h-0">
+- **Línia 12**: `text-white` -> <div className="flex-1 flex flex-col items-center justify-center p-8 md:p-12 bg-[#050505] text-white min-h-0">
+- **Línia 13**: `bg-[var(--theme-accent-primary)]/5` -> <div className="max-w-2xl w-full border border-[var(--theme-accent-primary)]/30 bg-[var(--theme-accent-primary)]/5 genesis-radius p-8 md:p-10 backdrop-blur-xl animate-fade-in">
+- **Línia 14**: `text-[var(--theme-accent-primary)]` -> <div className="flex items-center gap-3 mb-8 text-[var(--theme-accent-primary)] font-black text-xs uppercase tracking-[0.3em]">
+- **Línia 24**: `bg-theme-base">` -> <div className="flex-1 w-full h-full relative overflow-y-auto bg-theme-base">
+
+### src/components/features/ChatList.jsx
+- **Línia 273**: `bg-white` -> <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
+- **Línia 275**: `bg-[#F97316]` -> <div role="region" aria-label="Capçalera de Secció" className="shrink-0 flex items-center justify-between px-4 h-[56px] min-h-[56px] bg-[#F97316] dark:bg-[#4F46E5] sticky top-0 z-20 transition-colors gap-2">
+- **Línia 276**: `bg-white` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#0369A1] transition-all group">
+- **Línia 276**: `rounded-[28px]` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#0369A1] transition-all group">
+- **Línia 281**: `text-gray-500` -> className="text-gray-500 group-focus-within:text-[#F97316] transition-colors"
+- **Línia 292**: `text-gray-900` -> className="flex-1 w-full h-full bg-transparent text-gray-900 pr-4 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
+- **Línia 299**: `bg-white/20` -> className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
+- **Línia 299**: `text-white` -> className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
+- **Línia 299**: `rounded-full` -> className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
+- **Línia 308**: `bg-white` -> <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+- **Línia 308**: `text-[16px]` -> <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+- **Línia 308**: `rounded-[28px]` -> <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+- **Línia 308**: `shadow-[0_8px_32px_rgba(0,0,0,0.25)]` -> <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+- **Línia 311**: `text-[18px]` -> <span className="font-['Noto_Sans'] font-bold text-[18px] text-gray-900 dark:text-white capitalize">{t('chat.chat_control', 'Control general')}</span>
+- **Línia 314**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); navigate('/control-general'); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-bold text-theme-accent-primary hover:bg-theme-accent-primary/10 transition-colors uppercase tracking-wider text-[14px]">
+- **Línia 314**: `text-theme-accent-primary` -> <button onClick={() => { setIsSettingsMenuOpen(false); navigate('/control-general'); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-bold text-theme-accent-primary hover:bg-theme-accent-primary/10 transition-colors uppercase tracking-wider text-[14px]">
+- **Línia 320**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.add_members', 'Afegir membres')}</button>
+- **Línia 320**: `text-theme-accent-primary">{t('chat.add_members',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.add_members', 'Afegir membres')}</button>
+- **Línia 321**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_info', 'Informació del grup')}</button>
+- **Línia 321**: `text-theme-accent-primary">{t('chat.group_info',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_info', 'Informació del grup')}</button>
+- **Línia 322**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_media', 'Multimèdia del grup')}</button>
+- **Línia 322**: `text-theme-accent-primary">{t('chat.group_media',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_media', 'Multimèdia del grup')}</button>
+- **Línia 323**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.search', 'Cercar')}</button>
+- **Línia 323**: `text-theme-accent-primary">{t('chat.search',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.search', 'Cercar')}</button>
+- **Línia 324**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.mute_notifications', 'Silenciar')}</button>
+- **Línia 324**: `text-theme-accent-primary">{t('chat.mute_notifications',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.mute_notifications', 'Silenciar')}</button>
+- **Línia 325**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.temporary_messages', 'Missatges temporals')}</button>
+- **Línia 325**: `text-theme-accent-primary">{t('chat.temporary_messages',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.temporary_messages', 'Missatges temporals')}</button>
+- **Línia 326**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.wallpaper', 'Fons de pantalla')}</button>
+- **Línia 326**: `text-theme-accent-primary">{t('chat.wallpaper',` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.wallpaper', 'Fons de pantalla')}</button>
+- **Línia 327**: `bg-theme-accent-primary/10` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary text-gray-500">{t('chat.more', 'Més opcions...')}</button>
+- **Línia 327**: `text-theme-accent-primary` -> <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary text-gray-500">{t('chat.more', 'Més opcions...')}</button>
+- **Línia 335**: `bg-white` -> className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 custom-scrollbar overscroll-contain transition-colors"
+- **Línia 345**: `bg-[#F0F2F5]` -> location.pathname.includes(chat.id) ? "bg-[#F0F2F5] dark:bg-[#2A3942]" : ""
+- **Línia 346**: `bg-[#F5F6F6]` -> } hover:bg-[#F5F6F6] dark:hover:bg-[#202C33]`}
+- **Línia 357**: `bg-white` -> <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
+- **Línia 357**: `rounded-[10px]` -> <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
+- **Línia 357**: `shadow-sm` -> <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
+- **Línia 358**: `text-[#C25300]` -> <span className="text-[#C25300] dark:text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
+- **Línia 367**: `text-[17px]` -> <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold text-[#111B21] dark:text-[#E9EDEF] transition-colors tracking-normal">
+- **Línia 374**: `text-[12px]` -> <div className="shrink-0 text-[12px] md:text-[13px] font-normal text-[#54656F] dark:text-[#8696A0] ml-2">
+- **Línia 383**: `text-[15px]` -> <div className="flex items-center text-[15px] font-normal transition-colors">
+- **Línia 384**: `text-[#54656F]` -> <p className="m-0 truncate w-full text-[#54656F] dark:text-[#8696A0]">
+- **Línia 395**: `text-[#0369A1]` -> className="mb-6 text-[#0369A1] mx-auto opacity-70"
+- **Línia 397**: `text-gray-900` -> <p className="text-gray-900 dark:text-white text-[16px] font-bold tracking-wide">
+- **Línia 400**: `text-gray-600` -> <p className="text-gray-600 dark:text-white/50 text-[14px] mt-2">
+
+### src/components/features/CreationHub.jsx
+- **Línia 22**: `bg-black/60` -> className="absolute inset-0 bg-black/60 backdrop-blur-md"
+- **Línia 27**: `bg-[#0A0A0A]` -> <div className="relative z-50 w-full max-w-lg p-6 rounded-[32px] shadow-2xl bg-[#0A0A0A] border border-white/10 text-white animate-in zoom-in-95">
+- **Línia 27**: `text-white` -> <div className="relative z-50 w-full max-w-lg p-6 rounded-[32px] shadow-2xl bg-[#0A0A0A] border border-white/10 text-white animate-in zoom-in-95">
+- **Línia 27**: `rounded-[32px]` -> <div className="relative z-50 w-full max-w-lg p-6 rounded-[32px] shadow-2xl bg-[#0A0A0A] border border-white/10 text-white animate-in zoom-in-95">
+- **Línia 27**: `shadow-2xl` -> <div className="relative z-50 w-full max-w-lg p-6 rounded-[32px] shadow-2xl bg-[#0A0A0A] border border-white/10 text-white animate-in zoom-in-95">
+- **Línia 31**: `bg-white/5` -> className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 text-white shadow-lg transition-all active:scale-95 z-10 outline-none"
+- **Línia 31**: `text-white` -> className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 text-white shadow-lg transition-all active:scale-95 z-10 outline-none"
+- **Línia 31**: `rounded-[28px]` -> className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 text-white shadow-lg transition-all active:scale-95 z-10 outline-none"
+- **Línia 31**: `shadow-lg` -> className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 text-white shadow-lg transition-all active:scale-95 z-10 outline-none"
+- **Línia 38**: `bg-[#0984E3]` -> <div className="w-16 h-16 mx-auto bg-[#0984E3] rounded-[28px] flex items-center justify-center mb-4 shadow-xl shadow-[#0984E3]/20">
+- **Línia 38**: `rounded-[28px]` -> <div className="w-16 h-16 mx-auto bg-[#0984E3] rounded-[28px] flex items-center justify-center mb-4 shadow-xl shadow-[#0984E3]/20">
+- **Línia 38**: `shadow-xl` -> <div className="w-16 h-16 mx-auto bg-[#0984E3] rounded-[28px] flex items-center justify-center mb-4 shadow-xl shadow-[#0984E3]/20">
+- **Línia 39**: `text-white"` -> <Plus className="w-8 h-8 text-white" strokeWidth={3} />
+- **Línia 41**: `text-3xl` -> <h2 className="text-3xl font-bold mb-2 tracking-tight">
+- **Línia 44**: `text-[15px]` -> <p className="text-[15px] font-medium text-white/50">
+- **Línia 111**: `bg-red-500/10` -> <button className="w-full flex items-center justify-center gap-2 py-4 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-[24px] text-[13px] font-black transition-colors outline-none tracking-widest uppercase border border-red-500/20" onClick={() => dispatchAction(() => navigate('/admin'))}>
+- **Línia 111**: `text-red-500` -> <button className="w-full flex items-center justify-center gap-2 py-4 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-[24px] text-[13px] font-black transition-colors outline-none tracking-widest uppercase border border-red-500/20" onClick={() => dispatchAction(() => navigate('/admin'))}>
+- **Línia 111**: `rounded-[24px]` -> <button className="w-full flex items-center justify-center gap-2 py-4 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-[24px] text-[13px] font-black transition-colors outline-none tracking-widest uppercase border border-red-500/20" onClick={() => dispatchAction(() => navigate('/admin'))}>
+- **Línia 117**: `text-white/40` -> <button className="w-full flex items-center justify-center gap-2 py-4 text-white/40 hover:text-white/80 transition-colors text-[13px] font-bold outline-none uppercase tracking-widest" onClick={() => dispatchAction(() => {
+
+### src/components/features/EpubViewer.jsx
+- **Línia 127**: `bg-black` -> <div className="fixed inset-0 z-[5000] bg-black text-white flex flex-col animate-in fade-in duration-300">
+- **Línia 127**: `text-white` -> <div className="fixed inset-0 z-[5000] bg-black text-white flex flex-col animate-in fade-in duration-300">
+- **Línia 129**: `bg-[#0e0e0e]` -> <div className="flex-none h-16 w-full flex items-center justify-between px-3 md:px-6 border-b border-white/10 bg-[#0e0e0e] z-20">
+- **Línia 131**: `bg-white/10` -> <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors active:scale-95">
+- **Línia 131**: `rounded-full` -> <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors active:scale-95">
+- **Línia 134**: `text-sm` -> <h2 className="font-bold tracking-widest uppercase text-sm truncate max-w-[120px] sm:max-w-md hidden md:block">
+- **Línia 142**: `bg-[var(--theme-accent-primary)]` -> className={`p-2 rounded-full transition-colors hidden md:block ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 142**: `text-white'` -> className={`p-2 rounded-full transition-colors hidden md:block ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 142**: `rounded-full` -> className={`p-2 rounded-full transition-colors hidden md:block ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 150**: `bg-[var(--theme-accent-primary)]` -> className={`p-2 rounded-full transition-colors ${searchOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 150**: `text-white'` -> className={`p-2 rounded-full transition-colors ${searchOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 150**: `rounded-full` -> className={`p-2 rounded-full transition-colors ${searchOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 158**: `bg-[var(--theme-accent-primary)]` -> className={`p-2 rounded-full transition-colors ${settingsOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 158**: `text-white'` -> className={`p-2 rounded-full transition-colors ${settingsOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 158**: `rounded-full` -> className={`p-2 rounded-full transition-colors ${settingsOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 167**: `bg-[var(--theme-accent-primary)]` -> className={`p-2 rounded-full transition-colors md:hidden ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 167**: `text-white'` -> className={`p-2 rounded-full transition-colors md:hidden ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 167**: `rounded-full` -> className={`p-2 rounded-full transition-colors md:hidden ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+- **Línia 176**: `bg-[#1a1a1a]` -> <div className="absolute top-16 left-0 bottom-10 w-full md:w-80 bg-[#1a1a1a] border-r border-white/10 shadow-2xl z-20 overflow-y-auto animate-in slide-in-from-left">
+- **Línia 176**: `shadow-2xl` -> <div className="absolute top-16 left-0 bottom-10 w-full md:w-80 bg-[#1a1a1a] border-r border-white/10 shadow-2xl z-20 overflow-y-auto animate-in slide-in-from-left">
+- **Línia 177**: `bg-[#1a1a1a]/90` -> <div className="p-4 border-b border-white/10 sticky top-0 bg-[#1a1a1a]/90 backdrop-blur-md">
+- **Línia 178**: `text-xs` -> <h3 className="text-xs uppercase font-bold tracking-widest text-[#a0a0a0]">Índex de Continguts</h3>
+- **Línia 182**: `text-white/50` -> <div className="p-4 text-center text-white/50 text-sm">Carregant índex...</div>
+- **Línia 190**: `bg-white/5` -> className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors overflow-hidden"
+- **Línia 190**: `rounded-lg` -> className="w-full text-left p-3 hover:bg-white/5 rounded-lg transition-colors overflow-hidden"
+- **Línia 192**: `text-sm` -> <span className="text-sm text-white/90 truncate block">{item.label}</span>
+- **Línia 202**: `bg-[#1a1a1a]` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-96 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl z-20 max-h-[80vh] flex flex-col animate-in slide-in-from-top-2">
+- **Línia 202**: `rounded-b-2xl` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-96 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl z-20 max-h-[80vh] flex flex-col animate-in slide-in-from-top-2">
+- **Línia 202**: `shadow-2xl` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-96 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl z-20 max-h-[80vh] flex flex-col animate-in slide-in-from-top-2">
+- **Línia 204**: `text-xs` -> <h3 className="text-xs uppercase font-bold tracking-widest text-[#a0a0a0] mb-3">Cercar al llibre</h3>
+- **Línia 212**: `bg-black/40` -> className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[var(--theme-accent-primary)]"
+- **Línia 212**: `text-sm` -> className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[var(--theme-accent-primary)]"
+- **Línia 212**: `rounded-lg` -> className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[var(--theme-accent-primary)]"
+- **Línia 217**: `bg-[var(--theme-accent-primary)]` -> className="bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary)]/80 text-white px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 transition-colors"
+- **Línia 217**: `text-white` -> className="bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary)]/80 text-white px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 transition-colors"
+- **Línia 217**: `rounded-lg` -> className="bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary)]/80 text-white px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 transition-colors"
+- **Línia 225**: `text-white/50` -> <div className="p-4 text-center text-white/50 text-sm">Cap resultat trobat</div>
+- **Línia 234**: `bg-white/5` -> className="w-full text-left p-3 hover:bg-white/5 rounded-lg mb-1 transition-colors border border-transparent hover:border-white/5"
+- **Línia 234**: `rounded-lg` -> className="w-full text-left p-3 hover:bg-white/5 rounded-lg mb-1 transition-colors border border-transparent hover:border-white/5"
+- **Línia 236**: `bg-white/10` -> <p className="text-xs text-white/80 line-clamp-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: res.excerpt.replace(new RegExp(`(${searchQuery})`, 'gi'), '<strong class="text-[var(--theme-accent-primary)] bg-white/10 px-0.5 rounded">$1</strong>') }} />
+- **Línia 236**: `text-xs` -> <p className="text-xs text-white/80 line-clamp-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: res.excerpt.replace(new RegExp(`(${searchQuery})`, 'gi'), '<strong class="text-[var(--theme-accent-primary)] bg-white/10 px-0.5 rounded">$1</strong>') }} />
+- **Línia 245**: `bg-[#1a1a1a]` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-72 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl p-5 z-20 animate-in slide-in-from-top-2">
+- **Línia 245**: `rounded-b-2xl` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-72 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl p-5 z-20 animate-in slide-in-from-top-2">
+- **Línia 245**: `shadow-2xl` -> <div className="absolute top-16 right-0 md:right-4 w-full md:w-72 bg-[#1a1a1a] md:border border-white/10 md:rounded-b-2xl md:shadow-2xl p-5 z-20 animate-in slide-in-from-top-2">
+- **Línia 246**: `text-xs` -> <h3 className="text-xs uppercase font-bold tracking-widest text-[#a0a0a0] mb-4">Aparença i Tipografia</h3>
+- **Línia 249**: `bg-black/40` -> <div className="flex items-center justify-between bg-black/40 rounded-xl mb-4 overflow-hidden border border-white/5">
+- **Línia 249**: `rounded-xl` -> <div className="flex items-center justify-between bg-black/40 rounded-xl mb-4 overflow-hidden border border-white/5">
+- **Línia 252**: `bg-white/5` -> className="flex-1 py-3 text-lg font-medium hover:bg-white/5 disabled:opacity-50"
+- **Línia 252**: `text-lg` -> className="flex-1 py-3 text-lg font-medium hover:bg-white/5 disabled:opacity-50"
+- **Línia 256**: `text-sm` -> <span className="text-sm font-bold text-white/50">{fontSize}%</span>
+- **Línia 259**: `bg-white/5` -> className="flex-1 py-3 text-lg font-medium hover:bg-white/5 disabled:opacity-50"
+- **Línia 259**: `text-lg` -> className="flex-1 py-3 text-lg font-medium hover:bg-white/5 disabled:opacity-50"
+- **Línia 269**: `bg-[var(--theme-accent-primary)]` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Sans' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-sans`}
+- **Línia 269**: `text-sm` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Sans' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-sans`}
+- **Línia 269**: `rounded-lg` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Sans' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-sans`}
+- **Línia 271**: `text-[10px]` -> MODERN<br/><span className="text-[10px] opacity-70 font-normal">Sans-Serif</span>
+- **Línia 275**: `bg-[var(--theme-accent-primary)]` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Serif' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-serif`}
+- **Línia 275**: `text-sm` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Serif' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-serif`}
+- **Línia 275**: `rounded-lg` -> className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Serif' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-serif`}
+- **Línia 277**: `text-[10px]` -> CLÀSSIC<br/><span className="text-[10px] opacity-70 font-normal">Serif</span>
+- **Línia 285**: `bg-white`}` -> className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'light' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-white`}
+- **Línia 285**: `rounded-full` -> className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'light' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-white`}
+- **Línia 289**: `bg-[#0e0e0e]`}` -> className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'dark' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-[#0e0e0e]`}
+- **Línia 289**: `rounded-full` -> className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'dark' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-[#0e0e0e]`}
+- **Línia 296**: `bg-white` -> <div className="flex-1 w-full relative bg-white overflow-hidden">
+- **Línia 337**: `bg-[#0e0e0e]` -> <div className="flex-none h-10 w-full flex items-center justify-center border-t border-white/10 bg-[#0e0e0e] z-10 text-[10px] text-white/50 tracking-widest uppercase font-bold shadow-[0_-5px_20px_rgba(0,0,0,0.5)] leading-none pt-0.5">
+- **Línia 337**: `text-[10px]` -> <div className="flex-none h-10 w-full flex items-center justify-center border-t border-white/10 bg-[#0e0e0e] z-10 text-[10px] text-white/50 tracking-widest uppercase font-bold shadow-[0_-5px_20px_rgba(0,0,0,0.5)] leading-none pt-0.5">
+- **Línia 337**: `shadow-[0_-5px_20px_rgba(0,0,0,0.5)]` -> <div className="flex-none h-10 w-full flex items-center justify-center border-t border-white/10 bg-[#0e0e0e] z-10 text-[10px] text-white/50 tracking-widest uppercase font-bold shadow-[0_-5px_20px_rgba(0,0,0,0.5)] leading-none pt-0.5">
+
+### src/components/features/Feed.jsx
+- **Línia 49**: `bg-[#1A1A1A]/80` -> <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center bg-[#1A1A1A]/80 backdrop-blur-md rounded-[20px] border border-red-500/20 p-6 text-center">
+- **Línia 49**: `rounded-[20px]` -> <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center bg-[#1A1A1A]/80 backdrop-blur-md rounded-[20px] border border-red-500/20 p-6 text-center">
+- **Línia 50**: `text-red-500/40` -> <Sparkles className="text-red-500/40 mb-3 opacity-50" size={32} />
+- **Línia 51**: `text-zinc-500` -> <span className="text-zinc-500 font-semibold font-['Epilogue'] tracking-tight">Post no disponible</span>
+- **Línia 52**: `text-zinc-600` -> <span className="text-zinc-600 text-[12px] mt-1">S'ha detectat una divergència CRDT local.</span>
+- **Línia 258**: `text-[12px]` -> <div className="flex items-center gap-1 font-black text-[12px] text-cyan-400">
+- **Línia 275**: `bg-theme-base` -> <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+- **Línia 276**: `text-[#F97316]"` -> <Loader2 className="animate-spin text-[#F97316]" size={48} strokeWidth={2.5} />
+- **Línia 283**: `bg-theme-base` -> <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+- **Línia 284**: `text-[#EF4444]` -> <p className="text-[#EF4444] text-center font-bold mb-4">{t('feed.error_loading') || 'Error de càrrega'}</p>
+- **Línia 291**: `bg-theme-base">` -> <RootPageContainer className="bg-theme-base">
+- **Línia 392**: `text-[#F97316]/50">` -> <div className="flex items-center gap-2 text-[#F97316]/50">
+- **Línia 394**: `text-sm` -> <span className="text-sm font-semibold tracking-widest uppercase">Estirant la xàrcia...</span>
+
+### src/components/features/IAIAChatSidebar.jsx
+- **Línia 14**: `text-[var(--theme-accent-primary)]` -> <Loader2 className="animate-spin text-[var(--theme-accent-primary)] w-6 h-6" />
+- **Línia 501**: `bg-white/5">` -> <div className="file-bubble flex items-center gap-3 p-4 bg-white/5">
+- **Línia 502**: `bg-orange-500/20` -> <div className="file-icon p-2 bg-orange-500/20 rounded-[20px] text-blue-400">
+- **Línia 502**: `text-blue-400">` -> <div className="file-icon p-2 bg-orange-500/20 rounded-[20px] text-blue-400">
+- **Línia 502**: `rounded-[20px]` -> <div className="file-icon p-2 bg-orange-500/20 rounded-[20px] text-blue-400">
+- **Línia 506**: `text-xs` -> <p className="text-xs font-bold truncate">{msg.media.name}</p>
+- **Línia 507**: `text-[9px]` -> <p className="text-[9px] opacity-40 uppercase">{msg.media.size}</p>
+- **Línia 517**: `text-[9px]` -> <div key={i} className="step-line flex items-center gap-2 text-[9px] opacity-40">
+- **Línia 524**: `text-sm` -> <p className="text-sm leading-relaxed">{msg.text}</p>
+- **Línia 530**: `bg-white/10` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 530**: `text-[11px]` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 530**: `rounded-[28px]` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 532**: `text-[var(--theme-accent-primary)]"/>` -> <Mic size={14} className="text-[var(--theme-accent-primary)]"/> Diga-ho
+- **Línia 536**: `bg-white/10` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 536**: `text-[11px]` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 536**: `rounded-[28px]` -> className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
+- **Línia 538**: `text-[var(--theme-accent-secondary)]"/>` -> <Type size={14} className="text-[var(--theme-accent-secondary)]"/> Escriu-ho
+- **Línia 551**: `bg-black/50` -> className="fixed inset-0 bg-black/50 z-[var(--z-overlay,9998)] touch-none overscroll-none animate-in fade-in duration-300 pointer-events-auto"
+- **Línia 557**: `bg-theme-sidebar` -> className={`iaia-chat-sidebar relative z-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
+- **Línia 596**: `text-[10px]` -> <span className="text-[10px] uppercase font-black">L'Archon està bategant...</span>
+- **Línia 603**: `bg-black/40` -> <div className="formatting-toolbar flex items-center gap-1 p-1 bg-black/40 border border-white/10 rounded-[28px] shadow-2xl animate-in fade-in slide-in-from-bottom-2 mb-3 backdrop-blur-md">
+- **Línia 603**: `rounded-[28px]` -> <div className="formatting-toolbar flex items-center gap-1 p-1 bg-black/40 border border-white/10 rounded-[28px] shadow-2xl animate-in fade-in slide-in-from-bottom-2 mb-3 backdrop-blur-md">
+- **Línia 603**: `shadow-2xl` -> <div className="formatting-toolbar flex items-center gap-1 p-1 bg-black/40 border border-white/10 rounded-[28px] shadow-2xl animate-in fade-in slide-in-from-bottom-2 mb-3 backdrop-blur-md">
+- **Línia 604**: `bg-white/10` -> <button onClick={() => applyFormat('bold')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Negreta">
+- **Línia 604**: `text-gray-400` -> <button onClick={() => applyFormat('bold')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Negreta">
+- **Línia 604**: `rounded-[20px]` -> <button onClick={() => applyFormat('bold')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Negreta">
+- **Línia 607**: `bg-white/10` -> <button onClick={() => applyFormat('italic')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Cursiva">
+- **Línia 607**: `text-gray-400` -> <button onClick={() => applyFormat('italic')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Cursiva">
+- **Línia 607**: `rounded-[20px]` -> <button onClick={() => applyFormat('italic')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Cursiva">
+- **Línia 610**: `bg-white/10` -> <button onClick={() => applyFormat('link')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Enllaç">
+- **Línia 610**: `text-gray-400` -> <button onClick={() => applyFormat('link')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Enllaç">
+- **Línia 610**: `rounded-[20px]` -> <button onClick={() => applyFormat('link')} className="p-2 hover:bg-white/10 rounded-[20px] text-gray-400 hover:text-white transition-colors" title="Enllaç">
+- **Línia 613**: `bg-white/10` -> <div className="w-[1px] h-4 bg-white/10 mx-1" />
+- **Línia 614**: `text-[9px]` -> <span className="text-[9px] font-black uppercase tracking-tighter text-fuchsia-500 px-2">Eines del Trellat</span>
+- **Línia 642**: `bg-[#232323]` -> <div className="absolute bottom-[calc(100%+12px)] left-0 w-56 bg-[#232323] border border-white/5 genesis-radius p-2 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-4 flex flex-col gap-1 z-50">
+- **Línia 642**: `shadow-2xl` -> <div className="absolute bottom-[calc(100%+12px)] left-0 w-56 bg-[#232323] border border-white/5 genesis-radius p-2 shadow-2xl animate-in fade-in zoom-in slide-in-from-bottom-4 flex flex-col gap-1 z-50">
+- **Línia 646**: `bg-white/5` -> className="flex items-center gap-4 p-3 hover:bg-white/5 card-radius transition-colors text-left"
+- **Línia 662**: `text-white"` -> <div className="w-10 h-10 rounded-[28px] flex items-center justify-center text-white" style={{ background: type.color }}>
+- **Línia 662**: `rounded-[28px]` -> <div className="w-10 h-10 rounded-[28px] flex items-center justify-center text-white" style={{ background: type.color }}>
+- **Línia 665**: `text-xs` -> <span className="text-xs font-bold text-gray-200">{type.label}</span>
+- **Línia 674**: `bg-[#1a1a1a]` -> <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300 w-full bg-[#1a1a1a] shadow-2xl relative z-40 rounded-[28px] overflow-hidden">
+- **Línia 674**: `rounded-[28px]` -> <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300 w-full bg-[#1a1a1a] shadow-2xl relative z-40 rounded-[28px] overflow-hidden">
+- **Línia 674**: `shadow-2xl` -> <div className="voice-recorder-overlay animate-in slide-in-from-bottom-5 duration-300 w-full bg-[#1a1a1a] shadow-2xl relative z-40 rounded-[28px] overflow-hidden">
+- **Línia 685**: `bg-[#1a1a1a]` -> <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 genesis-radius flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
+- **Línia 685**: `shadow-2xl` -> <div className="absolute bottom-full left-0 mb-4 p-3 bg-[#1a1a1a] border border-white/10 genesis-radius flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2 shadow-2xl z-40">
+- **Línia 686**: `bg-white/5` -> <div className="w-12 h-12 bg-white/5 card-radius flex items-center justify-center overflow-hidden">
+- **Línia 690**: `text-blue-400"` -> <FileText size={20} className="text-blue-400" />
+- **Línia 694**: `text-[10px]` -> <p className="text-[10px] font-black truncate">{selectedFile.name}</p>
+- **Línia 695**: `text-[8px]` -> <p className="text-[8px] opacity-40 uppercase">{selectedFile.size}</p>
+- **Línia 697**: `bg-white/10` -> <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-[28px]">
+- **Línia 697**: `rounded-[28px]">` -> <button onClick={() => setSelectedFile(null)} className="p-1.5 hover:bg-white/10 rounded-[28px]">
+- **Línia 722**: `bg-white/5` -> className="send-btn bg-transparent hover:bg-white/5 text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors !pr-[6px]"
+- **Línia 722**: `text-gray-400` -> className="send-btn bg-transparent hover:bg-white/5 text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors !pr-[6px]"
+- **Línia 743**: `text-[8px]` -> <span className="text-[8px] uppercase font-black">Protocol Archon Securitzat</span>
+
+### src/components/features/IAIACorrectorOverlay.jsx
+- **Línia 13**: `text-orange-500` -> <Sparkles size={16} className="text-orange-500 animate-pulse" />
+- **Línia 18**: `bg-white/10` -> className="p-1 hover:bg-white/10 rounded-[28px] transition-colors"
+- **Línia 18**: `rounded-[28px]` -> className="p-1 hover:bg-white/10 rounded-[28px] transition-colors"
+- **Línia 26**: `text-[9px]` -> <span className="text-[9px] font-black uppercase tracking-[0.2em] text-orange-500/50 block mb-1">Variant Dialectal</span>
+- **Línia 27**: `text-[10px]` -> <p className="text-[10px] text-gray-400 font-bold">{t('notebook.corrector.lang_variants')}</p>
+- **Línia 35**: `text-[10px]">` -> <div className="flex items-center gap-2 text-[10px]">
+- **Línia 36**: `text-red-400` -> <span className="text-red-400 line-through opacity-50 font-medium">{corr.original}</span>
+- **Línia 37**: `text-gray-600"` -> <ArrowRight size={10} className="text-gray-600" />
+- **Línia 38**: `text-emerald-400` -> <span className="text-emerald-400 font-bold">{corr.suggeriment}</span>
+- **Línia 40**: `text-[11px]` -> <p className="text-[11px] text-gray-400 leading-relaxed italic">
+- **Línia 46**: `bg-emerald-500/10` -> className="shrink-0 p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-[20px] transition-all"
+- **Línia 46**: `text-emerald-500` -> className="shrink-0 p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-[20px] transition-all"
+- **Línia 46**: `rounded-[20px]` -> className="shrink-0 p-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 rounded-[20px] transition-all"
+- **Línia 57**: `text-[9px]` -> <div className="corrector-footer text-[9px] font-bold text-gray-600 uppercase tracking-widest text-center py-2 border-t border-white/5 mt-4">
+
+### src/components/features/MagicPregoner.jsx
+- **Línia 60**: `bg-black/80` -> <div className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+- **Línia 61**: `bg-[#1a1a1c]` -> <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
+- **Línia 61**: `text-white">` -> <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
+- **Línia 61**: `rounded-[32px]` -> <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
+- **Línia 61**: `shadow-[0_0_50px_rgba(249,115,22,0.15)]` -> <div className="bg-[#1a1a1c] border border-orange-500/30 rounded-[32px] w-full max-w-xl overflow-hidden shadow-[0_0_50px_rgba(249,115,22,0.15)] relative text-white">
+- **Línia 62**: `bg-gradient-to-r` -> <div className="bg-gradient-to-r from-[#F97316] to-[#EA580C] p-6 flex justify-between items-center relative overflow-hidden">
+- **Línia 63**: `text-white` -> <div className="flex items-center gap-3 text-white font-black text-2xl tracking-tight z-10">
+- **Línia 64**: `bg-white/20` -> <div className="bg-white/20 p-2 rounded-[28px] backdrop-blur-sm">
+- **Línia 64**: `rounded-[28px]` -> <div className="bg-white/20 p-2 rounded-[28px] backdrop-blur-sm">
+- **Línia 65**: `text-white` -> <Sparkles className="text-white w-6 h-6 animate-pulse" />
+- **Línia 69**: `bg-black/10` -> <button onClick={onClose} className="text-white/80 hover:text-white transition-colors bg-black/10 hover:bg-black/20 p-2 rounded-[28px] z-10"><X size={24} /></button>
+- **Línia 69**: `text-white/80` -> <button onClick={onClose} className="text-white/80 hover:text-white transition-colors bg-black/10 hover:bg-black/20 p-2 rounded-[28px] z-10"><X size={24} /></button>
+- **Línia 69**: `rounded-[28px]` -> <button onClick={onClose} className="text-white/80 hover:text-white transition-colors bg-black/10 hover:bg-black/20 p-2 rounded-[28px] z-10"><X size={24} /></button>
+- **Línia 72**: `bg-black/40` -> <div className="grid grid-cols-2 gap-3 p-1 bg-black/40 rounded-[24px] border border-white/5">
+- **Línia 72**: `rounded-[24px]` -> <div className="grid grid-cols-2 gap-3 p-1 bg-black/40 rounded-[24px] border border-white/5">
+- **Línia 75**: `bg-[#2a1a10]` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'iaia' ? 'bg-[#2a1a10] border-[#F97316] text-[#F97316] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 75**: `text-sm` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'iaia' ? 'bg-[#2a1a10] border-[#F97316] text-[#F97316] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 75**: `rounded-[20px]` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'iaia' ? 'bg-[#2a1a10] border-[#F97316] text-[#F97316] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 75**: `shadow-inner'` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'iaia' ? 'bg-[#2a1a10] border-[#F97316] text-[#F97316] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 81**: `bg-[#0c2024]` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'bando' ? 'bg-[#0c2024] border-[#06B6D4] text-[#06B6D4] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 81**: `text-sm` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'bando' ? 'bg-[#0c2024] border-[#06B6D4] text-[#06B6D4] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 81**: `rounded-[20px]` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'bando' ? 'bg-[#0c2024] border-[#06B6D4] text-[#06B6D4] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 81**: `shadow-inner'` -> className={`flex flex-col items-center gap-2 py-4 rounded-[20px] text-sm font-black transition-all border-2 ${tone === 'bando' ? 'bg-[#0c2024] border-[#06B6D4] text-[#06B6D4] shadow-inner' : 'bg-transparent border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'}`}
+- **Línia 87**: `text-[10px]` -> <label className="text-[10px] font-black text-[#F97316] uppercase tracking-widest ml-1">L'esborrany de la terra</label>
+- **Línia 92**: `bg-[#050505]` -> className="w-full h-32 bg-[#050505] border border-white/10 rounded-[24px] p-5 text-lg text-white placeholder:text-gray-700 focus:outline-none focus:border-[#F97316] resize-none transition-all"
+- **Línia 92**: `text-lg` -> className="w-full h-32 bg-[#050505] border border-white/10 rounded-[24px] p-5 text-lg text-white placeholder:text-gray-700 focus:outline-none focus:border-[#F97316] resize-none transition-all"
+- **Línia 92**: `rounded-[24px]` -> className="w-full h-32 bg-[#050505] border border-white/10 rounded-[24px] p-5 text-lg text-white placeholder:text-gray-700 focus:outline-none focus:border-[#F97316] resize-none transition-all"
+- **Línia 100**: `bg-gray-800` -> className={`w-full py-5 rounded-[24px] font-black text-xl flex items-center justify-center gap-4 transition-all transform active:scale-95 ${isLoading ? 'bg-gray-800 text-gray-600' : 'bg-gradient-to-r from-[#06B6D4] to-[#3B82F6] text-white shadow-[0_0_30px_rgba(6,182,212,0.3)]'}`}
+- **Línia 100**: `text-xl` -> className={`w-full py-5 rounded-[24px] font-black text-xl flex items-center justify-center gap-4 transition-all transform active:scale-95 ${isLoading ? 'bg-gray-800 text-gray-600' : 'bg-gradient-to-r from-[#06B6D4] to-[#3B82F6] text-white shadow-[0_0_30px_rgba(6,182,212,0.3)]'}`}
+- **Línia 100**: `rounded-[24px]` -> className={`w-full py-5 rounded-[24px] font-black text-xl flex items-center justify-center gap-4 transition-all transform active:scale-95 ${isLoading ? 'bg-gray-800 text-gray-600' : 'bg-gradient-to-r from-[#06B6D4] to-[#3B82F6] text-white shadow-[0_0_30px_rgba(6,182,212,0.3)]'}`}
+- **Línia 100**: `shadow-[0_0_30px_rgba(6,182,212,0.3)]'}`}` -> className={`w-full py-5 rounded-[24px] font-black text-xl flex items-center justify-center gap-4 transition-all transform active:scale-95 ${isLoading ? 'bg-gray-800 text-gray-600' : 'bg-gradient-to-r from-[#06B6D4] to-[#3B82F6] text-white shadow-[0_0_30px_rgba(6,182,212,0.3)]'}`}
+- **Línia 109**: `bg-[#050505]` -> <div className="bg-[#050505] border border-green-500/30 rounded-[24px] p-6 text-gray-100 text-xl leading-relaxed shadow-inner">
+- **Línia 109**: `text-gray-100` -> <div className="bg-[#050505] border border-green-500/30 rounded-[24px] p-6 text-gray-100 text-xl leading-relaxed shadow-inner">
+- **Línia 109**: `rounded-[24px]` -> <div className="bg-[#050505] border border-green-500/30 rounded-[24px] p-6 text-gray-100 text-xl leading-relaxed shadow-inner">
+- **Línia 109**: `shadow-inner">` -> <div className="bg-[#050505] border border-green-500/30 rounded-[24px] p-6 text-gray-100 text-xl leading-relaxed shadow-inner">
+- **Línia 113**: `bg-white/5` -> <button onClick={() => setGeneratedText('')} className="flex-1 py-4 bg-white/5 hover:bg-white/10 rounded-[20px] text-white font-black text-sm transition-all">Torna-hi</button>
+- **Línia 113**: `text-white` -> <button onClick={() => setGeneratedText('')} className="flex-1 py-4 bg-white/5 hover:bg-white/10 rounded-[20px] text-white font-black text-sm transition-all">Torna-hi</button>
+- **Línia 113**: `rounded-[20px]` -> <button onClick={() => setGeneratedText('')} className="flex-1 py-4 bg-white/5 hover:bg-white/10 rounded-[20px] text-white font-black text-sm transition-all">Torna-hi</button>
+- **Línia 116**: `bg-[#F97316]` -> className="flex-[2] py-4 bg-[#F97316] hover:bg-[#EA580C] rounded-[20px] text-white font-black text-sm shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95"
+- **Línia 116**: `text-white` -> className="flex-[2] py-4 bg-[#F97316] hover:bg-[#EA580C] rounded-[20px] text-white font-black text-sm shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95"
+- **Línia 116**: `rounded-[20px]` -> className="flex-[2] py-4 bg-[#F97316] hover:bg-[#EA580C] rounded-[20px] text-white font-black text-sm shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95"
+- **Línia 116**: `shadow-lg` -> className="flex-[2] py-4 bg-[#F97316] hover:bg-[#EA580C] rounded-[20px] text-white font-black text-sm shadow-lg flex items-center justify-center gap-2 transition-all transform active:scale-95"
+- **Línia 123**: `bg-red-900/20` -> {error && <div className="text-red-400 text-sm text-center bg-red-900/20 p-4 rounded-[20px] border border-red-500/30">{error}</div>}
+- **Línia 123**: `text-red-400` -> {error && <div className="text-red-400 text-sm text-center bg-red-900/20 p-4 rounded-[20px] border border-red-500/30">{error}</div>}
+- **Línia 123**: `rounded-[20px]` -> {error && <div className="text-red-400 text-sm text-center bg-red-900/20 p-4 rounded-[20px] border border-red-500/30">{error}</div>}
+
+### src/components/features/Marketplace.jsx
+- **Línia 291**: `bg-theme-base` -> <RootPageContainer className="bg-theme-base w-full" ref={containerRef}>
+- **Línia 327**: `bg-theme-base">` -> <div className="flex-none w-full z-dropdown shadow-md bg-theme-base">
+- **Línia 327**: `shadow-md` -> <div className="flex-none w-full z-dropdown shadow-md bg-theme-base">
+
+### src/components/features/MasterEditor.jsx
+- **Línia 408**: `bg-[#333]` -> className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center transition-all ${showExportMenu ? 'bg-[#333] text-white dark:bg-white dark:text-black' : 'text-gray-500 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-[#333] dark:hover:text-white'}`}
+- **Línia 408**: `text-white` -> className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center transition-all ${showExportMenu ? 'bg-[#333] text-white dark:bg-white dark:text-black' : 'text-gray-500 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-[#333] dark:hover:text-white'}`}
+- **Línia 408**: `rounded-xl` -> className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center transition-all ${showExportMenu ? 'bg-[#333] text-white dark:bg-white dark:text-black' : 'text-gray-500 hover:bg-gray-100 hover:text-black dark:text-gray-400 dark:hover:bg-[#333] dark:hover:text-white'}`}
+- **Línia 416**: `bg-white/90` -> <div className="absolute left-0 top-full mt-2 bg-white/90 border-gray-200 dark:bg-[#1e1e1e]/90 dark:border-[#333] backdrop-blur-xl border rounded-2xl shadow-xl z-dropdown overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+- **Línia 416**: `rounded-2xl` -> <div className="absolute left-0 top-full mt-2 bg-white/90 border-gray-200 dark:bg-[#1e1e1e]/90 dark:border-[#333] backdrop-blur-xl border rounded-2xl shadow-xl z-dropdown overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+- **Línia 416**: `shadow-xl` -> <div className="absolute left-0 top-full mt-2 bg-white/90 border-gray-200 dark:bg-[#1e1e1e]/90 dark:border-[#333] backdrop-blur-xl border rounded-2xl shadow-xl z-dropdown overflow-hidden min-w-[220px] origin-top-left animate-in fade-in zoom-in duration-200">
+- **Línia 417**: `bg-gray-50/50` -> <div className="px-4 py-2 border-b border-gray-100 bg-gray-50/50 dark:border-[#333] dark:bg-[#252525]">
+- **Línia 418**: `text-[10px]` -> <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Format d'Exportació</span>
+- **Línia 421**: `bg-gray-100` -> className="w-full px-4 py-3 text-left text-sm font-medium hover:bg-gray-100 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#333] dark:hover:text-white flex items-center gap-3 transition-colors"
+- **Línia 421**: `text-sm` -> className="w-full px-4 py-3 text-left text-sm font-medium hover:bg-gray-100 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#333] dark:hover:text-white flex items-center gap-3 transition-colors"
+- **Línia 436**: `bg-gray-100` -> className="w-full px-4 py-3 text-left text-sm font-medium hover:bg-gray-100 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#333] dark:hover:text-white flex items-center gap-3 transition-colors"
+- **Línia 436**: `text-sm` -> className="w-full px-4 py-3 text-left text-sm font-medium hover:bg-gray-100 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:bg-[#333] dark:hover:text-white flex items-center gap-3 transition-colors"
+- **Línia 612**: `bg-white` -> className="absolute bottom-6 left-6 p-3 bg-white dark:bg-[#333] text-black dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-[#444] hover:bg-gray-50 dark:hover:bg-[#444] transition-all z-50 animate-in fade-in slide-in-from-bottom-4"
+- **Línia 612**: `text-black` -> className="absolute bottom-6 left-6 p-3 bg-white dark:bg-[#333] text-black dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-[#444] hover:bg-gray-50 dark:hover:bg-[#444] transition-all z-50 animate-in fade-in slide-in-from-bottom-4"
+- **Línia 612**: `rounded-full` -> className="absolute bottom-6 left-6 p-3 bg-white dark:bg-[#333] text-black dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-[#444] hover:bg-gray-50 dark:hover:bg-[#444] transition-all z-50 animate-in fade-in slide-in-from-bottom-4"
+- **Línia 612**: `shadow-lg` -> className="absolute bottom-6 left-6 p-3 bg-white dark:bg-[#333] text-black dark:text-white rounded-full shadow-lg border border-gray-200 dark:border-[#444] hover:bg-gray-50 dark:hover:bg-[#444] transition-all z-50 animate-in fade-in slide-in-from-bottom-4"
+
+### src/components/features/NotebookList.jsx
+- **Línia 18**: `bg-white` -> const bgColor = 'bg-white dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-[#333]';
+- **Línia 19**: `text-black` -> const textColor = 'text-black dark:text-white';
+- **Línia 20**: `text-black` -> const activeColor = 'text-black dark:text-white';
+- **Línia 21**: `bg-gray-100` -> const inputBg = 'bg-gray-100 border-transparent text-black focus:bg-white dark:bg-[#333] dark:text-white dark:focus:bg-[#444]';
+- **Línia 21**: `text-black` -> const inputBg = 'bg-gray-100 border-transparent text-black focus:bg-white dark:bg-[#333] dark:text-white dark:focus:bg-[#444]';
+- **Línia 57**: `bg-[#fcfcfc]` -> className={`flex flex-col h-full bg-[#fcfcfc] dark:bg-[#252525] border-r border-gray-200 dark:border-[#333] shrink-0`}
+- **Línia 63**: `text-orange-500` -> <button onClick={onBackToFolders} className="text-orange-500 flex items-center gap-1 font-medium">
+- **Línia 67**: `bg-gray-100` -> <button onClick={onToggleCollapse} className="p-1.5 rounded text-gray-500 hover:bg-gray-100 dark:hover:bg-[#333] transition-colors" title="Alternar Carpetes" aria-label="Alternar Carpetes">
+- **Línia 67**: `text-gray-500` -> <button onClick={onToggleCollapse} className="p-1.5 rounded text-gray-500 hover:bg-gray-100 dark:hover:bg-[#333] transition-colors" title="Alternar Carpetes" aria-label="Alternar Carpetes">
+- **Línia 68**: `text-orange-500"` -> <PanelLeft size={20} className={sidebarVisible ? "text-orange-500" : "opacity-70"} />
+- **Línia 73**: `bg-orange-50` -> className="p-1 rounded text-orange-500 hover:bg-orange-50 dark:hover:bg-[#333] transition-colors"
+- **Línia 73**: `text-orange-500` -> className="p-1 rounded text-orange-500 hover:bg-orange-50 dark:hover:bg-[#333] transition-colors"
+- **Línia 82**: `text-gray-500` -> <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" size={18} />
+- **Línia 89**: `text-base` -> className={`w-full ${inputBg} rounded-lg py-2.5 pl-10 pr-4 text-base font-medium outline-none transition-all placeholder:text-gray-400`}
+- **Línia 89**: `rounded-lg` -> className={`w-full ${inputBg} rounded-lg py-2.5 pl-10 pr-4 text-base font-medium outline-none transition-all placeholder:text-gray-400`}
+- **Línia 116**: `bg-[#ffeedd]` -> className={`px-6 py-3 cursor-pointer transition-colors relative border-b border-gray-100 dark:border-[#2a2a2a] ${isActive ? 'bg-[#ffeedd] dark:bg-[#4a3622]' : 'hover:bg-gray-50 dark:hover:bg-[#252525]'}`}
+- **Línia 128**: `text-base` -> <h4 className={`text-base font-bold truncate mb-1.5 ${isActive ? activeColor : textColor}`}>
+- **Línia 133**: `text-sm` -> <span className="text-sm font-semibold shrink-0 text-gray-700 dark:text-gray-300">{dateStr}</span>
+- **Línia 134**: `text-sm` -> <p className="text-sm truncate text-gray-600 dark:text-gray-400">
+- **Línia 142**: `text-gray-500">` -> <div className="flex flex-col items-center justify-center h-40 opacity-40 p-8 text-center text-gray-500">
+- **Línia 144**: `text-base` -> <p className="text-base font-medium">Cap nota trobada</p>
+
+### src/components/features/infoteca/InfografiaGallery.jsx
+- **Línia 94**: `bg-white/5` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 94**: `text-white` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 94**: `rounded-full` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 142**: `bg-black/95` -> className="fixed inset-0 z-modal bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"
+- **Línia 146**: `bg-white/10` -> className="absolute top-6 right-6 p-4 text-white hover:bg-white/10 rounded-[28px] transition-colors z-50"
+- **Línia 146**: `text-white` -> className="absolute top-6 right-6 p-4 text-white hover:bg-white/10 rounded-[28px] transition-colors z-50"
+- **Línia 146**: `rounded-[28px]` -> className="absolute top-6 right-6 p-4 text-white hover:bg-white/10 rounded-[28px] transition-colors z-50"
+- **Línia 158**: `rounded-[20px]"` -> className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-[20px]"
+- **Línia 158**: `shadow-2xl` -> className="max-w-full max-h-[80vh] object-contain shadow-2xl rounded-[20px]"
+- **Línia 161**: `text-2xl` -> <h2 className="text-2xl font-black tracking-tight">{selectedImg.titol}</h2>
+- **Línia 162**: `text-gray-400` -> <p className="text-gray-400 max-w-2xl">{selectedImg.desc}</p>
+- **Línia 164**: `bg-primary` -> <button className="flex items-center gap-2 px-6 py-2 bg-primary rounded-[28px] font-bold hover:bg-primary/80 transition-all" onClick={() => handleDownload(selectedImg)}>
+- **Línia 164**: `rounded-[28px]` -> <button className="flex items-center gap-2 px-6 py-2 bg-primary rounded-[28px] font-bold hover:bg-primary/80 transition-all" onClick={() => handleDownload(selectedImg)}>
+- **Línia 167**: `bg-white/10` -> <button className="flex items-center gap-2 px-6 py-2 bg-white/10 rounded-[28px] font-bold hover:bg-white/20 transition-all" onClick={() => handleShare(selectedImg)}>
+- **Línia 167**: `rounded-[28px]` -> <button className="flex items-center gap-2 px-6 py-2 bg-white/10 rounded-[28px] font-bold hover:bg-white/20 transition-all" onClick={() => handleShare(selectedImg)}>
+
+### src/components/gates/AuthGate.jsx
+- **Línia 16**: `bg-gradient-to-br` -> <div className="absolute inset-0 bg-gradient-to-br from-[#00f2ff]/5 to-transparent pointer-events-none"></div>
+- **Línia 17**: `bg-[#00f2ff]` -> <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00f2ff] opacity-[0.03] blur-[60px] rounded-full pointer-events-none"></div>
+- **Línia 17**: `rounded-full` -> <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#00f2ff] opacity-[0.03] blur-[60px] rounded-full pointer-events-none"></div>
+- **Línia 19**: `text-white"` -> <BrandLogo className="h-10 w-auto mb-8 opacity-90 animate-pulse text-white" style={{ filter: 'drop-shadow(0 0 10px rgba(0,242,255,0.3))' }} />
+- **Línia 23**: `text-shadow:` -> 0%, 100% { color: #f97316; text-shadow: 0 0 10px rgba(249,115,22,0.4); opacity: 1; transform: scale(1); }
+- **Línia 24**: `text-shadow:` -> 50% { color: #ffffff; text-shadow: 0 0 5px rgba(255,255,255,0.2); opacity: 0.7; transform: scale(0.98); }
+- **Línia 31**: `text-[13px]` -> <p className="font-['Inter_Tight',sans-serif] text-[13px] font-black uppercase tracking-[0.2em] animate-bategant select-none">
+
+### src/components/gates/LocalFirstGate.jsx
+- **Línia 215**: `bg-[#111827]` -> <div className="bg-[#111827] text-white min-h-screen flex items-center justify-center flex-col p-6 text-center">
+- **Línia 215**: `text-white` -> <div className="bg-[#111827] text-white min-h-screen flex items-center justify-center flex-col p-6 text-center">
+- **Línia 216**: `text-[#F97316]` -> <h2 className="text-[#F97316] font-black text-2xl mb-4">Error Crític d'Emmagatzematge</h2>
+- **Línia 217**: `text-gray-300">No` -> <p className="mb-2 text-gray-300">No s'ha pogut inicialitzar la base de dades local.</p>
+- **Línia 218**: `bg-black` -> <code className="text-sm bg-black p-3 rounded-[20px] mb-6 text-red-400">{errorMsg}</code>
+- **Línia 218**: `text-sm` -> <code className="text-sm bg-black p-3 rounded-[20px] mb-6 text-red-400">{errorMsg}</code>
+- **Línia 218**: `rounded-[20px]` -> <code className="text-sm bg-black p-3 rounded-[20px] mb-6 text-red-400">{errorMsg}</code>
+- **Línia 231**: `bg-[#F97316]` -> className="bg-[#F97316] text-white font-bold py-3 px-6 rounded-[28px]"
+- **Línia 231**: `text-white` -> className="bg-[#F97316] text-white font-bold py-3 px-6 rounded-[28px]"
+- **Línia 231**: `rounded-[28px]"` -> className="bg-[#F97316] text-white font-bold py-3 px-6 rounded-[28px]"
+- **Línia 242**: `bg-gradient-to-br` -> <div className="absolute inset-0 bg-gradient-to-br from-[#00f2ff]/5 to-transparent pointer-events-none" />
+- **Línia 243**: `text-white"` -> <BrandLogo className="h-20 w-auto mb-8 opacity-80 animate-pulse text-white" style={{ filter: "drop-shadow(0 0 10px rgba(0,242,255,0.3))" }} />
+- **Línia 246**: `bg-[#00f2ff]` -> <div key={delay} className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80" style={{ animationDelay: `${delay}ms` }} />
+- **Línia 246**: `rounded-full` -> <div key={delay} className="w-1.5 h-1.5 rounded-full bg-[#00f2ff] animate-pulse opacity-80" style={{ animationDelay: `${delay}ms` }} />
+- **Línia 249**: `text-[#00f2ff]` -> <p className="text-[#00f2ff] text-[12px] font-black uppercase tracking-[0.2em] opacity-70">Connectant...</p>
+
+### src/components/gates/OfflineGate.jsx
+- **Línia 65**: `bg-red-600` -> <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-dropdown animate-[bounce_2s_infinite]">
+- **Línia 65**: `text-white` -> <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-dropdown animate-[bounce_2s_infinite]">
+- **Línia 65**: `rounded-[28px]` -> <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-dropdown animate-[bounce_2s_infinite]">
+- **Línia 65**: `shadow-lg` -> <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 w-max max-w-[90%] bg-red-600 text-white font-bold text-center text-[15px] py-3 px-6 rounded-[28px] shadow-lg z-dropdown animate-[bounce_2s_infinite]">
+
+### src/components/layout/AppLayout.jsx
+- **Línia 268**: `bg-theme-base` -> className="flex flex-col h-screen support-dvh:h-[100dvh] w-full overflow-hidden font-sans bg-theme-base text-theme-text relative"
+- **Línia 268**: `text-theme-text` -> className="flex flex-col h-screen support-dvh:h-[100dvh] w-full overflow-hidden font-sans bg-theme-base text-theme-text relative"
+- **Línia 277**: `bg-[var(--bg-panel)]` -> className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[var(--z-max)] focus:bg-[var(--bg-panel)] focus:text-theme-text focus:px-4 focus:py-2 rounded-[var(--radius-base)] border border-theme-border shadow-xl font-bold"
+- **Línia 277**: `text-theme-text` -> className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[var(--z-max)] focus:bg-[var(--bg-panel)] focus:text-theme-text focus:px-4 focus:py-2 rounded-[var(--radius-base)] border border-theme-border shadow-xl font-bold"
+- **Línia 277**: `rounded-[var(--radius-base)]` -> className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[var(--z-max)] focus:bg-[var(--bg-panel)] focus:text-theme-text focus:px-4 focus:py-2 rounded-[var(--radius-base)] border border-theme-border shadow-xl font-bold"
+- **Línia 277**: `shadow-xl` -> className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[var(--z-max)] focus:bg-[var(--bg-panel)] focus:text-theme-text focus:px-4 focus:py-2 rounded-[var(--radius-base)] border border-theme-border shadow-xl font-bold"
+- **Línia 283**: `bg-[var(--theme-accent-primary)]/95` -> <div className="absolute inset-0 z-[var(--z-overlay)] bg-[var(--theme-accent-primary)]/95 flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+- **Línia 283**: `text-white` -> <div className="absolute inset-0 z-[var(--z-overlay)] bg-[var(--theme-accent-primary)]/95 flex flex-col items-center justify-center text-white pointer-events-none transition-all duration-300 animate-in fade-in zoom-in-95">
+- **Línia 284**: `bg-white/20` -> <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
+- **Línia 284**: `rounded-full` -> <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center mb-6 animate-pulse">
+- **Línia 285**: `text-white` -> <UploadCloud size={64} className="text-white drop-shadow-xl" />
+- **Línia 285**: `shadow-xl"` -> <UploadCloud size={64} className="text-white drop-shadow-xl" />
+- **Línia 287**: `text-4xl` -> <h2 className="text-4xl font-black uppercase tracking-widest drop-shadow-md">
+- **Línia 287**: `shadow-md">` -> <h2 className="text-4xl font-black uppercase tracking-widest drop-shadow-md">
+- **Línia 290**: `text-xl` -> <p className="text-xl opacity-90 font-bold mt-2">
+- **Línia 298**: `bg-[#000000]">` -> <div className="w-full relative z-[500] bg-[#000000]">
+- **Línia 317**: `bg-black/80` -> className="fixed inset-0 bg-black/80 z-[var(--z-overlay)] md:hidden transition-opacity duration-300 animate-in fade-in cursor-pointer"
+- **Línia 330**: `bg-[#000000]` -> fixed z-[var(--z-sidebar)] top-[64px] left-0 h-[calc(100dvh-64px)] w-[300px] max-w-[85vw] bg-[#000000] border-r border-[#ffffff14]
+- **Línia 331**: `shadow-[4px_0_15px_rgba(0,0,0,0.3)]` -> shadow-[4px_0_15px_rgba(0,0,0,0.3)]
+- **Línia 356**: `bg-theme-base` -> className={`min-w-0 min-h-0 relative bg-theme-base flex flex-col flex-1 ${
+- **Línia 489**: `bg-sky-500` -> className="fixed bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+- **Línia 489**: `text-white` -> className="fixed bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+- **Línia 489**: `rounded-[var(--radius-genesis)]` -> className="fixed bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+- **Línia 489**: `shadow-xl` -> className="fixed bottom-[5.5rem] md:bottom-24 right-4 md:right-8 w-14 h-14 bg-sky-500 text-white rounded-[var(--radius-genesis)] shadow-xl shadow-sky-500/50 flex items-center justify-center z-[var(--z-dropdown)] hover:scale-110 transition-transform cursor-pointer border-2 border-white/20"
+- **Línia 499**: `bg-black/80` -> className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/80 animate-in fade-in duration-300"
+- **Línia 532**: `bg-black/90` -> className="fixed inset-0 z-[var(--z-modal)] glass-overlay bg-black/90 md:pl-[240px]"
+
+### src/components/layout/ChatLayout.jsx
+- **Línia 66**: `bg-theme-base` -> className="absolute inset-0 w-full h-full bg-theme-base isolate grid grid-cols-1 lg:grid-cols-[var(--left-width)_minmax(0,1fr)]"
+- **Línia 72**: `bg-theme-base` -> bg-theme-base border-ghost-r relative min-h-0 min-w-0 flex-1
+- **Línia 92**: `bg-[var(--theme-accent-primary)]` -> ${isResizing ? 'bg-[var(--theme-accent-primary)] w-[2px] shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-blue-500/30 group-hover:bg-blue-400/60'}
+- **Línia 92**: `shadow-[0_0_15px_rgba(255,107,0,0.5)]'` -> ${isResizing ? 'bg-[var(--theme-accent-primary)] w-[2px] shadow-[0_0_15px_rgba(255,107,0,0.5)]' : 'bg-blue-500/30 group-hover:bg-blue-400/60'}
+- **Línia 96**: `bg-theme-base` -> absolute flex items-center justify-center bg-theme-base border border-blue-500/30 rounded-lg p-0.5 transition-all
+- **Línia 96**: `rounded-lg` -> absolute flex items-center justify-center bg-theme-base border border-blue-500/30 rounded-lg p-0.5 transition-all
+- **Línia 99**: `text-[var(--theme-accent-primary)]` -> <ChevronLeft size={10} className="text-[var(--theme-accent-primary)] -mr-0.5" />
+- **Línia 100**: `text-[var(--theme-accent-primary)]` -> <ChevronRight size={10} className="text-[var(--theme-accent-primary)] -ml-0.5" />
+- **Línia 108**: `bg-theme-base` -> flex flex-col min-w-0 min-h-0 h-full relative bg-theme-base isolate
+
+### src/components/layout/ContextualHeader.jsx
+- **Línia 34**: `bg-[var(--theme-accent-primary)]` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] max-h-[56px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+- **Línia 34**: `shadow-md">` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] max-h-[56px] flex items-center justify-between px-3 transition-colors duration-500 shadow-md">
+- **Línia 38**: `text-white/90` -> <div className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center">
+- **Línia 42**: `bg-white/20"` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 42**: `text-white` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 42**: `rounded-full` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 53**: `bg-white` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all group">
+- **Línia 53**: `rounded-[24px]` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all group">
+- **Línia 58**: `text-gray-400` -> className="text-gray-400 group-focus-within:text-[var(--theme-accent-primary)] transition-colors"
+- **Línia 69**: `text-gray-900` -> className="font-sans flex-1 w-full h-full bg-transparent text-gray-900 pr-2 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
+- **Línia 83**: `text-gray-400` -> className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors shrink-0"
+- **Línia 92**: `bg-black/20` -> <div className="hidden sm:flex items-center bg-black/20 dark:bg-white/10 p-1 rounded-full gap-1 ml-3 shrink-0">
+- **Línia 92**: `rounded-full` -> <div className="hidden sm:flex items-center bg-black/20 dark:bg-white/10 p-1 rounded-full gap-1 ml-3 shrink-0">
+- **Línia 95**: `bg-white` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 95**: `text-[var(--theme-accent-primary)]` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 95**: `rounded-full` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 95**: `shadow-md'` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'single' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 105**: `bg-white` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 105**: `text-[var(--theme-accent-primary)]` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 105**: `rounded-full` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 105**: `shadow-md'` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'grid' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 112**: `bg-white` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 112**: `text-[var(--theme-accent-primary)]` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 112**: `rounded-full` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+- **Línia 112**: `shadow-md'` -> className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-out active:scale-95 ${viewMode === 'list' ? 'bg-white text-[var(--theme-accent-primary)] shadow-md' : 'text-white/70 hover:bg-white/20 hover:text-white'}`}
+
+### src/components/layout/Header.jsx
+- **Línia 48**: `text-white/70"` -> ? "text-white/70"
+- **Línia 49**: `bg-[#F97316]/10` -> : "text-[#F97316] bg-[#F97316]/10 rounded-full"
+- **Línia 49**: `text-[#F97316]` -> : "text-[#F97316] bg-[#F97316]/10 rounded-full"
+- **Línia 49**: `rounded-full"` -> : "text-[#F97316] bg-[#F97316]/10 rounded-full"
+- **Línia 87**: `bg-[#1A1A1A]` -> <div className="notranslate shrink-0 w-[36px] h-[36px] rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
+- **Línia 87**: `text-xs` -> <div className="notranslate shrink-0 w-[36px] h-[36px] rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
+- **Línia 87**: `rounded-full` -> <div className="notranslate shrink-0 w-[36px] h-[36px] rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
+
+### src/components/layout/MobileBottomNav.jsx
+- **Línia 32**: `bg-[#050505]` -> className="notranslate fixed bottom-0 left-0 right-0 z-[var(--z-nav)] md:hidden bg-[#050505] border-t border-white/5 shadow-[0_-4px_10px_rgba(0,0,0,0.5)] select-none touch-manipulation flex flex-col items-center justify-center"
+- **Línia 32**: `shadow-[0_-4px_10px_rgba(0,0,0,0.5)]` -> className="notranslate fixed bottom-0 left-0 right-0 z-[var(--z-nav)] md:hidden bg-[#050505] border-t border-white/5 shadow-[0_-4px_10px_rgba(0,0,0,0.5)] select-none touch-manipulation flex flex-col items-center justify-center"
+- **Línia 45**: `bg-[#4F46E5]` -> className="w-[52px] h-[52px] bg-[#4F46E5] text-white rounded-full flex items-center justify-center mx-1 shadow-lg shadow-[#4F46E5]/20 transition-transform active:scale-90 outline-none shrink-0"
+- **Línia 45**: `text-white` -> className="w-[52px] h-[52px] bg-[#4F46E5] text-white rounded-full flex items-center justify-center mx-1 shadow-lg shadow-[#4F46E5]/20 transition-transform active:scale-90 outline-none shrink-0"
+- **Línia 45**: `rounded-full` -> className="w-[52px] h-[52px] bg-[#4F46E5] text-white rounded-full flex items-center justify-center mx-1 shadow-lg shadow-[#4F46E5]/20 transition-transform active:scale-90 outline-none shrink-0"
+- **Línia 45**: `shadow-lg` -> className="w-[52px] h-[52px] bg-[#4F46E5] text-white rounded-full flex items-center justify-center mx-1 shadow-lg shadow-[#4F46E5]/20 transition-transform active:scale-90 outline-none shrink-0"
+- **Línia 58**: `text-[#4F46E5]'` -> ${isActive ? 'text-[#4F46E5]' : 'text-white/60 hover:text-white/90'}`}
+
+### src/components/layout/NavigationRail.jsx
+- **Línia 40**: `bg-[#4F46E5]` -> className="min-h-[50px] sm:min-h-[56px] w-full shrink-0 flex items-center justify-start px-7 gap-4 bg-[#4F46E5] text-white cursor-pointer hover:opacity-90 transition-opacity z-20 relative outline-none"
+- **Línia 40**: `text-white` -> className="min-h-[50px] sm:min-h-[56px] w-full shrink-0 flex items-center justify-start px-7 gap-4 bg-[#4F46E5] text-white cursor-pointer hover:opacity-90 transition-opacity z-20 relative outline-none"
+- **Línia 48**: `text-[17px]` -> <span className="font-bold tracking-widest uppercase text-[17px] truncate">
+- **Línia 63**: `bg-[#F97316]` -> <div className="absolute inset-0 bg-[#F97316] rounded-tactile transition-colors duration-200" />
+- **Línia 63**: `rounded-tactile` -> <div className="absolute inset-0 bg-[#F97316] rounded-tactile transition-colors duration-200" />
+- **Línia 68**: `rounded-tactile` -> className={`relative flex h-[48px] w-full items-center justify-start text-left gap-4 rounded-tactile px-4 font-semibold transition-colors duration-200 outline-none ${
+- **Línia 70**: `text-black"` -> ? "text-black"
+- **Línia 71**: `bg-white/5` -> : "text-white/70 hover:bg-white/5 hover:text-white"
+- **Línia 71**: `text-white/70` -> : "text-white/70 hover:bg-white/5 hover:text-white"
+- **Línia 74**: `shadow-md"` -> {item.icon({ size: 22, className: isActive ? "drop-shadow-md" : "", strokeWidth: isActive ? 2.5 : 2 })}
+- **Línia 85**: `bg-red-500/10` -> <div className="absolute inset-0 bg-red-500/10 rounded-tactile transition-colors duration-200" />
+- **Línia 85**: `rounded-tactile` -> <div className="absolute inset-0 bg-red-500/10 rounded-tactile transition-colors duration-200" />
+- **Línia 90**: `rounded-tactile` -> className={`relative flex h-[48px] w-full items-center gap-4 rounded-tactile px-4 font-semibold transition-colors duration-200 outline-none ${
+- **Línia 92**: `text-red-500"` -> ? "text-red-500"
+- **Línia 93**: `bg-red-500/10` -> : "text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
+- **Línia 93**: `text-red-400/70` -> : "text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
+- **Línia 96**: `shadow-md"` -> <Activity size={22} className={location.pathname.startsWith("/iaia-sandbox") ? "drop-shadow-md" : ""} strokeWidth={location.pathname.startsWith("/iaia-sandbox") ? 2.5 : 2} />
+- **Línia 108**: `text-sm` -> className="text-sm font-bold text-[#F97316] hover:text-white transition-colors cursor-pointer w-full tracking-wide block outline-none py-1"
+- **Línia 115**: `text-sm` -> className="text-sm font-bold text-[#F97316] tracking-wide hover:text-white transition-colors cursor-pointer block outline-none py-1"
+
+### src/components/layout/NotebookSidebar.jsx
+- **Línia 22**: `bg-[#f4f4f4]` -> const bgColor = 'bg-[#f4f4f4] dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-[#333] text-base';
+- **Línia 22**: `text-base';` -> const bgColor = 'bg-[#f4f4f4] dark:bg-[#1e1e1e] border-r border-gray-200 dark:border-[#333] text-base';
+- **Línia 23**: `text-gray-800` -> const textColor = 'text-gray-800 dark:text-gray-200';
+- **Línia 24**: `bg-gray-200` -> const hoverBg = 'hover:bg-gray-200 dark:hover:bg-[#2c2c2c]';
+- **Línia 25**: `bg-[#e5e5e5]` -> const activeBg = 'bg-[#e5e5e5] dark:bg-[#333] text-black dark:text-white font-medium';
+- **Línia 25**: `text-black` -> const activeBg = 'bg-[#e5e5e5] dark:bg-[#333] text-black dark:text-white font-medium';
+- **Línia 26**: `text-gray-700` -> const titleColor = 'text-gray-700 dark:text-gray-300 font-medium text-sm';
+- **Línia 45**: `rounded-md` -> className={`folder-item flex items-center justify-between pr-3 py-1.5 rounded-md cursor-pointer transition-colors sidebar-row-element ${isActive ? activeBg : `${hoverBg} ${textColor}`}`}
+- **Línia 65**: `bg-black/10` -> className="p-0.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-gray-500 transition-colors"
+- **Línia 65**: `text-gray-500` -> className="p-0.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-gray-500 transition-colors"
+- **Línia 65**: `rounded-md` -> className="p-0.5 rounded-md hover:bg-black/10 dark:hover:bg-white/10 text-gray-500 transition-colors"
+- **Línia 76**: `text-orange-500'` -> <Folder size={18} fill={isActive ? "currentColor" : "none"} className={`shrink-0 ${isActive ? 'text-orange-500' : 'text-orange-400'}`} />
+- **Línia 77**: `text-sm` -> {!isCollapsed && <span className="truncate text-sm font-medium sidebar-text-element">{folder.name}</span>}
+- **Línia 83**: `text-gray-400` -> className="p-1 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity sidebar-action-element"
+- **Línia 104**: `text-blue-500` -> <Library size={18} className="sidebar-icon-container text-blue-500 dark:text-blue-400 shrink-0" />
+- **Línia 105**: `text-element` -> <h3 className={`flex-1 font-semibold ${titleColor} sidebar-text-element truncate text-sm`}>Carpetes</h3>
+- **Línia 108**: `bg-gray-200` -> className="p-1 rounded text-gray-500 hover:bg-gray-200 dark:hover:bg-[#333] sidebar-action-element shrink-0"
+- **Línia 108**: `text-gray-500` -> className="p-1 rounded text-gray-500 hover:bg-gray-200 dark:hover:bg-[#333] sidebar-action-element shrink-0"
+- **Línia 119**: `text-sm` -> <p className="text-sm text-center opacity-40 py-4 italic">Cap carpeta</p>
+- **Línia 124**: `rounded-md` -> className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors sidebar-row-element ${activeFolder === 'trash' ? activeBg : `${hoverBg} ${textColor}`}`}
+- **Línia 137**: `text-sm` -> <span className="truncate text-sm font-medium sidebar-text-element">{t('notebook.trash.bucket')}</span>
+- **Línia 144**: `text-blue-500` -> <Tags size={18} className="sidebar-icon-container text-blue-500 dark:text-blue-400 shrink-0" />
+- **Línia 145**: `text-element` -> <h3 className={`flex-1 font-semibold ${titleColor} sidebar-text-element truncate text-sm`}>Categories</h3>
+- **Línia 151**: `rounded-md` -> className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors sidebar-row-element ${activeCategory === cat ? activeBg : `${hoverBg} ${textColor}`}`}
+- **Línia 164**: `text-sm` -> <span className="truncate text-sm font-medium sidebar-text-element">{cat}</span>
+
+### src/components/layout/PageHeader.jsx
+- **Línia 18**: `bg-[var(--theme-accent-primary)]` -> <header className={`${sticky ? 'sticky top-0' : 'relative'} w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-[56px] min-h-[56px] max-h-[56px] flex-shrink-0 transition-colors`}>
+- **Línia 18**: `text-white` -> <header className={`${sticky ? 'sticky top-0' : 'relative'} w-full bg-[var(--theme-accent-primary)] text-white border-b border-white/10 px-4 flex items-center justify-between z-50 h-[56px] min-h-[56px] max-h-[56px] flex-shrink-0 transition-colors`}>
+- **Línia 26**: `bg-black/60` -> className="p-2.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-black/90 hover:scale-105 active:scale-95 transition-all duration-300 text-white flex items-center justify-center group"
+- **Línia 26**: `text-white` -> className="p-2.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-black/90 hover:scale-105 active:scale-95 transition-all duration-300 text-white flex items-center justify-center group"
+- **Línia 26**: `rounded-full` -> className="p-2.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-black/90 hover:scale-105 active:scale-95 transition-all duration-300 text-white flex items-center justify-center group"
+- **Línia 26**: `shadow-[0_4px_20px_rgba(0,0,0,0.5)]` -> className="p-2.5 rounded-full bg-black/60 dark:bg-black/80 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)] border border-white/20 hover:bg-black/90 hover:scale-105 active:scale-95 transition-all duration-300 text-white flex items-center justify-center group"
+- **Línia 35**: `bg-white/10` -> className="p-2 -ml-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white"
+- **Línia 35**: `text-white"` -> className="p-2 -ml-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white"
+- **Línia 35**: `rounded-xl` -> className="p-2 -ml-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white"
+- **Línia 45**: `text-[16px]` -> <h3 className="text-[16px] md:text-lg font-bold tracking-wide text-white m-0 text-center uppercase truncate w-full">
+- **Línia 49**: `text-[10px]` -> <p className="text-[10px] md:text-xs text-white/80 uppercase font-bold tracking-tighter m-0 truncate w-full text-center">
+- **Línia 63**: `bg-white/10` -> className="p-2 -mr-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white/80 hover:text-white"
+- **Línia 63**: `text-white/80` -> className="p-2 -mr-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white/80 hover:text-white"
+- **Línia 63**: `rounded-xl` -> className="p-2 -mr-2 rounded-xl hover:bg-white/10 active:scale-95 transition-all text-white/80 hover:text-white"
+
+### src/components/layout/SystemContainers.jsx
+- **Línia 20**: `bg-[var(--bg-app)]` -> <div ref={ref} className={`root-page-container flex flex-col w-full h-full isolate relative overflow-hidden bg-[var(--bg-app)] ${className}`}>
+
+### src/components/layout/SystemPageLayout.jsx
+- **Línia 21**: `bg-theme-bg` -> className={`flex flex-col w-full bg-theme-bg isolate ${className}`}
+- **Línia 25**: `bg-theme-base` -> <header className="flex-none w-full sticky top-0 z-50 shadow-md bg-theme-base border-b border-border-master flex flex-col relative isolate">
+- **Línia 25**: `shadow-md` -> <header className="flex-none w-full sticky top-0 z-50 shadow-md bg-theme-base border-b border-border-master flex flex-col relative isolate">
+- **Línia 44**: `bg-theme-base` -> className="w-full sticky bottom-0 mt-auto z-40 shadow-[0_-10px_40px_-5px_rgba(0,0,0,0.1)] bg-theme-base border-t border-[rgba(255,255,255,0.05)] isolate"
+- **Línia 44**: `shadow-[0_-10px_40px_-5px_rgba(0,0,0,0.1)]` -> className="w-full sticky bottom-0 mt-auto z-40 shadow-[0_-10px_40px_-5px_rgba(0,0,0,0.1)] bg-theme-base border-t border-[rgba(255,255,255,0.05)] isolate"
+- **Línia 51**: `bg-theme-bg/95` -> <footer className="flex-none w-full shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.3)] z-[55] bg-theme-bg/95 backdrop-blur-xl">
+- **Línia 51**: `shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.3)]` -> <footer className="flex-none w-full shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.3)] z-[55] bg-theme-bg/95 backdrop-blur-xl">
+
+### src/components/modals/AddItemModal.jsx
+- **Línia 147**: `bg-white/5` -> className="bg-white/5 p-2 rounded-[28px] hover:bg-white/10 transition-colors"
+- **Línia 147**: `rounded-[28px]` -> className="bg-white/5 p-2 rounded-[28px] hover:bg-white/10 transition-colors"
+- **Línia 167**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 167**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 167**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 182**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 182**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 182**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 195**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 195**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 195**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 220**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 220**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 220**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 229**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 229**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 229**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 239**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 239**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 239**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white placeholder-white/40 focus:outline-none focus:border-white/30"
+- **Línia 250**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 250**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 250**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 263**: `bg-white/5` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 263**: `text-white` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 263**: `rounded-[28px]` -> className="w-full bg-white/5 border border-white/10 rounded-[28px] p-4 text-white focus:outline-none focus:border-white/30"
+- **Línia 273**: `text-white` -> <label className="flex items-center gap-2 text-white cursor-pointer">
+- **Línia 278**: `bg-white/5` -> className="w-5 h-5 rounded border-white/20 bg-white/5 text-orange-500 focus:ring-orange-500 focus:ring-offset-gray-900"
+- **Línia 278**: `text-orange-500` -> className="w-5 h-5 rounded border-white/20 bg-white/5 text-orange-500 focus:ring-orange-500 focus:ring-offset-gray-900"
+- **Línia 301**: `text-xs` -> <span className="text-xs text-white/50 uppercase tracking-widest font-bold">Foto/Vídeo de l'article</span>
+- **Línia 304**: `bg-emerald-500/20` -> <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full text-xs font-bold animate-in zoom-in ml-auto">
+- **Línia 304**: `text-emerald-400` -> <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full text-xs font-bold animate-in zoom-in ml-auto">
+- **Línia 304**: `rounded-full` -> <div className="flex items-center gap-2 bg-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full text-xs font-bold animate-in zoom-in ml-auto">
+- **Línia 307**: `text-white"><X` -> <button type="button" onClick={() => setCapturedMedia(null)} className="ml-1 hover:text-white"><X size={12} /></button>
+
+### src/components/modals/CalendarManagerModal.jsx
+- **Línia 25**: `text-[var(--theme-accent-primary)]"` -> <Settings size={22} className="text-[var(--theme-accent-primary)]" />
+- **Línia 36**: `text-emerald-400">` -> <h3 className="flex items-center gap-2 text-emerald-400">
+- **Línia 40**: `text-sm` -> <p className="dashboard-explanation text-sm mb-4">
+- **Línia 53**: `text-white` -> <span className="cal-name truncate font-sans font-bold text-white text-[15px] max-w-[200px]">
+- **Línia 73**: `text-[var(--text-muted)]` -> <div className="p-4 text-center text-[var(--text-muted)] italic text-sm">
+- **Línia 83**: `text-emerald-400"` -> <Brain size={40} className="mb-4 text-emerald-400" />
+- **Línia 115**: `text-white` -> <span className="cal-name truncate font-sans font-bold text-white text-[15px] max-w-[180px]">
+- **Línia 144**: `text-[var(--text-muted)]` -> <div className="p-4 text-center text-[var(--text-muted)] italic">
+
+### src/components/modals/ConnectionSelectorModal.jsx
+- **Línia 14**: `bg-black/60` -> <div className="fixed inset-0 z-[var(--z-modal)] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={onClose}>
+
+### src/components/modals/CreateEventModal.jsx
+- **Línia 71**: `bg-black/80` -> className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[9999] flex items-end md:items-center justify-center"
+- **Línia 76**: `bg-white` -> className="bg-white dark:bg-theme-panel w-full max-w-xl mx-4 mb-4 md:mb-0 rounded-[32px] shadow-2xl overflow-hidden"
+- **Línia 76**: `rounded-[32px]` -> className="bg-white dark:bg-theme-panel w-full max-w-xl mx-4 mb-4 md:mb-0 rounded-[32px] shadow-2xl overflow-hidden"
+- **Línia 76**: `shadow-2xl` -> className="bg-white dark:bg-theme-panel w-full max-w-xl mx-4 mb-4 md:mb-0 rounded-[32px] shadow-2xl overflow-hidden"
+- **Línia 79**: `text-2xl` -> <h2 className="text-2xl font-black tracking-tighter flex items-center gap-3">
+- **Línia 80**: `text-[#F97316]"` -> <Sparkles className="text-[#F97316]" /> Crear esdeveniment
+- **Línia 90**: `text-sm` -> <label className="block text-sm font-bold mb-2">Què passa al poble?</label>
+- **Línia 96**: `bg-black/10` -> className="w-full px-5 py-5 text-2xl rounded-2xl border-2 border-transparent focus:border-[#F97316] outline-none bg-black/10 dark:bg-black/30"
+- **Línia 96**: `text-2xl` -> className="w-full px-5 py-5 text-2xl rounded-2xl border-2 border-transparent focus:border-[#F97316] outline-none bg-black/10 dark:bg-black/30"
+- **Línia 96**: `rounded-2xl` -> className="w-full px-5 py-5 text-2xl rounded-2xl border-2 border-transparent focus:border-[#F97316] outline-none bg-black/10 dark:bg-black/30"
+- **Línia 105**: `text-sm` -> <label className="block text-sm font-bold mb-2 flex items-center gap-2"><Calendar size={18} /> Dia</label>
+- **Línia 106**: `bg-black/10` -> <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" required />
+- **Línia 106**: `rounded-2xl` -> <input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" required />
+- **Línia 109**: `text-sm` -> <label className="block text-sm font-bold mb-2">Hora (opcional)</label>
+- **Línia 110**: `bg-black/10` -> <input type="time" value={form.timeStart} onChange={e => setForm({ ...form, timeStart: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+- **Línia 110**: `rounded-2xl` -> <input type="time" value={form.timeStart} onChange={e => setForm({ ...form, timeStart: e.target.value })} className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+- **Línia 116**: `bg-black/10` -> <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="flex-1 px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]">
+- **Línia 116**: `rounded-2xl` -> <select value={form.type} onChange={e => setForm({ ...form, type: e.target.value })} className="flex-1 px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]">
+- **Línia 127**: `bg-black/10` -> className="w-20 text-center text-4xl rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+- **Línia 127**: `text-4xl` -> className="w-20 text-center text-4xl rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+- **Línia 127**: `rounded-2xl` -> className="w-20 text-center text-4xl rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+- **Línia 137**: `bg-black/10` -> className="w-full h-32 px-5 py-5 rounded-3xl resize-none bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+- **Línia 137**: `rounded-3xl` -> className="w-full h-32 px-5 py-5 rounded-3xl resize-none bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]"
+- **Línia 141**: `text-sm` -> <label className="block text-sm font-bold mb-2 flex items-center gap-2"><MapPin size={18} /> On?</label>
+- **Línia 142**: `bg-black/10` -> <input type="text" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Plaça del Poble" className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+- **Línia 142**: `rounded-2xl` -> <input type="text" value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} placeholder="Plaça del Poble" className="w-full px-5 py-5 rounded-2xl bg-black/10 dark:bg-black/30 outline-none focus:ring-2 ring-[#F97316]" />
+- **Línia 148**: `bg-[#F97316]` -> className="w-full py-7 text-2xl font-black bg-[#F97316] text-white rounded-3xl flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+- **Línia 148**: `text-2xl` -> className="w-full py-7 text-2xl font-black bg-[#F97316] text-white rounded-3xl flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+- **Línia 148**: `rounded-3xl` -> className="w-full py-7 text-2xl font-black bg-[#F97316] text-white rounded-3xl flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
+
+### src/components/modals/CreatePostModal.jsx
+- **Línia 153**: `bg-black/60` -> className="absolute inset-0 bg-black/60 backdrop-blur-md"
+- **Línia 157**: `bg-[#2A241D]` -> <div className={`relative isolate z-50 w-full flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+- **Línia 157**: `text-white` -> <div className={`relative isolate z-50 w-full flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+- **Línia 157**: `rounded-[24px]` -> <div className={`relative isolate z-50 w-full flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+- **Línia 157**: `shadow-2xl` -> <div className={`relative isolate z-50 w-full flex flex-col rounded-[24px] shadow-2xl bg-[#2A241D] text-white overflow-hidden border border-[var(--theme-accent-primary)]/20 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+- **Línia 163**: `bg-[var(--bg-panel-elevated)]">` -> <div className="flex items-center justify-between p-5 border-b border-[var(--border-master)] bg-[var(--bg-panel-elevated)]">
+- **Línia 165**: `bg-[var(--bg-panel)]` -> <button onClick={onClose} className="p-2 -ml-2 text-[var(--text-muted)] hover:bg-[var(--bg-panel)] rounded-full transition-colors hover:text-[var(--text-main)]">
+- **Línia 165**: `text-[var(--text-muted)]` -> <button onClick={onClose} className="p-2 -ml-2 text-[var(--text-muted)] hover:bg-[var(--bg-panel)] rounded-full transition-colors hover:text-[var(--text-main)]">
+- **Línia 165**: `rounded-full` -> <button onClick={onClose} className="p-2 -ml-2 text-[var(--text-muted)] hover:bg-[var(--bg-panel)] rounded-full transition-colors hover:text-[var(--text-main)]">
+- **Línia 168**: `text-[20px]` -> <h2 className="text-[20px] font-bold tracking-tight text-[var(--text-main)] flex items-center gap-2">
+- **Línia 169**: `text-[var(--theme-accent-primary)]"` -> {isArticleMode ? <BookOpen size={20} className="text-[var(--theme-accent-primary)]" /> : null}
+- **Línia 180**: `bg-[var(--theme-accent-primary)]` -> className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 transition-all ${isArticleMode ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'bg-[var(--bg-panel)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-master)] border border-[var(--border-master)]'}`}
+- **Línia 180**: `text-white` -> className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 transition-all ${isArticleMode ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'bg-[var(--bg-panel)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-master)] border border-[var(--border-master)]'}`}
+- **Línia 180**: `rounded-xl` -> className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 transition-all ${isArticleMode ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'bg-[var(--bg-panel)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-master)] border border-[var(--border-master)]'}`}
+- **Línia 180**: `shadow-md'` -> className={`px-3 py-1.5 rounded-xl font-bold flex items-center gap-2 transition-all ${isArticleMode ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'bg-[var(--bg-panel)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--border-master)] border border-[var(--border-master)]'}`}
+- **Línia 184**: `text-sm` -> <span className="text-sm hidden sm:inline">{isArticleMode ? 'Mode Mur' : 'Mode Article (Page Genesis)'}</span>
+- **Línia 196**: `text-[14px]` -> <label className="text-[14px] font-medium text-white/80">Títol {isArticleMode && '*'}</label>
+- **Línia 200**: `bg-[#3B332A]` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all font-bold text-lg"
+- **Línia 200**: `text-white` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all font-bold text-lg"
+- **Línia 200**: `rounded-xl` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all font-bold text-lg"
+- **Línia 210**: `text-[14px]` -> <label className="text-[14px] font-medium text-white/80">{isArticleMode ? 'Contingut Ric' : t('groups.group_description')}</label>
+- **Línia 212**: `text-[11px]` -> <button className="text-[11px] font-bold text-[var(--theme-accent-primary)] hover:underline" onClick={() => setBookTitle('Títol Opcional')}>
+- **Línia 218**: `bg-[#3B332A]` -> <Suspense fallback={<div className="h-40 w-full animate-pulse bg-[#3B332A] rounded-xl flex items-center justify-center text-white/40 font-mono text-xs">Carregant l'editor màgic...</div>}>
+- **Línia 218**: `text-white/40` -> <Suspense fallback={<div className="h-40 w-full animate-pulse bg-[#3B332A] rounded-xl flex items-center justify-center text-white/40 font-mono text-xs">Carregant l'editor màgic...</div>}>
+- **Línia 218**: `rounded-xl` -> <Suspense fallback={<div className="h-40 w-full animate-pulse bg-[#3B332A] rounded-xl flex items-center justify-center text-white/40 font-mono text-xs">Carregant l'editor màgic...</div>}>
+- **Línia 233**: `text-[14px]` -> <label className="text-[14px] font-medium text-white/80">{t('market.price_optional')}</label>
+- **Línia 238**: `bg-[#3B332A]` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+- **Línia 238**: `text-white` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+- **Línia 238**: `rounded-xl` -> className="w-full bg-[#3B332A] border-none text-white placeholder-white/40 rounded-xl pl-4 pr-10 py-3.5 focus:ring-2 focus:ring-orange-500/50 outline-none transition-all"
+- **Línia 240**: `text-white/60` -> <span className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 font-medium">€</span>
+- **Línia 244**: `text-[14px]` -> <label className="text-[14px] font-medium text-white/80">{t('market.category')}</label>
+- **Línia 245**: `bg-[#3B332A]` -> <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
+- **Línia 245**: `text-white/80` -> <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
+- **Línia 245**: `rounded-xl` -> <select className="w-full bg-[#3B332A] border-none text-white/80 rounded-xl px-4 py-3.5 appearance-none focus:ring-2 focus:ring-orange-500/50 outline-none transition-all cursor-pointer">
+- **Línia 251**: `text-white/50">` -> <div className="absolute right-9 top-[372px] md:top-[388px] pointer-events-none text-white/50">
+- **Línia 260**: `text-[16px]` -> <label className="text-[16px] font-bold text-white">{t('market.add_media')}</label>
+- **Línia 263**: `bg-black/50` -> <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/50 border border-white/10 group">
+- **Línia 263**: `rounded-xl` -> <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/50 border border-white/10 group">
+- **Línia 267**: `bg-black/60` -> className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+- **Línia 267**: `text-white` -> className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+- **Línia 267**: `rounded-full` -> className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+- **Línia 271**: `bg-[#4F46E5]` -> <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
+- **Línia 271**: `text-white` -> <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
+- **Línia 271**: `rounded-lg` -> <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
+- **Línia 271**: `shadow-lg` -> <button className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#4F46E5] text-white text-xs font-bold rounded-lg flex items-center gap-1.5 shadow-lg shadow-indigo-500/20" onClick={analyzeWithIAIA} disabled={iaiaAnalyzing}>
+- **Línia 278**: `bg-[#3B332A]/50` -> className="w-full aspect-[4/3] max-h-56 bg-[#3B332A]/50 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-[#3B332A] hover:border-orange-500/50 transition-all group"
+- **Línia 278**: `rounded-2xl` -> className="w-full aspect-[4/3] max-h-56 bg-[#3B332A]/50 border-2 border-dashed border-white/20 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:bg-[#3B332A] hover:border-orange-500/50 transition-all group"
+- **Línia 279**: `bg-[#3B332A]');` -> onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-orange-500', 'bg-[#3B332A]'); }}
+- **Línia 280**: `bg-[#3B332A]');` -> onDragLeave={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-orange-500', 'bg-[#3B332A]'); }}
+- **Línia 283**: `bg-[#3B332A]');` -> e.currentTarget.classList.remove('border-orange-500', 'bg-[#3B332A]');
+- **Línia 293**: `text-white/60` -> <div className="text-white/60 mb-3 group-hover:scale-110 group-hover:text-white transition-all">
+- **Línia 302**: `text-[15px]` -> <span className="text-[15px] font-bold text-white mb-1">{t('market.drag_files')}</span>
+- **Línia 303**: `text-[12px]` -> <span className="text-[12px] text-white/50 mb-4">{t('market.max_files')}</span>
+- **Línia 304**: `bg-orange-500/20` -> <div className="px-5 py-2.5 bg-orange-500/20 text-orange-400 font-bold rounded-full text-sm group-hover:bg-orange-500 group-hover:text-white transition-colors">
+- **Línia 304**: `text-orange-400` -> <div className="px-5 py-2.5 bg-orange-500/20 text-orange-400 font-bold rounded-full text-sm group-hover:bg-orange-500 group-hover:text-white transition-colors">
+- **Línia 304**: `rounded-full` -> <div className="px-5 py-2.5 bg-orange-500/20 text-orange-400 font-bold rounded-full text-sm group-hover:bg-orange-500 group-hover:text-white transition-colors">
+- **Línia 314**: `bg-[#F97316]` -> className={`w-full py-4 mt-6 rounded-[20px] font-bold text-[18px] transition-all flex items-center justify-center ${(content.trim() || bookTitle.trim() || multimediaPreview) ? 'bg-[#F97316] text-white shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:bg-[#ea580c] active:scale-[0.98]' : 'bg-[#3B332A] text-white/40 cursor-not-allowed'}`}
+- **Línia 314**: `text-[18px]` -> className={`w-full py-4 mt-6 rounded-[20px] font-bold text-[18px] transition-all flex items-center justify-center ${(content.trim() || bookTitle.trim() || multimediaPreview) ? 'bg-[#F97316] text-white shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:bg-[#ea580c] active:scale-[0.98]' : 'bg-[#3B332A] text-white/40 cursor-not-allowed'}`}
+- **Línia 314**: `rounded-[20px]` -> className={`w-full py-4 mt-6 rounded-[20px] font-bold text-[18px] transition-all flex items-center justify-center ${(content.trim() || bookTitle.trim() || multimediaPreview) ? 'bg-[#F97316] text-white shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:bg-[#ea580c] active:scale-[0.98]' : 'bg-[#3B332A] text-white/40 cursor-not-allowed'}`}
+- **Línia 314**: `shadow-[0_4px_14px_0_rgba(249,115,22,0.39)]` -> className={`w-full py-4 mt-6 rounded-[20px] font-bold text-[18px] transition-all flex items-center justify-center ${(content.trim() || bookTitle.trim() || multimediaPreview) ? 'bg-[#F97316] text-white shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.23)] hover:bg-[#ea580c] active:scale-[0.98]' : 'bg-[#3B332A] text-white/40 cursor-not-allowed'}`}
+
+### src/components/modals/GlobalModals.jsx
+- **Línia 172**: `text-generated',` -> window.dispatchEvent(new CustomEvent('magic-text-generated', { detail: { text } }));
+
+### src/components/modals/HistoryModal.jsx
+- **Línia 48**: `bg-black/60` -> <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm sm:items-center sm:p-0">
+- **Línia 53**: `bg-[var(--bg-panel)]` -> className="relative w-full max-w-2xl bg-[var(--bg-panel)] rounded-2xl shadow-2xl overflow-hidden border border-[var(--border-master)] max-h-[85vh] flex flex-col"
+- **Línia 53**: `rounded-2xl` -> className="relative w-full max-w-2xl bg-[var(--bg-panel)] rounded-2xl shadow-2xl overflow-hidden border border-[var(--border-master)] max-h-[85vh] flex flex-col"
+- **Línia 53**: `shadow-2xl` -> className="relative w-full max-w-2xl bg-[var(--bg-panel)] rounded-2xl shadow-2xl overflow-hidden border border-[var(--border-master)] max-h-[85vh] flex flex-col"
+- **Línia 55**: `bg-gradient-to-r` -> <div className="flex items-center justify-between p-5 border-b border-[var(--border-master)] bg-gradient-to-r from-[var(--theme-accent-primary)]/10 to-transparent">
+- **Línia 57**: `text-[var(--theme-accent-primary)]"` -> <Clock className="text-[var(--theme-accent-primary)]" size={24} />
+- **Línia 58**: `text-xl` -> <h2 className="text-xl font-black uppercase tracking-tight text-[var(--text-main)]">Historial de Versions</h2>
+- **Línia 62**: `bg-[var(--bg-app)]` -> className="p-2 bg-[var(--bg-app)] text-[var(--text-muted)] hover:text-white rounded-full transition-colors"
+- **Línia 62**: `text-[var(--text-muted)]` -> className="p-2 bg-[var(--bg-app)] text-[var(--text-muted)] hover:text-white rounded-full transition-colors"
+- **Línia 62**: `rounded-full` -> className="p-2 bg-[var(--bg-app)] text-[var(--text-muted)] hover:text-white rounded-full transition-colors"
+- **Línia 71**: `rounded-full` -> <span className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--theme-accent-primary)]"></span>
+- **Línia 92**: `rounded-xl` -> className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between transition-all ${
+- **Línia 93**: `bg-[var(--theme-accent-primary)]/10` -> isCurrent ? 'bg-[var(--theme-accent-primary)]/10 border-[var(--theme-accent-primary)]/50 cursor-default' :
+- **Línia 94**: `bg-[var(--bg-app)]` -> selectedVersionId === v.id ? 'bg-[var(--bg-app)] border-[var(--theme-accent-primary)] cursor-pointer' :
+- **Línia 95**: `bg-[var(--bg-app)]` -> 'bg-[var(--bg-app)] border-[var(--border-master)] hover:border-white/20 cursor-pointer'
+- **Línia 99**: `bg-black/40` -> <div className="mt-1 bg-black/40 p-2 rounded-full">
+- **Línia 99**: `rounded-full">` -> <div className="mt-1 bg-black/40 p-2 rounded-full">
+- **Línia 100**: `text-[var(--theme-accent-primary)]"` -> {isCurrent ? <Clock size={16} className="text-[var(--theme-accent-primary)]" /> : <User size={16} />}
+- **Línia 103**: `text-[var(--text-main)]` -> <p className="font-bold text-[var(--text-main)] flex items-center gap-2">
+- **Línia 105**: `bg-[var(--theme-accent-primary)]` -> {isCurrent && <span className="text-[10px] bg-[var(--theme-accent-primary)] text-black px-2 py-0.5 rounded-full uppercase tracking-wider">Actual</span>}
+- **Línia 105**: `text-[10px]` -> {isCurrent && <span className="text-[10px] bg-[var(--theme-accent-primary)] text-black px-2 py-0.5 rounded-full uppercase tracking-wider">Actual</span>}
+- **Línia 105**: `rounded-full` -> {isCurrent && <span className="text-[10px] bg-[var(--theme-accent-primary)] text-black px-2 py-0.5 rounded-full uppercase tracking-wider">Actual</span>}
+- **Línia 107**: `text-xs` -> <p className="text-xs text-[var(--text-muted)] line-clamp-1 mt-1">
+- **Línia 110**: `text-xs` -> <p className="text-xs font-mono text-[var(--text-muted)] opacity-60 mt-2">
+- **Línia 122**: `bg-[var(--bg-panel)]` -> <div className="p-5 border-t border-[var(--border-master)] bg-[var(--bg-panel)] flex justify-end gap-3">
+- **Línia 125**: `bg-white/5"` -> className="px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-colors hover:bg-white/5"
+- **Línia 125**: `text-sm` -> className="px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-colors hover:bg-white/5"
+- **Línia 125**: `rounded-lg` -> className="px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm transition-colors hover:bg-white/5"
+- **Línia 132**: `text-sm` -> className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm flex items-center gap-2 transition-colors ${
+- **Línia 132**: `rounded-lg` -> className={`px-5 py-2.5 rounded-lg font-bold uppercase tracking-wider text-sm flex items-center gap-2 transition-colors ${
+- **Línia 134**: `bg-[var(--theme-accent-primary)]` -> ? 'bg-[var(--theme-accent-primary)] text-black hover:bg-[var(--theme-accent-primary)]/90'
+- **Línia 134**: `text-black` -> ? 'bg-[var(--theme-accent-primary)] text-black hover:bg-[var(--theme-accent-primary)]/90'
+- **Línia 135**: `bg-white/10` -> : 'bg-white/10 text-white/40 cursor-not-allowed'
+- **Línia 135**: `text-white/40` -> : 'bg-white/10 text-white/40 cursor-not-allowed'
+
+### src/components/modals/LegalDocsModal.jsx
+- **Línia 30**: `text-content">` -> <div className="legal-text-content">
+
+### src/components/modals/MediaViewerModal.jsx
+- **Línia 142**: `text-[var(--theme-accent-primary)]` -> <span className="viewer-title">{title} {hasCarousel && <span className="text-[var(--theme-accent-primary)] opacity-80 text-[10px] md:text-sm ml-2 font-mono" style={{verticalAlign: 'middle'}}>({currentIndex + 1} / {images.length})</span>}</span>
+- **Línia 183**: `bg-[var(--theme-surface-sunken)]` -> <div className="viewer-main-media flex items-center justify-center bg-[var(--theme-surface-sunken)] flex-col text-[var(--theme-text-muted)] p-8 text-center rounded-2xl w-full h-full min-h-[300px] max-w-lg mx-auto">
+- **Línia 183**: `text-[var(--theme-text-muted)]` -> <div className="viewer-main-media flex items-center justify-center bg-[var(--theme-surface-sunken)] flex-col text-[var(--theme-text-muted)] p-8 text-center rounded-2xl w-full h-full min-h-[300px] max-w-lg mx-auto">
+- **Línia 183**: `rounded-2xl` -> <div className="viewer-main-media flex items-center justify-center bg-[var(--theme-surface-sunken)] flex-col text-[var(--theme-text-muted)] p-8 text-center rounded-2xl w-full h-full min-h-[300px] max-w-lg mx-auto">
+- **Línia 185**: `text-lg">Imatge` -> <p className="font-bold text-lg">Imatge no disponible</p>
+- **Línia 186**: `text-sm` -> <p className="text-sm mt-1 opacity-80">Si estàs fora de línia, aquesta imatge no s'ha pogut guardar a la memòria cau.</p>
+- **Línia 192**: `bg-black/80` -> <div className="exif-info-panel absolute right-0 top-0 bottom-0 bg-black/80 backdrop-blur-md p-6 overflow-y-auto w-full md:w-80 text-white border-l border-white/10 animate-fade-in z-20">
+- **Línia 192**: `text-white` -> <div className="exif-info-panel absolute right-0 top-0 bottom-0 bg-black/80 backdrop-blur-md p-6 overflow-y-auto w-full md:w-80 text-white border-l border-white/10 animate-fade-in z-20">
+- **Línia 193**: `text-xl` -> <h3 className="text-xl font-bold mb-4 flex items-center gap-2 border-b border-white/20 pb-2">
+- **Línia 198**: `bg-white/10` -> <div className="mb-6 bg-white/10 p-3 rounded-lg">
+- **Línia 198**: `rounded-lg">` -> <div className="mb-6 bg-white/10 p-3 rounded-lg">
+- **Línia 199**: `text-xs` -> <h4 className="text-xs uppercase tracking-wider text-white/50 mb-1">Descripció</h4>
+- **Línia 200**: `text-sm">{currentDescription}</p>` -> <p className="text-sm">{currentDescription}</p>
+- **Línia 205**: `text-white/60` -> <div className="text-center py-8 text-white/60 animate-pulse">Llegint dades EXIF...</div>
+- **Línia 209**: `bg-white/5` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 209**: `rounded-lg">` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 210**: `text-xs` -> <h4 className="text-xs uppercase tracking-wider text-white/50 mb-1">Càmera</h4>
+- **Línia 211**: `text-sm">{exifData.Make}` -> <p className="font-mono text-sm">{exifData.Make} {exifData.Model}</p>
+- **Línia 216**: `bg-white/5` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 216**: `rounded-lg">` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 217**: `text-xs` -> <h4 className="text-xs uppercase tracking-wider text-white/50 mb-1">Configuració</h4>
+- **Línia 218**: `text-sm` -> <div className="grid grid-cols-2 gap-2 text-sm font-mono">
+- **Línia 228**: `bg-white/5` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 228**: `rounded-lg">` -> <div className="exif-group bg-white/5 p-3 rounded-lg">
+- **Línia 229**: `text-xs` -> <h4 className="text-xs uppercase tracking-wider text-white/50 mb-1">Data de Captura</h4>
+- **Línia 230**: `text-sm">{new` -> <p className="font-mono text-sm">{new Date(exifData.DateTimeOriginal).toLocaleString('ca-ES')}</p>
+- **Línia 236**: `text-sm` -> <summary className="text-sm text-white/70 cursor-pointer hover:text-white">Dades tècniques completes</summary>
+- **Línia 237**: `bg-black/40` -> <div className="mt-2 text-xs font-mono text-white/50 break-all bg-black/40 p-2 rounded h-32 overflow-y-auto">
+- **Línia 237**: `text-xs` -> <div className="mt-2 text-xs font-mono text-white/50 break-all bg-black/40 p-2 rounded h-32 overflow-y-auto">
+- **Línia 247**: `text-white/60">` -> <div className="text-center py-8 text-white/60">
+
+### src/components/modals/ProfileSettingsModal.jsx
+- **Línia 216**: `bg-black/60` -> <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+- **Línia 220**: `bg-theme-panel` -> className="bg-theme-panel border border-[var(--border-master)] rounded-[28px] w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[90vh] outline-none"
+- **Línia 220**: `rounded-[28px]` -> className="bg-theme-panel border border-[var(--border-master)] rounded-[28px] w-full max-w-md relative z-10 overflow-hidden flex flex-col max-h-[90vh] outline-none"
+- **Línia 223**: `text-xl` -> <h2 className="text-xl font-black uppercase tracking-widest text-[var(--theme-accent-primary)]">Configuració (BETA)</h2>
+- **Línia 224**: `bg-white/5` -> <button onClick={onClose} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+- **Línia 224**: `rounded-full` -> <button onClick={onClose} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+- **Línia 233**: `text-[var(--theme-accent-primary)]"` -> <User size={18} className="text-[var(--theme-accent-primary)]" />
+- **Línia 234**: `text-sm">Identitat` -> <h3 className="font-bold uppercase tracking-wider text-sm">Identitat del Node</h3>
+- **Línia 238**: `bg-black/40` -> <div className="relative w-full h-32 rounded-2xl bg-black/40 overflow-visible border border-white/10 mb-10 mt-6 group/cover">
+- **Línia 238**: `rounded-2xl` -> <div className="relative w-full h-32 rounded-2xl bg-black/40 overflow-visible border border-white/10 mb-10 mt-6 group/cover">
+- **Línia 243**: `rounded-2xl"` -> className="w-full h-full object-cover opacity-60 rounded-2xl"
+- **Línia 247**: `rounded-2xl` -> <div className="w-full h-full flex items-center justify-center rounded-2xl cursor-pointer" onClick={() => document.getElementById('cover-input').click()}>
+- **Línia 248**: `text-white/20"` -> <ImageIcon size={32} className="text-white/20" />
+- **Línia 254**: `bg-black/80` -> <button className="bg-black/80 p-2 rounded-full shadow-xl hover:bg-[var(--theme-accent-primary)] transition-colors" title="Penjar Nova Foto" onClick={() => document.getElementById('cover-input').click()}>
+- **Línia 254**: `rounded-full` -> <button className="bg-black/80 p-2 rounded-full shadow-xl hover:bg-[var(--theme-accent-primary)] transition-colors" title="Penjar Nova Foto" onClick={() => document.getElementById('cover-input').click()}>
+- **Línia 254**: `shadow-xl` -> <button className="bg-black/80 p-2 rounded-full shadow-xl hover:bg-[var(--theme-accent-primary)] transition-colors" title="Penjar Nova Foto" onClick={() => document.getElementById('cover-input').click()}>
+- **Línia 262**: `bg-black/80` -> <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-[var(--theme-accent-primary)] shadow-xl backdrop-blur-sm border border-white/20 mb-2">Ajusta Alçada Paret</span>
+- **Línia 262**: `text-xs` -> <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-[var(--theme-accent-primary)] shadow-xl backdrop-blur-sm border border-white/20 mb-2">Ajusta Alçada Paret</span>
+- **Línia 262**: `rounded-full` -> <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-[var(--theme-accent-primary)] shadow-xl backdrop-blur-sm border border-white/20 mb-2">Ajusta Alçada Paret</span>
+- **Línia 262**: `shadow-xl` -> <span className="bg-black/80 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-[var(--theme-accent-primary)] shadow-xl backdrop-blur-sm border border-white/20 mb-2">Ajusta Alçada Paret</span>
+- **Línia 268**: `rounded-xl` -> className="w-32 h-2 rounded-xl accent-[var(--theme-accent-primary)] pointer-events-auto"
+- **Línia 278**: `bg-master)]` -> <div className="relative w-24 h-24 rounded-[50%] border-[3px] border-solid border-[var(--bg-master)] overflow-hidden bg-gray-900 group/avatar cursor-pointer shadow-xl isolate aspect-square flex items-center justify-center">
+- **Línia 278**: `rounded-[50%]` -> <div className="relative w-24 h-24 rounded-[50%] border-[3px] border-solid border-[var(--bg-master)] overflow-hidden bg-gray-900 group/avatar cursor-pointer shadow-xl isolate aspect-square flex items-center justify-center">
+- **Línia 278**: `shadow-xl` -> <div className="relative w-24 h-24 rounded-[50%] border-[3px] border-solid border-[var(--bg-master)] overflow-hidden bg-gray-900 group/avatar cursor-pointer shadow-xl isolate aspect-square flex items-center justify-center">
+- **Línia 280**: `rounded-[50%]` -> <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover group-hover/avatar:opacity-50 transition-opacity rounded-[50%] block aspect-square" style={{ borderRadius: '50%' }} />
+- **Línia 282**: `bg-gray-800">` -> <div className="w-full h-full flex items-center justify-center bg-gray-800">
+- **Línia 283**: `text-gray-400"` -> <User size={32} className="text-gray-400" />
+- **Línia 287**: `text-white` -> <Camera size={24} className="text-white drop-shadow-md" />
+- **Línia 287**: `shadow-md"` -> <Camera size={24} className="text-white drop-shadow-md" />
+- **Línia 296**: `text-[10px]` -> <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Nom / Denominació</label>
+- **Línia 301**: `bg-black/40` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all font-bold"
+- **Línia 301**: `text-white` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all font-bold"
+- **Línia 301**: `rounded-xl` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all font-bold"
+- **Línia 306**: `text-[10px]` -> <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Presentació (Bio)</label>
+- **Línia 310**: `bg-black/40` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all resize-none h-24 text-sm"
+- **Línia 310**: `text-white` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all resize-none h-24 text-sm"
+- **Línia 310**: `rounded-xl` -> className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--theme-accent-primary)]/50 focus:ring-1 focus:ring-[var(--theme-accent-primary)]/50 transition-all resize-none h-24 text-sm"
+- **Línia 317**: `bg-white/5` -> <div className="h-px w-full bg-white/5 my-0"></div>
+- **Línia 326**: `text-[var(--theme-accent-primary)]"` -> <MapPin size={18} className="text-[var(--theme-accent-primary)]" />
+- **Línia 327**: `text-sm">Vinculació` -> <h3 className="font-bold uppercase tracking-wider text-sm">Vinculació Territorial</h3>
+- **Línia 331**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 331**: `rounded-2xl` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 332**: `text-xs` -> <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 flex justify-between">
+- **Línia 334**: `text-[var(--theme-accent-primary)]">CENSAT</span>` -> <span className="text-[var(--theme-accent-primary)]">CENSAT</span>
+- **Línia 337**: `bg-white/5` -> className="flex justify-between items-center cursor-pointer hover:bg-white/5 p-2 -mx-2 rounded-xl transition-all"
+- **Línia 337**: `rounded-xl` -> className="flex justify-between items-center cursor-pointer hover:bg-white/5 p-2 -mx-2 rounded-xl transition-all"
+- **Línia 340**: `text-lg">{localProfile.town_name` -> <span className="font-bold text-lg">{localProfile.town_name || 'No especificat'}</span>
+- **Línia 341**: `bg-[var(--theme-accent-primary)]/20` -> <span className="text-xs bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] px-2 py-1 rounded-full uppercase font-black">Canviar</span>
+- **Línia 341**: `text-xs` -> <span className="text-xs bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] px-2 py-1 rounded-full uppercase font-black">Canviar</span>
+- **Línia 341**: `rounded-full` -> <span className="text-xs bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] px-2 py-1 rounded-full uppercase font-black">Canviar</span>
+- **Línia 346**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 346**: `rounded-2xl` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 347**: `text-xs` -> <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">
+- **Línia 354**: `bg-black/40` -> <div key={idx} className="flex justify-between items-center bg-black/40 p-3 rounded-xl border border-white/5 shadow-inner">
+- **Línia 354**: `rounded-xl` -> <div key={idx} className="flex justify-between items-center bg-black/40 p-3 rounded-xl border border-white/5 shadow-inner">
+- **Línia 354**: `shadow-inner">` -> <div key={idx} className="flex justify-between items-center bg-black/40 p-3 rounded-xl border border-white/5 shadow-inner">
+- **Línia 356**: `bg-[var(--theme-accent-primary)]/10` -> <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center font-black text-xs">
+- **Línia 356**: `text-[var(--theme-accent-primary)]` -> <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center font-black text-xs">
+- **Línia 356**: `rounded-full` -> <div className="w-8 h-8 rounded-full bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] flex items-center justify-center font-black text-xs">
+- **Línia 359**: `text-sm` -> <span className="text-sm font-bold text-theme-text">{townName}</span>
+- **Línia 367**: `bg-red-500/10` -> className="text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+- **Línia 367**: `text-red-400` -> className="text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+- **Línia 367**: `rounded-lg` -> className="text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-colors"
+- **Línia 378**: `bg-white/5` -> className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-white/20 rounded-xl text-gray-400 hover:text-white hover:border-white/40 transition-all text-sm font-bold hover:bg-white/5 mt-2"
+- **Línia 378**: `text-gray-400` -> className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-white/20 rounded-xl text-gray-400 hover:text-white hover:border-white/40 transition-all text-sm font-bold hover:bg-white/5 mt-2"
+- **Línia 378**: `rounded-xl` -> className="w-full flex items-center justify-center gap-2 py-3 border border-dashed border-white/20 rounded-xl text-gray-400 hover:text-white hover:border-white/40 transition-all text-sm font-bold hover:bg-white/5 mt-2"
+- **Línia 390**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 390**: `rounded-2xl` -> <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+- **Línia 393**: `text-sm` -> <h4 className="text-sm font-bold uppercase tracking-wider text-[var(--theme-accent-primary)] mb-1">Visibilitat del Perfil</h4>
+- **Línia 394**: `text-xs` -> <p className="text-xs text-gray-400">Si està ocult, no apareixeràs al Directori de Veïns, però podràs seguir publicant i escrivint. Els administradors sempre et podran vore.</p>
+- **Línia 406**: `bg-gray-700` -> <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--theme-accent-primary)]"></div>
+- **Línia 406**: `rounded-full` -> <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[var(--theme-accent-primary)]"></div>
+- **Línia 415**: `text-red-500"` -> <ShieldAlert size={18} className="text-red-500" />
+- **Línia 416**: `text-sm` -> <h3 className="font-bold uppercase tracking-wider text-sm text-red-500">Zona de Perill</h3>
+- **Línia 418**: `bg-red-500/10` -> <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
+- **Línia 418**: `rounded-2xl` -> <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
+- **Línia 419**: `text-[11px]` -> <p className="text-[11px] font-medium text-gray-300 mb-4 leading-relaxed">
+- **Línia 420**: `text-red-400">Aquesta` -> En virtut de la normativa de sobiranía digital (GDPR), pots eliminar el teu compte i totes les teues dades de forma completament permanent. <strong className="text-red-400">Aquesta acció NO es pot desfer ni recuperar.</strong>
+- **Línia 425**: `bg-black/60` -> className="w-full py-3 bg-black/60 border border-red-500/30 text-red-500 font-bold uppercase tracking-wider rounded-xl hover:bg-red-500/20 transition-all text-sm"
+- **Línia 425**: `text-red-500` -> className="w-full py-3 bg-black/60 border border-red-500/30 text-red-500 font-bold uppercase tracking-wider rounded-xl hover:bg-red-500/20 transition-all text-sm"
+- **Línia 425**: `rounded-xl` -> className="w-full py-3 bg-black/60 border border-red-500/30 text-red-500 font-bold uppercase tracking-wider rounded-xl hover:bg-red-500/20 transition-all text-sm"
+- **Línia 430**: `bg-red-950/40` -> <div className="space-y-3 bg-red-950/40 p-3 rounded-xl border border-red-500/30 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 430**: `rounded-xl` -> <div className="space-y-3 bg-red-950/40 p-3 rounded-xl border border-red-500/30 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 431**: `text-sm` -> <p className="text-sm font-black text-red-400 uppercase tracking-widest text-center mb-1">Doble Confirmació</p>
+- **Línia 436**: `bg-red-600` -> className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 text-xs h-12"
+- **Línia 436**: `text-white` -> className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 text-xs h-12"
+- **Línia 436**: `rounded-lg` -> className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 text-xs h-12"
+- **Línia 443**: `bg-white/10` -> className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-all text-xs h-12"
+- **Línia 443**: `text-white` -> className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-all text-xs h-12"
+- **Línia 443**: `rounded-lg` -> className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider rounded-lg transition-all text-xs h-12"
+- **Línia 455**: `bg-emerald-500/20` -> <div className="h-px w-full bg-emerald-500/20 my-2"></div>
+- **Línia 459**: `text-emerald-400"` -> <Beaker size={24} className="text-emerald-400" />
+- **Línia 460**: `text-[#10b981]` -> <h3 className="font-extrabold uppercase tracking-widest text-[#10b981] drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">
+- **Línia 460**: `shadow-[0_0_8px_rgba(16,185,129,0.8)]">` -> <h3 className="font-extrabold uppercase tracking-widest text-[#10b981] drop-shadow-[0_0_8px_rgba(16,185,129,0.8)]">
+- **Línia 465**: `bg-[#052e16]/40` -> <div className="bg-[#052e16]/40 border border-[#10b981]/30 rounded-3xl p-6 relative overflow-hidden group">
+- **Línia 465**: `rounded-3xl` -> <div className="bg-[#052e16]/40 border border-[#10b981]/30 rounded-3xl p-6 relative overflow-hidden group">
+- **Línia 467**: `bg-[url('/assets/patterns/noise.png')]` -> <div className="absolute inset-0 bg-[url('/assets/patterns/noise.png')] opacity-10 mix-blend-overlay pointer-events-none"></div>
+- **Línia 468**: `bg-gradient-to-r` -> <div className="absolute -inset-x-full top-0 h-px bg-gradient-to-r from-transparent via-[#10b981]/50 to-transparent group-hover:animate-[shimmer_2s_infinite]"></div>
+- **Línia 471**: `text-emerald-500` -> <ShieldAlert className="text-emerald-500 mt-1 flex-shrink-0" size={20} />
+- **Línia 473**: `text-emerald-400` -> <p className="text-emerald-400 text-sm font-bold uppercase tracking-widest">Controls del Rhizome</p>
+- **Línia 474**: `text-xs` -> <p className="text-xs text-emerald-600/80 uppercase font-mono mt-1">Nivell de Seguretat: SUPER_ADMIN</p>
+- **Línia 485**: `bg-black/60` -> className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-emerald-500/20 hover:border-emerald-500/50 hover:bg-emerald-950/40 rounded-2xl transition-all"
+- **Línia 485**: `rounded-2xl` -> className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-emerald-500/20 hover:border-emerald-500/50 hover:bg-emerald-950/40 rounded-2xl transition-all"
+- **Línia 488**: `text-emerald-500"` -> <Terminal size={18} className="text-emerald-500" />
+- **Línia 489**: `text-sm` -> <span className="text-sm text-emerald-100 font-bold uppercase tracking-wider">Console: Administració Síncrona</span>
+- **Línia 491**: `bg-emerald-500/20` -> <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full uppercase font-black animate-pulse">
+- **Línia 491**: `text-[10px]` -> <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full uppercase font-black animate-pulse">
+- **Línia 491**: `rounded-full` -> <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full uppercase font-black animate-pulse">
+- **Línia 496**: `bg-black/60` -> <button className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-red-500/20 hover:border-red-500/50 hover:bg-red-950/40 rounded-2xl transition-all opacity-80 hover:opacity-100">
+- **Línia 496**: `rounded-2xl` -> <button className="w-full flex items-center justify-between gap-3 p-4 bg-black/60 border border-red-500/20 hover:border-red-500/50 hover:bg-red-950/40 rounded-2xl transition-all opacity-80 hover:opacity-100">
+- **Línia 498**: `text-red-500"` -> <ShieldAlert size={18} className="text-red-500" />
+- **Línia 499**: `text-sm` -> <span className="text-sm text-red-100 font-bold uppercase tracking-wider">Mode Forense (Logs)</span>
+- **Línia 509**: `bg-black/40">` -> <div className="p-6 border-t border-[var(--border-master)] bg-black/40">
+- **Línia 513**: `bg-[#F97316]` -> className="w-full bg-[#F97316] hover:opacity-90 text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2"
+- **Línia 513**: `text-white` -> className="w-full bg-[#F97316] hover:opacity-90 text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2"
+- **Línia 513**: `rounded-[20px]` -> className="w-full bg-[#F97316] hover:opacity-90 text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2"
+
+### src/components/modals/ProfileStudioModal.jsx
+- **Línia 89**: `bg-black/60">` -> <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover/cover:opacity-100 transition-opacity pointer-events-none z-dropdown bg-black/60">
+- **Línia 90**: `bg-black/90` -> <span className="bg-black/90 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#F97316] shadow-xl backdrop-blur-sm border border-[#F97316]/50 mb-3">Ajusta l'Alt de Portada</span>
+- **Línia 90**: `text-[10px]` -> <span className="bg-black/90 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#F97316] shadow-xl backdrop-blur-sm border border-[#F97316]/50 mb-3">Ajusta l'Alt de Portada</span>
+- **Línia 90**: `rounded-full` -> <span className="bg-black/90 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#F97316] shadow-xl backdrop-blur-sm border border-[#F97316]/50 mb-3">Ajusta l'Alt de Portada</span>
+- **Línia 90**: `shadow-xl` -> <span className="bg-black/90 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#F97316] shadow-xl backdrop-blur-sm border border-[#F97316]/50 mb-3">Ajusta l'Alt de Portada</span>
+- **Línia 96**: `rounded-xl` -> className="w-48 h-2 rounded-xl accent-[#F97316] pointer-events-auto"
+- **Línia 158**: `text-muted)"` -> <User size={40} color="var(--text-muted)" />
+
+### src/components/modals/TownSelectorModal.jsx
+- **Línia 149**: `bg-theme-base` -> <div className="fixed inset-0 z-modal bg-theme-base md:absolute md:inset-0 md:bg-theme-panel md:backdrop-blur-3xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 font-sans text-theme-text overflow-hidden">
+- **Línia 149**: `text-theme-text` -> <div className="fixed inset-0 z-modal bg-theme-base md:absolute md:inset-0 md:bg-theme-panel md:backdrop-blur-3xl flex flex-col animate-in slide-in-from-bottom-4 duration-300 font-sans text-theme-text overflow-hidden">
+- **Línia 154**: `text-3xl` -> <h3 className="text-3xl font-black uppercase tracking-tighter italic leading-none drop-shadow-md">
+- **Línia 154**: `shadow-md">` -> <h3 className="text-3xl font-black uppercase tracking-tighter italic leading-none drop-shadow-md">
+- **Línia 157**: `text-sm` -> <div className="flex items-center gap-2 mt-3 text-sm font-bold uppercase tracking-widest text-gray-400">
+- **Línia 158**: `text-theme-text` -> <button className={`hover:text-theme-text transition-colors ${step >= 1 ? 'text-[var(--theme-accent-primary)]' : ''}`} onClick={() => { setStep(1); setSearchTerm(''); }}>
+- **Línia 163**: `text-theme-text` -> <button className={`hover:text-theme-text transition-colors ${step >= 2 ? 'text-[var(--theme-accent-primary)]' : ''}`} onClick={() => { setStep(2); setSearchTerm(''); }}>
+- **Línia 169**: `text-gray-500">` -> <span className="text-gray-500">
+- **Línia 174**: `text-[var(--theme-accent-primary)]">PIONER` -> <span className="text-[var(--theme-accent-primary)]">PIONER ✨</span>
+- **Línia 178**: `bg-[var(--hover-overlay)]` -> <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--hover-overlay)] hover:bg-[var(--border-master)] transition-colors active:scale-90" onClick={onClose}>
+- **Línia 178**: `rounded-full` -> <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--hover-overlay)] hover:bg-[var(--border-master)] transition-colors active:scale-90" onClick={onClose}>
+- **Línia 185**: `text-gray-400"` -> <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+- **Línia 192**: `bg-black/5` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[20px] pl-12 pr-12 text-lg font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 192**: `text-lg` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[20px] pl-12 pr-12 text-lg font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 192**: `rounded-[20px]` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[20px] pl-12 pr-12 text-lg font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 195**: `text-gray-400` -> <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-theme-text" onClick={() => setSearchTerm('')}>
+- **Línia 205**: `text-gray-400">` -> <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
+- **Línia 206**: `rounded-full` -> <div className="w-8 h-8 rounded-full border-4 border-t-[var(--theme-accent-primary)] border-gray-700 animate-spin"></div>
+- **Línia 207**: `text-sm">Cercant...</span>` -> <span className="font-bold tracking-widest uppercase text-sm">Cercant...</span>
+- **Línia 211**: `bg-[var(--theme-accent-primary-faint)]` -> <div className="w-16 h-16 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center text-[var(--theme-accent-primary)] mb-2 shadow-[0_0_30px_rgba(255,107,0,0.3)]">
+- **Línia 211**: `text-[var(--theme-accent-primary)]` -> <div className="w-16 h-16 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center text-[var(--theme-accent-primary)] mb-2 shadow-[0_0_30px_rgba(255,107,0,0.3)]">
+- **Línia 211**: `rounded-full` -> <div className="w-16 h-16 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center text-[var(--theme-accent-primary)] mb-2 shadow-[0_0_30px_rgba(255,107,0,0.3)]">
+- **Línia 211**: `shadow-[0_0_30px_rgba(255,107,0,0.3)]">` -> <div className="w-16 h-16 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center text-[var(--theme-accent-primary)] mb-2 shadow-[0_0_30px_rgba(255,107,0,0.3)]">
+- **Línia 215**: `text-2xl` -> <h4 className="text-2xl font-black uppercase italic drop-shadow-sm mb-2">{pioneerTown}</h4>
+- **Línia 215**: `shadow-sm` -> <h4 className="text-2xl font-black uppercase italic drop-shadow-sm mb-2">{pioneerTown}</h4>
+- **Línia 216**: `text-gray-400` -> <p className="text-gray-400 text-sm">Seràs la primera persona en fundar aquest poble a la xarxa Sóc de Poble.</p>
+- **Línia 225**: `bg-black/5` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[16px] px-4 text-center font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 225**: `text-gray-500` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[16px] px-4 text-center font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 225**: `rounded-[16px]` -> className="w-full h-14 bg-black/5 dark:bg-white/5 border border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] rounded-[16px] px-4 text-center font-bold outline-none transition-all placeholder:text-gray-500 placeholder:font-normal"
+- **Línia 231**: `bg-[var(--theme-accent-primary)]` -> className={`h-14 rounded-[16px] font-black uppercase tracking-widest transition-all ${pioneerProvince.trim() ? 'bg-[var(--theme-accent-primary)] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,0,0.4)]' : 'bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed opacity-50'}`}
+- **Línia 231**: `text-white` -> className={`h-14 rounded-[16px] font-black uppercase tracking-widest transition-all ${pioneerProvince.trim() ? 'bg-[var(--theme-accent-primary)] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,0,0.4)]' : 'bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed opacity-50'}`}
+- **Línia 231**: `rounded-[16px]` -> className={`h-14 rounded-[16px] font-black uppercase tracking-widest transition-all ${pioneerProvince.trim() ? 'bg-[var(--theme-accent-primary)] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,0,0.4)]' : 'bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed opacity-50'}`}
+- **Línia 231**: `shadow-[0_0_20px_rgba(255,107,0,0.4)]'` -> className={`h-14 rounded-[16px] font-black uppercase tracking-widest transition-all ${pioneerProvince.trim() ? 'bg-[var(--theme-accent-primary)] text-white hover:scale-[1.02] shadow-[0_0_20px_rgba(255,107,0,0.4)]' : 'bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed opacity-50'}`}
+- **Línia 235**: `text-sm` -> <button onClick={() => { setStep(1); setSearchTerm(''); }} className="mt-2 text-sm text-gray-500 hover:text-white transition-colors">
+- **Línia 241**: `text-gray-500` -> <div className="flex flex-col items-center justify-center h-full gap-2 text-gray-500 text-center px-8">
+- **Línia 243**: `text-lg">No` -> <p className="font-medium text-lg">No s'han trobat resultats.</p>
+- **Línia 245**: `bg-black/5` -> <div className="mt-6 p-5 bg-black/5 dark:bg-white/5 rounded-2xl border border-[var(--border-master)] text-center w-full max-w-sm transform hover:scale-[1.02] transition-transform">
+- **Línia 245**: `rounded-2xl` -> <div className="mt-6 p-5 bg-black/5 dark:bg-white/5 rounded-2xl border border-[var(--border-master)] text-center w-full max-w-sm transform hover:scale-[1.02] transition-transform">
+- **Línia 246**: `text-sm` -> <p className="text-sm mb-4 font-medium text-theme-text opacity-90">Vols ser la primera persona del teu poble a Sóc de Poble?</p>
+- **Línia 249**: `bg-[var(--theme-accent-primary)]` -> className="w-full py-3 bg-[var(--theme-accent-primary)] text-white font-bold uppercase tracking-widest text-sm rounded-xl shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 249**: `text-white` -> className="w-full py-3 bg-[var(--theme-accent-primary)] text-white font-bold uppercase tracking-widest text-sm rounded-xl shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 249**: `rounded-xl` -> className="w-full py-3 bg-[var(--theme-accent-primary)] text-white font-bold uppercase tracking-widest text-sm rounded-xl shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 249**: `shadow-[0_0_15px_rgba(255,107,0,0.3)]"` -> className="w-full py-3 bg-[var(--theme-accent-primary)] text-white font-bold uppercase tracking-widest text-sm rounded-xl shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 255**: `text-gray-400` -> <button onClick={() => setSearchTerm('')} className="mt-4 text-gray-400 hover:text-[var(--theme-accent-primary)] font-bold uppercase tracking-widest text-sm transition-colors">
+- **Línia 271**: `rounded-[20px]` -> className={`w-full flex items-center justify-between px-6 py-5 rounded-[20px] transition-all
+- **Línia 272**: `bg-[var(--theme-accent-primary-faint)]` -> ${isSelected ? 'bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary)]' : 'bg-transparent border border-transparent hover:bg-black/5 dark:hover:bg-white/5'}
+- **Línia 289**: `text-lg` -> <span className={`text-lg font-bold ${isSelected ? 'text-[var(--theme-accent-primary)]' : 'text-theme-text'}`}>
+- **Línia 293**: `text-sm` -> <span className="text-sm font-bold uppercase tracking-widest text-gray-500">
+- **Línia 299**: `text-[var(--theme-accent-primary)]"` -> {isSelected ? <Check size={24} className="text-[var(--theme-accent-primary)]" strokeWidth={3} /> : <ChevronRight size={20} className="text-gray-400 opacity-50" />}
+- **Línia 308**: `bg-theme-panel` -> <footer className="p-6 border-t border-[var(--border-master)] bg-theme-panel shrink-0 pb-safe">
+- **Línia 310**: `text-white` -> className={`w-full h-16 rounded-[24px] flex items-center justify-center text-white font-black uppercase tracking-widest text-lg transition-all
+- **Línia 310**: `rounded-[24px]` -> className={`w-full h-16 rounded-[24px] flex items-center justify-center text-white font-black uppercase tracking-widest text-lg transition-all
+- **Línia 311**: `bg-[var(--theme-accent-primary)]` -> ${selectedTown ? 'bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_20px_rgba(255,107,0,0.4)] active:scale-[0.98]' : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed opacity-50'}
+- **Línia 311**: `shadow-[0_0_20px_rgba(255,107,0,0.4)]` -> ${selectedTown ? 'bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_20px_rgba(255,107,0,0.4)] active:scale-[0.98]' : 'bg-gray-300 dark:bg-gray-700 cursor-not-allowed opacity-50'}
+
+### src/components/modals/TranslationModal.jsx
+- **Línia 73**: `bg-black/60` -> <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 notranslate" style={{ zIndex: 10000 }} onClick={onClose}>
+- **Línia 74**: `bg-white` -> <div className="relative w-full max-w-sm mx-4 shadow-2xl bg-white dark:bg-[#141417] rounded-3xl border border-black/10 dark:border-white/10" onClick={e => e.stopPropagation()}>
+- **Línia 74**: `rounded-3xl` -> <div className="relative w-full max-w-sm mx-4 shadow-2xl bg-white dark:bg-[#141417] rounded-3xl border border-black/10 dark:border-white/10" onClick={e => e.stopPropagation()}>
+- **Línia 74**: `shadow-2xl` -> <div className="relative w-full max-w-sm mx-4 shadow-2xl bg-white dark:bg-[#141417] rounded-3xl border border-black/10 dark:border-white/10" onClick={e => e.stopPropagation()}>
+- **Línia 75**: `bg-black/5` -> <button className="absolute top-4 right-4 p-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors z-10" onClick={onClose} aria-label="Tancar">
+- **Línia 75**: `rounded-full` -> <button className="absolute top-4 right-4 p-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 rounded-full transition-colors z-10" onClick={onClose} aria-label="Tancar">
+- **Línia 76**: `text-gray-500` -> <X size={20} className="text-gray-500 dark:text-gray-400" />
+- **Línia 81**: `bg-[#ff6d23]/20` -> <div className="w-10 h-10 rounded-full bg-[#ff6d23]/20 flex items-center justify-center text-[#ff6d23] flex-shrink-0">
+- **Línia 81**: `text-[#ff6d23]` -> <div className="w-10 h-10 rounded-full bg-[#ff6d23]/20 flex items-center justify-center text-[#ff6d23] flex-shrink-0">
+- **Línia 81**: `rounded-full` -> <div className="w-10 h-10 rounded-full bg-[#ff6d23]/20 flex items-center justify-center text-[#ff6d23] flex-shrink-0">
+- **Línia 84**: `text-xl` -> <h2 className="text-xl font-black text-[var(--theme-accent-primary)] tracking-tight leading-tight">
+- **Línia 89**: `text-gray-700` -> <p className="text-gray-700 dark:text-gray-300 text-sm mb-6 font-medium leading-relaxed">
+- **Línia 97**: `bg-gray-100` -> className="flex items-center justify-center w-full p-3.5 mb-2 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-center group"
+- **Línia 97**: `rounded-xl` -> className="flex items-center justify-center w-full p-3.5 mb-2 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all text-center group"
+- **Línia 99**: `text-gray-700` -> <span className="font-bold text-gray-700 dark:text-gray-300">
+- **Línia 149**: `bg-gray-50` -> <div className="w-full flex items-center justify-center p-1 rounded-xl bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5" id="google_translate_inline_wrapper">
+- **Línia 149**: `rounded-xl` -> <div className="w-full flex items-center justify-center p-1 rounded-xl bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/5" id="google_translate_inline_wrapper">
+
+### src/components/patterns/SearchNavBar.jsx
+- **Línia 41**: `bg-[var(--theme-accent-primary)]` -> <div className="sticky top-0 z-[100] bg-[var(--theme-accent-primary)] w-full h-[env(safe-area-inset-top,0px)+56px] min-h-[56px] flex items-end justify-between px-3 transition-colors duration-500 shadow-md transform-gpu pb-2 pt-[env(safe-area-inset-top,0px)]">
+- **Línia 41**: `shadow-md` -> <div className="sticky top-0 z-[100] bg-[var(--theme-accent-primary)] w-full h-[env(safe-area-inset-top,0px)+56px] min-h-[56px] flex items-end justify-between px-3 transition-colors duration-500 shadow-md transform-gpu pb-2 pt-[env(safe-area-inset-top,0px)]">
+- **Línia 44**: `text-white/90` -> <div className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center">
+- **Línia 48**: `bg-white/20"` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 48**: `text-white` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 48**: `rounded-full` -> className="flex items-center gap-1 hover:text-white active:scale-95 transition-transform p-1 rounded-full hover:bg-white/20"
+- **Línia 55**: `bg-white` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all group">
+- **Línia 55**: `rounded-[24px]` -> <div className="flex items-center flex-1 h-[36px] bg-white rounded-[24px] overflow-hidden focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all group">
+- **Línia 58**: `text-gray-400` -> <div className="text-gray-400 group-focus-within:text-[var(--theme-accent-primary)] transition-colors flex items-center justify-center">
+- **Línia 65**: `text-gray-400` -> className="text-gray-400 group-focus-within:text-[var(--theme-accent-primary)] transition-colors"
+- **Línia 75**: `text-gray-900` -> className="font-sans flex-1 w-full h-full bg-transparent text-gray-900 pr-2 py-0 m-0 text-[14px] leading-none font-bold outline-none placeholder:text-gray-800 placeholder:font-bold"
+- **Línia 82**: `text-gray-400` -> className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors shrink-0"
+
+### src/components/profile/EntityProfile.jsx
+- **Línia 88**: `bg-theme-base` -> <div className="atom-root bg-theme-base min-h-screen pb-20">
+- **Línia 91**: `bg-[#4F46E5]` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 91**: `text-white` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 91**: `shadow-lg` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 98**: `bg-white/20` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 98**: `rounded-xl` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 108**: `bg-white/20` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 108**: `text-sm` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 108**: `rounded-xl` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 112**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
+- **Línia 117**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 117**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 117**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 128**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 128**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 128**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 149**: `bg-black/10` -> <div role="region" aria-label="Capçalera de Secció" className="relative w-full h-48 sm:h-64 md:h-80 bg-black/10 dark:bg-white/5">
+- **Línia 163**: `bg-theme-panel` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 163**: `text-theme-text` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 163**: `rounded-2xl` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 163**: `shadow-lg` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 176**: `bg-theme-panel` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 176**: `rounded-full` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 176**: `shadow-sm` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 178**: `bg-white` -> <div className={`w-full h-full flex items-center justify-center ${profile.role === 'ajuntament' || (profile.avatarUrl && profile.avatarUrl.toLowerCase().includes('logo')) ? 'bg-white p-1.5 sm:p-2' : ''}`}>
+- **Línia 182**: `bg-black/10` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50">
+- **Línia 182**: `text-3xl` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50">
+- **Línia 189**: `text-3xl` -> <h1 className="text-3xl sm:text-4xl font-black text-theme-text flex items-center gap-2 tracking-tight">
+- **Línia 191**: `text-theme-accent-secondary` -> {state.isVerified && <BadgeCheck className="text-theme-accent-secondary shrink-0" size={24} />}
+- **Línia 193**: `text-theme-accent-primary` -> <p className="text-theme-accent-primary font-bold text-lg mb-0">
+- **Línia 202**: `text-[var(--text-muted)]` -> <p className="text-[var(--text-muted)] flex items-center text-sm font-semibold mb-4 mt-2">
+- **Línia 209**: `bg-[#FF6D23]/10` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 209**: `rounded-xl` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 209**: `shadow-sm` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 210**: `bg-[#FF6D23]` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 210**: `rounded-full` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 211**: `bg-[#FF6D23]` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 211**: `text-white` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 211**: `rounded-lg` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 211**: `shadow-sm` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 215**: `text-[15px]` -> <h3 className="text-[15px] sm:text-base font-black text-[#FF6D23] mb-0.5 uppercase tracking-tight text-center sm:text-left">Pàgina de Demostració / Alpha</h3>
+- **Línia 216**: `text-[13px]` -> <p className="text-[13px] sm:text-sm text-theme-text font-medium leading-snug opacity-90 text-center sm:text-left mb-0 pb-0">
+- **Línia 222**: `text-base` -> <div className="text-base leading-relaxed text-theme-text max-w-2xl mb-6 mt-4 app-cms-content prose prose-lg dark:prose-invert">
+- **Línia 258**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 258**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 258**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 258**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 265**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 265**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 265**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 265**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 289**: `text-[var(--text-muted)]` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 289**: `rounded-2xl` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 311**: `text-[var(--text-muted)]` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2">
+- **Línia 311**: `rounded-2xl` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2">
+- **Línia 327**: `text-sm` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 327**: `rounded-t-2xl` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 328**: `bg-[var(--theme-accent-primary)]/10` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 328**: `text-theme-accent-primary` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 328**: `shadow-[inset_0_-3px_0_var(--theme-accent-primary)]'` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 372**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 373**: `text-xl` -> <h3 className="text-xl font-black text-theme-text mb-6 flex items-center gap-2 leading-none">
+- **Línia 374**: `text-theme-accent-primary"` -> <Contact size={24} className="text-theme-accent-primary" />
+- **Línia 380**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nom i Organització</span>
+- **Línia 381**: `text-lg` -> <span className="text-lg font-bold text-theme-text">{profile.displayName || 'Entitat Desconeguda'}</span>
+- **Línia 386**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Correu Electrònic</span>
+- **Línia 387**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_email}</span>
+- **Línia 393**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Telèfon Directe</span>
+- **Línia 394**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_country_code || '+34'} {entity.contact_phone}</span>
+- **Línia 400**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Adreça o Ubicació</span>
+- **Línia 401**: `text-base` -> <span className="text-base font-medium text-theme-text">{profile.location}</span>
+- **Línia 407**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nota Administrativa</span>
+- **Línia 408**: `text-sm` -> <span className="text-sm text-[var(--text-muted)] leading-relaxed">{profile.bio}</span>
+- **Línia 416**: `bg-theme-panel` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 416**: `text-base` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 416**: `rounded-xl` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 416**: `shadow-lg` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 429**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 429**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 431**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg flex items-center gap-2 leading-none">
+- **Línia 432**: `text-theme-accent-primary"` -> <Users size={20} className="text-theme-accent-primary" />
+- **Línia 437**: `bg-[#FF6D23]/10` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 437**: `rounded-2xl` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 438**: `bg-[#FF6D23]` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 438**: `rounded-full` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 439**: `rounded-full` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 439**: `shadow-sm` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 443**: `text-theme-text` -> <h4 className="font-black text-theme-text text-[17px] mb-0.5">Javi Llinares</h4>
+- **Línia 444**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-[var(--text-muted)] font-black uppercase tracking-wider">Connectat · Membre de la Malla</p>
+- **Línia 447**: `bg-[#FF6D23]` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 447**: `text-white` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 447**: `rounded-full` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 447**: `shadow-md">` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 460**: `text-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 460**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 467**: `bg-blue-500/10'` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 467**: `text-blue-500',` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 468**: `bg-orange-500/10'` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 468**: `text-orange-500',` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 469**: `bg-purple-500/10'` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 469**: `text-purple-500',` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 470**: `bg-gray-500/10'` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 470**: `text-gray-500',` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 476**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 476**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 478**: `text-xs` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 478**: `rounded-full` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 481**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg">Trets Estructurals</h3>
+- **Línia 486**: `bg-black/5` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 486**: `rounded-2xl` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 487**: `text-[11px]` -> <span className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-black block mb-1">
+- **Línia 490**: `text-sm` -> <span className="text-sm font-bold text-theme-text break-words">
+- **Línia 494**: `bg-black/10` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 494**: `text-xs">` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 494**: `rounded-md` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 500**: `bg-black/5` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 500**: `text-[10px]` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 500**: `rounded-lg` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+
+### src/components/profile/TownProposalsTab.jsx
+- **Línia 72**: `text-[var(--text-muted)]` -> if (loading) return <div className="p-6 text-center text-[var(--text-muted)] font-bold">Carregant propostes...</div>;
+- **Línia 75**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 75**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 78**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-xl flex items-center gap-2 leading-none mb-1">
+- **Línia 79**: `text-theme-accent-primary"` -> <ImageIcon size={22} className="text-theme-accent-primary" />
+- **Línia 82**: `text-sm` -> <p className="text-sm text-[var(--text-muted)]">Tria quin avatar, imatge, lema i text representen millor el teu poble.</p>
+- **Línia 94**: `bg-black/5` -> <div className="bg-black/5 dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 p-6 animate-in fade-in slide-in-from-top-2 duration-200 mt-4">
+- **Línia 94**: `rounded-2xl` -> <div className="bg-black/5 dark:bg-white/5 rounded-2xl border border-black/10 dark:border-white/10 p-6 animate-in fade-in slide-in-from-top-2 duration-200 mt-4">
+- **Línia 96**: `bg-[#FF6D23]/10` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/30 rounded-xl p-4 mb-4">
+- **Línia 96**: `rounded-xl` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/30 rounded-xl p-4 mb-4">
+- **Línia 97**: `text-sm` -> <p className="text-sm font-medium text-[#FF6D23]">
+- **Línia 103**: `text-sm` -> <label className="block text-sm font-black text-theme-text mb-2 tracking-wide">1. Lema del Poble (Opcional)</label>
+- **Línia 109**: `bg-theme-base` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 109**: `text-theme-text` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 109**: `rounded-xl` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 114**: `text-sm` -> <label className="block text-sm font-black text-theme-text mb-2 tracking-wide">2. Text de Presentació (Opcional)</label>
+- **Línia 120**: `bg-theme-base` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium resize-none placeholder:opacity-40"
+- **Línia 120**: `text-theme-text` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium resize-none placeholder:opacity-40"
+- **Línia 120**: `rounded-xl` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl px-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium resize-none placeholder:opacity-40"
+- **Línia 125**: `text-sm` -> <label className="block text-sm font-black text-theme-text mb-2 tracking-wide">3. Foto de Portada (Opcional)</label>
+- **Línia 127**: `text-[var(--text-muted)]">` -> <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
+- **Línia 135**: `bg-theme-base` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 135**: `text-theme-text` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 135**: `rounded-xl` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 141**: `text-sm` -> <label className="block text-sm font-black text-theme-text mb-2 tracking-wide">4. Avatar / Escut (Opcional)</label>
+- **Línia 143**: `text-[var(--text-muted)]">` -> <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
+- **Línia 151**: `bg-theme-base` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 151**: `text-theme-text` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 151**: `rounded-xl` -> className="w-full bg-theme-base border-2 border-border-master rounded-xl pl-10 pr-4 py-3 text-theme-text focus:outline-none focus:border-theme-accent-primary transition-colors font-medium placeholder:opacity-40"
+- **Línia 160**: `bg-black/5` -> className="flex-1 font-bold px-4 py-3 rounded-xl border-2 border-border-master text-theme-text hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
+- **Línia 160**: `text-theme-text` -> className="flex-1 font-bold px-4 py-3 rounded-xl border-2 border-border-master text-theme-text hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
+- **Línia 160**: `rounded-xl` -> className="flex-1 font-bold px-4 py-3 rounded-xl border-2 border-border-master text-theme-text hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
+- **Línia 167**: `bg-theme-text` -> className="flex-1 font-bold px-4 py-3 rounded-xl bg-theme-text text-theme-base active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+- **Línia 167**: `text-theme-base` -> className="flex-1 font-bold px-4 py-3 rounded-xl bg-theme-text text-theme-base active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+- **Línia 167**: `rounded-xl` -> className="flex-1 font-bold px-4 py-3 rounded-xl bg-theme-text text-theme-base active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+- **Línia 181**: `bg-theme-text` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_cover' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 181**: `text-sm` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_cover' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 181**: `rounded-full` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_cover' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 185**: `bg-theme-text` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_avatar' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 185**: `text-sm` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_avatar' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 185**: `rounded-full` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_avatar' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 189**: `bg-theme-text` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_lema' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 189**: `text-sm` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_lema' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 189**: `rounded-full` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_lema' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 193**: `bg-theme-text` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_text' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 193**: `text-sm` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_text' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 193**: `rounded-full` -> className={`px-4 py-2 rounded-full font-bold text-sm transition-all whitespace-nowrap ${activeCategory === 'town_proposal_text' ? 'bg-theme-text text-theme-base' : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)]'}`}
+- **Línia 198**: `bg-black/5` -> <div className="text-center py-10 text-[var(--text-muted)] font-medium bg-black/5 dark:bg-white/5 rounded-2xl">
+- **Línia 198**: `text-[var(--text-muted)]` -> <div className="text-center py-10 text-[var(--text-muted)] font-medium bg-black/5 dark:bg-white/5 rounded-2xl">
+- **Línia 198**: `rounded-2xl">` -> <div className="text-center py-10 text-[var(--text-muted)] font-medium bg-black/5 dark:bg-white/5 rounded-2xl">
+- **Línia 218**: `bg-theme-accent-primary` -> <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-theme-accent-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+- **Línia 218**: `text-white` -> <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-theme-accent-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+- **Línia 218**: `rounded-full` -> <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-theme-accent-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+- **Línia 218**: `shadow-md">` -> <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 bg-theme-accent-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+
+### src/components/profile/UniversalAjuntament.jsx
+- **Línia 70**: `bg-theme-base` -> <div className="atom-root bg-theme-base min-h-screen pb-20">
+- **Línia 73**: `bg-[#4F46E5]` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 73**: `text-white` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 73**: `shadow-lg` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 80**: `bg-white/20` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 80**: `rounded-xl` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 90**: `bg-white/20` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 90**: `text-sm` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 90**: `rounded-xl` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 94**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
+- **Línia 99**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 99**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 99**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 110**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 110**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 110**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 131**: `bg-black/10` -> <div role="region" aria-label="Capçalera de Secció" className="relative w-full h-48 sm:h-64 md:h-80 bg-black/10 dark:bg-white/5">
+- **Línia 145**: `bg-theme-panel` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 145**: `text-theme-text` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 145**: `rounded-2xl` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 145**: `shadow-lg` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 158**: `bg-theme-panel` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 158**: `rounded-full` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 158**: `shadow-sm` -> <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel overflow-hidden shadow-sm glass-rural shrink-0">
+- **Línia 160**: `bg-white` -> <div className={`w-full h-full flex items-center justify-center ${profile.role === 'ajuntament' ? 'bg-white p-1.5 sm:p-2' : ''}`}>
+- **Línia 164**: `bg-black/10` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50">
+- **Línia 164**: `text-3xl` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50">
+- **Línia 171**: `text-3xl` -> <h1 className="text-3xl sm:text-4xl font-black text-theme-text flex items-center gap-2 tracking-tight">
+- **Línia 173**: `text-theme-accent-secondary` -> {state.isVerified && <BadgeCheck className="text-theme-accent-secondary shrink-0" size={24} />}
+- **Línia 175**: `text-theme-accent-primary` -> <p className="text-theme-accent-primary font-bold text-lg mb-0">
+- **Línia 184**: `text-[var(--text-muted)]` -> <p className="text-[var(--text-muted)] flex items-center text-sm font-semibold mb-4 mt-2">
+- **Línia 191**: `bg-[#FF6D23]/10` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 191**: `rounded-xl` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 191**: `shadow-sm` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 192**: `bg-[#FF6D23]` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 192**: `rounded-full` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 193**: `bg-[#FF6D23]` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 193**: `text-white` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 193**: `rounded-lg` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 193**: `shadow-sm` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 197**: `text-[15px]` -> <h3 className="text-[15px] sm:text-base font-black text-[#FF6D23] mb-0.5 uppercase tracking-tight text-center sm:text-left">Pàgina de Demostració / Alpha</h3>
+- **Línia 198**: `text-[13px]` -> <p className="text-[13px] sm:text-sm text-theme-text font-medium leading-snug opacity-90 text-center sm:text-left mb-0 pb-0">
+- **Línia 204**: `text-base` -> <div className="text-base leading-relaxed text-theme-text max-w-2xl mb-6 mt-4 app-cms-content prose prose-lg dark:prose-invert">
+- **Línia 234**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 234**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 234**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 234**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 241**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 241**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 241**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 241**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 248**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 248**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 248**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 248**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 265**: `text-[var(--text-muted)]` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 265**: `rounded-2xl` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 295**: `text-sm` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 295**: `rounded-t-2xl` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 296**: `bg-[var(--theme-accent-primary)]/10` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 296**: `text-theme-accent-primary` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 296**: `shadow-[inset_0_-3px_0_var(--theme-accent-primary)]'` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 340**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 341**: `text-xl` -> <h3 className="text-xl font-black text-theme-text mb-6 flex items-center gap-2 leading-none">
+- **Línia 342**: `text-theme-accent-primary"` -> <Contact size={24} className="text-theme-accent-primary" />
+- **Línia 348**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nom i Organització</span>
+- **Línia 349**: `text-lg` -> <span className="text-lg font-bold text-theme-text">{profile.displayName || 'Entitat Desconeguda'}</span>
+- **Línia 354**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Correu Electrònic</span>
+- **Línia 355**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_email}</span>
+- **Línia 361**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Telèfon Directe</span>
+- **Línia 362**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_country_code || '+34'} {entity.contact_phone}</span>
+- **Línia 368**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Adreça o Ubicació</span>
+- **Línia 369**: `text-base` -> <span className="text-base font-medium text-theme-text">{profile.location}</span>
+- **Línia 375**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nota Administrativa</span>
+- **Línia 376**: `text-sm` -> <span className="text-sm text-[var(--text-muted)] leading-relaxed">{profile.bio}</span>
+- **Línia 384**: `bg-theme-panel` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 384**: `text-base` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 384**: `rounded-xl` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 384**: `shadow-lg` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 397**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 397**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 399**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg flex items-center gap-2 leading-none">
+- **Línia 400**: `text-theme-accent-primary"` -> <Users size={20} className="text-theme-accent-primary" />
+- **Línia 405**: `bg-[#FF6D23]/10` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 405**: `rounded-2xl` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 406**: `bg-[#FF6D23]` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 406**: `rounded-full` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 407**: `rounded-full` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 407**: `shadow-sm` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 411**: `text-theme-text` -> <h4 className="font-black text-theme-text text-[17px] mb-0.5">Javi Llinares</h4>
+- **Línia 412**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-[var(--text-muted)] font-black uppercase tracking-wider">Connectat · Membre de la Malla</p>
+- **Línia 415**: `bg-[#FF6D23]` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 415**: `text-white` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 415**: `rounded-full` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 415**: `shadow-md">` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 428**: `text-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 428**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 435**: `bg-blue-500/10'` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 435**: `text-blue-500',` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 436**: `bg-orange-500/10'` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 436**: `text-orange-500',` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 437**: `bg-purple-500/10'` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 437**: `text-purple-500',` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 438**: `bg-gray-500/10'` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 438**: `text-gray-500',` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 444**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 444**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 446**: `text-xs` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 446**: `rounded-full` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 449**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg">Trets Estructurals</h3>
+- **Línia 454**: `bg-black/5` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 454**: `rounded-2xl` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 455**: `text-[11px]` -> <span className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-black block mb-1">
+- **Línia 458**: `text-sm` -> <span className="text-sm font-bold text-theme-text break-words">
+- **Línia 462**: `bg-black/10` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 462**: `text-xs">` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 462**: `rounded-md` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 468**: `bg-black/5` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 468**: `text-[10px]` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 468**: `rounded-lg` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+
+### src/components/profile/UniversalGentDePoble.jsx
+- **Línia 92**: `bg-theme-base` -> <div className="atom-root bg-theme-base min-h-screen pb-20">
+- **Línia 95**: `bg-[#4F46E5]` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 95**: `text-white` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 95**: `shadow-lg` -> <div className="sticky top-0 z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white transition-all shrink-0">
+- **Línia 102**: `bg-white/20` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 102**: `rounded-xl` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 112**: `bg-white/20` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 112**: `text-sm` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 112**: `rounded-xl` -> className="flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 116**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
+- **Línia 121**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 121**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 121**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 132**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 132**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 132**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 153**: `bg-black/10` -> <div role="region" aria-label="Capçalera de Secció" className="relative w-full h-48 sm:h-64 md:h-80 bg-black/10 dark:bg-white/5">
+- **Línia 158**: `bg-theme-panel` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 158**: `text-theme-text` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 158**: `rounded-2xl` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 158**: `shadow-lg` -> className="btn-tactile bg-theme-panel text-theme-text border border-border-master px-4 py-2 text-sm font-bold flex items-center rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+- **Línia 174**: `bg-gradient-to-r` -> <div className="w-full h-full bg-gradient-to-r from-theme-panel to-theme-base opacity-50" />
+- **Línia 176**: `bg-gradient-to-b` -> <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-theme-base opacity-90" />
+- **Línia 177**: `bg-black/40` -> <div className="absolute bottom-2 right-2 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] text-white/80 font-medium z-10">
+- **Línia 177**: `text-[10px]` -> <div className="absolute bottom-2 right-2 bg-black/40 backdrop-blur-md px-2 py-1 rounded text-[10px] text-white/80 font-medium z-10">
+- **Línia 186**: `bg-theme-panel` -> <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel shadow-sm glass-rural shrink-0 group">
+- **Línia 186**: `rounded-full` -> <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel shadow-sm glass-rural shrink-0 group">
+- **Línia 186**: `shadow-sm` -> <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-theme-panel bg-theme-panel shadow-sm glass-rural shrink-0 group">
+- **Línia 188**: `bg-white` -> <div className={`w-full h-full flex items-center justify-center rounded-full overflow-hidden ${displayAvatar.toLowerCase().includes('logo') ? 'bg-white p-1.5 sm:p-2' : ''}`}>
+- **Línia 188**: `rounded-full` -> <div className={`w-full h-full flex items-center justify-center rounded-full overflow-hidden ${displayAvatar.toLowerCase().includes('logo') ? 'bg-white p-1.5 sm:p-2' : ''}`}>
+- **Línia 192**: `bg-black/10` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50 rounded-full">
+- **Línia 192**: `text-3xl` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50 rounded-full">
+- **Línia 192**: `rounded-full">` -> <div className="w-full h-full flex items-center justify-center bg-black/10 dark:bg-white/10 text-3xl font-black text-theme-text opacity-50 rounded-full">
+- **Línia 196**: `bg-theme-base` -> <div className="absolute -bottom-2 -right-2 bg-theme-base shadow-sm border border-black/5 dark:border-white/5 rounded px-1.5 py-0.5 text-[8px] font-bold text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+- **Línia 196**: `text-[8px]` -> <div className="absolute -bottom-2 -right-2 bg-theme-base shadow-sm border border-black/5 dark:border-white/5 rounded px-1.5 py-0.5 text-[8px] font-bold text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+- **Línia 196**: `shadow-sm` -> <div className="absolute -bottom-2 -right-2 bg-theme-base shadow-sm border border-black/5 dark:border-white/5 rounded px-1.5 py-0.5 text-[8px] font-bold text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+- **Línia 202**: `text-3xl` -> <h1 className="text-3xl sm:text-4xl font-black text-theme-text flex items-center gap-2 tracking-tight">
+- **Línia 204**: `text-theme-accent-secondary` -> {state.isVerified && <BadgeCheck className="text-theme-accent-secondary shrink-0" size={24} />}
+- **Línia 207**: `text-theme-accent-primary` -> <p className="text-theme-accent-primary font-bold text-lg mb-0">
+- **Línia 210**: `bg-black/5` -> {lemaAuthor && <span className="bg-black/5 dark:bg-white/5 text-[10px] px-1.5 py-0.5 rounded text-[var(--text-muted)]">{lemaAuthor}</span>}
+- **Línia 210**: `text-[10px]` -> {lemaAuthor && <span className="bg-black/5 dark:bg-white/5 text-[10px] px-1.5 py-0.5 rounded text-[var(--text-muted)]">{lemaAuthor}</span>}
+- **Línia 218**: `text-[var(--text-muted)]` -> <p className="text-[var(--text-muted)] flex items-center text-sm font-semibold mb-4 mt-2">
+- **Línia 225**: `bg-[#FF6D23]/10` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 225**: `rounded-xl` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 225**: `shadow-sm` -> <div className="my-7 bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border border-[#FF6D23]/40 dark:border-[#FF6D23]/60 rounded-xl px-4 py-3 sm:px-5 sm:py-3.5 flex flex-col sm:flex-row items-center sm:items-start gap-3 shadow-sm relative overflow-hidden max-w-4xl">
+- **Línia 226**: `bg-[#FF6D23]` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 226**: `rounded-full` -> <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 227**: `bg-[#FF6D23]` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 227**: `text-white` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 227**: `rounded-lg` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 227**: `shadow-sm` -> <div className="shrink-0 bg-[#FF6D23] text-white p-2 rounded-lg shadow-sm z-10 animate-pulse-slow mt-1 sm:mt-0">
+- **Línia 232**: `text-[15px]` -> <h3 className="text-[15px] sm:text-base font-black text-[#FF6D23] mb-0.5 uppercase tracking-tight text-center sm:text-left">Pàgina de Demostració / Alpha</h3>
+- **Línia 233**: `bg-[#FF6D23]/20` -> {textAuthor && <span className="bg-[#FF6D23]/20 text-[#FF6D23] text-[10px] px-1.5 py-0.5 rounded font-bold">{textAuthor}</span>}
+- **Línia 233**: `text-[#FF6D23]` -> {textAuthor && <span className="bg-[#FF6D23]/20 text-[#FF6D23] text-[10px] px-1.5 py-0.5 rounded font-bold">{textAuthor}</span>}
+- **Línia 235**: `text-[13px]` -> <p className="text-[13px] sm:text-sm text-theme-text font-medium leading-snug opacity-90 text-center sm:text-left mb-0 pb-0">
+- **Línia 241**: `text-base` -> <div className="text-base leading-relaxed text-theme-text max-w-2xl mb-6 mt-4 app-cms-content prose prose-lg dark:prose-invert">
+- **Línia 272**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 272**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'single' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 279**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 279**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 279**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 279**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'grid' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 286**: `bg-[#F97316]` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 286**: `text-white` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 286**: `rounded-xl` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 286**: `shadow-sm'` -> className={`p-2 rounded-xl transition-all flex items-center justify-center ${viewMode === 'list' ? 'bg-[#F97316] text-white shadow-sm' : 'text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 303**: `text-[var(--text-muted)]` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 303**: `rounded-2xl` -> <div className="text-[var(--text-muted)] text-sm text-center py-10 glass-rural rounded-2xl mx-2 mt-4">
+- **Línia 323**: `text-xs` -> <div className="mx-4 mb-6 text-center text-xs text-[var(--text-muted)] italic">
+- **Línia 341**: `text-sm` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 341**: `rounded-t-2xl` -> className={`flex items-center justify-center gap-2 px-3 sm:px-4 py-3 font-bold text-sm tracking-wide transition-all rounded-t-2xl whitespace-nowrap flex-1 lg:flex-none
+- **Línia 342**: `bg-[var(--theme-accent-primary)]/10` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 342**: `text-theme-accent-primary` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 342**: `shadow-[inset_0_-3px_0_var(--theme-accent-primary)]'` -> ${active ? 'text-theme-accent-primary bg-[var(--theme-accent-primary)]/10 shadow-[inset_0_-3px_0_var(--theme-accent-primary)]' : 'text-[var(--text-muted)] hover:text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 386**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+- **Línia 387**: `text-xl` -> <h3 className="text-xl font-black text-theme-text mb-6 flex items-center gap-2 leading-none">
+- **Línia 388**: `text-theme-accent-primary"` -> <Contact size={24} className="text-theme-accent-primary" />
+- **Línia 394**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nom i Organització</span>
+- **Línia 395**: `text-lg` -> <span className="text-lg font-bold text-theme-text">{profile.displayName || 'Entitat Desconeguda'}</span>
+- **Línia 400**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Correu Electrònic</span>
+- **Línia 401**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_email}</span>
+- **Línia 407**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Telèfon Directe</span>
+- **Línia 408**: `text-base` -> <span className="text-base font-medium text-theme-text">{entity.contact_country_code || '+34'} {entity.contact_phone}</span>
+- **Línia 414**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Adreça o Ubicació</span>
+- **Línia 415**: `text-base` -> <span className="text-base font-medium text-theme-text">{profile.location}</span>
+- **Línia 421**: `text-xs` -> <span className="text-xs uppercase font-bold text-[var(--text-muted)] tracking-wider">Nota Administrativa</span>
+- **Línia 422**: `text-sm` -> <span className="text-sm text-[var(--text-muted)] leading-relaxed">{profile.bio}</span>
+- **Línia 430**: `bg-theme-panel` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 430**: `text-base` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 430**: `rounded-xl` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 430**: `shadow-lg` -> className="flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] rounded-xl font-black text-base transition-all bg-theme-panel text-theme-text shadow-lg hover:scale-105 active:scale-95 border border-border-master hover:border-theme-accent-primary hover:text-theme-accent-primary"
+- **Línia 443**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 443**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5 mb-6">
+- **Línia 445**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg flex items-center gap-2 leading-none">
+- **Línia 446**: `text-theme-accent-primary"` -> <Users size={20} className="text-theme-accent-primary" />
+- **Línia 451**: `bg-[#FF6D23]/10` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 451**: `rounded-2xl` -> <div className="bg-[#FF6D23]/10 border border-[#FF6D23]/20 dark:border-[#FF6D23]/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 relative overflow-hidden">
+- **Línia 452**: `bg-[#FF6D23]` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 452**: `rounded-full` -> <div className="absolute right-0 top-0 w-32 h-32 bg-[#FF6D23] opacity-5 rounded-full blur-2xl transform translate-x-10 -translate-y-10 pointer-events-none"></div>
+- **Línia 453**: `rounded-full` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 453**: `shadow-sm` -> <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#FF6D23] shrink-0 shadow-sm relative z-10">
+- **Línia 457**: `text-theme-text` -> <h4 className="font-black text-theme-text text-[17px] mb-0.5">Javi Llinares</h4>
+- **Línia 458**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-[var(--text-muted)] font-black uppercase tracking-wider">Connectat · Membre de la Malla</p>
+- **Línia 461**: `bg-[#FF6D23]` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 461**: `text-white` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 461**: `rounded-full` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 461**: `shadow-md">` -> <span className="bg-[#FF6D23] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-full tracking-wider shadow-md">
+- **Línia 474**: `text-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 474**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 text-center text-sm font-bold text-[var(--text-muted)]">
+- **Línia 481**: `bg-blue-500/10'` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 481**: `text-blue-500',` -> persona: { color: 'text-blue-500', bg: 'bg-blue-500/10' },
+- **Línia 482**: `bg-orange-500/10'` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 482**: `text-orange-500',` -> empresa: { color: 'text-orange-500', bg: 'bg-orange-500/10' },
+- **Línia 483**: `bg-purple-500/10'` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 483**: `text-purple-500',` -> institucion: { color: 'text-purple-500', bg: 'bg-purple-500/10' },
+- **Línia 484**: `bg-gray-500/10'` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 484**: `text-gray-500',` -> default: { color: 'text-gray-500', bg: 'bg-gray-500/10' }
+- **Línia 490**: `rounded-3xl` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 490**: `shadow-sm` -> <div className="glass-rural p-6 rounded-3xl mx-2 shadow-sm border border-black/5 dark:border-white/5">
+- **Línia 492**: `text-xs` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 492**: `rounded-full` -> <span className={`uppercase font-black text-xs tracking-wider px-3 py-1 rounded-full ${theme.bg} ${theme.color}`}>
+- **Línia 495**: `text-theme-text` -> <h3 className="font-bold text-theme-text text-lg">Trets Estructurals</h3>
+- **Línia 500**: `bg-black/5` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 500**: `rounded-2xl` -> <div key={key} className="bg-black/5 dark:bg-white/5 p-4 rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden">
+- **Línia 501**: `text-[11px]` -> <span className="text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-black block mb-1">
+- **Línia 504**: `text-sm` -> <span className="text-sm font-bold text-theme-text break-words">
+- **Línia 508**: `bg-black/10` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 508**: `text-xs">` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 508**: `rounded-md` -> <span key={i} className="bg-black/10 dark:bg-white/10 px-2 py-1 rounded-md text-xs">
+- **Línia 514**: `bg-black/5` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 514**: `text-[10px]` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+- **Línia 514**: `rounded-lg` -> <pre className="text-[10px] whitespace-pre-wrap font-mono mt-2 bg-black/5 dark:bg-white/5 p-2 rounded-lg overflow-x-auto">
+
+### src/components/pwa/PwaUpdater.jsx
+- **Línia 91**: `text-sm` -> <p className="text-sm mb-4">Hem detectat problemes en el navegador. La nova versió no s'ha pogut aplicar.</p>
+- **Línia 92**: `bg-white` -> <button onClick={handleNuclearReset} className="bg-white text-red-500 px-4 py-2 rounded text-sm font-bold">
+- **Línia 92**: `text-red-500` -> <button onClick={handleNuclearReset} className="bg-white text-red-500 px-4 py-2 rounded text-sm font-bold">
+- **Línia 103**: `text-sm` -> <p className="text-sm mb-4">Actualitza per a continuar utilitzant Sóc de Poble.</p>
+- **Línia 104**: `bg-white` -> <button onClick={handleUpdate} disabled={isUpdating} className="bg-white text-orange-500 px-4 py-2 rounded text-sm font-bold w-full">
+- **Línia 104**: `text-orange-500` -> <button onClick={handleUpdate} disabled={isUpdating} className="bg-white text-orange-500 px-4 py-2 rounded text-sm font-bold w-full">
+
+### src/components/ui/AccessibilitatUniversal.jsx
+- **Línia 47**: `bg-black/80` -> className="accessibilitat-overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-overlay"
+- **Línia 55**: `bg-theme-surface` -> className="accessibilitat-modal fixed right-0 top-0 h-full w-full max-w-md bg-theme-surface border-l border-theme-border z-modal shadow-2xl animate-in slide-in-from-right"
+- **Línia 55**: `shadow-2xl` -> className="accessibilitat-modal fixed right-0 top-0 h-full w-full max-w-md bg-theme-surface border-l border-theme-border z-modal shadow-2xl animate-in slide-in-from-right"
+- **Línia 66**: `text-lg` -> className="text-lg font-bold text-theme-text"
+- **Línia 74**: `bg-theme-surface-elevated` -> className="p-2 rounded-full hover:bg-theme-surface-elevated transition-colors"
+- **Línia 74**: `rounded-full` -> className="p-2 rounded-full hover:bg-theme-surface-elevated transition-colors"
+- **Línia 78**: `text-theme-text"` -> <X size={20} className="text-theme-text" />
+- **Línia 96**: `text-sm` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
+- **Línia 96**: `rounded-lg` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
+- **Línia 98**: `bg-primary` -> ? 'bg-primary text-white'
+- **Línia 98**: `text-white'` -> ? 'bg-primary text-white'
+- **Línia 99**: `bg-theme-surface-elevated` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 99**: `text-theme-text-muted'` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 110**: `text-sm` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
+- **Línia 110**: `rounded-lg` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
+- **Línia 112**: `bg-primary` -> ? 'bg-primary text-white'
+- **Línia 112**: `text-white'` -> ? 'bg-primary text-white'
+- **Línia 113**: `bg-theme-surface-elevated` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 113**: `text-theme-text-muted'` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 124**: `text-sm` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
+- **Línia 124**: `rounded-lg` -> className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
+- **Línia 126**: `bg-primary` -> ? 'bg-primary text-white'
+- **Línia 126**: `text-white'` -> ? 'bg-primary text-white'
+- **Línia 127**: `bg-theme-surface-elevated` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 127**: `text-theme-text-muted'` -> : 'bg-theme-surface-elevated text-theme-text-muted'
+- **Línia 144**: `bg-theme-surface-elevated` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 144**: `rounded-xl` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 146**: `text-success"` -> <ShieldCheck className="text-success" size={24} />
+- **Línia 147**: `text-theme-text">Compliment` -> <h3 className="font-bold text-theme-text">Compliment WCAG 2.1 AA</h3>
+- **Línia 149**: `text-sm` -> <p className="text-sm text-theme-text-muted mb-4">
+- **Línia 154**: `bg-success/20` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 154**: `text-xs` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 154**: `rounded-full` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 157**: `bg-success/20` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 157**: `text-xs` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 157**: `rounded-full` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 160**: `bg-success/20` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 160**: `text-xs` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 160**: `rounded-full` -> <span className="badge-success px-3 py-1 rounded-full text-xs font-bold bg-success/20 text-success">
+- **Línia 166**: `bg-theme-surface-elevated` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 166**: `rounded-xl` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 168**: `text-primary"` -> <Briefcase className="text-primary" size={24} />
+- **Línia 169**: `text-theme-text">Kit` -> <h3 className="font-bold text-theme-text">Kit Digital Accessible</h3>
+- **Línia 171**: `text-sm` -> <p className="text-sm text-theme-text-muted mb-4">
+- **Línia 177**: `bg-primary` -> className="btn-primary w-full py-3 rounded-xl font-bold text-sm bg-primary hover:bg-primary-hover transition-colors"
+- **Línia 177**: `text-sm` -> className="btn-primary w-full py-3 rounded-xl font-bold text-sm bg-primary hover:bg-primary-hover transition-colors"
+- **Línia 177**: `rounded-xl` -> className="btn-primary w-full py-3 rounded-xl font-bold text-sm bg-primary hover:bg-primary-hover transition-colors"
+- **Línia 193**: `bg-theme-surface-elevated` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 193**: `rounded-xl` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 195**: `text-secondary"` -> <Eye className="text-secondary" size={24} />
+- **Línia 196**: `text-theme-text">Modes` -> <h3 className="font-bold text-theme-text">Modes de Visió</h3>
+- **Línia 200**: `bg-theme-surface` -> <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+- **Línia 200**: `rounded-xl` -> <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+- **Línia 202**: `text-sm` -> <span className="text-sm font-bold text-theme-text">Mode Mans de Camp</span>
+- **Línia 203**: `text-xs` -> <p className="text-xs text-theme-text-muted mt-1">
+- **Línia 232**: `bg-theme-surface` -> <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+- **Línia 232**: `rounded-xl` -> <label className="flex items-center justify-between p-4 rounded-xl bg-theme-surface cursor-pointer mb-2 hover:bg-theme-surface/80 transition-colors">
+- **Línia 234**: `text-sm` -> <span className="text-sm font-bold text-theme-text">Reduir Animacions</span>
+- **Línia 235**: `text-xs` -> <p className="text-xs text-theme-text-muted mt-1">
+- **Línia 272**: `bg-theme-surface-elevated` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 272**: `rounded-xl` -> <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
+- **Línia 274**: `text-tertiary"` -> <Handshake className="text-tertiary" size={24} />
+- **Línia 275**: `text-theme-text">Navegació` -> <h3 className="font-bold text-theme-text">Navegació Adaptada</h3>
+- **Línia 277**: `text-sm` -> <p className="text-sm text-theme-text-muted mb-4">
+- **Línia 282**: `bg-theme-surface` -> <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
+- **Línia 282**: `rounded-lg` -> <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
+- **Línia 283**: `text-sm` -> <span className="text-sm text-theme-text">Àrees de Clic Grans</span>
+- **Línia 291**: `bg-theme-surface` -> <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
+- **Línia 291**: `rounded-lg` -> <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
+- **Línia 292**: `text-sm` -> <span className="text-sm text-theme-text">Comandament de Veu</span>
+- **Línia 307**: `bg-theme-surface-elevated">` -> <footer className="accessibilitat-footer h-[56px] min-h-[56px] px-4 flex items-center justify-between border-t border-theme-border flex-shrink-0 bg-theme-surface-elevated">
+- **Línia 308**: `text-xs` -> <span className="text-xs text-theme-text-muted">
+- **Línia 313**: `text-xs` -> className="text-xs font-bold text-primary hover:text-primary-hover transition-colors"
+
+### src/components/ui/Avatar.jsx
+- **Línia 104**: `bg-card,` -> <div style={{...style, backgroundColor: 'var(--bg-card, #f0f0f0)'}} className={`avatar-container emoji-mode ${className}`}>
+
+### src/components/ui/BlueprintOverlay.jsx
+- **Línia 9**: `bg-cyan-500",` -> cyan: { border: "border-cyan-400", bg: "bg-cyan-500", text: "text-black" },
+- **Línia 9**: `text-black"` -> cyan: { border: "border-cyan-400", bg: "bg-cyan-500", text: "text-black" },
+- **Línia 10**: `bg-green-500",` -> green: { border: "border-green-400", bg: "bg-green-500", text: "text-black" },
+- **Línia 10**: `text-black"` -> green: { border: "border-green-400", bg: "bg-green-500", text: "text-black" },
+- **Línia 11**: `bg-blue-600",` -> blue: { border: "border-blue-400", bg: "bg-blue-600", text: "text-white" },
+- **Línia 11**: `text-white"` -> blue: { border: "border-blue-400", bg: "bg-blue-600", text: "text-white" },
+- **Línia 12**: `bg-orange-500",` -> orange: { border: "border-orange-400", bg: "bg-orange-500", text: "text-black" },
+- **Línia 12**: `text-black"` -> orange: { border: "border-orange-400", bg: "bg-orange-500", text: "text-black" },
+- **Línia 13**: `bg-pink-500",` -> magenta: { border: "border-pink-500", bg: "bg-pink-500", text: "text-white" },
+- **Línia 13**: `text-white"` -> magenta: { border: "border-pink-500", bg: "bg-pink-500", text: "text-white" },
+- **Línia 14**: `bg-emerald-500",` -> emerald: { border: "border-emerald-400/30", bg: "bg-emerald-500", text: "text-black" }
+- **Línia 14**: `text-black"` -> emerald: { border: "border-emerald-400/30", bg: "bg-emerald-500", text: "text-black" }
+- **Línia 29**: `rounded-inherit`}` -> className={`absolute pointer-events-none z-max border-2 border-dashed ${theme.border} opacity-50 rounded-inherit`}
+- **Línia 32**: `bg-black` -> <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
+- **Línia 32**: `text-[9px]` -> <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
+- **Línia 32**: `shadow-sm` -> <div className={`absolute top-0 right-0 ${theme.bg} ${theme.text} text-[9px] font-mono px-2 py-0.5 uppercase tracking-tighter shadow-sm flex items-center gap-1 pointer-events-auto transition-all hover:bg-black hover:text-white`}>
+- **Línia 41**: `text-yellow-300` -> className="ml-2 pl-2 border-l border-white/30 text-yellow-300 hover:text-white transition-colors flex items-center gap-1 font-black"
+
+### src/components/ui/BrandLogo.jsx
+- **Línia 3**: `text-[var(--theme-text)]"` -> export default function BrandLogo({ className = "w-full h-auto text-[var(--theme-text)]" }) {
+
+### src/components/ui/Button/Button.jsx
+- **Línia 56**: `text-current"` -> <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+
+### src/components/ui/Button/Button.test.jsx
+- **Línia 9**: `bg-[var(--theme-accent-primary)]');` -> expect(button.className).toContain('bg-[var(--theme-accent-primary)]');
+
+### src/components/ui/Button/Button.variants.js
+- **Línia 15**: `bg-[var(--theme-accent-primary)]` -> primary: 'bg-[var(--theme-accent-primary)] text-[var(--on-theme-accent-primary)] hover:opacity-90 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 15**: `text-[var(--on-theme-accent-primary)]` -> primary: 'bg-[var(--theme-accent-primary)] text-[var(--on-theme-accent-primary)] hover:opacity-90 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 15**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]',` -> primary: 'bg-[var(--theme-accent-primary)] text-[var(--on-theme-accent-primary)] hover:opacity-90 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 16**: `bg-[var(--theme-accent-secondary)]` -> secondary: 'bg-[var(--theme-accent-secondary)] text-[#111827] hover:brightness-110 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 16**: `text-[#111827]` -> secondary: 'bg-[var(--theme-accent-secondary)] text-[#111827] hover:brightness-110 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 16**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]',` -> secondary: 'bg-[var(--theme-accent-secondary)] text-[#111827] hover:brightness-110 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 17**: `bg-white/10` -> ghost: 'bg-transparent hover:bg-white/10 text-current',
+- **Línia 17**: `text-current',` -> ghost: 'bg-transparent hover:bg-white/10 text-current',
+- **Línia 18**: `bg-red-600` -> danger: 'bg-red-600 text-white hover:bg-red-700 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 18**: `text-white` -> danger: 'bg-red-600 text-white hover:bg-red-700 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 18**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]',` -> danger: 'bg-red-600 text-white hover:bg-red-700 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 19**: `bg-white/10` -> glass: 'glass-panel text-theme-text hover:bg-white/10 border-white/20',
+- **Línia 19**: `text-theme-text` -> glass: 'glass-panel text-theme-text hover:bg-white/10 border-white/20',
+- **Línia 20**: `bg-blue-700` -> canonic: 'bg-blue-700 text-white hover:bg-blue-800 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 20**: `text-white` -> canonic: 'bg-blue-700 text-white hover:bg-blue-800 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 20**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]',` -> canonic: 'bg-blue-700 text-white hover:bg-blue-800 shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 21**: `bg-[#B43D0C]` -> 'accent-dark': 'bg-[#B43D0C] text-white hover:bg-[#9A3412] shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 21**: `text-white` -> 'accent-dark': 'bg-[#B43D0C] text-white hover:bg-[#9A3412] shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 21**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]',` -> 'accent-dark': 'bg-[#B43D0C] text-white hover:bg-[#9A3412] shadow-[0_4px_12px_rgba(0,0,0,0.25)]',
+- **Línia 24**: `text-xs',` -> sm: 'h-8 px-4 text-xs',
+- **Línia 25**: `text-sm',` -> md: 'h-11 px-6 text-sm',
+- **Línia 26**: `text-base',` -> lg: 'h-14 px-8 text-base',
+- **Línia 27**: `text-sm',` -> touch: 'h-[44px] px-6 text-sm', // Minimum touch target
+- **Línia 30**: `rounded-md',` -> rounded: 'rounded-md',
+- **Línia 31**: `rounded-full',` -> pill: 'rounded-full',
+- **Línia 32**: `rounded-none',` -> square: 'rounded-none',
+- **Línia 33**: `rounded-[28px]',` -> genesis: 'rounded-[28px]', // Canonical genesis radius
+- **Línia 45**: `text-[var(--theme-accent-primary)]` -> inline: '!bg-transparent !p-0 !min-h-0 !h-auto text-[var(--theme-accent-primary)] hover:!text-orange-600 underline decoration-2 underline-offset-4 shadow-none hover:shadow-none',
+- **Línia 45**: `shadow-none` -> inline: '!bg-transparent !p-0 !min-h-0 !h-auto text-[var(--theme-accent-primary)] hover:!text-orange-600 underline decoration-2 underline-offset-4 shadow-none hover:shadow-none',
+
+### src/components/ui/ConnectButton.jsx
+- **Línia 17**: `bg-[#1A1A1A]` -> <div className="w-[36px] h-[36px] rounded-xl bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white overflow-hidden shadow-sm">
+- **Línia 17**: `text-xs` -> <div className="w-[36px] h-[36px] rounded-xl bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white overflow-hidden shadow-sm">
+- **Línia 17**: `rounded-xl` -> <div className="w-[36px] h-[36px] rounded-xl bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white overflow-hidden shadow-sm">
+- **Línia 17**: `shadow-sm">` -> <div className="w-[36px] h-[36px] rounded-xl bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white overflow-hidden shadow-sm">
+- **Línia 40**: `bg-white/20` -> className={`shrink-0 w-[40px] h-[40px] flex items-center justify-center hover:bg-white/20 active:scale-95 transition-colors rounded-xl text-white touch-manipulation ${className}`}
+- **Línia 40**: `text-white` -> className={`shrink-0 w-[40px] h-[40px] flex items-center justify-center hover:bg-white/20 active:scale-95 transition-colors rounded-xl text-white touch-manipulation ${className}`}
+- **Línia 40**: `rounded-xl` -> className={`shrink-0 w-[40px] h-[40px] flex items-center justify-center hover:bg-white/20 active:scale-95 transition-colors rounded-xl text-white touch-manipulation ${className}`}
+- **Línia 45**: `text-current"` -> <UserPlus size={20} strokeWidth={2.5} className="text-current" />
+
+### src/components/ui/ContextualMenu.jsx
+- **Línia 75**: `bg-[#1a1a1a]` -> <div className="h-[48px] min-h-[48px] max-h-[48px] w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none overflow-hidden shrink-0">
+- **Línia 75**: `shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)]` -> <div className="h-[48px] min-h-[48px] max-h-[48px] w-full bg-[#1a1a1a] shadow-[inset_0_4px_10px_rgba(0,0,0,0.6)] flex items-center sticky top-0 z-sticky select-none overflow-hidden shrink-0">
+- **Línia 86**: `text-[13px]` -> relative h-full flex items-center text-[13px] lg:text-[15px] font-black tracking-[0.25em] transition-all whitespace-nowrap
+- **Línia 88**: `text-[#544CF6]` -> ? (item.id === (new URLSearchParams(location.search).get('role') || (isCalendar ? 'events' : 'tot')) ? 'text-[#544CF6] border-b-2 border-[#544CF6] pt-[2px]' : 'text-white opacity-80 hover:opacity-100')
+- **Línia 90**: `text-[#544CF6]` -> ? 'text-[#544CF6] border-b-2 border-[#544CF6] pt-[2px]'
+- **Línia 91**: `text-white` -> : 'text-white opacity-80 hover:opacity-100')}
+- **Línia 101**: `bg-[#1a1a1a]/90` -> <div className="flex items-center h-full px-4 bg-[#1a1a1a]/90 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
+- **Línia 101**: `shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">` -> <div className="flex items-center h-full px-4 bg-[#1a1a1a]/90 backdrop-blur-md border-l border-white/5 shadow-[-10px_0_15px_rgba(0,0,0,0.5)]">
+- **Línia 104**: `bg-white/5` -> className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
+- **Línia 104**: `text-slate-400` -> className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
+- **Línia 104**: `rounded-[28px]` -> className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
+- **Línia 104**: `shadow-inner"` -> className="w-8 h-8 flex items-center justify-center rounded-[28px] bg-white/5 text-slate-400 hover:bg-[var(--theme-accent-primary)] hover:text-white transition-all active:scale-95 shadow-inner"
+
+### src/components/ui/DegradedBanner.jsx
+- **Línia 34**: `bg-black` -> className="bg-black text-[#FF6D00] border-b-4 border-[#FF6D00] px-4 py-4 flex items-center justify-between shadow-2xl transition-all duration-300 z-50 relative rounded-none"
+- **Línia 34**: `text-[#FF6D00]` -> className="bg-black text-[#FF6D00] border-b-4 border-[#FF6D00] px-4 py-4 flex items-center justify-between shadow-2xl transition-all duration-300 z-50 relative rounded-none"
+- **Línia 34**: `rounded-none"` -> className="bg-black text-[#FF6D00] border-b-4 border-[#FF6D00] px-4 py-4 flex items-center justify-between shadow-2xl transition-all duration-300 z-50 relative rounded-none"
+- **Línia 34**: `shadow-2xl` -> className="bg-black text-[#FF6D00] border-b-4 border-[#FF6D00] px-4 py-4 flex items-center justify-between shadow-2xl transition-all duration-300 z-50 relative rounded-none"
+- **Línia 36**: `text-[16px]` -> <div className="flex-1 text-center pr-4 font-black uppercase tracking-wider text-[16px] leading-tight">
+- **Línia 37**: `text-[12px]` -> Sense cobertura.<br/><span className="font-bold text-[12px] opacity-80 mt-1 block">Bategant en local</span>
+- **Línia 41**: `bg-[#FF6D00]/10` -> className="p-3 bg-[#FF6D00]/10 hover:bg-[#FF6D00]/30 rounded-none transition-colors border border-[#FF6D00]/50 flex-shrink-0"
+- **Línia 41**: `rounded-none` -> className="p-3 bg-[#FF6D00]/10 hover:bg-[#FF6D00]/30 rounded-none transition-colors border border-[#FF6D00]/50 flex-shrink-0"
+- **Línia 44**: `text-[#FF6D00]"` -> <X size={26} strokeWidth={3} className="text-[#FF6D00]" />
+
+### src/components/ui/FloatingIndex.jsx
+- **Línia 98**: `shadow-lg` -> className="shadow-lg !p-4"
+- **Línia 115**: `bg-[var(--bg-panel)]` -> <div id="floating-index-wrapper" ref={indexRef} style={{ width: width || 320 }} className={`absolute top-[56px] left-0 bottom-0 max-w-[85vw] bg-[var(--bg-panel)] border-r border-black/10 dark:border-white/10 shadow-2xl z-[var(--z-drawer,900)] p-6 overflow-y-auto custom-scrollbar animate-in slide-in-from-left duration-300 ${isPinned ? 'lg:shadow-none' : ''}`}>
+- **Línia 115**: `shadow-2xl` -> <div id="floating-index-wrapper" ref={indexRef} style={{ width: width || 320 }} className={`absolute top-[56px] left-0 bottom-0 max-w-[85vw] bg-[var(--bg-panel)] border-r border-black/10 dark:border-white/10 shadow-2xl z-[var(--z-drawer,900)] p-6 overflow-y-auto custom-scrollbar animate-in slide-in-from-left duration-300 ${isPinned ? 'lg:shadow-none' : ''}`}>
+- **Línia 118**: `bg-[var(--theme-accent-primary)]/20` -> className="w-2 cursor-col-resize absolute right-[-4px] top-0 h-full z-50 hover:bg-[var(--theme-accent-primary)]/20 hidden lg:block"
+- **Línia 124**: `text-sm` -> <h4 className="text-sm font-black uppercase tracking-widest text-[var(--theme-accent-primary)] flex items-center gap-2">
+- **Línia 130**: `bg-[var(--theme-accent-primary)]/10` -> <button onClick={() => onPinToggle(!isPinned)} className={`p-2 rounded-full transition-colors active:scale-95 hidden lg:flex ${isPinned ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)]' : 'hover:bg-black/5 dark:hover:bg-white/5 text-stone-400'}`} title={isPinned ? "Desfixar índex" : "Fixar índex"}>
+- **Línia 130**: `text-[var(--theme-accent-primary)]'` -> <button onClick={() => onPinToggle(!isPinned)} className={`p-2 rounded-full transition-colors active:scale-95 hidden lg:flex ${isPinned ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)]' : 'hover:bg-black/5 dark:hover:bg-white/5 text-stone-400'}`} title={isPinned ? "Desfixar índex" : "Fixar índex"}>
+- **Línia 130**: `rounded-full` -> <button onClick={() => onPinToggle(!isPinned)} className={`p-2 rounded-full transition-colors active:scale-95 hidden lg:flex ${isPinned ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)]' : 'hover:bg-black/5 dark:hover:bg-white/5 text-stone-400'}`} title={isPinned ? "Desfixar índex" : "Fixar índex"}>
+- **Línia 134**: `bg-black/5` -> <button onClick={() => setShowIndex(false)} className={`p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors active:scale-95 ${isPinned ? 'lg:hidden' : ''}`}>
+- **Línia 134**: `rounded-full` -> <button onClick={() => setShowIndex(false)} className={`p-2 hover:bg-black/5 dark:hover:bg-white/5 rounded-full transition-colors active:scale-95 ${isPinned ? 'lg:hidden' : ''}`}>
+- **Línia 135**: `text-stone-500"><path` -> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-500"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+- **Línia 140**: `text-sm` -> <p className="text-sm text-gray-400">No hi ha cap títol en aquest document.</p>
+- **Línia 154**: `text-sm` -> className={`text-left w-full px-3 py-2 rounded-xl transition-colors text-sm break-words leading-relaxed
+- **Línia 154**: `rounded-xl` -> className={`text-left w-full px-3 py-2 rounded-xl transition-colors text-sm break-words leading-relaxed
+- **Línia 155**: `bg-[var(--theme-accent-primary)]/10` -> ${isActive ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-bold shadow-sm border border-[var(--theme-accent-primary)]/20' : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-main)]'}
+- **Línia 155**: `text-[var(--theme-accent-primary)]` -> ${isActive ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-bold shadow-sm border border-[var(--theme-accent-primary)]/20' : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-main)]'}
+- **Línia 155**: `shadow-sm` -> ${isActive ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-bold shadow-sm border border-[var(--theme-accent-primary)]/20' : 'hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-main)]'}
+- **Línia 156**: `text-base` -> ${h.tagName === 'h1' ? 'font-black uppercase tracking-widest text-base mt-4 mb-1' : ''}
+- **Línia 158**: `text-stone-600` -> ${h.tagName === 'h3' ? 'ml-4 font-medium text-stone-600 dark:text-stone-300' : ''}
+- **Línia 159**: `text-stone-500` -> ${h.tagName === 'h4' ? 'ml-6 text-stone-500 dark:text-stone-400 text-[11px] uppercase tracking-wider font-bold border-l-2 border-stone-300 dark:border-stone-700 pl-3 mt-1' : ''}
+- **Línia 160**: `text-stone-400` -> ${h.tagName === 'h5' || h.tagName === 'h6' ? 'ml-8 text-stone-400 dark:text-stone-500 text-[11px] italic' : ''}
+
+### src/components/ui/LanguageSelector.jsx
+- **Línia 31**: `bg-white/5` -> <div className="w-full bg-white/5 border border-white/10 rounded-2xl overflow-hidden mt-6 mb-2">
+- **Línia 31**: `rounded-2xl` -> <div className="w-full bg-white/5 border border-white/10 rounded-2xl overflow-hidden mt-6 mb-2">
+- **Línia 33**: `bg-[var(--theme-accent-primary)]/20` -> <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/20 flex items-center justify-center text-[var(--theme-accent-primary)]">
+- **Línia 33**: `text-[var(--theme-accent-primary)]">` -> <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/20 flex items-center justify-center text-[var(--theme-accent-primary)]">
+- **Línia 33**: `rounded-full` -> <div className="w-10 h-10 rounded-full bg-[var(--theme-accent-primary)]/20 flex items-center justify-center text-[var(--theme-accent-primary)]">
+- **Línia 37**: `text-white` -> <h3 className="text-white font-bold text-base uppercase">Idioma i Cultura</h3>
+- **Línia 38**: `text-white/50` -> <p className="text-white/50 text-sm">Tria l'idioma de l'aplicació i la memòria rural</p>
+- **Línia 46**: `bg-[var(--theme-accent-primary)]/20` -> className={`px-4 py-3 rounded-xl flex items-center justify-between transition-all ${activeLangCode === lang.code ? 'bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold ring-1 ring-[var(--theme-accent-primary)]/50' : 'text-white/80 hover:bg-white/10 bg-black/20'}`}
+- **Línia 46**: `text-[var(--theme-accent-primary)]` -> className={`px-4 py-3 rounded-xl flex items-center justify-between transition-all ${activeLangCode === lang.code ? 'bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold ring-1 ring-[var(--theme-accent-primary)]/50' : 'text-white/80 hover:bg-white/10 bg-black/20'}`}
+- **Línia 46**: `rounded-xl` -> className={`px-4 py-3 rounded-xl flex items-center justify-between transition-all ${activeLangCode === lang.code ? 'bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold ring-1 ring-[var(--theme-accent-primary)]/50' : 'text-white/80 hover:bg-white/10 bg-black/20'}`}
+- **Línia 61**: `text-slate-400` -> className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+
+### src/components/ui/LazyHtmlRenderer.jsx
+- **Línia 133**: `rounded-full` -> <div className="w-6 h-6 border-2 border-[var(--theme-accent-primary)] border-t-transparent rounded-full animate-spin"></div>
+
+### src/components/ui/NanoLoader.jsx
+- **Línia 6**: `bg-[var(--bg-app)]` -> <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[var(--bg-app)] text-[var(--text-main)] transition-opacity duration-300">
+- **Línia 6**: `text-[var(--text-main)]` -> <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[var(--bg-app)] text-[var(--text-main)] transition-opacity duration-300">
+- **Línia 8**: `text-[var(--theme-accent-primary)]"` -> <Loader2 className="animate-spin text-[var(--theme-accent-primary)]" size={48} />
+- **Línia 9**: `text-sm` -> <span className="tracking-widest opacity-80 uppercase text-sm font-bold">
+
+### src/components/ui/ProfilePowerMenu.jsx
+- **Línia 68**: `text-2xl` -> <h2 className="text-2xl font-black tracking-tighter uppercase">{profile?.full_name || user?.email?.split('@')[0] || 'Sóc de Poble'}</h2>
+- **Línia 69**: `text-gray-500` -> <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.2em]">{user?.email}</p>
+- **Línia 91**: `bg-indigo-500` -> {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-[28px] uppercase tracking-widest">Obrir</span>}
+- **Línia 91**: `text-[10px]` -> {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-[28px] uppercase tracking-widest">Obrir</span>}
+- **Línia 91**: `rounded-[28px]` -> {item.featured && <span className="ml-auto text-[10px] font-black bg-indigo-500 text-white px-2 py-0.5 rounded-[28px] uppercase tracking-widest">Obrir</span>}
+- **Línia 157**: `bg-orange-500/5` -> className="pg-item bg-orange-500/5 group"
+- **Línia 160**: `text-orange-500"><Shield` -> <div className="pg-icon text-orange-500"><Shield size={20} /></div>
+- **Línia 161**: `text-orange-500` -> <span className="pg-label text-orange-500 font-black">Panell d'Admin</span>
+- **Línia 177**: `text-red-500"><LogOut` -> <div className="pg-icon text-red-500"><LogOut size={20} /></div>
+- **Línia 178**: `text-red-500">Tancar` -> <span className="pg-label text-red-500">Tancar Sessió</span>
+- **Línia 187**: `text-fuchsia-500"` -> <Brain size={12} className="text-fuchsia-500" />
+
+### src/components/ui/RichTextEditor.jsx
+- **Línia 4**: `text-align';` -> import TextAlign from '@tiptap/extension-text-align';
+- **Línia 8**: `text-style';` -> import { TextStyle } from '@tiptap/extension-text-style';
+- **Línia 47**: `bg-[var(--bg-panel-elevated)]` -> container.className = 'custom-raw-html-editor my-6 bg-[var(--bg-panel-elevated)] border-2 border-dashed border-[var(--theme-accent-primary)] rounded-xl relative overflow-hidden group';
+- **Línia 47**: `rounded-xl` -> container.className = 'custom-raw-html-editor my-6 bg-[var(--bg-panel-elevated)] border-2 border-dashed border-[var(--theme-accent-primary)] rounded-xl relative overflow-hidden group';
+- **Línia 50**: `bg-[var(--bg-panel)]` -> header.className = 'bg-[var(--bg-panel)] border-b border-dashed border-[var(--theme-accent-primary)] px-3 py-1 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity';
+- **Línia 53**: `text-[var(--theme-accent-primary)]` -> badge.className = 'text-[var(--theme-accent-primary)] text-xs font-bold uppercase tracking-wider';
+- **Línia 98**: `rounded-xl` -> className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent-primary)]
+- **Línia 99**: `bg-[var(--theme-accent-primary)]` -> ${isActive ? 'bg-[var(--theme-accent-primary)] text-white shadow-inner' : 'bg-transparent text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] hover:text-[var(--theme-accent-primary)]'}
+- **Línia 99**: `text-white` -> ${isActive ? 'bg-[var(--theme-accent-primary)] text-white shadow-inner' : 'bg-transparent text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] hover:text-[var(--theme-accent-primary)]'}
+- **Línia 99**: `shadow-inner'` -> ${isActive ? 'bg-[var(--theme-accent-primary)] text-white shadow-inner' : 'bg-transparent text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] hover:text-[var(--theme-accent-primary)]'}
+- **Línia 115**: `bg-[var(--bg-panel)]` -> <div className={`flex flex-wrap items-center gap-1 border-b border-[var(--border-master)] bg-[var(--bg-panel)] sticky top-0 z-10 w-full shadow-sm ${minimal ? 'p-1' : 'p-2'}`}>
+- **Línia 115**: `shadow-sm` -> <div className={`flex flex-wrap items-center gap-1 border-b border-[var(--border-master)] bg-[var(--bg-panel)] sticky top-0 z-10 w-full shadow-sm ${minimal ? 'p-1' : 'p-2'}`}>
+- **Línia 131**: `bg-[var(--border-master)]` -> <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-[var(--border-master)] mx-1`}></div>
+- **Línia 195**: `bg-[var(--border-master)]` -> <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-[var(--border-master)] mx-1`}></div>
+- **Línia 234**: `bg-[var(--border-master)]` -> <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-[var(--border-master)] mx-1`}></div>
+- **Línia 285**: `bg-[var(--border-master)]` -> <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-[var(--border-master)] mx-1 ml-auto md:mx-1 md:ml-0`}></div>
+- **Línia 311**: `bg-[var(--bg-panel-elevated)]` -> className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-[var(--bg-panel-elevated)] text-[var(--theme-accent-primary)] py-1.5 px-3 rounded-lg text-xs hover:bg-[var(--theme-accent-primary)] hover:text-white' : 'ml-2 bg-[var(--theme-accent-primary)] text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}
+- **Línia 311**: `text-[var(--theme-accent-primary)]` -> className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-[var(--bg-panel-elevated)] text-[var(--theme-accent-primary)] py-1.5 px-3 rounded-lg text-xs hover:bg-[var(--theme-accent-primary)] hover:text-white' : 'ml-2 bg-[var(--theme-accent-primary)] text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}
+- **Línia 311**: `rounded-lg` -> className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-[var(--bg-panel-elevated)] text-[var(--theme-accent-primary)] py-1.5 px-3 rounded-lg text-xs hover:bg-[var(--theme-accent-primary)] hover:text-white' : 'ml-2 bg-[var(--theme-accent-primary)] text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}
+- **Línia 311**: `shadow-md` -> className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-[var(--bg-panel-elevated)] text-[var(--theme-accent-primary)] py-1.5 px-3 rounded-lg text-xs hover:bg-[var(--theme-accent-primary)] hover:text-white' : 'ml-2 bg-[var(--theme-accent-primary)] text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}
+- **Línia 314**: `rounded-full` -> <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+- **Línia 357**: `bg-[var(--bg-panel-elevated)]` -> class: `focus:outline-none font-sans w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-[var(--theme-accent-secondary)] [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-primary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[var(--theme-accent-secondary)] [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-[var(--text-main)] [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
+- **Línia 357**: `text-[var(--text-main)]` -> class: `focus:outline-none font-sans w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-[var(--theme-accent-secondary)] [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-primary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[var(--theme-accent-secondary)] [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-[var(--text-main)] [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
+- **Línia 357**: `rounded-full` -> class: `focus:outline-none font-sans w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-[var(--theme-accent-secondary)] [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-primary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[var(--theme-accent-secondary)] [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-[var(--text-main)] [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
+- **Línia 357**: `shadow-md` -> class: `focus:outline-none font-sans w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-[var(--theme-accent-secondary)] [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-primary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[var(--theme-accent-secondary)] [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-[var(--text-main)] [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`,
+- **Línia 369**: `bg-[var(--bg-app)]` -> <div className={`w-full flex flex-col bg-[var(--bg-app)] ${editable && !minimal ? 'border-t border-[var(--theme-accent-primary)]/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-[var(--border-master)] focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all' : ''} overflow-hidden`} style={editable && !minimal ? {
+- **Línia 369**: `rounded-xl` -> <div className={`w-full flex flex-col bg-[var(--bg-app)] ${editable && !minimal ? 'border-t border-[var(--theme-accent-primary)]/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-[var(--border-master)] focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all' : ''} overflow-hidden`} style={editable && !minimal ? {
+- **Línia 369**: `shadow-2xl` -> <div className={`w-full flex flex-col bg-[var(--bg-app)] ${editable && !minimal ? 'border-t border-[var(--theme-accent-primary)]/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-[var(--border-master)] focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all' : ''} overflow-hidden`} style={editable && !minimal ? {
+- **Línia 373**: `bg-[var(--bg-panel)]'` -> <div className={`flex-1 overflow-y-auto ${editable && !minimal ? 'bg-[var(--bg-panel)]' : ''} custom-scrollbar`}>
+- **Línia 374**: `bg-[#0f0f0f]` -> <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-[var(--border-master)] dark:bg-[#0f0f0f] bg-white' : ''}`}>
+- **Línia 374**: `rounded-2xl` -> <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-[var(--border-master)] dark:bg-[#0f0f0f] bg-white' : ''}`}>
+- **Línia 374**: `shadow-sm` -> <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-[var(--border-master)] dark:bg-[#0f0f0f] bg-white' : ''}`}>
+- **Línia 380**: `bg-black/50` -> <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in">
+- **Línia 381**: `bg-[var(--bg-app)]` -> <div className="bg-[var(--bg-app)] rounded-2xl w-full max-w-2xl shadow-2xl border border-[var(--border-master)] overflow-hidden flex flex-col scale-100 animate-up">
+- **Línia 381**: `rounded-2xl` -> <div className="bg-[var(--bg-app)] rounded-2xl w-full max-w-2xl shadow-2xl border border-[var(--border-master)] overflow-hidden flex flex-col scale-100 animate-up">
+- **Línia 381**: `shadow-2xl` -> <div className="bg-[var(--bg-app)] rounded-2xl w-full max-w-2xl shadow-2xl border border-[var(--border-master)] overflow-hidden flex flex-col scale-100 animate-up">
+- **Línia 382**: `bg-[var(--bg-panel)]">` -> <div className="flex items-center justify-between p-4 border-b border-[var(--border-master)] bg-[var(--bg-panel)]">
+- **Línia 383**: `text-lg` -> <h3 className="font-bold text-lg text-[var(--text-main)] flex items-center gap-2">
+- **Línia 384**: `text-[var(--theme-accent-primary)]"` -> <CodeXml className="text-[var(--theme-accent-primary)]" size={20} />
+- **Línia 387**: `bg-[var(--bg-panel-elevated)]` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="p-2 hover:bg-[var(--bg-panel-elevated)] rounded-full text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+- **Línia 387**: `text-[var(--text-muted)]` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="p-2 hover:bg-[var(--bg-panel-elevated)] rounded-full text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+- **Línia 387**: `rounded-full` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="p-2 hover:bg-[var(--bg-panel-elevated)] rounded-full text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors">
+- **Línia 392**: `text-sm` -> <p className="text-sm text-[var(--text-muted)] mb-3">
+- **Línia 399**: `bg-[var(--bg-panel)]` -> className="w-full h-48 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-master)] rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] custom-scrollbar resize-none"
+- **Línia 399**: `text-[var(--text-main)]` -> className="w-full h-48 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-master)] rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] custom-scrollbar resize-none"
+- **Línia 399**: `rounded-xl` -> className="w-full h-48 bg-[var(--bg-panel)] text-[var(--text-main)] border border-[var(--border-master)] rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--theme-accent-primary)] custom-scrollbar resize-none"
+- **Línia 402**: `bg-[var(--bg-panel)]` -> <div className="p-4 border-t border-[var(--border-master)] bg-[var(--bg-panel)] flex justify-end gap-2">
+- **Línia 403**: `bg-[var(--bg-panel-elevated)]` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="px-4 py-2 font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] rounded-xl transition-all">
+- **Línia 403**: `text-[var(--text-muted)]` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="px-4 py-2 font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] rounded-xl transition-all">
+- **Línia 403**: `rounded-xl` -> <button onClick={() => setIsHtmlDialogOpen(false)} className="px-4 py-2 font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] rounded-xl transition-all">
+- **Línia 414**: `bg-[var(--theme-accent-primary)]` -> className="px-6 py-2 font-bold bg-[var(--theme-accent-primary)] text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95"
+- **Línia 414**: `text-white` -> className="px-6 py-2 font-bold bg-[var(--theme-accent-primary)] text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95"
+- **Línia 414**: `rounded-xl` -> className="px-6 py-2 font-bold bg-[var(--theme-accent-primary)] text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95"
+- **Línia 414**: `shadow-md` -> className="px-6 py-2 font-bold bg-[var(--theme-accent-primary)] text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95"
+
+### src/components/ui/SyncIndicator.jsx
+- **Línia 11**: `bg-blue-500',` -> syncing: { color: 'bg-blue-500', text: `Sincronitzant ${pendingCount} canvis...`, ping: true },
+- **Línia 12**: `bg-red-500',` -> error:   { color: 'bg-red-500', text: 'Error de connexió', ping: false }
+- **Línia 20**: `bg-gray-900` -> <div className="fixed bottom-[85px] right-4 flex items-center gap-2 bg-gray-900 border border-gray-700/50 text-white px-3 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.4)] text-[12px] font-bold z-[100] transition-all duration-300 pointer-events-none">
+- **Línia 20**: `text-white` -> <div className="fixed bottom-[85px] right-4 flex items-center gap-2 bg-gray-900 border border-gray-700/50 text-white px-3 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.4)] text-[12px] font-bold z-[100] transition-all duration-300 pointer-events-none">
+- **Línia 20**: `rounded-full` -> <div className="fixed bottom-[85px] right-4 flex items-center gap-2 bg-gray-900 border border-gray-700/50 text-white px-3 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.4)] text-[12px] font-bold z-[100] transition-all duration-300 pointer-events-none">
+- **Línia 20**: `shadow-[0_8px_30px_rgb(0,0,0,0.4)]` -> <div className="fixed bottom-[85px] right-4 flex items-center gap-2 bg-gray-900 border border-gray-700/50 text-white px-3 py-2 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.4)] text-[12px] font-bold z-[100] transition-all duration-300 pointer-events-none">
+- **Línia 23**: `rounded-full` -> <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${current.color}`}></span>
+- **Línia 25**: `rounded-full` -> <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${current.color}`}></span>
+
+### src/components/ui/ToastProvider.jsx
+- **Línia 98**: `text-primary,` -> color: 'var(--text-primary, #1e293b)',
+
+### src/components/ui/VoiceRecorder.jsx
+- **Línia 219**: `bg-red-500/10` -> <button onClick={cancelRecording} className="p-3 text-red-500 hover:bg-red-500/10 rounded-full transition-colors btn-tactile shrink-0">
+- **Línia 219**: `text-red-500` -> <button onClick={cancelRecording} className="p-3 text-red-500 hover:bg-red-500/10 rounded-full transition-colors btn-tactile shrink-0">
+- **Línia 219**: `rounded-full` -> <button onClick={cancelRecording} className="p-3 text-red-500 hover:bg-red-500/10 rounded-full transition-colors btn-tactile shrink-0">
+- **Línia 223**: `bg-red-50` -> <div className="flex-1 flex items-center justify-center bg-red-50 dark:bg-red-900/20 rounded-[28px] h-[52px] px-4 animate-pulse relative overflow-hidden border border-red-200 dark:border-red-900/50">
+- **Línia 223**: `rounded-[28px]` -> <div className="flex-1 flex items-center justify-center bg-red-50 dark:bg-red-900/20 rounded-[28px] h-[52px] px-4 animate-pulse relative overflow-hidden border border-red-200 dark:border-red-900/50">
+- **Línia 225**: `bg-red-500` -> <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
+- **Línia 225**: `rounded-full` -> <div className="w-3 h-3 rounded-full bg-red-500 animate-ping"></div>
+- **Línia 226**: `text-red-600` -> <span className="font-['Noto_Sans'] font-bold text-red-600 dark:text-red-400 text-[15px] sm:text-[16px] uppercase tracking-wider">
+- **Línia 232**: `bg-[#25D366]` -> <button onClick={stopRecording} className="w-[52px] h-[52px] shrink-0 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full shadow-[0_4px_12px_rgba(37,211,102,0.3)] flex items-center justify-center btn-tactile transition-transform active:scale-95 ml-1">
+- **Línia 232**: `text-white` -> <button onClick={stopRecording} className="w-[52px] h-[52px] shrink-0 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full shadow-[0_4px_12px_rgba(37,211,102,0.3)] flex items-center justify-center btn-tactile transition-transform active:scale-95 ml-1">
+- **Línia 232**: `rounded-full` -> <button onClick={stopRecording} className="w-[52px] h-[52px] shrink-0 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full shadow-[0_4px_12px_rgba(37,211,102,0.3)] flex items-center justify-center btn-tactile transition-transform active:scale-95 ml-1">
+- **Línia 232**: `shadow-[0_4px_12px_rgba(37,211,102,0.3)]` -> <button onClick={stopRecording} className="w-[52px] h-[52px] shrink-0 bg-[#25D366] hover:bg-[#1DA851] text-white rounded-full shadow-[0_4px_12px_rgba(37,211,102,0.3)] flex items-center justify-center btn-tactile transition-transform active:scale-95 ml-1">
+
+### src/components/ui/universal-card/UniversalCard.Body.jsx
+- **Línia 101**: `text-[24px]` -> <div className="text-[24px] md:text-[28px] leading-[1.1] font-black tracking-tight line-clamp-2 text-theme-text" itemProp="name headline">
+- **Línia 107**: `text-[22px]` -> {displayPrice && <div className="whitespace-nowrap font-black text-[22px] md:text-[24px] text-[#B43D0C] dark:text-[#F97316] leading-none"><span>{displayPrice}</span></div>}
+- **Línia 109**: `bg-red-500/20` -> <div className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full leading-none ${item.stock_status.toLowerCase() === 'esgotat' || item.stock_status.toLowerCase() === 'outofstock' ? 'bg-red-500/20 text-red-500' : 'bg-green-500/20 text-green-500'}`}>
+- **Línia 109**: `text-[10px]` -> <div className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full leading-none ${item.stock_status.toLowerCase() === 'esgotat' || item.stock_status.toLowerCase() === 'outofstock' ? 'bg-red-500/20 text-red-500' : 'bg-green-500/20 text-green-500'}`}>
+- **Línia 109**: `rounded-full` -> <div className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full leading-none ${item.stock_status.toLowerCase() === 'esgotat' || item.stock_status.toLowerCase() === 'outofstock' ? 'bg-red-500/20 text-red-500' : 'bg-green-500/20 text-green-500'}`}>
+- **Línia 122**: `text-[#0369A1]` -> <h3 className="font-semibold text-[#0369A1] dark:text-[#F97316] text-[18px] md:text-[20px] leading-[1.3] w-full" itemProp="description">
+- **Línia 126**: `text-[#0369A1]` -> <div className="font-semibold text-[#0369A1] dark:text-[#F97316] text-[20px] md:text-[22px] leading-snug line-clamp-2 w-full" itemProp="description">
+- **Línia 138**: `text-[18px]` -> className={`text-[18px] md:text-[19px] font-normal leading-[1.45] text-theme-muted [&_strong]:font-bold [&_strong]:text-theme-text [&_b]:font-bold [&_b]:text-theme-text ${smartClampClass}`}
+- **Línia 159**: `bg-[#0369A1]/10` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 159**: `text-[#0369A1]',` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 162**: `text-[13px]` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-3 py-1.5 rounded-full ${colorClass}`}>
+- **Línia 162**: `rounded-full` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-3 py-1.5 rounded-full ${colorClass}`}>
+- **Línia 168**: `bg-black/5` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 168**: `text-[13px]` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 168**: `rounded-full` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 178**: `text-[#B43D0C]` -> className="flex items-center gap-1 font-black tracking-[0.1em] uppercase text-[#B43D0C] dark:text-[#F97316] hover:opacity-80 transition-opacity whitespace-nowrap ml-auto text-sm"
+- **Línia 193**: `text-[#B43D0C]` -> className="flex items-center gap-1 font-black tracking-[0.1em] uppercase text-[#B43D0C] dark:text-[#F97316] hover:opacity-80 transition-opacity"
+- **Línia 207**: `bg-[#0369A1]/10` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 207**: `text-[#0369A1]',` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 210**: `text-[13px]` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-3 py-1.5 rounded-full ${colorClass}`}>
+- **Línia 210**: `rounded-full` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-3 py-1.5 rounded-full ${colorClass}`}>
+- **Línia 216**: `bg-black/5` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 216**: `text-[13px]` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 216**: `rounded-full` -> <div title={allTags.slice(3).join(', ')} className="text-[13px] md:text-[14px] font-black tracking-wide bg-black/5 dark:bg-white/10 text-theme-text px-3 py-1.5 rounded-full cursor-default">
+- **Línia 226**: `text-[10px]` -> <p className="text-[10px] font-black tracking-widest text-theme-muted/50 uppercase select-none text-center m-0 p-0 leading-none">
+
+### src/components/ui/universal-card/UniversalCard.Footer.jsx
+- **Línia 101**: `bg-[#4F46E5]` -> <div className="w-full bg-[#4F46E5] dark:bg-[#F97316] text-white flex justify-between items-center pl-4 pr-[10px] py-0 h-[64px] min-h-[64px] max-h-[64px] shrink-0 overflow-hidden">
+- **Línia 101**: `text-white` -> <div className="w-full bg-[#4F46E5] dark:bg-[#F97316] text-white flex justify-between items-center pl-4 pr-[10px] py-0 h-[64px] min-h-[64px] max-h-[64px] shrink-0 overflow-hidden">
+- **Línia 104**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[22px] h-[22px] object-contain drop-shadow-sm brightness-110" />
+- **Línia 118**: `text-[13px]` -> className="font-black tracking-widest text-[13px] uppercase"
+- **Línia 129**: `bg-black/60` -> className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in"
+- **Línia 134**: `bg-theme-base` -> className="bg-theme-base border border-theme-border p-6 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col gap-4"
+- **Línia 134**: `rounded-3xl` -> className="bg-theme-base border border-theme-border p-6 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col gap-4"
+- **Línia 134**: `shadow-2xl` -> className="bg-theme-base border border-theme-border p-6 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col gap-4"
+- **Línia 139**: `text-xl` -> <h3 className="font-black text-xl text-center mb-2 uppercase text-theme-text">Amb qui vols {pendingAction === 'comment' ? 'parlar' : 'connectar'}?</h3>
+- **Línia 142**: `bg-[#4F46E5]` -> className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 dark:focus:ring-offset-[#111111]"
+- **Línia 142**: `text-white` -> className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 dark:focus:ring-offset-[#111111]"
+- **Línia 142**: `rounded-xl` -> className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 dark:focus:ring-offset-[#111111]"
+- **Línia 142**: `shadow-[0_4px_14px_rgba(79,70,229,0.3)]` -> className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 dark:focus:ring-offset-[#111111]"
+- **Línia 155**: `bg-white/10"` -> return <img src={entityAvatar} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 155**: `rounded-full` -> return <img src={entityAvatar} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 155**: `shadow-sm` -> return <img src={entityAvatar} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 158**: `bg-white/10` -> <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+- **Línia 158**: `rounded-full` -> <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+- **Línia 164**: `text-lg` -> <span className="text-lg leading-tight">{item?.town_name || item?.town || 'Sóc de Poble'}</span>
+- **Línia 165**: `text-xs` -> <span className="text-xs opacity-90 font-medium tracking-wider">
+- **Línia 183**: `bg-[#F97316]` -> className="w-full bg-[#F97316] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(249,115,22,0.3)]"
+- **Línia 183**: `text-white` -> className="w-full bg-[#F97316] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(249,115,22,0.3)]"
+- **Línia 183**: `rounded-xl` -> className="w-full bg-[#F97316] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(249,115,22,0.3)]"
+- **Línia 183**: `shadow-[0_4px_14px_rgba(249,115,22,0.3)]"` -> className="w-full bg-[#F97316] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(249,115,22,0.3)]"
+- **Línia 195**: `bg-white/10"` -> return <img src={avatarSrc} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 195**: `rounded-full` -> return <img src={avatarSrc} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 195**: `shadow-sm` -> return <img src={avatarSrc} alt="" className="w-11 h-11 rounded-full object-cover shrink-0 border border-white/20 shadow-sm bg-white/10" />;
+- **Línia 198**: `bg-white/10` -> <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+- **Línia 198**: `rounded-full` -> <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+- **Línia 204**: `text-lg` -> <span className="text-lg leading-tight">
+- **Línia 207**: `text-xs` -> <span className="text-xs opacity-90 font-medium">
+- **Línia 222**: `text-theme-text` -> className="w-full mt-2 p-3 text-theme-text opacity-50 hover:opacity-100 font-bold uppercase tracking-widest text-sm transition-opacity"
+
+### src/components/ui/universal-card/UniversalCard.Header.jsx
+- **Línia 95**: `bg-[#F97316]` -> className={`flex items-center justify-between px-4 py-2 h-[64px] min-h-[64px] max-h-[64px] shrink-0 bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors ${!isPageHeader ? 'rounded-t-[28px]' : ''} ${className || ''}`}
+- **Línia 95**: `text-[#111111]` -> className={`flex items-center justify-between px-4 py-2 h-[64px] min-h-[64px] max-h-[64px] shrink-0 bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors ${!isPageHeader ? 'rounded-t-[28px]' : ''} ${className || ''}`}
+- **Línia 95**: `rounded-t-[28px]'` -> className={`flex items-center justify-between px-4 py-2 h-[64px] min-h-[64px] max-h-[64px] shrink-0 bg-[#F97316] text-[#111111] dark:bg-[#4F46E5] dark:text-white relative z-10 w-full transition-colors ${!isPageHeader ? 'rounded-t-[28px]' : ''} ${className || ''}`}
+- **Línia 99**: `rounded-xl` -> className="flex items-center gap-3 overflow-hidden min-w-0 text-left outline-none bg-transparent border-none p-0 cursor-pointer group rounded-xl focus-visible:ring-2 focus-visible:ring-white/50"
+- **Línia 110**: `bg-black/5` -> <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-black/5 dark:bg-white/5 group-active:scale-95 transition-all duration-300 ease-out">
+- **Línia 110**: `rounded-full` -> <div className="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-black/5 dark:bg-white/5 group-active:scale-95 transition-all duration-300 ease-out">
+- **Línia 120**: `text-[#111111]` -> <div className="text-[#111111] dark:text-white text-[18px] font-black tracking-wide leading-tight flex items-center gap-1.5 min-w-0">
+- **Línia 123**: `text-[#111111]` -> <Sparkles size={14} className="text-[#111111] dark:text-[#F97316] shrink-0" fill="currentColor" />
+- **Línia 129**: `text-[14px]` -> <div className="flex items-center gap-1 text-[14px] text-black/80 dark:text-white/80 min-w-0 font-bold leading-none" title={((cardVariant === 'agent' ? item?.town_name : displayTown) || '').replace("Poble Principal:", "").trim()}>
+- **Línia 145**: `bg-[#111111]/10` -> className={`pointer-events-auto shadow-[0_4px_12px_rgba(0,0,0,0.25)] bg-[#111111]/10 dark:bg-white/10 hover:bg-[#111111]/20 dark:hover:bg-white/20 border-none !h-[40px] ${((hasNotice && isPinned) || (infoText && infoText.length <= 3)) ? 'px-0 w-[40px]' : 'px-4'}`}
+- **Línia 145**: `shadow-[0_4px_12px_rgba(0,0,0,0.25)]` -> className={`pointer-events-auto shadow-[0_4px_12px_rgba(0,0,0,0.25)] bg-[#111111]/10 dark:bg-white/10 hover:bg-[#111111]/20 dark:hover:bg-white/20 border-none !h-[40px] ${((hasNotice && isPinned) || (infoText && infoText.length <= 3)) ? 'px-0 w-[40px]' : 'px-4'}`}
+- **Línia 152**: `text-[#F97316]"` -> {isPinned ? <Pin size={16} fill="currentColor" /> : isEventOrAgenda ? <Info size={14} className="text-[#F97316]" fill="currentColor" /> : null}
+- **Línia 153**: `text-[12px]` -> {!isPinned && <span className="text-[12px] font-black uppercase tracking-wider leading-none mt-0.5">{t('card.agenda_tag') || 'AGENDA'}</span>}
+- **Línia 156**: `text-[18px]'` -> <span className={`font-black uppercase tracking-wider leading-none ${infoText && infoText.length <= 3 ? 'text-[18px]' : 'text-[14px] mt-0.5'}`}>{infoText}</span>
+- **Línia 172**: `text-[14px]` -> {displayTime && <div className="text-[14px] leading-none mb-0.5"><span>{displayTime}</span></div>}
+- **Línia 173**: `text-[12px]` -> {displayDate && <div className="text-[12px] opacity-90 leading-none"><span>{displayDate}</span></div>}
+
+### src/components/ui/universal-card/UniversalCard.Media.jsx
+- **Línia 76**: `bg-theme-base` -> <div className={`absolute inset-0 z-0 bg-theme-base ${(isImageLoaded || hasImageError || !displayImage) ? 'hidden' : 'block'}`}>
+- **Línia 77**: `bg-gradient-to-r` -> <div className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-muted/10 to-transparent skew-x-12" />
+- **Línia 82**: `bg-black/5` -> <div className="w-full h-full relative bg-black/5 dark:bg-white/5">
+
+### src/components/ui/universal-card/UniversalCard.variants.js
+- **Línia 6**: `rounded-[28px]` -> rounded-[28px]
+- **Línia 7**: `text-[#FFFFFF]` -> text-[#FFFFFF]
+- **Línia 9**: `shadow-xl` -> shadow-xl shadow-black/60
+- **Línia 10**: `shadow-2xl` -> hover:shadow-2xl hover:shadow-black/80
+- **Línia 12**: `text-[#0e0e0e]` -> [.theme-light_&]:text-[#0e0e0e]
+- **Línia 13**: `shadow-lg` -> [.theme-light_&]:shadow-lg [.theme-light_&]:shadow-black/15
+- **Línia 14**: `shadow-xl` -> [.theme-light_&]:hover:shadow-xl [.theme-light_&]:hover:shadow-black/20
+- **Línia 20**: `bg-white/5` -> list: 'max-w-full !rounded-[28px] !bg-transparent hover:!bg-white/5 [.theme-light_&]:!bg-transparent',
+- **Línia 20**: `rounded-[28px]` -> list: 'max-w-full !rounded-[28px] !bg-transparent hover:!bg-white/5 [.theme-light_&]:!bg-transparent',
+- **Línia 37**: `text-lg',` -> true: 'text-lg',
+
+### src/components/ui/universal-card/UniversalReactionVote.jsx
+- **Línia 42**: `text-sm` -> className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold transition-all transform active:scale-90
+- **Línia 42**: `rounded-full` -> className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold transition-all transform active:scale-90
+- **Línia 44**: `bg-[#FF6D23]/20` -> ? 'bg-[#FF6D23]/20 text-[#FF6D23] border border-[#FF6D23]/30'
+- **Línia 44**: `text-[#FF6D23]` -> ? 'bg-[#FF6D23]/20 text-[#FF6D23] border border-[#FF6D23]/30'
+- **Línia 45**: `bg-black/5` -> : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)] border border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+- **Línia 45**: `text-[var(--text-muted)]` -> : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)] border border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+
+### src/components/ui/universal-card/index.jsx
+- **Línia 320**: `bg-[#000000]` -> className={`${cardClasses} h-full universal-card-wrapper cursor-pointer rounded-[28px] bg-[#000000] [.theme-light_&]:bg-[#FFFFFF] relative group`}
+- **Línia 320**: `rounded-[28px]` -> className={`${cardClasses} h-full universal-card-wrapper cursor-pointer rounded-[28px] bg-[#000000] [.theme-light_&]:bg-[#FFFFFF] relative group`}
+- **Línia 326**: `rounded-[28px]` -> <div className="w-full h-full flex-auto relative flex flex-col rounded-[28px] [mask-image:-webkit-radial-gradient(white,black)] [-webkit-mask-image:-webkit-radial-gradient(white,black)]">
+- **Línia 347**: `bg-white` -> className={`w-[120px] h-[120px] md:w-[140px] md:h-[140px] rounded-[28px] hover:scale-110 transition-transform duration-500 ${cardVariant === 'agent' ? 'object-contain bg-white p-2' : 'object-cover'}`}
+- **Línia 347**: `rounded-[28px]` -> className={`w-[120px] h-[120px] md:w-[140px] md:h-[140px] rounded-[28px] hover:scale-110 transition-transform duration-500 ${cardVariant === 'agent' ? 'object-contain bg-white p-2' : 'object-cover'}`}
+- **Línia 351**: `bg-white/5">` -> <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] flex items-center justify-center rounded-[28px] bg-white/5">
+- **Línia 351**: `rounded-[28px]` -> <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] flex items-center justify-center rounded-[28px] bg-white/5">
+- **Línia 352**: `text-gray-500"` -> <ImageIcon size={32} className="text-gray-500" />
+
+### src/components/ui/universal-header/UniversalHeader.Button.jsx
+- **Línia 20**: `bg-white/10` -> baseClass = "flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/10 active:scale-95 transition-colors text-white";
+- **Línia 20**: `text-white";` -> baseClass = "flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/10 active:scale-95 transition-colors text-white";
+- **Línia 20**: `rounded-xl` -> baseClass = "flex items-center justify-center w-10 h-10 rounded-xl hover:bg-white/10 active:scale-95 transition-colors text-white";
+- **Línia 24**: `text-white/70` -> baseClass = "shrink-0 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white active:scale-95 transition-all";
+
+### src/components/ui/universal-header/index.jsx
+- **Línia 13**: `bg-[#000000]` -> className={`notranslate h-[56px] sm:h-[64px] min-h-[56px] sm:min-h-[64px] w-full flex items-center justify-between pr-2 sm:pr-4 lg:pr-6 z-50 transition-all duration-300 bg-[#000000] border-b border-[var(--border-master)]/50 shrink-0 shadow-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] relative ${className}`}
+- **Línia 13**: `shadow-lg` -> className={`notranslate h-[56px] sm:h-[64px] min-h-[56px] sm:min-h-[64px] w-full flex items-center justify-between pr-2 sm:pr-4 lg:pr-6 z-50 transition-all duration-300 bg-[#000000] border-b border-[var(--border-master)]/50 shrink-0 shadow-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] relative ${className}`}
+
+### src/core/services/exportService.js
+- **Línia 143**: `text-transform:` -> text-transform: uppercase;
+- **Línia 151**: `text-transform:` -> text-transform: uppercase;
+- **Línia 152**: `text-align:` -> text-align: center;
+- **Línia 160**: `text-align:` -> text-align: justify;
+- **Línia 187**: `text-align:` -> text-align: center;
+- **Línia 192**: `text-transform:` -> text-transform: uppercase;
+- **Línia 213**: `text-align:` -> <p style="text-align: center; font-weight: 800; letter-spacing: 0.2em; color: #666; margin-top: 5mm;">DOSSIER DE SOBIRANIA I TRELLAT</p>
+- **Línia 260**: `text-transform:` -> <div style="font-size: 8pt; color: #999; text-transform: uppercase; letter-spacing: 0.1em;">
+- **Línia 371**: `text-transform:` -> text-transform: uppercase;
+- **Línia 378**: `text-transform:` -> text-transform: uppercase;
+- **Línia 391**: `text-transform:` -> text-transform: uppercase;
+- **Línia 399**: `text-align:` -> text-align: justify;
+
+### src/data/GenotipContent.js
+- **Línia 267**: `shadow-elevate:` -> --sp-shadow-elevate: 0 10px 30px rgba(0, 0, 0, 0.15); /<em> Protocol ombres genèric PWA </em>/
+- **Línia 293**: `shadow-elevate);` -> box-shadow: var(--sp-shadow-elevate);
+
+### src/data/HumanProjectContent.js
+- **Línia 99**: `text-xl">` -> <p class="text-center font-black uppercase tracking-widest text-xl">
+
+### src/data/SkillsContent.js
+- **Línia 12**: `bg-black/5` -> <div class="p-4 bg-black/5 dark:bg-white/5 border-l-4 border-[var(--theme-accent-primary)] rounded-r-xl mb-8 mt-4 text-sm opacity-90">
+- **Línia 12**: `text-sm` -> <div class="p-4 bg-black/5 dark:bg-white/5 border-l-4 border-[var(--theme-accent-primary)] rounded-r-xl mb-8 mt-4 text-sm opacity-90">
+- **Línia 12**: `rounded-r-xl` -> <div class="p-4 bg-black/5 dark:bg-white/5 border-l-4 border-[var(--theme-accent-primary)] rounded-r-xl mb-8 mt-4 text-sm opacity-90">
+- **Línia 26**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 52**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 93**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 185**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 222**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 277**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 301**: `text-sm">` -> <h5>Resultats Numèrics</h5><div class="overflow-x-auto my-6"><table class="w-full text-left border-collapse text-sm">
+- **Línia 336**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 361**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 390**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 429**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 487**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 537**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 572**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 610**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 688**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 715**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 743**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 777**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 799**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 829**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 930**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 963**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1061**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1090**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1096**: `text-aware` -> <li><strong>Implementation:</strong> <code>ArchitecteView.jsx</code> component provides context-aware architectural definitions based on the current navigation.</li>
+- **Línia 1137**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1161**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1184**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1214**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1238**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1259**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1276**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1293**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1324**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1349**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1371**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1407**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1434**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1482**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1498**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1517**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1540**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1618**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1644**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1665**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1702**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1727**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1757**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1784**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1809**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1917**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1949**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 1971**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 2045**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+- **Línia 2073**: `shadow-elevate:` -> --sp-shadow-elevate: 0 10px 30px rgba(0, 0, 0, 0.15); /* Protocol ombres genèric PWA */
+- **Línia 2111**: `shadow-elevate);` -> box-shadow: var(--sp-shadow-elevate);
+- **Línia 2145**: `text-sm` -> <p class="text-sm italic opacity-70 mb-8">
+
+### src/data/mockLoreData.js
+- **Línia 105**: `text-cyan-400` -> content: "<h1>📜 BANDO OFICIAL: MANUAL D'IDENTITAT I DISSENY</h1>\n<h2>Les noves normes de trellat per a la nostra arquitectura.</h2>\n<p>El poble avança. S'ha publicat l'extens i rigorós <strong>Manual d'Identitat i Disseny de la Marca Sóc de Poble</strong> per a establir el marc termodinàmic, semàntic i visual (SVG/Affinity) del nostre motor.</p>\n<p><a href=\"/Manual_Identitat_Extens.html\" target=\"_blank\" class=\"font-bold text-cyan-400 hover:underline\">👉 LLEGIR EL MANUAL ACI</a></p>\n<p>Amb la benedicció de La Yaya i el mode Foraster activat. <em>Zero DOM Depth.</em></p>",
+
+### src/hooks/useAccessibleSearch.js
+- **Línia 24**: `bg-yellow-400',` -> m.classList.add('ring-[3px]', 'ring-[#ff6d23]', 'bg-yellow-400', 'dark:bg-yellow-500', 'scale-110');
+- **Línia 25**: `bg-yellow-300',` -> m.classList.remove('bg-yellow-300', 'dark:bg-yellow-700');
+- **Línia 28**: `bg-yellow-400',` -> m.classList.remove('ring-[3px]', 'ring-[#ff6d23]', 'bg-yellow-400', 'dark:bg-yellow-500', 'scale-110');
+- **Línia 29**: `bg-yellow-300',` -> m.classList.add('bg-yellow-300', 'dark:bg-yellow-700');
+- **Línia 125**: `bg-yellow-300` -> mark.className = 'search-highlight bg-yellow-300 dark:bg-yellow-700 text-black dark:text-white rounded-sm px-0.5 shadow-sm inline-block transition-all duration-300 ease-out';
+- **Línia 125**: `text-black` -> mark.className = 'search-highlight bg-yellow-300 dark:bg-yellow-700 text-black dark:text-white rounded-sm px-0.5 shadow-sm inline-block transition-all duration-300 ease-out';
+- **Línia 125**: `rounded-sm` -> mark.className = 'search-highlight bg-yellow-300 dark:bg-yellow-700 text-black dark:text-white rounded-sm px-0.5 shadow-sm inline-block transition-all duration-300 ease-out';
+- **Línia 125**: `shadow-sm` -> mark.className = 'search-highlight bg-yellow-300 dark:bg-yellow-700 text-black dark:text-white rounded-sm px-0.5 shadow-sm inline-block transition-all duration-300 ease-out';
+
+### src/pages/admin/AdminPanel.jsx
+- **Línia 99**: `text-primary"` -> <Shield className="text-primary" size={24} />
+- **Línia 144**: `text-[10px]` -> <h4 className="text-[10px] opacity-40 font-bold mb-2 uppercase tracking-widest pl-2">Accés Directe</h4>
+- **Línia 385**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 389**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 389**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 390**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-red-400">🚨 EMERGÈNCIA</h3>
+- **Línia 391**: `text-sm` -> <p className="text-sm text-gray-400 mb-4">Protocol d'enviament massiu per a situacions crítiques.</p>
+- **Línia 405**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 405**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 406**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-cyan-400">✨ GESTIÓ DE CONTINGUT</h3>
+- **Línia 407**: `text-sm` -> <p className="text-sm text-gray-400 mb-4">Publica manualment col·leccions de contingut premium.</p>
+- **Línia 441**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 445**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 445**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 446**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-green-400">📊 VITALITAT RURAL</h3>
+- **Línia 449**: `text-xs` -> <div className="flex justify-between text-xs mb-1">
+- **Línia 453**: `bg-gray-800` -> <div className="h-2 w-full bg-gray-800 rounded-[28px] overflow-hidden">
+- **Línia 453**: `rounded-[28px]` -> <div className="h-2 w-full bg-gray-800 rounded-[28px] overflow-hidden">
+- **Línia 454**: `bg-green-500` -> <div className="h-full bg-green-500 shadow-[0_0_10px_#22c55e]" style={{ width: `${socialVitality}%` }}></div>
+- **Línia 454**: `shadow-[0_0_10px_#22c55e]"` -> <div className="h-full bg-green-500 shadow-[0_0_10px_#22c55e]" style={{ width: `${socialVitality}%` }}></div>
+- **Línia 465**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 465**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 466**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-blue-400">👵 SAVIESA IAIA (WA)</h3>
+- **Línia 467**: `text-sm` -> <p className="text-sm text-gray-400 mb-4">Estat de la integració de l'IAIA als xats de coordinació.</p>
+- **Línia 469**: `bg-blue-900/20` -> <div className="p-2 bg-blue-900/20 border border-orange-500/30 rounded-[20px] text-xs">
+- **Línia 469**: `text-xs">` -> <div className="p-2 bg-blue-900/20 border border-orange-500/30 rounded-[20px] text-xs">
+- **Línia 469**: `rounded-[20px]` -> <div className="p-2 bg-blue-900/20 border border-orange-500/30 rounded-[20px] text-xs">
+- **Línia 480**: `bg-gray-900/50` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 480**: `rounded-[28px]` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 481**: `text-xs` -> <h4 className="text-xs font-bold text-gray-500 mb-4 uppercase">Directori de DAFOs Master [RIGOR TÈCNIC]</h4>
+- **Línia 483**: `text-[10px]"` -> <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/utilitat-social')}>DAFO UTILITAT</button>
+- **Línia 484**: `text-[10px]"` -> <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/iaia')}>DAFO IAIA</button>
+- **Línia 485**: `text-[10px]"` -> <button className="btn-hud-small text-[10px]" onClick={() => navigate('/dafo/projecte')}>DAFO PROJECTE</button>
+- **Línia 489**: `bg-gray-900/50` -> <div className="mt-4 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 489**: `rounded-[28px]` -> <div className="mt-4 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 490**: `text-xs` -> <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Directiva Master Actual</h4>
+- **Línia 491**: `text-sm` -> <p className="text-sm italic text-gray-300">"Tot bategat, tot píxel i tota línia de codi neix i mor per la Utilitat Social."</p>
+- **Línia 584**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 588**: `bg-black/20` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+- **Línia 588**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+- **Línia 590**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-yellow-400">🛡️ VOUT DE SEGURETAT</h3>
+- **Línia 592**: `bg-gray-900` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 592**: `rounded-[20px]` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 593**: `text-xl` -> <span className="block text-xl font-bold">{vaultStats.chats}</span>
+- **Línia 594**: `text-[10px]` -> <span className="text-[10px] opacity-50">XATS (AGENTS)</span>
+- **Línia 596**: `bg-gray-900` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 596**: `rounded-[20px]` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 597**: `text-xl` -> <span className="block text-xl font-bold">{vaultStats.mur}</span>
+- **Línia 598**: `text-[10px]` -> <span className="text-[10px] opacity-50">POSTS MUR</span>
+- **Línia 600**: `bg-gray-900` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 600**: `rounded-[20px]` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 601**: `text-xl` -> <span className="block text-xl font-bold">{vaultStats.mercat}</span>
+- **Línia 602**: `text-[10px]` -> <span className="text-[10px] opacity-50">PRODUCTES</span>
+- **Línia 604**: `bg-gray-900` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 604**: `rounded-[20px]` -> <div className="p-2 bg-gray-900 rounded-[20px] text-center">
+- **Línia 605**: `text-xl` -> <span className="block text-xl font-bold">{vaultStats.towns}</span>
+- **Línia 606**: `text-[10px]` -> <span className="text-[10px] opacity-50">POBLES</span>
+- **Línia 617**: `bg-black/20` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+- **Línia 617**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20 flex flex-col justify-between">
+- **Línia 619**: `text-lg` -> <h3 className="font-bold text-lg mb-2 text-cyan-400">🚨 EXPORTACIÓ DE SOBIRANIA</h3>
+- **Línia 620**: `text-sm` -> <p className="text-sm text-gray-400 mb-4">Mètode extractiu agressiu per baixar l'or de Supabase al disc dur local d'emergència en cru (JSON).</p>
+- **Línia 621**: `bg-cyan-900/10` -> <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-[20px] mb-4">
+- **Línia 621**: `rounded-[20px]` -> <div className="p-3 bg-cyan-900/10 border border-cyan-500/20 rounded-[20px] mb-4">
+- **Línia 622**: `text-xs"><strong>ÚLTIM` -> <p className="text-xs"><strong>ÚLTIM BACKUP:</strong> --</p>
+- **Línia 623**: `text-xs"><strong>PES` -> <p className="text-xs"><strong>PES ESTIMAT:</strong> 12 MB (JSON)</p>
+- **Línia 632**: `bg-gray-900/50` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 632**: `rounded-[28px]` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 633**: `text-xs` -> <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Directiva Inmutable (Llei VII)</h4>
+- **Línia 634**: `text-sm` -> <p className="text-sm italic text-gray-300">"L'IAIA és la que genera y guarda totes les respostes y continguts... res es perd al bategat del Mas."</p>
+- **Línia 643**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 646**: `bg-zinc-900` -> <div className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] overflow-hidden shadow-inner" style={{ height: '700px' }}>
+- **Línia 646**: `rounded-[2rem]` -> <div className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] overflow-hidden shadow-inner" style={{ height: '700px' }}>
+- **Línia 646**: `shadow-inner"` -> <div className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] overflow-hidden shadow-inner" style={{ height: '700px' }}>
+- **Línia 658**: `bg-gray-900/50` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 658**: `rounded-[28px]` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 659**: `text-xs` -> <h4 className="text-xs font-bold text-gray-400 mb-2 uppercase">Telemetria Lliure (Trellat)</h4>
+- **Línia 660**: `text-xs` -> <p className="text-xs italic text-gray-500">Aquestes estadístiques s'obtenen sense invasió de privacitat i no usen cookies de tercers. La dada només és útil quan serveix per millorar el poble, no per vigilar-lo.</p>
+- **Línia 672**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 698**: `bg-gray-900/50` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 698**: `rounded-[28px]` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 699**: `text-xs` -> <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Llei de la Posició Fixa (Gènesi v1.6.1)</h4>
+- **Línia 700**: `text-sm` -> <p className="text-sm italic text-gray-400">
+- **Línia 716**: `text-muted)'` -> { id: USER_ROLES.NEIGHBOR, label: 'Sóc de Poble', access: 'Estàndard', color: 'var(--text-muted)' }
+- **Línia 721**: `text-xl` -> <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+- **Línia 726**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 726**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 727**: `text-lg` -> <h3 className="font-bold text-lg mb-4 text-blue-400">🛡️ DEFINICIÓ DE ROLS</h3>
+- **Línia 730**: `bg-gray-900/50` -> <div key={role.id} className="flex justify-between items-center p-3 bg-gray-900/50 rounded-[20px] border border-gray-800">
+- **Línia 730**: `rounded-[20px]` -> <div key={role.id} className="flex justify-between items-center p-3 bg-gray-900/50 rounded-[20px] border border-gray-800">
+- **Línia 732**: `text-sm"` -> <div className="font-bold text-sm" style={{ color: role.color }}>{role.label}</div>
+- **Línia 733**: `text-[10px]` -> <div className="text-[10px] opacity-50 uppercase">{role.access}</div>
+- **Línia 735**: `text-[10px]">CONFIGURAR</button>` -> <button className="btn-hud-small text-[10px]">CONFIGURAR</button>
+- **Línia 741**: `bg-black/20">` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 741**: `rounded-[28px]` -> <div className="p-6 border border-gray-700 rounded-[28px] bg-black/20">
+- **Línia 742**: `text-lg` -> <h3 className="font-bold text-lg mb-4 text-cyan-400">⚡ ACCIONS DE SEGURETAT</h3>
+- **Línia 744**: `bg-red-900/10` -> <div className="p-3 bg-red-900/10 border border-red-500/20 rounded-[20px]">
+- **Línia 744**: `rounded-[20px]">` -> <div className="p-3 bg-red-900/10 border border-red-500/20 rounded-[20px]">
+- **Línia 745**: `text-xs` -> <p className="text-xs font-bold text-red-400 mb-1">BLINDATGE MASTER</p>
+- **Línia 746**: `text-[10px]` -> <p className="text-[10px] opacity-70 mb-3">Només el Mestre i el Cercle poden elevar un usuari a Super Admin.</p>
+- **Línia 747**: `bg-red-600` -> <button className="btn-primary w-full bg-red-600 text-white text-[10px] h-8">AUDITAR ACCESOS CRÍTICS</button>
+- **Línia 747**: `text-white` -> <button className="btn-primary w-full bg-red-600 text-white text-[10px] h-8">AUDITAR ACCESOS CRÍTICS</button>
+- **Línia 756**: `bg-gray-900/50` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 756**: `rounded-[28px]` -> <div className="mt-6 p-4 bg-gray-900/50 rounded-[28px] border border-gray-800">
+- **Línia 757**: `text-xs` -> <h4 className="text-xs font-bold text-gray-500 mb-2 uppercase">Llei de la Sobirania Administrativa (Gènesi v1.6.2)</h4>
+- **Línia 758**: `text-sm` -> <p className="text-sm italic text-gray-400">
+
+### src/pages/admin/AulaRural.jsx
+- **Línia 19**: `text-orange-500"` -> <Heart className="icon-main text-orange-500" />
+
+### src/pages/admin/ChatManager.jsx
+- **Línia 15**: `rounded-[28px]` -> className={`flex flex-col items-center justify-center gap-2 p-4 rounded-[28px] transition-all disabled:opacity-50 border shadow-sm w-[110px] h-[110px]
+- **Línia 15**: `shadow-sm` -> className={`flex flex-col items-center justify-center gap-2 p-4 rounded-[28px] transition-all disabled:opacity-50 border shadow-sm w-[110px] h-[110px]
+- **Línia 17**: `bg-white` -> ? 'bg-white text-gray-800 border-gray-100 hover:bg-gray-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
+- **Línia 17**: `text-gray-800` -> ? 'bg-white text-gray-800 border-gray-100 hover:bg-gray-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
+- **Línia 17**: `shadow-[0_4px_20px_rgba(0,0,0,0.03)]'` -> ? 'bg-white text-gray-800 border-gray-100 hover:bg-gray-50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]'
+- **Línia 18**: `bg-[#1F2937]` -> : 'bg-[#1F2937] text-white border-white/5 hover:bg-[#374151]'
+- **Línia 18**: `text-white` -> : 'bg-[#1F2937] text-white border-white/5 hover:bg-[#374151]'
+- **Línia 21**: `text-gray-400` -> {Icon && <Icon size={28} className={disabled ? 'text-gray-400 dark:text-gray-500' : 'text-[#FF6D00]'} />}
+- **Línia 22**: `text-[10px]` -> <span className="text-[10px] font-black uppercase tracking-wider text-center leading-tight mt-1">{label}</span>
+- **Línia 29**: `bg-black/5` -> className={`flex items-center gap-4 p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-transform active:scale-[0.98] cursor-pointer rounded-[24px] mx-4 mb-3
+- **Línia 29**: `rounded-[24px]` -> className={`flex items-center gap-4 p-4 hover:bg-black/5 dark:hover:bg-white/5 transition-transform active:scale-[0.98] cursor-pointer rounded-[24px] mx-4 mb-3
+- **Línia 30**: `bg-white` -> ${isDayMode ? 'bg-white border border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border border-white/5 shadow-sm'}
+- **Línia 30**: `shadow-[0_4px_15px_rgba(0,0,0,0.03)]'` -> ${isDayMode ? 'bg-white border border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border border-white/5 shadow-sm'}
+- **Línia 31**: `text-red-500'` -> ${isRed ? 'text-red-500' : (isDayMode ? 'text-gray-800' : 'text-white')}`}
+- **Línia 34**: `bg-red-500/10` -> <div className={`p-2.5 rounded-full ${isRed ? 'bg-red-500/10 text-red-500' : (isDayMode ? 'bg-[#FF6D00]/10 text-[#FF6D00]' : 'bg-[#FF6D00]/20 text-[#FF6D00]')}`}>
+- **Línia 34**: `text-red-500'` -> <div className={`p-2.5 rounded-full ${isRed ? 'bg-red-500/10 text-red-500' : (isDayMode ? 'bg-[#FF6D00]/10 text-[#FF6D00]' : 'bg-[#FF6D00]/20 text-[#FF6D00]')}`}>
+- **Línia 34**: `rounded-full` -> <div className={`p-2.5 rounded-full ${isRed ? 'bg-red-500/10 text-red-500' : (isDayMode ? 'bg-[#FF6D00]/10 text-[#FF6D00]' : 'bg-[#FF6D00]/20 text-[#FF6D00]')}`}>
+- **Línia 39**: `text-[15px]">{title}</h3>` -> <h3 className="font-bold text-[15px]">{title}</h3>
+- **Línia 40**: `text-[12px]` -> {description && <p className={`text-[12px] font-medium leading-tight block mt-0.5 ${isDayMode ? 'text-gray-500' : 'text-gray-400'}`}>{description}</p>}
+- **Línia 110**: `bg-[#FDF5E6]` -> return <div className={`flex-1 flex items-center justify-center ${isDayMode ? 'bg-[#FDF5E6] text-gray-400' : 'bg-theme-base text-gray-500'}`}>Carregant informació...</div>;
+- **Línia 110**: `text-gray-400'` -> return <div className={`flex-1 flex items-center justify-center ${isDayMode ? 'bg-[#FDF5E6] text-gray-400' : 'bg-theme-base text-gray-500'}`}>Carregant informació...</div>;
+- **Línia 114**: `bg-[#FDF5E6]'` -> <div className={`flex-1 flex flex-col max-h-screen overflow-hidden relative ${isDayMode ? 'bg-[#FDF5E6]' : 'bg-[#0a0a0a]'}`}>
+- **Línia 116**: `bg-[#FF6D00]` -> <div role="region" aria-label="Capçalera de Secció" className="h-[60px] pl-2 pr-4 flex flex-shrink-0 items-center justify-between border-b border-white/5 bg-[#FF6D00] shadow-md z-10 sticky top-0">
+- **Línia 116**: `shadow-md` -> <div role="region" aria-label="Capçalera de Secció" className="h-[60px] pl-2 pr-4 flex flex-shrink-0 items-center justify-between border-b border-white/5 bg-[#FF6D00] shadow-md z-10 sticky top-0">
+- **Línia 120**: `bg-white/20` -> className="p-2 rounded-full hover:bg-white/20 text-white transition-colors"
+- **Línia 120**: `text-white` -> className="p-2 rounded-full hover:bg-white/20 text-white transition-colors"
+- **Línia 120**: `rounded-full` -> className="p-2 rounded-full hover:bg-white/20 text-white transition-colors"
+- **Línia 124**: `text-[18px]` -> <span className="font-black text-[18px] text-white tracking-wide uppercase">Detalls del Xat</span>
+- **Línia 133**: `bg-orange-500/10` -> <div className="bg-orange-500/10 border-b border-orange-500/20 px-4 py-3 flex items-center gap-3">
+- **Línia 134**: `text-orange-500` -> <AlertTriangle size={20} className="text-orange-500 shrink-0" />
+- **Línia 135**: `text-[13px]` -> <p className="text-[13px] text-orange-200/90 leading-snug">
+- **Línia 136**: `text-orange-400">Mode` -> <strong className="font-black text-orange-400">Mode Foraster.</strong> Estàs veient informació pública d'este xat. Per ajustar-lo necessites registre complet.
+- **Línia 142**: `bg-white` -> <div className={`flex flex-col items-center pt-10 pb-8 mx-4 mt-6 mb-8 rounded-[40px] shadow-sm border ${isDayMode ? 'bg-white border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.05)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 142**: `rounded-[40px]` -> <div className={`flex flex-col items-center pt-10 pb-8 mx-4 mt-6 mb-8 rounded-[40px] shadow-sm border ${isDayMode ? 'bg-white border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.05)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 142**: `shadow-sm` -> <div className={`flex flex-col items-center pt-10 pb-8 mx-4 mt-6 mb-8 rounded-[40px] shadow-sm border ${isDayMode ? 'bg-white border-gray-100 shadow-[0_10px_30px_rgba(0,0,0,0.05)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 143**: `bg-gradient-to-br` -> <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-[3px] border-[#FF6D00]/30 shadow-[0_0_40px_rgba(255,107,0,0.15)] mb-5 overflow-hidden relative group">
+- **Línia 143**: `text-[#FF6D00]` -> <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-[3px] border-[#FF6D00]/30 shadow-[0_0_40px_rgba(255,107,0,0.15)] mb-5 overflow-hidden relative group">
+- **Línia 143**: `rounded-full` -> <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-[3px] border-[#FF6D00]/30 shadow-[0_0_40px_rgba(255,107,0,0.15)] mb-5 overflow-hidden relative group">
+- **Línia 143**: `shadow-[0_0_40px_rgba(255,107,0,0.15)]` -> <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#FF6D00]/20 to-[#FF6D00]/5 text-[#FF6D00] flex items-center justify-center border-[3px] border-[#FF6D00]/30 shadow-[0_0_40px_rgba(255,107,0,0.15)] mb-5 overflow-hidden relative group">
+- **Línia 153**: `text-3xl` -> <h1 className={`text-3xl font-black text-center tracking-tight mb-2 ${isDayMode ? 'text-gray-900' : 'text-white'}`}>{chatData?.name}</h1>
+- **Línia 155**: `bg-green-500/10` -> <div className="flex items-center gap-1.5 justify-center bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20 mb-6">
+- **Línia 155**: `rounded-full` -> <div className="flex items-center gap-1.5 justify-center bg-green-500/10 px-3 py-1 rounded-full border border-green-500/20 mb-6">
+- **Línia 156**: `bg-green-500` -> <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+- **Línia 156**: `rounded-full` -> <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+- **Línia 156**: `shadow-[0_0_8px_#22c55e]"></div>` -> <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></div>
+- **Línia 157**: `text-green-600` -> <p className="text-green-600 dark:text-green-400 font-bold text-[10px] tracking-[0.2em] uppercase">
+- **Línia 179**: `bg-white` -> <div className={`mx-4 mb-3 overflow-hidden rounded-[24px] border shadow-sm ${isDayMode ? 'bg-white border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 179**: `rounded-[24px]` -> <div className={`mx-4 mb-3 overflow-hidden rounded-[24px] border shadow-sm ${isDayMode ? 'bg-white border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 179**: `shadow-sm` -> <div className={`mx-4 mb-3 overflow-hidden rounded-[24px] border shadow-sm ${isDayMode ? 'bg-white border-gray-100 shadow-[0_4px_15px_rgba(0,0,0,0.03)]' : 'bg-theme-panel border-white/5'}`}>
+- **Línia 180**: `bg-black/5` -> <div className="flex items-center justify-between p-5 cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+- **Línia 181**: `text-[12px]` -> <h3 className={`text-[12px] font-black tracking-widest uppercase ${isDayMode ? 'text-[#FF6D00]' : 'text-[#FF6D00]'}`}>Arxius i documents</h3>
+- **Línia 182**: `text-gray-400">` -> <div className="flex items-center gap-1 text-gray-400">
+- **Línia 183**: `bg-orange-100` -> <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${isDayMode ? 'bg-orange-100 text-orange-600' : 'bg-white/10 text-white'}`}>{mediaFiles.length} elements</span>
+- **Línia 183**: `text-xs` -> <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${isDayMode ? 'bg-orange-100 text-orange-600' : 'bg-white/10 text-white'}`}>{mediaFiles.length} elements</span>
+- **Línia 183**: `rounded-lg` -> <span className={`text-xs font-black px-2 py-0.5 rounded-lg ${isDayMode ? 'bg-orange-100 text-orange-600' : 'bg-white/10 text-white'}`}>{mediaFiles.length} elements</span>
+- **Línia 189**: `rounded-2xl` -> <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+- **Línia 190**: `bg-gray-50` -> ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
+- **Línia 190**: `text-gray-500'` -> ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
+- **Línia 192**: `text-[10px]` -> <span className="text-[10px] uppercase font-black tracking-wider">Imatge 1</span>
+- **Línia 194**: `rounded-2xl` -> <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+- **Línia 195**: `bg-orange-50` -> ${isDayMode ? 'bg-orange-50 border-orange-200 text-orange-500' : 'bg-orange-500/10 border-[#FF6D00]/30 text-[#FF6D00]'}`}>
+- **Línia 195**: `text-orange-500'` -> ${isDayMode ? 'bg-orange-50 border-orange-200 text-orange-500' : 'bg-orange-500/10 border-[#FF6D00]/30 text-[#FF6D00]'}`}>
+- **Línia 197**: `text-[10px]` -> <span className="text-[10px] uppercase font-black tracking-wider">Vídeo 1</span>
+- **Línia 199**: `rounded-2xl` -> <div className={`w-[100px] h-[100px] flex-shrink-0 rounded-2xl border flex items-center justify-center gap-2 flex-col
+- **Línia 200**: `bg-gray-50` -> ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
+- **Línia 200**: `text-gray-500'` -> ${isDayMode ? 'bg-gray-50 border-gray-200 text-gray-500' : 'bg-[#1F2937] border-white/10 text-gray-400'}`}>
+- **Línia 202**: `text-[10px]` -> <span className="text-[10px] uppercase font-black tracking-wider">Imatge 2</span>
+- **Línia 204**: `rounded-2xl` -> <div className={`w-[100px] h-[100px] flex-shrink-0 bg-transparent rounded-2xl border border-dashed flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors
+- **Línia 205**: `bg-gray-50'` -> ${isDayMode ? 'border-gray-300 text-gray-400 hover:bg-gray-50' : 'border-white/20 text-white/50 hover:bg-white/5'}`}>
+- **Línia 205**: `text-gray-400` -> ${isDayMode ? 'border-gray-300 text-gray-400 hover:bg-gray-50' : 'border-white/20 text-white/50 hover:bg-white/5'}`}>
+- **Línia 207**: `text-[10px]` -> <span className="text-[10px] uppercase font-bold tracking-wider">Veure tot</span>
+- **Línia 222**: `text-[11px]` -> <h2 className={`mx-6 mb-3 text-[11px] font-black tracking-widest uppercase ${isDayMode ? 'text-gray-400' : 'text-gray-500'}`}>Privacitat i Seguretat</h2>
+- **Línia 228**: `bg-gray-200` -> <div className={`w-11 h-6 rounded-full p-1 cursor-pointer flex items-center shadow-inner border ${isDayMode ? 'bg-gray-200 border-gray-300' : 'bg-[#1F2937] border-white/5'}`}>
+- **Línia 228**: `rounded-full` -> <div className={`w-11 h-6 rounded-full p-1 cursor-pointer flex items-center shadow-inner border ${isDayMode ? 'bg-gray-200 border-gray-300' : 'bg-[#1F2937] border-white/5'}`}>
+- **Línia 228**: `shadow-inner` -> <div className={`w-11 h-6 rounded-full p-1 cursor-pointer flex items-center shadow-inner border ${isDayMode ? 'bg-gray-200 border-gray-300' : 'bg-[#1F2937] border-white/5'}`}>
+- **Línia 229**: `bg-white'` -> <div className={`w-4 h-4 rounded-full shadow-sm ${isDayMode ? 'bg-white' : 'bg-gray-400'}`}></div>
+- **Línia 229**: `rounded-full` -> <div className={`w-4 h-4 rounded-full shadow-sm ${isDayMode ? 'bg-white' : 'bg-gray-400'}`}></div>
+- **Línia 229**: `shadow-sm` -> <div className={`w-4 h-4 rounded-full shadow-sm ${isDayMode ? 'bg-white' : 'bg-gray-400'}`}></div>
+- **Línia 247**: `text-[11px]` -> <h2 className={`mx-6 mt-8 mb-3 text-[11px] font-black tracking-widest uppercase ${isDayMode ? 'text-gray-400' : 'text-gray-500'}`}>Membres del Xat</h2>
+
+### src/pages/admin/Chrome145Report.jsx
+- **Línia 49**: `bg-black` -> <div className="min-h-screen bg-black text-white p-6 lg:p-12 animate-in">
+- **Línia 49**: `text-white` -> <div className="min-h-screen bg-black text-white p-6 lg:p-12 animate-in">
+- **Línia 60**: `bg-white/5` -> className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-[28px] hover:bg-white/10 transition-colors"
+- **Línia 60**: `rounded-[28px]` -> className="w-12 h-12 flex items-center justify-center bg-white/5 rounded-[28px] hover:bg-white/10 transition-colors"
+- **Línia 65**: `text-3xl` -> <h1 className="text-3xl font-black uppercase tracking-tighter">Informe de Rendiment 145</h1>
+- **Línia 66**: `text-slate-400` -> <p className="text-slate-400 font-medium">Auditoria Sobirana [v10.33.2]</p>
+- **Línia 69**: `bg-emerald-500/10` -> <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-[28px] border border-emerald-500/20">
+- **Línia 69**: `text-emerald-400` -> <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-[28px] border border-emerald-500/20">
+- **Línia 69**: `rounded-[28px]` -> <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-[28px] border border-emerald-500/20">
+- **Línia 70**: `text-xs` -> <Shield size={16} /> <span className="text-xs font-black uppercase">Optimitzat</span>
+- **Línia 76**: `text-yellow-400"` -> icon={<Zap className="text-yellow-400" />}
+- **Línia 82**: `text-indigo-400"` -> icon={<Clock className="text-indigo-400" />}
+- **Línia 88**: `text-rose-400"` -> icon={<Activity className="text-rose-400" />}
+- **Línia 94**: `text-cyan-400"` -> icon={<Globe className="text-cyan-400" />}
+- **Línia 103**: `bg-white/5` -> <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
+- **Línia 103**: `rounded-[28px]` -> <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
+- **Línia 104**: `text-xl` -> <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+- **Línia 105**: `text-orange-500"` -> <AlertTriangle className="text-orange-500" /> Recursos Bloquejants Identificats
+- **Línia 110**: `bg-white/5` -> <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-[28px] border border-white/5">
+- **Línia 110**: `rounded-[28px]` -> <div key={i} className="flex items-center justify-between p-4 bg-white/5 rounded-[28px] border border-white/5">
+- **Línia 112**: `bg-orange-500/10` -> <div className="w-10 h-10 flex items-center justify-center bg-orange-500/10 text-orange-500 rounded-[28px]">
+- **Línia 112**: `text-orange-500` -> <div className="w-10 h-10 flex items-center justify-center bg-orange-500/10 text-orange-500 rounded-[28px]">
+- **Línia 112**: `rounded-[28px]">` -> <div className="w-10 h-10 flex items-center justify-center bg-orange-500/10 text-orange-500 rounded-[28px]">
+- **Línia 116**: `text-sm` -> <p className="font-bold text-sm truncate max-w-[200px]">{res.name}</p>
+- **Línia 117**: `text-xs` -> <p className="text-xs text-slate-500 uppercase">{res.type}</p>
+- **Línia 121**: `text-orange-400">{res.duration}ms</p>` -> <p className="font-black text-orange-400">{res.duration}ms</p>
+- **Línia 122**: `text-[10px]` -> <p className="text-[10px] text-slate-500 uppercase">Bloqueig Render</p>
+- **Línia 128**: `text-slate-500">No` -> <p className="text-slate-500">No s'han detectat recursos bloquejants crítics. Netedat absoluta.</p>
+- **Línia 132**: `bg-white/5` -> <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
+- **Línia 132**: `rounded-[28px]` -> <section className="bg-white/5 border border-white/10 rounded-[28px] p-8">
+- **Línia 133**: `text-xl` -> <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-3">
+- **Línia 134**: `text-indigo-400"` -> <Cpu className="text-indigo-400" /> Model Context Protocol (MCP)
+- **Línia 136**: `bg-indigo-500/5` -> <div className="p-6 bg-indigo-500/5 border border-indigo-500/20 rounded-[28px]">
+- **Línia 136**: `rounded-[28px]">` -> <div className="p-6 bg-indigo-500/5 border border-indigo-500/20 rounded-[28px]">
+- **Línia 137**: `text-slate-300` -> <p className="text-slate-300 leading-relaxed mb-4">
+- **Línia 145**: `text-indigo-400` -> className="inline-flex items-center gap-2 text-indigo-400 font-bold uppercase text-xs hover:underline"
+- **Línia 154**: `bg-emerald-500/5` -> <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-[28px] p-8">
+- **Línia 154**: `rounded-[28px]` -> <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-[28px] p-8">
+- **Línia 155**: `text-emerald-400` -> <h4 className="font-black uppercase text-emerald-400 mb-4 text-sm">Protocol de Millora</h4>
+- **Línia 156**: `text-sm` -> <ul className="space-y-4 text-sm text-slate-400">
+- **Línia 158**: `text-emerald-500">✔</span>` -> <span className="text-emerald-500">✔</span>
+- **Línia 162**: `text-emerald-500">✔</span>` -> <span className="text-emerald-500">✔</span>
+- **Línia 166**: `text-emerald-500">✔</span>` -> <span className="text-emerald-500">✔</span>
+- **Línia 170**: `text-slate-600">○</span>` -> <span className="text-slate-600">○</span>
+- **Línia 176**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 rounded-[28px] p-8 text-center">
+- **Línia 176**: `rounded-[28px]` -> <div className="bg-white/5 border border-white/10 rounded-[28px] p-8 text-center">
+- **Línia 177**: `text-xs` -> <p className="text-xs text-slate-500 uppercase font-black mb-2 tracking-widest">Estat de la Séquia</p>
+- **Línia 178**: `text-3xl` -> <p className="text-3xl font-black text-white">99.8%</p>
+- **Línia 179**: `text-[10px]` -> <p className="text-[10px] text-slate-400 uppercase mt-2">Disponibilitat Bategada</p>
+- **Línia 188**: `bg-white/5` -> <div className="bg-white/5 border border-white/10 rounded-[28px] p-6 transition-transform hover:scale-105">
+- **Línia 188**: `rounded-[28px]` -> <div className="bg-white/5 border border-white/10 rounded-[28px] p-6 transition-transform hover:scale-105">
+- **Línia 191**: `text-[10px]` -> <span className="text-[10px] font-black uppercase text-slate-500 tracking-wider">{label}</span>
+- **Línia 193**: `text-2xl` -> <p className="text-2xl font-black mb-1">{value}</p>
+- **Línia 194**: `text-[10px]` -> <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{status}</p>
+
+### src/pages/admin/ControlGeneral.jsx
+- **Línia 32**: `text-red-500'` -> { id: 'logout', icon: LogOut, title: 'Tancar Sessió', desc: 'Desconnecta el teu compte del dispositiu', action: handleLogout, color: 'text-red-500' }
+- **Línia 36**: `bg-[#f0f2f5]` -> <div className="flex flex-col h-full bg-[#f0f2f5] dark:bg-[#0a0a0a] overflow-y-auto custom-scrollbar font-['Noto_Sans']">
+- **Línia 38**: `bg-white` -> <div role="region" aria-label="Capçalera de Secció" className="flex items-center px-4 md:px-6 h-[56px] shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#121212] sticky top-0 z-10 shadow-sm">
+- **Línia 38**: `shadow-sm">` -> <div role="region" aria-label="Capçalera de Secció" className="flex items-center px-4 md:px-6 h-[56px] shrink-0 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#121212] sticky top-0 z-10 shadow-sm">
+- **Línia 41**: `bg-gray-100` -> className="p-2 -ml-2 mr-3 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors text-[#F97316] dark:text-[#169CF9]"
+- **Línia 41**: `text-[#F97316]` -> className="p-2 -ml-2 mr-3 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors text-[#F97316] dark:text-[#169CF9]"
+- **Línia 41**: `rounded-full` -> className="p-2 -ml-2 mr-3 rounded-full hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors text-[#F97316] dark:text-[#169CF9]"
+- **Línia 45**: `text-[20px]` -> <h1 className="text-[20px] font-bold text-gray-900 dark:text-white tracking-tight">
+- **Línia 51**: `bg-white` -> <div className="bg-white dark:bg-[#121212] rounded-[28px] overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800/50">
+- **Línia 51**: `rounded-[28px]` -> <div className="bg-white dark:bg-[#121212] rounded-[28px] overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800/50">
+- **Línia 51**: `shadow-sm` -> <div className="bg-white dark:bg-[#121212] rounded-[28px] overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800/50">
+- **Línia 53**: `bg-gray-50` -> <div className="flex items-center gap-4 p-6 border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-[#1a1a1a] cursor-pointer transition-colors" onClick={() => navigate('/perfil')}>
+- **Línia 54**: `bg-theme-accent-primary` -> <div className="w-16 h-16 rounded-full bg-theme-accent-primary text-white flex items-center justify-center text-2xl font-bold shadow-md">
+- **Línia 54**: `text-white` -> <div className="w-16 h-16 rounded-full bg-theme-accent-primary text-white flex items-center justify-center text-2xl font-bold shadow-md">
+- **Línia 54**: `rounded-full` -> <div className="w-16 h-16 rounded-full bg-theme-accent-primary text-white flex items-center justify-center text-2xl font-bold shadow-md">
+- **Línia 54**: `shadow-md">` -> <div className="w-16 h-16 rounded-full bg-theme-accent-primary text-white flex items-center justify-center text-2xl font-bold shadow-md">
+- **Línia 58**: `text-[18px]` -> <h2 className="text-[18px] font-bold text-gray-900 dark:text-white">Perfil Actiu</h2>
+- **Línia 59**: `text-[14px]` -> <p className="text-[14px] text-gray-500 dark:text-gray-400 mt-1">Configura la teua presència a Sóc de Poble</p>
+- **Línia 70**: `bg-gray-50` -> className={`flex items-center gap-4 p-5 text-left hover:bg-gray-50 dark:hover:bg-[#1a1a1a] transition-colors ${idx !== sections.length - 1 ? 'border-b border-gray-50 dark:border-gray-800/50' : ''}`}
+- **Línia 73**: `bg-gray-100` -> <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-[#202020] flex-shrink-0 ${section.color || 'text-gray-600 dark:text-gray-300'}`}>
+- **Línia 73**: `text-gray-600` -> <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-[#202020] flex-shrink-0 ${section.color || 'text-gray-600 dark:text-gray-300'}`}>
+- **Línia 73**: `rounded-full` -> <div className={`flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 dark:bg-[#202020] flex-shrink-0 ${section.color || 'text-gray-600 dark:text-gray-300'}`}>
+- **Línia 77**: `text-[16px]` -> <h3 className={`text-[16px] font-bold ${section.color || 'text-gray-900 dark:text-gray-100'}`}>{section.title}</h3>
+- **Línia 78**: `text-[13px]` -> <p className="text-[13px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{section.desc}</p>
+- **Línia 87**: `text-[12px]` -> <p className="text-[12px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-widest">Sóc de Poble v16</p>
+- **Línia 88**: `text-[12px]` -> <p className="text-[12px] text-gray-400 dark:text-gray-600 mt-1">Gènesi · Cimentació Mestre</p>
+
+### src/pages/admin/GenesisViewer.jsx
+- **Línia 71**: `bg-white/5` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 71**: `text-white` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 71**: `rounded-full` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 95**: `shadow-sm">` -> <div className="intro-card shadow-sm">
+- **Línia 96**: `text-xl` -> <h2 className="text-xl font-bold">👋 Xé, Mestre Javi!</h2>
+- **Línia 97**: `text-body` -> <p className="text-body mt-2">
+- **Línia 115**: `text-small">Estat` -> <p className="text-small">Estat de sincronització dels agents intel·ligents.</p>
+- **Línia 138**: `text-small` -> <p className="text-small opacity-70">"Tu manes sobre la forma." Ajusta els tokens.</p>
+- **Línia 168**: `text-small">Distribució` -> <p className="text-small">Distribució de dades Local-First.</p>
+- **Línia 180**: `text-2xl` -> <h2 className="text-2xl font-bold flex items-center gap-2">
+- **Línia 183**: `text-secondary">Extret` -> <p className="text-secondary">Extret directament del manifest mestre.</p>
+- **Línia 204**: `bg-stone-100">` -> <div className="dictionary-card card bg-stone-100">
+- **Línia 219**: `text-2xl` -> <h2 className="text-2xl font-bold mb-4">🎛️ Laboratori de Tokens</h2>
+- **Línia 222**: `text-4xl` -> <h1 className="text-4xl font-black">Titular Gran</h1>
+- **Línia 223**: `text-2xl` -> <h2 className="text-2xl font-bold mt-2">Subtítol de Secció</h2>
+- **Línia 224**: `text-body` -> <p className="text-body mt-4">Aquest és el cos de text amb contrast suprem.</p>
+- **Línia 235**: `text-2xl` -> <h2 className="text-2xl font-bold mb-4">📊 Dades del Rebost</h2>
+- **Línia 241**: `text-small` -> <p className="text-center italic text-small mt-4">"Qui guarda, troba."</p>
+- **Línia 250**: `text-secondary">©` -> <p className="text-secondary">© 2026 Sóc de Poble. Llicència Patrimonial CC BY-NC-SA 4.0.</p>
+- **Línia 251**: `text-micro` -> <p className="text-micro opacity-50 mt-2">BUILD: IAIA_MARIA_V3.1.0 // PROTOCOL ATUM READY</p>
+
+### src/pages/admin/GhostMemorial.jsx
+- **Línia 38**: `bg-black` -> <div className="ghost-memorial-page bg-black min-h-screen text-white p-8">
+- **Línia 38**: `text-white` -> <div className="ghost-memorial-page bg-black min-h-screen text-white p-8">
+- **Línia 41**: `text-gray-500` -> className="flex items-center gap-2 text-gray-500 hover:text-[var(--sdp-terracotta)] transition-colors mb-8 font-black uppercase tracking-widest text-xs"
+- **Línia 50**: `text-cyan-400"` -> <Ghost size={48} className="text-cyan-400" />
+- **Línia 52**: `text-5xl` -> <h1 className="text-5xl font-black tracking-tighter uppercase italic">
+- **Línia 53**: `text-[var(--sdp-terracotta)]">Fantasmes</span>` -> Memorial dels <span className="text-[var(--sdp-terracotta)]">Fantasmes</span> الإلكترònics
+- **Línia 56**: `text-xl` -> <p className="text-xl text-gray-400 font-medium leading-relaxed max-w-2xl border-l-4 border-[var(--sdp-terracotta)] pl-6 italic">
+- **Línia 63**: `bg-zinc-900/50` -> <div key={ghost.id} className="ghost-card bg-zinc-900/50 border border-zinc-800 p-8 rounded-[28px] relative overflow-hidden group hover:border-cyan-500/50 transition-all">
+- **Línia 63**: `rounded-[28px]` -> <div key={ghost.id} className="ghost-card bg-zinc-900/50 border border-zinc-800 p-8 rounded-[28px] relative overflow-hidden group hover:border-cyan-500/50 transition-all">
+- **Línia 67**: `bg-cyan-500/10` -> <div className="ghost-status text-[10px] font-black tracking-[0.3em] uppercase mb-4 text-cyan-500 bg-cyan-500/10 w-fit px-3 py-1 rounded">
+- **Línia 67**: `text-[10px]` -> <div className="ghost-status text-[10px] font-black tracking-[0.3em] uppercase mb-4 text-cyan-500 bg-cyan-500/10 w-fit px-3 py-1 rounded">
+- **Línia 70**: `text-2xl` -> <h3 className="text-2xl font-black mb-4 uppercase tracking-tight">{ghost.title}</h3>
+- **Línia 71**: `text-gray-400` -> <p className="text-gray-400 leading-relaxed font-medium">{ghost.description}</p>
+- **Línia 73**: `bg-gradient-to-r` -> <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent"></div>
+- **Línia 77**: `bg-gradient-to-br` -> <div className="ghost-card bg-gradient-to-br from-zinc-900 to-black border-2 border-dashed border-zinc-800 p-8 rounded-[28px] flex flex-col items-center justify-center text-center gap-4 group hover:border-[var(--sdp-terracotta)]/50 transition-all">
+- **Línia 77**: `rounded-[28px]` -> <div className="ghost-card bg-gradient-to-br from-zinc-900 to-black border-2 border-dashed border-zinc-800 p-8 rounded-[28px] flex flex-col items-center justify-center text-center gap-4 group hover:border-[var(--sdp-terracotta)]/50 transition-all">
+- **Línia 78**: `text-[var(--sdp-terracotta)]` -> <ShieldAlert size={48} className="text-[var(--sdp-terracotta)] opacity-40 group-hover:scale-110 transition-transform" />
+- **Línia 79**: `text-xl` -> <h3 className="text-xl font-black uppercase tracking-widest opacity-60">Zona de Seguretat</h3>
+- **Línia 80**: `text-xs` -> <p className="text-xs text-gray-500 uppercase font-black tracking-tighter leading-normal">
+- **Línia 88**: `text-[var(--sdp-terracotta)]"` -> <Database size={24} className="text-[var(--sdp-terracotta)]" />
+- **Línia 89**: `text-lg` -> <h4 className="text-lg font-black uppercase tracking-widest">Arxiu Notarial de la IAIA</h4>
+- **Línia 91**: `bg-zinc-900/30` -> <div className="bg-zinc-900/30 p-12 rounded-[28px] border border-zinc-800/50">
+- **Línia 91**: `rounded-[28px]` -> <div className="bg-zinc-900/30 p-12 rounded-[28px] border border-zinc-800/50">
+- **Línia 92**: `text-gray-500` -> <p className="text-gray-500 text-base leading-relaxed font-medium italic mb-8">
+- **Línia 97**: `bg-cyan-900/20` -> <Link to="/chrome-145" className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-900/20 text-cyan-400 border border-cyan-800/50 rounded-xl hover:bg-cyan-900/40 hover:border-cyan-500 transition-all font-black uppercase tracking-widest text-sm shadow-lg">
+- **Línia 97**: `text-cyan-400` -> <Link to="/chrome-145" className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-900/20 text-cyan-400 border border-cyan-800/50 rounded-xl hover:bg-cyan-900/40 hover:border-cyan-500 transition-all font-black uppercase tracking-widest text-sm shadow-lg">
+- **Línia 97**: `rounded-xl` -> <Link to="/chrome-145" className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-900/20 text-cyan-400 border border-cyan-800/50 rounded-xl hover:bg-cyan-900/40 hover:border-cyan-500 transition-all font-black uppercase tracking-widest text-sm shadow-lg">
+- **Línia 97**: `shadow-lg">` -> <Link to="/chrome-145" className="inline-flex items-center gap-2 px-6 py-3 bg-cyan-900/20 text-cyan-400 border border-cyan-800/50 rounded-xl hover:bg-cyan-900/40 hover:border-cyan-500 transition-all font-black uppercase tracking-widest text-sm shadow-lg">
+- **Línia 104**: `text-[10px]` -> <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Versió del Protocol</span>
+- **Línia 105**: `text-white">Vcrit-TABULA-RASA</span>` -> <span className="font-black text-white">Vcrit-TABULA-RASA</span>
+- **Línia 108**: `text-[10px]` -> <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Data del darrer bategat</span>
+- **Línia 109**: `text-white">30` -> <span className="font-black text-white">30 Gener 2026</span>
+- **Línia 112**: `text-yellow-400` -> <Zap className="text-yellow-400 animate-pulse" size={24} />
+
+### src/pages/admin/IAIASandbox.jsx
+- **Línia 4**: `bg-gray-100` -> <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4 font-sans max-w-3xl mx-auto">
+- **Línia 11**: `bg-white` -> <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8 text-center relative overflow-hidden">
+- **Línia 11**: `rounded-2xl` -> <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8 text-center relative overflow-hidden">
+- **Línia 11**: `shadow-sm` -> <div className="w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8 text-center relative overflow-hidden">
+- **Línia 13**: `text-amber-500` -> <ShieldAlert className="w-8 h-8 text-amber-500 opacity-20" />
+- **Línia 16**: `text-3xl` -> <h1 className="text-3xl font-black text-gray-800 mb-2 tracking-tight">
+- **Línia 17**: `text-[var(--theme-accent-primary,blue)]">IAIA</span>` -> <span className="text-[var(--theme-accent-primary,blue)]">IAIA</span> Voz (V13 PoC)
+- **Línia 20**: `text-gray-600` -> <p className="text-gray-600 text-sm mb-4 max-w-md mx-auto leading-relaxed">
+- **Línia 24**: `bg-amber-100` -> <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
+- **Línia 24**: `text-amber-800` -> <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
+- **Línia 24**: `rounded-full` -> <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full text-xs font-semibold">
+- **Línia 31**: `bg-white` -> <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-100 p-10 flex flex-col items-center justify-center min-h-[400px]">
+- **Línia 31**: `rounded-2xl` -> <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-100 p-10 flex flex-col items-center justify-center min-h-[400px]">
+- **Línia 31**: `shadow-lg` -> <div className="w-full bg-white rounded-2xl shadow-lg border border-gray-100 p-10 flex flex-col items-center justify-center min-h-[400px]">
+- **Línia 32**: `text-xl` -> <h2 className="text-xl font-bold text-gray-700 mb-8 w-full text-center border-b border-gray-100 pb-4">
+- **Línia 40**: `bg-gray-800` -> <div className="w-full mt-8 p-6 bg-gray-800 rounded-xl text-gray-300 font-mono text-xs shadow-xl">
+- **Línia 40**: `text-gray-300` -> <div className="w-full mt-8 p-6 bg-gray-800 rounded-xl text-gray-300 font-mono text-xs shadow-xl">
+- **Línia 40**: `rounded-xl` -> <div className="w-full mt-8 p-6 bg-gray-800 rounded-xl text-gray-300 font-mono text-xs shadow-xl">
+- **Línia 40**: `shadow-xl">` -> <div className="w-full mt-8 p-6 bg-gray-800 rounded-xl text-gray-300 font-mono text-xs shadow-xl">
+- **Línia 42**: `bg-green-500` -> <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+- **Línia 42**: `rounded-full` -> <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+- **Línia 43**: `text-white">ESTAT` -> <span className="font-bold text-white">ESTAT DEL SISTEMA NADIU</span>
+
+### src/pages/admin/Ideoteca.jsx
+- **Línia 71**: `bg-yellow-500/20` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-yellow-500/20 text-yellow-500 border border-yellow-500/30 rounded font-bold">Prototip</div>;
+- **Línia 71**: `text-[10px]` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-yellow-500/20 text-yellow-500 border border-yellow-500/30 rounded font-bold">Prototip</div>;
+- **Línia 73**: `bg-blue-500/20` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-blue-500/20 text-blue-500 border border-blue-500/30 rounded font-bold">Esborrany</div>;
+- **Línia 73**: `text-[10px]` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-blue-500/20 text-blue-500 border border-blue-500/30 rounded font-bold">Esborrany</div>;
+- **Línia 75**: `bg-gray-500/20` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-gray-500/20 text-gray-400 border border-gray-500/30 rounded font-bold">Congelada</div>;
+- **Línia 75**: `text-[10px]` -> return <div className="text-[10px] uppercase tracking-widest px-2 py-1 bg-gray-500/20 text-gray-400 border border-gray-500/30 rounded font-bold">Congelada</div>;
+- **Línia 87**: `bg-[#F97316]` -> <div className="w-full bg-[#F97316] text-white flex flex-row items-center justify-between py-3 sm:py-4 px-4 shadow-md shrink-0 border-b border-black/10 z-[var(--z-fixed,100)] relative h-[56px] min-h-[56px] max-h-[56px]">
+- **Línia 87**: `text-white` -> <div className="w-full bg-[#F97316] text-white flex flex-row items-center justify-between py-3 sm:py-4 px-4 shadow-md shrink-0 border-b border-black/10 z-[var(--z-fixed,100)] relative h-[56px] min-h-[56px] max-h-[56px]">
+- **Línia 87**: `shadow-md` -> <div className="w-full bg-[#F97316] text-white flex flex-row items-center justify-between py-3 sm:py-4 px-4 shadow-md shrink-0 border-b border-black/10 z-[var(--z-fixed,100)] relative h-[56px] min-h-[56px] max-h-[56px]">
+- **Línia 91**: `bg-white/20` -> className="flex items-center justify-center min-h-[40px] w-[40px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 91**: `rounded-xl` -> className="flex items-center justify-center min-h-[40px] w-[40px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 96**: `bg-white/20"` -> <ConnectButton className="text-white hover:bg-white/20" />
+- **Línia 96**: `text-white` -> <ConnectButton className="text-white hover:bg-white/20" />
+- **Línia 99**: `text-[16px]` -> <h1 className="text-[16px] md:text-lg font-black uppercase tracking-widest text-center truncate w-full m-0">
+- **Línia 108**: `bg-[#222]` -> <div className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center border border-[#333] shadow-md">
+- **Línia 108**: `rounded-xl` -> <div className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center border border-[#333] shadow-md">
+- **Línia 108**: `shadow-md">` -> <div className="w-12 h-12 bg-[#222] rounded-xl flex items-center justify-center border border-[#333] shadow-md">
+- **Línia 109**: `text-gray-400"` -> <Archive size={24} className="text-gray-400" />
+- **Línia 112**: `text-xl` -> <h2 className="text-xl font-black text-white tracking-widest uppercase">Ideoteca M3</h2>
+- **Línia 113**: `text-sm` -> <p className="text-sm text-gray-500 font-semibold tracking-wide">MAGATZEM DE FUNCIONALITATS EN QUARANTENA</p>
+- **Línia 124**: `bg-[#111]` -> className="bg-[#111] border border-[#222] rounded-xl p-5 hover:bg-[#1a1a1a] transition-colors cursor-pointer group flex flex-col h-full"
+- **Línia 124**: `rounded-xl` -> className="bg-[#111] border border-[#222] rounded-xl p-5 hover:bg-[#1a1a1a] transition-colors cursor-pointer group flex flex-col h-full"
+- **Línia 128**: `bg-white/5` -> <div className="p-2 bg-white/5 rounded-lg group-hover:bg-[#F97316]/10 group-hover:text-[#F97316] transition-colors text-gray-400">
+- **Línia 128**: `text-[#F97316]` -> <div className="p-2 bg-white/5 rounded-lg group-hover:bg-[#F97316]/10 group-hover:text-[#F97316] transition-colors text-gray-400">
+- **Línia 128**: `rounded-lg` -> <div className="p-2 bg-white/5 rounded-lg group-hover:bg-[#F97316]/10 group-hover:text-[#F97316] transition-colors text-gray-400">
+- **Línia 131**: `text-white` -> <h3 className="text-white font-bold tracking-wide">{item.title}</h3>
+- **Línia 136**: `text-sm` -> <p className="text-sm text-gray-500 leading-relaxed mb-6 flex-1">
+- **Línia 141**: `text-xs` -> <div className="flex items-center gap-1.5 text-xs font-bold text-gray-600 group-hover:text-white transition-colors duration-300">
+- **Línia 151**: `bg-white/5">` -> <div className="mt-12 text-center p-6 border border-dashed border-[#333] rounded-xl bg-white/5">
+- **Línia 151**: `rounded-xl` -> <div className="mt-12 text-center p-6 border border-dashed border-[#333] rounded-xl bg-white/5">
+- **Línia 152**: `text-[#F97316]` -> <Lightbulb size={24} className="mx-auto mb-3 text-[#F97316] opacity-50" />
+- **Línia 153**: `text-white` -> <h4 className="text-white font-bold tracking-widest text-sm uppercase mb-1">El calaix de sastre</h4>
+- **Línia 154**: `text-xs` -> <p className="text-xs text-gray-500 max-w-md mx-auto">Aquestes eines foren ideades als albors del sistema operatiu M3 i actualment no es mostren als usuaris finals per falta de definició estructural o legal.</p>
+
+### src/pages/admin/MenuManagementView.jsx
+- **Línia 39**: `bg-theme-base` -> <div className="flex-1 flex flex-col bg-theme-base animate-in fade-in duration-500 overflow-hidden h-full">
+- **Línia 45**: `bg-white/5` -> className="w-10 h-10 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white"
+- **Línia 45**: `text-white/70` -> className="w-10 h-10 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white"
+- **Línia 45**: `rounded-[28px]` -> className="w-10 h-10 flex items-center justify-center rounded-[28px] bg-white/5 hover:bg-white/10 transition-all text-white/70 hover:text-white"
+- **Línia 50**: `text-xl` -> <h1 className="text-xl font-black text-white tracking-widest uppercase">GESTIÓ DE MENÚ</h1>
+- **Línia 51**: `text-[10px]` -> <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">IDENTITAT i RECURSOS · ADMIN CONSOLE</p>
+- **Línia 55**: `bg-primary` -> className="h-10 px-6 rounded-[28px] bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+- **Línia 55**: `text-white` -> className="h-10 px-6 rounded-[28px] bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+- **Línia 55**: `rounded-[28px]` -> className="h-10 px-6 rounded-[28px] bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+- **Línia 55**: `shadow-lg` -> className="h-10 px-6 rounded-[28px] bg-primary text-white font-black text-xs uppercase tracking-widest flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
+- **Línia 64**: `bg-black/20` -> <div className="p-6 bg-black/20 border-b border-white/5 shrink-0">
+- **Línia 66**: `text-gray-500"` -> <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+- **Línia 70**: `bg-white/5` -> className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] pl-12 pr-6 text-sm text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all placeholder:text-gray-600"
+- **Línia 70**: `text-sm` -> className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] pl-12 pr-6 text-sm text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all placeholder:text-gray-600"
+- **Línia 70**: `rounded-[28px]` -> className="w-full h-12 bg-white/5 border border-white/10 rounded-[28px] pl-12 pr-6 text-sm text-white focus:outline-none focus:border-primary/50 focus:bg-white/10 transition-all placeholder:text-gray-600"
+- **Línia 87**: `bg-secondary` -> <div className="w-1.5 h-6 bg-secondary rounded-[28px]" />
+- **Línia 87**: `rounded-[28px]"` -> <div className="w-1.5 h-6 bg-secondary rounded-[28px]" />
+- **Línia 88**: `text-sm` -> <h2 className="text-sm font-black text-white/50 uppercase tracking-[0.3em]">{category}</h2>
+- **Línia 97**: `rounded-2xl` -> flex items-center justify-between p-4 rounded-2xl border transition-all group
+- **Línia 99**: `bg-primary/10` -> ? 'bg-primary/10 border-primary/30 text-white'
+- **Línia 99**: `text-white'` -> ? 'bg-primary/10 border-primary/30 text-white'
+- **Línia 100**: `bg-white/5` -> : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/20'}
+- **Línia 100**: `text-gray-400` -> : 'bg-white/5 border-white/5 text-gray-400 hover:border-white/20'}
+- **Línia 105**: `rounded-xl` -> w-10 h-10 flex items-center justify-center rounded-xl transition-all
+- **Línia 106**: `bg-primary` -> ${selectedPages.includes(page.id) ? 'bg-primary text-white' : 'bg-white/5 text-gray-500'}
+- **Línia 106**: `text-white'` -> ${selectedPages.includes(page.id) ? 'bg-primary text-white' : 'bg-white/5 text-gray-500'}
+- **Línia 111**: `text-[13px]` -> <p className="font-black text-[13px] uppercase tracking-wider">{page.label}</p>
+- **Línia 112**: `text-[10px]` -> <p className="text-[10px] opacity-40 font-bold uppercase">{page.id}</p>
+- **Línia 116**: `rounded-full` -> w-6 h-6 rounded-full flex items-center justify-center transition-all
+- **Línia 117**: `bg-primary` -> ${selectedPages.includes(page.id) ? 'bg-primary text-white scale-110' : 'border border-white/10 text-transparent'}
+- **Línia 117**: `text-white` -> ${selectedPages.includes(page.id) ? 'bg-primary text-white scale-110' : 'border border-white/10 text-transparent'}
+
+### src/pages/admin/SolatgeConsole.jsx
+- **Línia 81**: `bg-black` -> <div className="solatge-container bg-black h-full text-white animate-bategat">
+- **Línia 81**: `text-white` -> <div className="solatge-container bg-black h-full text-white animate-bategat">
+- **Línia 84**: `bg-black` -> <div role="region" aria-label="Capçalera de Secció" className="solatge-header h-20 flex items-center gap-4 px-6 bg-black border-b border-gray-900 sticky top-0 z-30">
+- **Línia 87**: `bg-white/5` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 87**: `text-white` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+- **Línia 87**: `rounded-full` -> className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
+
+### src/pages/admin/Utilitats.jsx
+- **Línia 22**: `bg-theme-base` -> <div className="flex-1 bg-theme-base p-6 md:p-12 overflow-y-auto custom-scrollbar">
+- **Línia 24**: `bg-orange-500/10` -> <div className="absolute -top-10 -left-10 w-64 h-64 bg-orange-500/10 blur-[120px] rounded-[28px] pointer-events-none" />
+- **Línia 24**: `rounded-[28px]` -> <div className="absolute -top-10 -left-10 w-64 h-64 bg-orange-500/10 blur-[120px] rounded-[28px] pointer-events-none" />
+- **Línia 27**: `bg-theme-panel` -> <div className="w-16 h-16 bg-theme-panel border border-white/10 genesis-radius flex items-center justify-center backdrop-blur-xl shadow-2xl">
+- **Línia 27**: `shadow-2xl">` -> <div className="w-16 h-16 bg-theme-panel border border-white/10 genesis-radius flex items-center justify-center backdrop-blur-xl shadow-2xl">
+- **Línia 28**: `text-[var(--theme-accent-primary)]"` -> <Wrench className="w-8 h-8 text-[var(--theme-accent-primary)]" />
+- **Línia 31**: `text-5xl` -> <h1 className="text-5xl font-black tracking-tighter uppercase italic leading-none mb-1 font-condensed">
+- **Línia 32**: `text-[#0ea5e9]">DEL` -> UTILITATS <span className="text-[#0ea5e9]">DEL MAS</span>
+- **Línia 34**: `text-white/30` -> <p className="text-white/30 font-bold tracking-widest text-[10px] uppercase font-mono">
+- **Línia 46**: `bg-white/[0.03]` -> className="group bg-white/[0.03] border border-white/10 rounded-[28px] p-8 cursor-pointer hover:bg-white/[0.06] hover:border-[#0ea5e9]/30 transition-all duration-500 relative overflow-hidden flex flex-col min-h-[320px] shadow-2xl backdrop-blur-md font-condensed"
+- **Línia 46**: `rounded-[28px]` -> className="group bg-white/[0.03] border border-white/10 rounded-[28px] p-8 cursor-pointer hover:bg-white/[0.06] hover:border-[#0ea5e9]/30 transition-all duration-500 relative overflow-hidden flex flex-col min-h-[320px] shadow-2xl backdrop-blur-md font-condensed"
+- **Línia 46**: `shadow-2xl` -> className="group bg-white/[0.03] border border-white/10 rounded-[28px] p-8 cursor-pointer hover:bg-white/[0.06] hover:border-[#0ea5e9]/30 transition-all duration-500 relative overflow-hidden flex flex-col min-h-[320px] shadow-2xl backdrop-blur-md font-condensed"
+- **Línia 52**: `bg-gradient-to-br` -> <div className="bg-gradient-to-br from-[#0ea5e9]/20 to-[#0ea5e9]/5 w-16 h-16 genesis-radius flex items-center justify-center mb-8 border border-[#0ea5e9]/20 shadow-inner">
+- **Línia 52**: `shadow-inner">` -> <div className="bg-gradient-to-br from-[#0ea5e9]/20 to-[#0ea5e9]/5 w-16 h-16 genesis-radius flex items-center justify-center mb-8 border border-[#0ea5e9]/20 shadow-inner">
+- **Línia 53**: `text-[#0ea5e9]"` -> <tool.icon className="text-[#0ea5e9]" size={28} />
+- **Línia 57**: `text-2xl` -> <h3 className="text-2xl font-black mb-3 flex items-center gap-3 tracking-tight italic">
+- **Línia 59**: `text-fuchsia-400` -> <Sparkles size={18} className="text-fuchsia-400 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-1 group-hover:translate-y-0" />
+- **Línia 61**: `text-white/40` -> <p className="text-white/40 text-[15px] leading-relaxed mb-10 font-medium">
+- **Línia 65**: `text-[#0ea5e9]` -> <div className="flex items-center text-[#0ea5e9] font-black text-xs gap-3 tracking-[0.2em] group-hover:gap-4 transition-all">
+- **Línia 75**: `bg-white/[0.01]` -> <div key={i} className="bg-white/[0.01] border border-white/[0.05] border-dashed rounded-[28px] p-8 flex flex-col items-center justify-center text-white/5 italic text-sm min-h-[320px] transition-all hover:bg-white/[0.02]">
+- **Línia 75**: `text-white/5` -> <div key={i} className="bg-white/[0.01] border border-white/[0.05] border-dashed rounded-[28px] p-8 flex flex-col items-center justify-center text-white/5 italic text-sm min-h-[320px] transition-all hover:bg-white/[0.02]">
+- **Línia 75**: `rounded-[28px]` -> <div key={i} className="bg-white/[0.01] border border-white/[0.05] border-dashed rounded-[28px] p-8 flex flex-col items-center justify-center text-white/5 italic text-sm min-h-[320px] transition-all hover:bg-white/[0.02]">
+- **Línia 76**: `rounded-[28px]` -> <div className="w-12 h-12 rounded-[28px] border border-current flex items-center justify-center mb-4 opacity-30">?</div>
+- **Línia 77**: `text-[10px]">Properament...</span>` -> <span className="font-black tracking-widest uppercase text-[10px]">Properament...</span>
+
+### src/pages/auth/Register.jsx
+- **Línia 210**: `bg-theme-base` -> <div className="flex flex-col md:flex-row w-full min-h-[100dvh] bg-theme-base relative overflow-hidden font-sans">
+- **Línia 213**: `bg-[var(--theme-accent-primary-faint)]` -> <div className="hidden md:flex md:w-1/2 lg:w-[55%] bg-[var(--theme-accent-primary-faint)] relative flex-col items-center justify-center p-8 lg:p-12 border-r border-[var(--border-master)] overflow-hidden">
+- **Línia 217**: `text-[var(--theme-accent-primary)]"` -> <BrandLogo className="w-full h-auto object-contain drop-shadow-2xl text-[var(--theme-accent-primary)]" />
+- **Línia 217**: `shadow-2xl` -> <BrandLogo className="w-full h-auto object-contain drop-shadow-2xl text-[var(--theme-accent-primary)]" />
+- **Línia 221**: `bg-theme-base/80` -> <div className="relative z-10 w-full max-w-xl bg-theme-base/80 backdrop-blur-xl border border-[var(--theme-accent-primary-muted)] rounded-[32px] p-8 flex gap-8 items-start shadow-2xl hover:-translate-y-1 transition-transform">
+- **Línia 221**: `rounded-[32px]` -> <div className="relative z-10 w-full max-w-xl bg-theme-base/80 backdrop-blur-xl border border-[var(--theme-accent-primary-muted)] rounded-[32px] p-8 flex gap-8 items-start shadow-2xl hover:-translate-y-1 transition-transform">
+- **Línia 221**: `shadow-2xl` -> <div className="relative z-10 w-full max-w-xl bg-theme-base/80 backdrop-blur-xl border border-[var(--theme-accent-primary-muted)] rounded-[32px] p-8 flex gap-8 items-start shadow-2xl hover:-translate-y-1 transition-transform">
+- **Línia 222**: `bg-[var(--theme-accent-primary-faint)]` -> <div className="w-24 h-24 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border-4 border-white dark:border-gray-800">
+- **Línia 222**: `rounded-full` -> <div className="w-24 h-24 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border-4 border-white dark:border-gray-800">
+- **Línia 222**: `shadow-inner` -> <div className="w-24 h-24 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border-4 border-white dark:border-gray-800">
+- **Línia 226**: `text-[var(--theme-accent-primary)]` -> <h3 className="font-black text-[var(--theme-accent-primary)] text-xl mb-3 uppercase tracking-tight">IAIA Guia</h3>
+- **Línia 227**: `text-theme-text` -> <p className="text-theme-text text-xl leading-relaxed font-medium">
+- **Línia 242**: `bg-gradient-to-r` -> <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[var(--theme-accent-secondary)] to-[var(--theme-accent-primary)] opacity-80 md:hidden"></div>
+- **Línia 247**: `bg-theme-panel` -> <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel md:bg-transparent border border-[var(--border-master)] md:border-none p-1.5 md:p-0 rounded-full z-20 mx-auto">
+- **Línia 247**: `rounded-full` -> <div className="flex justify-center gap-1.5 mb-8 bg-theme-panel md:bg-transparent border border-[var(--border-master)] md:border-none p-1.5 md:p-0 rounded-full z-20 mx-auto">
+- **Línia 251**: `bg-[var(--theme-accent-primary)]` -> className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+- **Línia 251**: `text-[11px]` -> className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+- **Línia 251**: `rounded-full` -> className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+- **Línia 251**: `shadow-sm"` -> className={`px-4 py-2 rounded-full transition-all text-[11px] font-black uppercase tracking-widest ${language === lang.code ? "bg-[var(--theme-accent-primary)] text-white shadow-sm" : "text-gray-400 hover:text-theme-text"}`}
+- **Línia 263**: `text-[var(--theme-text)]"` -> <BrandLogo className="w-[280px] max-w-[80vw] h-auto object-contain mb-8 transition-all text-[var(--theme-text)]" />
+- **Línia 266**: `bg-[var(--theme-accent-primary-faint)]` -> <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+- **Línia 266**: `rounded-2xl` -> <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+- **Línia 266**: `shadow-sm` -> <div className="w-full bg-[var(--theme-accent-primary-faint)] border border-[var(--theme-accent-primary-muted)] rounded-2xl p-5 flex gap-5 items-start shadow-sm mt-4">
+- **Línia 267**: `bg-[var(--theme-accent-primary-faint)]` -> <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+- **Línia 267**: `rounded-full` -> <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+- **Línia 267**: `shadow-inner` -> <div className="w-16 h-16 shrink-0 rounded-full bg-[var(--theme-accent-primary-faint)] flex items-center justify-center shadow-inner overflow-hidden border border-[var(--theme-accent-primary-muted)]" onClick={() => hapticService.batec()}>
+- **Línia 271**: `text-[var(--theme-accent-primary)]` -> <h3 className="font-black text-[var(--theme-accent-primary)] text-base mb-1.5 uppercase tracking-tight">IAIA Guia</h3>
+- **Línia 272**: `text-theme-text` -> <p className="text-theme-text text-[15px] leading-snug font-medium">
+- **Línia 287**: `bg-blue-500/10` -> <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex gap-4 items-start shadow-sm mx-1 animate-in-up" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
+- **Línia 287**: `rounded-2xl` -> <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex gap-4 items-start shadow-sm mx-1 animate-in-up" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
+- **Línia 287**: `shadow-sm` -> <div className="mb-6 bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex gap-4 items-start shadow-sm mx-1 animate-in-up" style={{ animationDelay: '200ms', animationFillMode: 'both' }}>
+- **Línia 288**: `bg-blue-500/20` -> <div className="w-10 h-10 shrink-0 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500">
+- **Línia 288**: `text-blue-500">` -> <div className="w-10 h-10 shrink-0 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500">
+- **Línia 288**: `rounded-full` -> <div className="w-10 h-10 shrink-0 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-500">
+- **Línia 292**: `text-blue-600` -> <h4 className="font-black text-blue-600 dark:text-blue-400 text-[13px] uppercase tracking-widest mb-1">Mode Foraster en construcció</h4>
+- **Línia 293**: `text-blue-700/80` -> <p className="text-blue-700/80 dark:text-blue-400/80 text-[13px] font-medium leading-relaxed">
+- **Línia 298**: `bg-[var(--theme-accent-primary)]` -> <Link to="/el-projecte" className="inline-flex items-center gap-1.5 bg-[var(--theme-accent-primary)] text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-sm active:scale-95 text-[10px]">
+- **Línia 298**: `text-white` -> <Link to="/el-projecte" className="inline-flex items-center gap-1.5 bg-[var(--theme-accent-primary)] text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-sm active:scale-95 text-[10px]">
+- **Línia 298**: `rounded-full` -> <Link to="/el-projecte" className="inline-flex items-center gap-1.5 bg-[var(--theme-accent-primary)] text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-sm active:scale-95 text-[10px]">
+- **Línia 298**: `shadow-sm` -> <Link to="/el-projecte" className="inline-flex items-center gap-1.5 bg-[var(--theme-accent-primary)] text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-sm active:scale-95 text-[10px]">
+- **Línia 314**: `bg-theme-panel` -> className="w-full h-16 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] flex items-center justify-center gap-3 hover:bg-[var(--hover-overlay)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 314**: `rounded-[20px]` -> className="w-full h-16 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] flex items-center justify-center gap-3 hover:bg-[var(--hover-overlay)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 314**: `shadow-sm"` -> className="w-full h-16 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] flex items-center justify-center gap-3 hover:bg-[var(--hover-overlay)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 322**: `text-theme-text` -> <span className="font-black uppercase tracking-widest text-theme-text opacity-90 text-base">Connectar amb Google</span>
+- **Línia 331**: `bg-theme-base` -> <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
+- **Línia 331**: `text-xs` -> <span className="relative px-4 text-xs font-black uppercase tracking-widest bg-theme-base text-gray-400">O REGISTRE MANUAL</span>
+- **Línia 335**: `text-sm` -> <label htmlFor="reg-name" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Com et diuen?</label>
+- **Línia 348**: `bg-theme-panel` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+- **Línia 348**: `text-theme-text` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+- **Línia 348**: `rounded-[20px]` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] px-5 text-theme-text font-bold text-xl outline-none transition-all placeholder:text-gray-500 placeholder:font-normal
+- **Línia 349**: `bg-red-400/10"` -> ${fullName && !isNameValid ? "border-red-400 focus:border-red-500 bg-red-400/10" :
+- **Línia 350**: `bg-green-500/10"` -> isNameValid ? "border-green-500 focus:border-green-600 bg-green-500/10" :
+- **Línia 351**: `bg-[var(--theme-accent-primary-faint)]"}`}` -> "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+- **Línia 357**: `text-white` -> className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 357**: `rounded-[20px]` -> className={`w-full h-16 rounded-[20px] flex items-center justify-center text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 358**: `bg-gray-300` -> !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 358**: `shadow-[0_0_15px_rgba(255,107,0,0.3)]"` -> !isNameValid ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 366**: `text-lg` -> <span className="text-lg pt-1">Connectar Identitat</span>
+- **Línia 378**: `text-sm` -> <label htmlFor="town-picker-reg" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">
+- **Línia 384**: `bg-theme-panel` -> className="w-full flex items-center justify-between px-5 py-5 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] hover:border-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-faint)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 384**: `rounded-[20px]` -> className="w-full flex items-center justify-between px-5 py-5 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] hover:border-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-faint)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 384**: `shadow-sm"` -> className="w-full flex items-center justify-between px-5 py-5 bg-theme-panel border-2 border-[var(--border-master)] rounded-[20px] hover:border-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-faint)] transition-all active:scale-[0.98] shadow-sm"
+- **Línia 387**: `bg-theme-base` -> <div className="w-12 h-12 bg-theme-base shadow-sm border border-[var(--border-master)] rounded-2xl flex items-center justify-center shrink-0">
+- **Línia 387**: `rounded-2xl` -> <div className="w-12 h-12 bg-theme-base shadow-sm border border-[var(--border-master)] rounded-2xl flex items-center justify-center shrink-0">
+- **Línia 387**: `shadow-sm` -> <div className="w-12 h-12 bg-theme-base shadow-sm border border-[var(--border-master)] rounded-2xl flex items-center justify-center shrink-0">
+- **Línia 388**: `text-[var(--theme-accent-primary)]"` -> <MapPin size={26} className="text-[var(--theme-accent-primary)]" />
+- **Línia 391**: `text-xl` -> <span className="text-xl font-bold text-theme-text">
+- **Línia 396**: `bg-[var(--hover-overlay)]` -> <div className="bg-[var(--hover-overlay)] p-3 rounded-2xl text-gray-400">
+- **Línia 396**: `text-gray-400">` -> <div className="bg-[var(--hover-overlay)] p-3 rounded-2xl text-gray-400">
+- **Línia 396**: `rounded-2xl` -> <div className="bg-[var(--hover-overlay)] p-3 rounded-2xl text-gray-400">
+- **Línia 403**: `bg-theme-panel` -> <button className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors" onClick={() => setStep("identity")}>
+- **Línia 403**: `text-theme-text` -> <button className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors" onClick={() => setStep("identity")}>
+- **Línia 403**: `rounded-[20px]` -> <button className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors" onClick={() => setStep("identity")}>
+- **Línia 407**: `text-white` -> className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 407**: `rounded-[20px]` -> className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 408**: `bg-gray-300` -> !selectedTown ? "bg-gray-300 cursor-not-allowed" : "bg-[#0ea5e9] hover:bg-[#0284c7] shadow-lg shadow-sky-500/30"
+- **Línia 408**: `shadow-lg` -> !selectedTown ? "bg-gray-300 cursor-not-allowed" : "bg-[#0ea5e9] hover:bg-[#0284c7] shadow-lg shadow-sky-500/30"
+- **Línia 416**: `text-lg` -> <span className="text-lg pt-1">Connectar Poble</span>
+- **Línia 427**: `text-sm` -> <label htmlFor="reg-phone" className="text-sm font-black uppercase tracking-widest text-gray-500 ml-1">Telèfon Mòbil per Connectar</label>
+- **Línia 429**: `text-gray-400` -> <div className="absolute left-5 font-bold text-gray-400 select-none text-xl">🇪🇸 +34</div>
+- **Línia 447**: `bg-theme-panel` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] pl-24 pr-5 text-theme-text font-bold text-2xl outline-none transition-all placeholder:text-gray-600 placeholder:font-normal tracking-wide
+- **Línia 447**: `text-theme-text` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] pl-24 pr-5 text-theme-text font-bold text-2xl outline-none transition-all placeholder:text-gray-600 placeholder:font-normal tracking-wide
+- **Línia 447**: `rounded-[20px]` -> className={`w-full h-16 bg-theme-panel border-2 rounded-[20px] pl-24 pr-5 text-theme-text font-bold text-2xl outline-none transition-all placeholder:text-gray-600 placeholder:font-normal tracking-wide
+- **Línia 448**: `bg-red-400/10"` -> ${phone && !isPhoneValid ? "border-red-400 focus:border-red-500 bg-red-400/10" :
+- **Línia 449**: `bg-green-500/10"` -> isPhoneValid ? "border-green-500 focus:border-green-600 bg-green-500/10" :
+- **Línia 450**: `bg-[var(--theme-accent-primary-faint)]"}`}` -> "border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)]"}`}
+- **Línia 459**: `bg-theme-panel` -> className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors"
+- **Línia 459**: `text-theme-text` -> className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors"
+- **Línia 459**: `rounded-[20px]` -> className="h-16 px-6 rounded-[20px] font-bold text-theme-text opacity-70 bg-theme-panel border border-[var(--border-master)] hover:bg-[var(--hover-overlay)] transition-colors"
+- **Línia 467**: `text-white` -> className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 467**: `rounded-[20px]` -> className={`flex-1 h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 468**: `bg-gray-300` -> !isPhoneValid ? "bg-gray-300 cursor-not-allowed opacity-50" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 468**: `shadow-[0_0_15px_rgba(255,107,0,0.3)]"` -> !isPhoneValid ? "bg-gray-300 cursor-not-allowed opacity-50" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 473**: `text-white"` -> <Loader2 size={28} className="animate-spin text-white" />
+- **Línia 476**: `text-lg` -> <span className="text-lg pt-1">Connectar SMS</span>
+- **Línia 494**: `text-3xl` -> <h2 className="text-3xl font-black text-theme-text">Has rebut un SMS?</h2>
+- **Línia 495**: `text-gray-400` -> <p className="text-gray-400 font-medium text-base">Hem enviat un codi al <strong className="text-theme-text opacity-90 tracking-wide text-lg">{phone}</strong></p>
+- **Línia 509**: `bg-theme-panel` -> className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
+- **Línia 509**: `text-4xl` -> className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
+- **Línia 509**: `rounded-[20px]` -> className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
+- **Línia 509**: `shadow-sm"` -> className="w-full h-20 bg-theme-panel border-2 border-[var(--border-master)] focus:border-[var(--theme-accent-primary)] focus:bg-[var(--theme-accent-primary-faint)] rounded-[20px] text-center text-4xl font-black text-theme-text tracking-[0.5em] outline-none transition-all placeholder:text-gray-600 shadow-sm"
+- **Línia 516**: `text-white` -> className={`w-full h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 516**: `rounded-[20px]` -> className={`w-full h-16 rounded-[20px] flex items-center justify-center gap-2 text-white font-black uppercase tracking-widest transition-all active:scale-[0.98] ${
+- **Línia 517**: `bg-gray-300` -> otp.length < 6 || loading ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 517**: `shadow-[0_0_15px_rgba(255,107,0,0.3)]"` -> otp.length < 6 || loading ? "bg-gray-300 opacity-50 cursor-not-allowed" : "bg-[var(--theme-accent-primary)] hover:opacity-90 shadow-[0_0_15px_rgba(255,107,0,0.3)]"
+- **Línia 523**: `text-white"` -> <Loader2 size={28} className="animate-spin text-white" />
+- **Línia 525**: `text-lg` -> <span className="text-lg pt-1">CONFIRMAR ENTRADA</span>
+- **Línia 532**: `text-base` -> className="text-base font-bold text-gray-400 hover:text-theme-text underline underline-offset-4 decoration-2 decoration-[var(--border-master)] transition-colors"
+- **Línia 543**: `bg-theme-panel` -> <button type="button" onClick={() => setStep("connection")} className="text-sm font-black text-gray-400 hover:text-[var(--theme-accent-primary)] uppercase tracking-widest transition-colors bg-theme-panel border border-[var(--border-master)] px-4 py-2 rounded-full">
+- **Línia 543**: `text-sm` -> <button type="button" onClick={() => setStep("connection")} className="text-sm font-black text-gray-400 hover:text-[var(--theme-accent-primary)] uppercase tracking-widest transition-colors bg-theme-panel border border-[var(--border-master)] px-4 py-2 rounded-full">
+- **Línia 543**: `rounded-full">` -> <button type="button" onClick={() => setStep("connection")} className="text-sm font-black text-gray-400 hover:text-[var(--theme-accent-primary)] uppercase tracking-widest transition-colors bg-theme-panel border border-[var(--border-master)] px-4 py-2 rounded-full">
+- **Línia 555**: `bg-green-500/20` -> <div className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+- **Línia 555**: `rounded-full` -> <div className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+- **Línia 555**: `shadow-inner` -> <div className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-pulse-soft">
+- **Línia 556**: `text-green-500"` -> <CheckCircle2 size={64} className="text-green-500" strokeWidth={3} />
+- **Línia 558**: `text-4xl` -> <h2 className="text-4xl font-black uppercase text-theme-text italic tracking-tight relative -left-1">
+- **Línia 562**: `text-gray-400` -> <p className="font-bold text-gray-400 text-xl text-center px-4">"Ja eres un dels nostres. Cor de poble, bategat digital. Ens veiem a la plaça!" <br/><span className="text-sm mt-2 block">- L'IAIA 👵✨</span></p>
+- **Línia 567**: `text-xs` -> <div className="text-center text-xs text-gray-400 mb-6 font-medium leading-relaxed px-4">
+- **Línia 570**: `text-theme-text` -> <Link to="/legal/aviso-legal" className="underline hover:text-theme-text transition-colors mt-1 inline-block">Avisos Legals</Link>
+- **Línia 573**: `bg-theme-panel` -> <div className="text-center text-lg bg-theme-panel rounded-2xl p-4 border border-[var(--border-master)]">
+- **Línia 573**: `text-lg` -> <div className="text-center text-lg bg-theme-panel rounded-2xl p-4 border border-[var(--border-master)]">
+- **Línia 573**: `rounded-2xl` -> <div className="text-center text-lg bg-theme-panel rounded-2xl p-4 border border-[var(--border-master)]">
+- **Línia 574**: `text-gray-400` -> <span className="text-gray-400 font-medium">Ja tens compte?</span>{" "}
+- **Línia 575**: `text-[var(--theme-accent-primary)]` -> <Link to="/login" className="text-[var(--theme-accent-primary)] font-black hover:underline tracking-wide ml-1">
+- **Línia 580**: `text-gray-300` -> <div className="text-center mt-6 text-gray-300 font-bold text-[10px] uppercase tracking-widest">
+
+### src/pages/community/AgentDirectory.jsx
+- **Línia 30**: `bg-theme-base` -> <div className="search-discover-page min-h-screen bg-theme-base overflow-y-auto">
+- **Línia 46**: `text-theme-muted` -> <div className="flex flex-col items-center justify-center py-12 text-center text-theme-muted font-bold text-lg">
+
+### src/pages/community/CommunityDirectory.jsx
+- **Línia 64**: `bg-theme-base` -> <div className="directory-page bg-theme-base min-h-screen">
+- **Línia 71**: `bg-theme-base` -> <div role="region" aria-label="Capçalera de Secció" className="h-16 flex items-center px-4 bg-theme-base border-b border-theme-border sticky top-0 z-30 gap-4">
+- **Línia 72**: `text-theme-text` -> <button className="text-theme-text hover:text-orange-500 transition-colors" onClick={() => navigate(-1)} aria-label="Tornar">
+- **Línia 77**: `text-lg` -> <h1 className="text-lg font-black text-theme-text uppercase tracking-widest m-0 leading-tight">Comunitat</h1>
+- **Línia 78**: `text-[10px]` -> <p className="text-[10px] text-[var(--theme-accent-primary)] uppercase font-bold tracking-widest m-0 mt-0.5">Connexions que fan poble</p>
+- **Línia 82**: `bg-theme-base` -> <div className="px-4 py-4 bg-theme-base border-b border-theme-border">
+- **Línia 85**: `text-xs` -> className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+- **Línia 86**: `bg-theme-text` -> ${activeTab === 'gent' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
+- **Línia 86**: `text-theme-base'` -> ${activeTab === 'gent' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
+- **Línia 93**: `text-xs` -> className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+- **Línia 94**: `bg-theme-text` -> ${activeTab === 'entitats' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
+- **Línia 94**: `text-theme-base'` -> ${activeTab === 'entitats' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
+- **Línia 106**: `bg-theme-panel/30` -> <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+- **Línia 106**: `rounded-2xl` -> <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+- **Línia 107**: `text-theme-text` -> <Users size={48} className="mb-4 text-theme-text opacity-30" />
+- **Línia 108**: `text-xs` -> <p className="font-sans text-xs font-bold tracking-[0.2em] uppercase text-center text-theme-text opacity-60">No s'han trobat resultats en aquesta categoria.</p>
+
+### src/pages/community/Map.jsx
+- **Línia 46**: `shadow-[0_4px_12px_rgba(249,115,22,0.4)]`}><path` -> <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`${colorClass} drop-shadow-[0_4px_12px_rgba(249,115,22,0.4)]`}><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="currentColor"/></svg>
+- **Línia 47**: `bg-theme-panel` -> <span className="bg-theme-panel text-theme-text text-base lg:text-lg font-black tracking-wide px-4 py-2 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] ml-1 border-none whitespace-nowrap">{label}</span>
+- **Línia 47**: `text-theme-text` -> <span className="bg-theme-panel text-theme-text text-base lg:text-lg font-black tracking-wide px-4 py-2 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] ml-1 border-none whitespace-nowrap">{label}</span>
+- **Línia 47**: `rounded-[16px]` -> <span className="bg-theme-panel text-theme-text text-base lg:text-lg font-black tracking-wide px-4 py-2 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] ml-1 border-none whitespace-nowrap">{label}</span>
+- **Línia 47**: `shadow-[0_8px_32px_rgba(0,0,0,0.8)]` -> <span className="bg-theme-panel text-theme-text text-base lg:text-lg font-black tracking-wide px-4 py-2 rounded-[16px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] ml-1 border-none whitespace-nowrap">{label}</span>
+- **Línia 54**: `bg-[#F97316]';` -> let bgColor = 'bg-[#F97316]';
+- **Línia 61**: `bg-rose-500';` -> if (isEsdeveniment) { Icon = Ticket; bgColor = 'bg-rose-500'; }
+- **Línia 62**: `bg-emerald-500';` -> else if (isMercat) { Icon = Store; bgColor = 'bg-emerald-500'; }
+- **Línia 63**: `bg-amber-500';` -> else if (tagsLower.includes('comerç') || catLower.includes('comerç')) { Icon = Briefcase; bgColor = 'bg-amber-500'; }
+- **Línia 64**: `bg-purple-500';` -> else if (tagsLower.includes('associació') || catLower.includes('associació')) { Icon = Users; bgColor = 'bg-purple-500'; }
+- **Línia 65**: `bg-blue-500';` -> else if (tagsLower.includes('ajuntament') || catLower.includes('ajuntament')) { Icon = Landmark; bgColor = 'bg-blue-500'; }
+- **Línia 66**: `bg-cyan-500';` -> else if (tagsLower.includes('entitat') || catLower.includes('entitat')) { Icon = Building; bgColor = 'bg-cyan-500'; }
+- **Línia 67**: `bg-green-600';` -> else if (tagsLower.includes('arbre') || catLower.includes('arbre')) { Icon = TreePine; bgColor = 'bg-green-600'; }
+- **Línia 68**: `bg-stone-500';` -> else if (tagsLower.includes('patrimoni') || catLower.includes('patrimoni')) { Icon = Castle; bgColor = 'bg-stone-500'; }
+- **Línia 71**: `bg-theme-panel` -> <div className={`w-12 h-12 rounded-[20px] border-none shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-visible bg-theme-panel hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto ring-2 ring-white/20`}>
+- **Línia 71**: `rounded-[20px]` -> <div className={`w-12 h-12 rounded-[20px] border-none shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-visible bg-theme-panel hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto ring-2 ring-white/20`}>
+- **Línia 71**: `shadow-[0_8px_32px_rgba(0,0,0,0.6)]` -> <div className={`w-12 h-12 rounded-[20px] border-none shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-visible bg-theme-panel hover:scale-125 transition-transform cursor-pointer relative z-40 flex items-center justify-center pointer-events-auto ring-2 ring-white/20`}>
+- **Línia 76**: `bg-theme-base` -> className="w-full h-full rounded-[20px] object-cover bg-theme-base text-[10px]"
+- **Línia 76**: `text-[10px]"` -> className="w-full h-full rounded-[20px] object-cover bg-theme-base text-[10px]"
+- **Línia 76**: `rounded-[20px]` -> className="w-full h-full rounded-[20px] object-cover bg-theme-base text-[10px]"
+- **Línia 80**: `rounded-full` -> <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full ${bgColor} flex items-center justify-center shadow-lg border-2 border-theme-panel`}>
+- **Línia 80**: `shadow-lg` -> <div className={`absolute -bottom-2 -right-2 w-6 h-6 rounded-full ${bgColor} flex items-center justify-center shadow-lg border-2 border-theme-panel`}>
+- **Línia 81**: `text-white` -> <Icon className="text-white w-3 h-3" />
+- **Línia 85**: `rounded-[20px]` -> <div className={`w-full h-full rounded-[20px] ${bgColor} flex items-center justify-center`}>
+- **Línia 86**: `text-white` -> <Icon className="text-white w-5 h-5" />
+- **Línia 135**: `bg-theme-panel` -> <div className="flex flex-col gap-2 mb-2 bg-theme-panel rounded-[24px] p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+- **Línia 135**: `rounded-[24px]` -> <div className="flex flex-col gap-2 mb-2 bg-theme-panel rounded-[24px] p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+- **Línia 135**: `shadow-[0_10px_40px_rgba(0,0,0,0.6)]">` -> <div className="flex flex-col gap-2 mb-2 bg-theme-panel rounded-[24px] p-2 shadow-[0_10px_40px_rgba(0,0,0,0.6)]">
+- **Línia 138**: `bg-theme-base` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 138**: `text-theme-text` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 138**: `rounded-[18px]` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 144**: `bg-border-master` -> <div className="h-[1px] w-full bg-border-master opacity-30"></div>
+- **Línia 147**: `bg-theme-base` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 147**: `text-theme-text` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 147**: `rounded-[18px]` -> className="flex items-center justify-center w-12 h-12 rounded-[18px] bg-theme-base text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 transition-transform active:scale-95"
+- **Línia 158**: `bg-[#F97316]` -> className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
+- **Línia 158**: `text-white'` -> className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
+- **Línia 158**: `rounded-[24px]` -> className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
+- **Línia 158**: `shadow-[0_10px_40px_rgba(0,0,0,0.6)]` -> className={`flex items-center justify-center w-14 h-14 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] transition-transform active:scale-95 ${isPlacingPost ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-text/90 hover:brightness-110'}`}
+- **Línia 165**: `bg-theme-panel` -> className="flex items-center justify-center w-14 h-14 bg-theme-panel text-theme-text/90 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] hover:brightness-110 transition-transform active:scale-95"
+- **Línia 165**: `text-theme-text/90` -> className="flex items-center justify-center w-14 h-14 bg-theme-panel text-theme-text/90 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] hover:brightness-110 transition-transform active:scale-95"
+- **Línia 165**: `rounded-[24px]` -> className="flex items-center justify-center w-14 h-14 bg-theme-panel text-theme-text/90 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] hover:brightness-110 transition-transform active:scale-95"
+- **Línia 165**: `shadow-[0_10px_40px_rgba(0,0,0,0.6)]` -> className="flex items-center justify-center w-14 h-14 bg-theme-panel text-theme-text/90 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.6)] hover:brightness-110 transition-transform active:scale-95"
+- **Línia 294**: `bg-theme-panel` -> <div className={`relative w-full h-[60vh] min-h-[500px] max-h-[850px] md:rounded-[40px] overflow-hidden bg-theme-panel border-none group shadow-2xl`}>
+- **Línia 294**: `rounded-[40px]` -> <div className={`relative w-full h-[60vh] min-h-[500px] max-h-[850px] md:rounded-[40px] overflow-hidden bg-theme-panel border-none group shadow-2xl`}>
+- **Línia 294**: `shadow-2xl`}>` -> <div className={`relative w-full h-[60vh] min-h-[500px] max-h-[850px] md:rounded-[40px] overflow-hidden bg-theme-panel border-none group shadow-2xl`}>
+- **Línia 313**: `text-orange-500"` -> <AdvancedMarker position={TOWN_COORDINATES.latorre} onClick={() => navigate('/pobles/gent-de-la-torre')}><TownPin colorClass="text-orange-500" label="La Torre de les Maçanes" /></AdvancedMarker>
+- **Línia 314**: `text-indigo-500"` -> <AdvancedMarker position={TOWN_COORDINATES.penaguila} onClick={() => navigate('/pobles/gent-de-penaguila')}><TownPin colorClass="text-indigo-500" label="Penàguila" /></AdvancedMarker>
+- **Línia 315**: `text-emerald-500"` -> <AdvancedMarker position={TOWN_COORDINATES.benifallim} onClick={() => navigate('/pobles/gent-de-benifallim')}><TownPin colorClass="text-emerald-500" label="Benifallim" /></AdvancedMarker>
+- **Línia 316**: `text-blue-400"` -> <AdvancedMarker position={TOWN_COORDINATES.sella} onClick={() => navigate('/pobles/gent-de-sella')}><TownPin colorClass="text-blue-400" label="Sella" /></AdvancedMarker>
+- **Línia 317**: `text-yellow-500"` -> <AdvancedMarker position={TOWN_COORDINATES.orxeta} onClick={() => navigate('/pobles/gent-de-orxeta')}><TownPin colorClass="text-yellow-500" label="Orxeta" /></AdvancedMarker>
+- **Línia 318**: `text-red-500"` -> <AdvancedMarker position={TOWN_COORDINATES.relleu} onClick={() => navigate('/pobles/gent-de-relleu')}><TownPin colorClass="text-red-500" label="Relleu" /></AdvancedMarker>
+- **Línia 319**: `text-green-500"` -> <AdvancedMarker position={TOWN_COORDINATES.alcoleja} onClick={() => navigate('/pobles/gent-de-alcoleja')}><TownPin colorClass="text-green-500" label="Alcoleja" /></AdvancedMarker>
+- **Línia 320**: `text-amber-600"` -> <AdvancedMarker position={TOWN_COORDINATES.xixona} onClick={() => navigate('/pobles/gent-de-xixona')}><TownPin colorClass="text-amber-600" label="Xixona" /></AdvancedMarker>
+- **Línia 321**: `text-cyan-500"` -> <AdvancedMarker position={TOWN_COORDINATES.tibi} onClick={() => navigate('/pobles/gent-de-tibi')}><TownPin colorClass="text-cyan-500" label="Tibi" /></AdvancedMarker>
+- **Línia 352**: `bg-theme-panel` -> className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master"
+- **Línia 352**: `rounded-[20px]` -> className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master"
+- **Línia 352**: `shadow-xl` -> className="text-center min-w-[140px] p-3 cursor-pointer bg-theme-panel rounded-[20px] transition-transform active:scale-95 shadow-xl border border-border-master"
+- **Línia 355**: `text-base` -> <h4 className="text-base font-black block text-theme-text line-clamp-2 leading-tight m-0 tracking-wide">
+- **Línia 358**: `text-[11px]` -> <span className="text-[11px] text-[#F97316] mt-2 block font-bold uppercase tracking-wider">PEL {selectedPost.author}</span>
+- **Línia 367**: `bg-theme-panel` -> <div className="w-full h-full flex flex-col items-center justify-center bg-theme-panel p-8 text-center decoration-none relative overflow-hidden">
+- **Línia 368**: `bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)]"></div>` -> <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.05)_0%,transparent_70%)]"></div>
+- **Línia 369**: `text-[#F97316]` -> <MapIcon className="w-16 h-16 mb-6 text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.5)] z-10" />
+- **Línia 369**: `shadow-[0_0_15px_rgba(249,115,22,0.5)]` -> <MapIcon className="w-16 h-16 mb-6 text-[#F97316] drop-shadow-[0_0_15px_rgba(249,115,22,0.5)] z-10" />
+- **Línia 370**: `text-3xl` -> <h3 className="text-3xl font-black text-theme-text mb-3 tracking-tight z-10">Radar Desconnectat</h3>
+- **Línia 371**: `text-theme-text/60` -> <p className="max-w-md text-theme-text/60 text-sm leading-relaxed mb-8 z-10 font-medium">
+- **Línia 372**: `text-theme-text">API` -> Per activar l'experiència immersiva de la cartografia V12 de Sóc de Poble, es requereix una <strong className="text-theme-text">API Key de Google Maps</strong>.
+- **Línia 374**: `bg-theme-base` -> <div className="bg-theme-base p-5 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-border-master w-full max-w-sm z-10 group transition-all">
+- **Línia 374**: `rounded-[24px]` -> <div className="bg-theme-base p-5 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-border-master w-full max-w-sm z-10 group transition-all">
+- **Línia 374**: `shadow-[0_10px_40px_rgba(0,0,0,0.8)]` -> <div className="bg-theme-base p-5 rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-border-master w-full max-w-sm z-10 group transition-all">
+- **Línia 375**: `text-[11px]` -> <p className="text-[11px] text-theme-text/50 font-mono text-left mb-2 uppercase font-bold tracking-widest">.env.local</p>
+- **Línia 376**: `bg-theme-panel` -> <code className="block w-full text-left text-[#F97316] bg-theme-panel p-3 rounded-[16px] text-sm overflow-x-auto whitespace-nowrap shadow-inner font-mono font-medium">
+- **Línia 376**: `text-[#F97316]` -> <code className="block w-full text-left text-[#F97316] bg-theme-panel p-3 rounded-[16px] text-sm overflow-x-auto whitespace-nowrap shadow-inner font-mono font-medium">
+- **Línia 376**: `rounded-[16px]` -> <code className="block w-full text-left text-[#F97316] bg-theme-panel p-3 rounded-[16px] text-sm overflow-x-auto whitespace-nowrap shadow-inner font-mono font-medium">
+- **Línia 376**: `shadow-inner` -> <code className="block w-full text-left text-[#F97316] bg-theme-panel p-3 rounded-[16px] text-sm overflow-x-auto whitespace-nowrap shadow-inner font-mono font-medium">
+- **Línia 385**: `bg-[#F97316]` -> <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[20] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+- **Línia 385**: `text-white` -> <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[20] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+- **Línia 385**: `rounded-[20px]` -> <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[20] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+- **Línia 385**: `shadow-[0_10px_40px_rgba(249,115,22,0.4)]` -> <div className="absolute top-6 left-1/2 transform -translate-x-1/2 bg-[#F97316] text-white font-black px-6 py-3 rounded-[20px] shadow-[0_10px_40px_rgba(249,115,22,0.4)] z-[20] animate-pulse tracking-wide text-sm whitespace-nowrap border-none">
+- **Línia 394**: `bg-[#F97316]` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 394**: `text-white` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 394**: `rounded-full` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 394**: `shadow-[0_4px_12px_rgba(249,115,22,0.4)]` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 405**: `bg-white` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 405**: `text-[14px]` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 405**: `rounded-full` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 405**: `shadow-[0_4px_12px_rgba(0,0,0,0.1)]` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 407**: `text-[#F97316]"` -> <Icon className="w-[18px] h-[18px] mr-2 text-[#F97316]" />
+- **Línia 409**: `text-red-500` -> <X className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 text-red-500 transition-opacity" />
+- **Línia 418**: `bg-black/40` -> <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto" onClick={() => setIsFilterModalOpen(false)} />
+- **Línia 419**: `bg-theme-panel` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 419**: `rounded-[32px]` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 419**: `shadow-[0_20px_60px_rgba(0,0,0,0.6)]` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 421**: `text-xl` -> <h3 className="text-xl font-black text-theme-text tracking-tight flex items-center gap-2">
+- **Línia 422**: `text-[#F97316]"` -> <Layers className="w-6 h-6 text-[#F97316]" />
+- **Línia 425**: `bg-theme-base` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 425**: `text-theme-text` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 425**: `rounded-full` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 433**: `bg-theme-base` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 433**: `text-theme-text` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 433**: `rounded-[12px]` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 439**: `bg-theme-base` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 439**: `text-theme-text` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 439**: `rounded-[12px]` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 455**: `bg-theme-base` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 455**: `rounded-[16px]` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 455**: `shadow-sm'` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 458**: `bg-[#F97316]` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 458**: `text-white'` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 458**: `rounded-full` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 461**: `text-[14px]` -> <span className={`font-black text-[14px] tracking-wide ${isSelected ? 'text-[#F97316]' : 'text-theme-text'}`}>
+- **Línia 465**: `bg-[#F97316]'` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'border-[#F97316] bg-[#F97316]' : 'border-theme-muted'}`}>
+- **Línia 465**: `rounded-full` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'border-[#F97316] bg-[#F97316]' : 'border-theme-muted'}`}>
+- **Línia 466**: `text-white"` -> {isSelected && <Check className="w-3 h-3 text-white" />}
+- **Línia 475**: `bg-[#F97316]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 475**: `text-white` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 475**: `rounded-[20px]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 475**: `shadow-[0_8px_24px_rgba(249,115,22,0.4)]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 489**: `text-2xl` -> <h2 className="text-2xl font-black flex items-center gap-3 text-theme-text tracking-tight">
+- **Línia 490**: `text-[#F97316]"` -> <Activity size={24} className="text-[#F97316]" />
+- **Línia 493**: `bg-theme-panel` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 493**: `text-xs` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 493**: `rounded-[12px]` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 493**: `shadow-sm">` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 500**: `text-[#F97316]` -> <span className="animate-pulse text-[#F97316] font-bold tracking-widest text-sm uppercase">Sincronitzant Radar...</span>
+
+### src/pages/community/MasterCalendar.jsx
+- **Línia 302**: `text-xs` -> className={`fc-event-capsule ${extendedProps?.type || 'personal'} flex items-center gap-1 overflow-hidden whitespace-nowrap text-xs p-1 rounded w-full backdrop-blur-md cursor-pointer`}
+- **Línia 308**: `rounded-full` -> <img src={agent.avatar_url} alt="" className="w-4 h-4 rounded-full object-cover shrink-0" aria-hidden="true" />
+- **Línia 332**: `text-2xl` -> <h2 className="text-2xl font-black flex items-center gap-3 text-theme-text tracking-tight">
+- **Línia 333**: `text-[#F97316]"` -> <Activity size={24} className="text-[#F97316]" />
+- **Línia 336**: `bg-theme-panel` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 336**: `text-xs` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 336**: `rounded-[12px]` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 336**: `shadow-sm">` -> <span className="px-4 py-1.5 bg-theme-panel rounded-[12px] text-xs font-black text-theme-muted tracking-wider uppercase border border-border-master shadow-sm">
+- **Línia 345**: `bg-[#F97316]` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 345**: `text-white` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 345**: `rounded-full` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 345**: `shadow-[0_4px_12px_rgba(249,115,22,0.4)]` -> className="flex-shrink-0 flex items-center justify-center w-10 h-10 bg-[#F97316] text-white rounded-full shadow-[0_4px_12px_rgba(249,115,22,0.4)] hover:scale-105 active:scale-95 transition-all"
+- **Línia 356**: `bg-white` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 356**: `text-[14px]` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 356**: `rounded-full` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 356**: `shadow-[0_4px_12px_rgba(0,0,0,0.1)]` -> className="flex items-center h-10 px-4 bg-white dark:bg-[#1C1C1E] rounded-full text-[14px] font-black tracking-wide text-gray-900 dark:text-gray-100 shadow-[0_4px_12px_rgba(0,0,0,0.1)] dark:shadow-[0_4px_12px_rgba(0,0,0,0.7)] border border-gray-200 dark:border-[#2C2C2E] hover:scale-105 active:scale-95 transition-all whitespace-nowrap group"
+- **Línia 358**: `text-[#F97316]"` -> <Icon className="w-[18px] h-[18px] mr-2 text-[#F97316]" />
+- **Línia 360**: `text-red-500` -> <X className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 text-red-500 transition-opacity" />
+- **Línia 369**: `bg-black/40` -> <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto" onClick={() => setIsFilterModalOpen(false)} />
+- **Línia 370**: `bg-theme-panel` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 370**: `rounded-[32px]` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 370**: `shadow-[0_20px_60px_rgba(0,0,0,0.6)]` -> <div className="relative bg-theme-panel w-full max-w-md mx-auto rounded-[32px] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] pointer-events-auto flex flex-col animate-slide-up-custom border border-border-master max-h-[80vh]">
+- **Línia 372**: `text-xl` -> <h3 className="text-xl font-black text-theme-text tracking-tight flex items-center gap-2">
+- **Línia 373**: `text-[#F97316]"` -> <Layers className="w-6 h-6 text-[#F97316]" />
+- **Línia 376**: `bg-theme-base` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 376**: `text-theme-text` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 376**: `rounded-full` -> <button onClick={() => setIsFilterModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-theme-base text-theme-text hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+- **Línia 384**: `bg-theme-base` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 384**: `text-theme-text` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 384**: `rounded-[12px]` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 390**: `bg-theme-base` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 390**: `text-theme-text` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 390**: `rounded-[12px]` -> className="flex-1 bg-theme-base hover:bg-theme-base/80 text-theme-text text-[15px] font-black py-2.5 rounded-[12px] border border-border-master transition-colors"
+- **Línia 406**: `bg-theme-base` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 406**: `rounded-[16px]` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 406**: `shadow-sm'` -> className={`w-full flex items-center justify-between p-2 rounded-[16px] transition-all active:scale-95 ${isSelected ? 'bg-theme-base border border-[#F97316] shadow-sm' : 'bg-theme-base/50 border border-transparent hover:bg-theme-base'}`}
+- **Línia 409**: `bg-[#F97316]` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 409**: `text-white'` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 409**: `rounded-full` -> <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isSelected ? 'bg-[#F97316] text-white' : 'bg-theme-panel text-theme-muted'}`}>
+- **Línia 412**: `text-[14px]` -> <span className={`font-black text-[14px] tracking-wide ${isSelected ? 'text-[#F97316]' : 'text-theme-text'}`}>
+- **Línia 416**: `bg-[#F97316]'` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'border-[#F97316] bg-[#F97316]' : 'border-theme-muted'}`}>
+- **Línia 416**: `rounded-full` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'border-[#F97316] bg-[#F97316]' : 'border-theme-muted'}`}>
+- **Línia 417**: `text-white"` -> {isSelected && <Check className="w-3 h-3 text-white" />}
+- **Línia 426**: `bg-[#F97316]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 426**: `text-white` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 426**: `rounded-[20px]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 426**: `shadow-[0_8px_24px_rgba(249,115,22,0.4)]` -> className="w-full bg-[#F97316] text-white font-black rounded-[20px] py-3 shadow-[0_8px_24px_rgba(249,115,22,0.4)] active:scale-95 transition-transform uppercase tracking-wider text-sm"
+- **Línia 437**: `text-[#F97316]` -> <span className="animate-pulse text-[#F97316] font-bold tracking-widest text-sm uppercase">Sincronitzant Radar...</span>
+
+### src/pages/community/ProfileView.jsx
+- **Línia 33**: `bg-[#FDF5E6]'` -> const bgColor = isDayMode ? 'bg-[#FDF5E6]' : 'bg-[#0a0a0a] md:bg-[#111]';
+- **Línia 34**: `text-black'` -> const textColor = isDayMode ? 'text-black' : 'text-white';
+- **Línia 35**: `text-black/60'` -> const textMuted = isDayMode ? 'text-black/60' : 'text-white/60';
+- **Línia 430**: `text-orange-500` -> <Loader2 className="animate-spin text-orange-500 mb-4" size={48} />
+- **Línia 431**: `text-[10px]">Cercant` -> <span className="font-black uppercase tracking-[0.3em] text-[10px]">Cercant les dades al Mas...</span>
+- **Línia 437**: `text-red-500` -> <AlertCircle className="text-red-500 mb-6" size={64} />
+- **Línia 438**: `text-2xl` -> <h2 className="font-black text-2xl lg:text-3xl mb-4 text-center">EL RHIZOME NO TROBA AQUEST NODE</h2>
+- **Línia 439**: `text-xs` -> <div className={`${textMuted} mb-8 uppercase text-xs tracking-widest text-center max-w-md`}><p>{error}</p></div>
+- **Línia 440**: `bg-black` -> <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
+- **Línia 440**: `text-white'` -> <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
+- **Línia 440**: `rounded-[28px]` -> <button className={`${isDayMode ? 'bg-black text-white' : 'bg-white text-black'} px-10 py-4 rounded-[28px] font-black uppercase tracking-widest hover:scale-105 transition-transform`} onClick={() => navigate('/mur')}>
+- **Línia 479**: `bg-theme-base` -> <div className="flex flex-col w-full h-screen bg-theme-base overflow-hidden">
+- **Línia 512**: `bg-[var(--theme-accent-primary)]` -> className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-overlay"
+- **Línia 512**: `text-white` -> className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-overlay"
+- **Línia 512**: `rounded-full` -> className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-overlay"
+- **Línia 512**: `shadow-[0_10px_30px_rgba(255,107,0,0.5)]` -> className="fixed bottom-24 right-6 md:bottom-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary-hover)] text-white rounded-full flex items-center justify-center shadow-[0_10px_30px_rgba(255,107,0,0.5)] transition-all animate-in fade-in zoom-in z-overlay"
+
+### src/pages/community/Towns.jsx
+- **Línia 254**: `bg-theme-base">` -> <div className="flex-none w-full z-50 shadow-md bg-theme-base">
+- **Línia 254**: `shadow-md` -> <div className="flex-none w-full z-50 shadow-md bg-theme-base">
+- **Línia 273**: `bg-[#FF6D23]/10` -> <div className="flex-none w-full bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border-b border-[#FF6D23]/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40">
+- **Línia 273**: `shadow-inner` -> <div className="flex-none w-full bg-[#FF6D23]/10 dark:bg-[#FF6D23]/15 border-b border-[#FF6D23]/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40">
+- **Línia 275**: `text-[#FF6D23]` -> <Info size={18} className="text-[#FF6D23] flex-shrink-0" />
+- **Línia 276**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
+- **Línia 278**: `text-[#FF6D23]` -> Dades i imatges enriquides gràcies a <a href="https://ca.wikipedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-bold">Wikipedia</a> i <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="text-[#FF6D23] hover:underline font-bold">Wikimedia Commons</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer" className="underline">CC BY-SA 4.0</a>). La memòria no es destrueix, es comparteix.
+- **Línia 283**: `bg-white/50` -> className="flex-shrink-0 text-gray-500 hover:text-[#FF6D23] transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 animate-pulse hover:animate-none border border-black/5 dark:border-white/5"
+- **Línia 283**: `text-gray-500` -> className="flex-shrink-0 text-gray-500 hover:text-[#FF6D23] transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 animate-pulse hover:animate-none border border-black/5 dark:border-white/5"
+- **Línia 283**: `rounded-lg` -> className="flex-shrink-0 text-gray-500 hover:text-[#FF6D23] transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 animate-pulse hover:animate-none border border-black/5 dark:border-white/5"
+- **Línia 321**: `shadow-[0_0_20px_rgba(249,115,22,0.3)]"` -> isUserTown ? "ring-2 ring-[var(--theme-accent-primary)] shadow-[0_0_20px_rgba(249,115,22,0.3)]" : ""
+- **Línia 340**: `text-[14px]` -> className="text-[14px] md:text-[15px] font-black text-[var(--theme-accent-primary)] hover:underline transition-opacity text-center"
+- **Línia 357**: `bg-white/10` -> className="mt-4 px-6 py-2 border border-white/20 hover:bg-white/10 transition-colors"
+- **Línia 369**: `bg-theme-panel` -> <div className="calendar-widget-wrapper mb-6 bg-theme-panel p-4 md:p-6 rounded-[28px] border border-white/5 shadow-sm">
+- **Línia 369**: `rounded-[28px]` -> <div className="calendar-widget-wrapper mb-6 bg-theme-panel p-4 md:p-6 rounded-[28px] border border-white/5 shadow-sm">
+- **Línia 369**: `shadow-sm">` -> <div className="calendar-widget-wrapper mb-6 bg-theme-panel p-4 md:p-6 rounded-[28px] border border-white/5 shadow-sm">
+- **Línia 371**: `bg-gray-100` -> <button className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"><ChevronLeft size={24}/></button>
+- **Línia 371**: `rounded-full` -> <button className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"><ChevronLeft size={24}/></button>
+- **Línia 372**: `text-[16px]` -> <span className="font-black tracking-widest text-[16px] md:text-[18px]">MARÇ 2026</span>
+- **Línia 373**: `bg-gray-100` -> <button className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"><ChevronRight size={24}/></button>
+- **Línia 373**: `rounded-full` -> <button className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors"><ChevronRight size={24}/></button>
+- **Línia 378**: `text-[12px]` -> <div key={d} className="text-[12px] md:text-[14px] font-black opacity-50 mb-2">{d}</div>
+- **Línia 395**: `text-[16px]` -> className={`relative flex flex-col items-center justify-center p-2 h-12 w-full sm:h-14 rounded-[16px] text-[16px] md:text-[18px] font-bold transition-all hover:scale-105 active:scale-95
+- **Línia 395**: `rounded-[16px]` -> className={`relative flex flex-col items-center justify-center p-2 h-12 w-full sm:h-14 rounded-[16px] text-[16px] md:text-[18px] font-bold transition-all hover:scale-105 active:scale-95
+- **Línia 396**: `bg-[var(--theme-accent-primary)]/10` -> ${hasEvent ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-black' : 'hover:bg-gray-100 dark:hover:bg-white/5'}
+- **Línia 396**: `text-[var(--theme-accent-primary)]` -> ${hasEvent ? 'bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] font-black' : 'hover:bg-gray-100 dark:hover:bg-white/5'}
+- **Línia 401**: `bg-[var(--theme-accent-primary)]"></div>}` -> {hasEvent && <div className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[var(--theme-accent-primary)]"></div>}
+- **Línia 401**: `rounded-full` -> {hasEvent && <div className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[var(--theme-accent-primary)]"></div>}
+- **Línia 433**: `text-sm` -> className="event-description text-sm opacity-90"
+- **Línia 466**: `text-2xl` -> <h2 className="text-2xl font-black text-primary">
+- **Línia 469**: `text-sm">` -> <p className="opacity-70 text-sm">
+- **Línia 484**: `bg-black/20">` -> <div className="px-4 py-3 flex justify-between items-center bg-black/20">
+- **Línia 485**: `text-xs` -> <span className="text-xs font-bold text-success">
+- **Línia 489**: `text-xs` -> className="text-xs font-black text-primary"
+- **Línia 500**: `text-sm` -> <p className="text-sm opacity-90 py-2">
+- **Línia 506**: `bg-white/5` -> <div className="specs-box mt-2 p-3 bg-white/5 border border-white/10 rounded flex justify-between">
+- **Línia 507**: `text-xs">` -> <div className="spec text-xs">
+- **Línia 510**: `text-xs">` -> <div className="spec text-xs">
+- **Línia 524**: `bg-black/20">` -> <div className="px-4 py-3 flex justify-between items-center bg-black/20">
+- **Línia 525**: `text-xs` -> <span className="text-xs font-bold">
+- **Línia 529**: `text-xs` -> className="text-xs font-black text-primary"
+- **Línia 540**: `text-sm` -> <p className="text-sm opacity-90 py-2">
+- **Línia 548**: `bg-white/5` -> className="px-2 py-1 bg-white/5 text-[10px] rounded border border-white/10"
+- **Línia 548**: `text-[10px]` -> className="px-2 py-1 bg-white/5 text-[10px] rounded border border-white/10"
+
+### src/pages/community/UsersDirectory.jsx
+- **Línia 69**: `bg-theme-base` -> <div className="directory-page bg-theme-base min-h-screen pb-20">
+- **Línia 76**: `bg-theme-base` -> <div role="region" aria-label="Capçalera de Secció" className="h-16 flex items-center px-4 bg-theme-base border-b border-[var(--border-master)] sticky top-0 z-30">
+- **Línia 77**: `text-[var(--theme-text)]` -> <button className="text-[var(--theme-text)] mr-4 hover:text-[var(--theme-accent-primary)] transition-colors" onClick={() => navigate(-1)}>
+- **Línia 81**: `text-lg` -> <h1 className="text-lg font-black text-[var(--theme-accent-primary)] uppercase tracking-widest m-0">Veïnatge</h1>
+- **Línia 82**: `text-[10px]` -> <p className="text-[10px] text-theme-muted uppercase font-bold tracking-tighter m-0">Persones que fan poble</p>
+- **Línia 86**: `bg-theme-base` -> <div className="px-4 py-4 bg-theme-base border-b border-theme-border">
+- **Línia 87**: `bg-surface-var` -> <div className="flex items-center gap-2 p-3 bg-surface-var border border-theme-border/50 rounded-2xl">
+- **Línia 87**: `rounded-2xl">` -> <div className="flex items-center gap-2 p-3 bg-surface-var border border-theme-border/50 rounded-2xl">
+- **Línia 88**: `text-[var(--theme-accent-primary)]"` -> <Users size={16} className="text-[var(--theme-accent-primary)]" />
+- **Línia 89**: `text-xs` -> <span className="font-bold text-xs uppercase tracking-widest text-[var(--theme-text)]">
+- **Línia 98**: `bg-theme-panel/30` -> <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+- **Línia 98**: `rounded-2xl` -> <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+- **Línia 99**: `text-theme-text` -> <Users size={48} className="mb-4 text-theme-text opacity-30" />
+- **Línia 100**: `text-xs` -> <p className="font-sans text-xs font-bold tracking-[0.2em] uppercase text-center text-theme-text opacity-60">No hi ha veïns visibles.</p>
+
+### src/pages/features/Archive.jsx
+- **Línia 135**: `text-white` -> <div className={`archive-page rebost-layout min-h-screen text-white flex flex-col md:flex-row theme-${theme}`}>
+- **Línia 137**: `bg-black` -> <aside className="w-full md:w-72 bg-black border-r border-gray-900 flex flex-col sticky top-0 md:h-screen overflow-y-auto">
+- **Línia 140**: `text-gray-400` -> <button className="text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors" onClick={() => navigate(-1)} aria-label="Tornar">
+- **Línia 145**: `text-xl` -> <h1 className="text-xl font-black uppercase tracking-tighter mb-2">Arxiu d'Or</h1>
+- **Línia 146**: `text-[10px]` -> <div className="text-[10px] text-gray-500 uppercase font-bold tracking-widest flex items-center gap-2">
+- **Línia 147**: `text-green-500"` -> <ShieldCheck size={12} className="text-green-500" />
+- **Línia 154**: `text-[10px]` -> <h3 className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-4 px-2">Col·leccions</h3>
+- **Línia 159**: `rounded-none` -> className={`w-full flex items-center justify-between px-3 py-2.5 rounded-none transition-all duration-200 group
+- **Línia 160**: `bg-white` -> ${activeCollection === col.id ? 'bg-white text-black' : 'text-gray-400 hover:bg-gray-900'}`}
+- **Línia 160**: `text-black'` -> ${activeCollection === col.id ? 'bg-white text-black' : 'text-gray-400 hover:bg-gray-900'}`}
+- **Línia 170**: `text-black'` -> <span className={`transition-colors ${activeCollection === col.id ? 'text-black' : ''}`} style={{ color: activeCollection === col.id ? '' : col.color }}>
+- **Línia 173**: `text-xs` -> <span className="text-xs font-bold uppercase tracking-tight">{col.name}</span>
+- **Línia 175**: `bg-black` -> <span className={`text-[10px] font-black px-1.5 py-0.5 border ${activeCollection === col.id ? 'bg-black text-white border-black' : 'bg-gray-900 text-gray-500 border-gray-800'}`}>
+- **Línia 175**: `text-[10px]` -> <span className={`text-[10px] font-black px-1.5 py-0.5 border ${activeCollection === col.id ? 'bg-black text-white border-black' : 'bg-gray-900 text-gray-500 border-gray-800'}`}>
+- **Línia 184**: `text-[10px]` -> <h3 className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-4 px-2">Etiquetes Master</h3>
+- **Línia 187**: `bg-gray-900` -> <button key={tag} className="text-[10px] font-black uppercase bg-gray-900 text-gray-400 border border-gray-800 px-2 py-1 hover:text-white hover:border-gray-600 transition-all">
+- **Línia 187**: `text-[10px]` -> <button key={tag} className="text-[10px] font-black uppercase bg-gray-900 text-gray-400 border border-gray-800 px-2 py-1 hover:text-white hover:border-gray-600 transition-all">
+- **Línia 195**: `bg-black/50` -> <footer className="p-6 border-t border-gray-900 bg-black/50 backdrop-blur">
+- **Línia 196**: `text-gray-500">` -> <div className="flex items-center gap-3 text-gray-500">
+- **Línia 198**: `text-[10px]` -> <div className="text-[10px] font-bold uppercase leading-none">
+- **Línia 200**: `text-gray-700">Digital` -> <span className="text-gray-700">Digital Mas v3.0</span>
+- **Línia 207**: `bg-black">` -> <div role="region" aria-label="Contingut Principal" className="flex-1 flex flex-col bg-black">
+- **Línia 208**: `bg-black/80` -> <div role="region" aria-label="Capçalera de Secció" className="h-20 flex items-center justify-between px-6 border-b border-gray-900 bg-black/80 backdrop-blur sticky top-0 z-30">
+- **Línia 210**: `text-gray-500"` -> <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+- **Línia 214**: `bg-gray-900` -> className="w-full bg-gray-900 border-none text-white text-sm font-bold pl-12 pr-4 py-3 focus:ring-1 focus:ring-white transition-all rounded-none"
+- **Línia 214**: `text-white` -> className="w-full bg-gray-900 border-none text-white text-sm font-bold pl-12 pr-4 py-3 focus:ring-1 focus:ring-white transition-all rounded-none"
+- **Línia 214**: `rounded-none"` -> className="w-full bg-gray-900 border-none text-white text-sm font-bold pl-12 pr-4 py-3 focus:ring-1 focus:ring-white transition-all rounded-none"
+- **Línia 222**: `bg-gray-900` -> className={`p-2.5 bg-gray-900 text-gray-500 border border-gray-800 hover:text-white transition-all ${viewMode === 'masonry' ? 'bg-white text-black border-white' : ''}`}
+- **Línia 222**: `text-gray-500` -> className={`p-2.5 bg-gray-900 text-gray-500 border border-gray-800 hover:text-white transition-all ${viewMode === 'masonry' ? 'bg-white text-black border-white' : ''}`}
+- **Línia 228**: `bg-gray-900` -> className={`p-2.5 bg-gray-900 text-gray-500 border border-gray-800 hover:text-white transition-all ${viewMode === 'list' ? 'bg-white text-black border-white' : ''}`}
+- **Línia 228**: `text-gray-500` -> className={`p-2.5 bg-gray-900 text-gray-500 border border-gray-800 hover:text-white transition-all ${viewMode === 'list' ? 'bg-white text-black border-white' : ''}`}
+- **Línia 233**: `bg-white` -> <button className="ml-4 bg-white text-black px-4 py-2.5 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 border border-white hover:bg-transparent hover:text-white transition-all">
+- **Línia 233**: `text-black` -> <button className="ml-4 bg-white text-black px-4 py-2.5 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 border border-white hover:bg-transparent hover:text-white transition-all">
+- **Línia 259**: `bg-gray-900/20` -> <div className="col-span-full h-96 flex flex-col items-center justify-center text-gray-700 bg-gray-900/20 border-2 border-dashed border-gray-900">
+- **Línia 259**: `text-gray-700` -> <div className="col-span-full h-96 flex flex-col items-center justify-center text-gray-700 bg-gray-900/20 border-2 border-dashed border-gray-900">
+- **Línia 261**: `text-xs` -> <p className="text-xs font-black uppercase tracking-widest opacity-40">No hi ha solatge en aquesta col·lecció</p>
+
+### src/pages/features/BuscadorAjudes.jsx
+- **Línia 139**: `text-accent"` -> <Sparkles size={20} className="text-accent" />
+- **Línia 202**: `text-iaia"` -> <Bot className="text-iaia" />
+- **Línia 218**: `shadow-2xl"` -> <div className="advice-modal glass-premium shadow-2xl" onClick={e => e.stopPropagation()}>
+- **Línia 221**: `text-accent` -> <Bot size={28} className="text-accent animate-pulse" />
+- **Línia 231**: `shadow-inner">` -> <div className="advice-box shadow-inner">
+- **Línia 240**: `text-accent"` -> <ExternalLink size={24} className="text-accent" />
+- **Línia 260**: `bg-accent-orange` -> <button className="btn-view-doc master-button-canonic bg-accent-orange text-black font-black" onClick={() => {
+- **Línia 260**: `text-black` -> <button className="btn-view-doc master-button-canonic bg-accent-orange text-black font-black" onClick={() => {
+
+### src/pages/features/CercaPage.jsx
+- **Línia 26**: `bg-[var(--theme-accent-primary)]` -> <span key={i} className="bg-[var(--theme-accent-primary)] text-white dark:bg-yellow-500 dark:text-black font-bold px-0.5 rounded-sm">{part}</span> :
+- **Línia 26**: `text-white` -> <span key={i} className="bg-[var(--theme-accent-primary)] text-white dark:bg-yellow-500 dark:text-black font-bold px-0.5 rounded-sm">{part}</span> :
+- **Línia 26**: `rounded-sm">{part}</span>` -> <span key={i} className="bg-[var(--theme-accent-primary)] text-white dark:bg-yellow-500 dark:text-black font-bold px-0.5 rounded-sm">{part}</span> :
+- **Línia 163**: `bg-theme-bg` -> <div className="search-discover-page min-h-screen bg-theme-bg flex flex-col">
+- **Línia 175**: `text-[var(--theme-accent-primary)]"` -> customIcon={<Search className="text-[var(--theme-accent-primary)]" size={20} />}
+- **Línia 179**: `bg-theme-bg` -> <div className="filter-chips-container w-full overflow-x-auto no-scrollbar border-b border-[var(--theme-border)] bg-theme-bg sticky top-[60px] z-20 shadow-sm">
+- **Línia 179**: `shadow-sm">` -> <div className="filter-chips-container w-full overflow-x-auto no-scrollbar border-b border-[var(--theme-border)] bg-theme-bg sticky top-[60px] z-20 shadow-sm">
+- **Línia 185**: `bg-[var(--theme-accent-primary)]` -> className={`flex items-center gap-2 rounded-full font-bold transition-all shadow-sm ${filter.id === 'tots' ? 'text-base px-6 py-2' : 'text-sm px-4 py-1.5 self-center'} ${activeFilter === filter.id ? 'bg-[var(--theme-accent-primary)] text-white' : 'bg-theme-panel text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 185**: `text-base` -> className={`flex items-center gap-2 rounded-full font-bold transition-all shadow-sm ${filter.id === 'tots' ? 'text-base px-6 py-2' : 'text-sm px-4 py-1.5 self-center'} ${activeFilter === filter.id ? 'bg-[var(--theme-accent-primary)] text-white' : 'bg-theme-panel text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 185**: `rounded-full` -> className={`flex items-center gap-2 rounded-full font-bold transition-all shadow-sm ${filter.id === 'tots' ? 'text-base px-6 py-2' : 'text-sm px-4 py-1.5 self-center'} ${activeFilter === filter.id ? 'bg-[var(--theme-accent-primary)] text-white' : 'bg-theme-panel text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 185**: `shadow-sm` -> className={`flex items-center gap-2 rounded-full font-bold transition-all shadow-sm ${filter.id === 'tots' ? 'text-base px-6 py-2' : 'text-sm px-4 py-1.5 self-center'} ${activeFilter === filter.id ? 'bg-[var(--theme-accent-primary)] text-white' : 'bg-theme-panel text-theme-text hover:bg-black/5 dark:hover:bg-white/5'}`}
+- **Línia 190**: `bg-[var(--theme-border)]` -> {index === 0 && <div className="w-[2px] h-6 bg-[var(--theme-border)] mx-1 self-center opacity-50 shrink-0" />}
+- **Línia 198**: `text-theme-muted">` -> <div className="search-loading flex flex-col items-center justify-center p-12 text-theme-muted">
+- **Línia 208**: `bg-gradient-to-r` -> <div className="universal-card bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30 border border-orange-200 dark:border-orange-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/recipe')}>
+- **Línia 208**: `rounded-3xl` -> <div className="universal-card bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30 border border-orange-200 dark:border-orange-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/recipe')}>
+- **Línia 208**: `shadow-md` -> <div className="universal-card bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30 border border-orange-200 dark:border-orange-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/recipe')}>
+- **Línia 209**: `bg-orange-500/20` -> <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
+- **Línia 209**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
+- **Línia 210**: `text-orange-600` -> <Sparkles size={24} className="text-orange-600 dark:text-orange-400" />
+- **Línia 213**: `text-orange-900` -> <h4 className="font-bold text-orange-900 dark:text-orange-100">Vols una recepta?</h4>
+- **Línia 214**: `text-sm` -> <p className="text-sm text-orange-800 dark:text-orange-300">La IAIA té fam i vol anar al rebost.</p>
+- **Línia 216**: `text-orange-500"` -> <ChevronRight className="text-orange-500" />
+- **Línia 219**: `bg-gradient-to-r` -> <div className="universal-card bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border border-blue-200 dark:border-blue-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/ia')}>
+- **Línia 219**: `rounded-3xl` -> <div className="universal-card bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border border-blue-200 dark:border-blue-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/ia')}>
+- **Línia 219**: `shadow-md` -> <div className="universal-card bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border border-blue-200 dark:border-blue-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/ia')}>
+- **Línia 220**: `bg-blue-500/20` -> <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+- **Línia 220**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center shrink-0">
+- **Línia 221**: `text-blue-600` -> <Sparkles size={24} className="text-blue-600 dark:text-blue-400" />
+- **Línia 224**: `text-blue-900` -> <h4 className="font-bold text-blue-900 dark:text-blue-100">Puc veure-ho?</h4>
+- **Línia 225**: `text-sm` -> <p className="text-sm text-blue-800 dark:text-blue-300">Obre l'Ull del Mestre (Visió Artificial).</p>
+- **Línia 227**: `text-blue-500"` -> <ChevronRight className="text-blue-500" />
+- **Línia 230**: `bg-gradient-to-r` -> <div className="universal-card bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-800/30 border border-emerald-200 dark:border-emerald-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/diccionari')}>
+- **Línia 230**: `rounded-3xl` -> <div className="universal-card bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-800/30 border border-emerald-200 dark:border-emerald-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/diccionari')}>
+- **Línia 230**: `shadow-md` -> <div className="universal-card bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/30 dark:to-emerald-800/30 border border-emerald-200 dark:border-emerald-800 p-4 rounded-3xl flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/tools/diccionari')}>
+- **Línia 231**: `bg-emerald-500/20` -> <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+- **Línia 231**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0">
+- **Línia 232**: `text-emerald-600` -> <Sparkles size={24} className="text-emerald-600 dark:text-emerald-400" />
+- **Línia 235**: `text-emerald-900` -> <h4 className="font-bold text-emerald-900 dark:text-emerald-100">Busques una definició?</h4>
+- **Línia 236**: `text-sm` -> <p className="text-sm text-emerald-800 dark:text-emerald-300">Consulta el Diccionari Rural de la IAIA.</p>
+- **Línia 238**: `text-emerald-500"` -> <ChevronRight className="text-emerald-500" />
+- **Línia 246**: `bg-theme-panel` -> <div className="semantic-insight-card bg-theme-panel rounded-[32px] p-5 shadow-sm border border-[var(--theme-border)] mb-6 animate-in fade-in slide-in-from-bottom-4">
+- **Línia 246**: `rounded-[32px]` -> <div className="semantic-insight-card bg-theme-panel rounded-[32px] p-5 shadow-sm border border-[var(--theme-border)] mb-6 animate-in fade-in slide-in-from-bottom-4">
+- **Línia 246**: `shadow-sm` -> <div className="semantic-insight-card bg-theme-panel rounded-[32px] p-5 shadow-sm border border-[var(--theme-border)] mb-6 animate-in fade-in slide-in-from-bottom-4">
+- **Línia 248**: `rounded-full` -> <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+- **Línia 248**: `shadow-[0_0_10px_rgba(250,204,21,0.5)]">` -> <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-yellow-400 shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+- **Línia 252**: `text-theme-text` -> <h4 className="font-black text-theme-text text-sm uppercase tracking-wide">Context de l'IAIA</h4>
+- **Línia 253**: `bg-yellow-100` -> <div className="text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400 font-bold px-2 py-0.5 rounded-full inline-block mt-0.5">Insight Actiu</div>
+- **Línia 253**: `text-[10px]` -> <div className="text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400 font-bold px-2 py-0.5 rounded-full inline-block mt-0.5">Insight Actiu</div>
+- **Línia 253**: `rounded-full` -> <div className="text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-400 font-bold px-2 py-0.5 rounded-full inline-block mt-0.5">Insight Actiu</div>
+- **Línia 256**: `text-[15px]` -> <p className="text-[15px] leading-relaxed text-theme-text italic font-medium">"{searchInsights}"</p>
+- **Línia 273**: `bg-theme-card` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/gent/${item.id}`)}>
+- **Línia 273**: `rounded-[24px]` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/gent/${item.id}`)}>
+- **Línia 273**: `shadow-sm` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/gent/${item.id}`)}>
+- **Línia 276**: `text-[17px]` -> <span className="text-[17px] font-bold text-theme-text truncate"><HighlightText text={item.full_name} highlight={query} /></span>
+- **Línia 277**: `text-[14px]` -> <span className="text-[14px] text-theme-muted font-medium truncate"><HighlightText text={item.role || 'Foraster'} highlight={query} /> {item.primary_town ? <span>• <HighlightText text={item.primary_town} highlight={query} /></span> : ''}</span>
+- **Línia 285**: `bg-theme-card` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/pobles/${item.id}`)}>
+- **Línia 285**: `rounded-[24px]` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/pobles/${item.id}`)}>
+- **Línia 285**: `shadow-sm` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/pobles/${item.id}`)}>
+- **Línia 288**: `text-[17px]` -> <span className="text-[17px] font-bold text-theme-text truncate"><HighlightText text={item.name} highlight={query} /></span>
+- **Línia 289**: `text-[14px]` -> <span className="text-[14px] text-theme-muted font-medium truncate"><HighlightText text={item.comarca} highlight={query} /> {item.province ? <span>• <HighlightText text={item.province} highlight={query} /></span> : ''}</span>
+- **Línia 297**: `bg-[var(--color-terracotta)]` -> <div className="bg-[var(--color-terracotta)] text-white rounded-[24px] p-4 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md hover:brightness-110" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+- **Línia 297**: `text-white` -> <div className="bg-[var(--color-terracotta)] text-white rounded-[24px] p-4 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md hover:brightness-110" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+- **Línia 297**: `rounded-[24px]` -> <div className="bg-[var(--color-terracotta)] text-white rounded-[24px] p-4 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md hover:brightness-110" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+- **Línia 297**: `shadow-sm` -> <div className="bg-[var(--color-terracotta)] text-white rounded-[24px] p-4 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md hover:brightness-110" onClick={() => navigate('/pobles', { state: { initialTab: 'esdeveniments' } })}>
+- **Línia 298**: `bg-white/20` -> <div className="w-[48px] h-[48px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
+- **Línia 298**: `rounded-full` -> <div className="w-[48px] h-[48px] rounded-full bg-white/20 flex items-center justify-center shrink-0">
+- **Línia 299**: `text-white"` -> <Sparkles size={24} className="text-white" />
+- **Línia 302**: `text-[17px]` -> <span className="text-[17px] font-bold text-white truncate"><HighlightText text={item.title} highlight={query} /></span>
+- **Línia 303**: `text-[14px]` -> <span className="text-[14px] text-white/80 font-medium truncate"><HighlightText text={item.location} highlight={query} /> • {new Date(item.date).toLocaleDateString('ca-ES', { day: 'numeric', month: 'long' })}</span>
+- **Línia 311**: `bg-theme-card` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/empresa/${item.id}`)}>
+- **Línia 311**: `rounded-[24px]` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/empresa/${item.id}`)}>
+- **Línia 311**: `shadow-sm` -> <div className="bg-theme-card rounded-[24px] p-3 flex items-center gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => navigate(`/empresa/${item.id}`)}>
+- **Línia 314**: `text-[17px]` -> <span className="text-[17px] font-bold text-theme-text truncate"><HighlightText text={item.name} highlight={query} /></span>
+- **Línia 315**: `text-[14px]` -> <span className="text-[14px] text-theme-muted font-medium truncate capitalize">{item.type} {item.town_name ? `• ${item.town_name}` : ''}</span>
+- **Línia 323**: `bg-theme-panel` -> <div className="bg-theme-panel rounded-[24px] p-4 flex items-start gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => window.open(item.link, '_blank')}>
+- **Línia 323**: `rounded-[24px]` -> <div className="bg-theme-panel rounded-[24px] p-4 flex items-start gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => window.open(item.link, '_blank')}>
+- **Línia 323**: `shadow-sm` -> <div className="bg-theme-panel rounded-[24px] p-4 flex items-start gap-4 active:scale-[0.98] transition-transform select-none cursor-pointer shadow-sm hover:shadow-md border border-[var(--theme-border)]" onClick={() => window.open(item.link, '_blank')}>
+- **Línia 324**: `bg-[var(--color-orange-vibrant)]/10` -> <div className="w-12 h-12 rounded-full bg-[var(--color-orange-vibrant)]/10 text-[var(--color-orange-vibrant)] flex items-center justify-center shrink-0">
+- **Línia 324**: `text-[var(--color-orange-vibrant)]` -> <div className="w-12 h-12 rounded-full bg-[var(--color-orange-vibrant)]/10 text-[var(--color-orange-vibrant)] flex items-center justify-center shrink-0">
+- **Línia 324**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-[var(--color-orange-vibrant)]/10 text-[var(--color-orange-vibrant)] flex items-center justify-center shrink-0">
+- **Línia 328**: `text-[16px]` -> <span className="text-[16px] font-bold text-theme-text line-clamp-2 leading-tight mb-1"><HighlightText text={item.title} highlight={query} /></span>
+- **Línia 329**: `text-[13px]` -> <span className="text-[13px] text-theme-muted font-medium line-clamp-2"><HighlightText text={item.excerpt || 'Document de l\'arxiu'} highlight={query} /></span>
+- **Línia 343**: `text-lg` -> <h3 className="font-black text-lg text-theme-text flex items-center gap-2">
+- **Línia 347**: `bg-theme-surface` -> <span className="bg-theme-surface text-theme-muted text-xs font-bold px-2.5 py-1 rounded-full">{sectionResults.length}</span>
+- **Línia 347**: `text-theme-muted` -> <span className="bg-theme-surface text-theme-muted text-xs font-bold px-2.5 py-1 rounded-full">{sectionResults.length}</span>
+- **Línia 347**: `rounded-full">{sectionResults.length}</span>` -> <span className="bg-theme-surface text-theme-muted text-xs font-bold px-2.5 py-1 rounded-full">{sectionResults.length}</span>
+- **Línia 359**: `bg-theme-panel` -> <div className="flex flex-col items-center justify-center text-center p-12 bg-theme-panel rounded-[32px] border border-[var(--theme-border)] mt-8 animate-in fade-in">
+- **Línia 359**: `rounded-[32px]` -> <div className="flex flex-col items-center justify-center text-center p-12 bg-theme-panel rounded-[32px] border border-[var(--theme-border)] mt-8 animate-in fade-in">
+- **Línia 360**: `text-theme-muted` -> <Search size={48} className="text-theme-muted opacity-50 mb-4" />
+- **Línia 361**: `text-xl` -> <h3 className="text-xl font-bold text-theme-text mb-2">Sense resultats</h3>
+- **Línia 362**: `text-theme-muted">No` -> <p className="text-theme-muted">No hem trobat res per a "<strong className="text-theme-text">{query}</strong>" a la secció {filters.find(f => f.id === activeFilter)?.label.toLowerCase()}.</p>
+- **Línia 364**: `bg-[var(--theme-accent-primary)]` -> <button onClick={() => setActiveFilter('tots')} className="mt-6 px-6 py-2 bg-[var(--theme-accent-primary)] text-white rounded-full font-bold shadow-md hover:bg-orange-600 transition-colors">
+- **Línia 364**: `text-white` -> <button onClick={() => setActiveFilter('tots')} className="mt-6 px-6 py-2 bg-[var(--theme-accent-primary)] text-white rounded-full font-bold shadow-md hover:bg-orange-600 transition-colors">
+- **Línia 364**: `rounded-full` -> <button onClick={() => setActiveFilter('tots')} className="mt-6 px-6 py-2 bg-[var(--theme-accent-primary)] text-white rounded-full font-bold shadow-md hover:bg-orange-600 transition-colors">
+- **Línia 364**: `shadow-md` -> <button onClick={() => setActiveFilter('tots')} className="mt-6 px-6 py-2 bg-[var(--theme-accent-primary)] text-white rounded-full font-bold shadow-md hover:bg-orange-600 transition-colors">
+- **Línia 377**: `text-sm` -> <h4 className="text-sm font-black text-theme-muted uppercase tracking-wider mb-4 px-2">Cerques Populars</h4>
+- **Línia 380**: `bg-theme-panel` -> <button key={s} className="flex items-center gap-2 px-4 py-2 rounded-full bg-theme-panel border border-[var(--theme-border)] text-sm font-medium text-theme-text hover:bg-[var(--theme-surface)] hover:scale-105 transition-all shadow-sm" onClick={() => setQuery(s)}>
+- **Línia 380**: `text-sm` -> <button key={s} className="flex items-center gap-2 px-4 py-2 rounded-full bg-theme-panel border border-[var(--theme-border)] text-sm font-medium text-theme-text hover:bg-[var(--theme-surface)] hover:scale-105 transition-all shadow-sm" onClick={() => setQuery(s)}>
+- **Línia 380**: `rounded-full` -> <button key={s} className="flex items-center gap-2 px-4 py-2 rounded-full bg-theme-panel border border-[var(--theme-border)] text-sm font-medium text-theme-text hover:bg-[var(--theme-surface)] hover:scale-105 transition-all shadow-sm" onClick={() => setQuery(s)}>
+- **Línia 380**: `shadow-sm"` -> <button key={s} className="flex items-center gap-2 px-4 py-2 rounded-full bg-theme-panel border border-[var(--theme-border)] text-sm font-medium text-theme-text hover:bg-[var(--theme-surface)] hover:scale-105 transition-all shadow-sm" onClick={() => setQuery(s)}>
+- **Línia 381**: `text-theme-muted"` -> <Search size={14} className="text-theme-muted" />
+- **Línia 391**: `shadow-lg` -> className="universal-card text-left p-6 flex flex-col items-center sm:flex-row sm:items-start gap-5 hover:shadow-lg transition-all group overflow-hidden relative"
+- **Línia 393**: `bg-gradient-to-r` -> <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[var(--theme-text)]/5 to-transparent skew-x-12"></div>
+- **Línia 394**: `bg-theme-surface">` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-500 overflow-hidden bg-theme-surface">
+- **Línia 394**: `rounded-full` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-500 overflow-hidden bg-theme-surface">
+- **Línia 394**: `shadow-md` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md group-hover:scale-105 transition-transform duration-500 overflow-hidden bg-theme-surface">
+- **Línia 398**: `text-xl` -> <h3 className="font-black text-xl sm:text-2xl text-theme-text mb-2 group-hover:text-[var(--theme-accent-primary)] transition-colors">
+- **Línia 401**: `text-theme-muted` -> <p className="text-theme-muted text-sm leading-relaxed">Entra a descobrir com l'IAIA i els seus agents ens ajuden en el dia a dia de Sóc de Poble.</p>
+- **Línia 407**: `shadow-lg` -> className="universal-card text-left p-6 flex flex-col items-center sm:flex-row sm:items-start gap-5 hover:shadow-lg transition-all group overflow-hidden relative"
+- **Línia 409**: `bg-gradient-to-r` -> <div className="absolute inset-0 translate-x-[-100%] group-hover:animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-[var(--theme-text)]/5 to-transparent skew-x-12"></div>
+- **Línia 410**: `bg-gradient-to-br` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-500">
+- **Línia 410**: `text-white` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-500">
+- **Línia 410**: `rounded-full` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-500">
+- **Línia 410**: `shadow-md` -> <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex-shrink-0 relative shadow-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform duration-500">
+- **Línia 414**: `text-xl` -> <h3 className="font-black text-xl sm:text-2xl text-theme-text mb-2 group-hover:text-blue-500 transition-colors">
+- **Línia 417**: `text-theme-muted` -> <p className="text-theme-muted text-sm leading-relaxed">L'ecosistema global d'Intel·ligències Artificials que mantenen i auditen l'arquitectura del sistema.</p>
+
+### src/pages/features/ConnectarPage.jsx
+- **Línia 49**: `bg-theme-base` -> <div className="flex flex-col h-full w-full bg-theme-base animate-in fade-in relative z-10">
+- **Línia 51**: `bg-[var(--theme-accent-primary)]` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] flex items-center px-4 shadow-md text-white">
+- **Línia 51**: `text-white">` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] flex items-center px-4 shadow-md text-white">
+- **Línia 51**: `shadow-md` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] flex items-center px-4 shadow-md text-white">
+- **Línia 54**: `bg-white/20` -> className="p-2 -ml-2 rounded-full hover:bg-white/20 active:scale-95 transition-all"
+- **Línia 54**: `rounded-full` -> className="p-2 -ml-2 rounded-full hover:bg-white/20 active:scale-95 transition-all"
+- **Línia 58**: `text-lg` -> <h1 className="ml-2 font-bold text-lg uppercase tracking-wider">
+- **Línia 67**: `bg-[#F97316]/10` -> <div className="mb-8 p-4 bg-[#F97316]/10 border-2 border-[#F97316]/30 rounded-[20px] flex items-start gap-4 animate-pulse-subtle">
+- **Línia 67**: `rounded-[20px]` -> <div className="mb-8 p-4 bg-[#F97316]/10 border-2 border-[#F97316]/30 rounded-[20px] flex items-start gap-4 animate-pulse-subtle">
+- **Línia 68**: `bg-[#F97316]` -> <div className="bg-[#F97316] p-2 rounded-full text-white shrink-0 mt-1">
+- **Línia 68**: `text-white` -> <div className="bg-[#F97316] p-2 rounded-full text-white shrink-0 mt-1">
+- **Línia 68**: `rounded-full` -> <div className="bg-[#F97316] p-2 rounded-full text-white shrink-0 mt-1">
+- **Línia 72**: `text-[#F97316]` -> <h3 className="font-black text-[#F97316] tracking-wide uppercase text-sm mb-1">Mode Foraster Actiu</h3>
+- **Línia 73**: `text-sm` -> <p className="text-sm opacity-80 leading-relaxed">
+- **Línia 82**: `bg-[var(--theme-accent-primary)]/10` -> <div className="inline-flex items-center justify-center w-20 h-20 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] mb-6 shadow-[-4px_4px_15px_rgba(255,107,0,0.2)]">
+- **Línia 82**: `text-[var(--theme-accent-primary)]` -> <div className="inline-flex items-center justify-center w-20 h-20 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] mb-6 shadow-[-4px_4px_15px_rgba(255,107,0,0.2)]">
+- **Línia 82**: `rounded-[28px]` -> <div className="inline-flex items-center justify-center w-20 h-20 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] mb-6 shadow-[-4px_4px_15px_rgba(255,107,0,0.2)]">
+- **Línia 82**: `shadow-[-4px_4px_15px_rgba(255,107,0,0.2)]">` -> <div className="inline-flex items-center justify-center w-20 h-20 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] rounded-[28px] mb-6 shadow-[-4px_4px_15px_rgba(255,107,0,0.2)]">
+- **Línia 85**: `text-3xl` -> <h1 className="text-3xl md:text-4xl font-black mb-3">On vols guardar açò?</h1>
+- **Línia 86**: `text-lg` -> <p className="text-lg opacity-60">
+- **Línia 88**: `text-xs` -> <span className="block mt-1 font-mono text-xs opacity-50">{itemId || 'Element Rebut'}</span>
+- **Línia 94**: `text-lg` -> <h2 className="text-lg font-black tracking-widest uppercase opacity-80 mx-2 mb-4">Privacitat de la Connexió</h2>
+- **Línia 95**: `bg-white/5` -> <div className="bg-white/5 dark:bg-black/20 p-1.5 rounded-[24px] border border-white/10 flex items-center relative overflow-hidden shadow-inner">
+- **Línia 95**: `rounded-[24px]` -> <div className="bg-white/5 dark:bg-black/20 p-1.5 rounded-[24px] border border-white/10 flex items-center relative overflow-hidden shadow-inner">
+- **Línia 95**: `shadow-inner">` -> <div className="bg-white/5 dark:bg-black/20 p-1.5 rounded-[24px] border border-white/10 flex items-center relative overflow-hidden shadow-inner">
+- **Línia 98**: `bg-[var(--theme-accent-primary)]` -> className="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-[var(--theme-accent-primary)] rounded-[20px] transition-transform duration-300 ease-out-expo shadow-[0_2px_10px_rgba(249,115,22,0.4)]"
+- **Línia 98**: `rounded-[20px]` -> className="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-[var(--theme-accent-primary)] rounded-[20px] transition-transform duration-300 ease-out-expo shadow-[0_2px_10px_rgba(249,115,22,0.4)]"
+- **Línia 98**: `shadow-[0_2px_10px_rgba(249,115,22,0.4)]"` -> className="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-[var(--theme-accent-primary)] rounded-[20px] transition-transform duration-300 ease-out-expo shadow-[0_2px_10px_rgba(249,115,22,0.4)]"
+- **Línia 105**: `bg-white/5'}`}` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 105**: `text-sm` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 105**: `rounded-[20px]` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 114**: `bg-white/5'}`}` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${!isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 114**: `text-sm` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${!isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 114**: `rounded-[20px]` -> className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-3.5 font-bold text-sm tracking-wider uppercase transition-colors duration-300 rounded-[20px] ${!isPrivate ? 'text-white' : 'opacity-60 hover:opacity-100 hover:bg-white/5'}`}
+- **Línia 120**: `text-sm` -> <p className="text-center mt-4 text-sm opacity-60 px-4 font-medium h-6">
+- **Línia 130**: `text-lg` -> <h2 className="text-lg font-black tracking-widest uppercase opacity-80">Caixa Principal</h2>
+- **Línia 131**: `text-xs` -> <button className="flex items-center gap-1.5 text-xs font-bold text-[var(--theme-accent-primary)] hover:opacity-80 transition-opacity">
+- **Línia 141**: `rounded-[28px]` -> className={`p-5 md:p-6 rounded-[28px] border-2 transition-all duration-300 flex flex-col items-center justify-center gap-2 relative overflow-hidden group
+- **Línia 143**: `bg-[var(--theme-accent-primary)]/5` -> ? 'border-[var(--theme-accent-primary)] bg-[var(--theme-accent-primary)]/5 dark:bg-[var(--theme-accent-primary)]/10 scale-[1.02] shadow-[0_4px_20px_rgba(249,115,22,0.15)]'
+- **Línia 143**: `shadow-[0_4px_20px_rgba(249,115,22,0.15)]'` -> ? 'border-[var(--theme-accent-primary)] bg-[var(--theme-accent-primary)]/5 dark:bg-[var(--theme-accent-primary)]/10 scale-[1.02] shadow-[0_4px_20px_rgba(249,115,22,0.15)]'
+- **Línia 144**: `bg-white/5` -> : 'border-white/10 dark:border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10 hover:shadow-lg'
+- **Línia 144**: `shadow-lg'` -> : 'border-white/10 dark:border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10 hover:shadow-lg'
+- **Línia 148**: `text-5xl` -> <span className="text-5xl md:text-6xl filter drop-shadow-md group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 mb-2">{folder.icon}</span>
+- **Línia 148**: `shadow-md` -> <span className="text-5xl md:text-6xl filter drop-shadow-md group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 mb-2">{folder.icon}</span>
+- **Línia 150**: `text-[14px]` -> <h3 className="font-bold text-[14px] md:text-[15px] leading-tight mb-1">{folder.label}</h3>
+- **Línia 151**: `text-xs` -> <span className="text-xs opacity-50 font-medium">{folder.count} elements</span>
+- **Línia 154**: `text-[var(--theme-accent-primary)]` -> <div className="absolute top-3 right-3 text-[var(--theme-accent-primary)] animate-in zoom-in duration-300">
+- **Línia 155**: `bg-white` -> <CheckCircle2 size={22} className="fill-current bg-white rounded-full" />
+- **Línia 155**: `rounded-full"` -> <CheckCircle2 size={22} className="fill-current bg-white rounded-full" />
+- **Línia 164**: `bg-theme-panel` -> <section className="mb-10 bg-theme-panel p-6 md:p-8 rounded-[32px] border border-white/5 shadow-sm">
+- **Línia 164**: `rounded-[32px]` -> <section className="mb-10 bg-theme-panel p-6 md:p-8 rounded-[32px] border border-white/5 shadow-sm">
+- **Línia 164**: `shadow-sm">` -> <section className="mb-10 bg-theme-panel p-6 md:p-8 rounded-[32px] border border-white/5 shadow-sm">
+- **Línia 166**: `bg-[#E44BCA]` -> <div className="bg-[#E44BCA] p-2.5 rounded-[12px] text-white shadow-[-2px_2px_10px_rgba(228,75,202,0.3)]">
+- **Línia 166**: `text-white` -> <div className="bg-[#E44BCA] p-2.5 rounded-[12px] text-white shadow-[-2px_2px_10px_rgba(228,75,202,0.3)]">
+- **Línia 166**: `rounded-[12px]` -> <div className="bg-[#E44BCA] p-2.5 rounded-[12px] text-white shadow-[-2px_2px_10px_rgba(228,75,202,0.3)]">
+- **Línia 166**: `shadow-[-2px_2px_10px_rgba(228,75,202,0.3)]">` -> <div className="bg-[#E44BCA] p-2.5 rounded-[12px] text-white shadow-[-2px_2px_10px_rgba(228,75,202,0.3)]">
+- **Línia 170**: `text-lg` -> <h2 className="text-lg font-black tracking-widest uppercase mb-1">Assistent de Context</h2>
+- **Línia 171**: `text-sm` -> <p className="text-sm opacity-60">La IAIA et suggereix estes etiquetes en base al sistema de Poble. Afig tu les que vullgues per trobar-ho ràpid.</p>
+- **Línia 180**: `text-sm` -> className={`px-4 py-2 rounded-full text-sm font-bold border transition-all ${
+- **Línia 180**: `rounded-full` -> className={`px-4 py-2 rounded-full text-sm font-bold border transition-all ${
+- **Línia 182**: `bg-[var(--theme-accent-primary)]` -> ? 'bg-[var(--theme-accent-primary)] border-[var(--theme-accent-primary)] text-white scale-105'
+- **Línia 182**: `text-white` -> ? 'bg-[var(--theme-accent-primary)] border-[var(--theme-accent-primary)] text-white scale-105'
+- **Línia 183**: `bg-white/5` -> : 'bg-white/5 border-white/10 hover:border-white/20'
+- **Línia 192**: `bg-white/5` -> <div className="flex items-center gap-3 bg-white/5 dark:bg-black/20 p-2 pl-4 rounded-full border border-white/10 focus-within:border-[var(--theme-accent-primary)]/50 transition-colors">
+- **Línia 192**: `rounded-full` -> <div className="flex items-center gap-3 bg-white/5 dark:bg-black/20 p-2 pl-4 rounded-full border border-white/10 focus-within:border-[var(--theme-accent-primary)]/50 transition-colors">
+- **Línia 202**: `text-sm` -> className="bg-transparent border-none outline-none flex-1 text-sm font-medium h-8"
+- **Línia 207**: `bg-[var(--theme-accent-primary)]` -> className="bg-[var(--theme-accent-primary)] text-white px-5 py-2 h-10 rounded-full text-sm font-bold uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
+- **Línia 207**: `text-white` -> className="bg-[var(--theme-accent-primary)] text-white px-5 py-2 h-10 rounded-full text-sm font-bold uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
+- **Línia 207**: `rounded-full` -> className="bg-[var(--theme-accent-primary)] text-white px-5 py-2 h-10 rounded-full text-sm font-bold uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
+- **Línia 216**: `bg-[var(--theme-accent-primary)]/10` -> <div key={tag} className="flex items-center gap-2 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] px-3 py-1.5 rounded-full text-sm font-bold">
+- **Línia 216**: `text-[var(--theme-accent-primary)]` -> <div key={tag} className="flex items-center gap-2 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] px-3 py-1.5 rounded-full text-sm font-bold">
+- **Línia 216**: `rounded-full` -> <div key={tag} className="flex items-center gap-2 bg-[var(--theme-accent-primary)]/10 text-[var(--theme-accent-primary)] px-3 py-1.5 rounded-full text-sm font-bold">
+- **Línia 233**: `text-[15px]` -> relative overflow-hidden group w-full md:w-auto h-[64px] min-w-[280px] rounded-full font-black text-[15px] uppercase tracking-widest transition-all duration-300
+- **Línia 233**: `rounded-full` -> relative overflow-hidden group w-full md:w-auto h-[64px] min-w-[280px] rounded-full font-black text-[15px] uppercase tracking-widest transition-all duration-300
+- **Línia 235**: `bg-green-500` -> ? 'bg-green-500 text-white shadow-xl scale-105'
+- **Línia 235**: `text-white` -> ? 'bg-green-500 text-white shadow-xl scale-105'
+- **Línia 235**: `shadow-xl` -> ? 'bg-green-500 text-white shadow-xl scale-105'
+- **Línia 237**: `bg-gray-200` -> ? 'bg-gray-200 dark:bg-white/5 text-theme-text/40 cursor-not-allowed'
+- **Línia 237**: `text-theme-text/40` -> ? 'bg-gray-200 dark:bg-white/5 text-theme-text/40 cursor-not-allowed'
+- **Línia 238**: `bg-[var(--theme-accent-primary)]` -> : 'bg-[var(--theme-accent-primary)] text-white shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:scale-[1.02]'
+- **Línia 238**: `text-white` -> : 'bg-[var(--theme-accent-primary)] text-white shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:scale-[1.02]'
+- **Línia 238**: `shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)]` -> : 'bg-[var(--theme-accent-primary)] text-white shadow-[0_10px_30px_-10px_rgba(255,107,0,0.5)] hover:scale-[1.02]'
+- **Línia 250**: `bg-white` -> <CheckCircle2 size={24} className="fill-current text-green-500 bg-white rounded-full" />
+- **Línia 250**: `text-green-500` -> <CheckCircle2 size={24} className="fill-current text-green-500 bg-white rounded-full" />
+- **Línia 250**: `rounded-full"` -> <CheckCircle2 size={24} className="fill-current text-green-500 bg-white rounded-full" />
+- **Línia 262**: `bg-white/20` -> <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out-expo" />
+- **Línia 266**: `text-xs` -> <p className="mt-4 text-xs font-bold uppercase tracking-widest opacity-40 text-center">
+
+### src/pages/features/DesignSystem.jsx
+- **Línia 58**: `bg-primary` -> <div className="bg-primary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 58**: `text-white` -> <div className="bg-primary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 58**: `rounded-3xl` -> <div className="bg-primary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 58**: `shadow-sm` -> <div className="bg-primary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 59**: `text-sm">Primary</span>` -> <span className="font-bold text-sm">Primary</span>
+- **Línia 60**: `text-[10px]` -> <span className="opacity-80 font-mono text-[10px] break-all">var(--theme-accent-primary)</span>
+- **Línia 62**: `rounded-full` -> <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
+- **Línia 63**: `bg-orange-950','bg-orange-900','bg-orange-800','bg-orange-700','bg-orange-600','bg-orange-500','bg-orange-400','bg-orange-300','bg-orange-200','bg-orange-100'].map(cls` -> {['bg-orange-950','bg-orange-900','bg-orange-800','bg-orange-700','bg-orange-600','bg-orange-500','bg-orange-400','bg-orange-300','bg-orange-200','bg-orange-100'].map(cls => (
+- **Línia 71**: `bg-secondary` -> <div className="bg-secondary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 71**: `text-white` -> <div className="bg-secondary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 71**: `rounded-3xl` -> <div className="bg-secondary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 71**: `shadow-sm` -> <div className="bg-secondary text-white rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/5 text-center gap-2">
+- **Línia 72**: `text-sm">Secondary</span>` -> <span className="font-bold text-sm">Secondary</span>
+- **Línia 73**: `text-[10px]` -> <span className="opacity-80 font-mono text-[10px] break-all">var(--theme-accent-secondary)</span>
+- **Línia 75**: `rounded-full` -> <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
+- **Línia 76**: `bg-sky-950','bg-sky-900','bg-sky-800','bg-sky-700','bg-sky-600','bg-sky-500','bg-sky-400','bg-sky-300','bg-sky-200','bg-sky-100'].map(cls` -> {['bg-sky-950','bg-sky-900','bg-sky-800','bg-sky-700','bg-sky-600','bg-sky-500','bg-sky-400','bg-sky-300','bg-sky-200','bg-sky-100'].map(cls => (
+- **Línia 84**: `bg-theme-panel` -> <div className="bg-theme-panel text-theme-text rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 84**: `text-theme-text` -> <div className="bg-theme-panel text-theme-text rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 84**: `rounded-3xl` -> <div className="bg-theme-panel text-theme-text rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 84**: `shadow-sm` -> <div className="bg-theme-panel text-theme-text rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 85**: `text-sm">Surface` -> <span className="font-bold text-sm">Surface / Panel</span>
+- **Línia 86**: `bg-panel)</span>` -> <span className="opacity-80 font-mono text-[10px] break-all">var(--bg-panel)</span>
+- **Línia 86**: `text-[10px]` -> <span className="opacity-80 font-mono text-[10px] break-all">var(--bg-panel)</span>
+- **Línia 88**: `rounded-full` -> <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
+- **Línia 89**: `bg-white','bg-gray-100','bg-gray-200','bg-gray-300','bg-gray-400','bg-gray-500','bg-gray-600','bg-gray-700','bg-gray-800','bg-gray-900'].map(cls` -> {['bg-white','bg-gray-100','bg-gray-200','bg-gray-300','bg-gray-400','bg-gray-500','bg-gray-600','bg-gray-700','bg-gray-800','bg-gray-900'].map(cls => (
+- **Línia 97**: `bg-theme-text` -> <div className="bg-theme-text text-theme-base rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 97**: `text-theme-base` -> <div className="bg-theme-text text-theme-base rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 97**: `rounded-3xl` -> <div className="bg-theme-text text-theme-base rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 97**: `shadow-sm` -> <div className="bg-theme-text text-theme-base rounded-3xl p-5 flex flex-col items-center justify-center h-40 shadow-sm border border-black/10 dark:border-white/10 text-center gap-2">
+- **Línia 98**: `text-sm">Text` -> <span className="font-bold text-sm">Text / Foreground</span>
+- **Línia 99**: `text-[10px]` -> <span className="opacity-80 font-mono text-[10px] break-all">var(--text-main)</span>
+- **Línia 101**: `rounded-full` -> <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/10">
+- **Línia 102**: `bg-black','bg-zinc-900','bg-zinc-800','bg-zinc-700','bg-zinc-600','bg-zinc-500','bg-zinc-400','bg-zinc-300','bg-zinc-200','bg-zinc-100'].map(cls` -> {['bg-black','bg-zinc-900','bg-zinc-800','bg-zinc-700','bg-zinc-600','bg-zinc-500','bg-zinc-400','bg-zinc-300','bg-zinc-200','bg-zinc-100'].map(cls => (
+- **Línia 114**: `bg-black/5` -> <div className="bg-black/5 dark:bg-white/5 p-6 rounded-3xl border border-black/10 dark:border-white/10 my-8">
+- **Línia 114**: `rounded-3xl` -> <div className="bg-black/5 dark:bg-white/5 p-6 rounded-3xl border border-black/10 dark:border-white/10 my-8">
+- **Línia 115**: `text-[var(--theme-accent-primary)]` -> <h4 className="mt-0 text-[var(--theme-accent-primary)] mb-4">La Jerarquia de Títols (Headings)</h4>
+- **Línia 121**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 131**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 138**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 145**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 152**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 159**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 160**: `text-main)` -> <li><strong>Color:</strong> var(--text-main) / Negre per Light Mode i invers per Dark Mode.</li>
+- **Línia 165**: `text-sm` -> <ul className="mb-8 ml-6 list-disc text-sm opacity-80">
+- **Línia 173**: `text-[var(--theme-accent-primary)]` -> <h4 className="mt-0 text-[var(--theme-accent-primary)] mb-4">Les Llistes i Elements Decoratius</h4>
+- **Línia 190**: `bg-white` -> <div className="flex gap-4 items-center p-6 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-black/5 dark:border-white/5 my-6">
+- **Línia 190**: `rounded-3xl` -> <div className="flex gap-4 items-center p-6 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-black/5 dark:border-white/5 my-6">
+- **Línia 190**: `shadow-sm` -> <div className="flex gap-4 items-center p-6 bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-black/5 dark:border-white/5 my-6">
+- **Línia 191**: `bg-[var(--theme-accent-primary)]` -> <div className="w-16 h-16 bg-[var(--theme-accent-primary)] rounded-3xl flex items-center justify-center text-white font-bold shadow-md">24px</div>
+- **Línia 191**: `text-white` -> <div className="w-16 h-16 bg-[var(--theme-accent-primary)] rounded-3xl flex items-center justify-center text-white font-bold shadow-md">24px</div>
+- **Línia 191**: `rounded-3xl` -> <div className="w-16 h-16 bg-[var(--theme-accent-primary)] rounded-3xl flex items-center justify-center text-white font-bold shadow-md">24px</div>
+- **Línia 191**: `shadow-md">24px</div>` -> <div className="w-16 h-16 bg-[var(--theme-accent-primary)] rounded-3xl flex items-center justify-center text-white font-bold shadow-md">24px</div>
+- **Línia 192**: `bg-black/5` -> <p className="m-0 text-sm flex-1">La geometria "Bento" de Sóc de Poble es caracteritza per cantonades molt arrodonides (<code className="bg-black/5 dark:bg-white/10 px-1 rounded">rounded-3xl</code> o 24px/28px) per a targetes i contenidors mestres, oferint una sensació orgànica i amigable en tauletes i mòbils.</p>
+- **Línia 192**: `text-sm` -> <p className="m-0 text-sm flex-1">La geometria "Bento" de Sóc de Poble es caracteritza per cantonades molt arrodonides (<code className="bg-black/5 dark:bg-white/10 px-1 rounded">rounded-3xl</code> o 24px/28px) per a targetes i contenidors mestres, oferint una sensació orgànica i amigable en tauletes i mòbils.</p>
+- **Línia 192**: `rounded-3xl</code>` -> <p className="m-0 text-sm flex-1">La geometria "Bento" de Sóc de Poble es caracteritza per cantonades molt arrodonides (<code className="bg-black/5 dark:bg-white/10 px-1 rounded">rounded-3xl</code> o 24px/28px) per a targetes i contenidors mestres, oferint una sensació orgànica i amigable en tauletes i mòbils.</p>
+- **Línia 220**: `bg-theme-panel` -> <div className="flex flex-wrap gap-4 p-6 bg-theme-panel rounded-3xl border border-white/10 shadow-sm my-6 items-center">
+- **Línia 220**: `rounded-3xl` -> <div className="flex flex-wrap gap-4 p-6 bg-theme-panel rounded-3xl border border-white/10 shadow-sm my-6 items-center">
+- **Línia 220**: `shadow-sm` -> <div className="flex flex-wrap gap-4 p-6 bg-theme-panel rounded-3xl border border-white/10 shadow-sm my-6 items-center">
+- **Línia 234**: `bg-m3-secondary/10` -> <div className="w-full bg-m3-secondary/10 dark:bg-m3-secondary/15 border border-m3-secondary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 234**: `rounded-xl">` -> <div className="w-full bg-m3-secondary/10 dark:bg-m3-secondary/15 border border-m3-secondary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 234**: `shadow-inner` -> <div className="w-full bg-m3-secondary/10 dark:bg-m3-secondary/15 border border-m3-secondary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 236**: `text-m3-secondary` -> <Info size={18} className="text-m3-secondary flex-shrink-0" />
+- **Línia 237**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
+- **Línia 242**: `bg-white/50` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-secondary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 242**: `text-gray-500` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-secondary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 242**: `rounded-lg` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-secondary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 248**: `bg-m3-primary/10` -> <div className="w-full bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 248**: `rounded-xl">` -> <div className="w-full bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 248**: `shadow-inner` -> <div className="w-full bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
+- **Línia 250**: `text-m3-primary` -> <ShieldCheck size={18} className="text-m3-primary flex-shrink-0" />
+- **Línia 251**: `text-[11px]` -> <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
+- **Línia 256**: `bg-white/50` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-primary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 256**: `text-gray-500` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-primary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 256**: `rounded-lg` -> <button className="flex-shrink-0 text-gray-500 hover:text-m3-primary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
+- **Línia 265**: `text-lg">` -> <blockquote className="my-6 border-l-4 border-[var(--theme-accent-primary)] pl-4 italic opacity-90 text-lg">
+- **Línia 267**: `text-sm` -> <footer className="mt-2 text-sm font-bold opacity-70 not-italic">— Javi Llinares, Creador de Sóc de Poble</footer>
+- **Línia 317**: `bg-black` -> <header className="notranslate h-[64px] min-h-[64px] w-full flex items-center justify-between pr-6 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 317**: `rounded-lg` -> <header className="notranslate h-[64px] min-h-[64px] w-full flex items-center justify-between pr-6 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 317**: `shadow-lg` -> <header className="notranslate h-[64px] min-h-[64px] w-full flex items-center justify-between pr-6 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 323**: `text-white/70"><IAIAIcon` -> <div className="shrink-0 w-12 h-12 flex items-center justify-center transition-all text-white/70"><IAIAIcon size={36} color="currentColor" className="shrink-0 w-[36px] h-[36px] opacity-60" /></div>
+- **Línia 324**: `text-white/70` -> <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white"><Search className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 325**: `text-white/70` -> <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white"><Moon className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 326**: `text-white/70"><UserPlus` -> <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70"><UserPlus className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 331**: `bg-black` -> <header className="notranslate h-[56px] min-h-[56px] w-full max-w-[460px] flex items-center justify-between pr-2 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 331**: `rounded-lg` -> <header className="notranslate h-[56px] min-h-[56px] w-full max-w-[460px] flex items-center justify-between pr-2 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 331**: `shadow-lg` -> <header className="notranslate h-[56px] min-h-[56px] w-full max-w-[460px] flex items-center justify-between pr-2 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
+- **Línia 337**: `text-white/70"><IAIAIcon` -> <div className="shrink-0 w-10 h-10 flex items-center justify-center transition-all scale-95 text-white/70"><IAIAIcon size={36} color="currentColor" className="shrink-0 w-[36px] h-[36px] opacity-60" /></div>
+- **Línia 338**: `text-white/70` -> <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white"><Search className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 339**: `text-white/70` -> <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white"><Moon className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 340**: `text-white/70"><UserPlus` -> <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70"><UserPlus className="shrink-0 w-[36px] h-[36px]" /></div>
+- **Línia 347**: `bg-indigo-600` -> <header className="w-full bg-indigo-600 text-white flex flex-col shrink-0 z-20 shadow-md my-6 rounded-lg overflow-hidden">
+- **Línia 347**: `text-white` -> <header className="w-full bg-indigo-600 text-white flex flex-col shrink-0 z-20 shadow-md my-6 rounded-lg overflow-hidden">
+- **Línia 347**: `rounded-lg` -> <header className="w-full bg-indigo-600 text-white flex flex-col shrink-0 z-20 shadow-md my-6 rounded-lg overflow-hidden">
+- **Línia 347**: `shadow-md` -> <header className="w-full bg-indigo-600 text-white flex flex-col shrink-0 z-20 shadow-md my-6 rounded-lg overflow-hidden">
+- **Línia 350**: `bg-white/20` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 350**: `text-white` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 350**: `rounded-xl` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 353**: `bg-white/20` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Llegir Sistema Operatiu">
+- **Línia 353**: `text-white` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Llegir Sistema Operatiu">
+- **Línia 353**: `rounded-xl` -> <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Llegir Sistema Operatiu">
+- **Línia 358**: `bg-white/20` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all" aria-label="Traduir pàgina">
+- **Línia 358**: `rounded-xl` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all" aria-label="Traduir pàgina">
+- **Línia 359**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />
+- **Línia 361**: `bg-white/20` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 361**: `text-white"` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 361**: `rounded-xl` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 364**: `bg-white/20` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 364**: `text-white"` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 364**: `rounded-xl` -> <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 367**: `bg-white` -> <button className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-indigo-600 font-black uppercase text-sm shadow-md ml-1">
+- **Línia 367**: `text-indigo-600` -> <button className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-indigo-600 font-black uppercase text-sm shadow-md ml-1">
+- **Línia 367**: `rounded-full` -> <button className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-indigo-600 font-black uppercase text-sm shadow-md ml-1">
+- **Línia 367**: `shadow-md` -> <button className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-indigo-600 font-black uppercase text-sm shadow-md ml-1">
+
+### src/pages/features/GlobalAssetAlbum.jsx
+- **Línia 37**: `bg-[#FDF5E6]` -> <div className="global-album-page anim-fade-in bg-[#FDF5E6] dark:bg-[#0a0a0a] min-h-screen text-black dark:text-white pb-20">
+- **Línia 37**: `text-black` -> <div className="global-album-page anim-fade-in bg-[#FDF5E6] dark:bg-[#0a0a0a] min-h-screen text-black dark:text-white pb-20">
+- **Línia 40**: `bg-black/5` -> <button className="back-btn mr-4 p-2 bg-black/5 dark:bg-white/10 rounded-full hover:bg-black/10 transition-colors" onClick={() => navigate(-1)}>
+- **Línia 40**: `rounded-full` -> <button className="back-btn mr-4 p-2 bg-black/5 dark:bg-white/10 rounded-full hover:bg-black/10 transition-colors" onClick={() => navigate(-1)}>
+- **Línia 44**: `text-2xl` -> <h1 className="text-2xl font-black uppercase tracking-tight">Àlbum Global del Poble</h1>
+- **Línia 45**: `text-sm` -> <p className="text-sm opacity-60">Totes les imatges i records compartits a la xarxa.</p>
+- **Línia 51**: `bg-orange-500` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 51**: `text-sm` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 51**: `rounded-full` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 57**: `bg-orange-500` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'timeline' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 57**: `text-sm` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'timeline' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 57**: `rounded-full` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'timeline' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 63**: `bg-orange-500` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'brain' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 63**: `text-sm` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'brain' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 63**: `rounded-full` -> className={`header-tab flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm whitespace-nowrap transition-colors ${viewMode === 'brain' ? 'bg-orange-500 text-white' : 'bg-black/5 dark:bg-white/10'}`}
+- **Línia 74**: `bg-black/5` -> <div key={item.id || index} className="relative aspect-square bg-black/5 dark:bg-white/5 rounded-2xl overflow-hidden group border border-black/10 dark:border-white/10 cursor-pointer hover:border-orange-500 transition-colors">
+- **Línia 74**: `rounded-2xl` -> <div key={item.id || index} className="relative aspect-square bg-black/5 dark:bg-white/5 rounded-2xl overflow-hidden group border border-black/10 dark:border-white/10 cursor-pointer hover:border-orange-500 transition-colors">
+- **Línia 82**: `bg-gradient-to-t` -> <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity">
+- **Línia 82**: `text-white` -> <div className="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity">
+- **Línia 83**: `text-[10px]` -> <p className="text-[10px] font-mono truncate">{item.title}</p>
+- **Línia 84**: `text-[9px]` -> <p className="text-[9px] opacity-70">{new Date(item.created_at).toLocaleDateString()}</p>
+- **Línia 98**: `bg-black` -> <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl z-50">
+- **Línia 98**: `text-white` -> <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl z-50">
+- **Línia 98**: `rounded-full` -> <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl z-50">
+- **Línia 98**: `shadow-xl` -> <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-full font-black uppercase tracking-widest text-[10px] shadow-xl z-50">
+
+### src/pages/features/HubView.jsx
+- **Línia 14**: `bg-theme-base` -> <div className="min-h-full w-full bg-theme-base text-theme-text flex flex-col items-center transition-colors duration-500">
+- **Línia 14**: `text-theme-text` -> <div className="min-h-full w-full bg-theme-base text-theme-text flex flex-col items-center transition-colors duration-500">
+- **Línia 30**: `text-[11px]` -> <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-theme-text/40 mb-4 pl-2">Accions Principals</h2>
+- **Línia 35**: `bg-gradient-to-r` -> className="w-full flex items-center p-5 border border-[var(--theme-accent-primary)]/30 rounded-[28px] bg-gradient-to-r from-[var(--theme-accent-primary)]/10 to-transparent hover:from-[var(--theme-accent-primary)]/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 35**: `rounded-[28px]` -> className="w-full flex items-center p-5 border border-[var(--theme-accent-primary)]/30 rounded-[28px] bg-gradient-to-r from-[var(--theme-accent-primary)]/10 to-transparent hover:from-[var(--theme-accent-primary)]/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 35**: `shadow-sm"` -> className="w-full flex items-center p-5 border border-[var(--theme-accent-primary)]/30 rounded-[28px] bg-gradient-to-r from-[var(--theme-accent-primary)]/10 to-transparent hover:from-[var(--theme-accent-primary)]/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 41**: `bg-[var(--theme-accent-primary)]` -> <div className="w-14 h-14 rounded-[20px] bg-[var(--theme-accent-primary)] text-white flex items-center justify-center shrink-0 shadow-[0_0_20px_var(--theme-accent-primary)] opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+- **Línia 41**: `text-white` -> <div className="w-14 h-14 rounded-[20px] bg-[var(--theme-accent-primary)] text-white flex items-center justify-center shrink-0 shadow-[0_0_20px_var(--theme-accent-primary)] opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+- **Línia 41**: `rounded-[20px]` -> <div className="w-14 h-14 rounded-[20px] bg-[var(--theme-accent-primary)] text-white flex items-center justify-center shrink-0 shadow-[0_0_20px_var(--theme-accent-primary)] opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+- **Línia 41**: `shadow-[0_0_20px_var(--theme-accent-primary)]` -> <div className="w-14 h-14 rounded-[20px] bg-[var(--theme-accent-primary)] text-white flex items-center justify-center shrink-0 shadow-[0_0_20px_var(--theme-accent-primary)] opacity-90 group-hover:opacity-100 group-hover:scale-110 transition-transform">
+- **Línia 45**: `text-[22px]` -> <span className="font-sans text-[22px] font-black uppercase tracking-widest leading-none text-theme-text">Publicar al Mur</span>
+- **Línia 46**: `text-[13px]` -> <span className="text-[13px] font-bold tracking-[0.2em] mt-1.5 uppercase text-[var(--theme-accent-primary)]">Compartir novetats</span>
+- **Línia 51**: `bg-theme-panel/50` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 51**: `rounded-[28px]` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 51**: `shadow-sm"` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 57**: `bg-black/5` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 57**: `text-theme-text/80` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 57**: `rounded-[18px]` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 60**: `text-[18px]` -> <span className="font-sans text-[18px] font-black uppercase tracking-widest leading-none text-theme-text ml-5 opacity-90 group-hover:opacity-100">Vendre al Mercat</span>
+- **Línia 64**: `bg-theme-panel/50` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 64**: `rounded-[28px]` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 64**: `shadow-sm"` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 70**: `bg-black/5` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 70**: `text-theme-text/80` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 70**: `rounded-[18px]` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 73**: `text-[18px]` -> <span className="font-sans text-[18px] font-black uppercase tracking-widest leading-none text-theme-text ml-5 opacity-90 group-hover:opacity-100">Crear Esdeveniment</span>
+- **Línia 77**: `bg-theme-panel/50` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 77**: `rounded-[28px]` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 77**: `shadow-sm"` -> className="w-full flex items-center p-4 border border-theme-border rounded-[28px] bg-theme-panel/50 hover:bg-theme-panel hover:border-theme-text/20 transition-all group active:scale-[0.98] shadow-sm"
+- **Línia 80**: `bg-black/5` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 80**: `text-theme-text/80` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 80**: `rounded-[18px]` -> <div className="w-12 h-12 rounded-[18px] bg-black/5 dark:bg-white/5 text-theme-text/80 group-hover:bg-theme-text group-hover:text-theme-base flex items-center justify-center shrink-0 transition-colors">
+- **Línia 83**: `text-[18px]` -> <span className="font-sans text-[18px] font-black uppercase tracking-widest leading-none text-theme-text ml-5 opacity-90 group-hover:opacity-100">Veure Mapes</span>
+- **Línia 90**: `text-[11px]` -> <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-theme-text/40 mb-4 pl-2">Recursos i Eines</h2>
+- **Línia 94**: `bg-theme-panel/50` -> className="w-full h-full flex items-center justify-start gap-3 p-4 border border-theme-border rounded-[24px] bg-theme-panel/50 hover:bg-theme-panel transition-all group active:scale-95 shadow-sm"
+- **Línia 94**: `rounded-[24px]` -> className="w-full h-full flex items-center justify-start gap-3 p-4 border border-theme-border rounded-[24px] bg-theme-panel/50 hover:bg-theme-panel transition-all group active:scale-95 shadow-sm"
+- **Línia 94**: `shadow-sm"` -> className="w-full h-full flex items-center justify-start gap-3 p-4 border border-theme-border rounded-[24px] bg-theme-panel/50 hover:bg-theme-panel transition-all group active:scale-95 shadow-sm"
+- **Línia 97**: `bg-[#0ea5e9]/10` -> <div className="w-12 h-12 rounded-[20px] bg-[#0ea5e9]/10 text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white flex items-center justify-center transition-colors shadow-sm shrink-0">
+- **Línia 97**: `text-[#0ea5e9]` -> <div className="w-12 h-12 rounded-[20px] bg-[#0ea5e9]/10 text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white flex items-center justify-center transition-colors shadow-sm shrink-0">
+- **Línia 97**: `rounded-[20px]` -> <div className="w-12 h-12 rounded-[20px] bg-[#0ea5e9]/10 text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white flex items-center justify-center transition-colors shadow-sm shrink-0">
+- **Línia 97**: `shadow-sm` -> <div className="w-12 h-12 rounded-[20px] bg-[#0ea5e9]/10 text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white flex items-center justify-center transition-colors shadow-sm shrink-0">
+- **Línia 100**: `text-sm` -> <div className="flex flex-col items-start font-black text-sm uppercase tracking-tight pt-0.5">
+- **Línia 101**: `text-[10px]` -> <span className="text-[10px] tracking-[0.3em] leading-none mb-1.5 text-[#0ea5e9]">Canal Directe</span>
+- **Línia 102**: `text-[16px]` -> <span className="font-sans text-[16px] leading-none text-left text-theme-text font-black tracking-widest opacity-90">Missatges per a dubtes</span>
+- **Línia 112**: `text-yellow-500"` -> leftIcon={<StickyNote size={20} className="text-yellow-500" />}
+- **Línia 114**: `bg-theme-panel/50` -> className="min-h-[56px] justify-start rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text bg-theme-panel/50 border border-theme-border hover:bg-theme-panel shadow-sm"
+- **Línia 114**: `text-[16px]` -> className="min-h-[56px] justify-start rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text bg-theme-panel/50 border border-theme-border hover:bg-theme-panel shadow-sm"
+- **Línia 114**: `rounded-[24px]` -> className="min-h-[56px] justify-start rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text bg-theme-panel/50 border border-theme-border hover:bg-theme-panel shadow-sm"
+- **Línia 114**: `shadow-sm"` -> className="min-h-[56px] justify-start rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text bg-theme-panel/50 border border-theme-border hover:bg-theme-panel shadow-sm"
+- **Línia 125**: `text-[20px]` -> className="min-h-[64px] rounded-[24px] font-sans text-[20px] font-black uppercase tracking-widest mt-2 shadow-md hover:scale-[1.02] transition-transform"
+- **Línia 125**: `rounded-[24px]` -> className="min-h-[64px] rounded-[24px] font-sans text-[20px] font-black uppercase tracking-widest mt-2 shadow-md hover:scale-[1.02] transition-transform"
+- **Línia 125**: `shadow-md` -> className="min-h-[64px] rounded-[24px] font-sans text-[20px] font-black uppercase tracking-widest mt-2 shadow-md hover:scale-[1.02] transition-transform"
+- **Línia 137**: `text-[16px]` -> className="min-h-[56px] rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text/60 hover:text-theme-text"
+- **Línia 137**: `rounded-[24px]` -> className="min-h-[56px] rounded-[24px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text/60 hover:text-theme-text"
+- **Línia 153**: `text-[16px]` -> className="min-h-[56px] rounded-[28px] font-sans text-[16px] font-black uppercase tracking-widest"
+- **Línia 153**: `rounded-[28px]` -> className="min-h-[56px] rounded-[28px] font-sans text-[16px] font-black uppercase tracking-widest"
+- **Línia 167**: `bg-red-500/10` -> className="min-h-[56px] rounded-[28px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text/40 hover:text-red-500 bg-transparent hover:bg-red-500/10 transition-colors"
+- **Línia 167**: `text-[16px]` -> className="min-h-[56px] rounded-[28px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text/40 hover:text-red-500 bg-transparent hover:bg-red-500/10 transition-colors"
+- **Línia 167**: `rounded-[28px]` -> className="min-h-[56px] rounded-[28px] font-sans text-[16px] font-black uppercase tracking-widest text-theme-text/40 hover:text-red-500 bg-transparent hover:bg-red-500/10 transition-colors"
+
+### src/pages/features/MediaManager.jsx
+- **Línia 405**: `bg-[#050505]'` -> const bgMain = isDarkMode ? 'bg-[#050505]' : 'bg-gray-50';
+- **Línia 406**: `text-white'` -> const textMain = isDarkMode ? 'text-white' : 'text-gray-900';
+- **Línia 407**: `text-white/60'` -> const textDim = isDarkMode ? 'text-white/60' : 'text-gray-500';
+- **Línia 409**: `bg-[#111]'` -> const cardBg = isDarkMode ? 'bg-[#111]' : 'bg-gray-100';
+- **Línia 413**: `bg-[#4F46E5]` -> const toolbarBg = isDarkMode ? 'bg-[#4F46E5] text-white' : 'bg-[#F97316] text-white';
+- **Línia 413**: `text-white'` -> const toolbarBg = isDarkMode ? 'bg-[#4F46E5] text-white' : 'bg-[#F97316] text-white';
+- **Línia 427**: `bg-black/10` -> className="flex items-center justify-center w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-white shrink-0"
+- **Línia 427**: `text-white` -> className="flex items-center justify-center w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-white shrink-0"
+- **Línia 427**: `rounded-full` -> className="flex items-center justify-center w-9 h-9 rounded-full bg-black/10 hover:bg-black/20 transition-colors text-white shrink-0"
+- **Línia 433**: `bg-white` -> <div className="h-4 sm:h-5 w-[1px] bg-white opacity-30 mx-0.5 shrink-0"></div>
+- **Línia 436**: `bg-black/20` -> <div className="relative flex items-center justify-center w-9 h-9 sm:w-auto sm:h-9 bg-black/20 hover:bg-black/30 rounded-full transition-colors shrink-0">
+- **Línia 436**: `rounded-full` -> <div className="relative flex items-center justify-center w-9 h-9 sm:w-auto sm:h-9 bg-black/20 hover:bg-black/30 rounded-full transition-colors shrink-0">
+- **Línia 437**: `text-white` -> <div className="absolute left-[10px] sm:left-3 pointer-events-none text-white flex items-center justify-center z-10">
+- **Línia 443**: `text-white` -> className="absolute inset-0 sm:static w-full h-full opacity-0 sm:opacity-100 sm:appearance-none bg-transparent cursor-pointer text-white font-bold uppercase tracking-wider text-[11px] sm:text-xs pl-0 sm:pl-9 pr-0 sm:pr-8 outline-none z-20"
+- **Línia 446**: `bg-white">` -> <option key={folder} value={folder} className="text-black bg-white">
+- **Línia 446**: `text-black` -> <option key={folder} value={folder} className="text-black bg-white">
+- **Línia 451**: `text-white/70` -> <div className="absolute right-2.5 pointer-events-none text-white/70 hidden sm:block z-10">
+- **Línia 457**: `bg-black/20` -> <div className="relative flex items-center justify-center w-9 h-9 sm:w-auto sm:h-9 bg-black/20 hover:bg-black/30 rounded-full transition-colors shrink-0">
+- **Línia 457**: `rounded-full` -> <div className="relative flex items-center justify-center w-9 h-9 sm:w-auto sm:h-9 bg-black/20 hover:bg-black/30 rounded-full transition-colors shrink-0">
+- **Línia 458**: `text-white` -> <div className="absolute left-[10px] sm:left-3 pointer-events-none text-white flex items-center justify-center z-10">
+- **Línia 464**: `text-white` -> className="absolute inset-0 sm:static w-full h-full opacity-0 sm:opacity-100 sm:appearance-none bg-transparent cursor-pointer text-white font-bold uppercase tracking-wider text-[11px] sm:text-xs pl-0 sm:pl-9 pr-0 sm:pr-8 outline-none z-20"
+- **Línia 466**: `bg-white">All` -> <option value="all" className="text-black bg-white">All ({linkStats.all})</option>
+- **Línia 466**: `text-black` -> <option value="all" className="text-black bg-white">All ({linkStats.all})</option>
+- **Línia 467**: `bg-white">On` -> <option value="linked" className="text-black bg-white">On ({linkStats.linked})</option>
+- **Línia 467**: `text-black` -> <option value="linked" className="text-black bg-white">On ({linkStats.linked})</option>
+- **Línia 468**: `bg-white">Off` -> <option value="orphaned" className="text-black bg-white">Off ({linkStats.orphaned})</option>
+- **Línia 468**: `text-black` -> <option value="orphaned" className="text-black bg-white">Off ({linkStats.orphaned})</option>
+- **Línia 470**: `text-white/70` -> <div className="absolute right-2.5 pointer-events-none text-white/70 hidden sm:block z-10">
+- **Línia 479**: `bg-black/20` -> <div className="relative flex items-center justify-start w-9 h-9 sm:w-32 lg:w-48 bg-black/20 hover:bg-black/30 focus-within:bg-black/30 focus-within:w-48 focus-within:absolute focus-within:right-2 sm:focus-within:relative sm:focus-within:w-full rounded-full transition-all shrink-0 z-30 group">
+- **Línia 479**: `rounded-full` -> <div className="relative flex items-center justify-start w-9 h-9 sm:w-32 lg:w-48 bg-black/20 hover:bg-black/30 focus-within:bg-black/30 focus-within:w-48 focus-within:absolute focus-within:right-2 sm:focus-within:relative sm:focus-within:w-full rounded-full transition-all shrink-0 z-30 group">
+- **Línia 480**: `text-white` -> <div className="absolute left-[10px] sm:left-3 pointer-events-none text-white flex items-center justify-center z-10 transition-colors">
+- **Línia 489**: `text-white` -> className="absolute inset-0 sm:static w-full h-full bg-transparent text-white placeholder-transparent sm:placeholder-white/60 focus:placeholder-white/60 text-xs pl-9 pr-3 outline-none cursor-pointer focus:cursor-text opacity-0 sm:opacity-100 focus:opacity-100 transition-all rounded-full z-20"
+- **Línia 489**: `rounded-full` -> className="absolute inset-0 sm:static w-full h-full bg-transparent text-white placeholder-transparent sm:placeholder-white/60 focus:placeholder-white/60 text-xs pl-9 pr-3 outline-none cursor-pointer focus:cursor-text opacity-0 sm:opacity-100 focus:opacity-100 transition-all rounded-full z-20"
+- **Línia 495**: `bg-black/20` -> className="flex items-center justify-center w-9 h-9 bg-black/20 hover:bg-black/30 rounded-full transition-all text-white relative shrink-0"
+- **Línia 495**: `text-white` -> className="flex items-center justify-center w-9 h-9 bg-black/20 hover:bg-black/30 rounded-full transition-all text-white relative shrink-0"
+- **Línia 495**: `rounded-full` -> className="flex items-center justify-center w-9 h-9 bg-black/20 hover:bg-black/30 rounded-full transition-all text-white relative shrink-0"
+- **Línia 507**: `bg-red-500` -> <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-lg"></span>
+- **Línia 507**: `rounded-full` -> <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-lg"></span>
+- **Línia 507**: `shadow-lg"></span>` -> <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-lg"></span>
+- **Línia 513**: `bg-white` -> className={`flex items-center justify-center gap-1.5 h-9 px-3 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold transition-all shrink-0 ${selectionMode ? 'bg-white text-black shadow-lg' : 'bg-black/20 hover:bg-black/30 text-white'}`}
+- **Línia 513**: `text-[11px]` -> className={`flex items-center justify-center gap-1.5 h-9 px-3 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold transition-all shrink-0 ${selectionMode ? 'bg-white text-black shadow-lg' : 'bg-black/20 hover:bg-black/30 text-white'}`}
+- **Línia 513**: `rounded-full` -> className={`flex items-center justify-center gap-1.5 h-9 px-3 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold transition-all shrink-0 ${selectionMode ? 'bg-white text-black shadow-lg' : 'bg-black/20 hover:bg-black/30 text-white'}`}
+- **Línia 513**: `shadow-lg'` -> className={`flex items-center justify-center gap-1.5 h-9 px-3 sm:px-4 rounded-full text-[11px] sm:text-xs font-bold transition-all shrink-0 ${selectionMode ? 'bg-white text-black shadow-lg' : 'bg-black/20 hover:bg-black/30 text-white'}`}
+- **Línia 523**: `bg-blue-900/20` -> <div className={`w-full shrink-0 border-b px-4 md:px-8 py-2.5 flex items-center justify-between animate-in slide-in-from-top-2 z-20 ${isDarkMode ? 'bg-blue-900/20 border-blue-500/30' : 'bg-orange-50 border-orange-200'}`}>
+- **Línia 524**: `text-xs` -> <div className={`flex items-center gap-2 font-bold text-xs ${isDarkMode ? 'text-blue-500' : 'text-orange-600'}`}>
+- **Línia 531**: `bg-red-600` -> className="flex items-center gap-1.5 bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all disabled:opacity-50"
+- **Línia 531**: `text-white` -> className="flex items-center gap-1.5 bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all disabled:opacity-50"
+- **Línia 531**: `rounded-lg` -> className="flex items-center gap-1.5 bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all disabled:opacity-50"
+- **Línia 552**: `bg-black/80` -> className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 bg-black/80 backdrop-blur-md text-white px-4 py-2 rounded-full font-black text-sm shadow-2xl transition-all duration-300 border border-white/10 cursor-pointer hover:bg-black hover:scale-105 active:scale-95 ${isScrolling ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'}`}
+- **Línia 552**: `text-white` -> className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 bg-black/80 backdrop-blur-md text-white px-4 py-2 rounded-full font-black text-sm shadow-2xl transition-all duration-300 border border-white/10 cursor-pointer hover:bg-black hover:scale-105 active:scale-95 ${isScrolling ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'}`}
+- **Línia 552**: `rounded-full` -> className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 bg-black/80 backdrop-blur-md text-white px-4 py-2 rounded-full font-black text-sm shadow-2xl transition-all duration-300 border border-white/10 cursor-pointer hover:bg-black hover:scale-105 active:scale-95 ${isScrolling ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'}`}
+- **Línia 552**: `shadow-2xl` -> className={`fixed right-4 top-1/2 -translate-y-1/2 z-40 bg-black/80 backdrop-blur-md text-white px-4 py-2 rounded-full font-black text-sm shadow-2xl transition-all duration-300 border border-white/10 cursor-pointer hover:bg-black hover:scale-105 active:scale-95 ${isScrolling ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8 pointer-events-none'}`}
+- **Línia 586**: `bg-[#050505]/95` -> <div className={`pt-4 pb-2 border-b mb-3 sticky top-0 z-10 w-full transition-colors ${isDarkMode ? 'bg-[#050505]/95 backdrop-blur-sm border-white/5 text-white/90' : 'bg-gray-50/95 backdrop-blur-sm border-gray-200 text-gray-800'}`}>
+- **Línia 586**: `text-white/90'` -> <div className={`pt-4 pb-2 border-b mb-3 sticky top-0 z-10 w-full transition-colors ${isDarkMode ? 'bg-[#050505]/95 backdrop-blur-sm border-white/5 text-white/90' : 'bg-gray-50/95 backdrop-blur-sm border-gray-200 text-gray-800'}`}>
+- **Línia 587**: `text-lg` -> <h2 className="font-black text-lg tracking-wider">
+- **Línia 616**: `rounded-xl` -> className={`${cardBg} border rounded-xl overflow-hidden group relative transition-all ${isSelected ? (isDarkMode ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-95' : 'border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.3)] scale-95') : (isDarkMode ? 'border-[#222] hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-gray-200 shadow-sm hover:border-orange-400 hover:shadow-md cursor-pointer')}`}
+- **Línia 616**: `shadow-[0_0_15px_rgba(59,130,246,0.3)]` -> className={`${cardBg} border rounded-xl overflow-hidden group relative transition-all ${isSelected ? (isDarkMode ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-95' : 'border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.3)] scale-95') : (isDarkMode ? 'border-[#222] hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]' : 'border-gray-200 shadow-sm hover:border-orange-400 hover:shadow-md cursor-pointer')}`}
+- **Línia 633**: `bg-[#1a1a1a]'` -> <div className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'text-white/50 bg-[#1a1a1a]' : 'text-gray-400 bg-gray-200'}`}>
+- **Línia 633**: `text-white/50` -> <div className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'text-white/50 bg-[#1a1a1a]' : 'text-gray-400 bg-gray-200'}`}>
+- **Línia 637**: `bg-[#1a1a1a]'` -> <div className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'text-white/50 bg-[#1a1a1a]' : 'text-gray-400 bg-gray-200'}`}>
+- **Línia 637**: `text-white/50` -> <div className={`w-full h-full flex flex-col items-center justify-center ${isDarkMode ? 'text-white/50 bg-[#1a1a1a]' : 'text-gray-400 bg-gray-200'}`}>
+- **Línia 645**: `bg-blue-500` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? (isDarkMode ? 'bg-blue-500 border-blue-500 text-white scale-110' : 'bg-orange-500 border-orange-500 text-white scale-110') : 'border-white/50 bg-black/30 text-transparent'}`}>
+- **Línia 645**: `text-white` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? (isDarkMode ? 'bg-blue-500 border-blue-500 text-white scale-110' : 'bg-orange-500 border-orange-500 text-white scale-110') : 'border-white/50 bg-black/30 text-transparent'}`}>
+- **Línia 645**: `rounded-full` -> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${isSelected ? (isDarkMode ? 'bg-blue-500 border-blue-500 text-white scale-110' : 'bg-orange-500 border-orange-500 text-white scale-110') : 'border-white/50 bg-black/30 text-transparent'}`}>
+- **Línia 653**: `bg-black/70` -> <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-2 transition-all p-4 text-center cursor-pointer">
+- **Línia 654**: `bg-blue-600/90'` -> <div className={`${isDarkMode ? 'bg-blue-600/90' : 'bg-orange-500/90'} text-white rounded-full p-2.5 shadow-lg transform scale-90 group-hover:scale-100 transition-all flex items-center justify-center gap-2 mb-1`}>
+- **Línia 654**: `text-white` -> <div className={`${isDarkMode ? 'bg-blue-600/90' : 'bg-orange-500/90'} text-white rounded-full p-2.5 shadow-lg transform scale-90 group-hover:scale-100 transition-all flex items-center justify-center gap-2 mb-1`}>
+- **Línia 654**: `rounded-full` -> <div className={`${isDarkMode ? 'bg-blue-600/90' : 'bg-orange-500/90'} text-white rounded-full p-2.5 shadow-lg transform scale-90 group-hover:scale-100 transition-all flex items-center justify-center gap-2 mb-1`}>
+- **Línia 654**: `shadow-lg` -> <div className={`${isDarkMode ? 'bg-blue-600/90' : 'bg-orange-500/90'} text-white rounded-full p-2.5 shadow-lg transform scale-90 group-hover:scale-100 transition-all flex items-center justify-center gap-2 mb-1`}>
+- **Línia 657**: `bg-black/80` -> <span className="text-[9px] uppercase tracking-widest text-[#aaa] bg-black/80 px-2 py-0.5 rounded border border-[#444]">{item.folder}</span>
+- **Línia 657**: `text-[9px]` -> <span className="text-[9px] uppercase tracking-widest text-[#aaa] bg-black/80 px-2 py-0.5 rounded border border-[#444]">{item.folder}</span>
+- **Línia 658**: `text-[10px]` -> <span className="text-[10px] font-bold text-white max-w-full truncate">{item.filename}</span>
+- **Línia 682**: `bg-black/95` -> <div className="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 bg-black/95 backdrop-blur-md" onClick={() => setSelectedImage(null)}>
+- **Línia 683**: `bg-[#0a0a0c]` -> <div className={`w-full h-full md:h-auto md:max-w-6xl border rounded-2xl overflow-hidden flex flex-col md:flex-row relative shadow-2xl ${isDarkMode ? 'bg-[#0a0a0c] border-[#333]' : 'bg-white border-gray-300'}`} onClick={e => e.stopPropagation()}>
+- **Línia 683**: `rounded-2xl` -> <div className={`w-full h-full md:h-auto md:max-w-6xl border rounded-2xl overflow-hidden flex flex-col md:flex-row relative shadow-2xl ${isDarkMode ? 'bg-[#0a0a0c] border-[#333]' : 'bg-white border-gray-300'}`} onClick={e => e.stopPropagation()}>
+- **Línia 683**: `shadow-2xl` -> <div className={`w-full h-full md:h-auto md:max-w-6xl border rounded-2xl overflow-hidden flex flex-col md:flex-row relative shadow-2xl ${isDarkMode ? 'bg-[#0a0a0c] border-[#333]' : 'bg-white border-gray-300'}`} onClick={e => e.stopPropagation()}>
+- **Línia 684**: `bg-black/50` -> <button className="absolute top-4 right-4 z-20 w-8 h-8 bg-black/50 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-all backdrop-blur" onClick={() => setSelectedImage(null)}>
+- **Línia 684**: `text-white` -> <button className="absolute top-4 right-4 z-20 w-8 h-8 bg-black/50 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-all backdrop-blur" onClick={() => setSelectedImage(null)}>
+- **Línia 684**: `rounded-full` -> <button className="absolute top-4 right-4 z-20 w-8 h-8 bg-black/50 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-all backdrop-blur" onClick={() => setSelectedImage(null)}>
+- **Línia 689**: `bg-black` -> className="w-full md:w-2/3 h-[50vh] md:h-auto bg-black flex items-center justify-center p-4 relative md:!min-h-[500px] group"
+- **Línia 693**: `bg-black/50` -> <button onClick={goPrev} className="absolute left-2 md:left-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 693**: `text-white` -> <button onClick={goPrev} className="absolute left-2 md:left-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 693**: `rounded-full` -> <button onClick={goPrev} className="absolute left-2 md:left-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 696**: `bg-black/50` -> <button onClick={goNext} className="absolute right-2 md:right-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 696**: `text-white` -> <button onClick={goNext} className="absolute right-2 md:right-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 696**: `rounded-full` -> <button onClick={goNext} className="absolute right-2 md:right-4 z-10 w-10 h-10 md:w-12 md:h-12 bg-black/50 hover:bg-white/20 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur">
+- **Línia 704**: `rounded-lg` -> className="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform"
+- **Línia 704**: `shadow-2xl` -> className="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform"
+- **Línia 714**: `bg-black/60` -> <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white/60 px-4 py-1 rounded-full text-[10px] uppercase tracking-widest md:hidden backdrop-blur">
+- **Línia 714**: `text-white/60` -> <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white/60 px-4 py-1 rounded-full text-[10px] uppercase tracking-widest md:hidden backdrop-blur">
+- **Línia 714**: `rounded-full` -> <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white/60 px-4 py-1 rounded-full text-[10px] uppercase tracking-widest md:hidden backdrop-blur">
+- **Línia 721**: `text-lg` -> <h2 className={`text-lg md:text-xl font-bold word-break hyphens-auto break-all leading-tight ${textMain}`}>{selectedImage.filename}</h2>
+- **Línia 724**: `text-sm` -> <div className={`p-4 md:p-6 space-y-3 md:space-y-4 text-sm flex-1 ${textDim}`}>
+- **Línia 726**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold mb-1 block opacity-50">Carpeta Actual</label>
+- **Línia 727**: `bg-white/5` -> <div className={`inline-flex items-center border rounded-full px-3 py-1 text-xs ${isDarkMode ? 'border-[#444] bg-white/5 text-white' : 'border-gray-300 bg-gray-100 text-gray-800'}`}>
+- **Línia 727**: `text-xs` -> <div className={`inline-flex items-center border rounded-full px-3 py-1 text-xs ${isDarkMode ? 'border-[#444] bg-white/5 text-white' : 'border-gray-300 bg-gray-100 text-gray-800'}`}>
+- **Línia 727**: `rounded-full` -> <div className={`inline-flex items-center border rounded-full px-3 py-1 text-xs ${isDarkMode ? 'border-[#444] bg-white/5 text-white' : 'border-gray-300 bg-gray-100 text-gray-800'}`}>
+- **Línia 732**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold mb-1 block opacity-50">Hash Únic (MD5 ID)</label>
+- **Línia 733**: `bg-[#111]` -> <div className={`font-mono border rounded p-2 text-[10px] truncate ${isDarkMode ? 'bg-[#111] border-[#222] text-white/90' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>
+- **Línia 733**: `text-[10px]` -> <div className={`font-mono border rounded p-2 text-[10px] truncate ${isDarkMode ? 'bg-[#111] border-[#222] text-white/90' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>
+- **Línia 738**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold mb-1 block opacity-50">Ruta Interna</label>
+- **Línia 739**: `bg-[#111]` -> <div className={`font-mono border rounded p-2 text-[10px] break-all ${isDarkMode ? 'bg-[#111] border-[#222] text-white/80' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>
+- **Línia 739**: `text-[10px]` -> <div className={`font-mono border rounded p-2 text-[10px] break-all ${isDarkMode ? 'bg-[#111] border-[#222] text-white/80' : 'bg-gray-100 border-gray-200 text-gray-800'}`}>
+- **Línia 745**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold mb-1 block opacity-50">Metadades (EXIF)</label>
+- **Línia 746**: `bg-[#111]` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 746**: `text-xs` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 746**: `rounded-lg` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 759**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold mb-1 block opacity-50">Enllaços de la Imatge</label>
+- **Línia 760**: `bg-[#111]` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 760**: `text-xs` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 760**: `rounded-lg` -> <div className={`border rounded-lg p-3 text-xs space-y-2 ${isDarkMode ? 'bg-[#111] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 762**: `text-orange-500` -> <div className="text-orange-500 animate-pulse">Indexant connexions...</div>
+- **Línia 769**: `text-green-600` -> <div className="text-green-600 dark:text-green-400 font-bold mb-2">
+- **Línia 776**: `bg-[#222]` -> className={`p-2 rounded border flex items-center justify-between gap-2 cursor-pointer transition-colors ${isDarkMode ? 'bg-[#222] border-[#333] hover:border-blue-500 hover:bg-[#333]' : 'bg-white border-gray-200 hover:border-blue-500 hover:bg-blue-50'}`}
+- **Línia 783**: `bg-black/5` -> <span className="font-semibold text-[10px] uppercase tracking-wide opacity-70 shrink-0 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">{usage.type}</span>
+- **Línia 783**: `text-[10px]` -> <span className="font-semibold text-[10px] uppercase tracking-wide opacity-70 shrink-0 bg-black/5 dark:bg-white/5 px-2 py-0.5 rounded">{usage.type}</span>
+- **Línia 784**: `text-blue-500` -> <span className="truncate flex-1 text-blue-500 dark:text-blue-400 hover:underline" title={usage.title}>{usage.title}</span>
+- **Línia 793**: `text-red-500` -> <div className="text-red-500 font-bold">
+- **Línia 803**: `bg-[#0d0d12]` -> <div className={`p-4 md:p-6 border-t flex flex-col gap-3 shrink-0 ${isDarkMode ? 'bg-[#0d0d12] border-[#222]' : 'bg-gray-50 border-gray-200'}`}>
+- **Línia 805**: `text-[10px]` -> <label className="text-[10px] uppercase tracking-widest font-bold opacity-50 block">Moure a una carpeta</label>
+- **Línia 811**: `bg-black` -> className={`flex-1 border text-xs rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 transition-colors ${isDarkMode ? 'bg-black border-[#333] text-white' : 'bg-white border-gray-300 text-black'}`}
+- **Línia 811**: `text-xs` -> className={`flex-1 border text-xs rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 transition-colors ${isDarkMode ? 'bg-black border-[#333] text-white' : 'bg-white border-gray-300 text-black'}`}
+- **Línia 811**: `rounded-lg` -> className={`flex-1 border text-xs rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 transition-colors ${isDarkMode ? 'bg-black border-[#333] text-white' : 'bg-white border-gray-300 text-black'}`}
+- **Línia 824**: `bg-white/10` -> className={`disabled:opacity-50 rounded-lg px-3 py-1.5 flex items-center transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-200 hover:bg-gray-300 text-black'}`}
+- **Línia 824**: `text-white'` -> className={`disabled:opacity-50 rounded-lg px-3 py-1.5 flex items-center transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-200 hover:bg-gray-300 text-black'}`}
+- **Línia 824**: `rounded-lg` -> className={`disabled:opacity-50 rounded-lg px-3 py-1.5 flex items-center transition-colors ${isDarkMode ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-gray-200 hover:bg-gray-300 text-black'}`}
+- **Línia 835**: `bg-red-600/10` -> className="flex-1 flex items-center justify-center gap-2 bg-red-600/10 hover:bg-red-600/20 text-red-600 border border-red-600/30 rounded-xl py-2 md:py-3 font-bold text-xs tracking-wide transition-all uppercase disabled:opacity-50"
+- **Línia 835**: `text-red-600` -> className="flex-1 flex items-center justify-center gap-2 bg-red-600/10 hover:bg-red-600/20 text-red-600 border border-red-600/30 rounded-xl py-2 md:py-3 font-bold text-xs tracking-wide transition-all uppercase disabled:opacity-50"
+- **Línia 835**: `rounded-xl` -> className="flex-1 flex items-center justify-center gap-2 bg-red-600/10 hover:bg-red-600/20 text-red-600 border border-red-600/30 rounded-xl py-2 md:py-3 font-bold text-xs tracking-wide transition-all uppercase disabled:opacity-50"
+- **Línia 839**: `bg-white` -> <button className={`flex-1 rounded-xl py-2 md:py-3 font-black text-xs tracking-wide transition-all uppercase ${isDarkMode ? 'bg-white hover:bg-gray-200 text-black' : 'bg-black hover:bg-gray-800 text-white'}`}>
+- **Línia 839**: `text-xs` -> <button className={`flex-1 rounded-xl py-2 md:py-3 font-black text-xs tracking-wide transition-all uppercase ${isDarkMode ? 'bg-white hover:bg-gray-200 text-black' : 'bg-black hover:bg-gray-800 text-white'}`}>
+- **Línia 839**: `rounded-xl` -> <button className={`flex-1 rounded-xl py-2 md:py-3 font-black text-xs tracking-wide transition-all uppercase ${isDarkMode ? 'bg-white hover:bg-gray-200 text-black' : 'bg-black hover:bg-gray-800 text-white'}`}>
+
+### src/pages/features/MedicationConfirm.jsx
+- **Línia 55**: `bg-[#0a0a0a]` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col items-center justify-center text-white p-6">
+- **Línia 55**: `text-white` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col items-center justify-center text-white p-6">
+- **Línia 56**: `text-green-500` -> <CheckCircle size={100} className="text-green-500 mb-6 drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
+- **Línia 56**: `shadow-[0_0_20px_rgba(34,197,94,0.5)]"` -> <CheckCircle size={100} className="text-green-500 mb-6 drop-shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
+- **Línia 57**: `text-4xl` -> <h1 className="text-4xl font-bold text-center tracking-tight mb-2">Pastilla Confirmada</h1>
+- **Línia 58**: `text-xl` -> <p className="text-xl text-gray-400 text-center">Tornant a la seguretat...</p>
+- **Línia 65**: `bg-[#0a0a0a]` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col items-center justify-center text-white p-6">
+- **Línia 65**: `text-white` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col items-center justify-center text-white p-6">
+- **Línia 66**: `text-orange-500` -> <Clock size={100} className="text-orange-500 mb-6 drop-shadow-[0_0_20px_rgba(249,115,22,0.5)]" />
+- **Línia 66**: `shadow-[0_0_20px_rgba(249,115,22,0.5)]"` -> <Clock size={100} className="text-orange-500 mb-6 drop-shadow-[0_0_20px_rgba(249,115,22,0.5)]" />
+- **Línia 67**: `text-4xl` -> <h1 className="text-4xl font-bold text-center tracking-tight mb-2">Aplaçat 10 min</h1>
+- **Línia 68**: `text-xl` -> <p className="text-xl text-gray-400 text-center">T'avisaré més tard.</p>
+- **Línia 74**: `bg-[#0a0a0a]` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col justify-between text-white p-6 pb-12">
+- **Línia 74**: `text-white` -> <div className="fixed inset-0 bg-[#0a0a0a] z-50 flex flex-col justify-between text-white p-6 pb-12">
+- **Línia 76**: `bg-red-500/20` -> <div className="w-32 h-32 mx-auto rounded-full bg-red-500/20 flex items-center justify-center mb-8 border-4 border-red-500 animate-pulse">
+- **Línia 76**: `rounded-full` -> <div className="w-32 h-32 mx-auto rounded-full bg-red-500/20 flex items-center justify-center mb-8 border-4 border-red-500 animate-pulse">
+- **Línia 79**: `text-4xl` -> <h1 className="text-4xl font-bold tracking-tight mb-4">Hora de la Pastilla!</h1>
+- **Línia 80**: `text-2xl` -> <p className="text-2xl text-gray-300">Tria la correcta, per favor.</p>
+- **Línia 82**: `text-6xl` -> <div className="mt-8 text-6xl font-black text-red-500 tabular-nums">
+- **Línia 90**: `bg-green-500` -> className="w-full bg-green-500 hover:bg-green-400 text-white rounded-[24px] py-6 text-2xl font-bold transition-all transform active:scale-95 shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+- **Línia 90**: `text-white` -> className="w-full bg-green-500 hover:bg-green-400 text-white rounded-[24px] py-6 text-2xl font-bold transition-all transform active:scale-95 shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+- **Línia 90**: `rounded-[24px]` -> className="w-full bg-green-500 hover:bg-green-400 text-white rounded-[24px] py-6 text-2xl font-bold transition-all transform active:scale-95 shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+- **Línia 90**: `shadow-[0_0_30px_rgba(34,197,94,0.3)]"` -> className="w-full bg-green-500 hover:bg-green-400 text-white rounded-[24px] py-6 text-2xl font-bold transition-all transform active:scale-95 shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+- **Línia 96**: `bg-gray-800` -> className="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-[24px] py-6 text-xl font-medium transition-all transform active:scale-95"
+- **Línia 96**: `text-white` -> className="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-[24px] py-6 text-xl font-medium transition-all transform active:scale-95"
+- **Línia 96**: `rounded-[24px]` -> className="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-[24px] py-6 text-xl font-medium transition-all transform active:scale-95"
+
+### src/pages/features/Notes.jsx
+- **Línia 543**: `bg-[#1e1e1e]` -> <div className="notebook-app flex-1 flex h-full bg-[#1e1e1e] dark:bg-[#121212] overflow-hidden animate-in fade-in duration-300 notranslate font-sans text-white relative">
+- **Línia 543**: `text-white` -> <div className="notebook-app flex-1 flex h-full bg-[#1e1e1e] dark:bg-[#121212] overflow-hidden animate-in fade-in duration-300 notranslate font-sans text-white relative">
+- **Línia 548**: `bg-black/20` -> className="absolute inset-0 bg-black/20 dark:bg-black/50 z-40 transition-opacity"
+- **Línia 556**: `shadow-2xl` -> className={`${isTablet ? 'absolute left-0 top-0 h-full z-50 shadow-2xl animate-in slide-in-from-left-10 duration-200' : 'h-full shrink-0 z-30 shadow-[4px_0_15px_rgba(0,0,0,0.06)] dark:shadow-[4px_0_15px_rgba(0,0,0,0.3)]'} relative min-w-[64px]`}
+- **Línia 583**: `bg-orange-500/20"` -> className="w-2 cursor-col-resize absolute right-[-4px] top-0 h-full z-50 hover:bg-orange-500/20"
+- **Línia 597**: `shadow-[4px_0_15px_rgba(0,0,0,0.04)]` -> className="h-full shrink-0 z-20 relative shadow-[4px_0_15px_rgba(0,0,0,0.04)] dark:shadow-[4px_0_15px_rgba(0,0,0,0.2)] min-w-[150px]"
+- **Línia 626**: `bg-orange-500/20"` -> className="w-2 cursor-col-resize absolute right-[-4px] top-0 h-full z-50 hover:bg-orange-500/20"
+- **Línia 638**: `bg-[#ffffff]` -> <div className="flex-1 flex flex-col min-w-[350px] bg-[#ffffff] dark:bg-[#1e1e1e] text-black dark:text-white relative z-10">
+- **Línia 638**: `text-black` -> <div className="flex-1 flex flex-col min-w-[350px] bg-[#ffffff] dark:bg-[#1e1e1e] text-black dark:text-white relative z-10">
+- **Línia 642**: `bg-[#ffffff]/90` -> <div role="region" aria-label="Capçalera de Secció" className="h-14 border-b border-gray-200 dark:border-[#333] flex items-center justify-between px-4 bg-[#ffffff]/90 dark:bg-[#1e1e1e]/90 backdrop-blur-md shrink-0 sticky top-0 z-20">
+- **Línia 647**: `text-orange-500` -> className="p-2 -ml-2 text-orange-500 hover:text-orange-600 flex items-center gap-1"
+- **Línia 651**: `text-sm` -> <span className="text-sm font-medium">Notes</span>
+- **Línia 659**: `text-xl` -> className="bg-transparent border-none outline-none text-xl font-bold w-full text-black dark:text-white placeholder:opacity-30"
+- **Línia 668**: `text-gray-500` -> <div className="flex items-center gap-1 ml-4 text-gray-500 dark:text-gray-400 relative">
+- **Línia 671**: `bg-emerald-100` -> className="px-4 py-2 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-500/30 border rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-all shadow-sm"
+- **Línia 671**: `text-emerald-700` -> className="px-4 py-2 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-500/30 border rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-all shadow-sm"
+- **Línia 671**: `rounded-[28px]` -> className="px-4 py-2 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-500/30 border rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-all shadow-sm"
+- **Línia 671**: `shadow-sm"` -> className="px-4 py-2 bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-500/30 border rounded-[28px] text-xs font-black uppercase tracking-widest hover:bg-emerald-200 dark:hover:bg-emerald-900/50 transition-all shadow-sm"
+- **Línia 680**: `bg-gray-100` -> className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#333] transition-colors"
+- **Línia 680**: `rounded-md` -> className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#333] transition-colors"
+- **Línia 691**: `bg-white` -> <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl shadow-xl z-dropdown overflow-hidden animate-in fade-in zoom-in duration-200">
+- **Línia 691**: `rounded-xl` -> <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl shadow-xl z-dropdown overflow-hidden animate-in fade-in zoom-in duration-200">
+- **Línia 691**: `shadow-xl` -> <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#1e1e1e] border border-gray-200 dark:border-[#333] rounded-xl shadow-xl z-dropdown overflow-hidden animate-in fade-in zoom-in duration-200">
+- **Línia 692**: `bg-gray-50` -> <div className="px-4 py-3 bg-gray-50 dark:bg-[#252525] border-b border-gray-200 dark:border-[#333] text-xs flex flex-col gap-2 cursor-default">
+- **Línia 692**: `text-xs` -> <div className="px-4 py-3 bg-gray-50 dark:bg-[#252525] border-b border-gray-200 dark:border-[#333] text-xs flex flex-col gap-2 cursor-default">
+- **Línia 694**: `text-gray-500` -> <span className="text-gray-500 dark:text-gray-400">Creada</span>
+- **Línia 695**: `text-gray-800` -> <span className="font-medium text-gray-800 dark:text-gray-200">{new Date(activeNote.createdAt).toLocaleString('ca-ES', { dateStyle: 'short', timeStyle: 'short' })}</span>
+- **Línia 698**: `text-gray-500` -> <span className="text-gray-500 dark:text-gray-400">Modificada</span>
+- **Línia 699**: `text-gray-800` -> <span className="font-medium text-gray-800 dark:text-gray-200">{new Date(activeNote.updatedAt).toLocaleString('ca-ES', { dateStyle: 'short', timeStyle: 'short' })}</span>
+- **Línia 704**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-fuchsia-600 dark:text-fuchsia-400 font-medium"
+- **Línia 704**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-fuchsia-600 dark:text-fuchsia-400 font-medium"
+- **Línia 714**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 714**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 724**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 724**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 734**: `bg-blue-50` -> className="w-full text-left px-4 py-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-3 transition-colors text-blue-600 dark:text-blue-400 font-medium"
+- **Línia 734**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-3 transition-colors text-blue-600 dark:text-blue-400 font-medium"
+- **Línia 744**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 744**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 754**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 754**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 763**: `bg-gray-200` -> <div className="h-px bg-gray-200 dark:bg-[#333] my-1"></div>
+- **Línia 765**: `bg-red-50` -> className="w-full text-left px-4 py-3 text-sm hover:bg-red-50 text-red-600 dark:hover:bg-red-900/20 dark:text-red-400 flex items-center gap-3 transition-colors"
+- **Línia 765**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-red-50 text-red-600 dark:hover:bg-red-900/20 dark:text-red-400 flex items-center gap-3 transition-colors"
+- **Línia 774**: `bg-gray-200` -> <div className="h-px bg-gray-200 dark:bg-[#333] my-1"></div>
+- **Línia 776**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 776**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 785**: `bg-gray-200` -> <div className="h-px bg-gray-200 dark:bg-[#333] my-1"></div>
+- **Línia 787**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 787**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 796**: `bg-gray-100` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 796**: `text-sm` -> className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-[#333] flex items-center gap-3 transition-colors text-gray-700 dark:text-gray-300"
+- **Línia 811**: `bg-yellow-100` -> <div className="bg-yellow-100 text-yellow-800 text-[12px] px-4 py-1 text-center font-medium shrink-0 w-full">
+- **Línia 811**: `text-yellow-800` -> <div className="bg-yellow-100 text-yellow-800 text-[12px] px-4 py-1 text-center font-medium shrink-0 w-full">
+- **Línia 819**: `bg-white` -> <div className="flex-1 overflow-hidden p-6 md:p-12 flex flex-col items-center bg-white dark:bg-[#1e1e1e] min-h-0">
+- **Línia 820**: `text-lg` -> <div className="w-full max-w-3xl flex-1 flex flex-col min-h-0 text-lg leading-relaxed text-black dark:text-white">
+- **Línia 837**: `bg-[#f9f9f9]` -> <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 bg-[#f9f9f9] dark:bg-[#1e1e1e]">
+- **Línia 837**: `text-gray-400` -> <div className="flex-1 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 bg-[#f9f9f9] dark:bg-[#1e1e1e]">
+- **Línia 839**: `text-xl` -> <h2 className="text-xl font-medium mb-6">Sense cap nota seleccionada</h2>
+- **Línia 843**: `bg-white` -> className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-[#333] rounded-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-all text-sm font-medium text-gray-700 dark:text-gray-300"
+- **Línia 843**: `text-sm` -> className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-[#333] rounded-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-all text-sm font-medium text-gray-700 dark:text-gray-300"
+- **Línia 843**: `rounded-full` -> className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-[#333] rounded-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-all text-sm font-medium text-gray-700 dark:text-gray-300"
+- **Línia 843**: `shadow-sm` -> className="flex items-center gap-2 px-6 py-2.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-[#333] rounded-full shadow-sm hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-all text-sm font-medium text-gray-700 dark:text-gray-300"
+
+### src/pages/features/OficiDocumentacio.jsx
+- **Línia 154**: `bg-theme-base` -> <div className={`ofici-page bg-theme-base min-h-screen animate-in transition-all duration-500 ${iaiaSidebarOpen ? "sidebar-open" : ""}`}>
+- **Línia 156**: `bg-theme-base/90` -> <div className="px-6 md:px-12 pt-12 pb-8 sticky top-0 bg-theme-base/90 backdrop-blur-xl z-20 border-b border-[var(--border-master)]">
+- **Línia 161**: `bg-[var(--bg-panel)]` -> className="p-3 bg-[var(--bg-panel)] hover:brightness-110 text-theme-text border-[var(--border-master)] rounded-full transition-colors border"
+- **Línia 161**: `text-theme-text` -> className="p-3 bg-[var(--bg-panel)] hover:brightness-110 text-theme-text border-[var(--border-master)] rounded-full transition-colors border"
+- **Línia 161**: `rounded-full` -> className="p-3 bg-[var(--bg-panel)] hover:brightness-110 text-theme-text border-[var(--border-master)] rounded-full transition-colors border"
+- **Línia 167**: `text-3xl` -> <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-theme-text drop-shadow-md flex items-center gap-2">
+- **Línia 167**: `shadow-md` -> <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-theme-text drop-shadow-md flex items-center gap-2">
+- **Línia 169**: `bg-orange-600` -> <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 text-white shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+- **Línia 169**: `text-[10px]` -> <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 text-white shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+- **Línia 169**: `rounded-sm` -> <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 text-white shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+- **Línia 169**: `shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>` -> <span className="bg-orange-600 text-[10px] px-2 py-1 rounded-sm leading-none ml-2 text-white shadow-[0_0_10px_rgba(234,88,12,0.5)]">BETA</span>
+- **Línia 171**: `text-gray-400` -> <p className="text-gray-400 font-bold uppercase tracking-widest text-[11px] mt-1">
+- **Línia 179**: `text-gray-500` -> <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-orange-500 transition-colors" />
+- **Línia 185**: `bg-[var(--bg-panel)]` -> className="w-full bg-[var(--bg-panel)] border-[var(--border-master)] text-theme-text focus:brightness-110 border rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-orange-500/50 transition-all placeholder:opacity-50 uppercase tracking-widest"
+- **Línia 185**: `text-theme-text` -> className="w-full bg-[var(--bg-panel)] border-[var(--border-master)] text-theme-text focus:brightness-110 border rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-orange-500/50 transition-all placeholder:opacity-50 uppercase tracking-widest"
+- **Línia 185**: `rounded-[28px]` -> className="w-full bg-[var(--bg-panel)] border-[var(--border-master)] text-theme-text focus:brightness-110 border rounded-[28px] py-3 pl-12 pr-4 text-sm font-bold focus:outline-none focus:border-orange-500/50 transition-all placeholder:opacity-50 uppercase tracking-widest"
+- **Línia 190**: `bg-gradient-to-r` -> className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-[28px] font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shrink-0"
+- **Línia 190**: `text-white` -> className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-[28px] font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shrink-0"
+- **Línia 190**: `rounded-[28px]` -> className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-[28px] font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shrink-0"
+- **Línia 190**: `shadow-lg` -> className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-[28px] font-black uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg shrink-0"
+- **Línia 202**: `bg-theme-panel` -> <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-theme-panel border border-[var(--border-master)] hover:shadow-2xl transition-all hover:-translate-y-2 duration-500 flex flex-col h-full">
+- **Línia 202**: `rounded-[32px]` -> <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-theme-panel border border-[var(--border-master)] hover:shadow-2xl transition-all hover:-translate-y-2 duration-500 flex flex-col h-full">
+- **Línia 202**: `shadow-2xl` -> <div key={category.id} className="relative group rounded-[32px] overflow-hidden bg-theme-panel border border-[var(--border-master)] hover:shadow-2xl transition-all hover:-translate-y-2 duration-500 flex flex-col h-full">
+- **Línia 204**: `bg-[var(--bg-app)]` -> <div className="relative h-56 w-full shrink-0 overflow-hidden bg-[var(--bg-app)] border-b border-[var(--border-master)]">
+- **Línia 210**: `bg-gradient-to-t` -> <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[var(--bg-panel)] via-[var(--bg-panel)]/80 to-transparent pointer-events-none"></div>
+- **Línia 212**: `text-[8px]` -> <div className="absolute top-4 right-4 glass-panel px-2 py-1 rounded text-[8px] font-black uppercase tracking-widest text-theme-text opacity-50 pointer-events-none">
+- **Línia 218**: `text-theme-text` -> className="absolute top-4 left-4 p-2 glass-panel rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-theme-text hover:brightness-125"
+- **Línia 218**: `rounded-full` -> className="absolute top-4 left-4 p-2 glass-panel rounded-full border opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-theme-text hover:brightness-125"
+- **Línia 228**: `bg-[var(--bg-app)]` -> <div className="w-12 h-12 rounded-xl border border-[var(--border-master)] bg-[var(--bg-app)] flex items-center justify-center shadow-lg" style={{ color: category.color }}>
+- **Línia 228**: `rounded-xl` -> <div className="w-12 h-12 rounded-xl border border-[var(--border-master)] bg-[var(--bg-app)] flex items-center justify-center shadow-lg" style={{ color: category.color }}>
+- **Línia 228**: `shadow-lg"` -> <div className="w-12 h-12 rounded-xl border border-[var(--border-master)] bg-[var(--bg-app)] flex items-center justify-center shadow-lg" style={{ color: category.color }}>
+- **Línia 231**: `text-xl` -> <h3 className="text-xl sm:text-2xl font-black text-theme-text leading-tight uppercase tracking-tight flex-1">
+- **Línia 235**: `text-sm` -> <p className="text-sm text-theme-text opacity-70 font-medium mb-6 flex-1">
+- **Línia 244**: `rounded-xl` -> className={`w-full flex items-center justify-between p-4 rounded-xl text-left transition-all border ${
+- **Línia 246**: `bg-[var(--bg-app)]` -> ? "bg-[var(--bg-app)] border-[var(--border-master)] hover:bg-[var(--bg-panel)] text-theme-text cursor-pointer"
+- **Línia 246**: `text-theme-text` -> ? "bg-[var(--bg-app)] border-[var(--border-master)] hover:bg-[var(--bg-panel)] text-theme-text cursor-pointer"
+- **Línia 247**: `bg-[var(--bg-app)]` -> : "bg-[var(--bg-app)] opacity-50 border-transparent text-theme-text cursor-not-allowed"
+- **Línia 247**: `text-theme-text` -> : "bg-[var(--bg-app)] opacity-50 border-transparent text-theme-text cursor-not-allowed"
+- **Línia 256**: `text-sm` -> <span className="text-sm font-bold truncate block w-full">{proc.title}</span>
+- **Línia 258**: `text-[10px]` -> <span className="text-[10px] font-black uppercase tracking-widest text-[#FF6D23] mt-1 opacity-80 block truncate">
+- **Línia 264**: `text-theme-text` -> <ChevronRight size={18} className="shrink-0 text-theme-text opacity-50" />
+- **Línia 266**: `bg-black/10` -> <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-sm bg-black/10 dark:bg-white/10 text-theme-text opacity-60">
+- **Línia 266**: `text-[9px]` -> <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-sm bg-black/10 dark:bg-white/10 text-theme-text opacity-60">
+- **Línia 266**: `rounded-sm` -> <span className="shrink-0 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-sm bg-black/10 dark:bg-white/10 text-theme-text opacity-60">
+- **Línia 281**: `bg-theme-base/95` -> <div className="fixed inset-0 z-dropdown bg-theme-base/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-12 animate-in fade-in duration-300">
+- **Línia 284**: `text-theme-text"` -> className="absolute top-6 right-6 p-4 rounded-full transition-colors border z-10 glass-panel hover:brightness-110 text-theme-text"
+- **Línia 284**: `rounded-full` -> className="absolute top-6 right-6 p-4 rounded-full transition-colors border z-10 glass-panel hover:brightness-110 text-theme-text"
+- **Línia 288**: `bg-theme-panel` -> <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-[var(--border-master)] bg-theme-panel shadow-2xl">
+- **Línia 288**: `rounded-[40px]` -> <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-[var(--border-master)] bg-theme-panel shadow-2xl">
+- **Línia 288**: `shadow-2xl">` -> <div className="relative w-full max-w-5xl md:h-[80vh] flex flex-col items-center justify-center rounded-[40px] overflow-hidden border border-[var(--border-master)] bg-theme-panel shadow-2xl">
+- **Línia 290**: `text-xs` -> <div className="absolute bottom-6 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest glass-panel text-theme-text text-opacity-70">
+- **Línia 290**: `rounded-xl` -> <div className="absolute bottom-6 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest glass-panel text-theme-text text-opacity-70">
+
+### src/pages/features/ResourceDetail.jsx
+- **Línia 9**: `bg-black` -> <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_#111_0%,_#000_100%)]">
+- **Línia 11**: `rounded-[28px]` -> <div className="w-16 h-16 border-4 border-white/5 border-t-white rounded-[28px] animate-spin"></div>
+- **Línia 12**: `text-white/20"` -> <BookOpen className="absolute inset-0 m-auto text-white/20" size={24} />
+- **Línia 14**: `text-[10px]` -> <p className="text-[10px] font-black uppercase tracking-[5px] text-white animate-pulse">{message}</p>
+- **Línia 84**: `bg-black` -> <div className="min-w-full min-h-[100dvh] bg-black flex flex-col items-center justify-center p-6 text-center">
+- **Línia 85**: `text-red-500` -> <ShieldCheck size={48} className="text-red-500 mb-4 opacity-50" />
+- **Línia 86**: `text-xl` -> <h1 className="text-xl font-black uppercase text-white mb-2">Recurs no trobat</h1>
+- **Línia 87**: `text-gray-500` -> <p className="text-gray-500 text-sm mb-6">Aquest pergamí s'ha perdut en la memòria del poble.</p>
+- **Línia 88**: `bg-white` -> <button onClick={() => navigate('/arxiu')} className="bg-white text-black px-6 py-3 font-black text-xs uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all">
+- **Línia 88**: `text-black` -> <button onClick={() => navigate('/arxiu')} className="bg-white text-black px-6 py-3 font-black text-xs uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all">
+- **Línia 97**: `bg-black` -> <div className="w-full min-h-[100dvh] bg-black text-white relative font-sans overflow-x-hidden selection:bg-white selection:text-black">
+- **Línia 97**: `text-white` -> <div className="w-full min-h-[100dvh] bg-black text-white relative font-sans overflow-x-hidden selection:bg-white selection:text-black">
+- **Línia 105**: `rounded-b-3xl">` -> <div role="region" aria-label="Capçalera de Secció" className="relative w-full h-[65vh] md:h-[80vh] flex flex-col justify-end p-6 md:p-16 overflow-hidden rounded-b-3xl">
+- **Línia 108**: `bg-cover` -> className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 scale-105"
+- **Línia 111**: `bg-gradient-to-t` -> <div className="absolute inset-0 z-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+- **Línia 117**: `bg-black/30` -> className="flex items-center justify-center w-12 h-12 rounded-full bg-black/30 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
+- **Línia 117**: `rounded-full` -> className="flex items-center justify-center w-12 h-12 rounded-full bg-black/30 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors"
+- **Línia 123**: `bg-black/30` -> <button className="flex items-center justify-center w-12 h-12 rounded-full bg-black/30 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors">
+- **Línia 123**: `rounded-full` -> <button className="flex items-center justify-center w-12 h-12 rounded-full bg-black/30 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors">
+- **Línia 139**: `text-[10px]` -> className="px-4 py-1.5 text-[10px] font-black uppercase tracking-[3px] rounded-full border border-white/20 backdrop-blur-sm"
+- **Línia 139**: `rounded-full` -> className="px-4 py-1.5 text-[10px] font-black uppercase tracking-[3px] rounded-full border border-white/20 backdrop-blur-sm"
+- **Línia 145**: `bg-black/30` -> <span className="px-4 py-1.5 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-widest flex items-center gap-2">
+- **Línia 145**: `text-[10px]` -> <span className="px-4 py-1.5 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-widest flex items-center gap-2">
+- **Línia 145**: `rounded-full` -> <span className="px-4 py-1.5 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-widest flex items-center gap-2">
+- **Línia 150**: `text-5xl` -> <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-6 text-white drop-shadow-2xl" style={{ fontFamily: 'Noto Sans, sans-serif' }}>
+- **Línia 150**: `shadow-2xl"` -> <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.9] mb-6 text-white drop-shadow-2xl" style={{ fontFamily: 'Noto Sans, sans-serif' }}>
+- **Línia 154**: `text-xs` -> <div className="flex flex-wrap items-center gap-6 py-6 border-y border-white/10 text-xs font-bold text-gray-300 uppercase tracking-widest mt-6">
+- **Línia 157**: `text-white">{resource.display_author}</span>` -> <span className="text-white">{resource.display_author}</span>
+- **Línia 172**: `bg-black` -> <div role="region" aria-label="Contingut Principal" className="w-full bg-black relative z-20 -mt-10 px-4 md:px-0">
+- **Línia 178**: `bg-white/5` -> <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-gray-400 capitalize">
+- **Línia 178**: `text-[10px]` -> <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-gray-400 capitalize">
+- **Línia 178**: `rounded-lg` -> <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold text-gray-400 capitalize">
+- **Línia 186**: `text-xl` -> className="resource-biblia-content text-xl md:text-2xl leading-relaxed font-light text-white/90 space-y-8"
+- **Línia 193**: `bg-black` -> <footer className="w-full border-t border-white/10 bg-black py-16 px-6">
+- **Línia 196**: `bg-white/5">` -> <div className="w-16 h-16 rounded-[28px] border border-white/20 flex items-center justify-center p-3 bg-white/5">
+- **Línia 196**: `rounded-[28px]` -> <div className="w-16 h-16 rounded-[28px] border border-white/20 flex items-center justify-center p-3 bg-white/5">
+- **Línia 200**: `text-sm` -> <span className="text-sm font-black uppercase tracking-[3px] text-white">Registre Inmutable</span>
+- **Línia 201**: `text-[10px]` -> <span className="text-[10px] font-bold uppercase tracking-widest text-[#00F2FF]">Protocol Tabula Rasa v3.0</span>
+- **Línia 202**: `text-[10px]` -> <span className="text-[10px] font-mono text-gray-500 mt-1">ID: {String(id).toUpperCase()}</span>
+- **Línia 208**: `text-[10px]` -> <span className="text-[10px] font-black uppercase mb-2 text-white">Genotip Autenticat</span>
+- **Línia 210**: `bg-white/20"></span>` -> <span className="w-8 h-1 bg-white/20"></span>
+- **Línia 211**: `bg-white/20"></span>` -> <span className="w-16 h-1 bg-white/20"></span>
+- **Línia 222**: `text-decoration:` -> .resource-biblia-content a { color: ${brandColor}; text-decoration: underline; text-underline-offset: 4px; }
+- **Línia 224**: `text-transform:` -> .resource-biblia-content h3 { font-size: 1.5em; font-weight: 900; text-transform: uppercase; margin-top: 2.5em; margin-bottom: 1em; color: ${brandColor}; letter-spacing: -0.02em; }
+
+### src/pages/features/Translations.jsx
+- **Línia 19**: `bg-[var(--theme-accent-primary)]` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] max-h-[56px] flex items-center px-3 shadow-md">
+- **Línia 19**: `shadow-md">` -> <div className="relative z-10 bg-[var(--theme-accent-primary)] w-full h-[56px] min-h-[56px] max-h-[56px] flex items-center px-3 shadow-md">
+- **Línia 23**: `bg-white/20` -> className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center p-1 rounded-full hover:bg-white/20 active:scale-95"
+- **Línia 23**: `text-white/90` -> className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center p-1 rounded-full hover:bg-white/20 active:scale-95"
+- **Línia 23**: `rounded-full` -> className="shrink-0 mr-3 text-white/90 hover:text-white transition-colors flex items-center justify-center p-1 rounded-full hover:bg-white/20 active:scale-95"
+- **Línia 27**: `text-white` -> <h1 className="text-white font-bold text-[18px] tracking-wide m-0">Idioma i Traduccions</h1>
+- **Línia 36**: `bg-white` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 36**: `rounded-2xl` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 36**: `shadow-sm` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 37**: `bg-gray-50/50` -> <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-4 bg-gray-50/50 dark:bg-black/20">
+- **Línia 38**: `bg-[var(--theme-accent-primary)]/10` -> <div className="w-12 h-12 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center text-[var(--theme-accent-primary)] shrink-0">
+- **Línia 38**: `text-[var(--theme-accent-primary)]` -> <div className="w-12 h-12 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center text-[var(--theme-accent-primary)] shrink-0">
+- **Línia 38**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-[var(--theme-accent-primary)]/10 flex items-center justify-center text-[var(--theme-accent-primary)] shrink-0">
+- **Línia 42**: `text-[18px]` -> <h2 className="text-[18px] font-bold text-gray-900 dark:text-white m-0">Idioma del Sistema</h2>
+- **Línia 43**: `text-gray-500` -> <p className="text-gray-500 dark:text-gray-400 text-[14px] mt-1 m-0">Aquest ajust canvia l'idioma de tots els menús, botons i interfícies de l'aplicació.</p>
+- **Línia 46**: `bg-theme-base">` -> <div className="p-5 sm:p-6 bg-theme-base">
+- **Línia 53**: `bg-white` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 53**: `rounded-2xl` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 53**: `shadow-sm` -> <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+- **Línia 54**: `bg-blue-50` -> <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/5 flex items-center gap-4 bg-blue-50 dark:bg-blue-900/10">
+- **Línia 55**: `bg-blue-100` -> <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+- **Línia 55**: `text-blue-600` -> <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+- **Línia 55**: `rounded-full` -> <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+- **Línia 59**: `text-[18px]` -> <h2 className="text-[18px] font-bold text-gray-900 dark:text-white m-0">Traducció Dinàmica de Targetes</h2>
+- **Línia 60**: `text-gray-500` -> <p className="text-gray-500 dark:text-gray-400 text-[14px] mt-1 m-0">Com funciona la traducció del contingut creat pels usuaris.</p>
+- **Línia 63**: `bg-theme-base` -> <div className="p-5 sm:p-6 bg-theme-base space-y-4">
+- **Línia 64**: `text-gray-700` -> <div className="flex items-start gap-3 text-gray-700 dark:text-gray-300 text-[15px] leading-relaxed">
+- **Línia 65**: `text-blue-500` -> <Info size={20} className="text-blue-500 shrink-0 mt-0.5" />
+- **Línia 67**: `text-gray-900` -> <p className="m-0 font-medium text-gray-900 dark:text-white mb-1">
+- **Línia 71**: `text-gray-900` -> Les Targetes (Mur, Xats, Mercat i Esdeveniments) tenen un sistema de traducció automàtic basat en <strong className="text-gray-900 dark:text-white">Google Translator</strong>.
+- **Línia 77**: `bg-gray-50` -> <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-xl border border-gray-100 dark:border-white/5">
+- **Línia 77**: `rounded-xl` -> <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-xl border border-gray-100 dark:border-white/5">
+- **Línia 78**: `text-[14px]` -> <h3 className="font-bold text-[14px] text-gray-900 dark:text-white mb-2 uppercase tracking-wide">Com utilitzar-ho</h3>
+- **Línia 79**: `text-[14px]` -> <ul className="list-disc list-inside space-y-2 text-[14px] text-gray-600 dark:text-gray-400 m-0">
+
+### src/pages/features/UniversalDetail.jsx
+- **Línia 93**: `text-theme-text` -> <AlertTriangle size={64} className="text-theme-text opacity-50 mb-6" />
+- **Línia 94**: `text-2xl` -> <h2 className="text-2xl font-bold mb-4">No S'ha Trobat</h2>
+- **Línia 95**: `text-theme-text` -> <p className="text-theme-text opacity-70 max-w-md mb-8 font-medium">No hem pogut trobar la informació de l'article que busques o ja no està disponible.</p>
+- **Línia 99**: `bg-black/5` -> className="py-4 px-8 rounded-full border border-theme-border text-theme-text font-bold uppercase tracking-widest text-xs hover:bg-black/5 active:scale-95 transition-all"
+- **Línia 99**: `text-theme-text` -> className="py-4 px-8 rounded-full border border-theme-border text-theme-text font-bold uppercase tracking-widest text-xs hover:bg-black/5 active:scale-95 transition-all"
+- **Línia 99**: `rounded-full` -> className="py-4 px-8 rounded-full border border-theme-border text-theme-text font-bold uppercase tracking-widest text-xs hover:bg-black/5 active:scale-95 transition-all"
+- **Línia 209**: `bg-theme-base` -> <div className="flex flex-col h-full w-full bg-theme-base animate-in fade-in relative">
+- **Línia 219**: `bg-[#4F46E5]` -> <div role="region" aria-label="Capçalera de Secció" className="z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
+- **Línia 219**: `text-white` -> <div role="region" aria-label="Capçalera de Secció" className="z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
+- **Línia 219**: `shadow-lg` -> <div role="region" aria-label="Capçalera de Secció" className="z-[var(--z-sticky,200)] w-full max-w-full overflow-hidden shadow-lg bg-[#4F46E5] text-white dark:bg-[#F97316] dark:text-[#111111] transition-all shrink-0 touch-manipulation border-b border-black/10 dark:border-white/10">
+- **Línia 226**: `bg-white/20` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 226**: `rounded-xl` -> className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation shrink-0"
+- **Línia 233**: `bg-white/20` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
+- **Línia 233**: `text-sm` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
+- **Línia 233**: `rounded-xl` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
+- **Línia 233**: `shadow-inner'` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 dark:bg-black/20 opacity-100 shadow-inner' : ''}`}
+- **Línia 245**: `bg-white/20` -> className="hidden md:flex items-center justify-center min-h-[44px] w-[44px] hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation shrink-0"
+- **Línia 245**: `rounded-xl` -> className="hidden md:flex items-center justify-center min-h-[44px] w-[44px] hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation shrink-0"
+- **Línia 260**: `bg-white/20` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+- **Línia 260**: `text-sm` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+- **Línia 260**: `rounded-xl` -> className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 dark:hover:bg-black/10 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 dark:text-white animate-pulse" : ""}`}
+- **Línia 268**: `shadow-sm` -> <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />
+- **Línia 274**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 274**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 274**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 281**: `bg-white/20` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 281**: `text-sm` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 281**: `rounded-xl` -> className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 dark:hover:bg-black/10 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0"
+- **Línia 303**: `bg-[var(--bg-panel)]` -> <div className="w-full relative z-0 bg-[var(--bg-panel)] overflow-hidden flex items-center justify-center shrink-0">
+- **Línia 319**: `shadow-sm">` -> <div className="sticky top-0 z-[190] w-full shrink-0 shadow-sm">
+- **Línia 335**: `bg-[var(--bg-panel)]` -> <section className="w-full flex flex-col items-center justify-center pb-5 pt-8 bg-[var(--bg-panel)] rounded-b-[2.5rem] shadow-sm mb-0 relative z-10 shrink-0">
+- **Línia 335**: `rounded-b-[2.5rem]` -> <section className="w-full flex flex-col items-center justify-center pb-5 pt-8 bg-[var(--bg-panel)] rounded-b-[2.5rem] shadow-sm mb-0 relative z-10 shrink-0">
+- **Línia 335**: `shadow-sm` -> <section className="w-full flex flex-col items-center justify-center pb-5 pt-8 bg-[var(--bg-panel)] rounded-b-[2.5rem] shadow-sm mb-0 relative z-10 shrink-0">
+- **Línia 350**: `text-3xl` -> <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center tracking-tight leading-none uppercase mb-0 mt-2 max-w-4xl w-full break-words">
+- **Línia 358**: `text-2xl` -> <h2 className="text-2xl md:text-3xl font-bold uppercase my-[30px] text-center w-full break-words">
+- **Línia 370**: `bg-[#0369A1]/10` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 370**: `text-[#0369A1]',` -> const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+- **Línia 373**: `text-[13px]` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-4 py-2 rounded-full ${colorClass}`}>
+- **Línia 373**: `rounded-full` -> <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-4 py-2 rounded-full ${colorClass}`}>
+- **Línia 389**: `bg-[var(--bg-panel)]` -> <div key={idx} className="flex flex-col md:flex-row items-center justify-between p-6 sm:p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm gap-6 hover:border-[var(--theme-accent-primary)] transition-colors">
+- **Línia 389**: `rounded-3xl` -> <div key={idx} className="flex flex-col md:flex-row items-center justify-between p-6 sm:p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm gap-6 hover:border-[var(--theme-accent-primary)] transition-colors">
+- **Línia 389**: `shadow-sm` -> <div key={idx} className="flex flex-col md:flex-row items-center justify-between p-6 sm:p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm gap-6 hover:border-[var(--theme-accent-primary)] transition-colors">
+- **Línia 392**: `bg-black/5` -> <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[var(--border-master)] shadow-md bg-black/5 dark:bg-white/5 flex items-center justify-center">
+- **Línia 392**: `rounded-2xl` -> <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[var(--border-master)] shadow-md bg-black/5 dark:bg-white/5 flex items-center justify-center">
+- **Línia 392**: `shadow-md` -> <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-2xl overflow-hidden border border-[var(--border-master)] shadow-md bg-black/5 dark:bg-white/5 flex items-center justify-center">
+- **Línia 397**: `text-xl` -> <h2 className="text-xl sm:text-2xl font-bold mb-1 uppercase tracking-tight leading-tight">{variation.name}</h2>
+- **Línia 398**: `text-sm` -> {variation.description && <p className="text-sm opacity-80 mb-3 max-w-sm">{variation.description}</p>}
+- **Línia 399**: `bg-black/5` -> <span className="text-[10px] sm:text-xs uppercase tracking-widest font-bold opacity-50 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full w-max mx-auto sm:mx-0">
+- **Línia 399**: `text-[10px]` -> <span className="text-[10px] sm:text-xs uppercase tracking-widest font-bold opacity-50 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full w-max mx-auto sm:mx-0">
+- **Línia 399**: `rounded-full` -> <span className="text-[10px] sm:text-xs uppercase tracking-widest font-bold opacity-50 bg-black/5 dark:bg-white/5 px-3 py-1 rounded-full w-max mx-auto sm:mx-0">
+- **Línia 405**: `text-3xl` -> <span className="text-3xl sm:text-4xl font-black text-[var(--theme-accent-primary)] mb-3">
+- **Línia 409**: `bg-red-500` -> <button disabled className="w-full md:w-auto px-8 py-4 sm:py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 whitespace-nowrap">
+- **Línia 409**: `text-white` -> <button disabled className="w-full md:w-auto px-8 py-4 sm:py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 whitespace-nowrap">
+- **Línia 409**: `rounded-xl` -> <button disabled className="w-full md:w-auto px-8 py-4 sm:py-3 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 whitespace-nowrap">
+- **Línia 413**: `bg-[#F97316]` -> <button className="w-full md:w-auto px-8 py-4 sm:py-3 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] whitespace-nowrap">
+- **Línia 413**: `text-white` -> <button className="w-full md:w-auto px-8 py-4 sm:py-3 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] whitespace-nowrap">
+- **Línia 413**: `rounded-xl` -> <button className="w-full md:w-auto px-8 py-4 sm:py-3 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] whitespace-nowrap">
+- **Línia 413**: `shadow-[0_0_15px_rgba(249,115,22,0.3)]` -> <button className="w-full md:w-auto px-8 py-4 sm:py-3 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] whitespace-nowrap">
+- **Línia 422**: `bg-[var(--bg-panel)]` -> <div className="flex flex-col items-center justify-center p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm">
+- **Línia 422**: `rounded-3xl` -> <div className="flex flex-col items-center justify-center p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm">
+- **Línia 422**: `shadow-sm">` -> <div className="flex flex-col items-center justify-center p-8 bg-[var(--bg-panel)] rounded-3xl border border-[var(--border-master)] shadow-sm">
+- **Línia 423**: `text-4xl` -> <span className="text-4xl font-black text-[var(--theme-accent-primary)] mb-2">
+- **Línia 426**: `text-xs` -> <span className="text-xs uppercase tracking-widest font-bold opacity-50 mb-6">
+- **Línia 430**: `bg-red-500` -> <button disabled className="w-full sm:w-auto px-10 py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+- **Línia 430**: `text-white` -> <button disabled className="w-full sm:w-auto px-10 py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+- **Línia 430**: `rounded-xl` -> <button disabled className="w-full sm:w-auto px-10 py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+- **Línia 430**: `shadow-[0_0_20px_rgba(239,68,68,0.2)]">` -> <button disabled className="w-full sm:w-auto px-10 py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-xl cursor-not-allowed opacity-50 shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+- **Línia 434**: `bg-[#F97316]` -> <button className="w-full sm:w-auto px-10 py-4 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+- **Línia 434**: `text-white` -> <button className="w-full sm:w-auto px-10 py-4 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+- **Línia 434**: `rounded-xl` -> <button className="w-full sm:w-auto px-10 py-4 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+- **Línia 434**: `shadow-[0_0_20px_rgba(249,115,22,0.3)]">` -> <button className="w-full sm:w-auto px-10 py-4 bg-[#F97316] text-white font-black uppercase tracking-widest rounded-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(249,115,22,0.3)]">
+
+### src/pages/features/VitalSecurity.jsx
+- **Línia 6**: `bg-[var(--background-color)]">` -> <div className="flex h-screen w-full flex-col bg-[var(--background-color)]">
+- **Línia 21**: `bg-[var(--surface-color)]` -> <div className="animate-in slide-in-from-bottom-4 duration-500 fade-in delay-200 flex flex-col gap-4 rounded-3xl bg-[var(--surface-color)] p-6 shadow-sm ring-1 ring-red-500/20">
+- **Línia 21**: `rounded-3xl` -> <div className="animate-in slide-in-from-bottom-4 duration-500 fade-in delay-200 flex flex-col gap-4 rounded-3xl bg-[var(--surface-color)] p-6 shadow-sm ring-1 ring-red-500/20">
+- **Línia 21**: `shadow-sm` -> <div className="animate-in slide-in-from-bottom-4 duration-500 fade-in delay-200 flex flex-col gap-4 rounded-3xl bg-[var(--surface-color)] p-6 shadow-sm ring-1 ring-red-500/20">
+- **Línia 23**: `text-2xl` -> <h2 className="font-heading text-2xl font-bold tracking-tight text-red-500 dark:text-red-400">
+- **Línia 26**: `text-sm` -> <p className="text-sm font-medium text-[var(--text-muted)]">
+
+### src/pages/public/LegalManifest.jsx
+- **Línia 54**: `bg-black/5` -> <div className="w-full h-[800px] mt-12 overflow-hidden rounded-xl border border-black/10 dark:border-white/10 shadow-inner bg-black/5 dark:bg-white/5">
+- **Línia 54**: `rounded-xl` -> <div className="w-full h-[800px] mt-12 overflow-hidden rounded-xl border border-black/10 dark:border-white/10 shadow-inner bg-black/5 dark:bg-white/5">
+- **Línia 54**: `shadow-inner` -> <div className="w-full h-[800px] mt-12 overflow-hidden rounded-xl border border-black/10 dark:border-white/10 shadow-inner bg-black/5 dark:bg-white/5">
+
+### src/pages/public/RoadmapView.jsx
+- **Línia 19**: `bg-[var(--bg-panel)]` -> <div className="flex-1 min-w-[320px] max-w-md w-full bg-[var(--bg-panel)] border border-[var(--border-master)] rounded-xl p-4 flex flex-col gap-4 contain-layout">
+- **Línia 19**: `rounded-xl` -> <div className="flex-1 min-w-[320px] max-w-md w-full bg-[var(--bg-panel)] border border-[var(--border-master)] rounded-xl p-4 flex flex-col gap-4 contain-layout">
+- **Línia 22**: `text-xl` -> <h2 className="text-xl font-bold uppercase m-0 leading-none">{title}</h2>
+- **Línia 23**: `bg-[var(--text-main)]/10` -> <span className="ml-auto bg-[var(--text-main)]/10 px-2 py-0.5 rounded-full text-sm font-bold opacity-70">
+- **Línia 23**: `text-main)]/10` -> <span className="ml-auto bg-[var(--text-main)]/10 px-2 py-0.5 rounded-full text-sm font-bold opacity-70">
+- **Línia 23**: `rounded-full` -> <span className="ml-auto bg-[var(--text-main)]/10 px-2 py-0.5 rounded-full text-sm font-bold opacity-70">
+- **Línia 32**: `bg-[var(--bg-app)]` -> <div key={item.id} className="universal-card hover:scale-[1.01] transition-transform cursor-default group relative overflow-hidden bg-[var(--bg-app)] border border-[var(--border-master)]">
+- **Línia 33**: `bg-[var(--theme-accent-primary)]` -> <div className="absolute top-0 left-0 w-1 h-full bg-[var(--theme-accent-primary)] opacity-50" />
+- **Línia 36**: `text-xs` -> <span className="text-xs font-black tracking-widest uppercase opacity-60 flex items-center gap-1.5 line-clamp-1">
+- **Línia 39**: `bg-[var(--theme-accent-primary)]/10` -> <div className="flex bg-[var(--theme-accent-primary)]/10 px-2 py-1 rounded gap-1 items-center">
+- **Línia 40**: `text-[var(--theme-accent-primary)]` -> <Tag size={12} className="text-[var(--theme-accent-primary)] shrink-0" />
+- **Línia 41**: `text-[10px]` -> <span className="text-[10px] uppercase font-bold text-[var(--theme-accent-primary)] text-center line-clamp-1 leading-none">{item.category}</span>
+- **Línia 46**: `bg-[var(--bg-panel)]` -> <div className="p-2 bg-[var(--bg-panel)] rounded-[10px] border border-[var(--border-master)] shrink-0 mt-0.5 text-[var(--theme-accent-secondary)]">
+- **Línia 46**: `text-[var(--theme-accent-secondary)]">` -> <div className="p-2 bg-[var(--bg-panel)] rounded-[10px] border border-[var(--border-master)] shrink-0 mt-0.5 text-[var(--theme-accent-secondary)]">
+- **Línia 46**: `rounded-[10px]` -> <div className="p-2 bg-[var(--bg-panel)] rounded-[10px] border border-[var(--border-master)] shrink-0 mt-0.5 text-[var(--theme-accent-secondary)]">
+- **Línia 51**: `text-[1.05rem]` -> <h3 className="font-bold text-[1.05rem] leading-tight mb-2 text-[var(--text-main)] group-hover:text-[var(--theme-accent-primary)] transition-colors">{item.title}</h3>
+- **Línia 53**: `text-[13px]` -> <p className="text-[13px] opacity-70 leading-snug m-0 text-[var(--text-muted)] text-pretty">
+- **Línia 70**: `bg-[var(--bg-panel)]/95` -> <div className="md:w-32 lg:w-40 shrink-0 sticky top-0 md:top-4 z-10 bg-[var(--bg-panel)]/95 backdrop-blur-md md:bg-transparent py-2 border-b md:border-b-0 border-[var(--theme-accent-primary)] md:border-r-4 pr-4">
+- **Línia 71**: `rounded-lg` -> <div className="flex p-3 rounded-lg md:rounded-none bg-transparent items-center gap-3">
+- **Línia 72**: `bg-[var(--theme-accent-primary)]` -> <div className="w-3 h-3 rounded-full bg-[var(--theme-accent-primary)] -ml-2 shrink-0 md:block hidden outline outline-4 outline-[var(--bg-panel)] shadow-md" />
+- **Línia 72**: `rounded-full` -> <div className="w-3 h-3 rounded-full bg-[var(--theme-accent-primary)] -ml-2 shrink-0 md:block hidden outline outline-4 outline-[var(--bg-panel)] shadow-md" />
+- **Línia 72**: `shadow-md"` -> <div className="w-3 h-3 rounded-full bg-[var(--theme-accent-primary)] -ml-2 shrink-0 md:block hidden outline outline-4 outline-[var(--bg-panel)] shadow-md" />
+- **Línia 73**: `text-2xl` -> <h3 className="font-black text-2xl tracking-tighter uppercase flex-1 text-left md:text-right m-0 flex items-center justify-start md:justify-end gap-2">
+- **Línia 80**: `rounded-xl">` -> <div className="flex-1 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-5 lg:gap-6 mt-1 relativerounded-xl">
+- **Línia 85**: `bg-purple-500/10` -> ? "border-purple-500/40 bg-purple-500/10 shadow-[0_0_15px_rgba(168,85,247,0.15)]"
+- **Línia 85**: `shadow-[0_0_15px_rgba(168,85,247,0.15)]"` -> ? "border-purple-500/40 bg-purple-500/10 shadow-[0_0_15px_rgba(168,85,247,0.15)]"
+- **Línia 87**: `bg-green-500/5"` -> ? "border-green-500/20 bg-green-500/5"
+- **Línia 89**: `bg-blue-500/5"` -> ? "border-blue-500/20 bg-blue-500/5"
+- **Línia 90**: `bg-orange-500/5";` -> : "border-orange-500/20 bg-orange-500/5";
+- **Línia 93**: `bg-[var(--bg-panel)]` -> <div key={item.id} className={`flex flex-col universal-card border-[2px] ${statusColor} hover:scale-[1.02] active:scale-[0.98] transition-transform bg-[var(--bg-panel)] relative overflow-hidden`}>
+- **Línia 95**: `bg-purple-500` -> <div className="absolute top-0 right-0 bg-purple-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-bl-lg tracking-widest z-10 animate-pulse">
+- **Línia 95**: `text-white` -> <div className="absolute top-0 right-0 bg-purple-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-bl-lg tracking-widest z-10 animate-pulse">
+- **Línia 95**: `rounded-bl-lg` -> <div className="absolute top-0 right-0 bg-purple-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-bl-lg tracking-widest z-10 animate-pulse">
+- **Línia 100**: `bg-[var(--bg-app)]` -> <div className={`bg-[var(--bg-app)] p-2.5 rounded-[12px] shrink-0 border border-[var(--border-master)]`}>
+- **Línia 100**: `rounded-[12px]` -> <div className={`bg-[var(--bg-app)] p-2.5 rounded-[12px] shrink-0 border border-[var(--border-master)]`}>
+- **Línia 101**: `text-[var(--text-main)]` -> <ItemIcon size={24} className="text-[var(--text-main)] opacity-70" />
+- **Línia 105**: `text-[1.1rem]` -> <h4 className="font-bold text-[1.1rem] leading-tight m-0 text-[var(--text-main)]">{item.title}</h4>
+- **Línia 107**: `text-[10px]` -> <div className="text-[10px] mt-1.5 font-black text-[var(--theme-accent-secondary)] uppercase tracking-widest">{item.category}</div>
+- **Línia 110**: `text-[13px]` -> <p className="text-[13px] opacity-80 mt-3 flex-1 flex items-start text-[var(--text-muted)] leading-relaxed font-medium">
+- **Línia 114**: `text-[9px]` -> <span className="text-[9px] uppercase tracking-wider font-extrabold text-[var(--text-muted)] line-clamp-1">{item.tags.join(' • ')}</span>
+- **Línia 125**: `text-[var(--text-main)]">` -> <div className="w-full max-w-4xl mx-auto pb-12 mt-4 text-[var(--text-main)]">
+- **Línia 128**: `text-[1.35rem]` -> <h2 className="text-[1.35rem] font-black uppercase tracking-widest mb-4 text-purple-500/90 border-b border-purple-500/20 pb-3 flex items-center gap-2">
+- **Línia 141**: `text-[1.35rem]` -> <h2 className="text-[1.35rem] font-black uppercase tracking-widest mb-4 text-green-500/90 border-b border-green-500/20 pb-3 flex items-center gap-2">
+- **Línia 152**: `text-[1.35rem]` -> <h2 className="text-[1.35rem] font-black uppercase tracking-widest mb-4 text-blue-500/90 border-b border-blue-500/20 pb-3 flex items-center gap-2">
+- **Línia 163**: `text-[1.35rem]` -> <h2 className="text-[1.35rem] font-black uppercase tracking-widest mb-4 text-orange-500/90 border-b border-orange-500/20 pb-3 flex items-center gap-2">
+- **Línia 187**: `text-purple-500` -> <BoardColumn title="En Producció" icon={Flame} items={roadmapData.production} colorClass="border-purple-500/30 text-purple-500 border-b-[3px]" />
+- **Línia 188**: `text-orange-500/80` -> <BoardColumn title="Llavors (Tot)" icon={Sprout} items={roadmapData.backlog} colorClass="border-orange-500/20 text-orange-500/80 border-b-[3px]" />
+- **Línia 189**: `text-blue-500/80` -> <BoardColumn title="Sementeres" icon={Tractor} items={roadmapData.dev} colorClass="border-blue-500/20 text-blue-500/80 border-b-[3px]" />
+- **Línia 190**: `text-green-500/80` -> <BoardColumn title="Fet" icon={PackageCheck} items={roadmapData.done} colorClass="border-green-500/20 text-green-500/80 border-b-[3px]" />
+- **Línia 196**: `text-base` -> <p className="text-base sm:text-lg lg:text-xl font-medium leading-relaxed mt-4 opacity-70 text-[var(--text-main)] text-pretty">
+- **Línia 197**: `text-[var(--theme-accent-primary)]` -> L'auditoria històrica més gran del Mas fins avui. Totes les línies, idees y mecàniques burocràtiques o P2P que asseient l'abans i el després de <strong>Sóc de Poble</strong> cap al <span className="text-[var(--theme-accent-primary)] font-bold">Rescat de la Ruralitat</span> i la Sobirania Ciutadana.
+
+### src/pages/public/UniversalPage.jsx
+- **Línia 461**: `bg-black/5` -> wrapper.className = 'cms-code-wrapper bg-black/5 dark:bg-[#111111] group border border-[var(--border-master)] rounded-[1.5rem] my-6 overflow-hidden shadow-[0_4px_30px_rgba(249,115,22,0.15)] relative';
+- **Línia 461**: `rounded-[1.5rem]` -> wrapper.className = 'cms-code-wrapper bg-black/5 dark:bg-[#111111] group border border-[var(--border-master)] rounded-[1.5rem] my-6 overflow-hidden shadow-[0_4px_30px_rgba(249,115,22,0.15)] relative';
+- **Línia 461**: `shadow-[0_4px_30px_rgba(249,115,22,0.15)]` -> wrapper.className = 'cms-code-wrapper bg-black/5 dark:bg-[#111111] group border border-[var(--border-master)] rounded-[1.5rem] my-6 overflow-hidden shadow-[0_4px_30px_rgba(249,115,22,0.15)] relative';
+- **Línia 464**: `bg-black/5` -> header.className = 'p-4 font-bold text-sm uppercase flex items-center justify-between select-none bg-black/5 dark:bg-white/5 border-b border-[var(--border-master)]';
+- **Línia 464**: `text-sm` -> header.className = 'p-4 font-bold text-sm uppercase flex items-center justify-between select-none bg-black/5 dark:bg-white/5 border-b border-[var(--border-master)]';
+- **Línia 467**: `text-theme-text';` -> titleSpan.className = 'flex items-center gap-2 text-theme-text';
+- **Línia 468**: `text-lg">💻</span>` -> titleSpan.innerHTML = `<span class="text-lg">💻</span> ${t('project.tech_format', 'Format Tècnic')}`;
+- **Línia 474**: `bg-black/5` -> copyBtn.className = 'cms-copy-btn absolute top-3 right-4 flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 text-theme-text text-[0.65rem] font-bold uppercase transition-colors hover:bg-black/10 dark:hover:bg-white/10 active:scale-95 cursor-pointer z-10';
+- **Línia 474**: `text-theme-text` -> copyBtn.className = 'cms-copy-btn absolute top-3 right-4 flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 text-theme-text text-[0.65rem] font-bold uppercase transition-colors hover:bg-black/10 dark:hover:bg-white/10 active:scale-95 cursor-pointer z-10';
+- **Línia 474**: `rounded-full` -> copyBtn.className = 'cms-copy-btn absolute top-3 right-4 flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/5 dark:bg-white/5 text-theme-text text-[0.65rem] font-bold uppercase transition-colors hover:bg-black/10 dark:hover:bg-white/10 active:scale-95 cursor-pointer z-10';
+- **Línia 487**: `text-[0.65rem]` -> langSpan.className = 'text-[0.65rem] uppercase tracking-wider font-bold font-mono text-stone-500 mr-2';
+- **Línia 598**: `bg-[var(--bg-panel)]` -> className={`relative w-full z-0 flex flex-col items-center justify-center overflow-hidden bg-[var(--bg-panel)] cursor-pointer active:scale-[0.99] transition-transform ${heroFormat === 'horizontal' ? 'h-[40vh] min-h-[300px] max-h-[500px]' : ''}`}
+- **Línia 631**: `bg-panel)]` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
+- **Línia 631**: `rounded-full` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
+- **Línia 631**: `shadow-md` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
+- **Línia 635**: `bg-black` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
+- **Línia 635**: `rounded-full` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
+- **Línia 635**: `shadow-md` -> <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
+- **Línia 636**: `text-[var(--theme-accent-secondary)]` -> <span className="text-[var(--theme-accent-secondary)] text-xs font-black tracking-tighter">IA</span>
+- **Línia 639**: `bg-black/5` -> <span className="ml-5 text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 flex items-center gap-1.5">
+- **Línia 639**: `text-[10px]` -> <span className="ml-5 text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 flex items-center gap-1.5">
+- **Línia 639**: `rounded-full` -> <span className="ml-5 text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 flex items-center gap-1.5">
+- **Línia 640**: `bg-green-500` -> <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+- **Línia 640**: `rounded-full` -> <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+- **Línia 652**: `bg-[var(--theme-accent-primary)]/10` -> className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-secondary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
+- **Línia 652**: `text-3xl` -> className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-secondary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
+- **Línia 655**: `bg-black/5` -> <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/10 dark:border-white/10">
+- **Línia 655**: `rounded-xl` -> <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/10 dark:border-white/10">
+- **Línia 657**: `text-[10px]` -> <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Hero Image URL</label>
+- **Línia 658**: `text-sm` -> <input type="text" value={heroImage} onChange={e => setHeroImage(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
+- **Línia 661**: `text-[10px]` -> <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Format de la Portada</label>
+- **Línia 662**: `text-sm` -> <select value={heroFormat} onChange={e => setHeroFormat(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1 cursor-pointer">
+- **Línia 663**: `bg-[var(--bg-panel)]` -> <option value="horizontal" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Horitzontal (Retallat)</option>
+- **Línia 663**: `text-[var(--text-main)]">Horitzontal` -> <option value="horizontal" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Horitzontal (Retallat)</option>
+- **Línia 664**: `bg-[var(--bg-panel)]` -> <option value="square" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Original (Complet / Fluid)</option>
+- **Línia 664**: `text-[var(--text-main)]">Original` -> <option value="square" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Original (Complet / Fluid)</option>
+- **Línia 668**: `text-[10px]` -> <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Posició Portada (Només Horitzontal)</label>
+- **Línia 669**: `text-sm` -> <select value={heroPosition} onChange={e => setHeroPosition(e.target.value)} disabled={heroFormat !== 'horizontal'} className={`bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1 cursor-pointer ${heroFormat !== 'horizontal' ? 'opacity-50' : ''}`}>
+- **Línia 670**: `bg-[var(--bg-panel)]` -> <option value="top" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Superior (Dalt/Cel)</option>
+- **Línia 670**: `text-[var(--text-main)]">Superior` -> <option value="top" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Superior (Dalt/Cel)</option>
+- **Línia 671**: `bg-[var(--bg-panel)]` -> <option value="center" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Centre</option>
+- **Línia 671**: `text-[var(--text-main)]">Centre</option>` -> <option value="center" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Centre</option>
+- **Línia 672**: `bg-[var(--bg-panel)]` -> <option value="bottom" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Inferior (Baix/Terra)</option>
+- **Línia 672**: `text-[var(--text-main)]">Inferior` -> <option value="bottom" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Inferior (Baix/Terra)</option>
+- **Línia 676**: `text-[10px]` -> <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Logo URL (Mode Clar)</label>
+- **Línia 677**: `text-sm` -> <input type="text" value={logoLight} onChange={e => setLogoLight(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
+- **Línia 680**: `text-[10px]` -> <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Logo URL (Mode Fosc)</label>
+- **Línia 681**: `text-sm` -> <input type="text" value={logoDark} onChange={e => setLogoDark(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
+- **Línia 697**: `shadow-none` -> className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoDark ? 'dark:hidden' : ''}`}
+- **Línia 704**: `shadow-none` -> className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoLight ? 'hidden dark:block' : ''}`}
+- **Línia 842**: `bg-black/10` -> <div className="h-8 bg-black/10 dark:bg-white/10 rounded w-3/4 mb-4"></div>
+- **Línia 843**: `bg-black/10` -> <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-full"></div>
+- **Línia 844**: `bg-black/10` -> <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-full"></div>
+- **Línia 845**: `bg-black/10` -> <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-5/6"></div>
+- **Línia 846**: `bg-black/10` -> <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-full mt-4"></div>
+- **Línia 847**: `bg-black/10` -> <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-4/5"></div>
+- **Línia 872**: `bg-[var(--theme-accent-primary)]/10` -> className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-1 text-center mt-6"
+- **Línia 872**: `text-2xl` -> className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-1 text-center mt-6"
+- **Línia 877**: `text-2xl` -> <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase mb-0 mt-6 text-center px-4 w-full break-words">
+- **Línia 886**: `text-[var(--text-muted)]` -> <Suspense fallback={<div className="p-8 text-center text-[var(--text-muted)] animate-pulse">Carregant editor...</div>}>
+- **Línia 926**: `bg-[var(--bg-app)]` -> ? "flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full max-w-[100vw] overflow-hidden isolate overscroll-none touch-none relative"
+- **Línia 926**: `text-[var(--text-main)]` -> ? "flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full max-w-[100vw] overflow-hidden isolate overscroll-none touch-none relative"
+- **Línia 927**: `bg-white` -> : "flex-1 h-full overflow-hidden w-full min-h-0 isolate bg-white dark:bg-[#121212] relative flex flex-col"}
+- **Línia 931**: `bg-black/50` -> <Suspense fallback={<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[var(--z-modal,500)]"><div className="w-8 h-8 rounded-full border-4 border-white/20 border-[var(--theme-accent-primary)] animate-spin"></div></div>}>
+- **Línia 931**: `rounded-full` -> <Suspense fallback={<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[var(--z-modal,500)]"><div className="w-8 h-8 rounded-full border-4 border-white/20 border-[var(--theme-accent-primary)] animate-spin"></div></div>}>
+- **Línia 957**: `bg-[#4F46E5]` -> <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
+- **Línia 957**: `text-white` -> <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
+- **Línia 957**: `shadow-md` -> <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
+- **Línia 961**: `bg-white/20` -> <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 961**: `text-white` -> <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 961**: `rounded-xl` -> <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
+- **Línia 964**: `bg-white/20` -> <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
+- **Línia 964**: `text-white'` -> <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
+- **Línia 964**: `rounded-xl` -> <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
+- **Línia 973**: `bg-white/20` -> className={`flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${translating ? "animate-pulse" : ""}`}
+- **Línia 973**: `rounded-xl` -> className={`flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${translating ? "animate-pulse" : ""}`}
+- **Línia 976**: `shadow-sm` -> {translating ? <Globe size={20} className="animate-spin" /> : <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />}
+- **Línia 978**: `bg-white/20` -> <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 978**: `text-white"` -> <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 978**: `rounded-xl` -> <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
+- **Línia 981**: `bg-white/20` -> <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 981**: `text-white"` -> <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 981**: `rounded-xl` -> <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
+- **Línia 984**: `bg-white` -> <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
+- **Línia 984**: `text-[#4F46E5]` -> <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
+- **Línia 984**: `rounded-full` -> <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
+- **Línia 984**: `shadow-md` -> <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
+- **Línia 996**: `bg-[var(--bg-app)]` -> ? "flex-1 min-h-0 w-full relative bg-[var(--bg-app)] pb-[max(env(safe-area-inset-bottom),0px)] flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar"
+- **Línia 997**: `bg-[var(--bg-app)]` -> : "flex-1 min-h-0 w-full relative bg-[var(--bg-app)] flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar"}
+- **Línia 1003**: `bg-black` -> <section className="w-full flex flex-col items-center justify-center bg-black relative z-10">
+- **Línia 1004**: `bg-[#222222]">` -> <div className="w-full relative z-0 flex flex-col items-center justify-center overflow-hidden bg-[#222222]">
+- **Línia 1036**: `shadow-sm">` -> <div className="sticky top-0 z-[190] w-full shrink-0 shadow-sm">
+- **Línia 1055**: `bg-white` -> <div className="app-cms-content bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm px-6 py-6 pb-0 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
+- **Línia 1055**: `rounded-b-[28px]` -> <div className="app-cms-content bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm px-6 py-6 pb-0 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
+- **Línia 1055**: `shadow-sm` -> <div className="app-cms-content bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm px-6 py-6 pb-0 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
+- **Línia 1060**: `shadow-none` -> className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none dark:hidden"
+- **Línia 1066**: `shadow-none` -> className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none hidden dark:block"
+- **Línia 1073**: `bg-black/5` -> <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
+- **Línia 1073**: `rounded-full` -> <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
+- **Línia 1073**: `shadow-inner` -> <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
+- **Línia 1076**: `bg-[var(--theme-accent-primary)]` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1076**: `text-sm` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1076**: `rounded-full` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1076**: `shadow-md'` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1083**: `bg-[var(--theme-accent-primary)]` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1083**: `text-sm` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1083**: `rounded-full` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1083**: `shadow-md'` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1091**: `bg-[var(--theme-accent-primary)]` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1091**: `text-sm` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1091**: `rounded-full` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+- **Línia 1091**: `shadow-md'` -> className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
+
+### src/pages/system/ConflictResolutionPage.jsx
+- **Línia 72**: `bg-[#121212]` -> <div className="min-h-screen bg-[#121212] text-[#e0e0e0] flex items-center justify-center p-6 font-sans">
+- **Línia 72**: `text-[#e0e0e0]` -> <div className="min-h-screen bg-[#121212] text-[#e0e0e0] flex items-center justify-center p-6 font-sans">
+- **Línia 73**: `bg-[#1e1e1e]` -> <div className="max-w-4xl w-full bg-[#1e1e1e] border border-red-900/50 rounded-2xl shadow-2xl p-8 space-y-8">
+- **Línia 73**: `rounded-2xl` -> <div className="max-w-4xl w-full bg-[#1e1e1e] border border-red-900/50 rounded-2xl shadow-2xl p-8 space-y-8">
+- **Línia 73**: `shadow-2xl` -> <div className="max-w-4xl w-full bg-[#1e1e1e] border border-red-900/50 rounded-2xl shadow-2xl p-8 space-y-8">
+- **Línia 76**: `text-4xl` -> <h1 className="text-4xl font-bold text-red-500 tracking-tight">Paradoxa del Bancal Detectada</h1>
+- **Línia 77**: `text-xl` -> <p className="text-xl text-gray-400">
+- **Línia 80**: `bg-red-500/10` -> <div className="inline-flex items-center space-x-2 bg-red-500/10 text-red-400 px-4 py-2 rounded-full font-mono text-lg">
+- **Línia 80**: `text-red-400` -> <div className="inline-flex items-center space-x-2 bg-red-500/10 text-red-400 px-4 py-2 rounded-full font-mono text-lg">
+- **Línia 80**: `rounded-full` -> <div className="inline-flex items-center space-x-2 bg-red-500/10 text-red-400 px-4 py-2 rounded-full font-mono text-lg">
+- **Línia 88**: `bg-[#2a2a2a]` -> <div className="bg-[#2a2a2a] rounded-xl p-6 border-l-4 border-emerald-500">
+- **Línia 88**: `rounded-xl` -> <div className="bg-[#2a2a2a] rounded-xl p-6 border-l-4 border-emerald-500">
+- **Línia 89**: `text-2xl` -> <h2 className="text-2xl font-bold text-emerald-400 mb-4">El teu camp (Offline)</h2>
+- **Línia 90**: `bg-black/50` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 90**: `text-sm` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 90**: `rounded-lg` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 95**: `bg-emerald-600` -> className="w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 95**: `text-white` -> className="w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 95**: `rounded-lg` -> className="w-full mt-6 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 101**: `bg-[#2a2a2a]` -> <div className="bg-[#2a2a2a] rounded-xl p-6 border-l-4 border-blue-500">
+- **Línia 101**: `rounded-xl` -> <div className="bg-[#2a2a2a] rounded-xl p-6 border-l-4 border-blue-500">
+- **Línia 102**: `text-2xl` -> <h2 className="text-2xl font-bold text-blue-400 mb-4">El camp del veí (Núvol)</h2>
+- **Línia 103**: `bg-black/50` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 103**: `text-sm` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 103**: `rounded-lg` -> <pre className="bg-black/50 p-4 rounded-lg text-sm text-gray-300 overflow-x-auto">
+- **Línia 108**: `bg-blue-600` -> className="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 108**: `text-white` -> className="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 108**: `rounded-lg` -> className="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+- **Línia 114**: `text-sm` -> <div className="text-center text-sm text-gray-500 pt-4">
+
+### src/utils/epubGenerator.js
+- **Línia 46**: `text-align:` -> h1 { font-size: 2em; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 0.5em; }
+- **Línia 47**: `text-align:` -> p { text-align: justify; margin-bottom: 1em; }
+- **Línia 49**: `text-align:` -> .center { text-align: center; }
+
+### src/utils/sanitizeHtml.js
+- **Línia 21**: `text-align','display','flex','gap',` -> 'padding','margin','font-size','font-weight','text-align','display','flex','gap',
+

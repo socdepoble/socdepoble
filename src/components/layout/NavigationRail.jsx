@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigation } from "../../app/context/NavigationContext";
 import { useAuth } from "../../app/context/AuthContext";
 import { APP_VERSION } from "../../constants";
-import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette } from "lucide-react";
+import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette, Scale } from "lucide-react";
 
 const menuItems = [
   { path: "/chats", key: "nav.chats", fallback: "Xat", icon: (p) => <MessageSquare {...p} /> },
@@ -13,12 +13,13 @@ const menuItems = [
   { path: "/pobles", key: "nav.towns", fallback: "Pobles", icon: (p) => <MapPin {...p} /> },
   { path: "/calendari", key: "nav.events", fallback: "Calendari", icon: (p) => <Calendar {...p} /> },
   { path: "/mapa", key: "nav.map", fallback: "Mapa", icon: (p) => <Map {...p} /> },
-  { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: (p) => <BookOpen {...p} /> },
-  { path: "/skills", key: "nav.skills", fallback: "Skills", icon: (p) => <Activity {...p} /> },
-  { path: "/disseny", key: "nav.design", fallback: "Disseny", icon: (p) => <Palette {...p} /> },
-  { path: "/ruta", key: "nav.roadmap", fallback: "Full de Ruta", icon: (p) => <Compass {...p} /> },
   { path: "/media", key: "nav.media", fallback: "Multimèdia", icon: (p) => <Image {...p} /> },
   { path: "/notes", key: "nav.notes", fallback: "Notes", icon: (p) => <FileText {...p} /> },
+  { path: "/el-projecte", key: "nav.project", fallback: "El Projecte", icon: (p) => <BookOpen {...p} /> },
+  { path: "/constitucio", key: "nav.constitucio", fallback: "Constitució", icon: (p) => <Scale {...p} /> },
+  { path: "/disseny", key: "nav.design", fallback: "Disseny", icon: (p) => <Palette {...p} /> },
+  { path: "/skills", key: "nav.skills", fallback: "Skills", icon: (p) => <Activity {...p} /> },
+  { path: "/ruta", key: "nav.roadmap", fallback: "Full de Ruta", icon: (p) => <Compass {...p} /> },
 ];
 
 const NavigationRail = () => {

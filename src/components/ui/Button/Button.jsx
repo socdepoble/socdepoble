@@ -2,6 +2,7 @@ import React from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { buttonVariants } from './Button.variants';
+import { hapticService } from '../../../core/services/hapticService';
 
 export const Button = React.forwardRef(
   (
@@ -44,6 +45,10 @@ export const Button = React.forwardRef(
           if (isLoading || props.disabled) {
             e.preventDefault();
             return;
+          }
+          // Activar haptic feedback si no és un link
+          if (Component === 'button') {
+            hapticService.playAtomicFeedback('action');
           }
           if (props.onClick) {
             props.onClick(e);

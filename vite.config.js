@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { comlink } from "vite-plugin-comlink";
 import { VitePWA } from "vite-plugin-pwa";
 import wasm from "vite-plugin-wasm";
+import { visualizer } from "rollup-plugin-visualizer";
 
 import { mediaApiPlugin } from "./scripts/vite-media-api.js";
 
@@ -90,6 +91,11 @@ export default defineConfig({
         ]
       }
     }),
+    visualizer({
+      filename: '.agents/auditories/bundle_stats.html',
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ],
   resolve: {
     alias: {
@@ -164,7 +170,6 @@ export default defineConfig({
           utils: ["i18next", "react-i18next", "zod"],
           calendar: ["@fullcalendar/core", "@fullcalendar/react", "@fullcalendar/daygrid", "@fullcalendar/timegrid", "@fullcalendar/list", "@fullcalendar/interaction"],
           editor: ["@tiptap/react", "@tiptap/starter-kit", "@tiptap/extension-color", "@tiptap/extension-text-style", "@tiptap/extension-link", "@tiptap/extension-image", "@tiptap/extension-text-align", "@tiptap/extension-underline", "@tiptap/extension-list-item"],
-          maps: ["react-leaflet", "leaflet"],
           auth: ["@react-oauth/google"]
         },
       },

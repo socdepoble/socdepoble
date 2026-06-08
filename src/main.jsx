@@ -1,4 +1,5 @@
 // src/main.jsx (opcional, registre explícit si injectRegister: false)
+import './wdyr'; // Injecta Why Did You Render (només actiu en mode dev)
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';

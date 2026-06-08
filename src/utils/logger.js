@@ -59,21 +59,29 @@ export const checkSilence = (msg) => {
 
 export const logger = {
     log: (message, ...args) => {
-        if (isDev && !checkSilence(message)) {
-            console.log(`%c[INFO] ${message}`, 'color: #94a3b8', ...args);
+        if (!checkSilence(message)) {
+            window.dispatchEvent(new CustomEvent('app:log', { detail: { level: 'info', message, args } }));
         }
     },
     error: (message, ...args) => {
-        if (isDev && !checkSilence(message)) console.error(message, ...args);
+        if (!checkSilence(message)) {
+            window.dispatchEvent(new CustomEvent('app:log', { detail: { level: 'error', message, args } }));
+        }
     },
     warn: (message, ...args) => {
-        if (isDev && !checkSilence(message)) console.warn(message, ...args);
+        if (!checkSilence(message)) {
+            window.dispatchEvent(new CustomEvent('app:log', { detail: { level: 'warn', message, args } }));
+        }
     },
     info: (message, ...args) => {
-        if (isDev && !checkSilence(message)) console.info(message, ...args);
+        if (!checkSilence(message)) {
+            window.dispatchEvent(new CustomEvent('app:log', { detail: { level: 'info', message, args } }));
+        }
     },
     debug: (message, ...args) => {
-        if (isDev && !checkSilence(message)) console.debug(message, ...args);
+        if (!checkSilence(message)) {
+            window.dispatchEvent(new CustomEvent('app:log', { detail: { level: 'debug', message, args } }));
+        }
     }
 };
 

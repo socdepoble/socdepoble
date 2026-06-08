@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Send, Mic, Paperclip, Image as ImageIcon, ChevronLeft } from 'lucide-react';
 
 import { useAuth } from '../../app/context/AuthContext';
 import { useNavigation } from '../../app/context/NavigationContext';
@@ -573,18 +573,42 @@ const ChatHeader = React.memo(({ otherInfo, isHeaderSearchOpen, setIsHeaderSearc
 });
 
 const ChatMessageList = React.memo(({ messages }) => {
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
-    <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 bg-theme-base">
-      {messages?.map(m => (
-        <div key={m.id} className={`p-3 rounded-2xl max-w-[80%] ${m.is_ai ? 'bg-theme-surface self-start' : 'bg-[#F97316] text-white self-end'}`}>
-          {m.content}
-        </div>
-      ))}
+    <div className="flex-1 h-full overflow-y-auto px-4 py-6 flex flex-col gap-4 bg-theme-base custom-scrollbar">
+      {messages?.map(m => {
+        const isAI = m.is_ai;
+        return (
+          <div key={m.id} className={`flex flex-col max-w-[85%] ${isAI ? 'self-start' : 'self-end'} animate-fade-in`}>
+             <div className={`p-3.5 rounded-[24px] shadow-sm leading-snug text-[15px]
+                ${isAI 
+                  ? 'bg-white text-gray-900 border border-gray-100 rounded-tl-sm' 
+                  : 'bg-[#FF6D00] text-white rounded-tr-sm'
+                }`}
+              >
+                {m.content}
+             </div>
+             <span className={`text-[10px] text-gray-400 mt-1 font-medium px-1 ${isAI ? 'text-left' : 'text-right'}`}>
+                {new Date(m.created_at).toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit' })}
+             </span>
+          </div>
+        );
+      })}
       {messages?.length === 0 && (
-        <div className="text-center text-theme-muted mt-10">
-          No hi ha missatges encara.
+        <div className="flex flex-col items-center justify-center text-center text-theme-muted mt-20 opacity-60">
+          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/5 shadow-inner">
+             <Send size={24} className="text-[#FF6D00] ml-1 opacity-50" />
+          </div>
+          <p className="font-bold text-sm tracking-wide">Inicia la conversa</p>
+          <p className="text-xs mt-1 max-w-[200px]">Els teus missatges estan xifrats i guardats al teu dispositiu de forma segura.</p>
         </div>
       )}
+      <div ref={bottomRef} className="h-4" />
     </div>
   );
 });
@@ -600,22 +624,57 @@ const ChatInputArea = React.memo(({ handleSendMessage, isSending }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="p-4 bg-theme-surface border-t border-theme-border flex items-center gap-2">
-      <input 
-        type="text" 
-        value={text}
-        onChange={e => setText(e.target.value)}
-        placeholder="Escriu un missatge..." 
-        className="flex-1 bg-theme-base border border-theme-border rounded-full px-4 py-3 outline-none"
-      />
-      <button 
-        type="submit" 
-        disabled={isSending || !text.trim()}
-        className="bg-[#F97316] text-white h-12 w-12 rounded-full flex items-center justify-center font-bold disabled:opacity-50"
-      >
-        Envia
-      </button>
-    </form>
+    <div className="p-3 bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-white/5 pb-safe">
+      <form onSubmit={onSubmit} className="flex items-end gap-2 max-w-4xl mx-auto w-full">
+        {/* Attachment Options */}
+        <div className="flex gap-1 pb-1 shrink-0">
+            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+              <Paperclip size={20} />
+            </button>
+            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors hidden sm:flex">
+              <ImageIcon size={20} />
+            </button>
+        </div>
+
+        {/* Input Bubble */}
+        <div className="flex-1 bg-gray-100 dark:bg-[#1A1A1A] border border-transparent dark:border-white/5 rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white dark:focus-within:bg-[#222222] focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
+          <textarea 
+            value={text}
+            onChange={e => setText(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                onSubmit(e);
+              }
+            }}
+            placeholder="Escriu un missatge..." 
+            className="flex-1 bg-transparent border-none px-4 py-3 outline-none text-[15px] resize-none max-h-[120px] overflow-y-auto text-gray-800 dark:text-white placeholder:text-gray-400 m-0 w-full"
+            rows="1"
+            style={{ minHeight: '48px' }}
+          />
+        </div>
+
+        {/* Action Button (Mic or Send) */}
+        <div className="pb-[2px] shrink-0">
+          {!text.trim() ? (
+            <button 
+              type="button" 
+              className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00]/10 text-[#FF6D00] hover:bg-[#FF6D00]/20 transition-all border border-[#FF6D00]/20"
+            >
+              <Mic size={22} />
+            </button>
+          ) : (
+            <button 
+              type="submit" 
+              disabled={isSending}
+              className="w-[46px] h-[46px] rounded-full flex items-center justify-center font-bold bg-[#FF6D00] text-white shadow-[0_4px_15px_rgba(255,109,0,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 pl-1"
+            >
+              <Send size={20} />
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   );
 });
 

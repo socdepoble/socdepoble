@@ -1,0 +1,1483 @@
+# Graph Report - Sóc de Poble  (2026-06-08)
+
+## Corpus Check
+- 572 files · ~9,460,722 words
+- Verdict: corpus is large enough that graph structure adds value.
+
+## Summary
+- 5752 nodes · 7087 edges · 411 communities (302 shown, 109 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `bf0ab460`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
+
+## Community Hubs (Navigation)
+- [[_COMMUNITY_Community 0|Community 0]]
+- [[_COMMUNITY_Community 1|Community 1]]
+- [[_COMMUNITY_Community 2|Community 2]]
+- [[_COMMUNITY_Community 3|Community 3]]
+- [[_COMMUNITY_Community 4|Community 4]]
+- [[_COMMUNITY_Community 5|Community 5]]
+- [[_COMMUNITY_Community 6|Community 6]]
+- [[_COMMUNITY_Community 7|Community 7]]
+- [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 10|Community 10]]
+- [[_COMMUNITY_Community 11|Community 11]]
+- [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 14|Community 14]]
+- [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
+- [[_COMMUNITY_Community 17|Community 17]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 19|Community 19]]
+- [[_COMMUNITY_Community 20|Community 20]]
+- [[_COMMUNITY_Community 21|Community 21]]
+- [[_COMMUNITY_Community 22|Community 22]]
+- [[_COMMUNITY_Community 23|Community 23]]
+- [[_COMMUNITY_Community 24|Community 24]]
+- [[_COMMUNITY_Community 25|Community 25]]
+- [[_COMMUNITY_Community 26|Community 26]]
+- [[_COMMUNITY_Community 27|Community 27]]
+- [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
+- [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 39|Community 39]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 44|Community 44]]
+- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
+- [[_COMMUNITY_Community 50|Community 50]]
+- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
+- [[_COMMUNITY_Community 54|Community 54]]
+- [[_COMMUNITY_Community 55|Community 55]]
+- [[_COMMUNITY_Community 56|Community 56]]
+- [[_COMMUNITY_Community 57|Community 57]]
+- [[_COMMUNITY_Community 58|Community 58]]
+- [[_COMMUNITY_Community 59|Community 59]]
+- [[_COMMUNITY_Community 60|Community 60]]
+- [[_COMMUNITY_Community 61|Community 61]]
+- [[_COMMUNITY_Community 62|Community 62]]
+- [[_COMMUNITY_Community 63|Community 63]]
+- [[_COMMUNITY_Community 64|Community 64]]
+- [[_COMMUNITY_Community 65|Community 65]]
+- [[_COMMUNITY_Community 66|Community 66]]
+- [[_COMMUNITY_Community 67|Community 67]]
+- [[_COMMUNITY_Community 68|Community 68]]
+- [[_COMMUNITY_Community 69|Community 69]]
+- [[_COMMUNITY_Community 70|Community 70]]
+- [[_COMMUNITY_Community 71|Community 71]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
+- [[_COMMUNITY_Community 75|Community 75]]
+- [[_COMMUNITY_Community 76|Community 76]]
+- [[_COMMUNITY_Community 77|Community 77]]
+- [[_COMMUNITY_Community 78|Community 78]]
+- [[_COMMUNITY_Community 79|Community 79]]
+- [[_COMMUNITY_Community 80|Community 80]]
+- [[_COMMUNITY_Community 81|Community 81]]
+- [[_COMMUNITY_Community 82|Community 82]]
+- [[_COMMUNITY_Community 83|Community 83]]
+- [[_COMMUNITY_Community 84|Community 84]]
+- [[_COMMUNITY_Community 85|Community 85]]
+- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
+- [[_COMMUNITY_Community 92|Community 92]]
+- [[_COMMUNITY_Community 93|Community 93]]
+- [[_COMMUNITY_Community 94|Community 94]]
+- [[_COMMUNITY_Community 95|Community 95]]
+- [[_COMMUNITY_Community 96|Community 96]]
+- [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
+- [[_COMMUNITY_Community 102|Community 102]]
+- [[_COMMUNITY_Community 103|Community 103]]
+- [[_COMMUNITY_Community 104|Community 104]]
+- [[_COMMUNITY_Community 105|Community 105]]
+- [[_COMMUNITY_Community 106|Community 106]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
+- [[_COMMUNITY_Community 109|Community 109]]
+- [[_COMMUNITY_Community 110|Community 110]]
+- [[_COMMUNITY_Community 111|Community 111]]
+- [[_COMMUNITY_Community 112|Community 112]]
+- [[_COMMUNITY_Community 113|Community 113]]
+- [[_COMMUNITY_Community 114|Community 114]]
+- [[_COMMUNITY_Community 115|Community 115]]
+- [[_COMMUNITY_Community 116|Community 116]]
+- [[_COMMUNITY_Community 117|Community 117]]
+- [[_COMMUNITY_Community 118|Community 118]]
+- [[_COMMUNITY_Community 119|Community 119]]
+- [[_COMMUNITY_Community 120|Community 120]]
+- [[_COMMUNITY_Community 121|Community 121]]
+- [[_COMMUNITY_Community 122|Community 122]]
+- [[_COMMUNITY_Community 123|Community 123]]
+- [[_COMMUNITY_Community 124|Community 124]]
+- [[_COMMUNITY_Community 125|Community 125]]
+- [[_COMMUNITY_Community 126|Community 126]]
+- [[_COMMUNITY_Community 127|Community 127]]
+- [[_COMMUNITY_Community 128|Community 128]]
+- [[_COMMUNITY_Community 129|Community 129]]
+- [[_COMMUNITY_Community 130|Community 130]]
+- [[_COMMUNITY_Community 131|Community 131]]
+- [[_COMMUNITY_Community 132|Community 132]]
+- [[_COMMUNITY_Community 133|Community 133]]
+- [[_COMMUNITY_Community 134|Community 134]]
+- [[_COMMUNITY_Community 135|Community 135]]
+- [[_COMMUNITY_Community 136|Community 136]]
+- [[_COMMUNITY_Community 137|Community 137]]
+- [[_COMMUNITY_Community 138|Community 138]]
+- [[_COMMUNITY_Community 139|Community 139]]
+- [[_COMMUNITY_Community 140|Community 140]]
+- [[_COMMUNITY_Community 141|Community 141]]
+- [[_COMMUNITY_Community 142|Community 142]]
+- [[_COMMUNITY_Community 143|Community 143]]
+- [[_COMMUNITY_Community 144|Community 144]]
+- [[_COMMUNITY_Community 145|Community 145]]
+- [[_COMMUNITY_Community 146|Community 146]]
+- [[_COMMUNITY_Community 147|Community 147]]
+- [[_COMMUNITY_Community 148|Community 148]]
+- [[_COMMUNITY_Community 149|Community 149]]
+- [[_COMMUNITY_Community 150|Community 150]]
+- [[_COMMUNITY_Community 151|Community 151]]
+- [[_COMMUNITY_Community 152|Community 152]]
+- [[_COMMUNITY_Community 153|Community 153]]
+- [[_COMMUNITY_Community 154|Community 154]]
+- [[_COMMUNITY_Community 155|Community 155]]
+- [[_COMMUNITY_Community 156|Community 156]]
+- [[_COMMUNITY_Community 157|Community 157]]
+- [[_COMMUNITY_Community 158|Community 158]]
+- [[_COMMUNITY_Community 159|Community 159]]
+- [[_COMMUNITY_Community 160|Community 160]]
+- [[_COMMUNITY_Community 161|Community 161]]
+- [[_COMMUNITY_Community 162|Community 162]]
+- [[_COMMUNITY_Community 163|Community 163]]
+- [[_COMMUNITY_Community 164|Community 164]]
+- [[_COMMUNITY_Community 165|Community 165]]
+- [[_COMMUNITY_Community 166|Community 166]]
+- [[_COMMUNITY_Community 167|Community 167]]
+- [[_COMMUNITY_Community 168|Community 168]]
+- [[_COMMUNITY_Community 169|Community 169]]
+- [[_COMMUNITY_Community 170|Community 170]]
+- [[_COMMUNITY_Community 171|Community 171]]
+- [[_COMMUNITY_Community 172|Community 172]]
+- [[_COMMUNITY_Community 173|Community 173]]
+- [[_COMMUNITY_Community 174|Community 174]]
+- [[_COMMUNITY_Community 175|Community 175]]
+- [[_COMMUNITY_Community 176|Community 176]]
+- [[_COMMUNITY_Community 177|Community 177]]
+- [[_COMMUNITY_Community 178|Community 178]]
+- [[_COMMUNITY_Community 179|Community 179]]
+- [[_COMMUNITY_Community 180|Community 180]]
+- [[_COMMUNITY_Community 181|Community 181]]
+- [[_COMMUNITY_Community 182|Community 182]]
+- [[_COMMUNITY_Community 183|Community 183]]
+- [[_COMMUNITY_Community 184|Community 184]]
+- [[_COMMUNITY_Community 185|Community 185]]
+- [[_COMMUNITY_Community 186|Community 186]]
+- [[_COMMUNITY_Community 187|Community 187]]
+- [[_COMMUNITY_Community 188|Community 188]]
+- [[_COMMUNITY_Community 189|Community 189]]
+- [[_COMMUNITY_Community 190|Community 190]]
+- [[_COMMUNITY_Community 191|Community 191]]
+- [[_COMMUNITY_Community 192|Community 192]]
+- [[_COMMUNITY_Community 193|Community 193]]
+- [[_COMMUNITY_Community 194|Community 194]]
+- [[_COMMUNITY_Community 195|Community 195]]
+- [[_COMMUNITY_Community 196|Community 196]]
+- [[_COMMUNITY_Community 197|Community 197]]
+- [[_COMMUNITY_Community 198|Community 198]]
+- [[_COMMUNITY_Community 199|Community 199]]
+- [[_COMMUNITY_Community 200|Community 200]]
+- [[_COMMUNITY_Community 201|Community 201]]
+- [[_COMMUNITY_Community 202|Community 202]]
+- [[_COMMUNITY_Community 203|Community 203]]
+- [[_COMMUNITY_Community 204|Community 204]]
+- [[_COMMUNITY_Community 205|Community 205]]
+- [[_COMMUNITY_Community 206|Community 206]]
+- [[_COMMUNITY_Community 207|Community 207]]
+- [[_COMMUNITY_Community 208|Community 208]]
+- [[_COMMUNITY_Community 209|Community 209]]
+- [[_COMMUNITY_Community 210|Community 210]]
+- [[_COMMUNITY_Community 211|Community 211]]
+- [[_COMMUNITY_Community 212|Community 212]]
+- [[_COMMUNITY_Community 213|Community 213]]
+- [[_COMMUNITY_Community 214|Community 214]]
+- [[_COMMUNITY_Community 215|Community 215]]
+- [[_COMMUNITY_Community 216|Community 216]]
+- [[_COMMUNITY_Community 217|Community 217]]
+- [[_COMMUNITY_Community 218|Community 218]]
+- [[_COMMUNITY_Community 219|Community 219]]
+- [[_COMMUNITY_Community 220|Community 220]]
+- [[_COMMUNITY_Community 221|Community 221]]
+- [[_COMMUNITY_Community 222|Community 222]]
+- [[_COMMUNITY_Community 223|Community 223]]
+- [[_COMMUNITY_Community 224|Community 224]]
+- [[_COMMUNITY_Community 225|Community 225]]
+- [[_COMMUNITY_Community 226|Community 226]]
+- [[_COMMUNITY_Community 227|Community 227]]
+- [[_COMMUNITY_Community 228|Community 228]]
+- [[_COMMUNITY_Community 229|Community 229]]
+- [[_COMMUNITY_Community 230|Community 230]]
+- [[_COMMUNITY_Community 231|Community 231]]
+- [[_COMMUNITY_Community 232|Community 232]]
+- [[_COMMUNITY_Community 233|Community 233]]
+- [[_COMMUNITY_Community 234|Community 234]]
+- [[_COMMUNITY_Community 235|Community 235]]
+- [[_COMMUNITY_Community 236|Community 236]]
+- [[_COMMUNITY_Community 237|Community 237]]
+- [[_COMMUNITY_Community 238|Community 238]]
+- [[_COMMUNITY_Community 239|Community 239]]
+- [[_COMMUNITY_Community 240|Community 240]]
+- [[_COMMUNITY_Community 241|Community 241]]
+- [[_COMMUNITY_Community 242|Community 242]]
+- [[_COMMUNITY_Community 243|Community 243]]
+- [[_COMMUNITY_Community 244|Community 244]]
+- [[_COMMUNITY_Community 245|Community 245]]
+- [[_COMMUNITY_Community 246|Community 246]]
+- [[_COMMUNITY_Community 247|Community 247]]
+- [[_COMMUNITY_Community 248|Community 248]]
+- [[_COMMUNITY_Community 249|Community 249]]
+- [[_COMMUNITY_Community 250|Community 250]]
+- [[_COMMUNITY_Community 251|Community 251]]
+- [[_COMMUNITY_Community 252|Community 252]]
+- [[_COMMUNITY_Community 253|Community 253]]
+- [[_COMMUNITY_Community 254|Community 254]]
+- [[_COMMUNITY_Community 255|Community 255]]
+- [[_COMMUNITY_Community 256|Community 256]]
+- [[_COMMUNITY_Community 257|Community 257]]
+- [[_COMMUNITY_Community 258|Community 258]]
+- [[_COMMUNITY_Community 259|Community 259]]
+- [[_COMMUNITY_Community 260|Community 260]]
+- [[_COMMUNITY_Community 261|Community 261]]
+- [[_COMMUNITY_Community 262|Community 262]]
+- [[_COMMUNITY_Community 263|Community 263]]
+- [[_COMMUNITY_Community 264|Community 264]]
+- [[_COMMUNITY_Community 265|Community 265]]
+- [[_COMMUNITY_Community 266|Community 266]]
+- [[_COMMUNITY_Community 267|Community 267]]
+- [[_COMMUNITY_Community 268|Community 268]]
+- [[_COMMUNITY_Community 269|Community 269]]
+- [[_COMMUNITY_Community 270|Community 270]]
+- [[_COMMUNITY_Community 271|Community 271]]
+- [[_COMMUNITY_Community 272|Community 272]]
+- [[_COMMUNITY_Community 273|Community 273]]
+- [[_COMMUNITY_Community 274|Community 274]]
+- [[_COMMUNITY_Community 275|Community 275]]
+- [[_COMMUNITY_Community 276|Community 276]]
+- [[_COMMUNITY_Community 277|Community 277]]
+- [[_COMMUNITY_Community 278|Community 278]]
+- [[_COMMUNITY_Community 279|Community 279]]
+- [[_COMMUNITY_Community 280|Community 280]]
+- [[_COMMUNITY_Community 281|Community 281]]
+- [[_COMMUNITY_Community 282|Community 282]]
+- [[_COMMUNITY_Community 283|Community 283]]
+- [[_COMMUNITY_Community 284|Community 284]]
+- [[_COMMUNITY_Community 285|Community 285]]
+- [[_COMMUNITY_Community 286|Community 286]]
+- [[_COMMUNITY_Community 287|Community 287]]
+- [[_COMMUNITY_Community 288|Community 288]]
+- [[_COMMUNITY_Community 289|Community 289]]
+- [[_COMMUNITY_Community 290|Community 290]]
+- [[_COMMUNITY_Community 291|Community 291]]
+- [[_COMMUNITY_Community 292|Community 292]]
+- [[_COMMUNITY_Community 293|Community 293]]
+- [[_COMMUNITY_Community 294|Community 294]]
+- [[_COMMUNITY_Community 295|Community 295]]
+- [[_COMMUNITY_Community 296|Community 296]]
+- [[_COMMUNITY_Community 297|Community 297]]
+- [[_COMMUNITY_Community 298|Community 298]]
+- [[_COMMUNITY_Community 299|Community 299]]
+- [[_COMMUNITY_Community 300|Community 300]]
+- [[_COMMUNITY_Community 301|Community 301]]
+- [[_COMMUNITY_Community 302|Community 302]]
+- [[_COMMUNITY_Community 304|Community 304]]
+- [[_COMMUNITY_Community 305|Community 305]]
+- [[_COMMUNITY_Community 306|Community 306]]
+- [[_COMMUNITY_Community 307|Community 307]]
+- [[_COMMUNITY_Community 308|Community 308]]
+- [[_COMMUNITY_Community 309|Community 309]]
+- [[_COMMUNITY_Community 310|Community 310]]
+- [[_COMMUNITY_Community 311|Community 311]]
+- [[_COMMUNITY_Community 312|Community 312]]
+- [[_COMMUNITY_Community 313|Community 313]]
+- [[_COMMUNITY_Community 314|Community 314]]
+- [[_COMMUNITY_Community 316|Community 316]]
+- [[_COMMUNITY_Community 317|Community 317]]
+- [[_COMMUNITY_Community 318|Community 318]]
+- [[_COMMUNITY_Community 319|Community 319]]
+- [[_COMMUNITY_Community 329|Community 329]]
+- [[_COMMUNITY_Community 330|Community 330]]
+- [[_COMMUNITY_Community 331|Community 331]]
+- [[_COMMUNITY_Community 332|Community 332]]
+- [[_COMMUNITY_Community 333|Community 333]]
+- [[_COMMUNITY_Community 337|Community 337]]
+- [[_COMMUNITY_Community 338|Community 338]]
+- [[_COMMUNITY_Community 339|Community 339]]
+- [[_COMMUNITY_Community 340|Community 340]]
+- [[_COMMUNITY_Community 342|Community 342]]
+- [[_COMMUNITY_Community 343|Community 343]]
+- [[_COMMUNITY_Community 344|Community 344]]
+- [[_COMMUNITY_Community 345|Community 345]]
+- [[_COMMUNITY_Community 346|Community 346]]
+- [[_COMMUNITY_Community 347|Community 347]]
+- [[_COMMUNITY_Community 348|Community 348]]
+- [[_COMMUNITY_Community 349|Community 349]]
+- [[_COMMUNITY_Community 350|Community 350]]
+- [[_COMMUNITY_Community 351|Community 351]]
+- [[_COMMUNITY_Community 352|Community 352]]
+- [[_COMMUNITY_Community 353|Community 353]]
+- [[_COMMUNITY_Community 354|Community 354]]
+- [[_COMMUNITY_Community 355|Community 355]]
+- [[_COMMUNITY_Community 357|Community 357]]
+- [[_COMMUNITY_Community 361|Community 361]]
+- [[_COMMUNITY_Community 364|Community 364]]
+- [[_COMMUNITY_Community 371|Community 371]]
+- [[_COMMUNITY_Community 379|Community 379]]
+- [[_COMMUNITY_Community 380|Community 380]]
+- [[_COMMUNITY_Community 381|Community 381]]
+- [[_COMMUNITY_Community 382|Community 382]]
+- [[_COMMUNITY_Community 383|Community 383]]
+- [[_COMMUNITY_Community 384|Community 384]]
+- [[_COMMUNITY_Community 385|Community 385]]
+- [[_COMMUNITY_Community 386|Community 386]]
+- [[_COMMUNITY_Community 388|Community 388]]
+- [[_COMMUNITY_Community 389|Community 389]]
+- [[_COMMUNITY_Community 390|Community 390]]
+- [[_COMMUNITY_Community 391|Community 391]]
+- [[_COMMUNITY_Community 392|Community 392]]
+- [[_COMMUNITY_Community 393|Community 393]]
+- [[_COMMUNITY_Community 394|Community 394]]
+- [[_COMMUNITY_Community 395|Community 395]]
+- [[_COMMUNITY_Community 397|Community 397]]
+- [[_COMMUNITY_Community 400|Community 400]]
+- [[_COMMUNITY_Community 401|Community 401]]
+- [[_COMMUNITY_Community 402|Community 402]]
+- [[_COMMUNITY_Community 404|Community 404]]
+- [[_COMMUNITY_Community 407|Community 407]]
+- [[_COMMUNITY_Community 408|Community 408]]
+- [[_COMMUNITY_Community 409|Community 409]]
+- [[_COMMUNITY_Community 410|Community 410]]
+
+## God Nodes (most connected - your core abstractions)
+1. `🚨 Tailwind Usage Report (Violacions SOSP)` - 131 edges
+2. `useAuth()` - 80 edges
+3. `presentation` - 64 edges
+4. `presentation` - 64 edges
+5. `auth` - 61 edges
+6. `auth` - 61 edges
+7. `auth` - 61 edges
+8. `auth` - 61 edges
+9. `auth` - 61 edges
+10. `logger` - 60 edges
+
+## Surprising Connections (you probably didn't know these)
+- `ProtectedSystemRoute()` --calls--> `useAuth()`  [EXTRACTED]
+  src/components/core/SystemRoutes.jsx → src/app/context/AuthContext.jsx
+- `ProtectedRoute()` --calls--> `useAuth()`  [EXTRACTED]
+  src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
+- `SuperAdminRoute()` --calls--> `useAuth()`  [EXTRACTED]
+  src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
+- `AddItemModal()` --calls--> `useAuth()`  [EXTRACTED]
+  src/components/modals/AddItemModal.jsx → src/app/context/AuthContext.jsx
+- `SolatgeConsole()` --calls--> `useDesign()`  [EXTRACTED]
+  src/pages/admin/SolatgeConsole.jsx → src/app/context/DesignContext.jsx
+
+## Import Cycles
+- None detected.
+
+## Communities (411 total, 109 thin omitted)
+
+### Community 0 - "Community 0"
+Cohesion: 0.02
+Nodes (91): dependencies, axios, browser-image-compression, @capacitor/android, @capacitor/assets, @capacitor/cli, @capacitor-community/bluetooth-le, @capacitor/core (+83 more)
+
+### Community 1 - "Community 1"
+Cohesion: 0.02
+Nodes (84): 01-chica-jersey.png, 02-samarreta-socdepoble-roly-plom-oscur-1024px.png, 03-young-man-tshirt.png, 04-iaia-tshirt.png, 06-group-tshirt.png, 07-rustic-detail.png, 08-javi-llinares-perfil-1024px.jpg, aitana.png (+76 more)
+
+### Community 2 - "Community 2"
+Cohesion: 0.06
+Nodes (38): SEO(), MOCK_LORE_ITEMS, MOCK_LORE_POSTS, calendarService, notificationService, pushNotifications, ConversationSchema, MarketItemSchema (+30 more)
+
+### Community 3 - "Community 3"
+Cohesion: 0.05
+Nodes (46): AgentDirectory(), CommunityDirectory(), AVAILABLE_CATEGORIES, LIBRARIES, Map(), TOWN_COORDINATES, AVAILABLE_CATEGORIES, MasterCalendarContent() (+38 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.03
+Nodes (64): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+56 more)
+
+### Community 5 - "Community 5"
+Cohesion: 0.03
+Nodes (64): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+56 more)
+
+### Community 6 - "Community 6"
+Cohesion: 0.08
+Nodes (13): SolatgeConsole(), Register(), Peritext, authService, ipfsManager, seedService, syncService, webCryptoService (+5 more)
+
+### Community 7 - "Community 7"
+Cohesion: 0.25
+Nodes (3): ArchitecteView(), ARCHITECTURE_DOCS, ChaosMonkey
+
+### Community 8 - "Community 8"
+Cohesion: 0.03
+Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, confirm_entry, continue_google, continue_to_town (+53 more)
+
+### Community 9 - "Community 9"
+Cohesion: 0.03
+Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, confirm_entry, continue_google, continue_to_town (+53 more)
+
+### Community 10 - "Community 10"
+Cohesion: 0.03
+Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, confirm_entry, continue_google, continue_to_town (+53 more)
+
+### Community 11 - "Community 11"
+Cohesion: 0.03
+Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, confirm_entry, continue_google, continue_to_town (+53 more)
+
+### Community 12 - "Community 12"
+Cohesion: 0.03
+Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, confirm_entry, continue_google, continue_to_town (+53 more)
+
+### Community 13 - "Community 13"
+Cohesion: 0.04
+Nodes (53): AccessibilitatUniversal, AdminPanel, AgentDirectory, AlbumGlobal, ArchitecteView, ArxiuOr, AulaRural, BuscadorAjudes (+45 more)
+
+### Community 14 - "Community 14"
+Cohesion: 0.04
+Nodes (53): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+45 more)
+
+### Community 15 - "Community 15"
+Cohesion: 0.04
+Nodes (53): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+45 more)
+
+### Community 16 - "Community 16"
+Cohesion: 0.04
+Nodes (51): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+43 more)
+
+### Community 17 - "Community 17"
+Cohesion: 0.05
+Nodes (29): addRoute(), CacheableResponse, CacheableResponsePlugin, cacheDonePromiseForTransaction(), CacheFirst, cacheWillUpdate(), canConstructResponseFromBodyStream(), copyResponse() (+21 more)
+
+### Community 18 - "Community 18"
+Cohesion: 0.09
+Nodes (18): UniversalButton, CartContext, CartProvider(), useCart(), ModalDispatchContext, ModalStateContext, useModal(), useModalDispatch() (+10 more)
+
+### Community 19 - "Community 19"
+Cohesion: 0.06
+Nodes (26): addRoute(), CacheableResponse, CacheableResponsePlugin, cacheDonePromiseForTransaction(), cacheWillUpdate(), canConstructResponseFromBodyStream(), copyResponse(), Deferred (+18 more)
+
+### Community 20 - "Community 20"
+Cohesion: 0.04
+Nodes (52): devDependencies, archiver, autoprefixer, @axe-core/puppeteer, basic-ftp, chokidar, chrome-launcher, epub-gen-memory (+44 more)
+
+### Community 21 - "Community 21"
+Cohesion: 0.05
+Nodes (43): ademus, aiora, alacant, albocasser, alcoi, alzira, banyeres-de-mariola, barcelona (+35 more)
+
+### Community 22 - "Community 22"
+Cohesion: 0.05
+Nodes (43): common, add, add_town, back, cancel, change_language, comarca, create_new (+35 more)
+
+### Community 23 - "Community 23"
+Cohesion: 0.05
+Nodes (43): common, add, add_town, back, cancel, change_language, comarca, create_new (+35 more)
+
+### Community 24 - "Community 24"
+Cohesion: 0.05
+Nodes (42): common, add, add_town, back, cancel, change_language, comarca, create_new (+34 more)
+
+### Community 25 - "Community 25"
+Cohesion: 0.05
+Nodes (42): common, add, add_town, back, cancel, change_language, comarca, create_new (+34 more)
+
+### Community 26 - "Community 26"
+Cohesion: 0.05
+Nodes (42): common, add, add_town, back, cancel, change_language, comarca, create_new (+34 more)
+
+### Community 27 - "Community 27"
+Cohesion: 0.05
+Nodes (40): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, forward_entity_query, group_info (+32 more)
+
+### Community 28 - "Community 28"
+Cohesion: 0.05
+Nodes (40): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, forward_entity_query, group_info (+32 more)
+
+### Community 29 - "Community 29"
+Cohesion: 0.05
+Nodes (40): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, forward_entity_query, group_info (+32 more)
+
+### Community 30 - "Community 30"
+Cohesion: 0.05
+Nodes (40): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, forward_entity_query, group_info (+32 more)
+
+### Community 31 - "Community 31"
+Cohesion: 0.05
+Nodes (40): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, forward_entity_query, group_info (+32 more)
+
+### Community 32 - "Community 32"
+Cohesion: 0.05
+Nodes (38): nav, about, add_town, archon_console, chats, empty_entities, events, feed (+30 more)
+
+### Community 33 - "Community 33"
+Cohesion: 0.05
+Nodes (38): nav, about, add_town, archon_console, chats, empty_entities, events, feed (+30 more)
+
+### Community 34 - "Community 34"
+Cohesion: 0.05
+Nodes (38): nav, about, add_town, archon_console, chats, empty_entities, events, feed (+30 more)
+
+### Community 35 - "Community 35"
+Cohesion: 0.05
+Nodes (38): nav, about, add_town, archon_console, chats, empty_entities, events, feed (+30 more)
+
+### Community 36 - "Community 36"
+Cohesion: 0.05
+Nodes (38): nav, about, add_town, archon_console, chats, empty_entities, events, feed (+30 more)
+
+### Community 37 - "Community 37"
+Cohesion: 0.06
+Nodes (36): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, group_info, group_media (+28 more)
+
+### Community 38 - "Community 38"
+Cohesion: 0.06
+Nodes (36): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, group_info, group_media (+28 more)
+
+### Community 39 - "Community 39"
+Cohesion: 0.06
+Nodes (36): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, group_info, group_media (+28 more)
+
+### Community 40 - "Community 40"
+Cohesion: 0.05
+Nodes (39): scripts, asiatic-audit, build, build:amazon, build:codex, build:worker, clean:dist, copy:libs (+31 more)
+
+### Community 41 - "Community 41"
+Cohesion: 0.05
+Nodes (35): useAuthActions(), useJarvisState(), usePermissions(), useSession(), AuthPort, AdminPanel(), ChatManager(), ControlGeneral() (+27 more)
+
+### Community 42 - "Community 42"
+Cohesion: 0.08
+Nodes (13): VoiceRecorder, useMountTransition(), CreatePostModal(), PREDEFINED_TAGS, RichTextEditor, HapticService, pushService, raindropService (+5 more)
+
+### Community 43 - "Community 43"
+Cohesion: 0.11
+Nodes (10): createPageViewModel(), useAccessibleSearch(), crcTable, useAtomicGuard(), HistoryModal, resolveMedia(), RichTextEditor, UniversalPage() (+2 more)
+
+### Community 44 - "Community 44"
+Cohesion: 0.12
+Nodes (11): isNoise(), DesignProvider(), ModalProvider(), NavigationProvider(), RealmContext, RealmProvider(), queryClient, QueryProvider() (+3 more)
+
+### Community 45 - "Community 45"
+Cohesion: 0.11
+Nodes (16): IAIES_MUNDIALS, IAIES_MUNDIALS_ARRAY, ContentWithShortcodes(), MOCK_CHATS, MOCK_DAFOS, MOCK_FEED, MOCK_MARKET_ITEMS, MOCK_MESSAGES (+8 more)
+
+### Community 46 - "Community 46"
+Cohesion: 0.15
+Nodes (7): CacheFirst, executeQuotaErrorCallbacks(), PrecacheStrategy, Strategy, StrategyHandler, timeout(), toRequest()
+
+### Community 47 - "Community 47"
+Cohesion: 0.07
+Nodes (30): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+22 more)
+
+### Community 48 - "Community 48"
+Cohesion: 0.07
+Nodes (30): market, add_photo, all, category, empty, exchange, interested, item_title (+22 more)
+
+### Community 49 - "Community 49"
+Cohesion: 0.07
+Nodes (30): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+22 more)
+
+### Community 50 - "Community 50"
+Cohesion: 0.07
+Nodes (30): market, add_photo, all, category, empty, exchange, interested, item_title (+22 more)
+
+### Community 51 - "Community 51"
+Cohesion: 0.07
+Nodes (30): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+22 more)
+
+### Community 52 - "Community 52"
+Cohesion: 0.07
+Nodes (30): market, add_photo, all, category, empty, exchange, interested, item_title (+22 more)
+
+### Community 53 - "Community 53"
+Cohesion: 0.07
+Nodes (30): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+22 more)
+
+### Community 54 - "Community 54"
+Cohesion: 0.07
+Nodes (30): market, add_photo, all, category, empty, exchange, interested, item_title (+22 more)
+
+### Community 55 - "Community 55"
+Cohesion: 0.07
+Nodes (30): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+22 more)
+
+### Community 56 - "Community 56"
+Cohesion: 0.07
+Nodes (30): market, add_photo, all, category, empty, exchange, interested, item_title (+22 more)
+
+### Community 57 - "Community 57"
+Cohesion: 0.07
+Nodes (28): 1. Declaració de Principis, 2.1 Símptomes, 2.2 Causes Arrel, 2. Diagnòstic de la Problemàtica Anterior, 3. Arquitectura de Solució: Estratègia Espartana, 4.1 Fitxer: `src/sw.js`, 4.2 Fitxer: `src/components/PwaUpdater.jsx`, 4. Implementació Tècnica Referència (+20 more)
+
+### Community 58 - "Community 58"
+Cohesion: 0.07
+Nodes (29): diag, avi_status, avi_watching, clean_ok, clean_start, clear, cognitive, copied (+21 more)
+
+### Community 59 - "Community 59"
+Cohesion: 0.07
+Nodes (29): diag, active, avi_status, avi_watching, clear, cognitive, copied, copy_report (+21 more)
+
+### Community 60 - "Community 60"
+Cohesion: 0.12
+Nodes (5): getVisibilityForLevel(), isIAIAMarIA(), isIAIAOfficial(), isImmersiveAI(), RhizomeManager
+
+### Community 61 - "Community 61"
+Cohesion: 0.06
+Nodes (32): AGENTS, AUTH_EVENTS, CREATOR_EMAILS, NavigationContext, useNavigation(), ChatDetail(), ChatHeader, ChatInputArea (+24 more)
+
+### Community 62 - "Community 62"
+Cohesion: 0.07
+Nodes (27): diag, avi_status, avi_watching, clear, cognitive, copied, copy_report, deep_clean (+19 more)
+
+### Community 63 - "Community 63"
+Cohesion: 0.07
+Nodes (27): diag, avi_status, avi_watching, clear, cognitive, copied, copy_report, deep_clean (+19 more)
+
+### Community 64 - "Community 64"
+Cohesion: 0.07
+Nodes (27): diag, avi_status, avi_watching, clear, cognitive, copied, copy_report, deep_clean (+19 more)
+
+### Community 65 - "Community 65"
+Cohesion: 0.07
+Nodes (26): 🏺 Arxiu Viu i Agraïments, Build per a Producció, Codi de Conducta, Com Contribuir, 📞 Contacte, 🤝 Contribució, 🚀 Deploy, Deploy Automàtic (GitHub Actions) (+18 more)
+
+### Community 66 - "Community 66"
+Cohesion: 0.10
+Nodes (19): legal, rhizome_slides, map, info_desc, info_title, title, mur, title (+11 more)
+
+### Community 67 - "Community 67"
+Cohesion: 0.10
+Nodes (4): getIaiaWorkerProxy(), getVisionWorkerProxy(), IAIAService, initializeWorkers()
+
+### Community 68 - "Community 68"
+Cohesion: 0.08
+Nodes (24): iaia_page, cta_button, feature_1_desc, feature_1_title, feature_2_desc, feature_2_title, feature_3_desc, feature_3_title (+16 more)
+
+### Community 69 - "Community 69"
+Cohesion: 0.08
+Nodes (24): iaia_page, cta_button, feature_1_desc, feature_1_title, feature_2_desc, feature_2_title, feature_3_desc, feature_3_title (+16 more)
+
+### Community 70 - "Community 70"
+Cohesion: 0.08
+Nodes (24): iaia_page, cta_button, feature_1_desc, feature_1_title, feature_2_desc, feature_2_title, feature_3_desc, feature_3_title (+16 more)
+
+### Community 71 - "Community 71"
+Cohesion: 0.08
+Nodes (24): iaia_page, cta_button, feature_1_desc, feature_1_title, feature_2_desc, feature_2_title, feature_3_desc, feature_3_title (+16 more)
+
+### Community 72 - "Community 72"
+Cohesion: 0.08
+Nodes (24): iaia_page, cta_button, feature_1_desc, feature_1_title, feature_2_desc, feature_2_title, feature_3_desc, feature_3_title (+16 more)
+
+### Community 73 - "Community 73"
+Cohesion: 0.14
+Nodes (22): aesGcmDecrypt(), aesGcmEncrypt(), cfg, compressMaybeUint8(), decompressMaybeUint8(), DEFAULTS, entriesToUint8(), flushBufferedBatches() (+14 more)
+
+### Community 74 - "Community 74"
+Cohesion: 0.13
+Nodes (10): AGENTS_MAP, getPersonaKeyByUUID(), ROLES, IAIA_RURAL_KNOWLEDGE, RESIDENT_LORE, AddItemModal(), exportService, NEUTRAL_FILLERS (+2 more)
+
+### Community 75 - "Community 75"
+Cohesion: 0.12
+Nodes (6): MOCK_SUBSIDIES, handlers, server, GeminiService, mockLocalStorage, localStorageMock
+
+### Community 76 - "Community 76"
+Cohesion: 0.14
+Nodes (10): WaitingForBackend(), LocalFirstStatusContext, STATUS, useWorkerOrchestrator(), SupabaseConnector, AppSchema, bategatsTable, postsTable (+2 more)
+
+### Community 77 - "Community 77"
+Cohesion: 0.21
+Nodes (4): PrecacheStrategy, StaleWhileRevalidate, StrategyHandler, toRequest()
+
+### Community 78 - "Community 78"
+Cohesion: 0.09
+Nodes (22): groups, add_member, add_members, admin, back, cancel, create, create_group (+14 more)
+
+### Community 79 - "Community 79"
+Cohesion: 0.09
+Nodes (22): groups, add_member, add_members, admin, back, cancel, create, create_group (+14 more)
+
+### Community 80 - "Community 80"
+Cohesion: 0.09
+Nodes (22): groups, add_member, add_members, admin, back, cancel, create, create_group (+14 more)
+
+### Community 81 - "Community 81"
+Cohesion: 0.09
+Nodes (22): groups, add_member, add_members, admin, back, cancel, create, create_group (+14 more)
+
+### Community 82 - "Community 82"
+Cohesion: 0.09
+Nodes (22): groups, add_member, add_members, admin, back, cancel, create, create_group (+14 more)
+
+### Community 83 - "Community 83"
+Cohesion: 0.14
+Nodes (7): CacheExpiration, cacheMatchIgnoreParams(), CacheTimestampsModel, dontWaitFor(), openDB(), removeIgnoredSearchParams(), stripParams()
+
+### Community 84 - "Community 84"
+Cohesion: 0.14
+Nodes (7): CacheExpiration, cacheMatchIgnoreParams(), CacheTimestampsModel, deleteDB(), dontWaitFor(), removeIgnoredSearchParams(), stripParams()
+
+### Community 85 - "Community 85"
+Cohesion: 0.12
+Nodes (7): normalizePostData(), FALLBACK_NANO_IMAGES, MemoizedCardInner, UniversalCardInner(), useIsChatRoute(), UniversalCardBody, cardVariants
+
+### Community 86 - "Community 86"
+Cohesion: 0.15
+Nodes (6): ExpirationPlugin, get(), getMethod(), has(), registerQuotaErrorCallback(), Router
+
+### Community 87 - "Community 87"
+Cohesion: 0.15
+Nodes (6): ExpirationPlugin, get(), getMethod(), has(), registerQuotaErrorCallback(), Router
+
+### Community 88 - "Community 88"
+Cohesion: 0.07
+Nodes (26): legal, rhizome_slides, map, info_desc, info_title, title, media, duplicate_desc (+18 more)
+
+### Community 89 - "Community 89"
+Cohesion: 0.11
+Nodes (17): events, create_title, empty, placeholder, title, legal, rhizome_slides, map (+9 more)
+
+### Community 90 - "Community 90"
+Cohesion: 0.11
+Nodes (19): auth, checkEmail, continue_google, demo_access, demo_hint, email, fullName, haveAccount (+11 more)
+
+### Community 91 - "Community 91"
+Cohesion: 0.11
+Nodes (19): common, back, change_language, loading, online, role_all, role_empresa, role_gent (+11 more)
+
+### Community 92 - "Community 92"
+Cohesion: 0.11
+Nodes (19): auth, checkEmail, continue_google, demo_access, demo_hint, email, fullName, haveAccount (+11 more)
+
+### Community 93 - "Community 93"
+Cohesion: 0.11
+Nodes (18): build, appId, directories, files, linux, mac, productName, win (+10 more)
+
+### Community 94 - "Community 94"
+Cohesion: 0.10
+Nodes (19): legal, rhizome_slides, map, info_desc, info_title, title, mur, title (+11 more)
+
+### Community 95 - "Community 95"
+Cohesion: 0.10
+Nodes (19): legal, rhizome_slides, map, info_desc, info_title, title, mur, title (+11 more)
+
+### Community 96 - "Community 96"
+Cohesion: 0.14
+Nodes (3): secureStorage, SecureStorageService, SecureTokenStorage
+
+### Community 97 - "Community 97"
+Cohesion: 0.18
+Nodes (6): App(), useBlindatgeOPFS(), useLowEndDevice(), useTabReconciliation(), useTrellatPersist(), useVersionWatchdog()
+
+### Community 98 - "Community 98"
+Cohesion: 0.02
+Nodes (131): src/app/config/agentsMap.js, src/app/config/iaiesMundialsMap.jsx, src/components/boundaries/WaitingForBackend.jsx, src/components/core/ContentWithShortcodes.jsx, src/components/core/ErrorBoundary.jsx, src/components/core/GlobalErrorBoundary.jsx, src/components/core/VersionGatekeeper.jsx, src/components/features/ArchitecteView.jsx (+123 more)
+
+### Community 99 - "Community 99"
+Cohesion: 0.16
+Nodes (3): createCacheKey(), PrecacheController, waitUntil()
+
+### Community 100 - "Community 100"
+Cohesion: 0.16
+Nodes (3): createCacheKey(), PrecacheController, waitUntil()
+
+### Community 101 - "Community 101"
+Cohesion: 0.12
+Nodes (16): common, back, change_language, loading, online, role_all, role_empresa, role_gent (+8 more)
+
+### Community 102 - "Community 102"
+Cohesion: 0.12
+Nodes (16): auth, checkEmail, continue_google, demo_access, demo_hint, email, fullName, haveAccount (+8 more)
+
+### Community 103 - "Community 103"
+Cohesion: 0.12
+Nodes (16): common, back, change_language, loading, online, role_all, role_empresa, role_gent (+8 more)
+
+### Community 104 - "Community 104"
+Cohesion: 0.12
+Nodes (16): 🏺 Crònica de Gem (Antigravity), 🔧 Decisions Tècniques, 🔧 Decisions Tècniques, 🔧 Decisions Tècniques, 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 🗣️ Frases Cèlebres de l'Equip, 🗣️ Frases Cèlebres de l'Equip (+8 more)
+
+### Community 105 - "Community 105"
+Cohesion: 0.29
+Nodes (13): clearQueue(), enqueueMutation(), getFailedMutations(), getMutationById(), getPendingMutations(), initDB(), markMutationFailed(), mergeIncomingCRDTs() (+5 more)
+
+### Community 107 - "Community 107"
+Cohesion: 0.08
+Nodes (26): dades, patrimoni, social, trellat, correct_btn, lang_variants, title, notebook (+18 more)
+
+### Community 108 - "Community 108"
+Cohesion: 0.13
+Nodes (15): chatEmpty, architectMarket, architectMarketDesc, architectMirror, architectProtocol, architectRock, architectRockDesc, architectStage (+7 more)
+
+### Community 109 - "Community 109"
+Cohesion: 0.13
+Nodes (15): chatEmpty, architectMarket, architectMarketDesc, architectMirror, architectProtocol, architectRock, architectRockDesc, architectStage (+7 more)
+
+### Community 110 - "Community 110"
+Cohesion: 0.13
+Nodes (15): chatEmpty, architectMarket, architectMarketDesc, architectMirror, architectProtocol, architectRock, architectRockDesc, architectStage (+7 more)
+
+### Community 111 - "Community 111"
+Cohesion: 0.13
+Nodes (15): correct_btn, lang_variants, title, notebook, corrector, creation, info, last_opened (+7 more)
+
+### Community 112 - "Community 112"
+Cohesion: 0.13
+Nodes (15): chatEmpty, architectMarket, architectMarketDesc, architectMirror, architectProtocol, architectRock, architectRockDesc, architectStage (+7 more)
+
+### Community 113 - "Community 113"
+Cohesion: 0.13
+Nodes (15): correct_btn, lang_variants, title, notebook, corrector, creation, info, last_opened (+7 more)
+
+### Community 114 - "Community 114"
+Cohesion: 0.13
+Nodes (15): chatEmpty, architectMarket, architectMarketDesc, architectMirror, architectProtocol, architectRock, architectRockDesc, architectStage (+7 more)
+
+### Community 116 - "Community 116"
+Cohesion: 0.14
+Nodes (14): audio, camera, contact, contact_soon, document, ephemeral_warning, event, event_soon (+6 more)
+
+### Community 117 - "Community 117"
+Cohesion: 0.14
+Nodes (14): audio, camera, contact, contact_soon, document, ephemeral_warning, event, event_soon (+6 more)
+
+### Community 118 - "Community 118"
+Cohesion: 0.14
+Nodes (14): audio, camera, contact, contact_soon, document, ephemeral_warning, event, event_soon (+6 more)
+
+### Community 119 - "Community 119"
+Cohesion: 0.14
+Nodes (10): base, crypto, fs, imgF2, imgF3, initialPost, nodes, opNode2 (+2 more)
+
+### Community 120 - "Community 120"
+Cohesion: 0.15
+Nodes (12): 10. Contactes i procediments d'escalat, 1. Generar el ZIP amb l'estructura (script), 2. Preparar Ansible Vault (secrets), 3. Configurar secrets a GitHub Actions, 4. Procediment de desplegament (CI), 5. Snapshot abans del deploy i rollback automàtic, 6. Restauració manual (procediment d'emergència), 7. Checklist operatiu (prèvia a desplegar) (+4 more)
+
+### Community 121 - "Community 121"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 122 - "Community 122"
+Cohesion: 0.15
+Nodes (13): nav, chats, events, feed, map, market, media, notes (+5 more)
+
+### Community 123 - "Community 123"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 124 - "Community 124"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 125 - "Community 125"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 126 - "Community 126"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 127 - "Community 127"
+Cohesion: 0.15
+Nodes (13): nav, chats, events, feed, map, market, media, notes (+5 more)
+
+### Community 128 - "Community 128"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 129 - "Community 129"
+Cohesion: 0.15
+Nodes (13): nav, chats, events, feed, map, market, media, notes (+5 more)
+
+### Community 130 - "Community 130"
+Cohesion: 0.15
+Nodes (13): emoji, activities, animals_nature, custom, flags, food_drink, frequently_used, objects (+5 more)
+
+### Community 131 - "Community 131"
+Cohesion: 0.15
+Nodes (12): 🏺 Bategat d'Error: 22/2/2026 1:32:28, 🏺 Bategat d'Error: 22/2/2026 3:11:35, 🏺 Bategat d'Error: 22/2/2026 3:12:53, 🏺 Bategat d'Error: 22/2/2026 3:26:50, 🏺 Bategat d'Error: 22/2/2026 3:27:57, 🏺 Bategat d'Error: 22/2/2026 4:43:12, 🏺 Bategat d'Error: 22/2/2026 4:49:48, 🏺 Bategat d'Error: 22/2/2026 5:24:08 (+4 more)
+
+### Community 132 - "Community 132"
+Cohesion: 0.15
+Nodes (12): 📅 2026-02-15: PURGA NUCLEAR v10.25.0-BATEGAT-GOLDEN ☢️🏺✨, [2026-02-21] v10.26.0 - EL BATEGAT DE LES SUBVENCIONS, [2026-02-23] v10.33.15 - EL BATEGAT DE L'ULL I LA UI SUPREMA 🏺👁️⚡️, 📌 AGENDA FUTURA: Sobirania de Dominis (El Gran Salt), 🏺 DIARI DE BORD: SÓC DE POBLE! (LOG CRONOLÒGIC), Els 4 Arquetips Fonamentals:, 🏺 Fites d'avui:, 🏺 Fites d'avui: (+4 more)
+
+### Community 133 - "Community 133"
+Cohesion: 0.15
+Nodes (10): app, bodyParser, express, fs, ops, OPS_FILE, path, PORT (+2 more)
+
+### Community 135 - "Community 135"
+Cohesion: 0.23
+Nodes (12): cfg, defaultConfig, logger, makeEntry(), now(), originalConsole, pushLog(), readBuffer() (+4 more)
+
+### Community 136 - "Community 136"
+Cohesion: 0.19
+Nodes (4): useSeoTrellat(), App(), useServiceWorkerRegistration(), root
+
+### Community 137 - "Community 137"
+Cohesion: 0.17
+Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
+
+### Community 138 - "Community 138"
+Cohesion: 0.17
+Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
+
+### Community 139 - "Community 139"
+Cohesion: 0.17
+Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
+
+### Community 140 - "Community 140"
+Cohesion: 0.17
+Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
+
+### Community 141 - "Community 141"
+Cohesion: 0.17
+Nodes (12): emoji, activities, animals_nature, custom, flags, food_drink, objects, search (+4 more)
+
+### Community 142 - "Community 142"
+Cohesion: 0.17
+Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
+
+### Community 144 - "Community 144"
+Cohesion: 0.17
+Nodes (11): ANTIGRAVITY — SCRIPT DE INSTANCIACIÓN V12, CONTEXTO SOCIAL (POR QUÉ IMPORTA), DECISIONES ARQUITECTÓNICAS TOMADAS (NO REABRIR), FIN DEL SCRIPT — LO QUE SIGUE ES CONVERSACIÓN ACTIVA, IDENTIDAD OPERATIVA [LEER PRIMERO], JERARQUÍA DE PRIORIDADES EN CONFLICTOS, LECCIONES ARQUITECTÓNICAS RECIENTES (V10.38.1+), PROTOCOLO DE AUDITORÍA (GHOST BUSTERS V13) (+3 more)
+
+### Community 146 - "Community 146"
+Cohesion: 0.18
+Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
+
+### Community 147 - "Community 147"
+Cohesion: 0.18
+Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+
+### Community 148 - "Community 148"
+Cohesion: 0.18
+Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
+
+### Community 149 - "Community 149"
+Cohesion: 0.18
+Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+
+### Community 150 - "Community 150"
+Cohesion: 0.18
+Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
+
+### Community 151 - "Community 151"
+Cohesion: 0.18
+Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+
+### Community 152 - "Community 152"
+Cohesion: 0.18
+Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
+
+### Community 153 - "Community 153"
+Cohesion: 0.18
+Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+
+### Community 154 - "Community 154"
+Cohesion: 0.18
+Nodes (11): share, active, copy_link, email, facebook, link_copied, stop, telegram (+3 more)
+
+### Community 155 - "Community 155"
+Cohesion: 0.18
+Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
+
+### Community 156 - "Community 156"
+Cohesion: 0.18
+Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+
+### Community 157 - "Community 157"
+Cohesion: 0.29
+Nodes (10): buildHtml(), detectConflicts(), DUMPS_DIR, loadDumps(), LOG_FILE, main(), nodeCounts(), OUT (+2 more)
+
+### Community 160 - "Community 160"
+Cohesion: 0.20
+Nodes (8): AdminPanel, CategoryManager, ChatManager, IAIASandbox, MenuManagementView, ProtectedSystemRoute(), SolatgeConsole, Utilitats
+
+### Community 161 - "Community 161"
+Cohesion: 0.22
+Nodes (4): roadmapData, allTasks, groupedByQuarter, quarters
+
+### Community 162 - "Community 162"
+Cohesion: 0.20
+Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
+
+### Community 163 - "Community 163"
+Cohesion: 0.20
+Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
+
+### Community 164 - "Community 164"
+Cohesion: 0.20
+Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
+
+### Community 165 - "Community 165"
+Cohesion: 0.20
+Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
+
+### Community 166 - "Community 166"
+Cohesion: 0.06
+Nodes (33): 🪨 1. `ButtonTrellat`, 📝 2. `BancalInput`, 💬 3. `PedraMissatge`, 🚨 4. `AlertTrellat`, ✅ CHECKLIST D'AUDITORIA PER A PRs, 📋 `component-contracts.md` — Contractes de Components "Pedra Seca", Contenidor de Xat, Contenidor Pare (Llista de Missatges) (+25 more)
+
+### Community 167 - "Community 167"
+Cohesion: 0.20
+Nodes (9): 1. El Mur (Batec Social), 2. El Mercat (Rhizome), 3. Els Pobles (Gent de...), 4. Perfils (Identitat Totèmica), 🔍 Auditoria Extrema de Funcionalitats, 🏺 CRON DE MILLORA CONTÍNUA: LA CONSCIÈNCIA DEL MAS ✨, ⚙️ El Cron de Millora (Protocol d'Execució), 🏺 Propostes de Millora Immediata (+1 more)
+
+### Community 168 - "Community 168"
+Cohesion: 0.24
+Nodes (6): BASE_DIR, fetchTownImages(), OVERRIDES, run(), sanitizeSlug(), TOWNS
+
+### Community 169 - "Community 169"
+Cohesion: 0.38
+Nodes (6): Avatar(), getAvatarColor(), getAvatarFallbackImage(), getAvatarIconName(), UniversalCardHeader(), resolveImageUrl()
+
+### Community 170 - "Community 170"
+Cohesion: 0.29
+Nodes (7): checkIndexedDB(), checkServiceWorker(), emitSevereDiagnostic(), healthState, showDiagnosticModal(), startHealthSentinel(), startWorkerHeartbeat()
+
+### Community 177 - "Community 177"
+Cohesion: 0.26
+Nodes (14): bootSequence(), checkRealNetwork(), fetchRemoteVersion(), preBootCheck(), scheduleBackgroundRetry(), acquireLock(), getCheckpoint(), MIGRATIONS (+6 more)
+
+### Community 178 - "Community 178"
+Cohesion: 0.22
+Nodes (9): share, copy_link, email, facebook, link_copied, telegram, title, twitter (+1 more)
+
+### Community 179 - "Community 179"
+Cohesion: 0.22
+Nodes (9): share, copy_link, email, facebook, link_copied, telegram, title, twitter (+1 more)
+
+### Community 180 - "Community 180"
+Cohesion: 0.22
+Nodes (9): share, copy_link, email, facebook, link_copied, telegram, title, twitter (+1 more)
+
+### Community 181 - "Community 181"
+Cohesion: 0.22
+Nodes (9): share, copy_link, email, facebook, link_copied, telegram, title, twitter (+1 more)
+
+### Community 182 - "Community 182"
+Cohesion: 0.13
+Nodes (14): 1. PRINCIPIS FONAMENTALS, 2. TIPOGRAFIA, 3. TOKENS DE DISSENY (`--sp-*`), 4. ÀREES SEGURES (Safe Area Insets), 5. MODE LUPA: IMPLEMENTACIÓ, 6. REGLAMENT DE COMPONENTS, 7. LLISTA NEGRA DE PROPIETATS, 🔲 Cantonades (+6 more)
+
+### Community 183 - "Community 183"
+Cohesion: 0.22
+Nodes (8): 1. El Paradigma "Local-First" vs Supabase, 2. Mapa Principal de Tablas en Supabase, 3. ¿Por qué esto es vital para la IA que audita?, A. Eje Social (Entidades y Usuarios), ARQUITECTURA DE DATOS (MAPA DE BASE DE DATOS), B. Eje Comunitario (El Muro), C. Eje del Conocimiento (Herramienta/Mercado), D. Eje de Cimientos
+
+### Community 184 - "Community 184"
+Cohesion: 0.22
+Nodes (5): UniversalHeader, UniversalHeaderRoot, UniversalHeaderButton, UniversalHeaderGroup, UniversalHeaderLogo
+
+### Community 196 - "Community 196"
+Cohesion: 0.15
+Nodes (12): ✨ **Accessibilitat: Bancal Mode (Disseny per a Tothom)**, **🟦 Colors Canònics (La Paleta del Camp)**, **📄 Components Clau**, 🏡 El Disseny de la Masia: **GEM MODERN**, 🎨 **El Vestit: Variables i Tokens (El Sistema Nerviós)**, 🎭 **Els Estats: El Cicle de Vida del Trellat**, **📏 Espaiat (La Geometria del Trellat)**, 📖 **Exemple Pràctic: Com construir un Botó** (+4 more)
+
+### Community 197 - "Community 197"
+Cohesion: 0.29
+Nodes (6): Archivo: `public/llibre-sencer.html`, Archivo: `src/components/DocumentViewer.css`, Archivo: `src/components/DocumentViewer.jsx`, 🛑 CÓDIGO A AUDITAR, 🎯 INSTRUCCIONES PARA LA MENTE COLMENA (The Rules), 🛡️ MISIÓN PARA LA MENTE COLMENA (Escuadrón Asiático)
+
+### Community 198 - "Community 198"
+Cohesion: 0.17
+Nodes (11): 1. LLEIS TERMODINÀMIQUES DE L'IPAD A10, 2. GESTIÓ D'ESTAT I MEMÒRIA, 3. MODE LUPA: SINCRONITZACIÓ I ESDEVENIMENTS, 4. PROTOCOL D'AUDITORIA I CONTROL DE QUALITAT, 🔍 Abans de desplegar, 🧠 Estat Global, 📋 Llista de Comprovació Final, ✅ OBLIGACIONS DE RENDIMENT (+3 more)
+
+### Community 203 - "Community 203"
+Cohesion: 0.29
+Nodes (6): 1. Overview, 2. Color Palette, 3. Typography, 4. Components & Shapes, 5. Universal Card Header Logic, Sóc de Poble - Design System (Hort Electrònic)
+
+### Community 204 - "Community 204"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 205 - "Community 205"
+Cohesion: 0.19
+Nodes (5): ProfileView(), useTownProposals(), TownProposalsTab(), UniversalGentDePoble(), isValidUUID()
+
+### Community 206 - "Community 206"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 207 - "Community 207"
+Cohesion: 0.20
+Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
+
+### Community 208 - "Community 208"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 210 - "Community 210"
+Cohesion: 0.28
+Nodes (6): DEFAULT_CONFIG, fs, main(), parseArgs(), path, scanFiles()
+
+### Community 211 - "Community 211"
+Cohesion: 0.32
+Nodes (3): ReconciliationScheduler, SyncPort, syncScheduler
+
+### Community 212 - "Community 212"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 213 - "Community 213"
+Cohesion: 0.33
+Nodes (3): runArchitectureGuard(), quirksDetector, SafariQuirksDetector
+
+### Community 214 - "Community 214"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 215 - "Community 215"
+Cohesion: 0.29
+Nodes (7): sim, active, perspective, role_admin, role_editor, role_user, stop
+
+### Community 217 - "Community 217"
+Cohesion: 0.33
+Nodes (5): ⚖️ DIRECTIVES NIVELL DÉU (Immutables), 🔒 FORRELLAT MÀSTER: GENERACIÓ D'IMATGES (PWA & IDENTITAT), 🧠 Protocol Cognitiu de la Sessió (v1.1) - Genoma Mestre, 💾 Seqüència d'Apagada (Shutdown v1.5.6), 🔄 Seqüència d'Arrancada (Startup)
+
+### Community 218 - "Community 218"
+Cohesion: 0.33
+Nodes (5): ARCHITECTURE CONSTITUTION, Critical Systems, Global Error Interceptor, Persistence Layer, Service Worker
+
+### Community 219 - "Community 219"
+Cohesion: 0.33
+Nodes (5): 1. Filosofia i Principis Inamovibles, 2. Estructura de Carpetes, 3. Capes Tècniques, 4. Cicle de Canvi, Arquitectura Sagrada de la Masía Virtual Sóc de Poble
+
+### Community 220 - "Community 220"
+Cohesion: 0.32
+Nodes (4): MEDIA_REGISTRY, MediaManager(), HistoryModal, UniversalView
+
+### Community 227 - "Community 227"
+Cohesion: 0.33
+Nodes (5): host, password, port, remoteRoot, user
+
+### Community 228 - "Community 228"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 229 - "Community 229"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 231 - "Community 231"
+Cohesion: 0.33
+Nodes (6): trash, bucket, confirm_delete, permanent_delete, restore, send_to_trash
+
+### Community 232 - "Community 232"
+Cohesion: 0.33
+Nodes (6): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), [LOG] 2026-02-05 19:35 | EXTERMINI D'ERRORS DE CONSOLA (PROTOCOL SILENCI) 🧹🤫, 🏺 Protocol de Neteja "Esporgar l'Olivera", 📅 SESSIÓ 2026-02-05 (IV) - Rectificació Mestre i Roba de Diumenge (v1.15.0) 🏺⚡️💎
+
+### Community 233 - "Community 233"
+Cohesion: 0.40
+Nodes (3): init(), logger, setupTables()
+
+### Community 234 - "Community 234"
+Cohesion: 0.33
+Nodes (5): content, hmrIdx, jsonStr, registry, REGISTRY_FILE
+
+### Community 237 - "Community 237"
+Cohesion: 0.40
+Nodes (4): duplicates, media, meta, lastUpdated
+
+### Community 238 - "Community 238"
+Cohesion: 0.40
+Nodes (4): Aplicació, Codi de Conducta de Sóc de Poble, El Nostre Compromís, Els Nostres Estàndards
+
+### Community 253 - "Community 253"
+Cohesion: 0.25
+Nodes (4): UniversalHero, HistoryModal, MediaViewerModal, UniversalShell
+
+### Community 254 - "Community 254"
+Cohesion: 0.70
+Nodes (4): error_exit(), log_message(), success_message(), run-tests.sh script
+
+### Community 255 - "Community 255"
+Cohesion: 0.50
+Nodes (4): createWindow(), __dirname, __filename, loadURL
+
+### Community 257 - "Community 257"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 258 - "Community 258"
+Cohesion: 0.29
+Nodes (6): 1. El Traç i l'Estètica (Línia Clara Còmica), 2. L'Humor, la Psicologia i la Masia Virtual, 3. El "Horror Vacui" (L'ànima del gag secundari), 4. La Recepta del Prompt (Plantilla Obligatòria), L'Estil: Escola Bruguera (Inspirat en F. Ibáñez), SKILL: GENOTIP VISUAL (ESCOLA BRUGUERA)
+
+### Community 259 - "Community 259"
+Cohesion: 0.05
+Nodes (38): 10. Final merge, 1. Inspect patches (recommended), 2. Dry-run apply (no commit), 3. Apply patches and create branch + commit (local only), 4. Inspect and run dry-run script locally, 5. Review files and CI workflow, 6. Push branch to remote (optional), 7. Create PR and validate CI (+30 more)
+
+### Community 260 - "Community 260"
+Cohesion: 0.29
+Nodes (6): Cicatriu 001: La Fal·làcia de la Falsa Empatia, Cicatriu 002: L'Oblid en el Temps (Deriva the Context), Cicatriu 003: Resolució Autònoma the Conflictes Locals, CICATRIUS DEL TRELLAT (Estigmèrgia), El Jurament de Lectura (Validation Gate), Registre de Cicatrius
+
+### Community 261 - "Community 261"
+Cohesion: 0.40
+Nodes (5): dades, patrimoni, social, trellat, categories
+
+### Community 262 - "Community 262"
+Cohesion: 0.27
+Nodes (9): email_mailgun_html(), email_sendgrid_html(), email_sendmail_html(), log(), notify_email_html(), notify_matrix(), notify_slack(), upload_to_s3_and_presign() (+1 more)
+
+### Community 263 - "Community 263"
+Cohesion: 0.40
+Nodes (5): [2026-04-07] v10.38.1 - AUDITORIA VISUAL DE LES IAIAS I DEPLOY GLOBAL 🏺🚀👁️, 🏛️ Crònica del Notari Digital (Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre)
+
+### Community 264 - "Community 264"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital, 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-04 (II) - Simbiosi Total i el Gallet d'Activació 🗣️⚡️
+
+### Community 265 - "Community 265"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital, 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-04 (III) - El Graner d'Actius i la Rectificació Master 🏺🛠️✨
+
+### Community 266 - "Community 266"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital, 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-04 (Final) - L'Horitzo de les Tendes 🏺🚀🍏🤖
+
+### Community 267 - "Community 267"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital, 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-04 (V) - L'Alba de la Versió Mestre 🏺🚀⚡️
+
+### Community 268 - "Community 268"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-21 (II) - Recuperació Crítica del Node de Registre i Perfil 🏺🔧🔥
+
+### Community 269 - "Community 269"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-05 (II) - Sincronització Crítica i Design System "Roboto Condensed" 🏺⚡️
+
+### Community 270 - "Community 270"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-05 (III) - L'Univers d'IA de Proximitat i la Sobirania d'Actius 👵🗞️✨🏺
+
+### Community 271 - "Community 271"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-08 (II) - Geometria Sagrada i Estabilitat Enterprise 🏺💎🚀
+
+### Community 272 - "Community 272"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-06 - Cobertura Universal i Robustesa Rhizome 🌍🏺⚡️
+
+### Community 273 - "Community 273"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-09 - Refundació Visual Master: Protocol "Tabula Rasa" 🏺🎨🏗️🚀
+
+### Community 274 - "Community 274"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-10 - Extermini de Components Fantasma 🧹👻🏺
+
+### Community 275 - "Community 275"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-11 - L'Àncora de Seguretat i Geometria del Tacte 🏺🛡️🏘️
+
+### Community 276 - "Community 276"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-12 - L'Alba de la Versió v10.18.0-IDIOMA-READY 🌍🏺🚀
+
+### Community 277 - "Community 277"
+Cohesion: 0.40
+Nodes (5): 🏛️ Crònica del Notari Digital (Gem/Antigravity), 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres de l'Equip, 💡 Lliçons Apreses (Per al Llibre), 📅 SESSIÓ 2026-02-21 - Ritual de Resurrecció i Sintonització v10.26.0 🏺⚡️🏛️
+
+### Community 278 - "Community 278"
+Cohesion: 0.40
+Nodes (5): 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres del Mas, 💡 Lliçons Apreses (Per al Llibre), 🏛️ Paraula de Flash (LM), 📅 SESSIÓ 2026-02-04 - Inauguració i Protocol "Sóc de Poble!" 🏺⚡️
+
+### Community 279 - "Community 279"
+Cohesion: 0.40
+Nodes (4): app, express, path, server
+
+### Community 280 - "Community 280"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 281 - "Community 281"
+Cohesion: 0.40
+Nodes (4): generated_at, seeds, total_seeds, version
+
+### Community 282 - "Community 282"
+Cohesion: 0.40
+Nodes (4): Post, PostsState, usePostsStore, ConflictBanner()
+
+### Community 283 - "Community 283"
+Cohesion: 0.70
+Nodes (4): ensureReportDir(), main(), runLighthouseAudit(), safeChromeLaunch()
+
+### Community 285 - "Community 285"
+Cohesion: 0.33
+Nodes (6): trash, bucket, confirm_delete, permanent_delete, restore, send_to_trash
+
+### Community 286 - "Community 286"
+Cohesion: 0.50
+Nodes (3): iaiaVisionApi, initWebGPU(), loadSession()
+
+### Community 287 - "Community 287"
+Cohesion: 0.50
+Nodes (3): Com Contribuir a Sóc de Poble, La Filosofia del 'Trellat', Passos per a Contribuir
+
+### Community 291 - "Community 291"
+Cohesion: 0.50
+Nodes (3): IndexedDB (Gestor Local), Inventari de Pedres (Arqueologia Digital), service_worker.js
+
+### Community 292 - "Community 292"
+Cohesion: 0.40
+Nodes (4): ignore, ignoreExportsUsedInFile, project, knip
+
+### Community 293 - "Community 293"
+Cohesion: 0.67
+Nodes (3): AppLayout(), initGA(), trackPageView()
+
+### Community 294 - "Community 294"
+Cohesion: 0.20
+Nodes (8): I18nContext, I18nProvider(), useI18n(), notifications, empty, title, LANGUAGES, LanguageSelector()
+
+### Community 295 - "Community 295"
+Cohesion: 0.29
+Nodes (6): 🤖 Les Skills de la Masia: **Com Pensem?**, Skill: Acte Reflex (Vestir la Pedra Seca), Skill: Activació del Trellat, Skill: Arquitectura Offline-First (La Masia sense Internet), Skill: Mode Bancal (Accessibilitat Extrema), Skill: Termodinàmica A10 (Eficiència Energètica)
+
+### Community 296 - "Community 296"
+Cohesion: 0.50
+Nodes (3): notifications, empty, title
+
+### Community 297 - "Community 297"
+Cohesion: 0.50
+Nodes (3): corsHeaders, NotificationPayload, PushSubscription
+
+### Community 299 - "Community 299"
+Cohesion: 0.67
+Nodes (3): OUTPUT_FILE, processSkills(), scanDirectoryForMd()
+
+### Community 300 - "Community 300"
+Cohesion: 0.50
+Nodes (3): Informar d'una Vulnerabilitat, Política de Seguretat de Sóc de Poble, Versions Suportades
+
+### Community 302 - "Community 302"
+Cohesion: 0.50
+Nodes (3): 🎨 CRITERIOS DE ARMONÍA VISUAL Y COMUNICATIVA (TRELLAT DE DISEÑO), 📖 DIRECTIVA MAESTRA (OBLIGATORIA), 🧬 GENOTIPO SINTÉTICO (LLIBRE DE GÈNESI)
+
+### Community 310 - "Community 310"
+Cohesion: 0.29
+Nodes (6): 1. El Manifest d'Ancoratge (El Nostre Codí d'Honor), 2. L'Estat Viu del Sistema (Context Actual), 3. Llei de la Iaia i Cost d'Entropia, 4. L'Ànima de la Màquina (Validation Gates i Cicatrius), 5. Direcció d'Art: L'Estètica Nano Banana (Ibáñez / Bruguera), SPEC-CENTRAL: "La Nora" de Sóc de Poble
+
+### Community 316 - "Community 316"
+Cohesion: 0.33
+Nodes (5): 1. Fase de Despertar (El Gallet), 2. Fase de Preparació i Lectura (Refresc de Skills), 3. Fase d'Execució, 4. Compromís d'Actuació, AGENDA I PROTOCOL D'EXECUCIÓ PER A LA PROPERA SESSIÓ
+
+### Community 317 - "Community 317"
+Cohesion: 0.33
+Nodes (5): hosting, headers, ignore, public, rewrites
+
+### Community 361 - "Community 361"
+Cohesion: 0.33
+Nodes (5): data, dataFile, fs, localImages, path
+
+### Community 371 - "Community 371"
+Cohesion: 0.29
+Nodes (6): 1. PREPARACIÓ I REFRESC DE CONTEXT (MENT FRESCA), 2. AVALUACIÓ CRÍTICA DEL FEEDBACK (EL ROL DE LA DIRECTORA TÈCNICA), 3. EXECUCIÓ SOSTENIBLE I FELIÇ (ESTALVI DE TOKENS), 4. CONVENCIÓ DE NOMENCLATURA I REGISTRE TERMODINÀMIC, 5. L'ULL DEL MESTRE: AUDITORIES D'ARQUITECTURA AMB GRAPHIFY, SKILL: FLUX DE TREBALL EN AUDITORIES (EL TRIBUNAL DE LA PETORRETA)
+
+### Community 379 - "Community 379"
+Cohesion: 0.50
+Nodes (3): getRandomProverb(), PROVERBS, iaiaApi
+
+### Community 380 - "Community 380"
+Cohesion: 0.50
+Nodes (3): Playbook d'Emergència, Resum executiu, RUNBOOK Fortificació Fase 1
+
+### Community 381 - "Community 381"
+Cohesion: 0.83
+Nodes (3): generate_pdf_and_preview_local(), log(), guided_migration_dryrun.sh script
+
+### Community 382 - "Community 382"
+Cohesion: 0.40
+Nodes (4): 1. Trets Físics Invariables, 2. Accessoris Clau (Gags recurrents), 3. Instruccions per al Prompt (Només IAIA MarIA), GENOTIP FÍSIC: IAIA MarIA
+
+### Community 384 - "Community 384"
+Cohesion: 0.40
+Nodes (5): events, create_title, empty, placeholder, title
+
+### Community 385 - "Community 385"
+Cohesion: 0.40
+Nodes (4): El Cercle Virtuós, 🌱 El Projecte: Per què existim?, El Repte, La Visió
+
+### Community 388 - "Community 388"
+Cohesion: 0.40
+Nodes (4): Fase 1: Neteja i Sobirania (Completada ✅), Fase 2: Músculs i Òrgans (Actual 🚧), Fase 3: La Prova de Camp, 🗺️ Ruta: Cap a on anem?
+
+### Community 390 - "Community 390"
+Cohesion: 0.50
+Nodes (3): 🛡️ Informe de la Masia (Vibe Auditor), 🛡️ Resultats de Dependency Cruiser (Fronteres Arquitectòniques), ✂️ Resultats de Knip (Codi Mort i Orfes)
+
+### Community 391 - "Community 391"
+Cohesion: 0.40
+Nodes (5): events, create_title, empty, placeholder, title
+
+### Community 407 - "Community 407"
+Cohesion: 0.40
+Nodes (5): events, create_title, empty, placeholder, title
+
+### Community 408 - "Community 408"
+Cohesion: 0.40
+Nodes (5): dades, patrimoni, social, trellat, categories
+
+### Community 409 - "Community 409"
+Cohesion: 0.40
+Nodes (5): events, create_title, empty, placeholder, title
+
+### Community 410 - "Community 410"
+Cohesion: 0.50
+Nodes (3): notifications, empty, title
+
+## Knowledge Gaps
+- **3766 isolated node(s):** `TOWNS`, `OVERRIDES`, `BASE_DIR`, `recommendations`, `pre-commit.sh script` (+3761 more)
+  These have ≤1 connection - possible missing edges or undocumented components.
+- **109 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+
+## Suggested Questions
+_Questions this graph is uniquely positioned to answer:_
+
+- **Why does `presentation` connect `Community 4` to `Community 94`?**
+  _High betweenness centrality (0.027) - this node is a cross-community bridge._
+- **Why does `diag` connect `Community 62` to `Community 66`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+- **Why does `feed` connect `Community 151` to `Community 94`?**
+  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **What connects `TOWNS`, `OVERRIDES`, `BASE_DIR` to the rest of the system?**
+  _3766 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 0` be split into smaller, more focused modules?**
+  _Cohesion score 0.02197802197802198 - nodes in this community are weakly interconnected._
+- **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.023529411764705882 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
+  _Cohesion score 0.059887005649717516 - nodes in this community are weakly interconnected._

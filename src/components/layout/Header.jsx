@@ -63,7 +63,7 @@ const Header = () => {
 
         <UniversalHeader.Button
           variant="tool"
-          onClick={() => navigate("/search")}
+          onClick={() => navigate("/cerca")}
           title={t("nav.search_global")}
         >
           <Search className="shrink-0 w-[36px] h-[36px]" />

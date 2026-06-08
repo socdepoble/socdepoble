@@ -44,11 +44,14 @@ $rutes_conegudes = [
 $default_og = [
     'titol' => 'Sóc de Poble',
     'descripcio' => 'La xarxa social rural sobirana. El Sistema Operatiu de les Comarques.',
-    'imatge' => '/uploads/avatars/soc-de-poble_book_comic_nano_1770526279743.png'
+    'imatge' => '/assets/uploads/brain/media__1775601829353.jpg'
 ];
 
-$ruta_original = isset($_GET['ruta']) ? trim($_GET['ruta'], '/') : '';
+$ruta_original = isset($_SERVER['REQUEST_URI']) ? trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') : '';
 $ruta_clau = explode('/', $ruta_original)[0];
+
+// BATEGAT DE DEBUG: Registrar l'aranya
+file_put_contents(__DIR__ . '/bot_debug.txt', date('Y-m-d H:i:s') . " - URI: " . $_SERVER['REQUEST_URI'] . " - GET_RUTA: " . (isset($_GET['ruta']) ? $_GET['ruta'] : 'null') . " - CLAU: " . $ruta_clau . "\n", FILE_APPEND);
 
 $og = isset($rutes_conegudes[$ruta_clau]) ? $rutes_conegudes[$ruta_clau] : $default_og;
 
@@ -67,7 +70,7 @@ header('Content-Type: text/html; charset=utf-8');
     
     <!-- Meta Tags OpenGraph (Per a WhatsApp, Facebook, Telegram) -->
     <meta property="og:title" content="<?= htmlspecialchars($og['titol']) ?>" />
-    <meta property="og:description" content="<?= htmlspecialchars($og['descripcio']) ?>" />
+    <meta property="og:description" content="<?= htmlspecialchars($og['descripcio']) ?> | Ruta completa: <?= htmlspecialchars($url_absoluta) ?>" />
     <meta property="og:image" content="<?= htmlspecialchars($imatge_absoluta) ?>" />
     <meta property="og:url" content="<?= htmlspecialchars($url_absoluta) ?>" />
     <meta property="og:type" content="website" />

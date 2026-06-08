@@ -24,13 +24,13 @@ export const buttonVariants = cva(
         sm: 'h-8 px-4 text-xs',
         md: 'h-11 px-6 text-sm',
         lg: 'h-14 px-8 text-base',
-        touch: 'h-[44px] px-6 text-sm', // Minimum touch target
+        touch: 'min-h-[48px] px-6 text-sm', // Minimum touch target (48px)
       },
       shape: {
         rounded: 'rounded-md',
         pill: 'rounded-full',
         square: 'rounded-none',
-        genesis: 'rounded-[28px]', // Canonical genesis radius
+        genesis: 'rounded-[length:var(--sp-radius-mestre,28px)]', // Canonical genesis radius
       },
       fullWidth: {
         true: 'w-full',

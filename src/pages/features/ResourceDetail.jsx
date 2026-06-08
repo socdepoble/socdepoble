@@ -189,7 +189,7 @@ const ResourceDetail = () => {
                 </div>
             </div>
 
-            {/* FOOTER SIGIL STRICT GEM MODERN */}
+            {/* FOOTER SIGIL STRICT Pedra Seca */}
             <footer className="w-full border-t border-white/10 bg-black py-16 px-6">
                 <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 opacity-50 hover:opacity-100 transition-opacity duration-500">
                     <div className="flex items-center gap-6">

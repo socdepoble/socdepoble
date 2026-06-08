@@ -8,6 +8,7 @@ import "./index.css";
 // El Service Worker està gestionat ara nativament per Vite PWA sense bucles.
 // -----------------------------------------------------------------------------
 import "./tokens.css";
+import "./feedback.css";
 import "../i18n/config";
 import { AuthProvider } from "./context/AuthContext";
 import { ModalProvider } from "./context/ModalContext";
