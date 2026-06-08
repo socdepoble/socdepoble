@@ -1,0 +1,14 @@
+<USER_REQUEST>
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T10:22:35+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+
+The user has uploaded 1 audio file(s). Consider them as a part of their message.
+</ADDITIONAL_METADATA>

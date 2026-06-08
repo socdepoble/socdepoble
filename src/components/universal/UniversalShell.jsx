@@ -61,7 +61,7 @@ const UniversalShell = memo(({
                 onToggleIndex={toggleIndex}
             />
 
-            <main
+            <div
                 ref={refsHandlers.scrollContainerRef}
                 className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar"
             >
@@ -88,7 +88,7 @@ const UniversalShell = memo(({
                 </div>
 
                 {children}
-            </main>
+            </div>
 
             <FloatingIndex
                 scrollRef={refsHandlers.scrollContainerRef}

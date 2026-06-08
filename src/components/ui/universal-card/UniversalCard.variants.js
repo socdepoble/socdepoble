@@ -5,13 +5,16 @@ export const cardVariants = cva(
     group flex flex-col flex-auto w-full relative
     rounded-[28px]
     text-[#FFFFFF]
+    bg-[#141417]
+    !border-0
     transition duration-300 ease-in-out
-    shadow-xl shadow-black/60
-    hover:shadow-2xl hover:shadow-black/80
+    shadow-lg shadow-black/40
+    hover:shadow-xl hover:shadow-black/60
     transform-gpu
-    [.theme-light_&]:text-[#0e0e0e] 
-    [.theme-light_&]:shadow-lg [.theme-light_&]:shadow-black/15
-    [.theme-light_&]:hover:shadow-xl [.theme-light_&]:hover:shadow-black/20
+    [.theme-light_&]:text-[#0e0e10] 
+    [.theme-light_&]:bg-white
+    [.theme-light_&]:shadow-md [.theme-light_&]:shadow-black/20
+    [.theme-light_&]:hover:shadow-lg [.theme-light_&]:hover:shadow-black/30
   `,
   {
     variants: {

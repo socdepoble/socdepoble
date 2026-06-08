@@ -87,7 +87,7 @@ export function usePageData(slug, forcedHtml, forcedTitle, forcedSubtitle) {
                 pageData.htmlContent = cleanHtml;
                 pageData.title = registryEntry.title || pageData.title;
                 pageData.subtitle = registryEntry.subtitle || pageData.subtitle;
-                pageData.heroFormat = meta.heroFormat || registryEntry.defaults?.heroFormat || 'horizontal';
+                pageData.heroFormat = meta.heroFormat || registryEntry.defaults?.heroFormat || 'square';
                 pageData.heroPosition = meta.heroPosition || registryEntry.defaults?.heroPosition || 'center';
                 pageData.heroImage = meta.heroImage || '';
                 pageData.logoLight = meta.logoLight || registryEntry.defaults?.logoLight || '';

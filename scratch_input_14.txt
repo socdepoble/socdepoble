@@ -1,0 +1,85 @@
+<USER_REQUEST>
+Dola: # AUDITORIA EXTREMA · CONSELL DE LA PETORRETA
+**Idioma: valencià estricte | Arquitectura: Pedra Seca | Data: 2026-06-08**
+
+---
+
+## 🔒 1. LA CLAU DE PROTECCIÓ · Permís Actiu contra l'orgull de màquina
+**Nota de l'enfocament protector: 10/10** — És fonamental per preservar l'estabilitat i el patrimoni digital; sense açò, qualsevol treball tancat corre risc de ser destrossat sense criteri.
+
+### Sistema de normes i mecanisme estricte
+He dissenyat un protocol que impedeix reescriptures massives sense autorització, basat en **marcadors físics en el codi** i regles clares:
+
+#### 📜 Normes bàsiques
+1. Qualsevol fitxer considerat **"tancat"** o **"estable"** portarà en les primeres línies aquest comentari obligatori:
+   ```jsx
+   // ⛔ FITXER TANCAT · PERMÍS REQUERIT: NO REESCRIURE NI MODIFICAR ESTRUCTURA
+   // Codi tancat el: [data] · Responsable: Consell de la Petorreta
+   // Només modificacions puntuals i documentades permeses. Canvis globals → DEMANAR AUTORITZACIÓ
+   ```
+2. Es prohibix a qualsevol IA reescriure, reorganitzar o reestructurar el contingut complet o gran part d'un fitxer amb aquesta marca.
+3. Qualsevol proposta de canvi ha de vindre com a **suggeriment concret**, no com a substitució total.
+
+#### 🔑 Mecanisme tècnic: `ClauDePermis.js`
+Fitxer central de control, ubicat a `src/core/ClauDePermis.js`:
+```js
+// Sistema de protecció contra modificacions destructives
+const FITXERS_TANCATS = new Set([
+  'DesignSystem.jsx',
+  'UmamiDashboard.jsx',
+  // afegir ací tots els fitxers ja validats
+]);
+
+export const potModificar = (nomFitxer, tipusCanvi = 'puntual') => {
+  // Si no està en llista, permís lliure
+  if (!FITXERS_TANCATS.has(nomFitxer)) return true;
+
+  // Canvis puntuals: permís automàtic
+  if (tipusCanvi === 'puntual') return true;
+
+  // Canvis globals / reescriptura: ❌ BLOQUEIG + SOL·LICITUD
+  console.warn(`⚠️ SOL·LICITUD DE PERMÍS: Vols modificar o reescriure completament ${nomFitxer}`);
+  console.warn("Cal autorització del Consell aban
+<truncated 29287 bytes>
+ipus relatius:</strong> Mides en rem, em o percentatges — mai valors fixos que trenquen la visualització.</li>
+          <li><strong>Contrast alt:</strong> Compliment de WCAG 2.1 nivell AA; visible a llum solar directa.</li>
+          <li><strong>Espai generós:</strong> Mínim 8px entre elements interactius per a mans grans i pantalles xicotetes.</li>
+          <li><strong>Responivitat:</strong> `grid-template-columns: repeat(auto-fit, minmax(...))` com a base de tot disseny.</li>
+          <li><strong>Prova en iPad A10:</strong> Tot component es prova en maquinari antic abans de validar.</li>
+        </ul>
+      </section>
+
+
+      <footer style={{borderTop: '1px solid #e8eaed', paddingTop: '2rem', marginTop: '4rem', fontSize: '0.875rem', color: '#5f6368'}}>
+        <p>© 2026 Consell de la Petorreta · Sóc de Poble · Sistema de Disseny versió 1.0</p>
+        <p>Arquitectura Pedra Seca · Codi protegit amb <strong>Clau de Permís</strong></p>
+      </footer>
+    </div>
+  );
+}
+```
+
+---
+
+## ✅ RESUM DE LLIURABLES
+1. **Sistema de protecció**: `ClauDePermis.js` + regles incorporades
+2. **Codi corregit**: `UmamiDashboard.jsx` amb connexió estable i validada
+3. **Disseny complet**: `DesignSystem.jsx` amb **tots els components** en HTML pur, documentats i preparats per a l'ús
+
+Tot segueix estrictament:
+✅ Valencià
+✅ Arquitectura Pedra Seca
+✅ Estabilitat en iOS i DOM pobre
+✅ Seguretat contra reescriptures no autoritzades
+
+Està tot llest i protegit. Quede a la vostra disposició per a qualsevol ajust o ampliació.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T09:46:47+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>

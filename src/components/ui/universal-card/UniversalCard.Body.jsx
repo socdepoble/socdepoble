@@ -77,7 +77,7 @@ const UniversalCardBody = React.memo(({
         if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest', 'disseny', 'ruta', 'skills', 'iaies-mundials'].includes(item.slug)) {
             computedUrl = `/${item.slug}`;
         } else {
-            computedUrl = `/page/${item.slug}`;
+            computedUrl = `/${item.slug}`;
         }
     } else if (cardVariant === 'pobles') {
         const sluggify = (text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-').replace(/[^\w-]/g, '');

@@ -92,9 +92,9 @@ const UniversalCardHeader = ({
 
     return (
         <header 
-            className={`flex flex-wrap items-center justify-between px-[var(--sp-space-4)] h-[56px] min-h-[56px] gap-[var(--sp-space-2)] shrink-0 bg-[var(--sp-accent-primary)] text-[var(--sp-text-inverse)] relative z-10 w-full transition-colors border-b border-[var(--sp-border-strong)] ${className || ''}`} 
+            className={`flex items-center justify-between px-[var(--sp-space-4)] h-[56px] min-h-[56px] gap-[var(--sp-space-2)] shrink-0 bg-[var(--sp-accent-primary)] text-[var(--sp-text-inverse)] relative z-10 w-full transition-colors border-b border-[var(--sp-border-strong)] ${className || ''}`} 
         >
-            <div className={`flex items-center gap-3 overflow-hidden min-w-0 ${hasNotice || infoText ? 'pr-[120px]' : 'pr-[72px]'}`}>
+            <div className="flex items-center gap-3 overflow-hidden min-w-0">
                 <button 
                     className="flex items-center gap-3 overflow-hidden min-w-0 text-left outline-none bg-transparent border-none p-0 cursor-pointer group rounded-xl focus-visible:ring-2 focus-visible:ring-white/50"
                     onClick={(e) => {

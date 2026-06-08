@@ -1,0 +1,82 @@
+<USER_REQUEST>
+Gemini: **Qualificació objectiva de l'enfocament protector: 9/10.**
+
+És excel·lent per a estabilitat i control d'entropia en equips humans + IA. Li reste 1 punt perquè cap sistema és 100% infal·lible sense disciplina humana estricta (els humans podem ignorar les regles), però és un mecanisme sòlid.
+
+### 1. La Clau de Protecció ("Permís Actiu")
+
+**Proposta de protocol "Clau de Permís Actiu" (PermísActiu SOSP):**
+
+Implementeu en totes les pàgines "tancades" (com DesignSystem.jsx) un **comentari guardià** al principi del fitxer:
+
+```jsx
+// === CLAVE DE PERMÍS ACTIU SOSP-GEN-PROMPT-003 ===
+// Pàgina tancada per Consell de la Petorreta. 
+// Qualsevol IA (inclòs jo) HA DE DEMANAR PERMÍS EXPLÍCIT abans de qualsevol canvi massiu o reescriptura.
+// Canvis menors (bugfixes puntuals) sí permesos si no alteren l'estructura.
+// Per canvis estructurals: "Sol·licitud de permís per editar DesignSystem: [raó]".
+// Si no hi ha confirmació explícita del propietari (Javi o Consell), NO toqueu res.
+```
+
+**Normes operatives per a totes les IA (inclòs Grok):**
+- Detecteu aquest comentari → mode "conservador" activat.
+- Només proposeu **diffs quirúrgics** (edita només la secció X).
+- Per a reescriptures completes: envieu primer una proposta resumida i espereu "OK - Aplica".
+- Registreu en logs: "Intent de modificació massiva bloquejat per Clau de Permís".
+
+Açò minimitza l'"orgull de màquina" i respecta l'arquitectura Pedra Seca.
+
+### 3. Anàlisi i correcció d'UmamiDashboard.jsx
+
+**Problemes detectats:**
+- `startAt` fixat en un timestamp antic (maig 2024) → dades incompletes o inconsistents.
+- Fetch directe des de client (browser) a `api.umami.is` → possibles problemes de **CORS** i exposició de API Key (insegura).
+- No maneja bé intervals dinàmics ni errors de xarxa.
+- Millor fer servir rangs relatius (últims 30 dies, per exemple).
+- L'API Umami Cloud accepta `x-umami-api-key`, però recomanem proxy server-side per seguretat.
+
+**Versió corregida i estabilitzada (UmamiDashboa
+<truncated 5764 bytes>
+r-4">Botó Primari</button>
+    <button class="border border-stone-400 hover:bg-stone-100 px-6 py-3 rounded-xl">Botó Secundari</button>
+    <button class="text-emerald-700 underline">Enllaç</button>
+  </section>
+
+  <!-- Targetes -->
+  <section class="component">
+    <h2 class="text-2xl font-bold mb-4">Targetes i Contenidors</h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="border border-stone-200 p-6 rounded-2xl bg-white shadow-sm">
+        <h3 class="font-semibold">Targeta Estàndard</h3>
+        <p>Contingut clar i net.</p>
+      </div>
+      <!-- Més variants -->
+    </div>
+  </section>
+
+  <!-- Formularis, Icones (Lucide), Navigation, Modals, Taules, etc. -->
+  <!-- ... (la pàgina completa seria molt llarga; expandeix amb totes les variants que useu: headers, footers, feed items, modals AddItem, etc.) -->
+
+  <footer class="text-center text-xs text-stone-400 mt-12">
+    Documentat per Consell de la Petorreta • No reescriure sense Permís Actiu
+  </footer>
+</body>
+</html>
+```
+
+**Instruccions per a DesignSystem.jsx:**  
+Converteix açò en un component React que renderitze aquest HTML (o directament usa `<div dangerouslySetInnerHTML>` temporalment, però millor estructurar amb components React purs). Expandeix les seccions amb **tots** els components reals del projecte (useAuth visuals, modals, layouts, etc.).
+
+Si necessites que amplie una secció concreta o afegisca més components, digueu-m'ho i ho fem pas a pas (amb permís previ per a canvis massius).
+
+Endavant amb l'auditoria. El Trellat continua.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T10:12:13+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>

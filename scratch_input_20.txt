@@ -1,0 +1,68 @@
+<USER_REQUEST>
+📜 AUDITORIA FORENSE SOSP-GEN-PROMPT-003
+Informe del Consell de la Petorreta — 08/06/2026
+1. 🛡️ LA CLAU DE PROTECCIÓ (Permís Actiu)
+Qualificació objectiva de l'enfocament protector: 9/10
+El vostre instint és sòlid. El problema del "Frankenstein" no és tècnic, és cultural-algorítmic. Ací teniu el protocol que proposem, dissenyat per a ser implementat com a convenció de codi inquebrantable i com a prompt de sistema per a totes les interaccions futures amb IA:
+Protocol SOSP-LOCK: "Clau de Pedra Seca"
+markdown
+╔══════════════════════════════════════════════════════════════════╗
+║  🚨 DIRECTIVA SOSP-LOCK: "NO TOCAR SI NO ESTÀ ROTO"            ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  REGLETA 1 — BANDERA D'ESTAT (File Status Header)              ║
+║  ----------------------------------------------------------------║
+║  Tot fitxer tancat HA DE portar al capdamunt un comentari      ║
+║  d'estat que la IA NO pot ignorar:                               ║
+║                                                                  ║
+║  /* ========================================================== */ ║
+║  /* 🚧 SOSP-STATUS: LOCKED — No reescriure sense permís       */ ║
+║  /* 🚧 Última revisió: [data] per [humà]                      */ ║
+║  /* 🚧 Motiu de tancament: [descripció curta]                  */ ║
+║  /* 🚧 PERMÍS REQUERIT: Contactar @MestreJavi abans de tocar  */ ║
+║  /* ========================================================== */ ║
+║                                                                  ║
+║  REGLETA 2 — PREGUNTA OBLIGATÒRIA (Mandatory
+<truncated 45214 bytes>
+sp-h2 sosp-mb-6">12. Indicadors de Càrrega</h2>
+
+        <div className="sosp-flex sosp-flex-wrap sosp-gap-8 sosp-items-center sosp-mb-8">
+          <div className="sosp-text-center">
+            <div className="sosp-spinner sosp-spinner-sm" />
+            <p className="sosp-text-xs sosp-text-gray-500 sosp-mt-2">Petit</p>
+          </div>
+          <div className="sosp-text-center">
+            <div className="sosp-spinner" />
+            <p className="sosp-text-xs sosp-text-gray-500 sosp-mt-2">Normal</p>
+          </div>
+          <div className="sosp-text-center">
+            <div className="sosp-spinner sosp-spinner-lg" />
+            <p className="sosp-text-xs sosp-text-gray-500 sosp-mt-2">Gran</p>
+          </div>
+        </div>
+
+        <h3 className="sosp-h3 sosp-mb-4">Esquelet (Skeleton)</h3>
+        <div className="sosp-card sosp-p-6 sosp-max-w-sm">
+          <div className="sosp-skeleton sosp-skeleton-circle sosp-w-12 sosp-h-12 sosp-mb-4" />
+          <div className="sosp-skeleton sosp-w-3/4 sosp-h-4 sosp-mb-2" />
+          <div className="sosp-skeleton sosp-w-full sosp-h-3 sosp-mb-2" />
+          <div className="sosp-skeleton sosp-w-5/6 sosp-h-3" />
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 13: AVATARS I IMATGES                           */}
+      {/* ====================================================== */}
+      <section className="sosp-mb-16" id="avatars">
+        <h2 className="sosp-h2 sosp-mb-6">13. Avatars i Imatges</h2>
+
+        <div className="sosp-flex sosp-flex-wrap sosp-gap-6 sosp-items-end sosp-mb-8">
+          <div className="sosp-text-center">
+            <div className="sosp-avatar sosp-avatar-xs">AB</div>
+            <p className="sosp-text-xs sosp-text-gray-500 sosp-mt-1">xs</p>
+          </div>
+          <div className="sosp-text-center">
+            
+<truncated 9690 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

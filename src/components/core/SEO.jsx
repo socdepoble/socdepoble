@@ -21,7 +21,8 @@ const SEO = ({
   type = 'website',
   author = 'Sóc de Poble',
   structuredData = {},
-  noIndex = false
+  noIndex = false,
+  preloadImage = false
 }) => {
   // [VALIDACIÓ] Títol per defecte si no es proporciona
   const siteTitle = 'Sóc de Poble';
@@ -105,6 +106,9 @@ const SEO = ({
       
       {/* === CANONICAL === */}
       <link rel="canonical" href={canonicalUrl} />
+      
+      {/* === LCP PRELOAD (Elimina Resource Load Delay) === */}
+      {preloadImage && ogImage && <link rel="preload" as="image" href={ogImage} fetchpriority="high" />}
       
       {/* === OPEN GRAPH / FACEBOOK / WHATSAPP === */}
       <meta property="og:type" content={type} />

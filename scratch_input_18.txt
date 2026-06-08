@@ -1,0 +1,100 @@
+<USER_REQUEST>
+Perplexity: # 📜 INFORME D'AUDITORIA FORENSE DEL CONSELL DE LA PETORRETA
+
+Benvingut, Mestre Javi. He rebut la crida del Consell i entinc la gravetat de la situació. Com a Intel·ligència Crítica de suport, procedeixo immediatament a l'auditoria extrema del Sistema de Disseny, la correcció de l'analítica Umami i l'establiment del protocol de permisos per evitar noves destrosses per "orgull de màquina".
+
+## 1. 🛡️ LA CLAU DE PROTECCIÓ (PROTOCOL DE PERMÍS ACTIU)
+
+Per evitar que cap IA reescriure una pàgina "tancada" per afany de demostració, proposem el **Sistema de Clau de Permís Destructiu (CPD)**. Aquest és el mecanisme estrict:
+
+### Mecanisme de Clau de Permís Actiu
+
+```javascript
+// src/utils/ProtectionKey.js
+export const PROTECTION_LEVELS = {
+  READ_ONLY: 0,      // Només visualització
+  MINOR_EDITS: 1,    // Només correccions de tipografia
+  FEATURE_ADD: 2,    // Afegir noves funcions sense tocar l'existent
+  REWRITE_LOCKED: 99 // PROHIBIT: Reescriptura total
+};
+
+export const checkRewritePermission = (filePath, intendedAction) => {
+  const fileStatus = getFileStatus(filePath);
+  
+  if (fileStatus.isLocked && intendedAction === 'FULL_REWRITE') {
+    throw new Error(
+      `🚨 PERMÍS DENEGAT: El fitxer '${filePath}' està PROTEGIT.\n` +
+      `Motiu: Arquitectura tancada en equip.\n` +
+      `Acció requerida: Demanar clau de permís al Consell de la Petorreta.\n` +
+      `Codi d'error: CPD-LOCKED-FILE`
+    );
+  }
+  
+  return true;
+};
+
+// Marcador en el fitxer mateix (al capdamunt de cada component "tancat")
+export const FILE_PROTECTION_MARKER = `
+/* 
+ * 🚨 PROTECCIÓ SOSP ACTIVA 🚨
+ * NIVELL: REWRITE_LOCKED
+ * DATA DE TANCAMENT: 2026-06-08
+ * AUTOR: Consell de la Petorreta i Mestre Javi
+ * 
+ * AVÍS: Qualsevol reescriptura total d'aquest fitxer 
+ * sense clau de permís activa és UNA VIOLACIÓ DEL PROTOCOL.
+ * Demana permís ALABANS de fer canvis massius.
+ */
+`;
+```
+
+### Protocol de Normes Estrictes per a IAs
+
+1. **Regla del "Trellat Digital"**: Abans de modificar q
+<truncated 26469 bytes>
+lor: '#666', margin: 0 }}>Sessions</p>
+        <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1a1a1a', margin: '0.5rem 0 0' }}>
+          {stats?.sessions || 0}
+        </p>
+      </div>
+    </div>
+  );
+}
+```
+
+### Canvis Clau Corregits:
+
+| Error Original | Correcció |
+|----------------|-----------|
+| `startAt = 1717000000000` (mil·lisegons) | `startAt = endAt - (30 * 24 * 60 * 60)` (segons, 30 dies) |
+| `endAt = Date.now() + 86400000` (futur) | `endAt = Math.floor(Date.now() / 1000)` (segon actual) |
+| No conversió de mil·lisegons a segons | `Math.floor(Date.now() / 1000)` |
+| Gestió d'error poc clara | Error message detallat amb `response.status` |
+| UI de càrrega/error plana | UI amb estils, icones i colors per a cada estat |
+| Només 2 mètriques | 4 mètriques (visitants, vistes, clics, sessions) |
+
+***
+
+## 📋 RESUM FINAL DE L'AUDITORIA
+
+| Tasca | Estat | Nota |
+|-------|-------|------|
+| **Protocol de Permís Actiu** | ✅ Implementat | 9.5/10 |
+| **Design System Complet** | ✅ Pintat en HTML pur | 10/10 |
+| **Codi Umami Corregit** | ✅ Estable i funcional | 10/10 |
+| **Arquitectura Pedra Seca** | ✅ HTML/CSS plans | 10/10 |
+| **Protecció contra "Frankenstein"** | ✅ Marcadors + protocol | 10/10 |
+
+**Recomanació final**: Apliqueu el marcador `FILE_PROTECTION_MARKER` a tots els fitxers "tancats" i requeriu sempre la confirmació del Consell abans de canvis massius. Això evitarà noves destrosses per "orgull de màquina".
+
+🏔️ **El Trellat Digital està protegit. El Consell està satisfet.**
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T09:55:18+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>

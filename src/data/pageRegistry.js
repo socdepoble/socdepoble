@@ -28,7 +28,7 @@ export const HARDCODED_PAGES = {
     },
     disseny: {
         title: 'Disseny',
-        subtitle: 'Com construïm la Masia?',
+        subtitle: 'Com construïm el portal de pobles connectats?',
         htmlContent: () => import('./SkillsContent').then(m => m.DESIGN_HTML),
         defaults: { heroFormat: 'horizontal', heroPosition: 'center' }
     },

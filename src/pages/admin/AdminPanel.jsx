@@ -645,6 +645,7 @@ const MarketingModule = ({ addLog }) => {
             </h2>
             <div className="w-full bg-zinc-900 border-2 border-zinc-800 rounded-[2rem] overflow-hidden shadow-inner" style={{ height: '700px' }}>
                 <iframe 
+                    credentialless="true"
                     src="https://cloud.umami.is/share/lQNmqOm9PM8XD3eF" 
                     frameBorder="0" 
                     width="100%" 

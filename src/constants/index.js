@@ -2,8 +2,10 @@
  * Constants globals per a l'aplicació Sóc de Poble
  */
 
+export const MAX_RETRY_ATTEMPTS = 3;
+export const CACHE_TIMEOUT = 5000;
 export const APP_ID = "org.socdepoble.app";
-export const APP_VERSION = "V10.38.35";
+export const APP_VERSION = "V10.38.40";
 export const APP_STORE_URL = "https://play.google.com/store/apps/details?id=org.socdepoble.app";
 
 

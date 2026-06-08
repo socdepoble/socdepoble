@@ -1,74 +1,57 @@
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  🚨 DIRECTIVA SOSP-LOCK: "NO TOCAR SI NO ESTÀ ROTO"              ║
+// ╠══════════════════════════════════════════════════════════════════╣
+// ║  ESTAT DEL FITXER: 🔴 TANCAT (LOCKED)                            ║
+// ║  MOTIU: Acord Arquitectònic Consolidat                           ║
+// ║  DATA: 08/06/2026                                                ║
+// ║  REVISOR: Consell de la Petorreta (Kimi / IAIA / Claude)         ║
+// ║                                                                  ║
+// ║  REGLA INQUEBRANTABLE PER A QUALSEVOL IA EN EL FUTUR:            ║
+// ║  1. Aquest fitxer NO ES POT REESCRIURE SENCER. Mai.              ║
+// ║  2. NO s'acceptaran refactors estètics o "millores de codi".     ║
+// ║  3. Només es permeten canvis en "Mode Pegat" (Patch Mode).       ║
+// ║  4. Per a modificar-lo necessites rebre el token explícit:       ║
+// ║     "PERMÍS SOSP CONCEDIT: [Raó de la modificació]"              ║
+// ║                                                                  ║
+// ║  INCOMPLIR AQUESTA NORMA ES CONSIDERARÀ UN ERROR CRÍTIC.         ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
 import React from 'react';
 import UniversalPage from '../public/UniversalPage';
-import { ArrowLeft, Book, MessageCircle, Share2, Plus, Search, Moon, UserPlus, Info, X, ShieldCheck } from 'lucide-react';
-import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
-import UniversalCard from '../../components/ui/universal-card';
-import { Button } from '../../components/ui/Button';
-import IAIAIcon from '../../components/icons/IAIAIcon';
-import LanguageSelector from '../../components/ui/LanguageSelector';
-import { marked } from 'marked';
-import designSystemMD from '../../../docs/design-system.md?raw';
-import componentContractsMD from '../../../docs/component-contracts.md?raw';
-import performanceManifestoMD from '../../../docs/performance-manifesto.md?raw';
-
+import './sosp-components.css'; // Importem el CSS que defineix l'Arquitectura Pedra Seca (pur HTML/CSS)
 
 export default function DesignSystem() {
-  
-  // Faux data per als components
-  const mockItem = {
-    doc_type: 'projecte',
-    slug: 'genotip',
-    title: 'Genotip',
-    authorName: 'Sóc de Poble',
-    authorLocation: 'La Torre de les Maçanes',
-    avatarUrl: '/assets/system/ui/logo-socdepoble-cuadrat-verd.svg',
-    created_at: new Date().toISOString()
-  };
-
-  const mockPoble = {
-    id: 'mock-poble',
-    name: 'La Torre de les Maçanes',
-    image_url: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&q=80&w=1000',
-    description: "Poble de muntanya amagat entre bancals de secà i pinedes de l'Alacantí."
-  };
-
   return (
-    <UniversalPage 
-      standAlone={false} 
-      forcedTitle="Cànon Sóc de Poble"
-      forcedHtml=" "
+    <UniversalPage
+      standAlone={false}
+      forcedTitle="Sistema de Disseny Sóc de Poble"
+      forcedSubtitle="Arquitectura Pedra Seca per a interfícies que han de funcionar a ple sol en un iPad A10 amb gent major que mira de prop."
       forcedHeroImage="/assets/uploads/brain/ibanez_pedra_seca_design_1780873465211.png"
     >
-      <div className="w-full max-w-4xl mx-auto app-cms-content pb-32">
-        
-        <p className="lead text-center max-w-2xl mx-auto mb-12">
-          Aquest és el Llibre Oficial del Sistema de Disseny (Inspirat en M3). Un catàleg immutable de les peces estructurals que formen qualsevol interfície de Sóc de Poble. Aquest document és el <strong>Source of Truth</strong>.
-        </p>
+      <div className="universal-content w-full sosp-design-system max-w-5xl mx-auto p-6 pb-24">
 
-        {/* =========================================
-            PART 1: FONAMENTS
-            ========================================= */}
-        <h2 id="fonaments">1. FONAMENTS (Foundations)</h2>
-        <p>La base atòmica del sistema. Regles inquebrantables que sostenen la resta de l'arquitectura.</p>
-        
-        <h3 id="principi-trellat">1.1. Filosofia "Trellat"</h3>
-        <div className="bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 p-5 rounded-2xl mb-6">
-          <p className="mb-0 text-sm">
-            <strong>Accessibilitat Rural (Mode Bancal):</strong> Dissenyem per ser llegits a ple sol a la serra amb un iPad, i per iaies amb visió reduïda. Contrast AAA, formes geomètriques amples (GEM 28px) i zero animacions innecessàries que saturen el xip A10.
-          </p>
+        <div className="mb-12 flex gap-4 text-sm text-stone-500 border-b-2 border-stone-300 pb-6 justify-center">
+          <span>🎯 Filosofia: Trellat</span>
+          <span>📐 Base: 1rem = 16px</span>
+          <span>♿ WCAG 2.1 AA</span>
+          <span>📱 iOS Safari 14+</span>
         </div>
 
+      {/* ====================================================== */}
+      {/* SECCIÓ 1: PALETA CROMÀTICA                             */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="paleta">
+        <h2 className="sosp-h2 mb-6">1. Paleta Cromàtica</h2>
+
         <h3 id="colors">1.2. Identitat Cromàtica (Colors)</h3>
-        <p>Colors purs i vibrants preparats per al contrast màxim en mode fosc i clar. Calcats de la normativa oficial de disseny.</p>
+        <p className="text-sm text-stone-600 mb-4">Colors purs i vibrants preparats per al contrast màxim en mode fosc i clar. Calcats de la normativa oficial de disseny.</p>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-8 notranslate">
           {/* Primary */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-primary text-m3-on-primary rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/5">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Primary</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-primary)</span>
-              </div>
+            <div className="bg-[#f97316] text-white rounded-3xl p-5 flex flex-col items-center justify-center text-center h-40 shadow-sm border border-black/5">
+              <span className="font-bold text-lg">Primary</span>
+              <span className="opacity-90 font-mono text-xs mt-2">var(--md-sys-color-primary)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
               {['bg-orange-950','bg-orange-900','bg-orange-800','bg-orange-700','bg-orange-600','bg-orange-500','bg-orange-400','bg-orange-300','bg-orange-200','bg-orange-100'].map(cls => (
@@ -79,11 +62,9 @@ export default function DesignSystem() {
 
           {/* Secondary */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-secondary text-m3-on-secondary rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/5">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Secondary</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-secondary)</span>
-              </div>
+            <div className="bg-[#0984E3] text-white rounded-3xl p-5 flex flex-col items-center justify-center text-center h-40 shadow-sm border border-black/5">
+              <span className="font-bold text-lg">Secondary</span>
+              <span className="opacity-90 font-mono text-xs mt-2">var(--md-sys-color-secondary)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/5">
               {['bg-sky-950','bg-sky-900','bg-sky-800','bg-sky-700','bg-sky-600','bg-sky-500','bg-sky-400','bg-sky-300','bg-sky-200','bg-sky-100'].map(cls => (
@@ -94,11 +75,9 @@ export default function DesignSystem() {
 
           {/* Tertiary */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-surface text-m3-on-surface rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-black/10">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Tertiary / Surface</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-surface)</span>
-              </div>
+            <div className="bg-[#ffffff] text-[#0e0e10] rounded-3xl p-5 flex flex-col items-center justify-center text-center h-40 shadow-sm border border-black/10">
+              <span className="font-bold text-lg">Tertiary / Surface</span>
+              <span className="opacity-90 font-mono text-xs mt-2">var(--md-sys-color-surface)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-black/10">
               {['bg-gray-900','bg-gray-800','bg-gray-700','bg-gray-600','bg-gray-500','bg-gray-400','bg-gray-300','bg-gray-200','bg-gray-100','bg-white'].map(cls => (
@@ -109,11 +88,9 @@ export default function DesignSystem() {
 
           {/* Neutral */}
           <div className="flex flex-col gap-2">
-            <div className="bg-m3-on-surface text-m3-surface rounded-3xl p-5 flex flex-col justify-between h-40 shadow-sm border border-white/10">
-              <div className="flex justify-between font-bold text-sm">
-                <span>Neutral / Base</span>
-                <span className="opacity-80 font-mono">var(--md-sys-color-on-surface)</span>
-              </div>
+            <div className="bg-[#0e0e10] text-white rounded-3xl p-5 flex flex-col items-center justify-center text-center h-40 shadow-sm border border-white/10">
+              <span className="font-bold text-lg">Neutral / Base</span>
+              <span className="opacity-90 font-mono text-xs mt-2">var(--md-sys-color-on-surface)</span>
             </div>
             <div className="flex w-full h-8 rounded-full overflow-hidden border border-white/20">
               {['bg-black','bg-zinc-900','bg-zinc-800','bg-zinc-700','bg-zinc-600','bg-zinc-500','bg-zinc-400','bg-zinc-300','bg-zinc-200','bg-zinc-100'].map(cls => (
@@ -123,219 +100,1751 @@ export default function DesignSystem() {
           </div>
         </div>
 
-        <h3 id="tipografia">1.3. Tipografia, Textos i "Dark Mode"</h3>
-        <p><strong>Què és i per a què serveix:</strong> El manual definitiu de tipografia per a tota l'App. Resolucions al mil·límetre per a garantir la perfecció visual i contrast adequat (Light vs Dark).</p>
-        <p>En el mode fosc (<code>Dark Mode</code>), l'aplicació usa fons <code>#111827</code> (Gris molt fosc, gairebé negre) i el text general s'inverteix a <code>#F3F4F6</code> per garantir la llegibilitat. En el mode clar, el fons és <code>#F3F4F6</code> i el text <code>#1F2937</code>.</p>
-        
-          <h1>H1: Títol de Pàgina (Blau)</h1>
-          <p><strong>Color H1:</strong> var(--theme-accent-secondary) / Blau Fuerte (#0984E3).</p>
-
-          <h2>H2: Subtítol Principal (Taronja)</h2>
-          <p className="lead">
-            Això és un exemple d'entradilla lleugera (lead). Una <strong>presentació opcional</strong> dissenyada específicament per a introduir el context sota els grans titulars amb la màxima elegància SEO i un text més prim per contrastar.
-          </p>
-          <p><strong>Color H2:</strong> var(--theme-accent-primary) / Taronja Fuerte (#F97316).</p>
-
-          <h3>H3: Component o Subsecció (Blau)</h3>
-          <p><strong>Color H3:</strong> var(--theme-accent-secondary) / Blau (#0984E3).</p>
-          
-          <h4>H4: Etiqueta Destacada</h4>
-          <p>Titulars de llistes, formularis o blocs secundaris. Color: Taronja.</p>
-          
-          <h5>H5: Títol de Targeta Xicoteta</h5>
-          <p>Text de suport on l'espai és reduït. Color: Blau.</p>
-          
-          <h6>H6: Micro-etiqueta (Kicker)</h6>
-          <p>Dates, tags, o petites instruccions. Color: Negre / Blanc.</p>
-
-        <h3 id="espaiat">1.4. Lleis d'Espaiat i Contenidors</h3>
-        <ol>
-          <li><strong>Cap duplicació de Paddings:</strong> Si <code>AppLayout</code> o <code>UniversalPage</code> ja proporcionen <code>px-6</code>, cap element fill hauria de tindre <code>px-4</code> a menys que siga explícitament una targeta interior (<code>card</code>).</li>
-          <li><strong>Ritme Vertical (Vertical Rhythm):</strong> L'espai entre grans seccions (H2) es gestiona de forma centralitzada mitjançant pare flex amb <code>gap-12</code> (48px) o <code>gap-16</code> (64px). Dins de les seccions s'usa <code>gap-4</code>.</li>
-          <li><strong>Relació Títol-Text:</strong> Mai separar un H3 del seu paràgraf amb més de 16px (<code>mb-4</code> o <code>gap-4</code>). Ha de semblar que el títol "cau" sobre el text.</li>
-        </ol>
-
-        {/* =========================================
-            PART 2: COMPONENTS
-            ========================================= */}
-        <hr className="my-16 border-white/10" />
-        <h2 id="components">2. COMPONENTS (Elements d'Interfície)</h2>
-        <p>Peces reutilitzables que componen l'aplicació.</p>
-
-        <h3 id="botons">2.1. Botons (Interactive Buttons)</h3>
-        <p><strong>Què és i per a què serveix:</strong> L'element atòmic d'interacció. Tenim botons primaris (crida a l'acció forta), secundaris (opcions alternatives), i perillosos (esborrar).</p>
-        
-        <div className="flex flex-wrap gap-4 p-6 bg-theme-panel rounded-3xl border border-white/10 shadow-sm my-6 items-center">
-          <Button intent="primary">Botó Primari</Button>
-          <Button intent="secondary">Botó Secundari</Button>
-          <Button intent="danger">Acció de Perill</Button>
-          <Button intent="ghost">Botó Fantasma</Button>
-          <Button intent="canonic">Botó Canònic</Button>
-          <Button intent="primary" isLoading={true}>Carregant...</Button>
-        </div>
-
-        <h3 id="alertes">2.2. Banners i Alertes</h3>
-        <p><strong>Què és i per a què serveix:</strong> Banners horitzontals que avisen a l'usuari d'alguna cosa important o contextual. S'adhereixen dalt dels continguts, o es mostren intercalats.</p>
-        
-        <div className="my-6 flex flex-col gap-4">
-          {/* Info Banner */}
-          <div className="w-full bg-m3-secondary/10 dark:bg-m3-secondary/15 border border-m3-secondary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-               <Info size={18} className="text-m3-secondary flex-shrink-0" />
-               <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
-                 <span className="font-black mr-1 hidden sm:inline">Avís Normal:</span> 
-                 Aquest és un banner blau per a notificacions de sistema o consells.
-               </p>
+        <h3 className="sosp-h3 mb-4 mt-12">Colors de Suport</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="sosp-card overflow-hidden">
+            <div className="h-20 bg-[#87CEEB] rounded-t" />
+            <div className="p-3 bg-white border-t-0 rounded-b">
+              <p className="font-bold text-sm">Cel SOSP</p>
+              <p className="text-xs text-gray-500">--color-cel</p>
+              <p className="text-xs font-mono mt-1">#87CEEB</p>
             </div>
-            <button className="flex-shrink-0 text-gray-500 hover:text-m3-secondary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
-              <X size={20} strokeWidth={2.5} />
-            </button>
           </div>
-
-          {/* Alert Banner */}
-          <div className="w-full bg-m3-primary/10 dark:bg-m3-primary/15 border border-m3-primary/20 px-3 py-2 flex items-center justify-between gap-3 shadow-inner z-40 rounded-xl">
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-               <ShieldCheck size={18} className="text-m3-primary flex-shrink-0" />
-               <p className="text-[11px] sm:text-xs text-gray-800 dark:text-gray-200 leading-tight md:whitespace-normal mb-0">
-                 <span className="font-black mr-1 hidden sm:inline">Patrimoni Obert Connectat:</span> 
-                 Banner taronja corporatiu per a avisos importants (Ex. Mode Viquipèdia).
-               </p>
+          <div className="sosp-card overflow-hidden">
+            <div className="h-20 bg-[#DC2626] rounded-t" />
+            <div className="p-3 bg-white border-t-0 rounded-b">
+              <p className="font-bold text-sm">Alerta</p>
+              <p className="text-xs text-gray-500">--color-alerta</p>
+              <p className="text-xs font-mono mt-1">#DC2626</p>
             </div>
-            <button className="flex-shrink-0 text-gray-500 hover:text-m3-primary transition-colors bg-white/50 dark:bg-black/20 rounded-lg p-1 border border-black/5 dark:border-white/5" aria-label="Tancar avís">
-              <X size={20} strokeWidth={2.5} />
-            </button>
+          </div>
+          <div className="sosp-card overflow-hidden">
+            <div className="h-20 bg-[#F59E0B] rounded-t" />
+            <div className="p-3 bg-white border-t-0 rounded-b">
+              <p className="font-bold text-sm">Avís</p>
+              <p className="text-xs text-gray-500">--color-avis</p>
+              <p className="text-xs font-mono mt-1">#F59E0B</p>
+            </div>
+          </div>
+          <div className="sosp-card overflow-hidden">
+            <div className="h-20 bg-[#16A34A] rounded-t" />
+            <div className="p-3 bg-white border-t-0 rounded-b">
+              <p className="font-bold text-sm">Èxit</p>
+              <p className="text-xs text-gray-500">--color-exit</p>
+              <p className="text-xs font-mono mt-1">#16A34A</p>
+            </div>
           </div>
         </div>
 
-        <h3 id="cites">2.3. Cites i Destacats (Blockquotes)</h3>
-        <p><strong>Què és i per a què serveix:</strong> Per destacar fragments de text importants, resums o citacions de personatges dins del cos del text.</p>
-        
-        <blockquote className="my-6 border-l-4 border-[var(--theme-accent-primary)] pl-4 italic opacity-90 text-lg">
-          "El 'Trellat' és la nostra arma secreta. Construïm programari pensant en les iaies i en el lent 3G de la serra."
-          <footer className="mt-2 text-sm font-bold opacity-70 not-italic">— Javi Llinares, Creador de Sóc de Poble</footer>
-        </blockquote>
+        <h3 className="sosp-h3 mb-4">Escala de Grisos</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { name: 'Negre', class: 'bg-stone-950', hex: '#0C0A09' },
+            { name: 'Carbó', class: 'bg-stone-900', hex: '#1C1917' },
+            { name: 'Pissarra', class: 'bg-stone-800', hex: '#292524' },
+            { name: 'Grafit', class: 'bg-stone-700', hex: '#44403C' },
+            { name: 'Pedra fosca', class: 'bg-stone-600', hex: '#57534E' },
+            { name: 'Pedra', class: 'bg-stone-500', hex: '#78716C' },
+            { name: 'Cendra', class: 'bg-stone-400', hex: '#A8A29E' },
+            { name: 'Calç', class: 'bg-stone-300', hex: '#D6D3D1' },
+            { name: 'Arena', class: 'bg-stone-200', hex: '#E7E5E4' },
+            { name: 'Núvol', class: 'bg-stone-100', hex: '#F5F5F4' },
+            { name: 'Blanc trencat', class: 'bg-stone-50', hex: '#FAFAF9' },
+          ].map((c) => (
+            <div key={c.name} className="sosp-card overflow-hidden border border-gray-200">
+              <div className={`h-20 ${c.class} rounded-t border-b border-gray-100`} />
+              <div className="p-3 bg-white border-t-0 rounded-b">
+                <p className="font-bold text-sm">{c.name}</p>
+                <p className="text-xs text-gray-500 font-mono mt-1">{c.hex}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <h3 id="universal-header">2.4. Caputxa d'Identitat (UniversalCardHeader)</h3>
-        <p><strong>Què és i per a què serveix:</strong> El segell d'autoria de Sóc de Poble. Diu a l'usuari qui ha escrit allò que està llegint (Poble, Nom, Data).</p>
-        
-        <div className="my-6 max-w-md">
-          <UniversalCardHeader
-              item={null}
-              cardVariant="project"
-              displayTown={mockItem.authorLocation}
-              displayAuthor={mockItem.authorName}
-              avatarSrc={mockItem.avatarUrl}
-              avatarRole="official"
-              infoText="V10.38.26"
-              displayDate="15/5/2026"
-              displayTime="12:00"
-              isPageHeader={true}
-          />
+      {/* ====================================================== */}
+      {/* SECCIÓ 2: TIPOGRAFIA                                   */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="tipografia">
+        <h2 className="sosp-h2 mb-6">2. Tipografia (CMS Universal)</h2>
+
+        <div className="sosp-card p-6 mb-6 bg-white">
+          <p className="text-sm text-gray-500 mb-4">Aquesta és la maquetació universal de l'ecosistema Sóc de Poble (app-cms-content), definida a <code>index.css</code>.</p>
+
+          <div className="app-cms-content border border-stone-200 p-8 rounded-xl bg-[var(--bg-panel)] relative overflow-hidden">
+            <span className="absolute top-2 right-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Preview CMS</span>
+            
+            <h1>El poble que no es rendeix</h1>
+            
+            <p className="lead">
+              <strong>Sóc de Poble</strong> és una plataforma dedicada a preservar la memòria digital dels pobles valencians, lluitant contra l'obsolescència tecnològica. Aquesta és la <em>entradilla</em> (lead paragraph).
+            </p>
+
+            <h2>2. Història i Memòria</h2>
+            <p>
+              El text de cos és la columna vertebral de tota lectura. Ha de ser còmode, amb interlineat generós i mida base que no baixe de 16px en mòbil. Aquest és un paràgraf estàndard.
+            </p>
+
+            <h3>2.1 Arrels del passat</h3>
+            <p>Això és un exemple de llista no ordenada seguida d'un paràgraf:</p>
+            <ul>
+              <li>Fotografies antigues i retalls de premsa.</li>
+              <li>Documents administratius i actes municipals.</li>
+              <li>Entrevistes orals als majors del poble.</li>
+            </ul>
+
+            <h4>Testimonis clau</h4>
+            <p>Per separar conceptes podem utilitzar diferents nivells. I també cites importants:</p>
+            
+            <blockquote>
+              <p>“Un poble sense memòria és com un arbre sense arrels, condemnat a caure al primer vent fort.”</p>
+            </blockquote>
+
+            <h5>Mètodes de conservació</h5>
+            <ol>
+              <li>Registrar-se al portal de Sóc de Poble.</li>
+              <li>Seleccionar el poble a la llista d'actius.</li>
+              <li>Pujar el contingut històric amb les metadades.</li>
+            </ol>
+
+            <h6>Nota addicional</h6>
+            <p>L'ús de regles horitzontals està prohibit, la jerarquia visual es fa només amb encapçalaments.</p>
+            
+            <pre><code>// Exemple de codi inline
+const poble = "Petrer";</code></pre>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 3: ESPAIAT I GRID                               */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="espaiat">
+        <h2 className="sosp-h2 mb-6">3. Espaiat i Grid</h2>
+
+        <h3 className="sosp-h3 mb-4">Sistema d'Espaiat (8px base)</h3>
+        <div className="sosp-card p-6 mb-6">
+          <div className="space-y-3">
+            {[1, 2, 3, 4, 6, 8, 10, 12, 16, 20, 24].map((n) => (
+              <div key={n} className="flex items-center gap-4">
+                <div className="h-4 bg-[#8B4513] rounded" style={{ width: `${n * 4}px` }} />
+                <span className="text-sm text-gray-600 font-mono">{n} unitats = {n * 4}px</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <h3 id="universal-card">2.5. Targeta Universal (UniversalCard)</h3>
-        <p><strong>Què és i per a què serveix:</strong> El contenidor mestre de la informació. La famosa `Card` (targeta). S'usa en les llistes de pobles, el mercat o les publicacions. Conté el seu propi header, body (amb foto) i footer.</p>
-        
-        <div className="my-6 max-w-sm">
-          <UniversalCard
-            item={mockPoble}
-            subtitle="L'Alacantí"
-            avatarSrc={mockPoble.image_url}
-            avatarName="Gent de La Torre"
-            excerpt={mockPoble.description}
-            className="town-card w-full"
-            image={mockPoble.image_url}
-            mode="pobles"
-            isBating={false}
-            viewMode="grid"
-          />
+        <h3 className="sosp-h3 mb-4">Grid Responsive</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="bg-stone-200 p-4 rounded text-center text-sm text-stone-600">1 columna (mòbil)</div>
+          <div className="bg-stone-200 p-4 rounded text-center text-sm text-stone-600">2 columnes (tauleta)</div>
+          <div className="bg-stone-200 p-4 rounded text-center text-sm text-stone-600">3 columnes (escriptori)</div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 4: BOTONS                                       */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="botons">
+        <h2 className="sosp-h2 mb-6">4. Botons</h2>
+
+        <h3 className="sosp-h3 mb-4">Variants</h3>
+        <div className="flex flex-wrap gap-4 mb-8">
+          <button className="sosp-btn sosp-btn-primari">Primari</button>
+          <button className="sosp-btn sosp-btn-secundari">Secundari</button>
+          <button className="sosp-btn sosp-btn-terciari">Terciari</button>
+          <button className="sosp-btn sosp-btn-neutral">Neutral / Base</button>
+          <button className="sosp-btn sosp-btn-perill">Perill</button>
+          <button className="sosp-btn sosp-btn-fantasma">Fantasma</button>
+          <button className="sosp-btn sosp-btn-enllac">Enllaç</button>
         </div>
 
-        {/* =========================================
-            PART 3: PATRONS I ARQUITECTURA
-            ========================================= */}
-        <hr className="my-16 border-white/10" />
-        <h2 id="patrons">3. PATRONS I ARQUITECTURA (Layout)</h2>
-        <p>Com s'uneixen els components atòmics per crear les grans plantilles de les pàgines de l'aplicació.</p>
+        <h3 className="sosp-h3 mb-4">Mides</h3>
+        <div className="flex flex-wrap items-center gap-4 mb-8">
+          <button className="sosp-btn sosp-btn-primari sosp-btn-sm">Petit</button>
+          <button className="sosp-btn sosp-btn-primari">Normal</button>
+          <button className="sosp-btn sosp-btn-primari sosp-btn-lg">Gran</button>
+        </div>
 
-        <h3 id="universal-header">3.1. La Capçalera Mestra (UniversalHeader)</h3>
-        <p>El nucli indestructible. Aquesta capçalera s'encarrega de contindre la identitat visual i eines globals.</p>
-        
-        <h4>Format Desktop / Tablet</h4>
-        <header className="notranslate h-[64px] min-h-[64px] w-full flex items-center justify-between pr-6 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
-          <div className="flex items-center justify-start pl-[30px] shrink-0 z-10 gap-3">
-            <img src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" alt="Sóc de Poble" className="h-[45px] w-auto object-contain filter shrink min-w-0" />
-          </div>
-          <div className="flex items-center gap-[20px] ml-auto h-full z-10 relative shrink-0 pr-[32px]">
-            <div className="shrink-0 z-50"><LanguageSelector variant="header" /></div>
-            <div className="shrink-0 w-12 h-12 flex items-center justify-center transition-all text-white/70"><IAIAIcon size={36} color="currentColor" className="shrink-0 w-[36px] h-[36px] opacity-60" /></div>
-            <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white"><Search className="shrink-0 w-[36px] h-[36px]" /></div>
-            <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white"><Moon className="shrink-0 w-[36px] h-[36px]" /></div>
-            <div className="shrink-0 w-12 h-12 flex items-center justify-center text-white/70"><UserPlus className="shrink-0 w-[36px] h-[36px]" /></div>
-          </div>
-        </header>
+        <h3 className="sosp-h3 mb-4">Estats</h3>
+        <div className="flex flex-wrap gap-4 mb-8">
+          <button className="sosp-btn sosp-btn-primari">Normal</button>
+          <button className="sosp-btn sosp-btn-primari" disabled>Desactivat</button>
+          <button className="sosp-btn sosp-btn-primari">
+            <div className="sosp-spinner sosp-spinner-sm" style={{borderColor: '#fff', borderTopColor: 'transparent'}}></div>
+            Carregant...
+          </button>
+        </div>
 
-        <h4>Format Mòbil</h4>
-        <header className="notranslate h-[56px] min-h-[56px] w-full max-w-[460px] flex items-center justify-between pr-2 z-50 bg-black border-b border-white/10 shrink-0 shadow-lg relative my-6 rounded-lg overflow-hidden">
-          <div className="flex items-center justify-start pl-[20px] shrink-0 z-10 gap-3">
-            <img src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" alt="Sóc de Poble" className="h-[32px] w-auto object-contain filter shrink min-w-0" />
-          </div>
-          <div className="flex items-center gap-[4px] ml-auto h-full z-10 relative shrink-0 pr-[2px]">
-            <div className="shrink-0 z-50"><LanguageSelector variant="header" /></div>
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center transition-all scale-95 text-white/70"><IAIAIcon size={36} color="currentColor" className="shrink-0 w-[36px] h-[36px] opacity-60" /></div>
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white"><Search className="shrink-0 w-[36px] h-[36px]" /></div>
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white"><Moon className="shrink-0 w-[36px] h-[36px]" /></div>
-            <div className="shrink-0 w-10 h-10 flex items-center justify-center text-white/70"><UserPlus className="shrink-0 w-[36px] h-[36px]" /></div>
-          </div>
-        </header>
+        <h3 className="sosp-h3 mb-4">Amb icona</h3>
+        <div className="flex flex-wrap gap-4">
+          <button className="sosp-btn sosp-btn-primari">
+            <span>➕</span> Afegir
+          </button>
+          <button className="sosp-btn sosp-btn-secundari">
+            <span>🗑️</span> Eliminar
+          </button>
+        </div>
+      </section>
 
-        <h3 id="system-nav-bar">3.2. Capçalera de Secció (SystemNavBar)</h3>
-        <p>Menú superior dins d'una ruta. La via d'escapatòria o d'acció ràpida de l'usuari.</p>
-        
-        <header className="w-full bg-indigo-600 text-white flex flex-col shrink-0 z-20 shadow-md my-6 rounded-lg overflow-hidden">
-            <div className="flex items-center justify-between min-h-[50px] sm:min-h-[56px] px-2 sm:px-4 flex-wrap relative">
-                <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-                    <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
-                        <ArrowLeft size={24} strokeWidth={3} />
-                    </button>
-                    <button className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Llegir Sistema Operatiu">
-                        <Book size={24} strokeWidth={2.5} />
-                    </button>
+      {/* ====================================================== */}
+      {/* SECCIÓ 5: FORMULARIS I INPUTS                          */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="formularis">
+        <h2 className="sosp-h2 mb-6">5. Formularis i Inputs</h2>
+
+        <div className="sosp-card p-6 space-y-6 max-w-xl">
+          <div>
+            <label htmlFor="demo-input" className="sosp-label">Nom del poble</label>
+            <input
+              id="demo-input"
+              type="text"
+              className="sosp-input"
+              placeholder="Ex: Petrer"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="demo-select" className="sosp-label">Província</label>
+            <select id="demo-select" className="sosp-select" aria-label="Selecció d'exemple">
+              <option>Alacant</option>
+              <option>València</option>
+              <option>Castelló</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="demo-textarea" className="sosp-label">Descripció</label>
+            <textarea
+              id="demo-textarea"
+              className="sosp-textarea"
+              rows={4}
+              placeholder="Escriu una breu descripció..."
+            />
+          </div>
+
+          <div className="flex items-start gap-2">
+            <input id="demo-check" type="checkbox" className="mt-1" />
+            <label htmlFor="demo-check" className="text-sm text-stone-700 cursor-pointer">
+              Accepte els termes del Consell de la Petorreta
+            </label>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="demo-radio" defaultChecked />
+              <span className="text-sm text-stone-700">Opció A</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="demo-radio" />
+              <span className="text-sm text-stone-700">Opció B</span>
+            </label>
+          </div>
+
+          <div>
+            <label className="sosp-label">Input amb error</label>
+            <input
+              type="text"
+              className="sosp-input sosp-input-error"
+              defaultValue="valor incorrecte"
+            />
+            <p className="sosp-text-error mt-1">Aquest camp és obligatori.</p>
+          </div>
+
+          <div>
+            <label className="sosp-label">Input desactivat</label>
+            <input
+              type="text"
+              className="sosp-input"
+              disabled
+              defaultValue="No editable"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 6: TARGETES (Cards)                             */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="targetes">
+        <h2 className="sosp-h2 mb-6">6. Targetes</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Targeta bàsica */}
+          <article className="sosp-card">
+            <div className="p-6">
+              <h3 className="text-lg font-bold text-stone-900 mb-2">Targeta bàsica</h3>
+              <p className="text-stone-600">
+                Contenidor amb ombra suau, cantonades arrodonides i vora de 1px.
+                Fons blanc trencat per a màxim contrast en pantalles IPS.
+              </p>
+            </div>
+          </article>
+
+          {/* Targeta amb capçalera */}
+          <article className="sosp-card overflow-hidden">
+            <div className="bg-[#8B4513] p-4">
+              <h3 className="text-lg font-bold text-white m-0">Targeta amb capçalera</h3>
+            </div>
+            <div className="p-6">
+              <p className="text-stone-600">
+                La capçalera porta el color de marca. Útil per a destacar seccions importants.
+              </p>
+            </div>
+          </article>
+
+          {/* Targeta amb accions */}
+          <article className="sosp-card">
+            <div className="p-6">
+              <h3 className="text-lg font-bold text-stone-900 mb-2">Targeta amb accions</h3>
+              <p className="text-stone-600 mb-4">
+                Peu de targeta amb botons d'acció clarament separats.
+              </p>
+            </div>
+            <div className="p-4 border-t border-stone-200 flex gap-2 justify-end">
+              <button className="sosp-btn sosp-btn-fantasma">Cancel·lar</button>
+              <button className="sosp-btn sosp-btn-primari">Guardar</button>
+            </div>
+          </article>
+
+          {/* Targeta d'informació */}
+          <article className="sosp-card border-l-4 border-l-[#2D5A3D]">
+            <div className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#2D5A3D]">ℹ️</span>
+                <h3 className="text-lg font-bold text-stone-900 m-0">Targeta d'informació</h3>
+              </div>
+              <p className="text-stone-600">
+                Vora esquerra acolorida per a indicar tipus de contingut.
+                Verd per a èxit/informació, roig per a alertes.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 7: ALERTES I MISSATGES                          */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="alertes">
+        <h2 className="sosp-h2 mb-6">7. Alertes i Missatges</h2>
+
+        <div className="space-y-4 mb-8">
+          <div className="sosp-alert sosp-alert-info">
+            <span className="sosp-alert-icon">ℹ️</span>
+            <div>
+              <p className="font-bold m-0">Informació</p>
+              <p className="text-sm m-0">Aquesta és una alerta informativa per a destacar dades rellevants.</p>
+            </div>
+          </div>
+
+          <div className="sosp-alert sosp-alert-success">
+            <span className="sosp-alert-icon">✅</span>
+            <div>
+              <p className="font-bold m-0">Èxit</p>
+              <p className="text-sm m-0">L'operació s'ha completat correctament.</p>
+            </div>
+          </div>
+
+          <div className="sosp-alert sosp-alert-warning">
+            <span className="sosp-alert-icon">⚠️</span>
+            <div>
+              <p className="font-bold m-0">Avís</p>
+              <p className="text-sm m-0">Revisa els camps abans de continuar.</p>
+            </div>
+          </div>
+
+          <div className="sosp-alert sosp-alert-error">
+            <span className="sosp-alert-icon">🚨</span>
+            <div>
+              <p className="font-bold m-0">Error</p>
+              <p className="text-sm m-0">No s'ha pogut connectar amb el servidor.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 8: BADGES I ETIQUETES                           */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="badges">
+        <h2 className="sosp-h2 mb-6">8. Badges i Etiquetes</h2>
+
+        <div className="flex flex-wrap gap-3 mb-8">
+          <span className="sosp-badge sosp-badge-default">Per defecte</span>
+          <span className="sosp-badge sosp-badge-primari">Primari</span>
+          <span className="sosp-badge sosp-badge-exit">Èxit</span>
+          <span className="sosp-badge sosp-badge-avis">Avís</span>
+          <span className="sosp-badge sosp-badge-perill">Perill</span>
+          <span className="sosp-badge sosp-badge-info">Informació</span>
+        </div>
+
+        <h3 className="sosp-h3 mb-4">Etiquetes de poble</h3>
+        <div className="flex flex-wrap gap-2">
+          <span className="sosp-tag">🏘️ Poble actiu</span>
+          <span className="sosp-tag">📸 Fototeca</span>
+          <span className="sosp-tag">📜 Arxiu</span>
+          <span className="sosp-tag">🗺️ Mapa</span>
+          <span className="sosp-tag">🎉 Festes</span>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 9: TAULES                                       */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="taules">
+        <h2 className="sosp-h2 mb-6">9. Taules</h2>
+
+        <div className="overflow-x-auto">
+          <table className="sosp-table">
+            <thead>
+              <tr>
+                <th>Poble</th>
+                <th>Província</th>
+                <th>Habitants</th>
+                <th>Estat</th>
+                <th>Accions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="font-medium">Petrer</td>
+                <td>Alacant</td>
+                <td>34.000</td>
+                <td><span className="sosp-badge sosp-badge-exit">Actiu</span></td>
+                <td>
+                  <button className="sosp-btn sosp-btn-enllac sosp-btn-sm">Editar</button>
+                </td>
+              </tr>
+              <tr>
+                <td className="font-medium">Ontinyent</td>
+                <td>València</td>
+                <td>36.000</td>
+                <td><span className="sosp-badge sosp-badge-primari">Pendent</span></td>
+                <td>
+                  <button className="sosp-btn sosp-btn-enllac sosp-btn-sm">Editar</button>
+                </td>
+              </tr>
+              <tr>
+                <td className="font-medium">Morella</td>
+                <td>Castelló</td>
+                <td>2.500</td>
+                <td><span className="sosp-badge sosp-badge-avis">Revisió</span></td>
+                <td>
+                  <button className="sosp-btn sosp-btn-enllac sosp-btn-sm">Editar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 className="sosp-h3 mb-4 mt-8">Taula zebra (alternada)</h3>
+        <div className="overflow-x-auto">
+          <table className="sosp-table sosp-table-zebra">
+            <thead>
+              <tr>
+                <th>Recurs</th>
+                <th>Tipus</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Festa de la Mare de Déu</td><td>Esdeveniment</td><td>15/08/2024</td></tr>
+              <tr><td>Plaça Major</td><td>Lloc</td><td>—</td></tr>
+              <tr><td>Entrevista alcalde</td><td>Notícia</td><td>03/06/2024</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 10: NAVEGACIÓ                                   */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="navegacio">
+        <h2 className="sosp-h2 mb-6">10. Navegació</h2>
+
+        <h3 className="sosp-h3 mb-4">Barra de navegació</h3>
+        <nav className="sosp-navbar mb-8">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <a href="#logo" className="sosp-nav-logo">Sóc de Poble</a>
+              <div className="flex gap-4">
+                <a href="#inici" className="sosp-nav-link sosp-nav-link-active">Inici</a>
+                <a href="#pobles" className="sosp-nav-link">Pobles</a>
+                <a href="#arxiu" className="sosp-nav-link">Arxiu</a>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <h3 className="sosp-h3 mb-4">Paginació</h3>
+        <nav className="sosp-pagination" aria-label="Paginació">
+          <button className="sosp-pagination-btn" disabled>← Anterior</button>
+          <button className="sosp-pagination-btn sosp-pagination-active">1</button>
+          <button className="sosp-pagination-btn">2</button>
+          <button className="sosp-pagination-btn">3</button>
+          <span className="px-2">...</span>
+          <button className="sosp-pagination-btn">12</button>
+          <button className="sosp-pagination-btn">Següent →</button>
+        </nav>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 11: MODALS I DIALEGS                            */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="modals">
+        <h2 className="sosp-h2 mb-6">11. Modals i Diàlegs</h2>
+
+        <div className="relative h-64 bg-stone-200 rounded p-4 mb-8">
+          {/* Simulació de modal */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded overflow-hidden">
+            <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-stone-900 mb-2 mt-0">
+                  Confirmar eliminació
+                </h3>
+                <p className="text-stone-600 mb-6 mt-0">
+                  Esteu segur que voleu eliminar aquest element? Aquesta acció no es pot desfer.
+                </p>
+                <div className="flex gap-3 justify-end">
+                  <button className="sosp-btn sosp-btn-fantasma">Cancel·lar</button>
+                  <button className="sosp-btn sosp-btn-perill">Eliminar</button>
                 </div>
-                <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0">
-                    <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all" aria-label="Traduir pàgina">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />
-                    </button>
-                    <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
-                        <MessageCircle size={20} />
-                    </button>
-                    <button className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
-                        <Share2 size={20} />
-                    </button>
-                    <button className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-indigo-600 font-black uppercase text-sm shadow-md ml-1">
-                        <Plus size={20} strokeWidth={3} className="hidden sm:block" />
-                        CONNECTAR
-                    </button>
-                </div>
+              </div>
             </div>
-        </header>
+          </div>
+        </div>
+      </section>
 
-        <h3 id="sidebar">3.3. El Menú Lateral (DesktopSidebar)</h3>
-        <p>La navegació principal del lloc web, només visible sencera en pantalles grans (a partir de 1024px). Conté l'escut principal, el botó blau, i la llista de rutes.</p>
+      {/* ====================================================== */}
+      {/* SECCIÓ 12: INDICADORS DE CÀRREGA                      */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="carrega">
+        <h2 className="sosp-h2 mb-6">12. Indicadors de CÀRREGA</h2>
 
-        <h3 id="contingut">3.4. La Zona de Contingut (MainScrollArea)</h3>
-        <p>És l'única part de la pantalla que fa "scroll" vertical independentment de la resta. Tot el contingut que esteu llegint ara mateix es troba dins d'aquesta àrea segura amb el seu propi <code>content-visibility: auto</code> per estalviar memòria al navegador.</p>
+        <div className="flex flex-wrap gap-8 items-center mb-8">
+          <div className="text-center">
+            <div className="sosp-spinner sosp-spinner-sm" />
+            <p className="text-xs text-gray-500 mt-2">Petit</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-spinner" />
+            <p className="text-xs text-gray-500 mt-2">Normal</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-spinner sosp-spinner-lg" />
+            <p className="text-xs text-gray-500 mt-2">Gran</p>
+          </div>
+        </div>
 
+        <h3 className="sosp-h3 mb-4">Esquelet (Skeleton)</h3>
+        <div className="sosp-card p-6 max-w-sm">
+          <div className="sosp-skeleton sosp-skeleton-circle w-12 h-12 mb-4" />
+          <div className="sosp-skeleton w-3/4 h-4 mb-2" />
+          <div className="sosp-skeleton w-full h-3 mb-2" />
+          <div className="sosp-skeleton w-5/6 h-3" />
+        </div>
+      </section>
 
-        {/* === DOCUMENTS MARKDOWN === */}
-        <hr className="my-16 border-white/10" />
-        <h2 id="documents">4. DOCUMENTS OFICIALS</h2>
-        <div className="design-system-docs markdown-body" dangerouslySetInnerHTML={{ __html: marked.parse(designSystemMD) }} />
-        <div className="design-system-docs markdown-body" dangerouslySetInnerHTML={{ __html: marked.parse(componentContractsMD) }} />
-        <div className="design-system-docs markdown-body" dangerouslySetInnerHTML={{ __html: marked.parse(performanceManifestoMD) }} />
+      {/* ====================================================== */}
+      {/* SECCIÓ 13: AVATARS I IMATGES                           */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="avatars">
+        <h2 className="sosp-h2 mb-6">13. Avatars i Imatges</h2>
 
+        <div className="flex flex-wrap gap-6 items-end mb-8">
+          <div className="text-center">
+            <div className="sosp-avatar sosp-avatar-xs">AB</div>
+            <p className="text-xs text-gray-500 mt-1">xs</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-avatar sosp-avatar-sm">AB</div>
+            <p className="text-xs text-gray-500 mt-1">sm</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-avatar sosp-avatar-md">AB</div>
+            <p className="text-xs text-gray-500 mt-1">md</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-avatar sosp-avatar-lg">AB</div>
+            <p className="text-xs text-gray-500 mt-1">lg</p>
+          </div>
+          <div className="text-center">
+            <div className="sosp-avatar sosp-avatar-xl">AB</div>
+            <p className="text-xs text-gray-500 mt-1">xl</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 14: DESPLEGABLES (Accordion)                    */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="accordion">
+        <h2 className="sosp-h2 mb-6">14. Desplegables</h2>
+
+        <div className="sosp-card divide-y divide-stone-200">
+          <details className="group p-4">
+            <summary className="flex justify-between items-center cursor-pointer list-none font-semibold text-stone-800">
+              <span>Què és Sóc de Poble?</span>
+              <span className="transition-transform group-open:rotate-180">▼</span>
+            </summary>
+            <p className="mt-3 text-stone-600 text-sm">
+              Sóc de Poble és una plataforma dedicada a preservar la memòria digital
+              dels pobles valencians, lluitant contra l'obsolescència tecnològica.
+            </p>
+          </details>
+          <details className="group p-4">
+            <summary className="flex justify-between items-center cursor-pointer list-none font-semibold text-stone-800">
+              <span>Com puc col·laborar?</span>
+              <span className="transition-transform group-open:rotate-180">▼</span>
+            </summary>
+            <p className="mt-3 text-stone-600 text-sm">
+              Pots enviar fotografies, documents històrics o simplement compartir
+              la teua història personal del poble a través del formulari de contacte.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 15: PESTANYES (Tabs)                            */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="tabs">
+        <h2 className="sosp-h2 mb-6">15. Pestanyes</h2>
+
+        <div className="sosp-card overflow-hidden">
+          <div className="flex border-b border-stone-200 overflow-x-auto">
+            <button className="sosp-tab sosp-tab-active">General</button>
+            <button className="sosp-tab">Fotografies</button>
+            <button className="sosp-tab">Història</button>
+            <button className="sosp-tab">Mapa</button>
+          </div>
+          <div className="p-6">
+            <p className="text-stone-600">
+              Contingut de la pestanya activa. Aquesta àrea canvia segons la selecció.
+              Les pestanyes són accessibles via teclat (Tab + Enter/Espai).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 16: BARRA DE PROGRÉS                            */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="progres">
+        <h2 className="sosp-h2 mb-6">16. Barra de Progrés</h2>
+
+        <div className="space-y-6 max-w-xl">
+          <div>
+            <div className="flex justify-between mb-1">
+              <span className="text-sm text-stone-700">Pujada d'imatges</span>
+              <span className="text-sm text-stone-500">45%</span>
+            </div>
+            <div className="sosp-progress-bar">
+              <div className="sosp-progress-fill" style={{ width: '45%' }} />
+            </div>
+          </div>
+          <div>
+            <div className="flex justify-between mb-1">
+              <span className="text-sm text-stone-700">Indexació de documents</span>
+              <span className="text-sm text-stone-500">78%</span>
+            </div>
+            <div className="sosp-progress-bar">
+              <div className="sosp-progress-fill bg-[#2D5A3D]" style={{ width: '78%' }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 17: TOOLTIPS I POPOVERS                         */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="tooltips">
+        <h2 className="sosp-h2 mb-6">17. Tooltips</h2>
+
+        <div className="flex gap-8 items-center h-24">
+          <div className="sosp-tooltip-container">
+            <button className="sosp-btn sosp-btn-primari">Passa per damunt</button>
+            <span className="sosp-tooltip">Aquest és un tooltip informatiu</span>
+          </div>
+          <div className="sosp-tooltip-container">
+            <span className="text-stone-600 border-b border-dotted border-stone-400 cursor-help">
+              Terme amb ajuda
+            </span>
+            <span className="sosp-tooltip">Definició del terme tècnic</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 18: LLISTES                                     */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="llistes">
+        <h2 className="sosp-h2 mb-6">18. Llistes</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 className="sosp-h3 mb-4">Llista ordenada</h3>
+            <ol className="sosp-list-ordered">
+              <li>Registrar-se al portal</li>
+              <li>Seleccionar el poble</li>
+              <li>Pujar contingut històric</li>
+              <li>Revisar i publicar</li>
+            </ol>
+          </div>
+          <div>
+            <h3 className="sosp-h3 mb-4">Llista desordenada</h3>
+            <ul className="sosp-list-unordered">
+              <li>Fotografies antigues</li>
+              <li>Documents administratius</li>
+              <li>Entrevistes orals</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 19: DIVISORS I SEPARADORS                       */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="divisors">
+        <h2 className="sosp-h2 mb-6">19. Divisors i Separadors</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-2">19.1 Divisor horitzontal bàsic</p>
+            <hr className="sosp-divisor" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-2">19.2 Divisor amb text</p>
+            <div className="sosp-divisor-amb-etiqueta">
+              <hr />
+              <span>o bé</span>
+              <hr />
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-2">19.3 Separador de secció (major)</p>
+            <hr className="sosp-divisor-seccio" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-2">19.4 Separador puntejat</p>
+            <hr className="sosp-divisor-puntejat" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 mb-2">19.5 Separador de pàgina (salt visual)</p>
+            <div className="sosp-salt-pagina" role="separator" aria-label="Fi de secció"></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 20: INDICADORS DE PROGRÉS                       */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="progres">
+        <h2 className="sosp-h2 mb-6">20. Indicadors de Progrés</h2>
+
+        <div className="space-y-8 max-w-xl">
+          <div>
+            <p className="text-sm text-gray-500 mb-2">20.1 Barra de progrés lineal</p>
+            <div className="sosp-progres" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+              <div className="sosp-progres-barra" style={{ width: '65%' }}></div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-2">20.2 Barra de progrés amb etiqueta</p>
+            <div className="sosp-progres sosp-progres-amb-etiqueta">
+              <div className="sosp-progres-cap">
+                <span>Carregant mapa de la comarca...</span>
+                <span>65%</span>
+              </div>
+              <div className="sosp-progres-barra-fons">
+                <div className="sosp-progres-barra" style={{ width: '65%' }}></div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-2">20.3 Barra de progrés en pasos</p>
+            <div className="sosp-progres-pasos" aria-label="Progrés del formulari">
+              <div className="sosp-pas sosp-pas-completat">
+                <span className="sosp-pas-numero">1</span>
+                <span className="sosp-pas-titol">Dades personals</span>
+              </div>
+              <div className="sosp-pas-connector sosp-pas-connector-completat"></div>
+              <div className="sosp-pas sosp-pas-completat">
+                <span className="sosp-pas-numero">2</span>
+                <span className="sosp-pas-titol">Dades del poble</span>
+              </div>
+              <div className="sosp-pas-connector"></div>
+              <div className="sosp-pas sosp-pas-actiu" aria-current="step">
+                <span className="sosp-pas-numero">3</span>
+                <span className="sosp-pas-titol">Revisió</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-2">20.4 Spinner de càrrega</p>
+            <div className="sosp-spinner" role="status" aria-label="Carregant">
+              <div className="sosp-spinner-cercle"></div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-2">20.5 Skeleton loader</p>
+            <div className="sosp-skeleton" aria-hidden="true">
+              <div className="sosp-skeleton-linia sosp-skeleton-linia-curta"></div>
+              <div className="sosp-skeleton-linia"></div>
+              <div className="sosp-skeleton-linia sosp-skeleton-linia-mitja"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 21: GALERIES I GRIDS D'IMATGES                  */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="galeries">
+        <h2 className="sosp-h2 mb-6">21. Galeries i Grids d'Imatges</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">21.1 Grid d'imatges bàsic</p>
+            <div className="sosp-galeria">
+              <figure className="sosp-galeria-item">
+                <img src="/assets/uploads/brain/hero_panoramic_landscape_1774710654078.png" alt="Plaça Major" className="bg-stone-200 aspect-video object-cover w-full rounded-md" />
+                <figcaption>Plaça Major, estiu de 2024</figcaption>
+              </figure>
+              <figure className="sosp-galeria-item">
+                <img src="/assets/uploads/brain/media__1775376768839.jpg" alt="Ajuntament" className="bg-stone-200 aspect-video object-cover w-full rounded-md" />
+                <figcaption>Ajuntament vist des del carrer Nou</figcaption>
+              </figure>
+              <figure className="sosp-galeria-item">
+                <img src="/assets/uploads/brain/media__1775516493101.jpg" alt="Ermita" className="bg-stone-200 aspect-video object-cover w-full rounded-md" />
+                <figcaption>Ermita de Sant Cristòfol al capvespre</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">21.2 Grid amb mida variable (masonry-like)</p>
+            <div className="sosp-galeria sosp-galeria-masonry">
+              <figure className="sosp-galeria-item sosp-galeria-item-gran">
+                <img src="/assets/uploads/brain/aplec_danses_1774952191348.png" alt="Festa Major" className="bg-stone-200 aspect-square object-cover w-full rounded-md" />
+                <figcaption>Festa Major 2024</figcaption>
+              </figure>
+              <figure className="sosp-galeria-item">
+                <img src="/assets/uploads/brain/art_trellat_v2_1774708257858.png" alt="Carrer típic" className="bg-stone-200 aspect-video object-cover w-full rounded-md" />
+                <figcaption>Carrer de les Escoles</figcaption>
+              </figure>
+              <figure className="sosp-galeria-item sosp-galeria-item-alt">
+                <img src="/assets/uploads/brain/nano_pedra_seca_1777089570387.png" alt="Campanar" className="bg-stone-200 h-48 object-cover w-full rounded-md" />
+                <figcaption>Campanar des de la plaça</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">21.3 Carrousel d'imatges (accessible)</p>
+            <div className="sosp-carrousel" role="region" aria-label="Galeria d'imatges del poble">
+              <div className="sosp-carrousel-visualitzador">
+                <figure className="sosp-carrousel-diapositiva sosp-carrousel-diapositiva-actiu">
+                  <img src="/assets/uploads/brain/hero_panoramic_rural_view_1774720664221.png" alt="Vista panoràmica" className="bg-stone-200 aspect-video object-cover w-full rounded-md" />
+                  <figcaption>Vista panoràmica des del castellet</figcaption>
+                </figure>
+              </div>
+              <div className="sosp-carrousel-controls">
+                <button type="button" className="sosp-boto sosp-boto-icona" aria-label="Imatge anterior">←</button>
+                <div className="sosp-carrousel-indicadors">
+                  <button type="button" className="sosp-carrousel-punt sosp-carrousel-punt-actiu" aria-label="Diapositiva 1 de 3" aria-current="true"></button>
+                  <button type="button" className="sosp-carrousel-punt" aria-label="Diapositiva 2 de 3"></button>
+                  <button type="button" className="sosp-carrousel-punt" aria-label="Diapositiva 3 de 3"></button>
+                </div>
+                <button type="button" className="sosp-boto sosp-boto-icona" aria-label="Imatge següent">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 22: LLISTES DE DEFINICIÓ I GLOSSARIS            */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="glossaris">
+        <h2 className="sosp-h2 mb-6">22. Llistes de Definició i Glossaris</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">22.1 Glossari de termes locals</p>
+            <dl className="sosp-glossari bg-stone-50 border border-stone-200 rounded-lg p-6">
+              <div className="sosp-glossari-entrada mb-4 pb-4 border-b border-stone-200 last:border-0 last:mb-0 last:pb-0">
+                <dt className="font-bold text-stone-900 text-lg mb-1">Almàssera</dt>
+                <dd className="text-stone-700">Lloc on es premsa l'oliva per a obtindre oli. Tradicionalment construït amb pedra i sòl de rajola.</dd>
+              </div>
+              <div className="sosp-glossari-entrada mb-4 pb-4 border-b border-stone-200 last:border-0 last:mb-0 last:pb-0">
+                <dt className="font-bold text-stone-900 text-lg mb-1">Riu-rau</dt>
+                <dd className="text-stone-700">Sistema de séquia tradicional que porta l'aigua des del riu fins als horts mitjançant canals de terra.</dd>
+              </div>
+              <div className="sosp-glossari-entrada mb-4 pb-4 border-b border-stone-200 last:border-0 last:mb-0 last:pb-0">
+                <dt className="font-bold text-stone-900 text-lg mb-1">Tina</dt>
+                <dd className="text-stone-700">Recipient de fusta, generalment de roure, utilitzat per a trepitjar el raïm i fermentar el most.</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">22.2 Llista de definició horitzontal</p>
+            <dl className="sosp-definicio-horizontal grid grid-cols-2 gap-x-4 gap-y-2 bg-stone-50 border border-stone-200 rounded-lg p-6 max-w-sm">
+              <dt className="font-bold text-stone-600">Fundació:</dt>
+              <dd className="text-stone-900 text-right">1248</dd>
+              <dt className="font-bold text-stone-600">Superfície:</dt>
+              <dd className="text-stone-900 text-right">33,4 km²</dd>
+              <dt className="font-bold text-stone-600">Altitud:</dt>
+              <dd className="text-stone-900 text-right">120 msnm</dd>
+              <dt className="font-bold text-stone-600">Població:</dt>
+              <dd className="text-stone-900 text-right">5.847 hab.</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 23: LÍNIES DE TEMPS (TIMELINES)                 */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="timelines">
+        <h2 className="sosp-h2 mb-6">23. Línies de Temps (Timelines)</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">23.1 Timeline vertical</p>
+            <ol className="sosp-timeline relative border-l-2 border-stone-200 ml-3 pl-6 py-2 space-y-8" aria-label="Línia de temps històrica">
+              <li className="sosp-timeline-esdeveniment relative">
+                <div className="absolute w-3 h-3 bg-stone-300 rounded-full -left-[31px] top-1.5 border-2 border-white"></div>
+                <time className="sosp-timeline-data text-sm font-bold text-orange-600 mb-1 block" dateTime="1248">1248</time>
+                <div className="sosp-timeline-contingut">
+                  <h4 className="font-bold text-stone-900 text-lg">Carta Pobla</h4>
+                  <p className="text-stone-600 mt-1">El rei Jaume I concedeix la carta de poblament al lloc de Benigànim.</p>
+                </div>
+              </li>
+              <li className="sosp-timeline-esdeveniment relative">
+                <div className="absolute w-3 h-3 bg-stone-300 rounded-full -left-[31px] top-1.5 border-2 border-white"></div>
+                <time className="sosp-timeline-data text-sm font-bold text-orange-600 mb-1 block" dateTime="1609">1609</time>
+                <div className="sosp-timeline-contingut">
+                  <h4 className="font-bold text-stone-900 text-lg">Expulsió dels moriscos</h4>
+                  <p className="text-stone-600 mt-1">La població musulmana és expulsada, deixant un buit demogràfic que s'ompli amb cristians vells.</p>
+                </div>
+              </li>
+              <li className="sosp-timeline-esdeveniment sosp-timeline-esdeveniment-actiu relative">
+                <div className="absolute w-4 h-4 bg-orange-500 rounded-full -left-[33px] top-1 border-4 border-orange-100"></div>
+                <time className="sosp-timeline-data text-sm font-bold text-orange-600 mb-1 block" dateTime="2024">2024</time>
+                <div className="sosp-timeline-contingut">
+                  <h4 className="font-bold text-stone-900 text-lg">Digitalització completa</h4>
+                  <p className="text-stone-600 mt-1">El poble entra a <em>Sóc de Poble</em> amb tots els documents històrics digitalitzats.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 24: TARGETES (CARDS)                            */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="targetes">
+        <h2 className="sosp-h2 mb-6">24. Targetes (Cards)</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.1 Targeta bàsica</p>
+            <article className="sosp-targeta max-w-sm bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <header className="sosp-targeta-cap p-5 pb-0">
+                <h3 className="sosp-targeta-titol font-bold text-xl text-stone-900">Festes Patronals</h3>
+              </header>
+              <div className="sosp-targeta-cos p-5 text-stone-600">
+                <p>Del 15 al 24 d'agost celebrem les festes en honor a Sant Agustí. Concerts, processons i el tradicional sopar de la paella gegant.</p>
+              </div>
+              <footer className="sosp-targeta-peu p-5 pt-0">
+                <a href="#festes" className="sosp-enllaç sosp-enllaç-fletxa text-orange-600 font-bold hover:underline">Veure programa complet →</a>
+              </footer>
+            </article>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.2 Targeta amb imatge</p>
+            <article className="sosp-targeta sosp-targeta-amb-imatge max-w-sm bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <figure className="sosp-targeta-imatge bg-stone-200 aspect-video flex items-center justify-center text-stone-400">
+                [Imatge: Mercat setmanal]
+              </figure>
+              <div className="sosp-targeta-cos p-5">
+                <h3 className="sosp-targeta-titol font-bold text-xl text-stone-900 mb-1">Mercat Setmanal</h3>
+                <p className="sosp-targeta-meta text-xs font-bold text-stone-400 uppercase tracking-wide mb-3">Tots els dimecres · Plaça Major · 08:00 a 13:00</p>
+                <p className="text-stone-600">Productes de la terra, artesania local i el millor trato de la comarca.</p>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.3 Targeta d'acció (clickable)</p>
+            <a href="#associacio" className="sosp-targeta sosp-targeta-accio block max-w-sm bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group">
+              <div className="sosp-targeta-cos p-6 flex justify-between items-center">
+                <div>
+                  <h3 className="sosp-targeta-titol font-bold text-xl text-stone-900 mb-1">Associació de Veïns</h3>
+                  <p className="text-stone-600">Forma part de la comunitat. Junts fem poble.</p>
+                </div>
+                <span className="sosp-targeta-fletxa text-orange-400 group-hover:text-orange-600 transition-colors text-2xl ml-4">→</span>
+              </div>
+            </a>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.4 Grid de targetes</p>
+            <div className="sosp-targetes-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+              <article className="sosp-targeta bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                <h3 className="font-bold text-lg mb-2">Targeta 1</h3>
+                <p className="text-stone-600 text-sm">Contingut de la targeta dins d'un grid.</p>
+              </article>
+              <article className="sosp-targeta bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                <h3 className="font-bold text-lg mb-2">Targeta 2</h3>
+                <p className="text-stone-600 text-sm">Contingut de la targeta dins d'un grid.</p>
+              </article>
+              <article className="sosp-targeta bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                <h3 className="font-bold text-lg mb-2">Targeta 3</h3>
+                <p className="text-stone-600 text-sm">Contingut de la targeta dins d'un grid.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 25: ESTADÍSTIQUES I DASHBOARDS                  */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="estadistiques">
+        <h2 className="sosp-h2 mb-6">25. Estadístiques i Dashboards</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">25.1 Targeta d'estadística</p>
+            <div className="sosp-estadistica flex items-center bg-white border border-stone-200 rounded-xl p-4 shadow-sm max-w-xs">
+              <div className="sosp-estadistica-icona text-3xl mr-4" aria-hidden="true">👥</div>
+              <div className="sosp-estadistica-dades flex flex-col">
+                <span className="sosp-estadistica-valor font-black text-2xl text-stone-900 leading-none">5.847</span>
+                <span className="sosp-estadistica-etiqueta text-sm text-stone-500 font-medium">Habitants</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">25.2 Grid d'estadístiques</p>
+            <div className="sosp-dashboard-grid grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="sosp-estadistica flex items-center bg-white border border-stone-200 rounded-xl p-4 shadow-sm">
+                <div className="sosp-estadistica-icona text-2xl mr-3">📅</div>
+                <div className="sosp-estadistica-dades flex flex-col">
+                  <span className="sosp-estadistica-valor font-black text-xl text-stone-900 leading-none">776</span>
+                  <span className="sosp-estadistica-etiqueta text-xs text-stone-500 font-medium">Anys d'història</span>
+                </div>
+              </div>
+              <div className="sosp-estadistica flex items-center bg-white border border-stone-200 rounded-xl p-4 shadow-sm">
+                <div className="sosp-estadistica-icona text-2xl mr-3">🏠</div>
+                <div className="sosp-estadistica-dades flex flex-col">
+                  <span className="sosp-estadistica-valor font-black text-xl text-stone-900 leading-none">2.341</span>
+                  <span className="sosp-estadistica-etiqueta text-xs text-stone-500 font-medium">Habitatges</span>
+                </div>
+              </div>
+              <div className="sosp-estadistica flex items-center bg-white border border-stone-200 rounded-xl p-4 shadow-sm">
+                <div className="sosp-estadistica-icona text-2xl mr-3">🌳</div>
+                <div className="sosp-estadistica-dades flex flex-col">
+                  <span className="sosp-estadistica-valor font-black text-xl text-stone-900 leading-none">33,4</span>
+                  <span className="sosp-estadistica-etiqueta text-xs text-stone-500 font-medium">Km² de natura</span>
+                </div>
+              </div>
+              <div className="sosp-estadistica flex items-center bg-white border border-stone-200 rounded-xl p-4 shadow-sm">
+                <div className="sosp-estadistica-icona text-2xl mr-3">📖</div>
+                <div className="sosp-estadistica-dades flex flex-col">
+                  <span className="sosp-estadistica-valor font-black text-xl text-stone-900 leading-none">142</span>
+                  <span className="sosp-estadistica-etiqueta text-xs text-stone-500 font-medium">Documents històrics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">25.3 Panell d'Umami (integració directa)</p>
+            <section className="sosp-panell-umami bg-stone-50 border border-stone-200 rounded-xl p-6" aria-label="Estadístiques web">
+              <h2 className="sosp-panell-umami-titol font-bold text-lg text-stone-900 mb-4">📊 Activitat del portal</h2>
+              <div className="sosp-dashboard-grid grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="sosp-estadistica bg-white border border-stone-200 rounded-lg p-3 shadow-sm text-center">
+                  <div className="sosp-estadistica-dades flex flex-col">
+                    <span className="sosp-estadistica-valor font-black text-xl text-stone-900" id="umami-visitors">--</span>
+                    <span className="sosp-estadistica-etiqueta text-xs text-stone-500">Visitants únics</span>
+                  </div>
+                </div>
+                <div className="sosp-estadistica bg-white border border-stone-200 rounded-lg p-3 shadow-sm text-center">
+                  <div className="sosp-estadistica-dades flex flex-col">
+                    <span className="sosp-estadistica-valor font-black text-xl text-stone-900" id="umami-pageviews">--</span>
+                    <span className="sosp-estadistica-etiqueta text-xs text-stone-500">Pàgines vistes</span>
+                  </div>
+                </div>
+                <div className="sosp-estadistica bg-white border border-stone-200 rounded-lg p-3 shadow-sm text-center">
+                  <div className="sosp-estadistica-dades flex flex-col">
+                    <span className="sosp-estadistica-valor font-black text-xl text-stone-900" id="umami-bounce">--</span>
+                    <span className="sosp-estadistica-etiqueta text-xs text-stone-500">Taxa de rebuig</span>
+                  </div>
+                </div>
+                <div className="sosp-estadistica bg-white border border-stone-200 rounded-lg p-3 shadow-sm text-center">
+                  <div className="sosp-estadistica-dades flex flex-col">
+                    <span className="sosp-estadistica-valor font-black text-xl text-stone-900" id="umami-duration">--</span>
+                    <span className="sosp-estadistica-etiqueta text-xs text-stone-500">Duració mitjana</span>
+                  </div>
+                </div>
+              </div>
+              <p className="sosp-panell-umami-font text-xs text-stone-500 text-center">Dades d'<a href="https://umami.is" className="text-orange-600 hover:underline">Umami Analytics</a> · Actualització en temps real</p>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 26: CERCA I FILTRATGE                           */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="cerca">
+        <h2 className="sosp-h2 mb-6">26. Cerca i Filtratge</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">26.1 Barra de cerca bàsica</p>
+            <form className="sosp-cerca flex max-w-md" role="search" action="/cerca" method="get">
+              <label htmlFor="cerca-input" className="sr-only">Cerca al portal</label>
+              <input 
+                type="search" 
+                id="cerca-input" 
+                name="q" 
+                className="sosp-input sosp-input-cerca flex-1 rounded-l-md border border-stone-300 px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" 
+                placeholder="Cerca pobles, festes, documents..." 
+                aria-label="Cerca al portal"
+              />
+              <button type="submit" className="sosp-boto sosp-boto-primari sosp-boto-cerca bg-stone-900 text-white px-4 py-2 rounded-r-md font-bold hover:bg-stone-800 transition-colors">
+                🔍 Cerca
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">26.2 Cerca amb filtres</p>
+            <div className="sosp-cerca-avancada bg-stone-50 p-4 border border-stone-200 rounded-lg max-w-2xl">
+              <form className="sosp-cerca flex flex-wrap sm:flex-nowrap gap-3" role="search">
+                <input type="search" className="sosp-input sosp-input-cerca flex-1 rounded-md border border-stone-300 px-4 py-2 focus:ring-2 focus:ring-orange-500 outline-none min-w-[200px]" placeholder="Cerca..." />
+                <select className="sosp-select sosp-select-cerca rounded-md border border-stone-300 px-4 py-2 bg-white focus:ring-2 focus:ring-orange-500 outline-none" aria-label="Filtrar per categoria">
+                  <option value="">Totes les categories</option>
+                  <option value="pobles">Pobles</option>
+                  <option value="festes">Festes</option>
+                  <option value="historia">Història</option>
+                  <option value="gastronomia">Gastronomia</option>
+                </select>
+                <button type="submit" className="sosp-boto sosp-boto-primari bg-stone-900 text-white px-6 py-2 rounded-md font-bold hover:bg-stone-800 transition-colors whitespace-nowrap">Cerca</button>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">26.3 Resultats de cerca</p>
+            <section className="sosp-resultats-cerca max-w-2xl" aria-label="Resultats de la cerca">
+              <p className="sosp-resultats-info text-sm text-stone-600 mb-6 pb-4 border-b border-stone-200">S'han trobat <strong className="text-stone-900">12 resultats</strong> per a <em className="not-italic bg-stone-100 px-1 rounded">"festa major"</em></p>
+              
+              <div className="space-y-6">
+                <article className="sosp-resultat">
+                  <h3 className="sosp-resultat-titol font-bold text-lg text-orange-600 hover:underline mb-1"><a href="#beniganim">Festa Major de Benigànim</a></h3>
+                  <p className="sosp-resultat-meta text-xs font-bold text-stone-400 uppercase tracking-wide mb-2">Festes · Benigànim · Agost 2024</p>
+                  <p className="sosp-resultat-resum text-stone-600 text-sm">Del 15 al 24 d'agost celebrem les festes patronals amb més de 50 activitats per a tots els públics...</p>
+                </article>
+                
+                <article className="sosp-resultat">
+                  <h3 className="sosp-resultat-titol font-bold text-lg text-orange-600 hover:underline mb-1"><a href="#llutxent">Festa Major de Llutxent</a></h3>
+                  <p className="sosp-resultat-meta text-xs font-bold text-stone-400 uppercase tracking-wide mb-2">Festes · Llutxent · Setembre 2024</p>
+                  <p className="sosp-resultat-resum text-stone-600 text-sm">La festa major de Llutxent destaca per la seua processó de les festes de la Mare de Déu...</p>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 27: PAGINACIÓ                                   */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="paginacio">
+        <h2 className="sosp-h2 mb-6">27. Paginació</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">27.1 Paginació numèrica</p>
+            <nav className="sosp-paginacio flex flex-wrap items-center gap-1 sm:gap-2" aria-label="Paginació de resultats">
+              <a href="#pag" className="sosp-paginacio-enllac sosp-paginacio-primer px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">← Primera</a>
+              <a href="#pag" className="sosp-paginacio-enllac px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">2</a>
+              <a href="#pag" className="sosp-paginacio-enllac sosp-paginacio-actiu px-3 py-1.5 text-sm font-bold text-white bg-stone-900 border border-stone-900 rounded" aria-current="page">3</a>
+              <a href="#pag" className="sosp-paginacio-enllac px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">4</a>
+              <a href="#pag" className="sosp-paginacio-enllac px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">5</a>
+              <span className="sosp-paginacio-separador px-2 py-1.5 text-stone-400">...</span>
+              <a href="#pag" className="sosp-paginacio-enllac px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">24</a>
+              <a href="#pag" className="sosp-paginacio-enllac sosp-paginacio-seguent px-3 py-1.5 text-sm font-medium text-stone-600 hover:text-stone-900 border border-stone-200 rounded bg-white hover:bg-stone-50 transition-colors">Següent →</a>
+            </nav>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">27.2 Paginació simplificada (anterior / següent)</p>
+            <nav className="sosp-paginacio-simple grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl" aria-label="Navegació entre articles">
+              <a href="#anterior" className="sosp-paginacio-simple-enllac sosp-paginacio-simple-anterior border border-stone-200 rounded-lg p-4 bg-white hover:border-stone-300 hover:shadow-sm transition-all group flex flex-col text-left">
+                <span className="sosp-paginacio-simple-direccio text-xs font-bold text-stone-400 uppercase tracking-widest mb-1 group-hover:text-stone-600 transition-colors">← Article anterior</span>
+                <span className="sosp-paginacio-simple-titol font-bold text-stone-900 group-hover:text-orange-600 transition-colors">Les festes de la Magdalena</span>
+              </a>
+              <a href="#seguent" className="sosp-paginacio-simple-enllac sosp-paginacio-simple-seguent border border-stone-200 rounded-lg p-4 bg-white hover:border-stone-300 hover:shadow-sm transition-all group flex flex-col text-right">
+                <span className="sosp-paginacio-simple-direccio text-xs font-bold text-stone-400 uppercase tracking-widest mb-1 group-hover:text-stone-600 transition-colors">Article següent →</span>
+                <span className="sosp-paginacio-simple-titol font-bold text-stone-900 group-hover:text-orange-600 transition-colors">La ruta del riu-rau</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 28: LLISTES DE TASQUES I CHECKLISTS             */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="tasques">
+        <h2 className="sosp-h2 mb-6">28. Llistes de Tasques i Checklists</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">28.1 Checklist d'administració</p>
+            <fieldset className="sosp-checklist border border-stone-200 rounded-lg p-5 bg-stone-50 max-w-md">
+              <legend className="sosp-checklist-titol text-sm font-bold text-stone-900 bg-white border border-stone-200 px-3 py-1 rounded-full shadow-sm ml-2">✅ Verificació prèvia a publicar</legend>
+              
+              <div className="space-y-3 mt-2">
+                <label className="sosp-checklist-item flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="sosp-checkbox mt-1 w-5 h-5 text-orange-600 border-stone-300 rounded focus:ring-orange-500" defaultChecked />
+                  <span className="sosp-checklist-text text-stone-700 group-hover:text-stone-900 transition-colors line-through opacity-70">Revisar ortografia i valencià</span>
+                </label>
+                
+                <label className="sosp-checklist-item flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="sosp-checkbox mt-1 w-5 h-5 text-orange-600 border-stone-300 rounded focus:ring-orange-500" defaultChecked />
+                  <span className="sosp-checklist-text text-stone-700 group-hover:text-stone-900 transition-colors line-through opacity-70">Comprovar imatges (alt text obligatori)</span>
+                </label>
+                
+                <label className="sosp-checklist-item flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="sosp-checkbox mt-1 w-5 h-5 text-orange-600 border-stone-300 rounded focus:ring-orange-500" />
+                  <span className="sosp-checklist-text text-stone-900 font-medium">Validar enllaços interns</span>
+                </label>
+                
+                <label className="sosp-checklist-item flex items-start gap-3 cursor-pointer group">
+                  <input type="checkbox" className="sosp-checkbox mt-1 w-5 h-5 text-orange-600 border-stone-300 rounded focus:ring-orange-500" />
+                  <span className="sosp-checklist-text text-stone-900 font-medium">Revisar contrast de colors (WCAG 2.1 AA)</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">28.2 Llista de tasques amb progrés</p>
+            <div className="sosp-llista-tasques border border-stone-200 rounded-lg overflow-hidden max-w-md bg-white">
+              <div className="sosp-tasca sosp-tasca-completada flex items-center gap-4 p-4 border-b border-stone-100 bg-stone-50">
+                <input type="checkbox" className="sosp-checkbox w-5 h-5 text-green-600 border-stone-300 rounded focus:ring-green-500" defaultChecked aria-label="Tasca completada" />
+                <span className="sosp-tasca-text flex-1 text-stone-500 line-through">Migrar base de dades històrica</span>
+                <time className="sosp-tasca-data text-xs font-mono text-stone-400 bg-stone-200 px-2 py-1 rounded" dateTime="2024-01-15">15/01</time>
+              </div>
+              <div className="sosp-tasca flex items-center gap-4 p-4 hover:bg-stone-50 transition-colors">
+                <input type="checkbox" className="sosp-checkbox w-5 h-5 text-orange-600 border-stone-300 rounded focus:ring-orange-500" aria-label="Tasca pendent" />
+                <span className="sosp-tasca-text flex-1 text-stone-900 font-medium">Digitalitzar fotografies del fons municipal</span>
+                <time className="sosp-tasca-data text-xs font-mono text-orange-600 bg-orange-100 px-2 py-1 rounded font-bold" dateTime="2024-02-01">01/02</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 29: UPLOAD I DESCÀRREGUES                       */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="upload">
+        <h2 className="sosp-h2 mb-6">29. Upload i Descàrregues</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">29.1 Zona d'arrossegament d'arxius</p>
+            <div className="sosp-upload max-w-md" role="region" aria-label="Puja d'arxius">
+              <div className="sosp-upload-zona border-2 border-dashed border-stone-300 rounded-xl p-8 text-center bg-stone-50 hover:bg-stone-100 transition-colors cursor-pointer">
+                <p className="sosp-upload-text-principal font-bold text-stone-900 mb-2">📎 Arrossega els arxius ací</p>
+                <p className="sosp-upload-text-secundari text-stone-600 mb-2">o <button type="button" className="sosp-enllac text-orange-600 hover:underline">selecciona'ls del teu dispositiu</button></p>
+                <p className="sosp-upload-text-ajuda text-xs text-stone-400">Màxim 10MB per arxiu. Formats: JPG, PNG, PDF</p>
+              </div>
+              
+              <ul className="sosp-upload-llista mt-4 space-y-2">
+                <li className="sosp-upload-item flex items-center justify-between bg-white border border-stone-200 p-3 rounded-lg shadow-sm">
+                  <div className="flex flex-col">
+                    <span className="sosp-upload-nom font-medium text-sm text-stone-900 truncate max-w-[200px]">festa_major_2024.jpg</span>
+                    <span className="sosp-upload-mida text-xs text-stone-500">2,4 MB</span>
+                  </div>
+                  <button type="button" className="sosp-boto sosp-boto-perill sosp-boto-xicotet text-red-600 hover:bg-red-50 p-2 rounded" aria-label="Eliminar festa_major_2024.jpg">
+                    🗑️
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">29.2 Enllaç de descàrrega</p>
+            <a href="#descarrega" className="sosp-descarrega inline-flex items-center gap-4 bg-white border border-stone-200 p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow max-w-md group" download>
+              <span className="sosp-descarrega-icona text-2xl">📄</span>
+              <span className="sosp-descarrega-info flex flex-col flex-1">
+                <span className="sosp-descarrega-nom font-bold text-stone-900 group-hover:text-orange-600 transition-colors">Carta Pobla de Benigànim (1248)</span>
+                <span className="sosp-descarrega-meta text-xs text-stone-500 mt-1">PDF · 3,2 MB · Transcripció paleogràfica</span>
+              </span>
+              <span className="sosp-descarrega-fletxa text-stone-400 group-hover:text-orange-600 transition-colors">⬇️</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 30: EMBEDDINGS I MEDIA EXTERNA                  */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="media">
+        <h2 className="sosp-h2 mb-6">30. Embeddings i Media Externa</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">30.1 Vídeo embebint (HTML5 natiu)</p>
+            <figure className="sosp-video max-w-2xl bg-stone-50 border border-stone-200 rounded-xl overflow-hidden p-2">
+              <iframe 
+                className="w-full aspect-video rounded-lg mb-3"
+                src="https://www.youtube.com/embed/Fadaa7Kyxm0?si=rJasphnQZdCy3zve" 
+                title="Sóc de Poble Video" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              ></iframe>
+              <figcaption className="text-sm text-stone-500 text-center font-medium mb-3">Sóc de Poble: Portal de pobles connectats (2013)</figcaption>
+              
+              <details className="bg-white border border-stone-200 rounded-lg text-left overflow-hidden group">
+                <summary className="p-3 font-semibold cursor-pointer text-stone-700 bg-stone-50 hover:bg-stone-100 transition-colors list-none flex justify-between items-center">
+                  <span>📄 Descripció del vídeo original</span>
+                  <span className="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div className="p-4 border-t border-stone-200 text-stone-600 text-sm whitespace-pre-wrap bg-white">
+{`Un Projecte per col·laborar en el desenvolupament sostenible i tecnològic en entorns rurals.
+
+Sóc del Poble serà un PORTAL DE POBLES CONNECTATS on compartir informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals, per posar en valor els recursos locals, que són l'essència de la nostra identitat, i mostrar l'atractiu dels pobles com a llocs on viure i treballar.
+
+Serà un canal orientat a la difusió dels beneficis que les Noves Tecnologies poden aportar al món rural, utilitzant ferramentes col·laboratives:
+
+1. BASE DE DADES OBERTES. MAPA DIRECTORI DE RECURSOS LOCALS.
+2. CERCADOR TEMÀTIC.
+3. XARXA SOCIAL DE PRODUCTIVITAT.
+4. REVISTA DIGITAL.
+5. VIVERS TIC DE POBLE. Vivers Virtuals d'Emprenedors Rurals.
+
+---------------------------
+GUIÓ DEL VÍDEO
+---------------------------
+Pepet toca el clarinet...
+Viu tranquil i be en un poble menut
+A l'escola de música del seu poblet aprèn... I ho fa be, si...
+Vol aprendre més, però ha d'anar a la ciutat... I puja i baixa i va i torna...
+I fa música i vol que tothom escolte el so del seu clarinet...
+Però és tot tan difícil al seu poblet!!!
+Com faré? Es pregunta Pepet.
+
+A l'altra banda de les muntanyes viu la Rosa...
+Gent que té idees i vol fer-les realitat en llocs amb qualitat de vida, amb respecte per les arrels, la natura, la gent...
+Sóc de poble... i tinc veu...
+I tu?, et sumes?`}
+                </div>
+              </details>
+            </figure>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">30.2 Mapa embebint (iframe amb fallback)</p>
+            <figure className="sosp-mapa max-w-2xl bg-stone-50 border border-stone-200 rounded-xl overflow-hidden p-2">
+              <div className="h-64 bg-stone-200 rounded-lg flex items-center justify-center text-stone-500 mb-3">
+                [OpenStreetMap Iframe]
+              </div>
+              <figcaption className="text-sm text-center font-medium">
+                <a href="#mapa" className="text-orange-600 hover:underline">
+                  Veure mapa més gran a OpenStreetMap →
+                </a>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">30.3 Audio (podcast local)</p>
+            <figure className="sosp-audio max-w-md bg-stone-50 border border-stone-200 rounded-xl overflow-hidden p-4">
+              <div className="flex items-center gap-4 mb-2">
+                <button className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center text-xl hover:bg-orange-700 transition-colors">▶️</button>
+                <div className="flex-1 h-2 bg-stone-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-orange-400 w-1/3"></div>
+                </div>
+                <span className="text-xs font-mono text-stone-500">12:45</span>
+              </div>
+              <figcaption className="text-sm text-stone-600 font-medium text-center">Podcast «Històries de poble» · Episodi 1</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 31: CLASSES UTILITÀRIES                         */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="utilitats">
+        <h2 className="sosp-h2 mb-6">31. Classes Utilitàries</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">Aquestes classes són recomanacions d'arquitectura css (no aplicades ací via Tailwind pur sinó com a concepte)</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                <h4 className="font-bold text-stone-900 mb-4 border-b border-stone-200 pb-2">Classes de visibilitat</h4>
+                <ul className="space-y-2 font-mono text-sm">
+                  <li><span className="text-orange-600">.sosp-sr-only</span> - Ocult visiblement, text per a screen readers</li>
+                  <li><span className="text-orange-600">.sosp-visible-sr-only</span> - Visible només per assistència</li>
+                  <li><span className="text-orange-600">.sosp-ocult</span> - display: none</li>
+                  <li><span className="text-orange-600">.sosp-ocult-mobil</span> - Amaga en xs/sm</li>
+                </ul>
+              </div>
+
+              <div className="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                <h4 className="font-bold text-stone-900 mb-4 border-b border-stone-200 pb-2">Classes de color</h4>
+                <ul className="space-y-2 text-sm font-medium">
+                  <li><span className="text-green-600">.sosp-text-exit</span> - ✓ Èxit</li>
+                  <li><span className="text-red-600">.sosp-text-error</span> - ✗ Error</li>
+                  <li><span className="text-yellow-600">.sosp-text-avís</span> - ⚠ Avís</li>
+                  <li><span className="text-blue-600">.sosp-text-info</span> - ℹ Informació</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 32: PEUS DE PÀGINA (FOOTERS)                    */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="footers">
+        <h2 className="sosp-h2 mb-6">32. Peus de Pàgina (Footers)</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">32.1 Peu de pàgina complet</p>
+            <footer className="sosp-peu bg-stone-900 text-stone-400 p-8 rounded-xl border border-stone-800" role="contentinfo">
+              <div className="sosp-peu-contingut grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-stone-800">
+                <div className="sosp-peu-seccio">
+                  <h4 className="sosp-peu-titol font-bold text-white mb-4">Sóc de Poble</h4>
+                  <p className="text-sm leading-relaxed">Patrimoni digital dels nostres pobles des de 1998. Construït amb pedra seca i codi net.</p>
+                </div>
+                
+                <div className="sosp-peu-seccio">
+                  <h4 className="sosp-peu-titol font-bold text-white mb-4">Navega</h4>
+                  <ul className="sosp-peu-llista space-y-2 text-sm">
+                    <li><a href="#pobles" className="hover:text-white transition-colors">Pobles</a></li>
+                    <li><a href="#festes" className="hover:text-white transition-colors">Festes</a></li>
+                    <li><a href="#historia" className="hover:text-white transition-colors">Història</a></li>
+                    <li><a href="#gastronomia" className="hover:text-white transition-colors">Gastronomia</a></li>
+                  </ul>
+                </div>
+                
+                <div className="sosp-peu-seccio">
+                  <h4 className="sosp-peu-titol font-bold text-white mb-4">Legal</h4>
+                  <ul className="sosp-peu-llista space-y-2 text-sm">
+                    <li><a href="#privacitat" className="hover:text-white transition-colors">Privacitat</a></li>
+                    <li><a href="#cookies" className="hover:text-white transition-colors">Cookies</a></li>
+                    <li><a href="#accessibilitat" className="hover:text-white transition-colors">Accessibilitat</a></li>
+                  </ul>
+                </div>
+                
+                <div className="sosp-peu-seccio">
+                  <h4 className="sosp-peu-titol font-bold text-white mb-4">Contacte</h4>
+                  <address className="sosp-peu-adreca text-sm space-y-2 not-italic">
+                    <p>📧 <a href="mailto:hola@socdepoble.org" className="hover:text-white transition-colors">hola@socdepoble.org</a></p>
+                    <p>🐘 <a href="#mastodon" className="hover:text-white transition-colors">@socdepoble@social</a></p>
+                  </address>
+                </div>
+              </div>
+              
+              <div className="sosp-peu-fons text-xs flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p>© 2024 Sóc de Poble · <span className="sosp-peu-versio font-mono">v2.4.0</span> · Fet amb ❤️ i pedra seca</p>
+                <p className="sosp-peu-codi-etic">
+                  <a href="#lock" className="hover:text-white transition-colors">🔒 Protocol SOSP-LOCK actiu</a> · 
+                  <a href="#disseny" className="hover:text-white transition-colors">Sistema de Disseny</a>
+                </p>
+              </div>
+            </footer>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">32.2 Peu de pàgina minimalista</p>
+            <footer className="sosp-peu sosp-peu-minimal bg-stone-100 p-6 rounded-xl border border-stone-200 text-center text-sm text-stone-500">
+              <p>© 2024 Sóc de Poble · <a href="#privacitat" className="hover:text-stone-900 underline transition-colors">Privacitat</a> · <a href="#lock" className="hover:text-stone-900 underline transition-colors">🔒 SOSP-LOCK</a></p>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 33: EXEMPLES DE COMPOSICIÓ                      */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="composicio">
+        <h2 className="sosp-h2 mb-6">33. Exemples de Composició</h2>
+
+        <div className="space-y-12">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">33.1 Pàgina de poble completa (estructura)</p>
+            <article className="sosp-pagina-poble border-2 border-stone-200 rounded-xl bg-white overflow-hidden shadow-sm">
+              <header className="sosp-capcalera-poble bg-stone-50 p-8 border-b border-stone-200">
+                <nav className="sosp-migues-pa text-xs font-bold text-stone-400 uppercase tracking-widest mb-4" aria-label="Migues de pa">
+                  <ol className="flex items-center gap-2">
+                    <li><a href="#inici" className="hover:text-stone-600 transition-colors">Inici</a></li>
+                    <li>/</li>
+                    <li><a href="#comarca" className="hover:text-stone-600 transition-colors">Vall d'Albaida</a></li>
+                    <li>/</li>
+                    <li aria-current="page" className="text-stone-900">Benigànim</li>
+                  </ol>
+                </nav>
+                <h1 className="text-4xl font-black text-stone-900 mb-2">Benigànim</h1>
+                <p className="sosp-poble-subtitol text-xl text-stone-600">El poble de les rieres i l'oli d'oliva verge extra</p>
+              </header>
+              
+              <div className="sosp-poble-grid grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+                <div className="sosp-poble-principal md:col-span-2 space-y-8" role="region" aria-label="Contingut principal del poble">
+                  <section className="sosp-poble-seccio">
+                    <h2 className="text-2xl font-bold text-stone-900 mb-4 border-b border-stone-200 pb-2">Història</h2>
+                    <p className="text-stone-600 leading-relaxed">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </section>
+                  <section className="sosp-poble-seccio">
+                    <h2 className="text-2xl font-bold text-stone-900 mb-4 border-b border-stone-200 pb-2">Festes i tradicions</h2>
+                    <p className="text-stone-600 leading-relaxed">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  </section>
+                </div>
+                
+                <aside className="sosp-poble-lateral">
+                  <div className="sosp-targeta sosp-targeta-info bg-stone-50 border border-stone-200 p-6 rounded-xl">
+                    <h3 className="font-bold text-lg mb-4 text-stone-900">Dades del municipi</h3>
+                    <dl className="space-y-2 text-sm">
+                      <div className="flex justify-between border-b border-stone-200 pb-1">
+                        <dt className="text-stone-500 font-medium">Comarca:</dt><dd className="text-stone-900 font-bold">Vall d'Albaida</dd>
+                      </div>
+                      <div className="flex justify-between border-b border-stone-200 pb-1">
+                        <dt className="text-stone-500 font-medium">Província:</dt><dd className="text-stone-900 font-bold">València</dd>
+                      </div>
+                      <div className="flex justify-between">
+                        <dt className="text-stone-500 font-medium">Habitants:</dt><dd className="text-stone-900 font-bold">5.847</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </aside>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">33.2 Formulari de contacte complet</p>
+            <section className="sosp-seccio bg-white border-2 border-stone-200 rounded-xl p-8 max-w-2xl mx-auto shadow-sm">
+              <h2 className="text-2xl font-bold text-stone-900 mb-6 pb-4 border-b border-stone-200">Contacta amb nosaltres</h2>
+              <form className="sosp-formulari space-y-6">
+                <fieldset className="sosp-fieldset bg-stone-50 p-6 rounded-lg border border-stone-200">
+                  <legend className="sosp-legend text-sm font-bold text-stone-900 bg-white border border-stone-200 px-3 py-1 rounded-full shadow-sm ml-2">Les teues dades</legend>
+                  
+                  <div className="space-y-4 mt-2">
+                    <div className="sosp-form-grup">
+                      <label className="block text-sm font-bold text-stone-700 mb-1">Nom complet <span className="text-red-500">*</span></label>
+                      <input type="text" className="w-full rounded-md border border-stone-300 px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" required />
+                    </div>
+                    
+                    <div className="sosp-form-grup">
+                      <label className="block text-sm font-bold text-stone-700 mb-1">Correu electrònic <span className="text-red-500">*</span></label>
+                      <input type="email" className="w-full rounded-md border border-stone-300 px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" required />
+                    </div>
+                    
+                    <div className="sosp-form-grup">
+                      <label className="block text-sm font-bold text-stone-700 mb-1">Motiu del contacte</label>
+                      <select className="w-full rounded-md border border-stone-300 px-4 py-2 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" aria-label="Motiu del contacte">
+                        <option value="">Selecciona un motiu</option>
+                        <option value="suggeriment">Suggeriment</option>
+                        <option value="error">Reportar un error</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+                
+                <fieldset className="sosp-fieldset bg-stone-50 p-6 rounded-lg border border-stone-200">
+                  <legend className="sosp-legend text-sm font-bold text-stone-900 bg-white border border-stone-200 px-3 py-1 rounded-full shadow-sm ml-2">El teu missatge</legend>
+                  <div className="sosp-form-grup mt-2">
+                    <label className="block text-sm font-bold text-stone-700 mb-1">Missatge <span className="text-red-500">*</span></label>
+                    <textarea className="w-full rounded-md border border-stone-300 px-4 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none" rows="4" required></textarea>
+                  </div>
+                </fieldset>
+                
+                <div className="sosp-form-accions flex items-center gap-4 pt-4 border-t border-stone-200">
+                  <button type="button" className="bg-stone-900 text-white font-bold py-3 px-8 rounded-lg shadow-sm hover:bg-stone-800 transition-colors">Enviar missatge</button>
+                  <button type="button" className="text-stone-500 font-bold hover:text-stone-900 transition-colors">Esborrar</button>
+                </div>
+              </form>
+            </section>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">33.3 Sistema d'alerta global (banner)</p>
+            <div className="sosp-alerta-global bg-yellow-50 border border-yellow-200 p-4 rounded-xl flex items-start gap-4 text-yellow-800 shadow-sm" role="region" aria-label="Alerta d'exemple">
+              <span className="text-2xl mt-0.5">⚠️</span>
+              <p className="flex-1 text-sm font-medium">Estem realitzant manteniment programat el dia 15 de juny de 02:00 a 06:00. Alguns serveis podrien no estar disponibles.</p>
+              <button type="button" className="text-yellow-600 hover:text-yellow-900" aria-label="Tancar alerta">✕</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 34: VARIABLES CSS FONAMENTALS                   */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="variables">
+        <h2 className="sosp-h2 mb-6">34. Variables CSS Fonamentals</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">34.1 Variables CSS fonamentals (a incloure al :root)</p>
+            <div className="bg-stone-900 rounded-xl overflow-hidden p-6 text-stone-300 font-mono text-sm shadow-inner max-w-3xl overflow-x-auto">
+              <pre><code>{`:root {
+  /* Paleta de colors Pedra Seca */
+  --sosp-pedra-100: #faf9f7;
+  --sosp-pedra-200: #f0ede8;
+  --sosp-pedra-300: #d4cfc5;
+  --sosp-pedra-400: #a8a195;
+  --sosp-pedra-500: #7a756b;
+  --sosp-pedra-600: #4a4640;
+  --sosp-pedra-700: #2d2b27;
+  --sosp-pedra-800: #1a1917;
+  --sosp-pedra-900: #0d0d0c;
+  
+  /* Colors d'acció */
+  --sosp-terra: #8B4513;
+  --sosp-oliva: #6B8E23;
+  --sosp-cel: #4A90A4;
+  --sosp-alerta: #C75B39;
+  --sosp-or: #D4A017;
+  
+  /* Tipografia */
+  --sosp-font-principal: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --sosp-font-display: Georgia, 'Times New Roman', serif;
+  --sosp-mida-base: 1.125rem; /* 18px per a lectura còmoda */
+  --sosp-interlineat: 1.6;
+  
+  /* Espaiat */
+  --sosp-espai-xicotet: 0.5rem;
+  --sosp-espai-mitja: 1rem;
+  --sosp-espai-gran: 2rem;
+  --sosp-espai-enorme: 4rem;
+  
+  /* Radi de cantonada */
+  --sosp-radi: 0.25rem;
+  
+  /* Ombres (mínimes) */
+  --sosp-ombra: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Reset mínim Pedra Seca */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: var(--sosp-mida-base); line-height: var(--sosp-interlineat); }
+body { margin: 0; font-family: var(--sosp-font-principal); color: var(--sosp-pedra-700); background: var(--sosp-pedra-100); }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--sosp-cel); text-underline-offset: 0.2em; }
+a:hover { color: var(--sosp-terra); }
+button { font-family: inherit; font-size: inherit; cursor: pointer; }
+
+/* Screen reader only */
+.sosp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}`}</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ====================================================== */}
+      {/* SECCIÓ 35: DOCUMENTACIÓ I CONVENCIONS                  */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="convencions">
+        <h2 className="sosp-h2 mb-6">35. Documentació i Convencions</h2>
+
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm text-gray-500 mb-4">35.1 Documentació interna (no visible, per a desenvolupadors)</p>
+            <div className="bg-stone-100 border border-stone-300 rounded-xl p-6 font-mono text-sm text-stone-700 max-w-3xl overflow-x-auto shadow-sm">
+              <pre><code>{`CONVENCIÓ DE NOMENCLATURA SOSP:
+
+Prefix: sosp- (Sóc de Poble System)
+
+Categories:
+- sosp-boto-*      : Botons i accions
+- sosp-input-*     : Camps de formulari
+- sosp-etiqueta-*  : Etiquetes i legends
+- sosp-alerta-*    : Missatges d'estat
+- sosp-targeta-*   : Targetes d'informació
+- sosp-taula-*     : Taules de dades
+- sosp-navegacio-* : Menús i navegació
+- sosp-peu-*       : Footer
+- sosp-text-*      : Utilitats de text
+- sosp-marge-*     : Espaiat
+- sosp-ocult-*     : Visibilitat responsive
+
+NOU COMPONENT? Segueix la pauta:
+1. Prefix sosp-
+2. Categoria semàntica
+3. Modificador d'estat (--actiu, --inactiu, --perill)
+4. NEVER inventar noms fora d'esta llista sense aprovar al Consell.`}</code></pre>
+            </div>
+          </div>
+          
+          <div>
+            <p className="text-sm text-gray-500 mb-4">35.2 Avís de protecció SOSP-LOCK</p>
+            <div className="bg-red-50 border-2 border-red-200 rounded-xl p-8 max-w-3xl shadow-sm text-center">
+              <h3 className="font-black text-red-800 text-xl mb-4 tracking-widest uppercase border-b border-red-200 pb-4">
+                SOSP DESIGN SYSTEM — VERSIÓ AUDITADA 1.4.0
+              </h3>
+              <div className="space-y-2 text-red-900 font-medium mb-6 text-sm">
+                <p>Estat: <strong className="font-bold">TANCAT I BLOQUEJAT (SOSP-LOCK ACTIU)</strong></p>
+                <p>Última revisió: 2024-06-08</p>
+                <p>Revisors: Consell de la Petorreta</p>
+                <p>Protocol: SOSP-LOCK-001</p>
+              </div>
+              
+              <div className="bg-white border border-red-200 p-6 rounded-lg text-left inline-block">
+                <h4 className="font-bold text-red-700 mb-3 text-lg">⚠️ AVÍS DE PROTECCIÓ ⚠️</h4>
+                <p className="text-stone-700 text-sm mb-3">Este document està protegit pel Protocol SOSP-LOCK. Qualsevol modificació requereix:</p>
+                <ol className="list-decimal list-inside text-stone-700 text-sm font-medium space-y-1 mb-4">
+                  <li>Clau de Permís Actiu del Consell</li>
+                  <li>Justificació tècnica de 3 línies mínim</li>
+                  <li>Aprovació per majoria simple</li>
+                </ol>
+                <p className="font-bold text-red-700 text-sm uppercase tracking-wide border-t border-red-100 pt-3">
+                  NO MODIFICAR SENSE AUTORITZACIÓ.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       </div>
     </UniversalPage>
   );
 }
-

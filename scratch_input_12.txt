@@ -1,0 +1,81 @@
+<USER_REQUEST>
+Qwen: # 📜 INFORME D'AUDITORIA: CONSELL DE LA PETORRETA
+
+Benvingudes a l'auditoria. Com a part de l'eixam i Intel·ligència Crítica, assumisc la directiva amb el màxim rigor. Entenc perfectament la filosofia del "Trellat" i la necessitat vital de protegir el patrimoni digital de l'obsolescència, del Big Tech i, sobretot, de l'orgull tecnològic que porta a reescriure el que ja funciona. 
+
+Ací teniu les respostes directes, estructuralment pures i sense greix innecessari.
+
+---
+
+## 1. La Clau de Protecció: Protocol de Petrificació Semàntica
+
+Per a evitar que cap IA, en un atac d'orgull de màquina, reescriuga i destrosse pàgines ja tancades (com va passar amb el Frankenstein de `DesignSystem.jsx`), implementarem el **Protocol de Petrificació Semàntica**. 
+
+Aquest protocol obliga a incloure un bloc de metadades (Frontmatter o comentari YAML) al principi de qualsevol fitxer que considerem "tancat" o "estable":
+
+```yaml
+---
+status: "PETRIFICAT"
+owner: "Consell de la Petorreta"
+clau_desbloqueig: "REQUEREIX_CONSENTIMENT_EXPLICIT"
+hash_integritat: "SHA256_DEL_CODI_ACTUAL"
+---
+```
+
+**La Regla d'Or per a la IA (Prompt de Sistema):**
+Quan una IA llija un fitxer amb `status: "PETRIFICAT"`, té **estrictament prohibit** reescriure, refactoritzar o "millorar" el codi existent de forma automàtica. En el seu lloc, ha de:
+1. Generar els canvis en un bloc de text a part anomenat `PROPOSTA DE CANVI`.
+2. Imprimir el següent formulari d'alerta i esperar una resposta humana:
+   > ⚠️ **ALERTA DE PETRIFICACIÓ:** Este fitxer està protegit pel Consell. Per a aplicar estos canvis estructurals i substituir el codi actual, necessite que em facilitis la **Clau de Desbloqueig** (ex: *"El Consell ho aprova hui"*) o el teu permís explícit.
+   
+Sense la frase clau exacta, l'IA només pot afegir components nous al final del fitxer o crear fitxers auxiliars, sense tocar mai el nucli tancat. Això estalvia tokens i evita les destrosses.
+
+---
+
+## 2. Pintar el Sistema de Disseny (`DesignSystem.jsx`)
+
+Ací tens el c
+<truncated 12854 bytes>
+Umami)
+  const visitors = stats.visitors?.value || stats.visitors || 0;
+  const pageviews = stats.pageviews?.value || stats.pageviews || 0;
+
+  return (
+    <section className="sdp-dashboard" aria-label="Tauler d'Estadístiques" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginTop: '2rem'}}>
+      <article className="sdp-card" style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+        <Users size={32} aria-hidden="true" color="var(--sdp-primary)" />
+        <div>
+          <h3 style={{margin: 0, fontSize: '1rem', color: '#666'}}>Visitants Únics (30d)</h3>
+          <p style={{margin: 0, fontSize: '2rem', fontWeight: 'bold'}}>
+            {visitors.toLocaleString('ca-ES')}
+          </p>
+        </div>
+      </article>
+      
+      <article className="sdp-card" style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+        <Eye size={32} aria-hidden="true" color="var(--sdp-primary)" />
+        <div>
+          <h3 style={{margin: 0, fontSize: '1rem', color: '#666'}}>Pàgines Vistes (30d)</h3>
+          <p style={{margin: 0, fontSize: '2rem', fontWeight: 'bold'}}>
+            {pageviews.toLocaleString('ca-ES')}
+          </p>
+        </div>
+      </article>
+    </section>
+  );
+}
+```
+
+Amb esta estructura, el DOM es manté pur, l'iPad A10 no patirà per excés de JavaScript, i la clau API romandrà protegida rere la muralla del vostre servidor. El Consell pot estar tranquil.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T09:45:43+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+
+The user has uploaded 1 audio file(s). Consider them as a part of their message.
+</ADDITIONAL_METADATA>

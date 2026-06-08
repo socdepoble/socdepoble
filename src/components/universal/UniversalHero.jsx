@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import ImageCarousel from '../ui/ImageCarousel';
 
-const UniversalHero = memo(({ images, format = 'horizontal', position = 'center', onImageClick }) => {
+const UniversalHero = memo(({ images, format = 'square', position = 'center', onImageClick }) => {
     if (!images || images.length === 0) return null;
     
     const positionClass = position === 'top' ? 'object-top' : position === 'bottom' ? 'object-bottom' : 'object-center';
@@ -36,7 +36,7 @@ const UniversalHero = memo(({ images, format = 'horizontal', position = 'center'
                 <img 
                     src={displayImage || undefined} 
                     alt="Hero Banner" 
-                    loading="lazy"
+                    fetchpriority="high"
                     className={`block w-full ${
                         format === 'horizontal' ? `h-auto aspect-video object-cover ${positionClass} max-h-[60vh]` : 
                         format === 'native' ? `h-auto object-contain ${positionClass}` :

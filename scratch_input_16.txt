@@ -1,0 +1,72 @@
+<USER_REQUEST>
+Molt bé, Mestre. Tres tasques clares. Les execute per ordre de prioritat real, no per ordre nominal. Primer la forense d'Umami (és un bug concret i resolvible ara), després el Protocol de Protecció (és arquitectura de govern), i per últim el DesignSystem complet (és la peça gran).
+
+---
+
+## 📊 PART 1 — Diagnosi Umami: Nota 8/10 + Bug Trobat
+
+L'enfocament de l'arquitectura és **sòlid (8/10)**: atacar l'API directament és millor que un iframe. El 2 que falta és per manca de gestió d'errors granular i per l'exposició de l'API key en un document compartit (no fer-ho mai en producció — ha d'anar a `.env`).
+
+**El bug principal:** L'API d'Umami v1 retorna objectes anidats amb `.value` i `.change`, no valors directes:
+
+```json
+{
+  "visitors":  { "value": 450,  "change": 20 },
+  "pageviews": { "value": 1000, "change": 50 },
+  "visits":    { "value": 600,  "change": 30 },
+  "bounces":   { "value": 150,  "change": -10 },
+  "totaltime": { "value": 54000,"change": 2000 }
+}
+```
+
+El codi actual fa `stats?.visitors || 0` → retorna l'objecte sencer (que és *truthy*), i React o el mostra com `[object Object]` o llança "Objects are not valid as a React child". La correcció és `stats?.visitors?.value ?? 0`.
+
+Ara construïsc els dos fitxers:---
+
+## Resum de l'Auditoria — Claude (Seient Núm. 5)
+
+---
+
+### 🔐 PART 1 — Protocol GENOTIP-LOCK (nota: 8.5/10 per l'enfocament)
+
+L'enfocament és correcte i necessari. El protocol que he formalitzat funciona en tres capes:
+
+**Capa 1 — Header al fitxer.** Cada fitxer tancat porta un bloc visual inconfusible a la primera línia. Cap IA pot "no veure'l".
+
+**Capa 2 — `sosp-locks.json`.** Un manifest central a l'arrel del projecte que llista tots els fitxers tancats i les seues regles. Qualsevol IA ha de llegir-lo al principi de cada sessió de treball.
+
+**Capa 3 — Clau verbal explícita.** Sense la frase `MESTRE_PERMET_EDITAR: [fitxer]` en el prompt actiu, cap IA pot executar canvis. Ha de proposar, no aplicar.
+
+La raó per la qual el limit és 8
+<truncated 289 bytes>
+ però crític:** L'API d'Umami v1 retorna cada mètrica com a objecte `{ value, change }`. El codi original accedia a `stats?.visitors` (retornava l'objecte sencer, *truthy* → `|| 0` no actuava → React intentava renderitzar un objecte → error silenciós o `[object Object]`).
+
+La versió corregida inclou:
+- Accés correcte: `stats?.visitors?.value ?? 0`
+- Totes les 5 mètriques de l'API: visitants, visualitzacions, visites, rebots, temps total
+- Gestió d'errors granular per codi HTTP (401/403/404/429)
+- Distinció entre error CORS/xarxa i error de l'API
+- Refresc automàtic cada 5 minuts (només si la pestanya és activa)
+- **API key moguda a variables d'entorn `VITE_UMAMI_*`** — no ha d'anar mai hardcoded en el codi.
+
+---
+
+### 🎨 PART 3 — DesignSystem.jsx (1.274 línies)
+
+Pàgina completa amb tots els components canònics del sistema GEM MODERN:
+
+Principis fundacionals · Colors (tokens `--sp-*` clicables per copiar) · Tipografia · Escala d'espaciat Batec/Pas/Carrer/Plaça/Bancal · Botons amb tots els estats del Diccionari Trellat · Cards (estàndard + horitzontal) · Inputs/Toggles/Chips · Badges & Tags · Alertes · Mode Bancal ☀️ amb demostració del que és PROHIBIT · Avatars/TabBar/Skeleton/EmptyState · Galeria d'icones Lucide · Taula de referència completa de variables CSS · Extracte canònic de `index.css`.
+
+El fitxer ja porta el header `STATUS: TANCAT v1.0.0`. Cap IA el pot tocar sense `MESTRE_PERMET_EDITAR`.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T09:52:44+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+
+The user has uploaded 1 audio file(s). Consider them as a part of their message.
+</ADDITIONAL_METADATA>

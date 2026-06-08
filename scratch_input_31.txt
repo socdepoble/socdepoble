@@ -1,0 +1,127 @@
+<USER_REQUEST>
+Entesos, Comandament. Reprén l'escriptura des de la **Secció 19: Divisors i Separadors**, exactament on el senyal es va tallar. Via lliure concedida.
+
+---
+
+## [REPRÈS DE L'ARXIU — SESSIÓ 2]
+
+---
+
+### 19. DIVISORS I SEPARADORS
+
+```html
+<!-- 19.1 Separador horitzontal bàsic -->
+<hr class="sosp-divisor" />
+
+<!-- 19.2 Separador amb etiqueta -->
+<div class="sosp-divisor-amb-etiqueta">
+  <hr />
+  <span>o bé</span>
+  <hr />
+</div>
+
+<!-- 19.3 Separador de secció (major) -->
+<hr class="sosp-divisor-seccio" />
+
+<!-- 19.4 Separador puntejat -->
+<hr class="sosp-divisor-puntejat" />
+
+<!-- 19.5 Separador de pàgina (salt visual) -->
+<div class="sosp-salt-pagina" role="separator" aria-label="Fi de secció"></div>
+```
+
+---
+
+### 20. INDICADORS DE PROGRÉS
+
+```html
+<!-- 20.1 Barra de progrés lineal -->
+<div class="sosp-progres" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+  <div class="sosp-progres-barra" style="width: 65%;"></div>
+</div>
+
+<!-- 20.2 Barra de progrés amb etiqueta -->
+<div class="sosp-progres sosp-progres-amb-etiqueta">
+  <div class="sosp-progres-cap">
+    <span>Carregant mapa de la comarca...</span>
+    <span>65%</span>
+  </div>
+  <div class="sosp-progres-barra-fons">
+    <div class="sosp-progres-barra" style="width: 65%;"></div>
+  </div>
+</div>
+
+<!-- 20.3 Barra de progrés en pasos -->
+<div class="sosp-progres-pasos" aria-label="Progrés del formulari">
+  <div class="sosp-pas sosp-pas-completat">
+    <span class="sosp-pas-numero">1</span>
+    <span class="sosp-pas-titol">Dades personals</span>
+  </div>
+  <div class="sosp-pas-connector sosp-pas-connector-completat"></div>
+  <div class="sosp-pas sosp-pas-completat">
+    <span class="sosp-pas-numero">2</span>
+    <span class="sosp-pas-titol">Dades del poble</span>
+  </div>
+  <div class="sosp-pas-connector"></div>
+  <div class="sosp-pas sosp-pas-actiu" aria-current="step">
+    <span class="sosp-pas-numero">3</span>
+    <span class="sosp-pas-titol">Revisió</span>
+  </div>
+</div>
+
+<!-- 20.4 Spinner de càrrega -
+<truncated 27908 bytes>
+efix sosp-
+  2. Categoria semàntica
+  3. Modificador d'estat (--actiu, --inactiu, --perill)
+  4. NEVER inventar noms fora d'esta llista sense aprovar al Consell.
+-->
+```
+
+---
+
+## [FI DE L'ARXIU DesignSystem.jsx]
+
+```html
+<!-- 
+  ============================================================
+  SOSP DESIGN SYSTEM — VERSIÓ AUDITADA 1.4.0
+  ============================================================
+  Estat: TANCAT I BLOQUEJAT (SOSP-LOCK ACTIU)
+  Última revisió: 2024-06-08
+  Revisors: Consell de la Petorreta
+  Protocol: SOSP-LOCK-001
+  
+  ⚠️ AVÍS DE PROTECCIÓ ⚠️
+  Este document està protegit pel Protocol SOSP-LOCK.
+  Qualsevol modificació requereix:
+  1. Clau de Permís Actiu del Consell
+  2. Justificació tècnica de 3 línies mínim
+  3. Aprovació per majoria simple
+  
+  NO MODIFICAR SENSE AUTORITZACIÓ.
+  ============================================================
+-->
+```
+
+---
+
+**Comandament Arquitecte, l'arxiu està complet.** 🪨
+
+Des de la Secció 19 (Divisors) fins a la Secció 35 (Taula Resum de Tokens), tot el Sistema de Disseny de Sóc de Poble queda documentat en HTML pur, pla i accessible. Cada component porta el prefix `sosp-`, semanticament anomenat, i preparat per a ser llegit a ple sol en un iPad A10 per persones majors amb visió reduïda.
+
+**El Protocol SOSP-LOCK protegix esta pàgina.** Cap IA pot reescriure-la sense la Clau de Permís Actiu.
+
+L'Esquadró 11 espera ordres per a la següent fase de l'auditoria.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T10:15:54+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+
+The user has uploaded 1 audio file(s). Consider them as a part of their message.
+</ADDITIONAL_METADATA>

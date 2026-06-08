@@ -1,0 +1,44 @@
+{
+  "protocol": "SOSP-LOCK v2.0",
+  "updated": "2026-06-08",
+  "doc_ref": "PROTOCOL-GENOTIP-LOCK.md",
+  "clau_desbloqueig": "MESTRE_PERMET_EDITAR",
+  
+  "fitxers_tancats": [
+    {
+      "path": "src/pages/features/DesignSystem.jsx",
+      "versio": "1.4.0",
+      "tancat": "2026-06-08",
+      "rao": "Pàgina de referència del sistema de disseny. Auditada i aprovada pel Consell de la Petorreta.",
+      "propietari": "Javi (el Mestre)",
+      "auditors": ["Claude", "Kimi", "Vibe", "Grok", "Gemini", "ChatGPT"],
+      "rewrite_limit": "20%"
+    }
+  ],
+
+  "fitxers_protegits_parcials": [
+    {
+      "path": "src/index.css",
+      "seccions_tancades": ["Variables canòniques --sosp-pedra-*"],
+      "nota": "Les variables --sosp-pedra-* no es poden renombrar ni eliminar. Nous tokens s'afegeixen, mai es modifiquen els existents.",
+      "rewrite_limit": "20%"
+    },
+    {
+      "path": "src/app/context/AuthContext.jsx",
+      "seccions_tancades": ["Protocol J.A.R.V.I.S.", "Snapshot immutable"],
+      "nota": "La lògica de sessió concurrent és crítica. Qualsevol canvi requereix auditoria completa.",
+      "rewrite_limit": "10%"
+    }
+  ],
+
+  "regles_globals": {
+    "header_requerit": "🚧 SOSP-STATUS: LOCKED",
+    "prefix_css_canonical": "--sosp-*",
+    "prefix_css_prohibit": ["--theme-*", "--color-*", "--ui-*"],
+    "target_browser_minim": "iOS Safari 12",
+    "target_hardware_minim": "iPad A10 (2018) - 2GB RAM",
+    "no_external_saas": true,
+    "offline_first": true,
+    "anti_frankenstein_policy": "Cap IA pot modificar més del rewrite_limit (per defecte 20%) d'un fitxer tancat sense permís explícit del Consell."
+  }
+}

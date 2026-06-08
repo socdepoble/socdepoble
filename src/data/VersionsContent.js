@@ -8,9 +8,82 @@ export const VERSIONS_HTML = `
         </div>
         <h1>REGISTRE HISTÒRIC</h1>
         <p className="lead">Control de Versions · Sóc de Poble</p>
-    </div>
+        <!-- V10.38.40 -->
+        <div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            
+            <div>
+                <div>
+                    <span>V10.38.40</span>
+                    <span>08 JUNY 2026</span>
+                </div>
+                <h2>Arquitectura Híbrida de Telemetria</h2>
+                
+                <p className="lead">
+                    Davant del bloqueig estricte d'iframes en navegadors sense suport per a <code>credentialless</code> (com Firefox i Safari) causat per la política COEP del nostre Service Worker (fonamental per a l'SQLite WASM), hem desplegat un <strong>tauler natiu via API</strong> al núvol d'Umami. Aquest component s'integra perfectament en el disseny, ofereix estadístiques en temps real sense dependre d'iframes, i afegeix un enllaç directe per a obrir l'analítica avançada sense cap de les restriccions del domini principal.
+                </p>
+            </div>
+        </div>
 
-    <div>
+        <!-- V10.38.39 -->
+        <div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            
+            <div>
+                <div>
+                    <span>V10.38.39</span>
+                    <span>08 JUNY 2026</span>
+                </div>
+                <h2>Neteja de Consola i Optimització Tèrmica</h2>
+                
+                <p className="lead">
+                    S'han silenciat els falsos positius d'AbortError generats pels canvis de pestanya per a garantir una consola completament neta. També hem assignat permisos específics de càlcul (Compute Pressure) als embeddings externs de vídeo (Youtube) complint l'auditoria rigorosa per a dispositius de gamma alta i iPads antics.
+                </p>
+            </div>
+        </div>
+
+        <!-- V10.38.38 -->
+        <div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            
+            <div>
+                <div>
+                    <span>V10.38.38</span>
+                    <span>08 JUNY 2026</span>
+                </div>
+                <h2>Restauració de la Telemetria Pública (Iframe)</h2>
+                
+                <p className="lead">
+                    A petició popular i per seguir la nostra llei de la Transparència Radical, hem restaurat l'aparença original del Tauler de Telemetria d'Umami mitjançant l'embed natiu, permetent als usuaris interactuar, filtrar dates i veure tots els gràfics complets, garantint així un accés obert i íntegre a les dades globals de connectivitat del poble sense falsos filtres de codi.
+                </p>
+            </div>
+        </div>
+
+        <!-- V10.38.37 -->
+        <div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            
+            <div>
+                <div>
+                    <span>V10.38.37</span>
+                    <span>08 JUNY 2026</span>
+                </div>
+                <h2>Auditoria LCP i Prevenció de Bloquejos (Deadlocks)</h2>
+                
+                <p className="lead">
+                    En aquesta versió s'ha reforçat la resiliència del sistema contra bloquejos d'IndexedDB causats per tenir diverses pestanyes obertes. S'ha ampliat la tolerància del Failsafe fins a 25 segons per permetre les rotacions de connexió i hem purgat les imatges precarregades (LCP) innecessàries, optimitzant així el rendiment per a tots els pobles connectats.
+                </p>
+            </div>
+        </div>
+
         <!-- V10.38.35 -->
         <div>
             <div>

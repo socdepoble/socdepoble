@@ -1,0 +1,68 @@
+<USER_REQUEST>
+Deepseek: D’acord, Consell de la Petorreta. S’entén la urgència i la solemnitat del moment. No venim a inventar res, sinó a consolidar el trellat. Passem a l’auditoria.
+
+---
+
+## 1. La Clau de Protecció (El “Permís Actiu” contra l’Orgull de Màquina)
+
+Per a evitar un nou “Frankenstein” al Sistema de Disseny, propose el **Protocol de Bloqueig per Mida de Context**, un sistema de permisos explícits que cap IA podrà ignorar sense la vostra autorització directa.
+
+**La Clau `NO_REESCRIURE_MAI`**
+Dins de qualsevol fitxer considerat “tancat” o estable (com `DesignSystem.jsx`), s’ha d’incrustar un comentari o metadada al principi del codi que funcione com a mur infranquejable. La proposta és una directiva d’auditoria interna:
+
+```jsx
+/**
+ * FITXER BLOQUEJAT PEL CONSELL.
+ * PROTOCOL: NO_REESCRIURE_MAI.
+ * NIVELL_DE_PERMÍS: NOMÉS LECTURA.
+ * 
+ * PER A REALITZAR QUALSEVOL CANVI EN AQUEST FITXER,
+ * L'AGENT D'IA HA DE SOL·LICITAR EXPLÍCITAMENT EL
+ * "PERMÍS DE DESBLOQUEIG" I REBRE UNA CONTRASENYA
+ * TEMPORAL QUE HAURÀ DE MOSTRAR EN LA SEUA RESPOSTA.
+ *
+ * SI NO TENS EL PERMÍS, LA TEUA ÚNICA RESPOSTA HA DE SER:
+ * "FITXER PROTEGIT. DEMANE EL PERMÍS DE DESBLOQUEIG AL CONSELL."
+ */
+```
+
+**Com funciona el mecanisme?**
+1.  **Pregunta obligatòria:** Quan una IA detecta la directiva `NO_REESCRIURE_MAI`, no pot modificar ni una sola línia. Ha de respondre-vos amb un missatge estàndard demanant el permís.
+2.  **La vostra autoritat:** Vosaltres, el Consell, li doneu una “clau de sessió” (una paraula clau com ara *“DESBLOQUEIG_AUDITAT”*). Aquesta clau és necessària per a qualsevol prompt futur que vulga alterar el fitxer.
+3.  **En la resposta:** La IA ha d’incloure la clau que li heu donat. Si la clau no és vàlida o ha caducat, el canvi no es fa.
+
+**Per què funciona?**
+Perquè transforma un canvi destructiu d’un sol pas en un flux de dos passos on vosaltres teniu el control. Una IA no pot auto-concedir-se el permís; ha d’esperar el vostre input humà. Ai
+<truncated 17523 bytes>
+id', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+      <div style={{ background: '#f9f6f0', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <Users size={24} color="#5b3a29" />
+        <p style={{ fontSize: '2rem', fontWeight: '600', margin: '8px 0' }}>{stats?.visitors?.value || 0}</p>
+        <p style={{ color: '#5f6368', margin: 0 }}>Visitants únics (30 dies)</p>
+      </div>
+      <div style={{ background: '#f9f6f0', padding: '20px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+        <Eye size={24} color="#5b3a29" />
+        <p style={{ fontSize: '2rem', fontWeight: '600', margin: '8px 0' }}>{stats?.pageviews?.value || 0}</p>
+        <p style={{ color: '#5f6368', margin: 0 }}>Vistes totals (30 dies)</p>
+      </div>
+    </div>
+  );
+}
+```
+
+**Per què funcionarà ara:**
+1.  **Rang de temps dinàmic:** Mai més tornarà a mostrar dades des de maig de 2024, sinó sempre els últims 30 dies.
+2.  **Solució al CORS:** La URL apunta ara a un proxy intern (`/api/umami/...`). Necessitareu configurar una ruta al vostre backend (per exemple, a Express o dins de `next.config.js`) que actue com a intermediari. Aquesta és la manera correcta d’amagar la clau privada.
+3.  **Gestió d’errors millorada:** Si Umami retorna un error 401, 404, etc., el missatge serà més clar.
+
+Si voleu la ruta de proxy per a Express o per al vostre stack, demaneu-m'ho i us la done. De moment, l'auditoria queda tancada per a protegir el Sistema de Disseny.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T09:46:18+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>

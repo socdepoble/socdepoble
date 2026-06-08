@@ -1,0 +1,95 @@
+<USER_REQUEST>
+Vibe: **Javi Llinares, del Consell de la Petorreta, us respon amb precisió tècnica i compromís amb la filosofia del Trellat.**
+
+---
+
+## **🔐 1. LA CLAU DE PROTECCIÓ: "PERMÍS ACTIU" (NOTA: 8/10)**
+**Qualificació:** **8/10** (Alta protecció, però cal automatitzar la validació i integrar-la amb el flux de treball existents).
+
+### **Mecanisme Proposat: "Sistema de Segell Digital + Permís Explicít"**
+Per evitar que cap IA (o humà) **reescriga o modifique** pàgines "tancades" (com `DesignSystem.jsx`), proposeu un **sistema de 3 capes**:
+
+---
+
+### **🔹 CAPA 1: SEGELL D'INTEGRITAT (HTML + Git)**
+- **Fitxer de segell:** Cada pàgina tancada tindrà un **fitxer `.lock`** al mateix directori (ex: `DesignSystem.jsx.lock`).
+  - Contindrà:
+    ```yaml
+    page: DesignSystem.jsx
+    status: TANCAT
+    last_approved_by: "Consell de la Petorreta (Javi Llinares, Iaia Maria)"
+    last_approved_date: "2026-06-08T09:25:00+02:00"
+    hash: "sha256:abc123..."  # Hash del contingut actual
+    allowed_editors: ["Javi Llinares", "Iaia Maria", "Mestre Javi"]  # Llista blanca
+    ```
+- **Validació automàtica:**
+  - **Pre-commit hook** (Git): Abans de qualsevol `git commit`, un script (`pre-commit.sh`) **comprovarà** si el fitxer té un `.lock` i si l’editor està a la llista blanca.
+  - Si no compleix: **Error i bloqueig del commit**.
+  - Exemple de script:
+    ```bash
+    #!/bin/bash
+    if [ -f "$1.lock" ]; then
+      if ! grep -q "$(git config user.name)" "$1.lock"; then
+        echo "❌ ERROR: $1 és una pàgina TANCADA. No tens permís per editar-la."
+        echo "Sol·licita permís al Consell de la Petorreta."
+        exit 1
+      fi
+    fi
+    ```
+
+---
+
+### **🔹 CAPA 2: PERMÍS ACTIU (Solicitud + Aprovació)**
+- **Flux de treball:**
+  1. **Solicitud:** Si algú (IA o humà) vol editar una pàgina tancada, ha de **crear un PR (Pull Request)** amb el prefix `[SOL·LICITUD-PERMÍS]` i etiquetar `@ConsellPetorreta`.
+  2. **Revisió:** El Consell (o un bot automàtic) **revisarà** el PR i:
+     
+<truncated 45215 bytes>
+ != *"[SOL·LICITUD-PERMÍS]"* ]]; then
+              echo "❌ El PR no té el prefix [SOL·LICITUD-PERMÍS]."
+              exit 1
+            fi
+            # Lògica per verificar canvis en fitxers tancats
+            # (Podeu usar `git diff` per comparar amb el segell)
+  ```
+
+---
+#### **🔹 CAPA 3: PROTECCIÓ EN TEMPS D'EXECUCIÓ (Runtime)**
+- **Middleware de React:**
+  Afegir un **middleware** a l’aplicació que **comprovi** si el fitxer té un segell vàlid abans de renderitzar-lo.
+  **Exemple:**
+  ```jsx
+  // src/middleware/lockChecker.js
+  import fs from 'fs';
+  import crypto from 'crypto';
+  import path from 'path';
+
+  export function checkLock(filePath) {
+    const lockFile = path.join(path.dirname(filePath), `${path.basename(filePath)}.lock`);
+    if (fs.existsSync(lockFile)) {
+      const lock = fs.readFileSync(lockFile, 'utf8');
+      const currentHash = crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
+      const lockHash = lock.match(/hash:\s*["']?([^"'\s]+)/)?.[1];
+      if (currentHash !== lockHash) {
+        throw new Error(`❌ ${filePath} ha sigut modificat sense permís!`);
+      }
+    }
+  }
+  ```
+  **Ús a l’aplicació:**
+  ```jsx
+  // A l'inici de l'aplicació (ex: App.jsx)
+  import { checkLock } from './middleware/lockChecker';
+  checkLock('./src/pages/features/DesignSystem.jsx');
+  ```
+
+---
+---
+### **📌 Resum de la Clau de Protecció**
+| **Capa**               | **Mecanisme**                          | **Responsable**          | **Automatitzat?** | **Complexitat** |
+|------------------------|----------------------------------------|--------------------------|------------------|-----------------|
+| **Segell d'integritat** | Fitxer `.lock` + hash SHA256 + pre-commit | Git + Script             | ✅ Sí            | Baixa           |
+| **Permís actiu**       | PR + Aprovació del Consell            
+<truncated 16941 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

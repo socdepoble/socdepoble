@@ -1,0 +1,65 @@
+<USER_REQUEST>
+Copilot: **Resposta ràpida:** **Proposo un sistema de “Permís Actiu” basat en *policy‑as‑code* + punts d’aprovació per acció (human‑in‑the‑loop) i controls de branca protegida; això evita que una IA reescriga pàgines “tancades” sense aprovació signada.** A continuació trobareu la justificació, la nota (0–10), la correcció del `UmamiDashboard.jsx` i la pàgina `/disseny` (esbós i pautes, amb instruccions per pintar-ho tot en HTML pur).
+
+---
+
+### 1. Valoració ràpida
+**Nota:** **8 / 10.**  
+**Racional:** L’enfocament protector (bloquejar canvis automàtics a fitxers “tancats”) és necessari i pràctic; però cal combinar‑lo amb processos que no paralitzin l’equip (p. ex. approvals ràpids, canary, rollback automàtic).   [devops.gheware.com](https://devops.gheware.com/blog/posts/ai-devops-governance-framework-2026.html)  [hoop.dev](https://hoop.dev/blog/build-faster-prove-control-action-level-approvals-for-ai-execution-guardrails-policy-as-code-for-ai).
+
+---
+
+### 2. “Permís Actiu” — proposta concreta (resum)
+**Components clau (implementables avui):**
+- **Policy as code (OPA / Rego)** que defineixi fitxers i rutes “frozen” i accions sensibles.   [hoop.dev](https://hoop.dev/blog/build-faster-prove-control-action-level-approvals-for-ai-execution-guardrails-policy-as-code-for-ai).  
+- **Agent Mode Protocol (RIPER‑style)**: l’agent ha d’anunciar el *mode* (RESEARCH / PLAN / EXECUTE / REVIEW) i no pot canviar‑lo sense comanda humana explícita.   [Github](https://github.com/recklyss/RIPER-AI-AGENT-RULES).  
+- **Action‑Level Approvals**: cada acció que afecti fitxers marcats dispara una petició d’aprovació en Slack/Teams amb metadades (diff, risc, autor, timestamp); sense aprovació no es pot fer merge ni deploy.   [hoop.dev](https://hoop.dev/blog/build-faster-prove-control-action-level-approvals-for-ai-execution-guardrails-policy-as-code-for-ai).  
+- **CI gates + Branch protection**: protegir `main`/`design-system` amb required reviews, 
+<truncated 2332 bytes>
+            'x-umami-api-key': apiKey,
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.status === 401) throw new Error('Unauthorized: revisa la clau d\'API');
+        if (!response.ok) throw new Error('Error al connectar amb el servidor de telemetria');
+
+        const data = await response.json();
+        setStats(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  if (loading) return <div>Carregant...</div>;
+  if (error) return <div>{error}</div>;
+
+  return (
+    <div>
+      <p><strong>Visitants:</strong> {stats?.visitors ?? 0}</p>
+      <p><strong>Vistes:</strong> {stats?.pageviews ?? 0}</p>
+      <p><strong>Visites:</strong> {stats?.visits ?? 0}</p>
+    </div>
+  );
+}
+```
+**Notes:** Emmagatzemeu la clau en variables d’entorn o, millor, crideu‑la des d’un endpoint backend per evitar exposició al client.   [docs.umami.is](https://docs.umami.is/docs/guides/embed-analytics-in-your-app)  [docs.umami.is](https://docs.umami.is/docs/guides/automate-reporting-with-api).
+
+---
+
+### 4. Proper `/disseny` en HTML pur
+Puc generar la pàgina completa `src/pages/features/DesignSystem.jsx` en **HTML pur** amb **totes** les entrades (tokens, components, variants, accessibility notes, examples, code snippets) i una estructura llarga i navegable. Vols que la generi ara en un sol fitxer HTML? Si sí, confirmaré l’abast (tota la llista de components o només els més crítics) i la longitud esperada.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T10:12:52+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>

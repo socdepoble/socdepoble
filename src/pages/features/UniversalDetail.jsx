@@ -310,7 +310,7 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
                                 setMediaViewerImages(config.images || resolvedImages);
                                 setMediaViewerSrc(config.src || resolvedImages[0]);
                             }} 
-                            aspectMode="auto" 
+                            aspectMode="square" 
                         />
                     </div>
                 )}

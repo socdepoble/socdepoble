@@ -31,31 +31,31 @@ jobs:
         run: |
           mkdir -p backups_localstorage
           node - <<'NODE'
-const fs=require('fs');
-const puppeteer=require('puppeteer');
-(async()=>{
-  const url=process.env.TEST_URL || 'http://localhost:3000/';
-  const browser=await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
-  const page=await browser.newPage();
-  await page.goto(url,{waitUntil:'networkidle2',timeout:60000});
-  const prefix=process.env.PREFIX || 'socdepoble_';
-  const data=await page.evaluate((prefix)=>{
-    const out={};
-    for(let i=0;i<localStorage.length;i++){
-      const k=localStorage.key(i);
-      if(k && k.indexOf(prefix)===0){
-        try{ out[k]=JSON.parse(localStorage.getItem(k)); }catch(e){ out[k]=localStorage.getItem(k); }
-      }
-    }
-    return out;
-  }, process.env.PREFIX || 'socdepoble_');
-  const ts=new Date().toISOString().replace(/[:.]/g,'-');
-  const file=`backups_localstorage/localstorage_${process.env.PREFIX||'socdepoble_'}_${ts}.json`;
-  fs.writeFileSync(file, JSON.stringify({ts:Date.now(),prefix:process.env.PREFIX||'socdepoble_',data},null,2));
-  console.log(file);
-  await browser.close();
-})();
-NODE
+          const fs=require('fs');
+          const puppeteer=require('puppeteer');
+          (async()=>{
+            const url=process.env.TEST_URL || 'http://localhost:3000/';
+            const browser=await puppeteer.launch({args:['--no-sandbox','--disable-setuid-sandbox']});
+            const page=await browser.newPage();
+            await page.goto(url,{waitUntil:'networkidle2',timeout:60000});
+            const prefix=process.env.PREFIX || 'socdepoble_';
+            const data=await page.evaluate((prefix)=>{
+              const out={};
+              for(let i=0;i<localStorage.length;i++){
+                const k=localStorage.key(i);
+                if(k && k.indexOf(prefix)===0){
+                  try{ out[k]=JSON.parse(localStorage.getItem(k)); }catch(e){ out[k]=localStorage.getItem(k); }
+                }
+              }
+              return out;
+            }, process.env.PREFIX || 'socdepoble_');
+            const ts=new Date().toISOString().replace(/[:.]/g,'-');
+            const file=`backups_localstorage/localstorage_${process.env.PREFIX||'socdepoble_'}_${ts}.json`;
+            fs.writeFileSync(file, JSON.stringify({ts:Date.now(),prefix:process.env.PREFIX||'socdepoble_',data},null,2));
+            console.log(file);
+            await browser.close();
+          })();
+          NODE
           echo "::set-output name=file::$(ls -1t backups_localstorage/*.json | head -n1)"
 
       - name: Compute SHA256 checksum

@@ -252,7 +252,7 @@ const MasterEditor = ({ note, showIndex, onChange, onAIA, placeholder }) => {
             if (url) html = `<img src="${url}" style="max-width:100%; border-radius:12px; margin: 16px 0;" />`;
         } else if (type === 'video') {
             const url = prompt('URL del vídeo (YouTube/Vimeo Embed):');
-            if (url) html = `<div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin: 16px 0;"><iframe src="${url}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe></div>`;
+            if (url) html = `<div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:12px; margin: 16px 0;"><iframe src="${url}" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" allowfullscreen></iframe></div>`;
         } else if (type === 'embed') {
             const code = prompt('Codi d\'incrustació (IFrame/PowerPoint):');
             if (code) html = `<div class="embed-block" style="margin: 16px 0;">${code}</div>`;

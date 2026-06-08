@@ -98,7 +98,7 @@ const UniversalCardFooter = ({
 
     return (
         <>
-            <div className="w-full bg-[#4F46E5] dark:bg-[#F97316] text-white flex justify-between items-center pl-4 pr-[10px] py-0 h-[64px] min-h-[64px] max-h-[64px] shrink-0 overflow-hidden">
+            <div className="w-full bg-[#4F46E5] dark:bg-[#F97316] text-white flex justify-between items-center pl-4 pr-[10px] py-0 h-[56px] min-h-[56px] max-h-[56px] shrink-0 overflow-hidden">
                 <div className="flex items-center gap-5">
                     <button className="hover:opacity-80 transition-opacity flex items-center justify-center p-1" aria-label="Traduir" onClick={handleTranslateClick}>
                         <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[22px] h-[22px] object-contain drop-shadow-sm brightness-110" />

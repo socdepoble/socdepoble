@@ -1,0 +1,273 @@
+<USER_REQUEST>
+ChatGPT: # Auditoria SOSP-GEN-PROMPT-003
+
+## 0. Valoració de l'enfocament protector
+
+**Nota: 9,5/10**
+
+El problema que descrius és real i apareix en quasi tots els projectes on intervenen múltiples IA:
+
+* Una IA veu una pàgina antiga.
+* Detecta coses "millorables".
+* Reescriu tot el fitxer.
+* Desapareix el coneixement acumulat.
+* Es trenquen estils, rutes o dependències.
+* Es gasten hores recuperant allò que ja funcionava.
+
+No és un problema tècnic. És un problema de governança.
+
+La solució no és una IA més intel·ligent.
+
+La solució és un **protocol de permisos**.
+
+---
+
+# 1. La Clau de Protecció (Permís Actiu)
+
+Propose implantar una norma arquitectònica formal:
+
+## Estat dels fitxers
+
+### 🟢 VERD (Obert)
+
+Es poden modificar lliurement.
+
+```yaml
+status: OPEN
+```
+
+---
+
+### 🟡 GROC (Estabilitzat)
+
+Només canvis puntuals.
+
+```yaml
+status: STABLE
+```
+
+Exemple:
+
+* corregir un bug
+* afegir una propietat
+* millorar accessibilitat
+
+Prohibit:
+
+* reescriure el fitxer sencer
+
+---
+
+### 🔴 ROIG (Tancat)
+
+```yaml
+status: LOCKED
+```
+
+Exemple:
+
+```jsx
+/**
+ * SOSP LOCK
+ * status: LOCKED
+ * owner: Consell de la Petorreta
+ * version: 1.0
+ */
+```
+
+Quan una IA detecta això:
+
+### Regla obligatòria
+
+NO POT:
+
+* reestructurar
+* renombrar
+* substituir
+* refactoritzar massivament
+
+Només pot:
+
+* llegir
+* documentar
+* proposar canvis
+
+---
+
+# Protocol de Permís Actiu
+
+Si una IA vol tocar un fitxer LOCKED:
+
+ha de respondre:
+
+```text
+FITXER PROTEGIT
+
+Proposta:
+- 3 canvis
+
+Impacte:
+- baix
+
+Línies afectades:
+- 22-34
+
+Necessite permís explícit.
+```
+
+i parar.
+
+Sense excepcions.
+
+---
+
+# Regla Anti-Frankenstein
+
+Afegiria una segona norma:
+
+```yaml
+rewrite_limit: 20%
+```
+
+Cap IA pot modificar més del:
+
+```text
+20% del fitxer
+```
+
+sense permís.
+
+Si supera:
+
+```text
+STOP
+PERMÍS NECESSARI
+```
+
+Açò elimina el 95% dels "Frankensteins".
+
+---
+
+# 2. Anàlisi del problema d'Umami
+
+Ací veig diversos possibles errors.
+
+---
+
+## Error 1 (el més probable)
+
+Estàs usant:
+
+```js
+https://api.umami.is/v1/websites/${w
+<truncated 3193 bytes>
+ disseny.
+
+Però jo **no reescriuria DesignSystem.jsx sense veure el fitxer actual**.
+
+Precisament perquè estem intentant evitar un segon cas Frankenstein.
+
+El procediment segur seria:
+
+## Fase 1
+
+Auditar:
+
+```text
+src/pages/features/DesignSystem.jsx
+```
+
+actual.
+
+---
+
+## Fase 2
+
+Extraure automàticament:
+
+* botons
+* targetes
+* inputs
+* badges
+* alerts
+* modals
+* layouts
+* tipografia
+* icones
+* colors
+* estadístiques
+* components d'autenticació
+* components d'administració
+* components de pobles
+* components de patrimoni
+* components de timeline
+* components de mapa
+* components d'Umami
+
+---
+
+## Fase 3
+
+Construir una pàgina documental tipus:
+
+```html
+<section>
+  <h2>Botons</h2>
+
+  <button>Primari</button>
+  <button>Secundari</button>
+  <button>Perill</button>
+</section>
+
+<section>
+  <h2>Targetes</h2>
+
+  <article>
+    ...
+  </article>
+</section>
+
+<section>
+  <h2>Formularis</h2>
+
+  ...
+</section>
+```
+
+tot en HTML pla i semàntic.
+
+---
+
+## Recomanació final
+
+Abans de tocar `/disseny`, jo declararia:
+
+```yaml
+file: DesignSystem.jsx
+status: LOCKED
+rewrite_limit: 20%
+```
+
+i convertiria aquesta pàgina en la **font de veritat oficial** del projecte.
+
+A partir d'eixe moment, qualsevol IA hauria d'estar obligada a:
+
+1. Llegir-la.
+2. Comparar-la.
+3. Proposar canvis.
+4. Esperar permís.
+
+Mai tornar a reconstruir-la des de zero.
+
+Si em passes el contingut real de `DesignSystem.jsx`, puc fer una auditoria component per component i proposar una estructura completa per a la ruta `/disseny` sense vulnerar eixe protocol de protecció.
+
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-08T10:13:33+02:00.
+
+The user's current state is as follows:
+Active Document: /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 136
+Other open documents:
+- /Users/javillinares/Documents/Antigravity/Sóc de Poble/docs/auditories/20260608_0929_prompt_auditoria_designsystem.md (LANGUAGE_MARKDOWN)
+</ADDITIONAL_METADATA>
