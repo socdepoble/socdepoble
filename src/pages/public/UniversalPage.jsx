@@ -1,8 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Book, Plus, MessageCircle, Share2, Globe, List as ListIcon } from 'lucide-react';
-import FloatingIndex from '../../components/ui/FloatingIndex';
 
 const RichTextEditor = lazy(() => import('../../components/ui/RichTextEditor'));
 import { useAuth } from '../../app/context/AuthContext';
@@ -11,23 +9,21 @@ import { useModal } from '../../app/context/ModalContext';
 const HistoryModal = lazy(() => import('../../components/modals/HistoryModal'));
 import { sanitizeHtml } from '../../utils/sanitizeHtml';
 import useAccessibleSearch from '../../hooks/useAccessibleSearch';
-import SEO from '../../components/core/SEO';
-import { APP_VERSION } from '../../constants';
 
-import UniversalCardHeader from '../../components/ui/universal-card/UniversalCard.Header';
-import MediaViewerModal from '../../components/modals/MediaViewerModal';
-import ImageCarousel from '../../components/ui/ImageCarousel';
 import LazyHtmlRenderer from '../../components/ui/LazyHtmlRenderer';
-
+import UniversalShell from '../../components/universal/UniversalShell';
+import { createPageViewModel } from '../../factories/PageViewModelFactory';
 // Es carregarà de forma dinàmica per externalitzar pes de l'arrel
 import { get, set } from 'idb-keyval';
 import { useAtomicGuard } from '../../hooks/useAtomicGuard';
 import { MEDIA_REGISTRY } from '../../data/media_registry';
 import { VERSIONS_HTML } from '../../data/VersionsContent';
-import { SKILLS_HTML } from '../../data/SkillsContent';
+import { SKILLS_HTML, DESIGN_HTML } from '../../data/SkillsContent';
 import { IAIES_MUNDIALS_HTML } from '../../data/IaiesMundialsContent';
 import { HUMAN_PROJECT_HTML } from '../../data/HumanProjectContent';
+import { CONSTITUCIO_HTML } from '../../data/ConstitucioContent';
 import ContentWithShortcodes from '../../components/core/ContentWithShortcodes';
+import { MOCK_FEED } from '../../data';
 
 const resolveMedia = (originalPath) => {
     if (!originalPath || originalPath.startsWith('http')) return originalPath;
@@ -75,12 +71,13 @@ const UniversalPage = ({
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [isIndexOpen, setIsIndexOpen] = useState(false);
+    const [isIndexPinned, setIsIndexPinned] = useState(false);
     
     // Trellat: Guardas atómicas
     const { atomicYSave, startCritical } = useAtomicGuard();
     const yDocRef = useRef(null);
 
-
+    const [customComponentPath, setCustomComponentPath] = useState(null);
     const canEdit = isSuperAdmin || (user && collaborators.includes(user.id));
 
     const [mediaViewerSrc, setMediaViewerSrc] = useState(null);
@@ -95,16 +92,20 @@ const UniversalPage = ({
     const [heroImage, setHeroImage] = useState('');
     const [logoLight, setLogoLight] = useState(() => {
         const _s = slug || window.location.pathname.replace(/^\/+/, '');
-        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '';
+        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : '';
     });
     const [logoDark, setLogoDark] = useState(() => {
         const _s = slug || window.location.pathname.replace(/^\/+/, '');
-        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '';
+        return ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta'].includes(_s) ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '';
     });
 
     // OMEGA TRANSLATE STATE
     const [translating, setTranslating] = useState(false);
     const [translatedContent, setTranslatedContent] = useState(null);
+
+    const pageItem = useMemo(() => {
+        return MOCK_FEED?.find(item => item.slug === routeSlug || item.slug === slug || item.id === `post-socdepoble-${routeSlug}`);
+    }, [routeSlug, slug]);
 
     // HISTORY STATE
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -190,6 +191,46 @@ const UniversalPage = ({
                 if (localCache.logoLight) setLogoLight(localCache.logoLight);
                 if (localCache.logoDark) setLogoDark(localCache.logoDark);
                 
+                // RESTORE HERO PROPERTIES OR FALLBACK TO HARDCODED
+                const isHardcoded = ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'constitucio', 'disseny'].includes(_slug);
+                
+                if (localCache.heroImage !== undefined && localCache.heroImage !== null) {
+                    setHeroImage(localCache.heroImage);
+                } else if (isHardcoded) {
+                    let tempContent = '';
+                    if (_slug === 'skills') tempContent = SKILLS_HTML;
+                    else if (_slug === 'versions') tempContent = VERSIONS_HTML;
+                    else if (_slug === 'iaies-mundials') tempContent = IAIES_MUNDIALS_HTML;
+                    else if (_slug === 'disseny') tempContent = DESIGN_HTML;
+                    else if (_slug === 'el-projecte' || _slug === 'projecte') tempContent = HUMAN_PROJECT_HTML;
+                    else if (_slug === 'constitucio') tempContent = CONSTITUCIO_HTML;
+                    
+                    if (tempContent) {
+                        const imageMatch = tempContent.match(/<!-- HERO_IMAGE: (.*?) -->\n?/);
+                        if (imageMatch && imageMatch[1]) setHeroImage(imageMatch[1].trim());
+                    }
+                }
+                
+                if (localCache.heroFormat) {
+                    setHeroFormat(localCache.heroFormat);
+                } else if (isHardcoded) {
+                    let tempContent = '';
+                    if (_slug === 'skills') tempContent = SKILLS_HTML;
+                    else if (_slug === 'versions') tempContent = VERSIONS_HTML;
+                    else if (_slug === 'iaies-mundials') tempContent = IAIES_MUNDIALS_HTML;
+                    else if (_slug === 'disseny') tempContent = DESIGN_HTML;
+                    else if (_slug === 'el-projecte' || _slug === 'projecte') tempContent = HUMAN_PROJECT_HTML;
+                    else if (_slug === 'constitucio') tempContent = CONSTITUCIO_HTML;
+                    
+                    if (tempContent) {
+                        const formatMatch = tempContent.match(/<!-- HERO_FORMAT: (.*?) -->\n?/);
+                        if (formatMatch && formatMatch[1]) setHeroFormat(formatMatch[1]);
+                        else setHeroFormat(['projecte', 'el-projecte'].includes(_slug) ? 'square' : 'horizontal');
+                    }
+                }
+                
+                if (localCache.heroPosition) setHeroPosition(localCache.heroPosition);
+                
                 setHtmlContent(updates.htmlContent);
                 setTitle(updates.title);
                 setSubtitle(updates.subtitle);
@@ -199,13 +240,15 @@ const UniversalPage = ({
             }
             
             // OPTIMITZACIÓ EXTREMA LCP/FCP: Evitar bloqueig de Supabase per a plantilles hardcoded en incògnit o buides
-            const isHardcoded = ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
+            const isHardcoded = ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'constitucio', 'disseny'].includes(_slug);
             if (!localCache && isHardcoded) {
                 let tempContent = '';
-                if (_slug === 'skills') { tempContent = SKILLS_HTML; updates.title = "Skills"; updates.subtitle = "Tot el que em fa ser qui sóc"; }
+                if (_slug === 'skills') { tempContent = SKILLS_HTML; updates.title = "Skills"; updates.subtitle = "Com pensem? Tot el que em fa ser qui sóc"; }
                 else if (_slug === 'versions') { tempContent = VERSIONS_HTML; updates.title = "Versions del Sistema"; updates.subtitle = "Historial d'actualitzacions i memòria tècnica"; }
                 else if (_slug === 'iaies-mundials') { tempContent = IAIES_MUNDIALS_HTML; updates.title = "Iaies Mundials"; updates.subtitle = "Conexions globals"; }
-                else if (_slug === 'el-projecte' || _slug === 'projecte') { tempContent = HUMAN_PROJECT_HTML; updates.title = "Sóc de Poble: El Llibre"; updates.subtitle = "Projecte Documental Transmèdia"; }
+                else if (_slug === 'disseny') { tempContent = DESIGN_HTML; updates.title = "Disseny"; updates.subtitle = "Com construïm la Masia?"; }
+                else if (_slug === 'el-projecte' || _slug === 'projecte') { tempContent = HUMAN_PROJECT_HTML; updates.title = "El Projecte"; updates.subtitle = "Per què existim? (Projecte Documental Transmèdia)"; }
+                else if (_slug === 'constitucio') { tempContent = CONSTITUCIO_HTML; updates.title = "Constitució"; updates.subtitle = "Quines lleis no podem trencar?"; }
                 
                 if (tempContent) {
                     const formatMatch = tempContent.match(/<!-- HERO_FORMAT: (.*?) -->\n?/);
@@ -232,14 +275,14 @@ const UniversalPage = ({
 
             if (error) throw error;
 
-            if (data || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug)) {
+            if (data || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'constitucio', 'disseny'].includes(_slug)) {
                 let content = data?.html_content || '';
                 
-                if (['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte'].includes(_slug)) {
+                if (['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'constitucio', 'disseny'].includes(_slug)) {
                     if (_slug === 'skills') {
                         content = SKILLS_HTML;
                         updates.title = "Skills";
-                        updates.subtitle = "Tot el que em fa ser qui sóc";
+                        updates.subtitle = "Com pensem? Tot el que em fa ser qui sóc";
                     } else if (_slug === 'versions') {
                         content = VERSIONS_HTML;
                         updates.title = "Versions del Sistema";
@@ -248,31 +291,45 @@ const UniversalPage = ({
                         content = IAIES_MUNDIALS_HTML;
                         updates.title = "Iaies Mundials";
                         updates.subtitle = "Conexions globals";
+                    } else if (_slug === 'disseny') {
+                        content = DESIGN_HTML;
+                        updates.title = "Disseny";
+                        updates.subtitle = "Com construïm la Masia?";
                     } else if (_slug === 'el-projecte' || _slug === 'projecte') {
                         content = HUMAN_PROJECT_HTML;
-                        updates.title = "Sóc de Poble: El Llibre";
-                        updates.subtitle = "Projecte Documental Transmèdia";
+                    } else if (_slug === 'constitucio') {
+                        content = CONSTITUCIO_HTML;
+                    } 
+                    if (_slug === 'el-projecte' || _slug === 'projecte') {
+                        updates.title = "El Projecte";
+                        updates.subtitle = "Per què existim? (Projecte Documental Transmèdia)";
+                    } else if (_slug === 'constitucio') {
+                        updates.title = "Constitució";
+                        updates.subtitle = "Quines lleis no podem trencar?";
                     }
                 }
                 
                 const formatMatch = content.match(/<!-- HERO_FORMAT: (.*?) -->\n?/);
+                const extractedFormat = formatMatch && formatMatch[1] ? formatMatch[1] : (['projecte', 'el-projecte'].includes(_slug) ? 'square' : 'horizontal');
                 if (formatMatch && formatMatch[1]) {
-                    setHeroFormat(['projecte', 'el-projecte'].includes(_slug) ? 'square' : formatMatch[1]);
+                    setHeroFormat(extractedFormat);
                     content = content.replace(formatMatch[0], '');
                 } else {
-                    setHeroFormat(['projecte', 'el-projecte'].includes(_slug) ? 'square' : 'horizontal');
+                    setHeroFormat(extractedFormat);
                 }
                 const positionMatch = content.match(/<!-- HERO_POSITION: (.*?) -->\n?/);
+                const extractedPosition = positionMatch && positionMatch[1] ? positionMatch[1] : 'center';
                 if (positionMatch && positionMatch[1]) {
-                    setHeroPosition(positionMatch[1]);
+                    setHeroPosition(extractedPosition);
                     content = content.replace(positionMatch[0], '');
                 }
                 const imageMatch = content.match(/<!-- HERO_IMAGE: (.*?) -->\n?/);
+                const extractedImage = imageMatch && imageMatch[1] ? imageMatch[1].trim() : null;
                 if (imageMatch && imageMatch[1]) {
-                    setHeroImage(imageMatch[1]);
+                    setHeroImage(extractedImage);
                     content = content.replace(imageMatch[0], '');
                 }
-                const isSocDePobleAuthor = data?.author === 'Sóc de Poble' || data?.author_name === 'Sóc de Poble' || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'disseny'].includes(_slug);
+                const isSocDePobleAuthor = data?.author === 'Sóc de Poble' || data?.author_name === 'Sóc de Poble' || ['skills', 'versions', 'iaies-mundials', 'projecte', 'el-projecte', 'ruta', 'constitucio', 'disseny'].includes(_slug);
                 updates.pageAuthor = isSocDePobleAuthor ? 'Sóc de Poble' : (data?.author || data?.author_name || '');
 
                 const logoLightMatch = content.match(/<!-- LOGO_LIGHT: (.*?) -->\n?/);
@@ -297,14 +354,16 @@ const UniversalPage = ({
                     setLogoDark(isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '');
                 }
 
-                console.log("[DEBUG LOGO FETCH]", {
-                    slug: _slug,
-                    isSocDePobleAuthor,
-                    parsedLogoLight,
-                    parsedLogoDark,
-                    logoLightSetTo: parsedLogoLight || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : ''),
-                    logoDarkSetTo: parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '')
-                });
+                if (import.meta.env.DEV) {
+                    console.log("[DEBUG LOGO FETCH]", {
+                        slug: _slug,
+                        isSocDePobleAuthor,
+                        parsedLogoLight,
+                        parsedLogoDark,
+                        logoLightSetTo: parsedLogoLight || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : ''),
+                        logoDarkSetTo: parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : '')
+                    });
+                }
 
                 updates.htmlContent = content;
                 updates.title = updates.title || data?.title || '';
@@ -312,7 +371,7 @@ const UniversalPage = ({
                 updates.pageId = data?.id;
                 updates.collaborators = data?.collaborators || [];
                 
-                if (JSON.stringify(localCache?.html) !== JSON.stringify(content) || localCache?.subtitle !== updates.subtitle || localCache?.title !== updates.title) {
+                if (JSON.stringify(localCache?.html) !== JSON.stringify(content) || localCache?.subtitle !== updates.subtitle || localCache?.title !== updates.title || localCache?.heroImage !== extractedImage) {
                     await set(cacheKey, {
                         html: content,
                         title: updates.title,
@@ -322,6 +381,9 @@ const UniversalPage = ({
                         pageAuthor: updates.pageAuthor,
                         logoLight: updates.logoLight || parsedLogoLight || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-negre.svg' : ''),
                         logoDark: updates.logoDark || parsedLogoDark || (isSocDePobleAuthor ? '/assets/system/ui/logo-socdepoble-rect-blanc.svg' : ''),
+                        heroImage: extractedImage,
+                        heroFormat: extractedFormat,
+                        heroPosition: extractedPosition,
                         timestamp: Date.now()
                     });
                 }
@@ -354,12 +416,21 @@ const UniversalPage = ({
         }
     }, [forcedHtml, forcedSubtitle, forcedTitle]);
 
+    const hasChildrenWrapper = !!children;
+    const hasForcedHtmlWrapper = !!forcedHtml;
+
     useEffect(() => {
+        // Prevent fetching if we are just wrapping children or forcedHtml
+        if (hasChildrenWrapper || hasForcedHtmlWrapper) {
+            setIsLoadingPage(false);
+            return;
+        }
+        
         let currentSlug = slug || location.pathname;
         const normalizedSlug = currentSlug.replace(/^\/+/, '');
         setRouteSlug(normalizedSlug);
         fetchPageContent(normalizedSlug);
-    }, [location.pathname, slug, fetchPageContent]);
+    }, [location.pathname, slug, fetchPageContent, hasChildrenWrapper, hasForcedHtmlWrapper]);
 
 
     const activeHtmlContent = translatedContent || htmlContent;
@@ -377,7 +448,7 @@ const UniversalPage = ({
     }, [activeHtmlContent]);
 
     useEffect(() => {
-        if (!processedHtml || isLoadingPage || isEditing) return;
+        if ((!processedHtml && !hasChildrenWrapper) || isLoadingPage || isEditing) return;
         
         const controller = new AbortController();
         const contentDiv = document.querySelector('.app-cms-content');
@@ -502,7 +573,7 @@ const UniversalPage = ({
             clearTimeout(timeoutId);
             controller.abort(); 
         };
-    }, [processedHtml, isLoadingPage, isEditing, t, navigate]);
+    }, [processedHtml, isLoadingPage, isEditing, t, navigate, hasChildrenWrapper]);
 
 
     const handleSave = async (updatedHtml) => {
@@ -570,144 +641,7 @@ const UniversalPage = ({
         }
     };
 
-    const HeroBanner = useMemo(() => {
-        const mediaList = forcedImages && forcedImages.length > 0 ? forcedImages : (heroImage ? [heroImage] : []);
-        if (mediaList.length === 0) return null;
-        
-        // Mapeig de posicions
-        const positionClass = heroPosition === 'top' ? 'object-top' : heroPosition === 'bottom' ? 'object-bottom' : 'object-center';
-        const displayImage = mediaList[0];
-
-        const handleHeroClick = () => {
-            setMediaViewerImages(mediaList);
-            setMediaViewerSrc(displayImage);
-        };
-        
-        return (
-            <div 
-                className={`relative w-full z-0 flex flex-col items-center justify-center overflow-hidden bg-[var(--bg-panel)] cursor-pointer active:scale-[0.99] transition-transform ${heroFormat === 'horizontal' ? 'h-[40vh] min-h-[300px] max-h-[500px]' : ''}`}
-                onClick={handleHeroClick}
-            >
-                {mediaList.length > 1 ? (
-                    <div className="w-full h-full relative">
-                        <ImageCarousel 
-                            images={mediaList} 
-                            onImageClick={(index) => {
-                                setMediaViewerImages(mediaList);
-                                setMediaViewerSrc(mediaList[index]);
-                            }} 
-                            aspectMode={heroFormat === 'horizontal' ? 'video' : 'square'} 
-                        />
-                    </div>
-                ) : (
-                    <img 
-                        src={displayImage || undefined} 
-                        alt="Hero Banner" 
-                        className={`block ${heroFormat === 'horizontal' ? `w-full h-full object-cover ${positionClass} m-0 p-0` : 'w-full h-auto m-0 p-0'}`}
-                    />
-                )}
-            </div>
-        );
-    }, [heroImage, heroFormat, heroPosition, forcedImages]);
-
-    const PagePresentationHeader = (
-        <div className="w-full flex flex-col items-center justify-center px-6 relative group pt-8">
-            {(routeSlug === 'codex' || collaborators.length > 0) && (
-                <div className="flex -space-x-3 mb-6 opacity-90 transition-opacity hover:opacity-100 items-center justify-center">
-                    <div className="w-10 h-10 rounded-full border-2 border-[var(--bg-panel)] shadow-md z-20 bg-black flex items-center justify-center overflow-hidden" title="Mestre">
-                        <img src="/uploads/avatars/javi-llinares_comic.png" alt="Mestre" className="w-full h-full object-cover" />
-                    </div>
-                    {(routeSlug === 'codex' || routeSlug === 'manifest' || collaborators.length > 1) && (
-                        <div className="w-10 h-10 rounded-full border-2 border-[var(--theme-accent-primary)] shadow-md z-10 bg-black flex items-center justify-center overflow-hidden" title="Antigravity IAIA">
-                            <span className="text-[var(--theme-accent-secondary)] text-xs font-black tracking-tighter">IA</span>
-                        </div>
-                    )}
-                    <span className="ml-5 text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] mt-1 bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                        CO-AUTORIA ACTIVA
-                    </span>
-                </div>
-            )}
-
-            {canEdit && isEditing ? (
-                <div className="w-full max-w-4xl flex flex-col items-center gap-4">
-                    <input 
-                        type="text" 
-                        value={title} 
-                        onChange={(e) => setTitle(e.target.value)} 
-                        className="text-3xl sm:text-4xl md:text-5xl font-black text-[var(--theme-accent-secondary)] text-center tracking-tight leading-none uppercase border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-2 bg-transparent"
-                        placeholder="INTRODUEIX EL TÍTOL (H1)"
-                    />
-                    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/10 dark:border-white/10">
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Hero Image URL</label>
-                            <input type="text" value={heroImage} onChange={e => setHeroImage(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Format de la Portada</label>
-                            <select value={heroFormat} onChange={e => setHeroFormat(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1 cursor-pointer">
-                                <option value="horizontal" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Horitzontal (Retallat)</option>
-                                <option value="square" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Original (Complet / Fluid)</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Posició Portada (Només Horitzontal)</label>
-                            <select value={heroPosition} onChange={e => setHeroPosition(e.target.value)} disabled={heroFormat !== 'horizontal'} className={`bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1 cursor-pointer ${heroFormat !== 'horizontal' ? 'opacity-50' : ''}`}>
-                                <option value="top" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Superior (Dalt/Cel)</option>
-                                <option value="center" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Centre</option>
-                                <option value="bottom" className="bg-[var(--bg-panel)] text-[var(--text-main)]">Inferior (Baix/Terra)</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Logo URL (Mode Clar)</label>
-                            <input type="text" value={logoLight} onChange={e => setLogoLight(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Logo URL (Mode Fosc)</label>
-                            <input type="text" value={logoDark} onChange={e => setLogoDark(e.target.value)} className="bg-transparent border-b border-black/20 dark:border-white/20 outline-none text-sm p-1" />
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <div className="flex flex-col items-center w-full max-w-4xl">
-                    {(() => {
-                        console.log("[DEBUG RENDER LOGO]", { logoLight, logoDark });
-                        return null;
-                    })()}
-                    {(logoLight || logoDark) && (
-                        <>
-                            {logoLight && (
-                                <img 
-                                    src={logoLight} 
-                                    alt="Logo (Clar)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoDark ? 'dark:hidden' : ''}`}
-                                />
-                            )}
-                            {logoDark && (
-                                <img 
-                                    src={logoDark} 
-                                    alt="Logo (Fosc)" 
-                                    className={`h-16 sm:h-20 w-auto mb-4 object-contain transition-all drop-shadow-none ${logoLight ? 'hidden dark:block' : ''}`}
-                                />
-                            )}
-                        </>
-                    )}
-                    <div className="app-cms-content w-full flex flex-col items-center justify-center">
-                        <h1>
-                            {(title || "Pàgina Sense Títol").replace(/^Sóc de Poble:\s*/i, '')}
-                        </h1>
-                    </div>
-                    
-                    {/* Elements Custom Renderitzats Sota el H1 */}
-                    <div className="w-full max-w-4xl flex flex-col items-center gap-4 mb-[25px]">
-                        {renderKanban && <div className="w-full">{typeof renderKanban === 'function' ? renderKanban() : renderKanban}</div>}
-                        {renderCalendar && <div className="w-full">{typeof renderCalendar === 'function' ? renderCalendar() : renderCalendar}</div>}
-                        {customActions && <div className="w-full flex items-center justify-center gap-2 flex-wrap">{customActions}</div>}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+    const PagePresentationHeader = null; // Moved to UniversalView
 
     // Page Number Scroll Listener (Horizontal Native Columns)
     useEffect(() => {
@@ -855,12 +789,12 @@ const UniversalPage = ({
                             type="text" 
                             value={subtitle} 
                             onChange={(e) => setSubtitle(e.target.value)} 
-                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-secondary)] outline-none w-full focus:bg-[var(--theme-accent-secondary)]/10 transition-colors pb-1 text-center mt-6"
+                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-1 text-center mt-6"
                             placeholder="INTRODUEIX EL SUBTÍTOL (Introducció de l'Article)"
                         />
                     ) : (
                         subtitle && (
-                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-secondary)] uppercase mb-0 mt-6 text-center px-4 w-full break-words">
+                            <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase mb-0 mt-6 text-center px-4 w-full break-words">
                                 {subtitle}
                             </h2>
                         )
@@ -880,18 +814,14 @@ const UniversalPage = ({
                         </Suspense>
                     </div>
                 ) : (
-                    <div className="flex-1 w-full h-full min-h-0 relative flex flex-col items-center">
-                        <div className="app-cms-content w-full h-full max-w-4xl mx-auto px-6 sm:px-10 lg:px-12 pb-12">
-                            {children ? (
-                                children
-                            ) : activeHtmlContent && activeHtmlContent.includes('[TABS_START]') ? (
-                                <ContentWithShortcodes content={processedHtml} />
-                            ) : (
-                                <LazyHtmlRenderer htmlContent={processedHtml} className="w-full h-full" />
-                            )}
-                        </div>
-
-
+                    <div className="app-cms-content w-full flex-1 min-h-0 relative flex flex-col items-center max-w-4xl mx-auto px-4 sm:px-10 lg:px-12 pb-12">
+                        {children ? (
+                            children
+                        ) : activeHtmlContent && activeHtmlContent.includes('[TABS_START]') ? (
+                            <ContentWithShortcodes content={processedHtml} />
+                        ) : (
+                            <LazyHtmlRenderer htmlContent={processedHtml} className="w-full h-full" />
+                        )}
                     </div>
                 )}
             </div>
@@ -909,201 +839,96 @@ const UniversalPage = ({
         }
     }, []);
 
+    const viewModel = useMemo(() => createPageViewModel({
+        standAlone,
+        pageId,
+        routeSlug,
+        pageItem,
+        title,
+        subtitle,
+        heroImage,
+        forcedHeroImage,
+        forcedImages,
+        heroFormat,
+        heroPosition,
+        logoLight,
+        logoDark,
+        collaborators,
+        customActions,
+        renderKanban,
+        renderCalendar,
+        currentViewMode,
+        mediaViewerSrc,
+        mediaViewerImages,
+        isLoadingPage,
+        isEditing,
+        canEdit,
+        translatedContent,
+        htmlContent,
+        user
+    }), [
+        standAlone, pageId, routeSlug, pageItem, title, subtitle, heroImage, forcedHeroImage, forcedImages, heroFormat, heroPosition, logoLight, logoDark, collaborators, customActions, renderKanban, renderCalendar, currentViewMode, mediaViewerSrc, mediaViewerImages, isLoadingPage, isEditing, canEdit, translatedContent, htmlContent, user
+    ]);
+
+    const handlers = useMemo(() => ({
+        // ESTRUCTURA AGRUPADA (Requerida per UniversalShell.jsx)
+        ui: {
+            isIndexOpen,
+            isIndexPinned,
+            toggleIndex: () => setIsIndexOpen(prev => !prev),
+            togglePin: () => setIsIndexPinned(prev => !prev)
+        },
+        media: {
+            openViewer: setMediaViewerSrc,
+            closeViewer: () => { setMediaViewerSrc(null); setMediaViewerImages([]); },
+            navigate: setMediaViewerSrc
+        },
+        refs: {
+            scrollContainerRef
+        },
+        history: {
+            isOpen: isHistoryOpen,
+            close: () => setIsHistoryOpen(false),
+            restore: (restoredHtml, restoredTitle, restoredSubtitle) => {
+                setHtmlContent(restoredHtml);
+                setTranslatedContent(null);
+                setTitle(restoredTitle);
+                setSubtitle(restoredSubtitle);
+                setIsEditing(true);
+            }
+        },
+        
+        // ESTRUCTURA PLANA COMPATIBLE (Legacy)
+        setIsHistoryOpen,
+        onRestoreHistory: (restoredHtml, restoredTitle, restoredSubtitle) => {
+            setHtmlContent(restoredHtml);
+            setTranslatedContent(null);
+            setTitle(restoredTitle);
+            setSubtitle(restoredSubtitle);
+            setIsEditing(true);
+        },
+        setIsIndexOpen,
+        setIsIndexPinned,
+        setMediaViewerSrc,
+        setMediaViewerImages,
+        setTitle,
+        setSubtitle,
+        setHeroImage,
+        setHeroFormat,
+        setHeroPosition,
+        setLogoLight,
+        setLogoDark,
+        setViewMode,
+        scrollContainerRef
+    }), [isIndexOpen, isIndexPinned, isHistoryOpen]);
+
     return (
-        // 1. RAÍZ INDESTRUCTIBLE: 100dvh para iOS només en standAlone
-        <div 
-            className={standAlone 
-                ? "flex-1 h-[100dvh] bg-[var(--bg-app)] text-[var(--text-main)] flex flex-col w-full max-w-[100vw] overflow-hidden isolate overscroll-none touch-none relative" 
-                : "flex-1 h-full overflow-hidden w-full min-h-0 isolate bg-white dark:bg-[#121212] relative flex flex-col"}
+        <UniversalShell 
+            viewModel={viewModel}
+            handlers={handlers}
         >
-            {/* 2. MUERTE AL DOM ZOMBI (Desmontaje Estricto de Modales) */}
-            {isHistoryOpen && (
-                <Suspense fallback={<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[var(--z-modal,500)]"><div className="w-8 h-8 rounded-full border-4 border-white/20 border-[var(--theme-accent-primary)] animate-spin"></div></div>}>
-                    <HistoryModal 
-                        isOpen={true} 
-                        onClose={() => setIsHistoryOpen(false)} 
-                        pageId={pageId} 
-                        onRestore={(restoredHtml, restoredTitle, restoredSubtitle) => {
-                            setHtmlContent(restoredHtml);
-                            setTranslatedContent(null);
-                            setTitle(restoredTitle);
-                            setSubtitle(restoredSubtitle);
-                            setIsEditing(true);
-                        }} 
-                    />
-                </Suspense>
-            )}
-            
-            {standAlone && (
-                <SEO 
-                    title={title || "Sóc de Poble: El Projecte"} 
-                    description={subtitle || "La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat."} 
-                    image={heroImage || (forcedImages ? forcedImages[0] : "/uploads/avatars/soc-de-poble_book_comic_nano_1770526279743.png")}
-                    url={routeSlug} 
-                />
-            )}
-
-            {/* PEÇA 1: SYSTEM NAV BAR (LA BARRA BLAUA OFICIAL) */}
-            <header className="w-full bg-[#4F46E5] text-white flex flex-col shrink-0 z-20 shadow-md relative">
-                    <div className="flex items-center justify-between min-h-[50px] sm:min-h-[56px] px-2 sm:px-4 flex-wrap relative">
-                        {/* Esquerra: Tornar i Llibre i Índex */}
-                        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-                            <button onClick={() => navigate(-1)} className="flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white font-bold" aria-label="Tornar">
-                                <ArrowLeft size={24} strokeWidth={3} />
-                            </button>
-                            <button onClick={() => setIsIndexOpen(!isIndexOpen)} className={`flex items-center justify-center p-2 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${isIndexOpen ? 'bg-white/20 text-white' : 'text-white'}`} title="Obrir Índex" aria-label="Obrir Índex">
-                                <Book size={24} strokeWidth={2.5} />
-                            </button>
-                        </div>
-
-                        {/* Dreta: Traductor, Comentar, Compartir, Connectar */}
-                        <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0">
-                            <button 
-                                onClick={() => openTranslationModal({ postId: routeSlug || 'projecte', title: title })} 
-                                className={`flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all font-bold ${translating ? "animate-pulse" : ""}`}
-                                aria-label="Traduir pàgina"
-                            >
-                                {translating ? <Globe size={20} className="animate-spin" /> : <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] drop-shadow-sm brightness-110" />}
-                            </button>
-                            <button onClick={() => navigate('/chats/socdepoble')} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Obrir xat">
-                                <MessageCircle size={20} />
-                            </button>
-                            <button onClick={() => { if(navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href }) }} className="flex items-center justify-center min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-all text-white" aria-label="Compartir pàgina">
-                                <Share2 size={20} />
-                            </button>
-                            <button onClick={() => navigate('/connectar')} className="flex items-center justify-center gap-2 min-h-[44px] px-3 sm:px-4 rounded-full bg-white text-[#4F46E5] hover:bg-white/90 active:scale-95 transition-all font-black uppercase text-sm shadow-md ml-1">
-                                <Plus size={20} strokeWidth={3} className="hidden sm:block" />
-                                CONNECTAR
-                            </button>
-                        </div>
-                    </div>
-                </header>
-
-            {/* PEÇA 3: MAIN SCROLL AREA (CONTENIDOR CENTRAL) */}
-            <main 
-                ref={scrollContainerRef}
-                className={standAlone
-                    ? "flex-1 min-h-0 w-full relative bg-[var(--bg-app)] pb-[max(env(safe-area-inset-bottom),0px)] flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar"
-                    : "flex-1 min-h-0 w-full relative bg-[var(--bg-app)] flex flex-col overflow-y-auto overflow-x-hidden custom-scrollbar"}
-                inert={(isActionMenuOpen || isHistoryOpen || !!mediaViewerSrc) ? true : undefined}
-                style={{ scrollBehavior: 'smooth' }}
-            >
-                {/* PEÇA 5: HERO MEDIA (LA PORTADA) */}
-                <section className="w-full flex flex-col items-center justify-center bg-black relative z-10">
-                    <div className="w-full relative z-0 flex flex-col items-center justify-center overflow-hidden bg-[#222222]">
-                        {(forcedHeroImage || heroImage) ? (
-                            <img 
-                                src={resolveMedia(forcedHeroImage || heroImage)} 
-                                alt="Portada" 
-                                fetchPriority="high"
-                                className={`w-full block opacity-100 cursor-pointer hover:opacity-95 transition-opacity ${heroFormat === 'horizontal' ? 'aspect-video object-cover' : 'aspect-[4/5] sm:aspect-square object-cover'} min-h-[300px]`} 
-                                onClick={(e) => {
-                                    const mainSrc = resolveMedia(forcedHeroImage || heroImage);
-                                    // Gather other images on the page for the scroll gallery
-                                    const contentImages = Array.from(document.querySelectorAll('.app-cms-content img, .universal-content img')).map(img => img.src);
-                                    const allImages = [mainSrc, ...contentImages].filter((v, i, a) => a.indexOf(v) === i); // deduplicate
-                                    setMediaViewerImages(allImages);
-                                    setMediaViewerSrc(mainSrc);
-                                }}
-                            />
-                        ) : (
-                            <div className="w-full h-12 bg-gradient-to-b from-[#333333] to-[#1a1a1a]"></div>
-                        )}
-                    </div>
-                </section>
-
-                {/* PEÇA 6: UNIVERSAL CARD HEADER (LA CAPUTXA D'IDENTITAT TARONJA) */}
-                <div className="sticky top-0 z-[190] w-full shrink-0 shadow-sm">
-                    <UniversalCardHeader
-                        item={null}
-                        cardVariant="project"
-                        displayTown="La Torre de les Maçanes"
-                        displayAuthor="Sóc de Poble"
-                        avatarSrc="/assets/system/ui/logo-socdepoble-cuadrat-verd.svg"
-                        avatarRole="official"
-                        isOfficial={false}
-                        infoText={`${APP_VERSION.replace('-CANÒNIC', '').toUpperCase()}`}
-                        infoLink="/versions"
-                        displayDate="15/5/2026"
-                        displayTime="12:00"
-                        isPageHeader={true}
-                    />
-                </div>
-
-                {/* PEÇA 7: DECORATED TITLE (EL QUADRE DE PRESENTACIÓ) - FORCED RELOAD */}
-                <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-10 mt-0 mb-0">
-                    <div className="app-cms-content bg-white dark:bg-[#1a1a1a] rounded-b-[28px] rounded-t-none shadow-sm px-6 py-6 pb-0 flex flex-col items-center justify-center text-center border-x border-b border-black/5 dark:border-white/5 border-t-0">
-                        <img 
-                            src="/assets/system/ui/logo-socdepoble-rect-negre.svg" 
-                            alt="Logo Sóc de Poble (Clar)" 
-                            fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none dark:hidden" 
-                        />
-                        <img 
-                            src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" 
-                            alt="Logo Sóc de Poble (Fosc)" 
-                            fetchPriority="high"
-                            className="w-[600px] max-w-full h-auto mb-4 object-contain transition-all drop-shadow-none hidden dark:block" 
-                        />
-                        <h1>
-                            {title || "Cànon Sóc de Poble"} 
-                        </h1>
-                        {(renderKanban || renderCalendar) && (
-                            <div className="flex justify-center mt-6 w-full mb-[25px]">
-                                <div className="inline-flex items-center gap-2 bg-black/5 dark:bg-white/5 p-1.5 rounded-full shadow-inner border border-black/5 dark:border-white/5">
-                                    <button 
-                                        onClick={() => setViewMode('document')}
-                                        className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'document' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
-                                    >
-                                        Llistat
-                                    </button>
-                                    {renderKanban && (
-                                        <button 
-                                            onClick={() => setViewMode('kanban')}
-                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'kanban' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
-                                        >
-                                            Tauler
-                                        </button>
-                                    )}
-                                    {renderCalendar && (
-                                        <button 
-                                            onClick={() => setViewMode('calendar')}
-                                            className={`px-4 py-2 rounded-full text-sm font-bold uppercase transition-all ${currentViewMode === 'calendar' ? 'bg-[var(--theme-accent-primary)] text-white shadow-md' : 'text-gray-500 hover:text-[var(--theme-accent-secondary)] dark:hover:text-[var(--theme-accent-secondary)]'}`}
-                                        >
-                                            Línia de Temps
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </section>
-                
-                {/* 8. CONTENIDO DINÀMIC (RICH TEXT O CHILDREN) */}
-                <section id="dynamic-content-section" className="w-full flex-1 shrink-0 relative flex flex-col items-center">
-                    {ActualContent}
-                </section>
-                
-            </main>
-
-            {/* MEDIA VIEWER (Desmontable) */}
-            {!!mediaViewerSrc && (
-                <MediaViewerModal 
-                    isOpen={true} 
-                    onClose={() => {
-                        setMediaViewerSrc(null);
-                        setMediaViewerImages([]);
-                    }} 
-                    src={mediaViewerSrc} 
-                    images={mediaViewerImages}
-                    onNavigate={(newSrc) => setMediaViewerSrc(newSrc)}
-                    title={title || "Sóc de Poble Visuals"} 
-                />
-            )}
-
-            {/* SCROLL TO TOP & INDEX BUTTONS */}
-            <FloatingIndex scrollRef={scrollContainerRef} isOpen={isIndexOpen} onToggle={setIsIndexOpen} />
-        </div>
+            {ActualContent}
+        </UniversalShell>
     );
 };
 
