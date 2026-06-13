@@ -29,6 +29,8 @@
 
   // --- Salconduit de Recàrrega Legítima (Consell Gemini & Perplexity) ---
   if (
+    window.location.hostname === 'localhost' || 
+    window.location.hostname === '127.0.0.1' ||
     sessionStorage.getItem('updateInProgress') === 'true' ||
     window.location.search.includes('_v=') ||
     window.location.search.includes('_nuclear=')

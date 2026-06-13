@@ -18,13 +18,15 @@ const STATIC_AVATARS = {
   'Joanet Serra': '/uploads/avatars/joanet-serra-comic.png',
   'Carmen la del Forn': '/uploads/avatars/beatriz-ortega-comic.png',
   'Andreu Soler': '/uploads/avatars/andreu-soler-comic.png',
-  'Carla Soriano': '/uploads/avatars/carla-soriano_comic.png',
   'Elena Popova': '/uploads/avatars/elena-popova-comic.png',
   'Beatriz Ortega': '/uploads/avatars/beatriz-ortega-comic.png',
   'Joan Batiste': '/uploads/avatars/joan-batiste-comic.png',
   'Vicent Ferris': '/uploads/avatars/vicent-ferris-comic.png',
-  'El Viatjant': '/uploads/avatars/avatar_samir_comic.png',
-  'Mixa': '/uploads/avatars/mixa-comic.png'
+  'Mixa': '/uploads/avatars/mixa-comic.png',
+  'IAIA MarIA': '/assets/fotos/iaia-maria.png',
+  'Carla Soriano': '/assets/fotos/carla-soriano.png',
+  'El Viatjant': '/assets/fotos/el-viatjant.png',
+  'Sultan': '/assets/fotos/sultan.png'
 };
 
 const GENT_DATA = AGENTS.filter(a => a.tag === 'GENT');
@@ -272,7 +274,7 @@ const ChatList = () => {
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
       {/* HEADER CANÒNIC (Tech-Huerta V12) - OBSIDIAN MODE */}
-      <div role="region" aria-label="Capçalera de Secció" className="shrink-0 flex items-center justify-between px-4 h-[56px] min-h-[56px] bg-[#F97316] dark:bg-[#4F46E5] sticky top-0 z-20 transition-colors gap-2">
+      <div role="region" aria-label="Capçalera de Secció" className="shrink-0 flex items-center justify-between px-3 sm:px-4 h-[56px] min-h-[56px] bg-[#F97316] dark:bg-[#4F46E5] sticky top-0 z-20 transition-colors gap-2 shadow-md">
         <div className="flex items-center flex-1 h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#0369A1] transition-all group">
           <div className="flex items-center justify-center pl-4 pr-2 h-full">
             <Search
@@ -293,13 +295,13 @@ const ChatList = () => {
           />
         </div>
         
-        <div className="relative flex-shrink-0">
+        <div className="relative flex-shrink-0 flex items-center justify-center">
             <button 
                 onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
-                className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
+                className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-white hover:bg-white/20 transition-colors"
                 title={t('chat.chat_options', 'Opcions de xat')}
             >
-                <Settings size={22} strokeWidth={2.5} />
+                <Settings size={28} strokeWidth={2.5} />
             </button>
 
             {isSettingsMenuOpen && (
@@ -363,15 +365,15 @@ const ChatList = () => {
               {/* Contenido Core del Chat (WhatsApp Copy) */}
               <div className="flex-1 min-w-0 flex flex-col justify-center h-[72px] pr-4 border-b border-gray-200 dark:border-white/5 group-last:border-0">
                  {/* Fila Superior: Nom + Temps */}
-                 <div className="flex justify-between items-center mb-0.5 gap-2">
-                  <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold text-[#111B21] dark:text-[#E9EDEF] transition-colors tracking-normal">
+                 <div className="flex justify-between items-center gap-2">
+                  <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold leading-tight text-[#0369A1] dark:text-[#F97316] transition-colors tracking-normal">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
                         : chat.p1_info?.name) ||
                       "Sóc de Poble"}
                   </div>
-                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal text-[#54656F] dark:text-[#8696A0] ml-2">
+                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal leading-tight text-[#54656F] dark:text-[#8696A0] ml-2">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return time || day;
@@ -380,8 +382,8 @@ const ChatList = () => {
                 </div>
                 
                 {/* Fila Inferior: Missatge */}
-                <div className="flex items-center text-[15px] font-normal transition-colors">
-                  <p className="m-0 truncate w-full text-[#54656F] dark:text-[#8696A0]">
+                <div className="flex items-center text-[15px] font-normal transition-colors mt-[1px]">
+                  <p className="m-0 truncate w-full text-[#54656F] dark:text-[#8696A0] leading-tight">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </p>
                 </div>

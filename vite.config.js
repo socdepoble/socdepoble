@@ -138,7 +138,7 @@ export default defineConfig({
     port: 3333,
     strictPort: true,
     watch: {
-      ignored: ['**/public/**']
+      ignored: []
     },
     headers: {
       "Cache-Control":

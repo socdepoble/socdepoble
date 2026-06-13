@@ -1,0 +1,304 @@
+/* sprites-anim.css
+   Animacions per als sprites de la Masia "Sóc de Poble"
+   Cada animació apunta a ids i data-part definits dins dels SVGs React.
+   Respecta prefers-reduced-motion.
+*/
+
+/* -------------------------
+   Variables de temps i easing
+   ------------------------- */
+:root{
+  --anim-fast: 600ms;
+  --anim-medium: 900ms;
+  --anim-slow: 1600ms;
+  --ease-in-out: cubic-bezier(.2,.9,.2,1);
+  --ease-soft: cubic-bezier(.25,.8,.25,1);
+}
+
+/* -------------------------
+   Keyframes
+   ------------------------- */
+
+/* spark: petites espurnes que salten i es redueixen */
+@keyframes spark {
+  0%   { transform: translateY(0) scale(0.7); opacity: 0.9; }
+  40%  { transform: translateY(-6px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(0) scale(0.7); opacity: 0.85; }
+}
+
+/* smokeRise: fum que puja i es difumina */
+@keyframes smokeRise {
+  0%   { transform: translateY(0) scale(0.95); opacity: 0.6; }
+  60%  { transform: translateY(-10px) scale(1.05); opacity: 0.95; }
+  100% { transform: translateY(-22px) scale(1.15); opacity: 0; }
+}
+
+/* ledBlink: parpelleig suau per LEDs */
+@keyframes ledBlink {
+  0%   { opacity: 0.25; transform: scale(0.92); filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
+  50%  { opacity: 1; transform: scale(1.06); filter: drop-shadow(0 0 6px rgba(255,200,120,0.25)); }
+  100% { opacity: 0.25; transform: scale(0.92); }
+}
+
+/* wingFlap: batre d'ales suau per coloms-dron */
+@keyframes wingFlap {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(-3px) rotate(-4deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* bitsFloat: bits expulsats que floten i giren */
+@keyframes bitsFloat {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+  60%  { transform: translateY(-12px) translateX(6px) rotate(18deg); opacity: 0.9; }
+  100% { transform: translateY(-26px) translateX(12px) rotate(36deg); opacity: 0; }
+}
+
+/* emberDrift: pols de cendra que es dispersen */
+@keyframes emberDrift {
+  0%   { transform: translateY(0) scale(0.9); opacity: 0.95; }
+  50%  { transform: translateY(-8px) scale(1.05); opacity: 0.9; }
+  100% { transform: translateY(-18px) scale(1.15); opacity: 0; }
+}
+
+/* tailWag: cua que es mou amb oscil·lació */
+@keyframes tailWag {
+  0%   { transform: rotate(-6deg); }
+  50%  { transform: rotate(6deg); }
+  100% { transform: rotate(-6deg); }
+}
+
+/* pendriveBounce: petit rebot quan el mossega Píxel */
+@keyframes pendriveBounce {
+  0%   { transform: translateY(0) scale(1); }
+  30%  { transform: translateY(-6px) scale(1.02); }
+  60%  { transform: translateY(0) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* pcbSpark: micro‑espurna de soldadura */
+@keyframes pcbSpark {
+  0%   { transform: scale(0.6); opacity: 0.9; }
+  40%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.6); opacity: 0.85; }
+}
+
+/* wormChew: moviment ondulat del cuc */
+@keyframes wormChew {
+  0%   { transform: translateX(0) scaleY(1); }
+  50%  { transform: translateX(2px) scaleY(0.95); }
+  100% { transform: translateX(0) scaleY(1); }
+}
+
+/* clockTick: petit tic del rellotge de sol */
+@keyframes clockTick {
+  0%   { transform: rotate(0deg); }
+  50%  { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* snailTrail: lleu vibració i translació per caragol */
+@keyframes snailTrail {
+  0%   { transform: translateX(0); opacity: 1; }
+  50%  { transform: translateX(1.6px); opacity: 0.95; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* pulseSoft: utilitat per a petites pulsacions generals */
+@keyframes pulseSoft {
+  0%   { transform: scale(0.98); opacity: 0.9; }
+  50%  { transform: scale(1.02); opacity: 1; }
+  100% { transform: scale(0.98); opacity: 0.9; }
+}
+
+/* -------------------------
+   Assignacions per sprite (ids i data-part)
+   ------------------------- */
+
+/* --- SausageFuse --- */
+#sausage-sparks,
+[data-part="spark"] {
+  transform-origin: center;
+  animation: spark var(--anim-medium) var(--ease-in-out) infinite;
+}
+#sausage-smoke,
+[data-part="smoke"] {
+  transform-origin: center;
+  animation: smokeRise var(--anim-slow) linear infinite;
+}
+
+/* --- ChickenRouter --- */
+#chicken-headphones,
+[data-part="headphones"] {
+  transform-origin: center;
+  animation: pulseSoft var(--anim-slow) var(--ease-soft) infinite;
+}
+#chicken-router circle,
+#chicken-router [data-part="router-light"],
+[data-part="router-light"] {
+  animation: ledBlink var(--anim-medium) var(--ease-in-out) infinite;
+}
+
+/* --- PixelPet --- */
+#pixel-tail,
+[data-part="tail"] {
+  transform-origin: 10% 50%;
+  animation: tailWag 900ms ease-in-out infinite;
+}
+#pixel-pendrive,
+[data-part="pendrive"] {
+  transform-origin: center;
+  animation: pendriveBounce var(--anim-medium) var(--ease-in-out) infinite;
+}
+#pixel-led,
+[data-part="led"] {
+  animation: ledBlink 1200ms ease-in-out infinite;
+}
+
+/* --- BootAntenna --- */
+#boot-led,
+[data-part="led"] {
+  animation: ledBlink 1200ms ease-in-out infinite;
+}
+#boot-wifi,
+[data-part="wifi"] {
+  transform-origin: center;
+  animation: pulseSoft var(--anim-slow) var(--ease-soft) infinite;
+}
+
+/* --- SnailCable --- */
+#snail-sparks,
+[data-part="spark"] {
+  animation: spark 1000ms var(--ease-in-out) infinite;
+}
+#snail-cable,
+[data-part="cable"] {
+  animation: snailTrail 2200ms linear infinite;
+}
+
+/* --- RatSolder --- */
+#rat-spark,
+[data-part="spark"] {
+  transform-origin: center;
+  animation: pcbSpark 700ms ease-in-out infinite;
+}
+#rat-pcb,
+[data-part="pcb"] {
+  animation: pulseSoft var(--anim-medium) var(--ease-soft) infinite;
+}
+
+/* --- DataWorm --- */
+#worm-bits,
+[data-part="bits"] {
+  transform-origin: left center;
+  animation: bitsFloat var(--anim-slow) ease-in-out infinite;
+}
+#worm-body,
+[data-part="body"] {
+  animation: wormChew 1200ms ease-in-out infinite;
+}
+
+/* --- EmberDust --- */
+#embers,
+[data-part="embers"] {
+  animation: emberDrift var(--anim-slow) linear infinite;
+}
+
+/* --- PigeonDrone --- */
+#pigeon-left, #pigeon-right,
+[data-part="pigeon-left"], [data-part="pigeon-right"] {
+  transform-origin: center;
+  animation: wingFlap 900ms ease-in-out infinite;
+}
+#pigeon-arc,
+[data-part="arc"] {
+  animation: pulseSoft var(--anim-medium) var(--ease-soft) infinite;
+}
+
+/* --- SundialCron --- */
+#sundial-gnomon,
+[data-part="gnomon"] {
+  transform-origin: 70px 70px;
+  animation: clockTick 2200ms ease-in-out infinite;
+}
+#sundial-circle,
+[data-part="circle"] {
+  animation: pulseSoft 3200ms ease-in-out infinite;
+}
+
+/* -------------------------
+   Interaction helpers
+   ------------------------- */
+
+/* Group hover: activar animacions només quan el grup està actiu (útil per Tailwind group) */
+.group:hover [data-part="spark"],
+.group:hover [data-part="smoke"],
+.group:hover [data-part="led"],
+.group:hover [data-part="pendrive"],
+.group:hover [data-part="bits"] {
+  animation-play-state: running;
+}
+
+/* Default: animacions en pausa fins que el component estigui visible (optimització) */
+/* Els desenvolupadors poden afegir .is-visible a l'SVG wrapper per iniciar animacions */
+svg:not(.is-visible) [data-part] {
+  animation-play-state: paused;
+}
+
+/* Quan és visible, reproduir */
+svg.is-visible [data-part] {
+  animation-play-state: running;
+}
+
+/* Utilitats de retard per efectes escalonats */
+[data-part="spark"].delay-1 { animation-delay: 120ms; }
+[data-part="spark"].delay-2 { animation-delay: 260ms; }
+[data-part="bits"].delay-1 { animation-delay: 80ms; }
+[data-part="bits"].delay-2 { animation-delay: 220ms; }
+
+/* -------------------------
+   Accessibility: respect user motion preferences
+   ------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-part] {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* -------------------------
+   Fine tuning: petites millores visuals
+   ------------------------- */
+/* fer espurnes una mica més brillants al hover */
+[data-part="spark"]:hover { filter: drop-shadow(0 0 6px rgba(255,200,120,0.35)); }
+
+/* ajustos per a pantalles petites */
+@media (max-width: 640px) {
+  #pixel-tail, [data-part="tail"] { transform-origin: 8% 50%; }
+  #sundial-gnomon, [data-part="gnomon"] { transform-origin: 68px 68px; }
+}
+
+/* -------------------------
+   Classes d'integració amb Tailwind / JS
+   ------------------------- */
+/* marcar l'SVG amb .sprite-visible per activar animacions */
+.sprite-visible [data-part] { animation-play-state: running; }
+.sprite-paused  [data-part] { animation-play-state: paused; }
+
+/* -------------------------
+   Classes utilitzades pel hook Brasa Burst
+   ------------------------- */
+.anim-spark { animation: spark 900ms cubic-bezier(.2,.9,.2,1) 1; }
+.anim-smoke { animation: smokeRise 1600ms linear 1; }
+.anim-led   { animation: ledBlink 1200ms ease-in-out 2; }
+.anim-pop   { transform-origin: center; animation: pulseSoft 700ms ease-in-out 1; }
+.anim-bits  { animation: bitsFloat 1400ms ease-in-out 1; }
+.anim-tail  { animation: tailWag 900ms ease-in-out 2; }
+.anim-pendrive { animation: pendriveBounce 900ms ease-in-out 1; }
+
+/* micro‑gag reveal: text pops and fades */
+.anim-pop { opacity: 1; transform: translateY(-6px) scale(1.02); transition: opacity 300ms, transform 300ms; }
+
+/* -------------------------
+   Fi del fitxer
+   ------------------------- */

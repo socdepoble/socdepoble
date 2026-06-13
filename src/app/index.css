@@ -1138,3 +1138,59 @@
     pointer-events: auto;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   @LAYER sp-overrides (SÍNTESI GOLD MASTER - ZERO REFLOW V3.1)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@layer sp-overrides {
+  /* 1. Illes d'Empatia (Aïllament total) */
+  .empathy-zone {
+    contain: layout paint style; /* Rule #2: contain strict només on siga una illa real */
+    transform: translateZ(0);
+  }
+
+  /* 2. Overlay passiu (Rule #4: pointer-events: none + contain: paint) */
+  .empathy-zone::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    contain: paint;
+    transition: opacity var(--sp-transition-normal, 600ms);
+    z-index: 50;
+  }
+
+  /* 3. Activació Global (Zero Reflow) */
+  body.empathy-assist {
+    --sp-transition-fast: 400ms ease-in-out;
+    --sp-transition-normal: 600ms ease-in-out;
+    --sp-transition-slow: 800ms ease-in-out;
+
+    filter: saturate(.96);
+  }
+
+  body.empathy-assist .empathy-zone::before {
+    opacity: .06;
+  }
+
+  /* 4. Hitbox Inversa i Aïllada (Rule #1: isolation: isolate) */
+  .sp-hitbox {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .sp-hitbox::after {
+    content: "";
+    position: absolute;
+    inset: -16px;
+    z-index: -1;
+    pointer-events: auto;
+  }
+
+  /* 5. GPU Temporal (Rule #3: will-change temporal, mai permanent) */
+  .empathy-preparing {
+    will-change: transform, filter;
+  }
+}
+

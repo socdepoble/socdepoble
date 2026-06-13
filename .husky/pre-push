@@ -1,0 +1,26 @@
+#!/bin/bash
+# .husky/pre-push
+
+# Obtenir el directori d'actes
+ACTAS_DIR="knowledge/actes"
+CURRENT_DATE=$(date +%Y-%m-%d)
+
+echo ""
+echo "🚜 El Mas et mira abans de pujar el codi..."
+
+# Comprovar si hi ha alguna acta creada hui
+HAS_ACTA_TODAY=$(ls $ACTAS_DIR/*$CURRENT_DATE*.md 2>/dev/null | wc -l)
+
+if [ "$HAS_ACTA_TODAY" -eq "0" ]; then
+  echo "    ⚠️ RECORDATORI: No has deixat cap acta de memòria hui."
+  echo "    Vols registrar el que has après abans de marxar? Executa:"
+  echo "    npm run acta"
+else
+  echo "    ✅ El Mas recorda el teu pas. Memòria actualitzada hui."
+fi
+
+echo "    Bon viatge al repositori remot!"
+echo ""
+
+# SEMPRE permet el push (No bloquejant)
+exit 0

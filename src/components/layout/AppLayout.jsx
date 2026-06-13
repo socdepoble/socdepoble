@@ -44,7 +44,7 @@ const HubView = lazy(() => import("../../pages/features/HubView"));
 const AccessibilitatUniversal = lazy(() => import("../ui/AccessibilitatUniversal"));
 const AgentDirectory = lazy(() => import("../../pages/community/AgentDirectory"));
 const UsersDirectory = lazy(() => import("../../pages/community/UsersDirectory"));
-
+const AlmaPage = lazy(() => import("../../pages/features/anima-del-mas/AlmaPage"));
 
 
 const ControlGeneral = lazy(() => import("../../pages/admin/ControlGeneral"));
@@ -458,6 +458,7 @@ const AppLayout = () => {
                     <Route path="/infoteca" element={<InfografiaGallery />} />
                     <Route path="/arxiu" element={<ArxiuOr />} />
                     <Route path="/arxiu/:id" element={<ResourceDetail />} />
+                    <Route path="/anima" element={<AlmaPage />} />
 
                     <Route path="/fotos/global" element={<AlbumGlobal />} />
                     <Route

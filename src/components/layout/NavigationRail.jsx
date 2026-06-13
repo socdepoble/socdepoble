@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigation } from "../../app/context/NavigationContext";
 import { useAuth } from "../../app/context/AuthContext";
 import { APP_VERSION } from "../../constants";
-import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette, Scale } from "lucide-react";
+import { Plus, MessageSquare, LayoutGrid, Store, MapPin, Calendar, Map, BookOpen, Image, FileText, Compass, Activity, Palette, Scale, Flame } from "lucide-react";
 
 const menuItems = [
   { path: "/chats", key: "nav.chats", fallback: "Xat", icon: (p) => <MessageSquare {...p} /> },
@@ -19,6 +19,7 @@ const menuItems = [
   { path: "/constitucio", key: "nav.constitucio", fallback: "Constitució", icon: (p) => <Scale {...p} /> },
   { path: "/disseny", key: "nav.design", fallback: "Disseny", icon: (p) => <Palette {...p} /> },
   { path: "/skills", key: "nav.skills", fallback: "Skills", icon: (p) => <Activity {...p} /> },
+  { path: "/anima", key: "nav.anima", fallback: "L'Ànima de la IAIA", icon: (p) => <Flame {...p} /> },
   { path: "/ruta", key: "nav.roadmap", fallback: "Full de Ruta", icon: (p) => <Compass {...p} /> },
 ];
 

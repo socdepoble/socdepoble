@@ -12,7 +12,7 @@ export function useSafeObjectUrl(blob) {
     if (!blob) return;
 
     const objectUrl = URL.createObjectURL(blob);
-    setUrl(objectUrl);
+    queueMicrotask(() => setUrl(objectUrl));
 
     // BARRERA CRÍTICA: Destruir el puntero en RAM al desmontar la vista de UI
     return () => {

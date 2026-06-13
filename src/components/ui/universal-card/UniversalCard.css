@@ -1,16 +1,55 @@
 /* UNIVERSAL CARD NEXUS v12 - TECH HUERTA M3 PURE */
 
 /* TALLA I ESTRUCTURA BÀSICA */
+.universal-card {
+  border-radius: var(--sp-radius-trellat, 28px) !important;
+  overflow: hidden !important;
+  background-color: var(--sp-bg-panel, #434137);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease-out, transform 0.2s ease-out;
+}
+
+.universal-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.theme-light .universal-card {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-light .universal-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
 .card-header-boina {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  min-height: 64px;
+  padding: 0 16px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
   position: relative;
   z-index: 10;
+  background-color: var(--theme-accent-primary, #F97316);
+  color: #0A0A0A; /* El text principal del header va en negre segons petició */
+  flex-shrink: 0;
+  width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
+}
+
+.theme-dark .card-header-boina {
+  color: #FFFFFF; /* Blanc en mode fosc */
 }
 
 .theme-light .card-header-boina {
@@ -23,8 +62,26 @@
   gap: 12px;
   overflow: hidden;
   min-width: 0;
+  flex: 1; /* Assignem flex: 1 per a permetre que trunque si és molt llarg */
 }
 
+.master-author-name {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: inherit; /* Hereda el negre/blanc del boina */
+}
+
+.location-text {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.8;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .genesis-avatar {
   flex-shrink: 0;
   border-radius: 50%;
@@ -103,62 +160,6 @@
   transform: scale(1.02);
 }
 
-.image-overlay-credits {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-  padding: 15px 12px 6px;
-  font-size: 12px;
-  color: #ffffff;
-  font-weight: 950;
-  text-align: right;
-  text-transform: uppercase;
-}
-
-/* BODY */
-.card-body {
-  padding: 16px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-}
-
-.genesis-title {
-  font-family: var(--font-display), sans-serif;
-  font-size: 20px;
-  font-weight: 950;
-  margin: 0;
-  line-height: 1.2;
-  word-break: break-word;
-}
-
-.card-excerpt {
-  font-size: 15px;
-  line-height: 1.6;
-  margin: 0;
-  opacity: 0.85;
-}
-
-.card-price-bottom {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 20;
-}
-
-.card-price {
-  background: #F97316;
-  color: #000;
-  padding: 8px 18px;
-  border-radius: 99px;
-  font-size: 16px;
-  font-weight: 950;
-  display: inline-flex;
-}
 
 /* BADGES & TAGS */
 .card-tags-row {
@@ -181,30 +182,6 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.card-ai-tools-inline {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.btn-ai-poeta,
-.btn-ai-taxador {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.theme-light .btn-ai-poeta,
-.theme-light .btn-ai-taxador {
-  border-color: rgba(0, 0, 0, 0.2);
-}
 
 /* SMART CLAMP (Trims long text to fit design without fixed height) */
 .smart-clamp-tags {
@@ -223,113 +200,7 @@
   line-clamp: 4;
 }
 
-/* FOOTER MASTER */
-.card-footer-master {
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  gap: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
-}
 
-.theme-light .card-footer-master {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.footer-actions-mur,
-.footer-mercat-master,
-.footer-event-master,
-.footer-pobles-master,
-.footer-mapa-master,
-.mercat-actions-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-}
-
-.footer-touch-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.btn-touch {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.btn-touch:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.theme-light .btn-touch:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.master-action-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  height: 44px;
-  padding: 0 16px;
-  border-radius: 22px;
-  font-weight: 900;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.theme-light .master-action-btn {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-.master-action-btn.connect-btn {
-  flex: 1;
-  background: var(--theme-accent-secondary, #F97316);
-  color: #000;
-  border: none;
-  font-weight: 950;
-  text-transform: uppercase;
-}
-
-.theme-light .master-action-btn.connect-btn {
-  color: #FFF;
-}
-
-/* ESPECÍFICO MERCAT */
-.btn-mercat-buy {
-  background: var(--theme-accent-secondary, #F97316);
-  color: #000;
-  height: 44px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-weight: 950;
-  border-radius: 22px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-}
-
-.theme-light .btn-mercat-buy {
-  color: #FFF;
-}
 
 /* RESPONSIVITY MOBILE */
 @media (max-width: 400px) {
@@ -352,4 +223,151 @@
 .universal-card.mode-forense-active {
   outline: 2px dashed #00ffff;
   outline-offset: 4px;
+}
+
+/* 🧱 ESTRUCTURA PURE BEM (TRELLAT STRICT MODE) */
+
+/* Protecció estricta contra els estils globals del CMS (evita marges i radis zombis) */
+.universal-card-media-img {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--theme-motion-duration-long) ease-in-out, opacity var(--theme-motion-duration-long) ease-in-out;
+  display: block;
+}
+
+.ucard-media-container {
+  width: 100%;
+  position: relative;
+  background-color: transparent;
+  z-index: 10;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.ucard-media-container.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.ucard-media-container.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.ucard-layout-grid {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ucard-layout-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.ucard-list-content-row {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.ucard-list-media-col {
+  flex-shrink: 0;
+}
+
+.ucard-list-body-col {
+  flex: 1;
+  min-width: 0;
+  z-index: 10;
+  margin: -16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ucard-body-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 30;
+}
+
+.ucard-footer-container {
+  position: relative;
+  z-index: 40;
+  margin-top: auto;
+}
+
+.ucard-media-wrapper-row {
+  margin-top: -1px; /* Solució per amagar l'escletxa del border-bottom del Header */
+}
+
+/* UCard Footer Bar (replaces the solid Tailwind bar) */
+.ucard-footer-bar {
+  width: 100%;
+  background-color: #4F46E5;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 16px;
+  height: 56px;
+  min-height: 56px;
+  max-height: 56px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.theme-light .ucard-footer-bar {
+  background-color: #4F46E5; /* Depèn de si el mode light canvia de color ací, abans era F97316 per dark */
+}
+
+/* Forçant dark mode colors manualment (ja que usava dark:bg-[#F97316]) */
+@media (prefers-color-scheme: dark) {
+  .ucard-footer-bar {
+    background-color: #F97316;
+  }
+}
+
+:root[class~="dark"] .ucard-footer-bar {
+  background-color: #F97316;
+}
+
+.ucard-footer-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ucard-footer-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--theme-motion-duration-short) ease;
+}
+
+.ucard-footer-icon-btn:hover {
+  opacity: 0.8;
+}
+
+.ucard-footer-action-wrapper {
+  flex-shrink: 0;
+  margin-left: 16px;
 }

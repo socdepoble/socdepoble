@@ -32,8 +32,8 @@ const getAvatarFallbackImage = (role) => {
 
         case ROLES.BUSINESS: return '/uploads/avatars/avatar_lucia_comic.png';
         case ROLES.GROUPS: return '/uploads/avatars/avatar_man_1.png';
-        case 'ambassador': return '/uploads/avatars/iaia_comic_matriarch.png';
-        case 'iaia': return '/uploads/avatars/iaia_comic_matriarch.png';
+        case 'ambassador': return '/assets/fotos/iaia-maria.png';
+        case 'iaia': return '/assets/fotos/iaia-maria.png';
         default: return null; // Let initials/icon handle it for neighbors
     }
 };
@@ -69,8 +69,19 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
     let rawNormalizedSrc = (src && !src.startsWith('http') && !src.startsWith('/')) ? `/${src}` : src;
 
     // [HEALING PROTOCOL] Intercept legacy broken supabase avatars (400 Bad Request prevention)
-    if (rawNormalizedSrc && rawNormalizedSrc.includes('avatar_agent_iaia')) {
-        rawNormalizedSrc = '/uploads/avatars/iaia_comic_matriarch.png';
+    if (rawNormalizedSrc) {
+        if (rawNormalizedSrc.includes('iaia_comic_matriarch') || rawNormalizedSrc.includes('avatar_agent_iaia') || name === 'IAIA MarIA') {
+            rawNormalizedSrc = '/assets/fotos/iaia-maria.png';
+        }
+        if (rawNormalizedSrc.includes('carla-soriano_comic') || name === 'Carla Soriano') {
+            rawNormalizedSrc = '/assets/fotos/carla-soriano.png';
+        }
+        if (rawNormalizedSrc.includes('avatar_samir_comic') || name === 'El Viatjant') {
+            rawNormalizedSrc = '/assets/fotos/el-viatjant.png';
+        }
+        if (rawNormalizedSrc.includes('sultan_comic') || name === 'Sultan') {
+            rawNormalizedSrc = '/assets/fotos/sultan.png';
+        }
     }
 
     // [MASTER DYNAMIC OVERRIDE] Force green square for Sóc de Poble
@@ -115,6 +126,8 @@ const Avatar = ({ src, role, name, size = 44, className = "" }) => {
                     alt={name ? `Avatar de ${name}` : 'Avatar'}
                     loading="lazy"
                     decoding="async"
+                    referrerPolicy="no-referrer"
+                    crossOrigin="anonymous"
                     style={{ width: '100%', height: '100%', objectFit: 'cover', color: 'transparent' }}
                     onError={() => setHasError(true)}
                 />

@@ -58,10 +58,10 @@ const LanguageSelector = ({ variant = 'header' }) => {
     <div className="relative">
       <button 
         onClick={() => navigate('/traduccions')}
-        className="w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+        className="max-[350px]:w-8 max-[350px]:h-8 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
         title="Canviar idioma / Change language"
       >
-        <Globe size={36} className="w-[36px] h-[36px] shrink-0" />
+        <Globe size={36} className="w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px] shrink-0" />
       </button>
     </div>
   );

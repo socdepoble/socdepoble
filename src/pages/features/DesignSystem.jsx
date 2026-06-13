@@ -18,6 +18,7 @@
 
 import React from 'react';
 import UniversalPage from '../public/UniversalPage';
+import UniversalCard from '../../components/ui/universal-card';
 import './sosp-components.css'; // Importem el CSS que defineix l'Arquitectura Pedra Seca (pur HTML/CSS)
 
 export default function DesignSystem() {
@@ -29,6 +30,14 @@ export default function DesignSystem() {
       forcedHeroImage="/assets/uploads/brain/ibanez_pedra_seca_design_1780873465211.png"
     >
       <div className="universal-content w-full sosp-design-system max-w-5xl mx-auto p-6 pb-24">
+
+        <div className="sosp-alert sosp-alert-info mb-8">
+          <span className="sosp-alert-icon">ℹ️</span>
+          <div>
+            <p className="font-bold m-0">Construcció en curs</p>
+            <p className="text-sm m-0">Un poc de paciència la primera volta, que tarda a carregar-ho tot. Estem cimentant els fonaments d'aquesta masia digital.</p>
+          </div>
+        </div>
 
         <div className="mb-12 flex gap-4 text-sm text-stone-500 border-b-2 border-stone-300 pb-6 justify-center">
           <span>🎯 Filosofia: Trellat</span>
@@ -228,7 +237,7 @@ const poble = "Petrer";</code></pre>
           <div className="space-y-3">
             {[1, 2, 3, 4, 6, 8, 10, 12, 16, 20, 24].map((n) => (
               <div key={n} className="flex items-center gap-4">
-                <div className="h-4 bg-[#8B4513] rounded" style={{ width: `${n * 4}px` }} />
+                <div className="h-4 bg-[#f97316] rounded" style={{ width: `${n * 4}px` }} />
                 <span className="text-sm text-gray-600 font-mono">{n} unitats = {n * 4}px</span>
               </div>
             ))}
@@ -384,7 +393,7 @@ const poble = "Petrer";</code></pre>
 
           {/* Targeta amb capçalera */}
           <article className="sosp-card overflow-hidden">
-            <div className="bg-[#8B4513] p-4">
+            <div className="bg-[#f97316] p-4">
               <h3 className="text-lg font-bold text-white m-0">Targeta amb capçalera</h3>
             </div>
             <div className="p-6">
@@ -409,10 +418,10 @@ const poble = "Petrer";</code></pre>
           </article>
 
           {/* Targeta d'informació */}
-          <article className="sosp-card border-l-4 border-l-[#2D5A3D]">
+          <article className="sosp-card border-l-4 border-l-[#16A34A]">
             <div className="p-6">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#2D5A3D]">ℹ️</span>
+                <span className="text-[#16A34A]">ℹ️</span>
                 <h3 className="text-lg font-bold text-stone-900 m-0">Targeta d'informació</h3>
               </div>
               <p className="text-stone-600">
@@ -1115,6 +1124,61 @@ const poble = "Petrer";</code></pre>
               </article>
             </div>
           </div>
+
+          <div className="mt-8 flex justify-center">
+            <div className="w-full max-w-md">
+              <p className="text-sm text-gray-500 mb-4 text-center">24.5 Targeta Mestra Completa (Visor de Contingut "El Mas")</p>
+              
+              <UniversalCard 
+                variant="mercat"
+                viewMode="grid"
+                item={{
+                  id: 'samarreta-soc-de-poble-1',
+                  uuid: 'samarreta-soc-de-poble-1',
+                  type: 'product',
+                  author_name: 'Sóc de Poble',
+                  town_name: 'La Torre de les Maçanes',
+                  title: 'Samarreta Sóc de Poble',
+                  description: 'L\'edició definitiva amb el Logotip Complet (Mapa del Tresor). Cotó Roly de màxima qualitat.',
+                  price: '15.00€',
+                  images: ['/assets/uploads/brain/group_tshirt.png'],
+                  avatar_url: '/assets/uploads/brain/ibanez_pedra_seca_design_1780873465211.png',
+                  tags: ['#Sostenible'],
+                  created_at: '2026-03-22T23:33:00Z',
+                  info_text: 'Mapa del tresor'
+                }}
+              />
+
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-center">
+            <div className="w-full max-w-md">
+              <p className="text-sm text-gray-500 mb-4 text-center">24.6 Targeta Mestra Completa (Amb Vídeo)</p>
+              
+              <UniversalCard 
+                variant="post"
+                viewMode="grid"
+                item={{
+                  id: 'post-video-socdepoble-1',
+                  uuid: 'post-video-socdepoble-1',
+                  type: 'page',
+                  author_name: 'Sóc de Poble',
+                  town_name: 'La Torre de les Maçanes',
+                  title: 'Sóc de Poble: Portal de pobles connectats',
+                  description: 'Sóc del Poble serà un PORTAL DE POBLES CONNECTATS on compartir informació, experiències i idees que faciliten el desenvolupament sostenible i tecnològic en entorns rurals.',
+                  images: null,
+                  video_url: 'https://www.youtube.com/embed/Fadaa7Kyxm0?si=rJasphnQZdCy3zve',
+                  avatar_url: '/assets/system/ui/logo-socdepoble-cuadrat-verd.svg',
+                  tags: ['#Sostenible', '#Tecnologia', '#MónRural'],
+                  created_at: new Date().toISOString(),
+                  info_text: '📌'
+                }}
+              />
+
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -1841,6 +1905,89 @@ NOU COMPONENT? Segueix la pauta:
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      {/* ====================================================== */}
+      {/* SECCIÓ 36: ELEMENTS ESTRUCTURALS (PER A SUB-AGENTS)      */}
+      {/* ====================================================== */}
+      <section className="mb-16" id="elements-estructurals">
+        <h2 className="sosp-h2 mb-6">36. Elements Estructurals (Refactor Obert)</h2>
+
+        <div className="bg-stone-50 border border-stone-200 rounded-xl p-6">
+          <p className="text-sm text-stone-600 mb-4">Aquestes són les directrius i prompts preparats per a ser executats per les IAs (les petorretetes) durant la fase de componentització estructural de Sóc de Poble.</p>
+          
+          <div className="space-y-6">
+            <details className="bg-white border border-stone-200 rounded-lg p-4 group">
+              <summary className="font-bold text-stone-900 cursor-pointer list-none flex justify-between items-center">
+                <span>1. Orange Bar (Capçalera Contextual)</span>
+                <span className="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700 font-mono whitespace-pre-wrap">
+{`PROMPT PER A LA IA:
+Necessitem unificar l'Orange Bar. Actualment tenim "ContextualHeader.jsx" i l'estil inline dins de "ChatList.jsx" i "Map.jsx".
+El component final ha de dir-se "OrangeBar.jsx" i ha de tindre:
+- Fons: bg-[#F97316] (mode clar) / dark:bg-[#4F46E5] (mode fosc)
+- Altura: exactament h-[56px] min-h-[56px]
+- Ombra INQUEBRANTABLE: shadow-md (Molt important, l'ombra ha d'estar sempre).
+- Input de cerca integrat amb borderRadius de 28px.
+Fes-lo amb variants (Map Mode, Chat Mode) però sempre mantenint aquestes directrius estructurals.`}
+              </div>
+            </details>
+
+            <details className="bg-white border border-stone-200 rounded-lg p-4 group">
+              <summary className="font-bold text-stone-900 cursor-pointer list-none flex justify-between items-center">
+                <span>2. Sidebar & Navigation (La Roca)</span>
+                <span className="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700 font-mono whitespace-pre-wrap">
+{`PROMPT PER A LA IA:
+Auditar i componentitzar la barra lateral negra on resideix el logo principal i el menú (ex. AppLayout.jsx).
+- Fons absolut negre o extremadament fosc.
+- Ha de respectar l'amplada i no causar reflows quan el teclat apareix en un iPad.
+- El botó gegant blau de "+ CONNECTAR" ha de tindre el focus perfecte i contrast AAA.
+- Extraure la lògica a un "SystemSidebar.jsx" altament resistent.`}
+              </div>
+            </details>
+
+            <details className="bg-white border border-stone-200 rounded-lg p-4 group">
+              <summary className="font-bold text-stone-900 cursor-pointer list-none flex justify-between items-center">
+                <span>3. Estructura Completa de 3 Panells</span>
+                <span className="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700 font-mono whitespace-pre-wrap">
+{`PROMPT PER A LA IA:
+Garantir que el layout base del lloc es manté monolític (Sistema de 3 Columnes):
+1. Menú principal (Sidebar estret).
+2. Llista contextual (Xats / Llocs).
+3. Panell de Detall / Visor.
+Assegurar l'overflow ocult en el cos global per previndre "Rubber-banding" en Safari/iOS, i delegar els scrolls (overflow-y-auto) únicament dins dels contenidors flexibles.`}
+              </div>
+            </details>
+
+            <details className="bg-white border border-stone-200 rounded-lg p-4 group">
+              <summary className="font-bold text-stone-900 cursor-pointer list-none flex justify-between items-center">
+                <span>4. La Targeta Mestra (Visor de Contingut)</span>
+                <span className="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-4 pt-4 border-t border-stone-100 text-sm text-stone-700 font-mono whitespace-pre-wrap">
+{`PROMPT PER A LA IA:
+La "Card" principal (el visor de detalls) és la peça més complexa. L'objectiu no és redissenyar-la, sinó EXTREURE els components existents respectant les següents NORMES ESTRICTES de disseny que ja tenim:
+
+1. Contenidor Base: Ha de tindre un arrodoniment fort (rounded-[28px]). Ni més ni menys.
+2. CardHeader (Taronja): Fons taronja (#f97316) però atenció: el TEXT ÉS NEGRE (nom de l'autor i lloc). El botó del "pin" i la píndola de la data tenen fons taronja fosc, i la píndola de data és arrodonida (rounded-full).
+3. CardCarousel: Ratio quadrat exacte (aspect-square), la imatge l'ocupa completament (object-cover). Amb fletxes translúcides i punts inferiors.
+4. CardContent:
+   - Títol: Gran, negre, alineat a l'esquerra. NO MAJÚSCULES forçades (es respecta el case original).
+   - Preu: Taronja (#C75B39), a la dreta del títol.
+   - Subtítol blau ("Sóc de Poble"): Alineat a l'esquerra, mai centrat.
+   - Paràgraf descriptiu: Text gran i llegidor (text-lg o text-xl).
+   - "LLEGIR MÉS": Centrat, en majúscules.
+5. CardActionBar (Blava): Fixa a baix (#3b49df) amb eines a l'esquerra i el gran botó de "+ CONNECTAR" a la dreta.
+
+La teua missió és componentitzar-ho de forma monolítica i inquebrantable sense alterar aquestes normes estètiques.`}
+              </div>
+            </details>
           </div>
         </div>
       </section>

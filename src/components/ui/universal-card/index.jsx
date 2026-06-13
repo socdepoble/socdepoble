@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
-import { supabase } from '../../../supabaseClient';
+import React, { useCallback, useMemo } from 'react';
+
 // CACHE BUST SW: Evasió profunda de la catxé per a targeta indestructible.
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useModal } from '../../../app/context/ModalContext';
@@ -12,7 +12,7 @@ import UniversalCardBody from './UniversalCard.Body';
 import UniversalCardFooter from './UniversalCard.Footer';
 import BlueprintOverlay from '../../ui/BlueprintOverlay';
 
-import PedraPanel from '../PedraPanel';
+
 import { normalizePostData } from '../../../normalizers/post.normalizer';
 import { resolveImageUrl } from '../../../utils/urlHelper';
 import { clsx } from 'clsx';
@@ -204,7 +204,7 @@ const UniversalCardInner = ({
 
         const id = item?.uuid || item?.id;
         if (item?.type === 'page' && item?.slug) {
-            if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest', 'skills'].includes(item.slug)) {
+            if (['el-projecte', 'manual', 'arxiu', 'projecte', 'manifest', 'skills', 'anima', 'disseny', 'ruta', 'constitucio'].includes(item.slug)) {
                 navigate(`/${item.slug}`);
             } else {
                 navigate(`/page/${item.slug}`);
@@ -275,16 +275,15 @@ const UniversalCardInner = ({
     }, [cardVariant]);
 
     const CardContent = (
-        <PedraPanel 
-            className={`${cardClasses} h-full universal-card-wrapper cursor-pointer relative group`}
+        <article 
+            className={`${cardClasses} sosp-universal-card universal-card`}
             aria-label={displayTitle}
             itemScope
             itemType={itemTypeUrl}
             data-post-id={item?.id || item?.uuid || baseTitle}
         >
-            <div className="w-full h-full flex-auto relative flex flex-col">
             {viewMode === 'list' ? (
-                <div className="flex flex-col w-full flex-auto">
+                <div className="ucard-layout-list">
                     <UniversalCardHeader 
                         item={item}
                         cardVariant={cardVariant}
@@ -297,8 +296,8 @@ const UniversalCardInner = ({
                         displayTime={displayTime}
                         infoText={finalInfoText}
                     />
-                    <div className="flex items-stretch gap-4 p-4 w-full flex-grow">
-                        <div className="flex-shrink-0">
+                    <div className="ucard-list-content-row">
+                        <div className="ucard-list-media-col">
                             {displayImage ? (
                                 <img
                                     src={displayImage}
@@ -312,7 +311,7 @@ const UniversalCardInner = ({
                                 </div>
                             )}
                         </div>
-                        <div className="flex-1 min-w-0 z-10 -m-4 flex flex-col">
+                        <div className="ucard-list-body-col">
                             <UniversalCardBody 
                                 displayTitle={displayTitle}
                                 displayExcerpt={displayExcerpt}
@@ -326,9 +325,8 @@ const UniversalCardInner = ({
                                 viewMode={viewMode}
                             />
                         </div>
-                        <div className="absolute inset-0 z-0" aria-hidden="true"></div>
                     </div>
-                    <div className="mt-auto">
+                    <div className="ucard-footer-container">
                         <UniversalCardFooter 
                             item={item}
                             cardVariant={cardVariant}
@@ -342,7 +340,7 @@ const UniversalCardInner = ({
                     </div>
                 </div>
             ) : (
-                <>
+                <div className="ucard-layout-grid">
                     <UniversalCardHeader 
                         item={item}
                         cardVariant={cardVariant}
@@ -355,7 +353,7 @@ const UniversalCardInner = ({
                         displayTime={displayTime}
                         infoText={finalInfoText}
                     />
-                    <div className="-mt-[1px]">
+                    <div className="ucard-media-wrapper-row">
                         <UniversalCardMedia 
                             item={item}
                             cardVariant={cardVariant}
@@ -365,9 +363,10 @@ const UniversalCardInner = ({
                             openViewer={openViewer}
                             navigate={navigate}
                             aspectMode={computedAspectMode}
+                            videoUrl={item?.video_url}
                         />
                     </div>
-                    <div className="flex flex-col w-full flex-auto relative z-30">
+                    <div className="ucard-body-container">
                         <UniversalCardBody 
                             displayTitle={displayTitle}
                             displayExcerpt={displayExcerpt}
@@ -381,7 +380,7 @@ const UniversalCardInner = ({
                             viewMode={viewMode}
                         />
                     </div>
-                    <div className="relative z-40 mt-auto">
+                    <div className="ucard-footer-container">
                         <UniversalCardFooter 
                             item={item}
                             cardVariant={cardVariant}
@@ -394,10 +393,9 @@ const UniversalCardInner = ({
                             viewMode={viewMode}
                         />
                     </div>
-                </>
+                </div>
             )}
-            </div>
-        </PedraPanel>
+        </article>
     );
 
     const FinalCard = CardContent;

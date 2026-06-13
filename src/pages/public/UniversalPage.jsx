@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef, lazy, Suspense } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../app/context/AuthContext';
-import { useModal } from '../../app/context/ModalContext';
 import { useAtomicGuard } from '../../hooks/useAtomicGuard';
 import { supabase } from '../../supabaseClient';
 
@@ -250,24 +249,91 @@ const UniversalPage = ({
             return <div className="w-full flex-1 flex flex-col min-h-0">{renderKanban()}</div>;
         }
 
+        // Extracció de Tags sense useMemo intern (ja està dins del useMemo pare)
+        const rawDesc = pageItem?.content || pageItem?.subtitle || '';
+        const extractedTags = (rawDesc.match(/#[a-zA-Z0-9_À-ÿ]+/g) || []).map(t => t.replace(/^#+/, ''));
+        const allTags = [...new Set([...(pageItem?.tags || []), ...extractedTags])];
+
         return (
             <div className="h-full bg-transparent flex flex-col z-10 flex-1 min-w-0 w-full">
-                {/* Subtítol editable / visible */}
-                <div className="w-full shrink-0 px-4 sm:px-6 lg:px-10 mb-0 pt-6 max-w-4xl mx-auto">
+                {/* 4. CONTINGUT TITULAR (Quadre blanc amb fons arrodonit penjat del header) */}
+                <div className="w-full px-2 md:px-3">
+                    <section className="w-full flex flex-col items-center justify-center pb-5 pt-8 bg-[var(--bg-panel)] rounded-b-[2.5rem] shadow-[0_4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] mb-0 relative z-10 shrink-0">
+                        <div className="w-full flex flex-col items-center justify-center px-4 md:px-6 relative group max-w-4xl mx-auto">
+                            
+                            {/* SLOT SUPERIOR: Logo */}
+                            {(logoLight || logoDark) ? (
+                                <>
+                                    {logoLight && <img src={logoLight} alt="Logo Light" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all dark:hidden" />}
+                                    {logoDark && <img src={logoDark} alt="Logo Dark" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all hidden dark:block" />}
+                                    {(logoLight && !logoDark) && <img src={logoLight} alt="Logo Dark Fallback" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all hidden dark:block" />}
+                                    {(!logoLight && logoDark) && <img src={logoDark} alt="Logo Light Fallback" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all dark:hidden" />}
+                                </>
+                            ) : (
+                                <>
+                                    <img src="/assets/system/ui/logo-socdepoble-rect-negre.svg" alt="Logo Sóc de Poble (Negre)" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all dark:hidden" />
+                                    <img src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" alt="Logo Sóc de Poble (Fosc)" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all hidden dark:block" />
+                                </>
+                            )}
+
+                            {/* EL TÍTOL (H1) */}
+                            {title && (
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-center tracking-tight leading-none uppercase mb-0 mt-2 max-w-4xl w-full break-words">
+                                    {title}
+                                </h1>
+                            )}
+
+                            {/* CUSTOM ACTIONS (ex: Botons de Full de Ruta) */}
+                            {customActions && (
+                                <div className="w-full mt-6">
+                                    {customActions}
+                                </div>
+                            )}
+
+                            {/* SLOT INFERIOR: Etiquetes */}
+                            {allTags.length > 0 && (
+                                <div className="w-full flex justify-center items-center gap-2 mt-6 flex-wrap">
+                                    {allTags.map((tag, index) => {
+                                        const cleanTagStr = tag.replace(/^#+/, '');
+                                        const bgClasses = ['bg-[#0369A1]/10 text-[#0369A1]', 'bg-[#F97316]/10 text-[#F97316]', 'bg-black/5 dark:bg-white/10 text-theme-text'];
+                                        const colorClass = bgClasses[index % bgClasses.length];
+                                        return (
+                                            <div key={cleanTagStr} className={`text-[13px] md:text-[14px] font-black tracking-wide px-4 py-2 rounded-full ${colorClass}`}>
+                                                <span>{cleanTagStr}</span>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    </section>
+                </div>
+
+                {/* Subtítol editable / visible (H2) */}
+                <div className="w-full shrink-0 px-4 sm:px-6 lg:px-10 mb-0 pt-8 max-w-4xl mx-auto">
                     {canEdit && isEditing ? (
                         <input
                             type="text"
                             value={localSubtitle}
                             onChange={e => setLocalSubtitle(e.target.value)}
-                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-1 text-center mt-6"
-                            placeholder="INTRODUEIX EL SUBTÍTOL"
+                            className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase bg-transparent border-b-2 border-dashed border-[var(--theme-accent-primary)] outline-none w-full focus:bg-[var(--theme-accent-primary)]/10 transition-colors pb-1 text-center mt-2"
+                            placeholder="INTRODUEIX EL SUBTÍTOL (H2)"
                         />
                     ) : localSubtitle ? (
-                        <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase mb-0 mt-6 text-center px-4 w-full break-words">
+                        <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-accent-primary)] uppercase mb-0 text-center px-4 w-full break-words">
                             {localSubtitle}
                         </h2>
                     ) : null}
                 </div>
+
+                {/* Entradilla (Excerpt) */}
+                {pageItem?.description && (
+                    <div className="w-full shrink-0 px-6 sm:px-10 lg:px-12 mt-4 max-w-4xl mx-auto text-center">
+                        <p className="text-lg md:text-xl font-medium text-theme-text/80 leading-relaxed">
+                            {pageItem.description.replace(/#[a-zA-Z0-9_À-ÿ]+/g, '').trim()}
+                        </p>
+                    </div>
+                )}
 
                 {/* Editor o Contingut */}
                 {canEdit && isEditing ? (
@@ -299,7 +365,7 @@ const UniversalPage = ({
     }, [
         isLoadingPage, currentViewMode, renderCalendar, renderKanban,
         canEdit, isEditing, localSubtitle, formattedHtml, activeHtmlContent,
-        children, isSaving, handleSave
+        children, isSaving, handleSave, title, logoLight, logoDark, pageItem, customActions
     ]);
 
     // ─── ViewModel ──────────────────────────────────────────────
@@ -323,7 +389,8 @@ const UniversalPage = ({
         hero: {
             images: forcedImages || (forcedHeroImage || heroImage ? [forcedHeroImage || heroImage] : []),
             format: heroFormat,
-            position: heroPosition
+            position: heroPosition,
+            videoUrl: pageItem?.video_url
         },
         media: {
             current: mediaViewerSrc,
@@ -343,7 +410,7 @@ const UniversalPage = ({
         renderKanban, renderCalendar, currentViewMode, mediaViewerSrc, mediaViewerImages,
         isLoadingPage, isEditing, canEdit, translating, user, isFullscreen, showScrollTop,
         isActionMenuOpen, isIndexOpen, isIndexPinned, isHistoryOpen, totalPages,
-        hasChildrenWrapper, hasForcedHtmlWrapper, pageAuthor
+        hasChildrenWrapper, hasForcedHtmlWrapper, pageAuthor, pageNumberRef
     ]);
 
     // ─── Handlers ───────────────────────────────────────────────

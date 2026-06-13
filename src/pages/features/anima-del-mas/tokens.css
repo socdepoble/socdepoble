@@ -1,0 +1,13 @@
+/* tokens.css - Variables per a L'Ànima del Mas */
+:root {
+  --color-brasa: #F97316; /* sdp-orange */
+  --color-ember: #FFB86B;
+  --sdp-bg-primary: #0e0e10; /* Alineat amb el dark mode global */
+  --sdp-bg-surface: #141417; /* bg-panel */
+  --sdp-text: #f3f4f6;
+  --sdp-muted: #a1a1aa;
+  --sdp-accent: #0369A1; /* sdp-blue */
+  --sdp-radius-md: 16px; /* radius-tactile */
+  --sdp-shadow-sm: 0 4px 12px rgba(0,0,0,0.4);
+  --safe-top: env(safe-area-inset-top, 0px);
+}

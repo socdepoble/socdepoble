@@ -63,6 +63,30 @@ Si demà les antenes de telecomunicacions col·lapsen després d'una DANA, un in
 
 La tecnologia moderna ens va prometre el món a canvi de la nostra sobirania. Nosaltres hem utilitzat la seua mateixa tecnologia per recuperar la nostra terra.
 
+### 🧱 IV. LES 6 LLEIS DE LA PEDRA SECA (Arquitectura Infrangible)
+Aquestes lleis dictaminen com s'escriu el codi de la interfície i de l'Ànima Digital (TCU) per a garantir un rendiment absolutament fluid en dispositius antics sense dependre de maquinari modern.
+
+1. **Llei 1: Cap text cru fora del Main Thread.** Tota comunicació amb els Web Workers s'ha de fer mitjançant `ArrayBuffer` binaris o numèrics.
+2. **Llei 2: Cap al·locació contínua.** Ús de *Ring Buffers* pre-al·locats. Es prohibeix instanciar nous objectes dins dels *loops* d'animació o de telemetria per no despertar el Garbage Collector.
+3. **Llei 3: Cap mutació global de `:root` en temps d'execució.** Els tokens són immutables. Els canvis d'estat es gestionen via atributs (ex: `data-empathy="true"`) sobre el contenidor específic, mai injectant variables.
+4. **Llei 4: Cap propietat que force reflow durant l'Ànima Digital.** Els ajustos d'empatia no poden tocar `padding`, `margin`, o `width`. Promoció estricta a la GPU (`transform`, `opacity`, `color-mix`, i aïllament amb `contain: layout paint style`). S'eviten els filtres globals sobre el `body`.
+5. **Llei 5: Cap API no essencial és obligatòria.** Les APIs volàtils (`Battery API`, `Network API`, `BroadcastChannel`, `content-visibility`) han de tenir una degradació elegant (*Progressive Enhancement*). Si fallen, l'app continua funcionant de forma silenciosa.
+6. **Llei 6: Cada subsistema té un pressupost estricte.** (Vegeu el Contracte de Pressupost).
+
+### ⚖️ V. LLEI DEL PRESSUPOST TEMPORAL (Contracte Immutable)
+Cap funcionalitat podrà consumir:
+
+- **Layout:** < 1 ms/frame
+- **Style:** < 1 ms/frame
+- **Paint:** < 2 ms/frame
+- **JavaScript (Main Thread):** < 3 ms/frame
+- **TCU Heap:** < 1 MB persistent
+- **Garbage Collector (GC):** cap pausa > 8 ms
+- **DOM:** Menys de `1500 nodes` totals en la vista (estricte per a l'iPad A10).
+- **GPU Layers:** Menys de `20 capes` de compositing actiu.
+
+Qualsevol PR que supere aquests límits serà AUTOMÀTICAMENT REBUTJAT. No optimitzem quan hi ha problemes, els prohibim arquitectònicament.
+
 ---
 
 ## 🚀 Inici Ràpid

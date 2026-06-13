@@ -21,10 +21,10 @@ const UniversalHeaderButton = React.memo(React.forwardRef(({
             break;
         case 'tool':
             // Cercador, Tema, Registre...
-            baseClass = "shrink-0 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white active:scale-95 transition-all";
+            baseClass = "shrink-0 max-[350px]:w-8 max-[350px]:h-8 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center text-white/70 hover:text-white active:scale-95 transition-all";
             break;
         case 'profile':
-            baseClass = "shrink-0 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform";
+            baseClass = "shrink-0 max-[350px]:w-8 max-[350px]:h-8 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 transition-transform";
             break;
         case 'custom':
         default:

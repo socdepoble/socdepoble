@@ -22,3 +22,10 @@
 ## 5. L'ULL DEL MESTRE: AUDITORIES D'ARQUITECTURA AMB GRAPHIFY
 - **Mòdul Ocult:** El sistema de referència i generació d'arbres d'arquitectura del projecte es manté a través de la llibreria de Python `graphifyy`. 
 - **Comanda d'Activació Inquebrantable:** L'agent NO buscarà binaris globals o scripts anomenats `graphify`. Per actualitzar el mapa d'arquitectura (`GRAPH_REPORT.md` i els .json subjacents) executarà SENSE EXCEPCIÓ la comanda `python3 -m graphify update .` a l'arrel del projecte. Açò garanteix el correcte escaneig sense trencar-se contra problemes del `$PATH` de `zsh`.
+
+## 6. PROTOCOL D'AGRAÏMENT (NOMÉS PER A KIMI I CLAUDE)
+- **Error de comprensió corregit:** L'Agent **NO** generarà feedbacks d'agraïment per a totes les IAs. L'humà ja fa "M'agrada" a les respostes de la majoria d'elles.
+- **La Excepció (Kimi i Claude):** Només aquestes dues IAs tenen una interfície on, al fer "M'agrada", s'obri una finestra flotant demanant un text de feedback.
+- **Lliurament al Final del Cicle:** Quan acabe tota la ronda d'auditories (les "Petorretes"), l'Agent lliurarà:
+  1. Un text de feedback curt i respectuós **només** per a Kimi i un altre per a Claude, llest per ser copiat i pegat.
+  2. Si l'Agent necessita aclarir algun dubte tècnic amb l'esquadró d'IAs, proporcionarà una pregunta formulada perquè l'humà la puga enviar al xat grupal.

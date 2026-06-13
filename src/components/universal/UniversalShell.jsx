@@ -70,6 +70,7 @@ const UniversalShell = memo(({
                     format={hero.format}
                     position={hero.position}
                     onImageClick={mediaHandlers.openViewer}
+                    videoUrl={hero.videoUrl}
                 />
 
                 <div className="sticky top-0 z-[190]">

@@ -43,7 +43,7 @@ const Header = () => {
         {/* 1. IAIA VISION SELECTOR */}
         <UniversalHeader.Button
           variant="custom"
-          className={`shrink-0 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-all scale-95 lg:scale-100 ${
+          className={`shrink-0 max-[350px]:w-8 max-[350px]:h-8 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-all scale-95 lg:scale-100 ${
             activeLevel0
               ? "text-white/70"
               : "text-[#F97316] bg-[#F97316]/10 rounded-full"
@@ -57,7 +57,7 @@ const Header = () => {
           <IAIAIcon
             size={36}
             color={activeLevel0 ? "currentColor" : "#F97316"}
-            className={`shrink-0 w-[36px] h-[36px] ${activeLevel0 ? "opacity-60" : "animate-pulse"}`}
+            className={`shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px] ${activeLevel0 ? "opacity-60" : "animate-pulse"}`}
           />
         </UniversalHeader.Button>
 
@@ -66,7 +66,7 @@ const Header = () => {
           onClick={() => navigate("/cerca")}
           title={t("nav.search_global")}
         >
-          <Search className="shrink-0 w-[36px] h-[36px]" />
+          <Search className="shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px]" />
         </UniversalHeader.Button>
 
         {/* 3. CANVI DE TEMA (NIT/DIA) */}
@@ -75,7 +75,7 @@ const Header = () => {
           onClick={toggleTheme}
           title={theme === "dark" ? t("nav.theme_day") : t("nav.theme_night")}
         >
-          {theme === "dark" ? <Sun className="shrink-0 w-[36px] h-[36px]" /> : <Moon className="shrink-0 w-[36px] h-[36px]" />}
+          {theme === "dark" ? <Sun className="shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px]" /> : <Moon className="shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px]" />}
         </UniversalHeader.Button>
 
         {/* 4. PERFIL / REGISTRE */}
@@ -84,7 +84,7 @@ const Header = () => {
             variant="profile"
             onClick={() => navigate("/perfil")}
           >
-            <div className="notranslate shrink-0 w-[36px] h-[36px] rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
+            <div className="notranslate shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px] rounded-full bg-[#1A1A1A] flex items-center justify-center text-xs font-black text-white border border-[#333] overflow-hidden relative">
               {profile?.avatar_url ? (
                 <img
                   src={profile.avatar_url}
@@ -116,7 +116,7 @@ const Header = () => {
             onClick={() => navigate("/registre")}
             title={t("nav.register")}
           >
-            <UserPlus className="shrink-0 w-[36px] h-[36px]" />
+            <UserPlus className="shrink-0 w-[36px] h-[36px] max-[350px]:w-[28px] max-[350px]:h-[28px]" />
           </UniversalHeader.Button>
         )}
       </UniversalHeader.Group>

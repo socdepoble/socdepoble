@@ -49,3 +49,4 @@ _services/
 _backups/
 _docs/
 _historico_codi/
+.rag-db/

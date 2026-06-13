@@ -1,7 +1,7 @@
 # Graph Report - Sóc de Poble  (2026-06-08)
 
 ## Corpus Check
-- 590 files · ~9,482,039 words
+- 590 files · ~9,482,529 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -409,14 +409,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `AdminPanel()` --calls--> `useAuth()`  [EXTRACTED]
   src/pages/admin/AdminPanel.jsx → src/app/context/AuthContext.jsx
-- `ProtectedSystemRoute()` --calls--> `useAuth()`  [EXTRACTED]
-  src/components/core/SystemRoutes.jsx → src/app/context/AuthContext.jsx
 - `ProtectedRoute()` --calls--> `useAuth()`  [EXTRACTED]
   src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
 - `SuperAdminRoute()` --calls--> `useAuth()`  [EXTRACTED]
   src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
 - `AddItemModal()` --calls--> `useAuth()`  [EXTRACTED]
   src/components/modals/AddItemModal.jsx → src/app/context/AuthContext.jsx
+- `CreateEventModal()` --calls--> `useAuth()`  [EXTRACTED]
+  src/components/modals/CreateEventModal.jsx → src/app/context/AuthContext.jsx
 
 ## Import Cycles
 - None detected.
@@ -433,11 +433,11 @@ Nodes (84): 01-chica-jersey.png, 02-samarreta-socdepoble-roly-plom-oscur-1024px.
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
-Nodes (36): ROLES, SEO(), MOCK_LORE_ITEMS, MOCK_LORE_POSTS, AddItemModal(), exportService, marketService, ConversationSchema (+28 more)
+Nodes (37): SEO(), MOCK_LORE_ITEMS, MOCK_LORE_POSTS, exportService, notificationService, pushNotifications, ConversationSchema, MarketItemSchema (+29 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.10
-Nodes (24): AgentDirectory(), CommunityDirectory(), Towns(), UsersDirectory(), MOCK_FEED, MOCK_MARKET_ITEMS, ArxiuOr(), Feed() (+16 more)
+Cohesion: 0.05
+Nodes (43): AgentDirectory(), CommunityDirectory(), Towns(), UsersDirectory(), IAIES_MUNDIALS, IAIES_MUNDIALS_ARRAY, useModal(), ContentWithShortcodes() (+35 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.03
@@ -448,8 +448,8 @@ Cohesion: 0.03
 Nodes (64): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+56 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.09
-Nodes (9): Peritext, ipfsManager, seedService, syncService, webCryptoService, TOWN_DISAMBIGUATIONS, wikipediaService, logger (+1 more)
+Cohesion: 0.07
+Nodes (15): SolatgeConsole(), Peritext, determineColor(), formatContentToHtml(), ResourceDetail(), CreateEventModal(), ipfsManager, seedService (+7 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.26
@@ -496,8 +496,8 @@ Cohesion: 0.05
 Nodes (29): addRoute(), CacheableResponse, CacheableResponsePlugin, cacheDonePromiseForTransaction(), CacheFirst, cacheWillUpdate(), canConstructResponseFromBodyStream(), copyResponse() (+21 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.05
-Nodes (28): IDEAS_DATABASE, PlaygroundPortal(), Register(), UniversalButton, useAuth(), useModalDispatch(), useModalState(), DEFAULT_CATEGORIES (+20 more)
+Cohesion: 0.04
+Nodes (44): IDEAS_DATABASE, PlaygroundPortal(), Register(), UniversalButton, ProfileView(), useAuth(), ModalDispatchContext, ModalStateContext (+36 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.06
@@ -588,8 +588,8 @@ Cohesion: 0.05
 Nodes (39): scripts, asiatic-audit, build, build:amazon, build:codex, build:worker, clean:dist, copy:libs (+31 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.07
-Nodes (28): useAuthActions(), useJarvisState(), usePermissions(), useSession(), AuthPort, AdminPanel(), useAuthStore, AGENTS_MAP (+20 more)
+Cohesion: 0.08
+Nodes (24): useAuthActions(), useJarvisState(), usePermissions(), useSession(), AuthPort, AdminPanel(), useAuthStore, AGENTS_MAP (+16 more)
 
 ### Community 42 - "Community 42"
 Cohesion: 0.17
@@ -664,8 +664,8 @@ Cohesion: 0.07
 Nodes (29): diag, active, avi_status, avi_watching, clear, cognitive, copied, copy_report (+21 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.04
-Nodes (46): ChatManager(), ControlGeneral(), SolatgeConsole(), AVAILABLE_CATEGORIES, LIBRARIES, Map(), TOWN_COORDINATES, AGENTS (+38 more)
+Cohesion: 0.05
+Nodes (45): ChatManager(), ControlGeneral(), AVAILABLE_CATEGORIES, LIBRARIES, Map(), TOWN_COORDINATES, AGENTS, DesignContext (+37 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.07
@@ -760,8 +760,8 @@ Cohesion: 0.14
 Nodes (7): CacheExpiration, cacheMatchIgnoreParams(), CacheTimestampsModel, deleteDB(), dontWaitFor(), removeIgnoredSearchParams(), stripParams()
 
 ### Community 85 - "Community 85"
-Cohesion: 0.08
-Nodes (12): useCardTranslation(), normalizePostData(), notificationService, pushNotifications, supabase, supabaseInstance, FALLBACK_NANO_IMAGES, MemoizedCardInner (+4 more)
+Cohesion: 0.11
+Nodes (8): useCardTranslation(), normalizePostData(), FALLBACK_NANO_IMAGES, MemoizedCardInner, UniversalCardInner(), useIsChatRoute(), UniversalCardBody, cardVariants
 
 ### Community 86 - "Community 86"
 Cohesion: 0.15
@@ -808,8 +808,8 @@ Cohesion: 0.14
 Nodes (3): secureStorage, SecureStorageService, SecureTokenStorage
 
 ### Community 97 - "Community 97"
-Cohesion: 0.07
-Nodes (15): App(), AdminPanel, CategoryManager, ChatManager, IAIASandbox, MenuManagementView, ProtectedSystemRoute(), SolatgeConsole (+7 more)
+Cohesion: 0.10
+Nodes (7): App(), useBlindatgeOPFS(), useLowEndDevice(), useTabReconciliation(), useTrellatPersist(), useVersionWatchdog(), ErrorTrackingService
 
 ### Community 98 - "Community 98"
 Cohesion: 0.02
@@ -1124,8 +1124,8 @@ Cohesion: 0.33
 Nodes (3): runArchitectureGuard(), quirksDetector, SafariQuirksDetector
 
 ### Community 205 - "Community 205"
-Cohesion: 0.05
-Nodes (28): ProfileView(), IAIES_MUNDIALS, IAIES_MUNDIALS_ARRAY, ModalDispatchContext, ModalStateContext, useModal(), ContentWithShortcodes(), MOCK_CHATS (+20 more)
+Cohesion: 0.25
+Nodes (3): ArchitecteView(), ARCHITECTURE_DOCS, ChaosMonkey
 
 ### Community 206 - "Community 206"
 Cohesion: 0.29
@@ -1493,9 +1493,9 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `nav` connect `Community 34` to `Community 94`?**
   _High betweenness centrality (0.025) - this node is a cross-community bridge._
-- **Why does `auth` connect `Community 8` to `Community 66`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
-- **Why does `auth` connect `Community 12` to `Community 89`?**
+- **Why does `media` connect `Community 228` to `Community 66`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Why does `presentation` connect `Community 4` to `Community 94`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._
 - **What connects `TOWNS`, `OVERRIDES`, `BASE_DIR` to the rest of the system?**
   _3791 weakly-connected nodes found - possible documentation gaps or missing edges._
@@ -1504,4 +1504,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.023529411764705882 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.06289308176100629 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05632360471070148 - nodes in this community are weakly interconnected._

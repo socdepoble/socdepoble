@@ -1,7 +1,23 @@
 import React, { memo } from 'react';
 import ImageCarousel from '../ui/ImageCarousel';
 
-const UniversalHero = memo(({ images, format = 'square', position = 'center', onImageClick }) => {
+const UniversalHero = memo(({ images, format = 'square', position = 'center', onImageClick, videoUrl }) => {
+    if (videoUrl) {
+        return (
+            <section className="relative w-full z-0 flex flex-col items-center justify-center overflow-hidden bg-[var(--bg-panel)] bg-black">
+                <iframe 
+                    className={`w-full ${format === 'square' ? 'aspect-square' : 'aspect-video'} max-w-full`}
+                    src={videoUrl} 
+                    title="Sóc de Poble Video" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; compute-pressure" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen
+                ></iframe>
+            </section>
+        );
+    }
+
     if (!images || images.length === 0) return null;
     
     const positionClass = position === 'top' ? 'object-top' : position === 'bottom' ? 'object-bottom' : 'object-center';
@@ -40,7 +56,7 @@ const UniversalHero = memo(({ images, format = 'square', position = 'center', on
                     className={`block w-full ${
                         format === 'horizontal' ? `h-auto aspect-video object-cover ${positionClass} max-h-[60vh]` : 
                         format === 'native' ? `h-auto object-contain ${positionClass}` :
-                        `h-auto aspect-square object-cover ${positionClass} max-h-[60vh]`
+                        `w-full h-auto aspect-square object-cover ${positionClass}`
                     }`}
                     style={{ margin: 0, padding: 0 }}
                 />

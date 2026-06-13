@@ -265,8 +265,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1780890668.6387002,
-    "ast_hash": "8bbd5f384bc6ed3e51edbe14966bf0da",
+    "mtime": 1780929434.3875751,
+    "ast_hash": "882e67141bc64760c66b3872eaf60dcc",
     "semantic_hash": ""
   },
   "playwright.config.js": {
@@ -465,7 +465,7 @@
     "semantic_hash": ""
   },
   "src/app/entry.jsx": {
-    "mtime": 1780895481.0225499,
+    "mtime": 1780929139.5857594,
     "ast_hash": "95783495db3f979eb72b87ebb2774030",
     "semantic_hash": ""
   },
@@ -510,8 +510,8 @@
     "semantic_hash": ""
   },
   "src/components/core/SEO.jsx": {
-    "mtime": 1780861376.9838321,
-    "ast_hash": "edd734e6827fb1109656d1540dee1dc7",
+    "mtime": 1780916182.5309634,
+    "ast_hash": "d98f220f56f1c95d1e801779abed9a8a",
     "semantic_hash": ""
   },
   "src/components/core/SafeShell.jsx": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "src/components/features/MasterEditor.jsx": {
-    "mtime": 1780089855.162488,
-    "ast_hash": "520885e0befd65453b0a9c043b972e07",
+    "mtime": 1780929118.1504188,
+    "ast_hash": "d52eca109ba1128c4a3a1ffc936cdff2",
     "semantic_hash": ""
   },
   "src/components/features/NotebookList.jsx": {
@@ -945,13 +945,13 @@
     "semantic_hash": ""
   },
   "src/components/ui/universal-card/UniversalCard.Footer.jsx": {
-    "mtime": 1780158409.9283774,
-    "ast_hash": "acf41cb3bf14c04468323c0450fc1158",
+    "mtime": 1780919411.5202446,
+    "ast_hash": "82b319e01ee56c0184f33adbdedb5742",
     "semantic_hash": ""
   },
   "src/components/ui/universal-card/UniversalCard.Header.jsx": {
-    "mtime": 1780899561.8502822,
-    "ast_hash": "d3cba98c119742ce4b9cbb48de92c66d",
+    "mtime": 1780919093.3937843,
+    "ast_hash": "ee39d71bc87daaf042d55aea8f88630f",
     "semantic_hash": ""
   },
   "src/components/ui/universal-card/UniversalCard.Media.jsx": {
@@ -1000,8 +1000,8 @@
     "semantic_hash": ""
   },
   "src/constants/index.js": {
-    "mtime": 1780795927.967959,
-    "ast_hash": "fe5fe364b2b852b174539fba93d775a7",
+    "mtime": 1780929444.6729672,
+    "ast_hash": "b8794c87428b5fadc8d96d20ace85718",
     "semantic_hash": ""
   },
   "src/core/CoreArchitectureGuard.js": {
@@ -1260,13 +1260,13 @@
     "semantic_hash": ""
   },
   "src/data/SkillsContent.js": {
-    "mtime": 1780912591.3838198,
-    "ast_hash": "d998770565b740f8d07912df1015c24a",
+    "mtime": 1780917818.8012576,
+    "ast_hash": "1961b3e9316d743aa22569b945eddb96",
     "semantic_hash": ""
   },
   "src/data/VersionsContent.js": {
-    "mtime": 1780795949.0560496,
-    "ast_hash": "5b77b22777d0b6d0ffa47fa0bcf19a5d",
+    "mtime": 1780929469.2867365,
+    "ast_hash": "9ff4fad549d73b87d10eaf26d4760a9d",
     "semantic_hash": ""
   },
   "src/data/brain_media.json": {
@@ -1295,8 +1295,8 @@
     "semantic_hash": ""
   },
   "src/data/index.js": {
-    "mtime": 1780911882.4297884,
-    "ast_hash": "6d268882761c2109b56c5980b02de38b",
+    "mtime": 1780917174.8814833,
+    "ast_hash": "75b96e2aa3779052fa579744eea3d199",
     "semantic_hash": ""
   },
   "src/data/media_registry.js": {
@@ -1540,8 +1540,8 @@
     "semantic_hash": ""
   },
   "src/pages/admin/AdminPanel.jsx": {
-    "mtime": 1780792285.4415205,
-    "ast_hash": "d28dbbd3135561e0ce49ad420f217f00",
+    "mtime": 1780928923.6309292,
+    "ast_hash": "0524dfdbe4df9e330e47416f1da1fbb6",
     "semantic_hash": ""
   },
   "src/pages/admin/AulaRural.jsx": {
@@ -1695,8 +1695,8 @@
     "semantic_hash": ""
   },
   "src/pages/features/DesignSystem.jsx": {
-    "mtime": 1780913776.802068,
-    "ast_hash": "00b6eef38b0e414c24d20a921974bdda",
+    "mtime": 1780929105.581149,
+    "ast_hash": "a62c4563727a81bc198b96d5711a87be",
     "semantic_hash": ""
   },
   "src/pages/features/GlobalAssetAlbum.jsx": {
@@ -2705,8 +2705,8 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1780886853.9546287,
-    "ast_hash": "1d701bc439fded924c106437537fedae",
+    "mtime": 1780915701.4757092,
+    "ast_hash": "876b59b24249d3ea5a8588578d390792",
     "semantic_hash": ""
   },
   "public/assets/uploads/poble/alacant/summary.txt": {
@@ -2785,12 +2785,12 @@
     "semantic_hash": ""
   },
   "src/docs/amazon_books/llibre-humans.html": {
-    "mtime": 1780913777.9006517,
+    "mtime": 1780929977.3706617,
     "ast_hash": "7efd4883be739d46024d8d599f2d633a",
     "semantic_hash": ""
   },
   "src/docs/amazon_books/llibre-maquina.html": {
-    "mtime": 1780913777.9014487,
+    "mtime": 1780929977.3710222,
     "ast_hash": "1ea488b741a4313d18ce36125c1053dd",
     "semantic_hash": ""
   },
@@ -4415,8 +4415,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/weekly_s3_backup.yml": {
-    "mtime": 1780689196.1525574,
-    "ast_hash": "af3dfa1639e33865831d15ec3c8d56b2",
+    "mtime": 1780934353.378172,
+    "ast_hash": "0f550116b10e073a0f4a6a394f416aa2",
     "semantic_hash": ""
   },
   "artifacts/checklist.md": {
@@ -4525,13 +4525,13 @@
     "semantic_hash": ""
   },
   "src/components/universal/UniversalHero.jsx": {
-    "mtime": 1780912666.1870933,
-    "ast_hash": "80443cee405b8a08e66e0806a20a0398",
+    "mtime": 1780914350.9083228,
+    "ast_hash": "0198d9bce03c615b60446672ca33b46e",
     "semantic_hash": ""
   },
   "src/components/universal/UniversalShell.jsx": {
-    "mtime": 1780896219.0393636,
-    "ast_hash": "e7c9757af82c0072b36ef463ddf08c23",
+    "mtime": 1780914731.6636014,
+    "ast_hash": "91fec1371ab17909024433abad01945b",
     "semantic_hash": ""
   },
   "src/components/universal/UniversalView.jsx": {
@@ -4545,8 +4545,8 @@
     "semantic_hash": ""
   },
   "src/data/SkillsExtensivesContent.js": {
-    "mtime": 1780871825.7917316,
-    "ast_hash": "49a48e81a004d8e72418d1f09bed2b7a",
+    "mtime": 1780917971.4581373,
+    "ast_hash": "ff3f9ed25d1399fed95e64c83e2edd9b",
     "semantic_hash": ""
   },
   "src/factories/PageViewModelFactory.js": {
@@ -4595,8 +4595,8 @@
     "semantic_hash": ""
   },
   ".agents/auditories/bundle_stats.html": {
-    "mtime": 1780890729.5455656,
-    "ast_hash": "5605545d502396c8e35f463ff974bab7",
+    "mtime": 1780930085.4572787,
+    "ast_hash": "a13bdc82b5c1adf73d46f4421ee0af12",
     "semantic_hash": ""
   },
   ".agents/auditories/vibe_report_2026-06-07T19-40-54-807Z.md": {
@@ -4725,13 +4725,13 @@
     "semantic_hash": ""
   },
   "src/components/ui/UmamiDashboard.jsx": {
-    "mtime": 1780907063.123058,
-    "ast_hash": "9939b3171d08d0e4423915d42cdbe2b1",
+    "mtime": 1780929421.5823555,
+    "ast_hash": "6259ffa5d66d51a39bfa175e36e276ee",
     "semantic_hash": ""
   },
   "src/data/pageRegistry.js": {
-    "mtime": 1780893569.5805416,
-    "ast_hash": "6154c51ea3d4822f39c1a47aa821ef87",
+    "mtime": 1780917310.3584533,
+    "ast_hash": "dca98275bacc482a66ce20a4f796fbca",
     "semantic_hash": ""
   },
   "src/hooks/useCardTranslation.js": {

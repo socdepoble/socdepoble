@@ -72,6 +72,13 @@ export const DesignProvider = ({ children }) => {
 
         const timeoutId = setTimeout(() => {
             preferenceService.setPrefs(prefsToSave);
+            
+            // [TRELLAT] Sincronitzar la Capucha (meta theme-color)
+            const rootStyle = getComputedStyle(document.documentElement);
+            const primaryColor = rootStyle.getPropertyValue('--theme-accent-primary').trim() || '#f97316';
+            const metaTheme = document.getElementById('meta-theme-color');
+            if (metaTheme) metaTheme.setAttribute('content', primaryColor);
+            
         }, 500);
 
         return () => clearTimeout(timeoutId);

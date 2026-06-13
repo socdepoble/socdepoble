@@ -19,6 +19,12 @@ export const ConflictResolutionPage = () => {
     // 1 hora de temps sociològic per decidir
     const [timeLeft, setTimeLeft] = useState(3600); 
 
+    const handleFirstWriteWins = React.useCallback(() => {
+        alert("⏱️ Temps esgotat. S'aplica la regla d'Or: El primer que va publicar, guanya. El sistema ha resolt automàticament el conflicte.");
+        sessionStorage.removeItem('sdp_conflict_data');
+        navigate('/');
+    }, [navigate]);
+
     useEffect(() => {
         if (!conflictData) {
             navigate('/');
@@ -37,14 +43,7 @@ export const ConflictResolutionPage = () => {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [conflictData, navigate]);
-
-    const handleFirstWriteWins = () => {
-        alert("⏱️ Temps esgotat. S'aplica la regla d'Or: El primer que va publicar, guanya. El sistema ha resolt automàticament el conflicte.");
-        sessionStorage.removeItem('sdp_conflict_data');
-        // Aci aniria la crida al stateLedger.forceResolution('first_wins')
-        navigate('/');
-    };
+    }, [conflictData, navigate, handleFirstWriteWins]);
 
     const handleSelectMine = () => {
         alert("✅ Has decidit imposar el teu camp. El Ledger s'ha actualitzat.");

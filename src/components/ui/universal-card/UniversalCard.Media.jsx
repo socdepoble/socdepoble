@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Watermark from '../../ui/Watermark';
 import ImageCarousel from '../../ui/ImageCarousel';
+import UniversalVideo from '../universal-video/UniversalVideo';
 
 const UniversalCardMedia = ({ 
     cardVariant,
@@ -8,7 +9,8 @@ const UniversalCardMedia = ({
     displayImage, 
     displayTitle, 
     openViewer,
-    aspectMode = 'square'
+    aspectMode = 'square',
+    videoUrl
 }) => {
     // useTranslation not needed for fallback anymore
     const [hasImageError, setHasImageError] = useState(false);
@@ -50,16 +52,22 @@ const UniversalCardMedia = ({
     const isVideo = aspectMode === 'video';
     const isAuto = aspectMode === 'auto';
 
-    const wrapperClasses = `w-full relative group bg-transparent z-10 ${
-        isSquare ? 'aspect-square' : isVideo ? 'aspect-video' : 'h-auto aspect-auto'
+    const wrapperClasses = `ucard-media-container ${
+        isSquare ? 'aspect-square' : isVideo ? 'aspect-video' : ''
     }`;
 
-    const innerClasses = `w-full ${isSquare || isVideo ? 'h-full object-cover' : 'h-auto object-contain'}`;
+    if (videoUrl) {
+        return (
+            <div className={`w-full ${isSquare ? 'aspect-square' : isVideo ? 'aspect-video' : 'aspect-video'} overflow-hidden flex items-center justify-center`}>
+                <UniversalVideo videoUrl={videoUrl} title={displayTitle || "Vídeo de la Pedra Seca"} className="w-full h-full" />
+            </div>
+        );
+    }
 
     return (
         <Watermark hideLogo={!isMarket} variant="white" position="top-right" opacity={0.7}>
             <div 
-                className="relative w-full overflow-hidden cursor-pointer" 
+                className={wrapperClasses} 
                 onClick={handleMediaClick}
                 role="button"
                 tabIndex={0}
@@ -78,41 +86,34 @@ const UniversalCardMedia = ({
             </div>
 
             {mediaList && mediaList.length > 1 ? (
-                <div className={`w-full flex flex-col relative group bg-transparent z-10 transition-opacity duration-700 ease-in-out will-change-opacity opacity-100 active:scale-[0.98] ${isSquare ? 'aspect-square' : isVideo ? 'aspect-video' : ''}`}>
-                    <div className="w-full h-full relative bg-black/5 dark:bg-white/5">
-                        <ImageCarousel 
-                            images={mediaList} 
-                            onImageClick={(index) => {
-                                openViewer({
-                                    src: mediaList[index],
-                                    title: displayTitle,
-                                    type: 'image',
-                                    images: mediaList
-                                });
-                            }} 
-                            aspectMode={aspectMode} 
-                        />
-                    </div>
+                <div className="w-full h-full relative bg-black/5 dark:bg-white/5">
+                    <ImageCarousel 
+                        images={mediaList} 
+                        onImageClick={(index) => {
+                            openViewer({
+                                src: mediaList[index],
+                                title: displayTitle,
+                                type: 'image',
+                                images: mediaList
+                            });
+                        }} 
+                        aspectMode={aspectMode} 
+                    />
                 </div>
             ) : (
-                <div className={`${wrapperClasses} ${(!displayImage || hasImageError) ? 'hidden' : ''}`}>
-                    {(!displayImage || hasImageError) ? (
-                        <div className="hidden">
-                        </div>
-                    ) : (
-                        <div className="w-full h-full relative">
-                            <img 
-                                src={displayImage} 
-                                alt={displayTitle} 
-                                loading="lazy"
-                                decoding="async"
-                                className={`${innerClasses} transition-all duration-700 ease-in-out will-change-transform active:scale-[0.98] cursor-zoom-in block ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                                onLoad={() => setIsImageLoaded(true)}
-                                onError={() => setHasImageError(true)}
-                            />
-                        </div>
+                <>
+                    {(!displayImage || hasImageError) ? null : (
+                        <img 
+                            src={displayImage} 
+                            alt={displayTitle} 
+                            loading="lazy"
+                            decoding="async"
+                            className={`universal-card-media-img cursor-zoom-in ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                            onLoad={() => setIsImageLoaded(true)}
+                            onError={() => setHasImageError(true)}
+                        />
                     )}
-                </div>
+                </>
             )}
         </div>
         </Watermark>
