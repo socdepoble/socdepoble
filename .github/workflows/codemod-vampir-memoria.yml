@@ -1,0 +1,118 @@
+name: codemod/vampir-memoria
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # cada dia a les 02:00 UTC (ajusta segons necessiteu)
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run-codemod:
+    name: Run Vampir Codemod and Open PR
+    runs-on: ubuntu-latest
+    env:
+      CODemod_DIR: ./src
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          npm ci || npm i
+          npm install --no-save @babel/parser @babel/traverse @babel/types @babel/generator diff
+
+      - name: Ensure working tree clean
+        id: git-check
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "dirty=true" >> $GITHUB_OUTPUT
+            echo "Working tree not clean. Aborting codemod run."
+            exit 1
+          else
+            echo "dirty=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run codemod in preview mode
+        id: preview
+        run: |
+          node _auditories/scripts/tractor_mestre/vampir-codemod-git.js --dir "${CODemod_DIR}" --mode preview > codemod_preview.txt || true
+          # detect if preview produced diffs by searching for '---' diff markers
+          if grep -q '^--- Preview diff for' codemod_preview.txt; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Upload preview artifact
+        if: steps.preview.outputs.changes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: vampir-codemod-preview
+          path: codemod_preview.txt
+
+      - name: Create branch and apply codemod
+        if: steps.preview.outputs.changes == 'true'
+        id: apply
+        run: |
+          set -e
+          BRANCH=${{ github.ref_name }} || true
+          TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
+          BRANCH="fix/vampir-memoria-${TIMESTAMP}"
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+          # create branch from current main
+          git checkout -b "${BRANCH}"
+          # run codemod in apply mode and push commits per file
+          node _auditories/scripts/tractor_mestre/vampir-codemod-git.js --dir "${CODemod_DIR}" --mode apply --branch "${BRANCH}"
+          # push branch to origin
+          git push --set-upstream origin "${BRANCH}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: steps.preview.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore(codemod): fix vampir-memoria inline handlers'
+          branch: ${{ steps.apply.outputs.branch }}
+          title: 'fix(vampir-memoria): extract inline handlers to stable handlers'
+          body: |
+            This PR was created automatically by the Vampir Codemod.
+            It extracts inline arrow handlers inside .map callbacks into stable handlers
+            (useCallback or top-level functions) to avoid render churn and memory leaks.
+            Please review the changes and merge when ready.
+          labels: codemod, automated
+          reviewers: Uelo
+          assignees: Uelo
+          draft: false
+
+      - name: No changes detected
+        if: steps.preview.outputs.changes == 'false'
+        run: echo "No vampirs found. Nothing to do."
+
+  cleanup:
+    name: Cleanup on failure
+    runs-on: ubuntu-latest
+    needs: run-codemod
+    if: failure()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Attempt to restore main branch
+        run: |
+          git checkout main || true
+          echo "If a branch was created, delete it manually or via the rollback script."

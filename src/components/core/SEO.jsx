@@ -1,6 +1,5 @@
 // ✅ VERSIÓ FINAL - SEO GOD MODE AMB VALIDACIÓ COMPLETA
 import { Helmet } from 'react-helmet-async';
-import { APP_VERSION } from '../../constants';
 
 /**
  * 🏺 SEO [VIRAL TIERS GOD] - Sincronitzat amb APP_VERSION
@@ -26,52 +25,48 @@ const SEO = ({
 }) => {
   // [VALIDACIÓ] Títol per defecte si no es proporciona
   const siteTitle = 'Sóc de Poble';
-  
+
   // Neteja del títol per evitar redundàncies i complir l'exigència: "Sóc de Poble | pàgina"
   const cleanTitle = title ? title.replace(/^Sóc de Poble(\s*\|?\s*|:\s*)/i, '').trim() : '';
   const fullTitle = cleanTitle && cleanTitle !== siteTitle ? `${siteTitle} | ${cleanTitle}` : siteTitle;
-  
+
   // [VALIDACIÓ] URL canònica automàtica completíssima i absoluta
   const baseUrl = 'https://socdepoble.org';
   let canonicalUrl = url || (typeof window !== 'undefined' ? window.location.href : baseUrl);
   if (!canonicalUrl.startsWith('http')) {
-      canonicalUrl = `${baseUrl}${canonicalUrl}`;
+    canonicalUrl = `${baseUrl}${canonicalUrl}`;
   }
-  
+
   // [HOTFIX] Extraure imatge de l'array si ve compresa així des de dades_mock
-  const getImageUrl = (img) => {
+  const getImageUrl = img => {
     if (!img) return '';
     if (typeof img === 'string') return img;
     if (Array.isArray(img) && img.length > 0) return getImageUrl(img[0]);
     return '';
   };
   const resolvedImage = getImageUrl(image);
-  
+
   // [VALIDACIÓ] Imatge per defecte (OG Image master)
-  const safeImage = resolvedImage ? (resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`) : '/assets/uploads/brain/media__1775601829353.jpg';
-  const ogImage = resolvedImage?.startsWith('http') ? resolvedImage : `${baseUrl}${safeImage}`;  
+  const safeImage = resolvedImage ? resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}` : '/assets/uploads/brain/media__1775601829353.jpg';
+  const ogImage = resolvedImage?.startsWith('http') ? resolvedImage : `${baseUrl}${safeImage}`;
   // [VALIDACIÓ] Descripció per defecte
   const defaultDescription = 'La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.';
   const metaDescription = description || defaultDescription;
-  
+
   // [VALIDACIÓ] Keywords per defecte
   const defaultKeywords = 'poble, rural, comunitat, valencià, sobirania digital, memòria local, ajuntament, mercat km0';
   const metaKeywords = keywords || defaultKeywords;
-  
+
   // [SEGURETAT] Netejar dades perilloses
-  const sanitize = (str) => {
+  const sanitize = str => {
     if (!str) return '';
-    return String(str)
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .substring(0, 500); // Max length per a meta tags
+    return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').substring(0, 500); // Max length per a meta tags
   };
 
   // [SCHEMA.ORG] Dades estructurades per defecte
   const defaultStructuredData = {
     "@context": "https://schema.org",
-    "@type": type === 'profile' ? 'ProfilePage' : (type === 'article' ? 'NewsArticle' : (type === 'product' ? 'Product' : 'Organization')),
+    "@type": type === 'profile' ? 'ProfilePage' : type === 'article' ? 'NewsArticle' : type === 'product' ? 'Product' : 'Organization',
     "name": "Sóc de Poble",
     "url": baseUrl,
     "logo": `${baseUrl}/icon-512x512.png`,
@@ -82,18 +77,18 @@ const SEO = ({
       "name": "País Valencià"
     }
   };
-
-  const mergedStructuredData = { ...defaultStructuredData, ...structuredData };
+  const mergedStructuredData = {
+    ...defaultStructuredData,
+    ...structuredData
+  };
   const sanitizedStructuredData = {};
   for (const [key, value] of Object.entries(mergedStructuredData)) {
-      sanitizedStructuredData[key] = typeof value === 'string' ? sanitize(value) : value;
+    sanitizedStructuredData[key] = typeof value === 'string' ? sanitize(value) : value;
   }
 
   // [PREVENCIÓ DUPLICATS] Key única per a cada tag per netejar Helmet
   const helmetKey = typeof window !== 'undefined' ? window.location.pathname : 'seo-static';
-
-  return (
-    <Helmet key={helmetKey} defer={false}>
+  return <Helmet key={helmetKey} defer={false}>
       {/* === BÀSICS === */}
       <title>{sanitize(fullTitle)}</title>
       <meta name="title" content={sanitize(fullTitle)} />
@@ -155,8 +150,6 @@ const SEO = ({
       <script type="application/ld+json">
         {JSON.stringify(mergedStructuredData)}
       </script>
-    </Helmet>
-  );
+    </Helmet>;
 };
-
 export default SEO;

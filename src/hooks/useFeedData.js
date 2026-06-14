@@ -1,63 +1,60 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@powersync/react';
 import { MOCK_FEED } from '../data';
+export const useFeedData = ({
+  activeTown,
+  customPosts
+}) => {
+  // If customPosts are provided (like from Profile or Town specific views), prioritize them.
+  const [postsState, setPostsState] = useState(customPosts || []);
 
-export const useFeedData = ({ activeTown, customPosts }) => {
-    // If customPosts are provided (like from Profile or Town specific views), prioritize them.
-    const [postsState, setPostsState] = useState(customPosts || []);
+  // Reactive Query via PowerSync (Offline First)
+  // LWW and CRDT automatic sync managed by PowerSync internal workers.
+  const query = activeTown && activeTown !== 'global' ? 'SELECT * FROM posts WHERE town_uuid = ? ORDER BY created_at DESC' : 'SELECT * FROM posts ORDER BY created_at DESC';
+  const params = activeTown && activeTown !== 'global' ? [activeTown] : [];
 
-    // Reactive Query via PowerSync (Offline First)
-    // LWW and CRDT automatic sync managed by PowerSync internal workers.
-    const query = activeTown && activeTown !== 'global' 
-        ? 'SELECT * FROM posts WHERE town_uuid = ? ORDER BY created_at DESC'
-        : 'SELECT * FROM posts ORDER BY created_at DESC';
-    
-    const params = activeTown && activeTown !== 'global' ? [activeTown] : [];
-    
-    // PowerSync reacts to local and remote changes via WebWorkers automatically.
-    const { data: psPosts, isLoading } = useQuery(query, params);
+  // PowerSync reacts to local and remote changes via WebWorkers automatically.
+  const {
+    data: psPosts,
+    isLoading
+  } = useQuery(query, params);
+  useEffect(() => {
+    if (customPosts) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPostsState(customPosts);
+    } else {
+      // Mix the MOCK_FEED (Lore) with the dynamic DB posts so the wall is never empty
+      const dbPosts = psPosts || [];
+      const mixedPosts = [...MOCK_FEED, ...dbPosts];
 
-    useEffect(() => {
-        if (customPosts) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setPostsState(customPosts);
-        } else {
-            // Mix the MOCK_FEED (Lore) with the dynamic DB posts so the wall is never empty
-            const dbPosts = psPosts || [];
-            
-            const mixedPosts = [...MOCK_FEED, ...dbPosts];
-            
-            // Remove duplicates by ID (just in case) using O(N) Set
-            const seen = new Set();
-            const uniquePosts = mixedPosts.filter(current => {
-                const id = current.uuid || current.id;
-                if (!id) return true;
-                if (seen.has(id)) return false;
-                seen.add(id);
-                return true;
-            });
-
-             
-            setPostsState(uniquePosts);
-        }
-    }, [psPosts, customPosts]);
-
-    const fetchPosts = useCallback(async () => {
-       // Fetch logic is moot with PowerSync reactive queries but kept for interface compatibility
-       // if there are manual reload triggers.
-       // logger.info('Manual fetch request ignored. PowerSync streams changes automatically.');
-    }, []);
-
-    return {
-        posts: postsState,
-        setPosts: setPostsState,
-        userConnections: [], // Simplify connections / bategats to rely on relations directly in the future
-        loading: isLoading && !customPosts,
-        error: null,
-        page: 0,
-        hasMore: false, // Infinite list managed by TanStack virtualizer rather than chunked API paginations
-        loadingMore: false,
-        fetchPosts
-    };
+      // Remove duplicates by ID (just in case) using O(N) Set
+      const seen = new Set();
+      const uniquePosts = mixedPosts.filter(current => {
+        const id = current.uuid || current.id;
+        if (!id) return true;
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return true;
+      });
+      setPostsState(uniquePosts);
+    }
+  }, [psPosts, customPosts]);
+  const fetchPosts = useCallback(async () => {
+    // Fetch logic is moot with PowerSync reactive queries but kept for interface compatibility
+    // if there are manual reload triggers.
+    // logger.info('Manual fetch request ignored. PowerSync streams changes automatically.');
+  }, []);
+  return {
+    posts: postsState,
+    setPosts: setPostsState,
+    userConnections: [],
+    // Simplify connections / bategats to rely on relations directly in the future
+    loading: isLoading && !customPosts,
+    error: null,
+    page: 0,
+    hasMore: false,
+    // Infinite list managed by TanStack virtualizer rather than chunked API paginations
+    loadingMore: false,
+    fetchPosts
+  };
 };
-

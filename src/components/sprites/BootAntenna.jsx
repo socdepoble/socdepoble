@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function BootAntenna({ size = 120, className = "", ariaLabel = "Bota vella que fa d'antena Wi‑Fi", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={size}
-      viewBox="0 0 120 120"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function BootAntenna({
+  size = 120,
+  className = "",
+  ariaLabel = "Bota vella que fa d'antena Wi‑Fi",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size} viewBox="0 0 120 120" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.6" fill="none">
@@ -22,6 +16,5 @@ export default function BootAntenna({ size = 120, className = "", ariaLabel = "B
       </g>
 
       <text x="10" y="18" fontFamily="sans-serif" fontSize="10" fill="#374151">…</text>
-    </svg>
-  );
+    </svg>;
 }

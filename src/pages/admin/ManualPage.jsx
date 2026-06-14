@@ -1,8 +1,6 @@
 import './ManualPage.css';
-
 const ManualPage = () => {
-    return (
-        <div className="manual-page-container">
+  return <div className="manual-page-container">
             <div role="region" aria-label="Capçalera de Secció" className="manual-header">
                 <BookOpen size={48} className="manual-icon" />
                 <h1>Manual d'Usuari Didàctic</h1>
@@ -52,8 +50,6 @@ const ManualPage = () => {
             <footer className="manual-footer">
                 <p>Creat amb trellat i memòria rural.</p>
             </footer>
-        </div>
-    );
+        </div>;
 };
-
 export default ManualPage;

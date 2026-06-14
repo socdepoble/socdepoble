@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function ChickenRouter({ size = 160, className = "", ariaLabel = "Gallina amb auriculars picotejant un cable", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 120) / 160}
-      viewBox="0 0 160 120"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function ChickenRouter({
+  size = 160,
+  className = "",
+  ariaLabel = "Gallina amb auriculars picotejant un cable",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 120 / 160} viewBox="0 0 160 120" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.6" fill="none">
@@ -27,6 +21,5 @@ export default function ChickenRouter({ size = 160, className = "", ariaLabel = 
       </g>
 
       <text x="12" y="18" fontFamily="sans-serif" fontSize="10" fill="#374151">clac‑clac</text>
-    </svg>
-  );
+    </svg>;
 }

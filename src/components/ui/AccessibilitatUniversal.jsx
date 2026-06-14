@@ -10,20 +10,26 @@ import { useDesign } from '../../app/context/DesignContext';
  * COMPLIANCE: WCAG 2.1 AA
  */
 const AccessibilitatUniversal = () => {
-  const { isAccessibilitatOpen: isOpen, setIsAccessibilitatOpen: setIsOpen } = useNavigation();
-  const { seniorMode, setSeniorMode, reduceMotion, setReduceMotion } = useDesign();
+  const {
+    isAccessibilitatOpen: isOpen,
+    setIsAccessibilitatOpen: setIsOpen
+  } = useNavigation();
+  const {
+    seniorMode,
+    setSeniorMode,
+    reduceMotion,
+    setReduceMotion
+  } = useDesign();
   const navigate = useNavigate();
-  
   const [activeSection, setActiveSection] = useState('global');
 
   // [ARIA] Tancar amb tecla ESC
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = e => {
       if (e.key === 'Escape' && isOpen) {
         setIsOpen(false);
       }
     };
-    
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen, setIsOpen]);
@@ -37,96 +43,36 @@ const AccessibilitatUniversal = () => {
       }
     }
   }, [isOpen]);
-
   if (!isOpen) return null;
-
-  return (
-    <>
+  return <>
       {/* [ARIA] Overlay amb role="dialog" */}
-      <div
-        className="accessibilitat-overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-overlay"
-        onClick={() => setIsOpen(false)}
-        role="presentation"
-        aria-hidden="true"
-      />
+      <div className="accessibilitat-overlay fixed inset-0 bg-black/80 backdrop-blur-sm z-overlay" onClick={() => setIsOpen(false)} role="presentation" aria-hidden="true" />
       
       {/* [ARIA] Modal principal */}
-      <div
-        className="accessibilitat-modal fixed right-0 top-0 h-full w-full max-w-md bg-theme-surface border-l border-theme-border z-modal shadow-2xl animate-in slide-in-from-right"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="accessibilitat-title"
-        aria-describedby="accessibilitat-description"
-        data-accessibilitat-modal
-      >
+      <div className="accessibilitat-modal fixed right-0 top-0 h-full w-full max-w-md bg-theme-surface border-l border-theme-border z-modal shadow-2xl animate-in slide-in-from-right" role="dialog" aria-modal="true" aria-labelledby="accessibilitat-title" aria-describedby="accessibilitat-description" data-accessibilitat-modal>
         {/* [ARIA] Header amb títol accessible */}
         <div role="region" aria-label="Capçalera de Secció" className="accessibilitat-header h-[56px] min-h-[56px] px-4 flex items-center justify-between border-b border-theme-border flex-shrink-0">
-          <h2 
-            id="accessibilitat-title" 
-            className="text-lg font-bold text-theme-text"
-          >
+          <h2 id="accessibilitat-title" className="text-lg font-bold text-theme-text">
             Accessibilitat Universal
           </h2>
           
           {/* [ARIA] Botó de tancar accessible */}
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-theme-surface-elevated transition-colors"
-            aria-label="Tancar panell d'accessibilitat"
-            data-autofocus
-          >
+          <button onClick={() => setIsOpen(false)} className="p-2 rounded-full hover:bg-theme-surface-elevated transition-colors" aria-label="Tancar panell d'accessibilitat" data-autofocus>
             <X size={20} className="text-theme-text" />
           </button>
         </div>
 
         {/* [ARIA] Contingut scrollable */}
-        <div 
-          id="accessibilitat-description"
-          className="accessibilitat-content flex-1 overflow-y-auto pb-20 custom-scrollbar"
-          role="document"
-        >
+        <div id="accessibilitat-description" className="accessibilitat-content flex-1 overflow-y-auto pb-20 custom-scrollbar" role="document">
           {/* [ARIA] Navegació per seccions amb tabs accessibles */}
           <nav className="accessibilitat-nav px-4 py-3 border-b border-theme-border" role="tablist" aria-label="Seccions d'accessibilitat">
-            <button
-              role="tab"
-              aria-selected={activeSection === 'global'}
-              aria-controls="panel-global"
-              id="tab-global"
-              onClick={() => setActiveSection('global')}
-              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${
-                activeSection === 'global' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-theme-surface-elevated text-theme-text-muted'
-              }`}
-            >
+            <button role="tab" aria-selected={activeSection === 'global'} aria-controls="panel-global" id="tab-global" onClick={() => setActiveSection('global')} className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${activeSection === 'global' ? 'bg-primary text-white' : 'bg-theme-surface-elevated text-theme-text-muted'}`}>
               Global
             </button>
-            <button
-              role="tab"
-              aria-selected={activeSection === 'visual'}
-              aria-controls="panel-visual"
-              id="tab-visual"
-              onClick={() => setActiveSection('visual')}
-              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
-                activeSection === 'visual' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-theme-surface-elevated text-theme-text-muted'
-              }`}
-            >
+            <button role="tab" aria-selected={activeSection === 'visual'} aria-controls="panel-visual" id="tab-visual" onClick={() => setActiveSection('visual')} className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${activeSection === 'visual' ? 'bg-primary text-white' : 'bg-theme-surface-elevated text-theme-text-muted'}`}>
               Visual
             </button>
-            <button
-              role="tab"
-              aria-selected={activeSection === 'motor'}
-              aria-controls="panel-motor"
-              id="tab-motor"
-              onClick={() => setActiveSection('motor')}
-              className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${
-                activeSection === 'motor' 
-                  ? 'bg-primary text-white' 
-                  : 'bg-theme-surface-elevated text-theme-text-muted'
-              }`}
-            >
+            <button role="tab" aria-selected={activeSection === 'motor'} aria-controls="panel-motor" id="tab-motor" onClick={() => setActiveSection('motor')} className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ml-2 ${activeSection === 'motor' ? 'bg-primary text-white' : 'bg-theme-surface-elevated text-theme-text-muted'}`}>
               Motor
             </button>
           </nav>
@@ -134,13 +80,7 @@ const AccessibilitatUniversal = () => {
           {/* [ARIA] Panells de contingut intel·ligent (Sense Hidden per estalviar memòria) */}
           <div role="region" aria-label="Contingut Principal" className="accessibilitat-panels p-4 space-y-4">
             
-            {activeSection === 'global' && (
-              <section
-                role="tabpanel"
-                id="panel-global"
-                aria-labelledby="tab-global"
-                className="space-y-4 animate-in fade-in"
-              >
+            {activeSection === 'global' && <section role="tabpanel" id="panel-global" aria-labelledby="tab-global" className="space-y-4 animate-in fade-in">
                 <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
                   <div className="flex items-center gap-3 mb-3">
                     <ShieldCheck className="text-success" size={24} />
@@ -172,24 +112,13 @@ const AccessibilitatUniversal = () => {
                     Documentació tècnica per a ajuntaments i entitats que volen implementar
                     accessibilitat universal als seus serveis digitals.
                   </p>
-                  <button
-                    onClick={() => navigate('/ofici/kit-digital')}
-                    className="btn-primary w-full py-3 rounded-xl font-bold text-sm bg-primary hover:bg-primary-hover transition-colors"
-                    aria-label="Veure documentació del Kit Digital"
-                  >
+                  <button onClick={() => navigate('/ofici/kit-digital')} className="btn-primary w-full py-3 rounded-xl font-bold text-sm bg-primary hover:bg-primary-hover transition-colors" aria-label="Veure documentació del Kit Digital">
                     Accedir al Dossier
                   </button>
                 </div>
-              </section>
-            )}
+              </section>}
 
-            {activeSection === 'visual' && (
-              <section
-                role="tabpanel"
-                id="panel-visual"
-                aria-labelledby="tab-visual"
-                className="space-y-4 animate-in fade-in"
-              >
+            {activeSection === 'visual' && <section role="tabpanel" id="panel-visual" aria-labelledby="tab-visual" className="space-y-4 animate-in fade-in">
                 <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
                   <div className="flex items-center gap-3 mb-3">
                     <Eye className="text-secondary" size={24} />
@@ -204,28 +133,20 @@ const AccessibilitatUniversal = () => {
                         Botons més grans, text més clar. Ideal per a gent gran.
                       </p>
                     </div>
-                    <input
-                      type="checkbox"
-                      checked={seniorMode}
-                      onChange={(e) => {
-                        setSeniorMode(e.target.checked);
-                        // [10/10] Anunciar canvi a lectors de pantalla
-                        let announcement = document.getElementById('aria-live-region');
-                        if (!announcement) {
-                            announcement = document.createElement('div');
-                            announcement.id = 'aria-live-region';
-                            announcement.setAttribute('role', 'status');
-                            announcement.setAttribute('aria-live', 'polite');
-                            announcement.className = 'sr-only';
-                            document.body.appendChild(announcement);
-                        }
-                        announcement.textContent = e.target.checked 
-                            ? 'Mode mans de camp activat. Elements més grans.' 
-                            : 'Mode estàndard restaurat.';
-                      }}
-                      aria-label="Activar mode mans de camp"
-                      className="toggle-accessibility"
-                    />
+                    <input type="checkbox" checked={seniorMode} onChange={e => {
+                  setSeniorMode(e.target.checked);
+                  // [10/10] Anunciar canvi a lectors de pantalla
+                  let announcement = document.getElementById('aria-live-region');
+                  if (!announcement) {
+                    announcement = document.createElement('div');
+                    announcement.id = 'aria-live-region';
+                    announcement.setAttribute('role', 'status');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.className = 'sr-only';
+                    document.body.appendChild(announcement);
+                  }
+                  announcement.textContent = e.target.checked ? 'Mode mans de camp activat. Elements més grans.' : 'Mode estàndard restaurat.';
+                }} aria-label="Activar mode mans de camp" className="toggle-accessibility" />
                   </label>
 
                   {/* [10/10] REDUCCIÓ DE MOVIMENT */}
@@ -236,39 +157,24 @@ const AccessibilitatUniversal = () => {
                         Per a persones amb sensibilitat al moviment.
                       </p>
                     </div>
-                    <input
-                      type="checkbox"
-                      checked={reduceMotion}
-                      onChange={(e) => {
-                        setReduceMotion(e.target.checked);
-                        let announcement = document.getElementById('aria-live-region');
-                        if (!announcement) {
-                            announcement = document.createElement('div');
-                            announcement.id = 'aria-live-region';
-                            announcement.setAttribute('role', 'status');
-                            announcement.setAttribute('aria-live', 'polite');
-                            announcement.className = 'sr-only';
-                            document.body.appendChild(announcement);
-                        }
-                        announcement.textContent = e.target.checked 
-                            ? 'Animacions reduïdes per a major comoditat.' 
-                            : 'Animacions d\'interfície restaurades.';
-                      }}
-                      aria-label="Reduir animacions"
-                      className="toggle-accessibility"
-                    />
+                    <input type="checkbox" checked={reduceMotion} onChange={e => {
+                  setReduceMotion(e.target.checked);
+                  let announcement = document.getElementById('aria-live-region');
+                  if (!announcement) {
+                    announcement = document.createElement('div');
+                    announcement.id = 'aria-live-region';
+                    announcement.setAttribute('role', 'status');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.className = 'sr-only';
+                    document.body.appendChild(announcement);
+                  }
+                  announcement.textContent = e.target.checked ? 'Animacions reduïdes per a major comoditat.' : 'Animacions d\'interfície restaurades.';
+                }} aria-label="Reduir animacions" className="toggle-accessibility" />
                   </label>
                 </div>
-              </section>
-            )}
+              </section>}
 
-            {activeSection === 'motor' && (
-               <section
-                role="tabpanel"
-                id="panel-motor"
-                aria-labelledby="tab-motor"
-                className="space-y-4 animate-in fade-in"
-              >
+            {activeSection === 'motor' && <section role="tabpanel" id="panel-motor" aria-labelledby="tab-motor" className="space-y-4 animate-in fade-in">
                 <div className="accessibilitat-card bg-theme-surface-elevated rounded-xl p-4 border border-theme-border">
                   <div className="flex items-center gap-3 mb-3">
                     <Handshake className="text-tertiary" size={24} />
@@ -281,25 +187,15 @@ const AccessibilitatUniversal = () => {
                   <div className="space-y-3">
                     <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
                       <span className="text-sm text-theme-text">Àrees de Clic Grans</span>
-                      <input 
-                        type="checkbox" 
-                        className="toggle-accessibility"
-                        aria-label="Activar àrees de clic ampliades"
-                        defaultChecked
-                      />
+                      <input type="checkbox" className="toggle-accessibility" aria-label="Activar àrees de clic ampliades" defaultChecked />
                     </label>
                     <label className="flex items-center justify-between p-3 rounded-lg bg-theme-surface cursor-pointer hover:bg-theme-surface/80 transition-colors">
                       <span className="text-sm text-theme-text">Comandament de Veu</span>
-                      <input 
-                        type="checkbox" 
-                        className="toggle-accessibility"
-                        aria-label="Activar control per veu"
-                      />
+                      <input type="checkbox" className="toggle-accessibility" aria-label="Activar control per veu" />
                     </label>
                   </div>
                 </div>
-              </section>
-            )}
+              </section>}
           </div>
         </div>
 
@@ -308,17 +204,11 @@ const AccessibilitatUniversal = () => {
           <span className="text-xs text-theme-text-muted">
              WCAG 2.1 AA
           </span>
-          <button
-            onClick={() => navigate('/accessibilitat')}
-            className="text-xs font-bold text-primary hover:text-primary-hover transition-colors"
-            aria-label="Veure informe complet d'accessibilitat"
-          >
+          <button onClick={() => navigate('/accessibilitat')} className="text-xs font-bold text-primary hover:text-primary-hover transition-colors" aria-label="Veure informe complet d'accessibilitat">
             Informe Complet →
           </button>
         </footer>
       </div>
-    </>
-  );
+    </>;
 };
-
 export default AccessibilitatUniversal;

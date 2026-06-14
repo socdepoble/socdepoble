@@ -1,25 +1,31 @@
-// src/main.jsx (opcional, registre explícit si injectRegister: false)
-import './wdyr'; // Injecta Why Did You Render (només actiu en mode dev)
-import React from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { iniciarLcpTracker } from './utils/lcp-tracker';
+import { initThermoConsole } from './utils/thermoConsole';
 import App from './App';
 
-// Registre manual del SW (si no ho fa vite-plugin-pwa automàticament)
-async function registerServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    try {
-      const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
-      console.info('[main] SW registrat manualment', reg);
-    } catch (e) {
-      console.warn('[main] Error registrant SW manualment', e);
-    }
-  } else {
-    console.warn('[main] Service Worker no suportat');
-  }
+// Iniciem el tracker ABANS de muntar React
+// (captured: true per a entrades que ja han passat)
+iniciarLcpTracker();
+
+// Iniciem la Consola Termodinàmica de la Pedra Seca (Canvas pur, bypass de React)
+initThermoConsole();
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+
+// Registre del Service Worker (Offline-First Pedra Seca)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('[SW] Registrat correctament:', registration.scope);
+      })
+      .catch(error => {
+        console.warn('[SW] Fallada en el registre:', error);
+      });
+  });
 }
-
-const root = createRoot(document.getElementById('root'));
-root.render(<App />);
-
-// Registrem en background per no bloquejar el render inicial
-registerServiceWorker();

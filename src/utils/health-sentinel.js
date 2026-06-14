@@ -9,12 +9,12 @@ let healthState = {
   swOk: true,
   workerOk: true,
   memoryPressure: false,
-  lastError: null,
+  lastError: null
 };
 
 // 1. Comprovació d'IndexedDB
 async function checkIndexedDB() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     try {
       const req = indexedDB.open('health-check-db', 1);
       req.onupgradeneeded = () => req.result.createObjectStore('test');
@@ -41,13 +41,15 @@ async function checkServiceWorker() {
 // 3. Heartbeat del db-worker
 function startWorkerHeartbeat(worker) {
   let lastPong = Date.now();
-  worker.onmessage = (e) => {
+  worker.onmessage = e => {
     if (e.data.type === 'pong') {
       lastPong = Date.now();
     }
   };
   setInterval(() => {
-    worker.postMessage({ type: 'ping' });
+    worker.postMessage({
+      type: 'ping'
+    });
     const now = Date.now();
     if (now - lastPong > WORKER_HEARTBEAT_TIMEOUT) {
       healthState.workerOk = false;
@@ -63,7 +65,10 @@ function startWorkerHeartbeat(worker) {
 // 4. Monitor de memòria
 function checkMemory() {
   if (performance && performance.memory) {
-    const { usedJSHeapSize, jsHeapSizeLimit } = performance.memory;
+    const {
+      usedJSHeapSize,
+      jsHeapSizeLimit
+    } = performance.memory;
     const usageRatio = usedJSHeapSize / jsHeapSizeLimit;
     if (usageRatio > 0.85) {
       healthState.memoryPressure = true;
@@ -75,21 +80,20 @@ function checkMemory() {
 }
 
 // 5. Captura global d'errors no gestionats
-window.addEventListener('error', (event) => {
+window.addEventListener('error', event => {
   healthState.lastError = {
     message: event.message,
     filename: event.filename,
     lineno: event.lineno,
     colno: event.colno,
-    timestamp: Date.now(),
+    timestamp: Date.now()
   };
   emitSevereDiagnostic(event.error);
 });
-
-window.addEventListener('unhandledrejection', (event) => {
+window.addEventListener('unhandledrejection', event => {
   healthState.lastError = {
     message: event.reason?.message || String(event.reason),
-    timestamp: Date.now(),
+    timestamp: Date.now()
   };
   emitSevereDiagnostic(event.reason);
 });
@@ -100,7 +104,6 @@ async function attemptAutoRepair(issue) {
     try {
       const cacheNames = await caches.keys();
       await Promise.all(cacheNames.map(name => caches.delete(name)));
-      console.log('Health Sentinel: memòria cau corrupta esborrada. Refrescant...');
       if (!window.__SP_LOOP_BREAKER__?.isLooping()) {
         window.location.reload(true);
       } else {
@@ -115,13 +118,14 @@ function emitSevereDiagnostic(error) {
   const diagnostic = {
     error: error?.stack || error?.message,
     userAgent: navigator.userAgent,
-    healthState: { ...healthState },
+    healthState: {
+      ...healthState
+    },
     timestamp: new Date().toISOString(),
-    buildId: window.__APP_HASH__ || 'desconegut',
+    buildId: window.__APP_HASH__ || 'desconegut'
   };
   showDiagnosticModal(diagnostic);
 }
-
 function showDiagnosticModal(diag) {
   const modal = document.createElement('div');
   modal.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#fff;border:2px solid red;padding:16px;max-width:360px;z-index:999999;font-family:system-ui;font-size:14px;';
@@ -144,22 +148,17 @@ export async function startHealthSentinel(workerInstance) {
   const swOk = await checkServiceWorker();
   if (!idbOk) healthState.idbOk = false;
   if (!swOk) healthState.swOk = false;
-
   if (workerInstance) {
     startWorkerHeartbeat(workerInstance);
   }
-
   setInterval(async () => {
     healthState.idbOk = await checkIndexedDB();
     healthState.swOk = await checkServiceWorker();
     checkMemory();
-
     if (!healthState.idbOk) console.warn('Health Sentinel: IndexedDB inaccessible.');
   }, HEALTH_CHECK_INTERVAL);
-
   window.addEventListener('cache-corruption', () => {
     attemptAutoRepair('cache-corruption');
   });
-
   return healthState;
 }

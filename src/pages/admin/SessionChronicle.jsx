@@ -1,35 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import './SessionChronicle.css';
-
 const SessionChronicle = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    // Mock session data for the current session
-    // In a real scenario, this would come from a database based on the 'id'
-    const sessionData = {
-        date: new Date().toLocaleDateString(),
-        title: "Integració d'Estructures Literàries i Cròniques [MASTER]",
-        tasks: [
-            "Actualització de Directrius MASTER (Protocol de Cròniques i Estructures de Llibre)",
-            "Extensió de l'esquema de dades PostSchema per a tipologies de llibre",
-            "Implementació del selector de tipus (Post/Llibre) al CreatePostModal",
-            "Disseny del peu de targeta seqüencial per a llibres al Mur",
-            "Creació de la infraestructura de Pàgines de Sessió i Shareability"
-        ],
-        stats: {
-            durationHours: 1.5,
-            humanRate: 60, // €/h
-            aiTokenCost: 0.12, // €
-        }
-    };
-
-    const humanCost = sessionData.stats.durationHours * sessionData.stats.humanRate;
-    const aiCost = sessionData.stats.aiTokenCost;
-    const savings = humanCost - aiCost;
-    const efficiencyBoost = (humanCost / aiCost).toFixed(0);
-
-    return (
-        <div className="session-chronicle-container animate-in">
+  // Mock session data for the current session
+  // In a real scenario, this would come from a database based on the 'id'
+  const sessionData = {
+    date: new Date().toLocaleDateString(),
+    title: "Integració d'Estructures Literàries i Cròniques [MASTER]",
+    tasks: ["Actualització de Directrius MASTER (Protocol de Cròniques i Estructures de Llibre)", "Extensió de l'esquema de dades PostSchema per a tipologies de llibre", "Implementació del selector de tipus (Post/Llibre) al CreatePostModal", "Disseny del peu de targeta seqüencial per a llibres al Mur", "Creació de la infraestructura de Pàgines de Sessió i Shareability"],
+    stats: {
+      durationHours: 1.5,
+      humanRate: 60,
+      // €/h
+      aiTokenCost: 0.12 // €
+    }
+  };
+  const humanCost = sessionData.stats.durationHours * sessionData.stats.humanRate;
+  const aiCost = sessionData.stats.aiTokenCost;
+  const savings = humanCost - aiCost;
+  const efficiencyBoost = (humanCost / aiCost).toFixed(0);
+  return <div className="session-chronicle-container animate-in">
             <div role="region" aria-label="Capçalera de Secció" className="session-header">
                 <button className="back-btn" onClick={() => navigate(-1)}>
                     <ArrowLeft size={24} />
@@ -38,7 +29,7 @@ const SessionChronicle = () => {
                     <h1>Sessió [MASTER]</h1>
                     <div className="session-meta">
                         <Calendar size={16} />
-                        <span>{sessionData.date}</span>
+                        {sessionData.date}
                     </div>
                 </div>
             </div>
@@ -47,12 +38,10 @@ const SessionChronicle = () => {
                 <section className="session-summary-card">
                     <h2 className="section-title">Què hem fet avui?</h2>
                     <ul className="task-list">
-                        {sessionData.tasks.map((task, index) => (
-                            <li key={index} className="task-item">
+                        {sessionData.tasks.map((task, index) => <li key={`task-${index}`} className="task-item">
                                 <CheckCircle2 size={20} className="check-icon" />
-                                <span>{task}</span>
-                            </li>
-                        ))}
+                                {task}
+                            </li>)}
                     </ul>
                 </section>
 
@@ -108,8 +97,6 @@ const SessionChronicle = () => {
                 <p>Gravat en la memòria de Sóc de Poble per l'Antigravity.</p>
                 <small>Directiva [MASTER] v1.6.0</small>
             </footer>
-        </div>
-    );
+        </div>;
 };
-
 export default SessionChronicle;

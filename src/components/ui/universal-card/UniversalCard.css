@@ -1,373 +1,62 @@
-/* UNIVERSAL CARD NEXUS v12 - TECH HUERTA M3 PURE */
-
-/* TALLA I ESTRUCTURA BÀSICA */
 .universal-card {
-  border-radius: var(--sp-radius-trellat, 28px) !important;
-  overflow: hidden !important;
-  background-color: var(--sp-bg-panel, #434137);
-  color: #FFFFFF;
-  display: flex;
-  flex-direction: column;
   position: relative;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: box-shadow 0.3s ease-out, transform 0.2s ease-out;
+  isolation: isolate;
+  contain: layout paint; /* Aïllament de pintura sense bugs de style */
+  content-visibility: auto; /* Virtualització nativa asíncrona per suportar milers de targetes (Gemini) */
+  contain-intrinsic-size: 0 450px; /* Alçada aproximada per evitar reflows agressius */
+
+  --uc-accent: #F97316; /* Per defecte taronja post */
 }
 
-.universal-card:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
+/* Variants gestionades totalment per CSS */
+.universal-card[data-variant="mercat"],
+.universal-card[data-variant="market"],
+.universal-card[data-variant="product"] {
+  --uc-accent: #3B82F6;
 }
 
-.theme-light .universal-card {
-  background-color: #FFFFFF;
-  color: #0A0A0A;
-  border-color: rgba(0, 0, 0, 0.1);
+.universal-card[data-variant="sostenible"] {
+  --uc-accent: #10B981;
 }
 
-.theme-light .universal-card:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+.universal-card[data-variant="alert"] {
+  --uc-accent: #EF4444;
 }
 
-.card-header-boina {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
-  position: relative;
-  z-index: 10;
-  background-color: var(--theme-accent-primary, #F97316);
-  color: #0A0A0A; /* El text principal del header va en negre segons petició */
-  flex-shrink: 0;
-  width: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.universal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4rem;
+  height: 4rem;
+  background: var(--uc-accent);
+  border-bottom-left-radius: 100%;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: -1;
 }
 
-.theme-dark .card-header-boina {
-  color: #FFFFFF; /* Blanc en mode fosc */
-}
-
-.theme-light .card-header-boina {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow: hidden;
-  min-width: 0;
-  flex: 1; /* Assignem flex: 1 per a permetre que trunque si és molt llarg */
-}
-
-.master-author-name {
-  font-size: 18px;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: 0.02em;
-  color: inherit; /* Hereda el negre/blanc del boina */
-}
-
-.location-text {
-  font-size: 13px;
-  font-weight: 700;
-  opacity: 0.8;
-  color: inherit;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.genesis-avatar {
-  flex-shrink: 0;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.theme-light .genesis-avatar {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.header-text {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.master-author-name {
-  font-family: var(--font-primary), monospace;
-  font-size: 16px;
-  font-weight: 950;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-
-.location-text {
-  font-family: var(--font-primary), monospace;
-  font-size: 14px;
-  font-weight: 800;
-  opacity: 0.9;
-}
-
-.header-right-meta {
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-}
-
-.header-date {
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0.7;
-}
-
-.header-time {
-  font-size: 12px;
-  font-weight: 950;
-}
-
-/* MEDIA CONTENT */
-.card-media-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1/1;
-  overflow: hidden;
-  display: block;
-  background: #000;
-}
-
-.theme-light .card-media-wrapper {
-  background: #f0f0f0;
-}
-
-.universal-card-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.card-media-wrapper:hover .universal-card-media {
-  transform: scale(1.02);
-}
-
-
-/* BADGES & TAGS */
-.card-tags-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.genesis-tag-pill {
-  font-size: 12px;
-  font-weight: 900;
-  padding: 4px 10px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.theme-light .genesis-tag-pill {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-
-/* SMART CLAMP (Trims long text to fit design without fixed height) */
-.smart-clamp-tags {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-}
-
-.smart-clamp-notags {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
-}
-
-
-
-/* RESPONSIVITY MOBILE */
-@media (max-width: 400px) {
-  .card-header-boina {
-    padding: 10px 12px;
-  }
-  .card-body {
-    padding: 12px;
-  }
-  .card-footer-master {
-    padding: 12px;
-  }
-  .btn-touch {
-    width: 38px;
-    height: 38px;
-  }
-}
-
-/* FORENSIC MODO */
-.universal-card.mode-forense-active {
-  outline: 2px dashed #00ffff;
-  outline-offset: 4px;
-}
-
-/* 🧱 ESTRUCTURA PURE BEM (TRELLAT STRICT MODE) */
-
-/* Protecció estricta contra els estils globals del CMS (evita marges i radis zombis) */
-.universal-card-media-img {
-  margin: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--theme-motion-duration-long) ease-in-out, opacity var(--theme-motion-duration-long) ease-in-out;
-  display: block;
-}
-
-.ucard-media-container {
-  width: 100%;
-  position: relative;
-  background-color: transparent;
-  z-index: 10;
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-
-.ucard-media-container.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-
-.ucard-media-container.aspect-video {
-  aspect-ratio: 16 / 9;
-}
-
-.ucard-layout-grid {
-  width: 100%;
-  height: 100%;
-  flex: 1 1 auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.ucard-layout-list {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1 1 auto;
-}
-
-.ucard-list-content-row {
-  display: flex;
-  align-items: stretch;
-  gap: 16px;
-  padding: 16px;
-  width: 100%;
-  flex-grow: 1;
-}
-
-.ucard-list-media-col {
-  flex-shrink: 0;
-}
-
-.ucard-list-body-col {
-  flex: 1;
-  min-width: 0;
-  z-index: 10;
-  margin: -16px;
-  display: flex;
-  flex-direction: column;
-}
-
-.ucard-body-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1 1 auto;
-  position: relative;
-  z-index: 30;
-}
-
-.ucard-footer-container {
-  position: relative;
-  z-index: 40;
-  margin-top: auto;
-}
-
-.ucard-media-wrapper-row {
-  margin-top: -1px; /* Solució per amagar l'escletxa del border-bottom del Header */
-}
-
-/* UCard Footer Bar (replaces the solid Tailwind bar) */
-.ucard-footer-bar {
-  width: 100%;
-  background-color: #4F46E5;
+.action-bar {
+  background-color: var(--uc-accent);
   color: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px 0 16px;
-  height: 56px;
-  min-height: 56px;
-  max-height: 56px;
-  flex-shrink: 0;
-  overflow: hidden;
 }
 
-.theme-light .ucard-footer-bar {
-  background-color: #4F46E5; /* Depèn de si el mode light canvia de color ací, abans era F97316 per dark */
-}
-
-/* Forçant dark mode colors manualment (ja que usava dark:bg-[#F97316]) */
-@media (prefers-color-scheme: dark) {
-  .ucard-footer-bar {
-    background-color: #F97316;
-  }
-}
-
-:root[class~="dark"] .ucard-footer-bar {
-  background-color: #F97316;
-}
-
-.ucard-footer-icons {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.ucard-footer-icon-btn {
+/* ActionBar Hover natiu per evitar JS overhead en Tailwind */
+.action-icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: opacity var(--theme-motion-duration-short) ease;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
 }
 
-.ucard-footer-icon-btn:hover {
-  opacity: 0.8;
+.action-icon-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.ucard-footer-action-wrapper {
-  flex-shrink: 0;
-  margin-left: 16px;
+.action-icon-btn:active {
+  background-color: rgba(255, 255, 255, 0.3);
 }

@@ -1,102 +1,129 @@
-// public/sw.js - Escut Trellat iPad A10 (Netejat V15.4)
-const CACHE_TRELAT = 'trellat-v15.5'; // Bump version just in case
-const POBLE_ASSETS = [
+/**
+ * SÓC DE POBLE - SERVICE WORKER V1 (PEDRA SECA EDITION)
+ * Zero Workbox. Stale-While-Revalidate. VRAM & NAND Protection (FIFO).
+ */
+const CACHE_CORE = 'sdp-core-v3.1';
+const CACHE_API = 'sdp-api-v3.1';
+const CACHE_MEDIA = 'sdp-media-v3.1';
+const MAX_IMAGES = 60;
+const MAX_CORE_ITEMS = 300; // 🛡️ Substituït el pes per quantitat per evitar l'O(N^2) ArrayBuffer crash
+const MAX_API_ITEMS = 100;
+
+// 🛡️ Neteja de cache per quantitat per evitar el col·lapse de memòria (Fix d'Emergència)
+const cleanupCache = async (cacheName, maxItems) => {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+  
+  if (keys.length > maxItems) {
+    const deleteCount = keys.length - maxItems;
+    for (let i = 0; i < deleteCount; i++) {
+      await cache.delete(keys[i]);
+    }
+  }
+};
+
+// 🛡️ Compressió d'imatges (Vibe Audit)
+const compressImage = async (response) => {
+  if ('CompressionStream' in window) {
+    try {
+      const blob = await response.blob();
+      const stream = new Blob([blob]).stream();
+      const compressedStream = stream.pipeThrough(new CompressionStream('gzip'));
+      return new Response(compressedStream, {
+        headers: { 'Content-Encoding': 'gzip' }
+      });
+    } catch (e) {
+      return response;
+    }
+  }
+  return response;
+};
+
+const CORE_ASSETS = [
   '/', 
-  '/index.css',
-  '/assets/master/logo-socdepoble-rect-negre.svg',
-  '/assets/master/logo-socdepoble-rect-blanc.svg'
+  '/index.html'
 ];
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
   e.waitUntil(
-    caches.open(CACHE_TRELAT).then(cache => 
-      cache.addAll(POBLE_ASSETS)
-    )
+    caches.open(CACHE_CORE)
+      .then(c => c.addAll(CORE_ASSETS))
+      .catch(err => console.error('SW Install Error:', err))
   );
-  // Persistència forçada iOS
-  if (navigator.storage && navigator.storage.persist) {
-    navigator.storage.persist();
-  }
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cache => {
-          if (cache !== CACHE_TRELAT) {
-            return caches.delete(cache);
-          }
-        })
-      );
-    })
+    caches.keys().then(keys => Promise.all(
+      keys.filter(k => k.startsWith('sdp-') && k !== CACHE_CORE && k !== CACHE_API && k !== CACHE_MEDIA)
+          .map(k => caches.delete(k))
+    )).then(() => self.clients.claim())
   );
 });
 
-// Stale-while-revalidate + P2P fallback
 self.addEventListener('fetch', (e) => {
-  if (e.request.method !== 'GET') return;
-
   const url = new URL(e.request.url);
-  
-  // EXCEPCIÓN LETAL AL FANTASMA: No interponerse en la carga del libro maestro.
-  // Dejamos que IndexedDB controle el Offline-First.
-  if (url.pathname.includes('/llibres/llibre-humans.html') || url.pathname.includes('/llibres/llibre-maquina.html')) {
-    e.respondWith(fetch(e.request));
+  if (e.request.method !== 'GET' || url.protocol === 'chrome-extension:') return;
+
+  // 1. Imatges amb compressió i límit
+  if (/\.(jpg|jpeg|png|gif|webp|svg|avif)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(e.request).then(async (cached) => {
+        if (cached) return cached;
+        return fetch(e.request).then(async (res) => {
+          if (res && res.ok) {
+            const compressedRes = await compressImage(res.clone());
+            caches.open(CACHE_MEDIA).then(cache => {
+              cache.put(e.request, compressedRes);
+              cleanupCache(CACHE_MEDIA, MAX_IMAGES); // ~60 imatges
+            });
+            return res;
+          }
+          return res;
+        });
+      }).catch(() => new Response('', { status: 503, statusText: 'Offline' }))
+    );
     return;
   }
 
-  e.respondWith(
-    caches.open(CACHE_TRELAT).then(cache => {
-      return cache.match(e.request).then(cachedResponse => {
-        const fetchPromise = fetch(e.request).then(networkResponse => {
-          if (e.request.url.startsWith('http') && networkResponse.status === 200) {
-            cache.put(e.request, networkResponse.clone());
+  // 2. Stale-While-Revalidate per a HTML/API
+  if (url.pathname.endsWith('.html') || url.pathname.includes('/api/')) {
+    e.respondWith(
+      caches.match(e.request).then(async (cached) => {
+        const fetchPromise = fetch(e.request).then(async (res) => {
+          if (res && res.ok) {
+            caches.open(CACHE_API).then(cache => {
+              cache.put(e.request, res.clone());
+              cleanupCache(CACHE_API, MAX_API_ITEMS);
+            });
+            return res;
           }
-          return networkResponse;
-        }).catch(async () => {
-          // Offline fallback
-          const offlinePage = await caches.match('/offline-poble.html');
-          const fallbackHtml = `<!DOCTYPE html>
-<html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sóc de Poble (Offline)</title>
-  <style>
-    body { margin: 0; padding: 2rem; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: system-ui, -apple-system, sans-serif; background-color: #f3f4f6; color: #111827; }
-    @media (prefers-color-scheme: dark) { body { background-color: #111827; color: #f9fafb; } }
-    .card { background: rgba(255, 255, 255, 0.1); padding: 2.5rem; border-radius: 1.5rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 100%; box-sizing: border-box; }
-    @media (prefers-color-scheme: dark) { .card { border: 1px solid rgba(255,255,255,0.1); } }
-    .logo { max-width: 200px; height: auto; margin-bottom: 1.5rem; }
-    h2 { margin: 0 0 1rem; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.025em; }
-    p { margin: 0 0 1.5rem; opacity: 0.8; line-height: 1.5; }
-    .btn { display: inline-block; background-color: #F97316; color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; text-decoration: none; font-weight: bold; transition: opacity 0.2s; border: none; font-size: 1rem; cursor: pointer; }
-    .btn:active { opacity: 0.8; transform: scale(0.95); }
-    .dark-logo { display: none; }
-    @media (prefers-color-scheme: dark) { .dark-logo { display: block; } .light-logo { display: none; } }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <img src="/assets/master/logo-socdepoble-rect-negre.svg" class="logo light-logo" alt="Sóc de Poble" onerror="this.style.display='none'">
-    <img src="/assets/master/logo-socdepoble-rect-blanc.svg" class="logo dark-logo" alt="Sóc de Poble" onerror="this.style.display='none'">
-    <h2>Mode Desconnectat</h2>
-    <p>Sense connexió al món exterior. L'escut Trellat està actiu i ha retingut la informació local.</p>
-    <button class="btn" onclick="window.location.reload()">Reintentar Connexió</button>
-  </div>
-</body>
-</html>`;
-          return offlinePage || new Response(fallbackHtml, { 
-            status: 200,
-            headers: { 'Content-Type': 'text/html; charset=utf-8' }
-          });
+        }).catch(() => {
+          if (url.pathname.endsWith('.html')) {
+             return new Response('<h1>Sense Connexió</h1>', { status: 503, statusText: 'Offline', headers: { 'Content-Type': 'text/html' } });
+          } else {
+             return new Response(JSON.stringify({ error: 'offline', cached: true }), { status: 503, headers: { 'Content-Type': 'application/json' } });
+          }
         });
-        
-        // Devolvemos el caché si existe, pero el fetch sigue en segundo plano actualizando el caché
-        return cachedResponse || fetchPromise;
-      });
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // 3. Default: Cache First per a la resta
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      return cached || fetch(e.request).then(async res => {
+        if (res && res.ok) {
+           caches.open(CACHE_CORE).then(cache => {
+             cache.put(e.request, res.clone());
+             cleanupCache(CACHE_CORE, MAX_CORE_ITEMS);
+           });
+        }
+        return res;
+      }).catch(() => new Response('', { status: 503, statusText: 'Offline' }))
     })
   );
 });

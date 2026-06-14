@@ -1,0 +1,490 @@
+{
+  "__tests__/hooks/useScrollDirection.test.js": [
+    "hooks/useScrollDirection.js"
+  ],
+  "adapters/NavigationAdapter.js": [
+    "services/routeService.js"
+  ],
+  "adapters/authHooks.js": [
+    "constants/index.js",
+    "domain/auth/useAuthStore.js"
+  ],
+  "adapters/authPort.js": [
+    "constants/index.js",
+    "domain/auth/useAuthStore.js"
+  ],
+  "adapters/syncPort.js": [],
+  "app/MasiaEterna.js": [
+    "services/IndexadorLocal.js",
+    "services/SospLock.js",
+    "services/rhizomeManagerV3.js"
+  ],
+  "app/config/agentsMap.js": [],
+  "app/config/iaiesMundialsMap.jsx": [],
+  "app/context/AuthContext.jsx": [
+    "constants/index.js",
+    "domain/auth/useAuthStore.js",
+    "supabaseClient.js"
+  ],
+  "app/preBootCheck.js": [
+    "data/idbMigrations.js"
+  ],
+  "components/layout/SystemContainers.jsx": [],
+  "components/sprites/BootAntenna.jsx": [],
+  "components/sprites/ChickenRouter.jsx": [],
+  "components/sprites/DataWorm.jsx": [],
+  "components/sprites/EmberDust.jsx": [],
+  "components/sprites/PigeonDrone.jsx": [],
+  "components/sprites/PixelPet.jsx": [],
+  "components/sprites/RatSolder.jsx": [],
+  "components/sprites/SausageFuse.jsx": [],
+  "components/sprites/SnailCable.jsx": [],
+  "components/sprites/SundialCron.jsx": [],
+  "components/sprites/index.js": [
+    "components/sprites/BootAntenna.jsx",
+    "components/sprites/ChickenRouter.jsx",
+    "components/sprites/DataWorm.jsx",
+    "components/sprites/EmberDust.jsx",
+    "components/sprites/PigeonDrone.jsx",
+    "components/sprites/PixelPet.jsx",
+    "components/sprites/RatSolder.jsx",
+    "components/sprites/SausageFuse.jsx",
+    "components/sprites/SnailCable.jsx",
+    "components/sprites/SundialCron.jsx"
+  ],
+  "components/ui/Button/Button.jsx": [
+    "components/ui/Button/Button.variants.js",
+    "core/services/hapticService.js"
+  ],
+  "components/ui/Button/Button.variants.js": [],
+  "components/ui/Button/index.js": [
+    "components/ui/Button/Button.jsx"
+  ],
+  "components/ui/universal-card/UniversalCard.variants.js": [],
+  "constants/index.js": [
+    "app/config/agentsMap.js"
+  ],
+  "constants/lore.js": [],
+  "core/CoreArchitectureGuard.js": [
+    "core/SafariQuirksDetector.js"
+  ],
+  "core/SafariQuirksDetector.js": [],
+  "core/dal.js": [],
+  "core/hooks/useProgressiveRestore.js": [
+    "core/services/LcpCache.js"
+  ],
+  "core/rhizome/crdt/eg-walker.js": [
+    "core/rhizome/crdt/peritext.js",
+    "core/rhizome/crdt/vectorClock.js",
+    "core/rhizome/db-core.js",
+    "utils/logger.js"
+  ],
+  "core/rhizome/crdt/peritext.js": [
+    "utils/logger.js"
+  ],
+  "core/rhizome/crdt/vectorClock.js": [],
+  "core/rhizome/db-core.js": [
+    "utils/logger.js"
+  ],
+  "core/rhizome/rhizome.worker.js": [
+    "core/rhizome/sqlite-setup.js"
+  ],
+  "core/rhizome/sqlite-setup.js": [],
+  "core/services/LcpCache.js": [],
+  "core/services/analyticsService.js": [],
+  "core/services/authService.js": [
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/calendarService.js": [
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/chatService.js": [
+    "core/services/schemas.js",
+    "core/services/supabaseService.js",
+    "data/index.js",
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/database.js": [],
+  "core/services/errorTrackingService.js": [
+    "constants/index.js",
+    "utils/logger.js"
+  ],
+  "core/services/exportService.js": [
+    "core/services/chatService.js",
+    "core/services/marketService.js",
+    "core/services/supabaseService.js",
+    "utils/logger.js"
+  ],
+  "core/services/forensicService.js": [
+    "utils/logger.js"
+  ],
+  "core/services/geminiService.js": [
+    "app/config/agentsMap.js",
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/hapticService.js": [],
+  "core/services/healthCheckService.js": [
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/iaia/iaiaMemory.js": [
+    "app/config/agentsMap.js",
+    "constants/index.js",
+    "core/services/geminiService.js",
+    "core/services/notebookService.js",
+    "core/services/supabaseService.js",
+    "data/iaia_knowledge.js",
+    "data/proverbs.js",
+    "utils/logger.js"
+  ],
+  "core/services/iaia/iaiaOrchestrator.js": [
+    "core/services/marketService.js",
+    "core/services/notebookService.js",
+    "core/services/supabaseService.js",
+    "data/iaia_knowledge.js",
+    "utils/logger.js",
+    "utils/publishAnnaNews.js"
+  ],
+  "core/services/iaiaService.js": [
+    "app/config/agentsMap.js",
+    "constants/index.js",
+    "core/services/geminiService.js",
+    "core/services/marketService.js",
+    "core/services/notebookService.js",
+    "core/services/supabaseService.js",
+    "data/iaia_knowledge.js",
+    "data/proverbs.js",
+    "utils/logger.js",
+    "utils/publishAnnaNews.js"
+  ],
+  "core/services/iaiaWorker.js": [
+    "data/proverbs.js"
+  ],
+  "core/services/identityService.js": [
+    "core/services/secureStorage.js",
+    "core/services/supabaseService.js",
+    "core/services/syncService.js",
+    "utils/logger.js"
+  ],
+  "core/services/ipfsManager.js": [
+    "core/services/rhizomeManager.js",
+    "core/services/webCryptoService.js",
+    "utils/logger.js"
+  ],
+  "core/services/marketService.js": [
+    "core/services/schemas.js",
+    "core/services/supabaseService.js",
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/notebookService.js": [
+    "core/services/marketService.js",
+    "core/services/supabaseService.js",
+    "utils/logger.js"
+  ],
+  "core/services/notificationService.js": [
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/paymentService.js": [
+    "core/services/rhizomeManager.js",
+    "utils/logger.js"
+  ],
+  "core/services/preferenceService.js": [],
+  "core/services/profileHealingService.js": [
+    "constants/index.js",
+    "core/services/supabaseService.js"
+  ],
+  "core/services/pushNotifications.js": [
+    "core/services/notificationService.js",
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/pushService.js": [
+    "utils/logger.js"
+  ],
+  "core/services/rag/VectorStorage.js": [
+    "core/services/storage/StorageQuotaManager.js"
+  ],
+  "core/services/raindropService.js": [],
+  "core/services/rhizomeManager.js": [
+    "core/services/database.js",
+    "core/services/ipfsManager.js",
+    "core/services/webCryptoService.js",
+    "utils/logger.js"
+  ],
+  "core/services/schemas.js": [],
+  "core/services/secureStorage.js": [],
+  "core/services/secureTokenStorage.js": [
+    "core/services/secureStorage.js"
+  ],
+  "core/services/seedService.js": [
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "core/services/speechService.js": [
+    "utils/logger.js"
+  ],
+  "core/services/storage/StorageQuotaManager.js": [],
+  "core/services/supabase/profileService.js": [
+    "constants/lore.js",
+    "core/services/supabase/schemaCache.js",
+    "core/services/supabase/supabaseAdapter.js",
+    "utils/image.js"
+  ],
+  "core/services/supabase/schemaCache.js": [],
+  "core/services/supabase/supabaseAdapter.js": [],
+  "core/services/supabaseService.js": [
+    "constants/index.js",
+    "core/services/pushNotifications.js",
+    "core/services/schemas.js",
+    "core/services/supabase/profileService.js",
+    "core/services/wikipediaService.js",
+    "data/index.js",
+    "data/mockLoreData.js",
+    "supabaseClient.js",
+    "utils/identityUtils.js",
+    "utils/logger.js"
+  ],
+  "core/services/syncService.js": [
+    "utils/logger.js"
+  ],
+  "core/services/tsunamiSlicer.js": [],
+  "core/services/webCryptoService.js": [
+    "utils/logger.js"
+  ],
+  "core/services/wikipediaService.js": [
+    "utils/logger.js"
+  ],
+  "core/tests/architecture.spec.js": [],
+  "core/utils/invariants.js": [],
+  "data/ConstitucioContent.js": [],
+  "data/GenotipContent.js": [],
+  "data/HumanProjectContent.js": [],
+  "data/IaiesMundialsContent.js": [],
+  "data/SkillsContent.js": [],
+  "data/SkillsExtensivesContent.js": [],
+  "data/VersionsContent.js": [],
+  "data/calendarData.js": [],
+  "data/iaia_knowledge.js": [],
+  "data/idbMigrations.js": [],
+  "data/index.js": [
+    "data/mockIaiesPages.js"
+  ],
+  "data/media_registry.js": [],
+  "data/mockIaiesPages.js": [
+    "app/config/iaiesMundialsMap.jsx"
+  ],
+  "data/mockLoreData.js": [],
+  "data/pageRegistry.js": [
+    "data/ConstitucioContent.js",
+    "data/HumanProjectContent.js",
+    "data/IaiesMundialsContent.js",
+    "data/SkillsContent.js",
+    "data/VersionsContent.js"
+  ],
+  "data/proverbs.js": [],
+  "data/roadmapData.js": [],
+  "data/subsidies.js": [],
+  "domain/auth/useAuthStore.js": [
+    "constants/index.js",
+    "core/services/iaiaService.js",
+    "core/services/identityService.js",
+    "core/services/profileHealingService.js",
+    "core/services/rhizomeManager.js",
+    "core/services/supabaseService.js",
+    "core/services/webCryptoService.js",
+    "i18n/config.js",
+    "supabaseClient.js",
+    "utils/logger.js"
+  ],
+  "domain/iaiaDomain.js": [],
+  "factories/PageViewModelFactory.js": [],
+  "hooks/useAccessibleSearch.js": [],
+  "hooks/useAllTownProposals.js": [],
+  "hooks/useAtomicGuard.js": [],
+  "hooks/useBlindatgeOPFS.js": [
+    "utils/logger.js"
+  ],
+  "hooks/useCardTranslation.js": [
+    "supabaseClient.js"
+  ],
+  "hooks/useChatState.js": [
+    "constants/index.js",
+    "core/services/chatService.js",
+    "core/services/supabaseService.js",
+    "utils/logger.js"
+  ],
+  "hooks/useCmsInteractions.js": [],
+  "hooks/useFeedData.js": [
+    "data/index.js"
+  ],
+  "hooks/useFeedFilters.js": [
+    "core/services/rhizomeManager.js",
+    "domain/iaiaDomain.js"
+  ],
+  "hooks/useGoogleAuthCalendar.js": [
+    "core/services/secureTokenStorage.js"
+  ],
+  "hooks/useIAIAAutonomousInteractions.js": [
+    "core/services/iaiaService.js"
+  ],
+  "hooks/useInternalCalendar.js": [
+    "app/context/AuthContext.jsx",
+    "core/services/calendarService.js"
+  ],
+  "hooks/useIntersectionObserver.js": [],
+  "hooks/useLowEndDevice.js": [],
+  "hooks/useMasiaEterna.js": [
+    "services/rhizomeManagerV3.js"
+  ],
+  "hooks/useModalFocusTrap.js": [],
+  "hooks/useMountTransition.js": [],
+  "hooks/useOmegaTranslate.js": [
+    "supabaseClient.js"
+  ],
+  "hooks/usePageData.js": [
+    "data/pageRegistry.js",
+    "supabaseClient.js",
+    "utils/extractPageMeta.js"
+  ],
+  "hooks/usePreBlockFormatter.js": [],
+  "hooks/useProcessedContent.js": [
+    "utils/resolveMedia.js",
+    "utils/sanitizeHtml.js"
+  ],
+  "hooks/useProgressiveRestore.js": [
+    "services/LcpCache.js"
+  ],
+  "hooks/useRhizomeEvents.js": [
+    "core/services/rhizomeManager.js"
+  ],
+  "hooks/useRouteService.js": [
+    "adapters/NavigationAdapter.js",
+    "services/routeService.js"
+  ],
+  "hooks/useSafeObjectUrl.js": [],
+  "hooks/useSafeQuery.js": [
+    "utils/storageProbe.js"
+  ],
+  "hooks/useScrollDirection.js": [],
+  "hooks/useScrollMetrics.js": [],
+  "hooks/useSeoTrellat.js": [],
+  "hooks/useSpriteAnimator.js": [],
+  "hooks/useTownProposals.js": [],
+  "hooks/useTrellatPersist.js": [],
+  "hooks/useUnifiedFeedData.js": [
+    "app/config/agentsMap.js",
+    "core/services/marketService.js",
+    "data/index.js",
+    "hooks/useFeedData.js",
+    "utils/logger.js"
+  ],
+  "hooks/useVersionWatchdog.js": [],
+  "hooks/useViewMode.js": [
+    "components/layout/SystemContainers.jsx"
+  ],
+  "hooks/useVirtualizedList.js": [],
+  "hooks/useWorkerOrchestrator.js": [
+    "core/services/supabaseService.js"
+  ],
+  "i18n/config.js": [
+    "i18n/locales/de.json",
+    "i18n/locales/en.json",
+    "i18n/locales/es.json",
+    "i18n/locales/eu.json",
+    "i18n/locales/fr.json",
+    "i18n/locales/gl.json",
+    "i18n/locales/it.json",
+    "i18n/locales/va.json"
+  ],
+  "i18n/locales/de.json": [],
+  "i18n/locales/en.json": [],
+  "i18n/locales/es.json": [],
+  "i18n/locales/eu.json": [],
+  "i18n/locales/fr.json": [],
+  "i18n/locales/gl.json": [],
+  "i18n/locales/it.json": [],
+  "i18n/locales/va.json": [],
+  "lib/macroSequences.js": [],
+  "lib/presetUtils.js": [],
+  "lib/spriteSequences.js": [],
+  "logger-ultimate.js": [],
+  "logger.js": [],
+  "normalizers/post.normalizer.js": [],
+  "powersync/connector.js": [
+    "core/services/supabaseService.js"
+  ],
+  "powersync/schema.js": [],
+  "scripts/ethics/picardia.js": [],
+  "services/IndexadorLocal.js": [
+    "services/OpfsStorage.js"
+  ],
+  "services/LcpCache.js": [],
+  "services/OpfsStorage.js": [],
+  "services/SospLock.js": [],
+  "services/crypto/key-manager.js": [],
+  "services/cryptoAPI.js": [],
+  "services/messages/TractorMessages.js": [],
+  "services/resilientLogger.js": [],
+  "services/rhizomeManagerV3.js": [],
+  "services/routeService.js": [],
+  "supabaseClient.js": [],
+  "sw.js": [],
+  "tests/mocks/handlers.js": [],
+  "tests/mocks/server.js": [
+    "tests/mocks/handlers.js"
+  ],
+  "tests/rhizomeV3.tests.js": [
+    "services/SospLock.js",
+    "services/rhizomeManagerV3.js"
+  ],
+  "tests/services/geminiService.test.js": [
+    "core/services/geminiService.js",
+    "tests/mocks/server.js"
+  ],
+  "tests/setup.js": [
+    "tests/mocks/server.js"
+  ],
+  "utils/GlobalErrorInterceptor.js": [],
+  "utils/HapticFeedback.js": [],
+  "utils/chaosMonkey.js": [
+    "utils/logger.js"
+  ],
+  "utils/epubGenerator.js": [],
+  "utils/extractPageMeta.js": [],
+  "utils/health-sentinel.js": [],
+  "utils/identityUtils.js": [
+    "constants/index.js"
+  ],
+  "utils/image.js": [],
+  "utils/imageMap.json": [],
+  "utils/lcp-tracker.js": [],
+  "utils/logger.js": [],
+  "utils/publishAnnaNews.js": [
+    "core/services/supabaseService.js",
+    "utils/logger.js"
+  ],
+  "utils/resolveMedia.js": [
+    "data/media_registry.js"
+  ],
+  "utils/sanitizeHtml.js": [],
+  "utils/storageProbe.js": [],
+  "utils/toast.js": [
+    "core/services/hapticService.js"
+  ],
+  "utils/tocParser.js": [],
+  "utils/urlHelper.js": [
+    "utils/imageMap.json"
+  ],
+  "wdyr.js": [],
+  "workers/rhizome-worker.js": [],
+  "workers/rhizome.worker.js": [],
+  "workers/rizoma-worker-master.js": [],
+  "workers/syncWorker.js": [],
+  "workers/visionWorker.js": []
+}

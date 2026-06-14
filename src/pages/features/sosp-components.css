@@ -475,3 +475,10 @@
 }
 .sosp-skeleton-linia-curta { width: 50%; }
 .sosp-skeleton-linia-mitja { width: 75%; }
+
+/* ==========================================================
+   OPTIMITZACIONS TERMODINÀMIQUES (iPad A10)
+   ========================================================== */
+.sosp-section {
+  contain: layout paint;
+}

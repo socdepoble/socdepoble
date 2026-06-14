@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useViewMode } from '../../hooks/useViewMode';
 import { supabaseService } from '../../core/services/supabaseService';
 import { logger } from '../../utils/logger';
@@ -13,123 +12,95 @@ import { UniversalGridWrapper, UniversalGridRow } from '../../components/ui/Univ
 import UniversalCard from '../../components/ui/universal-card';
 import SEO from '../../components/core/SEO';
 const CommunityDirectory = () => {
-    const navigate = useNavigate();
-    const { isSuperAdmin } = useAuth();
-    const { visionMode } = useDesign();
-    const { viewMode, columnCount, containerRef } = useViewMode('directory_view_mode', 'grid');
-    const [directory, setDirectory] = useState({ people: [], entities: [] });
-    const [isLoading, setIsLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState('gent'); // gent, entitats
+  const navigate = useNavigate();
+  const {
+    isSuperAdmin
+  } = useAuth();
+  const {
+    visionMode
+  } = useDesign();
+  const {
+    viewMode,
+    columnCount,
+    containerRef
+  } = useViewMode('directory_view_mode', 'grid');
+  const [directory, setDirectory] = useState({
+    people: [],
+    entities: []
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('gent'); // gent, entitats
 
-    useEffect(() => {
-        loadDirectory();
-    }, []);
+  useEffect(() => {
+    loadDirectory();
+  }, []);
+  const loadDirectory = async () => {
+    try {
+      setIsLoading(true);
+      const data = await supabaseService.getPublicDirectory();
+      setDirectory(data);
+    } catch (error) {
+      logger.error('Error loading directory:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const loadDirectory = async () => {
-        try {
-            setIsLoading(true);
-            const data = await supabaseService.getPublicDirectory();
-            setDirectory(data);
-        } catch (error) {
-            logger.error('Error loading directory:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  // [VISION MODE FILTER] Purga de fantasmes IAIA
+  const filteredItems = useMemo(() => {
+    const items = activeTab === 'gent' ? directory.people : directory.entities;
+    return items.filter(item => {
+      if (visionMode === 'humana' && !isSuperAdmin) {
+        const role = String(item.role || item.type || '').toLowerCase();
+        const name = String(item.full_name || item.name || '').toUpperCase();
+        const isAI = item.type === 'entity' || item.is_ai || item.id?.startsWith('11111111-') || name.includes('IAIA') || name.includes('FLASH') || name.includes('GALL') || name.includes('VIATJANT');
+        if (isAI) return false;
+      }
+      return true;
+    });
+  }, [activeTab, directory, visionMode, isSuperAdmin]);
+  if (isLoading) return <StatusLoader type="loading" />;
+  return (
+    <div className="directory-page bg-theme-base min-h-screen">
+              <SEO title="Comunitat | Sóc de Poble" description="Connexions que fan poble. Directori oficial de persones i entitats de la comunitat Sóc de Poble." url="/comunitat" />
+              {/* Header Master Blindat v9.4.0 */}
+              <div role="region" aria-label="Capçalera de Secció" className="h-16 flex items-center px-4 bg-theme-base border-b border-theme-border sticky top-0 z-30 gap-4">
+                  <button className="text-theme-text hover:text-orange-500 transition-colors" onClick={() => navigate(-1)} aria-label="Tornar">
+                      <ArrowLeft size={24} />
+                  </button>
+                  <ConnectButton />
+                  <div className="flex-1 border-l border-theme-border/50 pl-4">
+                      <h1 className="text-lg font-black text-theme-text uppercase tracking-widest m-0 leading-tight">Comunitat</h1>
+                      <p className='text-xs text-sdp-theme-accent-primary uppercase font-bold tracking-widest m-0 mt-0.5'>Connexions que fan poble</p>
+                  </div>
+              </div>
 
-    // [VISION MODE FILTER] Purga de fantasmes IAIA
-    const filteredItems = useMemo(() => {
-        const items = activeTab === 'gent' ? directory.people : directory.entities;
-        return items.filter(item => {
-            if (visionMode === 'humana' && !isSuperAdmin) {
-                const role = String(item.role || item.type || '').toLowerCase();
-                const name = String(item.full_name || item.name || '').toUpperCase();
-                
-                const isAI = item.type === 'entity' ||
-                             item.is_ai || 
-                             item.id?.startsWith('11111111-') ||
-                             name.includes('IAIA') ||
-                             name.includes('FLASH') ||
-                             name.includes('GALL') ||
-                             name.includes('VIATJANT');
-                if (isAI) return false;
-            }
-            return true;
-        });
-    }, [activeTab, directory, visionMode, isSuperAdmin]);
+              <div className="px-4 py-4 bg-theme-base border-b border-theme-border">
+                  <div className="flex gap-2">
+                      <button className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+                              ${activeTab === 'gent' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`} onClick={() => setActiveTab('gent')}>
+                          <Users size={16} />
+                          Gent ({filteredItems.length})
+                      </button>
+                      <button className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
+                              ${activeTab === 'entitats' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`} onClick={() => setActiveTab('entitats')}>
+                          <Building2 size={16} />
+                          Entitats ({activeTab === 'entitats' ? filteredItems.length : directory.entities.length})
+                      </button>
+                  </div>
+              </div>
 
-    if (isLoading) return <StatusLoader type="loading" />;
-
-    return (
-        <div className="directory-page bg-theme-base min-h-screen">
-            <SEO 
-                title="Comunitat | Sóc de Poble" 
-                description="Connexions que fan poble. Directori oficial de persones i entitats de la comunitat Sóc de Poble." 
-                url="/comunitat" 
-            />
-            {/* Header Master Blindat v9.4.0 */}
-            <div role="region" aria-label="Capçalera de Secció" className="h-16 flex items-center px-4 bg-theme-base border-b border-theme-border sticky top-0 z-30 gap-4">
-                <button className="text-theme-text hover:text-orange-500 transition-colors" onClick={() => navigate(-1)} aria-label="Tornar">
-                    <ArrowLeft size={24} />
-                </button>
-                <ConnectButton />
-                <div className="flex-1 border-l border-theme-border/50 pl-4">
-                    <h1 className="text-lg font-black text-theme-text uppercase tracking-widest m-0 leading-tight">Comunitat</h1>
-                    <p className="text-[10px] text-[var(--theme-accent-primary)] uppercase font-bold tracking-widest m-0 mt-0.5">Connexions que fan poble</p>
-                </div>
-            </div>
-
-            <div className="px-4 py-4 bg-theme-base border-b border-theme-border">
-                <div className="flex gap-2">
-                    <button
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
-                            ${activeTab === 'gent' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
-                        onClick={() => setActiveTab('gent')}
-                    >
-                        <Users size={16} />
-                        Gent ({filteredItems.length})
-                    </button>
-                    <button
-                        className={`flex-1 flex items-center justify-center gap-2 py-3 font-black text-xs uppercase tracking-widest transition-all
-                            ${activeTab === 'entitats' ? 'bg-theme-text text-theme-base' : 'bg-surface-var text-theme-muted border border-theme-border'}`}
-                        onClick={() => setActiveTab('entitats')}
-                    >
-                        <Building2 size={16} />
-                        Entitats ({activeTab === 'entitats' ? filteredItems.length : directory.entities.length})
-                    </button>
-                </div>
-            </div>
-
-            <div ref={containerRef} className="flex-1 w-full pt-6">
-                <UniversalGridWrapper viewMode={viewMode}>
-                    {filteredItems.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
-                            <Users size={48} className="mb-4 text-theme-text opacity-30" />
-                            <p className="font-sans text-xs font-bold tracking-[0.2em] uppercase text-center text-theme-text opacity-60">No s'han trobat resultats en aquesta categoria.</p>
-                        </div>
-                    ) : (
-                        <UniversalGridRow viewMode={viewMode} columnCount={columnCount}>
-                            {filteredItems.map(item => (
-                                <UniversalCard
-                                    key={item.id}
-                                    item={item}
-                                    title={item.full_name || item.name}
-                                    subtitle={`${item.role || item.type} • ${item.town_name || item.primary_town}`}
-                                    avatarSrc={item.avatar_url}
-                                    avatarName={item.full_name || item.name}
-                                    avatarRole={activeTab === 'gent' ? (item.role || 'user') : item.type}
-                                    excerpt={item.bio || item.description || 'Sense descripció'}
-                                    viewMode={viewMode}
-                                    variant={activeTab === 'gent' ? 'post' : 'official'}
-                                    onClick={() => navigate(activeTab === 'gent' ? `/gent/${item.id}` : `/empresa/${item.id}`)}
-                                />
-                            ))}
-                        </UniversalGridRow>
-                    )}
-                </UniversalGridWrapper>
-            </div>
-        </div>
-    );
+              <div ref={containerRef} className="flex-1 w-full pt-6">
+                  <UniversalGridWrapper viewMode={viewMode}>
+                      {filteredItems.length === 0 ? <div className="flex flex-col items-center justify-center p-12 opacity-50 bg-theme-panel/30 rounded-2xl border border-white/5 mx-auto max-w-sm mt-8">
+                              <Users size={48} className="mb-4 text-theme-text opacity-30" />
+                              <p className="font-sans text-xs font-bold tracking-[0.2em] uppercase text-center text-theme-text opacity-60">No s'han trobat resultats en aquesta categoria.</p>
+                          </div> : <UniversalGridRow viewMode={viewMode} columnCount={columnCount}>
+                              {filteredItems.map(item => <UniversalCard key={item.id} item={item} title={item.full_name || item.name} subtitle={`${item.role || item.type} • ${item.town_name || item.primary_town}`} avatarSrc={item.avatar_url} avatarName={item.full_name || item.name} avatarRole={activeTab === 'gent' ? item.role || 'user' : item.type} excerpt={item.bio || item.description || 'Sense descripció'} viewMode={viewMode} variant={activeTab === 'gent' ? 'post' : 'official'} onClick={() => navigate(activeTab === 'gent' ? `/gent/${item.id}` : `/empresa/${item.id}`)} />)}
+                          </UniversalGridRow>}
+                  </UniversalGridWrapper>
+              </div>
+          </div>
+  );
 };
-
 export default CommunityDirectory;

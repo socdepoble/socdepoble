@@ -8,20 +8,15 @@ export function downloadJSON(obj, filename = 'preset.json') {
   dlAnchor.click();
   dlAnchor.remove();
 }
-
 export function savePresetToLocal(name, preset) {
   const key = `brasa_preset_${name}`;
   localStorage.setItem(key, JSON.stringify(preset));
 }
-
 export function loadPresetFromLocal(name) {
   const key = `brasa_preset_${name}`;
   const raw = localStorage.getItem(key);
   return raw ? JSON.parse(raw) : null;
 }
-
 export function listLocalPresets() {
-  return Object.keys(localStorage)
-    .filter(k => k.startsWith('brasa_preset_'))
-    .map(k => k.replace('brasa_preset_', ''));
+  return Object.keys(localStorage).filter(k => k.startsWith('brasa_preset_')).map(k => k.replace('brasa_preset_', ''));
 }

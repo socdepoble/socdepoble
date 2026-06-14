@@ -1,6 +1,4 @@
 import { useState, useMemo } from 'react';
-
-
 import { MOCK_SUBSIDIES } from '../../data/subsidies';
 import { geminiService } from '../../core/services/geminiService';
 import { useNavigate } from 'react-router-dom';
@@ -12,44 +10,38 @@ import './BuscadorAjudes.css';
  * Implementa exportació multiformat i assistència de l'Arxiver AI.
  */
 const BuscadorAjudes = () => {
-    const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedSector, setSelectedSector] = useState('tots');
-    const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [selectedSub, setSelectedSub] = useState(null);
-    const [aiAdvice, setAiAdvice] = useState(null);
-    const [viewingDoc, setViewingDoc] = useState(null);
-
-    const sectors = ['tots', ...new Set(MOCK_SUBSIDIES.map(s => s.sector).filter(Boolean))];
-
-    const filteredSubsidies = useMemo(() => {
-        const query = searchTerm.toLowerCase().trim();
-        return MOCK_SUBSIDIES.filter(s => {
-            const matchesSearch = query === '' || 
-                                 s.title.toLowerCase().includes(query) || 
-                                 s.description.toLowerCase().includes(query);
-            const matchesSector = selectedSector === 'tots' || s.sector === selectedSector;
-            return matchesSearch && matchesSector;
-        });
-    }, [searchTerm, selectedSector]);
-
-    const handleAskArxiver = async (sub) => {
-        setIsAnalyzing(true);
-        setSelectedSub(sub);
-        try {
-            const query = `Analitza aquesta ajuda per a mi: "${sub.title}". Descripció: ${sub.description}. Requisits: ${(sub.requirements || []).join(', ')}. Com ens pot ajudar al projecte Sóc de Poble?`;
-            const response = await geminiService.ask('ARXIVER', query);
-            setAiAdvice(response.text);
-        } catch (err) {
-            console.error(err);
-            setAiAdvice("Mestre, els papers s'han barrejat... Torna-ho a provar.");
-        } finally {
-            setIsAnalyzing(false);
-        }
-    };
-
-    const handleExport = (format, sub) => {
-        const content = `
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSector, setSelectedSector] = useState('tots');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [selectedSub, setSelectedSub] = useState(null);
+  const [aiAdvice, setAiAdvice] = useState(null);
+  const [viewingDoc, setViewingDoc] = useState(null);
+  const sectors = ['tots', ...new Set(MOCK_SUBSIDIES.map(s => s.sector).filter(Boolean))];
+  const filteredSubsidies = useMemo(() => {
+    const query = searchTerm.toLowerCase().trim();
+    return MOCK_SUBSIDIES.filter(s => {
+      const matchesSearch = query === '' || s.title.toLowerCase().includes(query) || s.description.toLowerCase().includes(query);
+      const matchesSector = selectedSector === 'tots' || s.sector === selectedSector;
+      return matchesSearch && matchesSector;
+    });
+  }, [searchTerm, selectedSector]);
+  const handleAskArxiver = async sub => {
+    setIsAnalyzing(true);
+    setSelectedSub(sub);
+    try {
+      const query = `Analitza aquesta ajuda per a mi: "${sub.title}". Descripció: ${sub.description}. Requisits: ${(sub.requirements || []).join(', ')}. Com ens pot ajudar al projecte Sóc de Poble?`;
+      const response = await geminiService.ask('ARXIVER', query);
+      setAiAdvice(response.text);
+    } catch (err) {
+      console.error(err);
+      setAiAdvice("Mestre, els papers s'han barrejat... Torna-ho a provar.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+  const handleExport = (format, sub) => {
+    const content = `
 SUBVENCIÓ: ${sub.title}
 ------------------------------------------------
 IMPORT ESTIMAT: ${sub.amount}
@@ -65,38 +57,35 @@ ${sub.description}
 CONSELL DE L'IAIA:
 ${sub.iaia_advice}
         `;
+    if (format === 'gdocs') {
+      navigator.clipboard.writeText(content);
+      alert("Contingut copiat optimitzat per a Google Docs! Enganxa'l en un document nou. ✨");
+    } else {
+      // [MASTER] Robust Download Portal v1.25.1
+      const mimeTypes = {
+        'txt': 'text/plain',
+        'pdf': 'application/pdf',
+        'doc': 'application/msword'
+      };
+      const blob = new Blob([content], {
+        type: mimeTypes[format] || 'text/plain'
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = `${sub.title.replace(/\s+/g, '_')}_socdepoble.${format}`;
+      document.body.appendChild(a);
+      a.click();
 
-        if (format === 'gdocs') {
-            navigator.clipboard.writeText(content);
-            alert("Contingut copiat optimitzat per a Google Docs! Enganxa'l en un document nou. ✨");
-        } else {
-            // [MASTER] Robust Download Portal v1.25.1
-            const mimeTypes = {
-                'txt': 'text/plain',
-                'pdf': 'application/pdf',
-                'doc': 'application/msword'
-            };
-            
-            const blob = new Blob([content], { type: mimeTypes[format] || 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = `${sub.title.replace(/\s+/g, '_')}_socdepoble.${format}`;
-            
-            document.body.appendChild(a);
-            a.click();
-            
-            // Retardem la purga de l'URL per a que el navegador puga bategar la descàrrega
-            setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }, 1000);
-        }
-    };
-
-    return (
-        <div className="subsidies-page animate-in">
+      // Retardem la purga de l'URL per a que el navegador puga bategar la descàrrega
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 1000);
+    }
+  };
+  return <div className="subsidies-page animate-in">
             {/* Nav Superior */}
             <div role="region" aria-label="Capçalera de Secció" className="sub-header glass-premium">
                 <button className="btn-back" onClick={() => navigate('/ofici')}>
@@ -107,7 +96,7 @@ ${sub.iaia_advice}
                     <p>Bategat Administratiu per al Mas</p>
                 </div>
                 <div className="badge-identity">
-                    <Shield size={14} /> <span>Rhizome Secured</span>
+                    <Shield size={14} /> Rhizome Secured
                 </div>
             </div>
 
@@ -115,19 +104,13 @@ ${sub.iaia_advice}
             <div className="search-controls glass-premium">
                 <div className="search-input-wrapper">
                     <Search className="search-icon" size={20} />
-                    <input 
-                        type="text" 
-                        placeholder="Cerca ajudes (Ex: Kit Digital, PAC...)"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <input type="text" placeholder="Cerca ajudes (Ex: Kit Digital, PAC...)" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          
                 </div>
                 <div className="filter-group">
                     <Filter size={18} />
-                    <select value={selectedSector} onChange={(e) => setSelectedSector(e.target.value)}>
-                        {sectors.map(s => (
-                            <option key={s} value={s}>{s ? (s.charAt(0).toUpperCase() + s.slice(1)) : 'Altres'}</option>
-                        ))}
+                    <select value={selectedSector} onChange={e => setSelectedSector(e.target.value)}>
+                        {sectors.map(s => <option key={s} value={s}>{s ? s.charAt(0).toUpperCase() + s.slice(1) : 'Altres'}</option>)}
                     </select>
                 </div>
             </div>
@@ -165,8 +148,7 @@ ${sub.iaia_advice}
 
             {/* Llistat d'Ajudes */}
             <div role="region" aria-label="Contingut Principal" className="sub-grid">
-                {filteredSubsidies.map(sub => (
-                    <article key={sub.id} className="sub-card glass-premium animate-in">
+                {filteredSubsidies.map(sub => <article key={sub.id} className="sub-card glass-premium animate-in">
                         <div role="region" aria-label="Capçalera de Secció" className="card-header">
                             <span className={`status-tag ${sub.status || 'unknown'}`}>{(sub.status || 'veure').toUpperCase()}</span>
                             <span className="sector-tag">{sub.sector || 'General'}</span>
@@ -190,13 +172,11 @@ ${sub.iaia_advice}
                                 <ExternalLink size={18} /> GVA / BOE
                             </a>
                         </div>
-                    </article>
-                ))}
+                    </article>)}
             </div>
 
             {/* Modal d'Anàlisi IAIA */}
-            {isAnalyzing && (
-                <div className="modal-overlay" onClick={() => setAiAdvice(null)}>
+            {isAnalyzing && <div className="modal-overlay" onClick={() => setAiAdvice(null)}>
                     <div className="modal-content glass-premium animate-in" onClick={e => e.stopPropagation()}>
                         <div role="region" aria-label="Capçalera de Secció" className="modal-header">
                             <Bot className="text-iaia" />
@@ -211,10 +191,8 @@ ${sub.iaia_advice}
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-            {aiAdvice && (
-                <div className="advice-modal-overlay animate-in" onClick={() => setAiAdvice(null)}>
+                </div>}
+            {aiAdvice && <div className="advice-modal-overlay animate-in" onClick={() => setAiAdvice(null)}>
                     <div className="advice-modal glass-premium shadow-2xl" onClick={e => e.stopPropagation()}>
                         <div role="region" aria-label="Capçalera de Secció" className="advice-header">
                             <div className="header-main">
@@ -234,8 +212,7 @@ ${sub.iaia_advice}
                                 </div>
                             </div>
 
-                            {selectedSub?.official_link && (
-                                <div className="advice-link-highlight glass-premium">
+                            {selectedSub?.official_link && <div className="advice-link-highlight glass-premium">
                                     <div className="link-info">
                                         <ExternalLink size={24} className="text-accent" />
                                         <div>
@@ -243,26 +220,26 @@ ${sub.iaia_advice}
                                             <p>Accedeix directament al tràmit de la GVA</p>
                                         </div>
                                     </div>
-                                    <a 
-                                        href={selectedSub.official_link} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        className="master-button-canonic"
-                                    >
+                                    <a href={selectedSub.official_link} target="_blank" rel="noopener noreferrer" className="master-button-canonic">
+                
                                         Anar a la Convocatòria 🏛️
                                     </a>
-                                </div>
-                            )}
+                                </div>}
 
                             <div className="export-section">
                                 <h4>Gestió del Dossier</h4>
                                 <div className="export-grid">
                                     <button className="btn-view-doc master-button-canonic bg-accent-orange text-black font-black" onClick={() => {
-                                        const content = `
+                const content = `
 🏛️ DOSSIER DE SOBIRANIA I TRELLAT: ${selectedSub?.title?.toUpperCase() || 'DOCUMENT SENSE TÍTOL'}
 
 REFERÈNCIA: [BATEGAT-MASTER-v14.1]
-DATA D'AUTO-CUSTÒDIA: ${new Date().toLocaleDateString('ca-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+DATA D'AUTO-CUSTÒDIA: ${new Date().toLocaleDateString('ca-ES', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
 PILAR DE DESENVOLUPAMENT: ${selectedSub?.sector || 'GENERAL'}
 
 I. EL PERQUÈ D'AQUESTA OPORTUNITAT (PEDAGOGIA DEL MAS)
@@ -302,13 +279,13 @@ VII. NOTES DE SEGURETAT I CUSTÒDIA
 Aquesta relíquia informativa està segellada sota el Protocol Rhizome v14. 
 Bategat amb honor pel sistema Sóc de Poble. 🏺⚡️⚖️
 `;
-                                        setViewingDoc({
-                                            id: selectedSub.id,
-                                            title: selectedSub.title,
-                                            sector: selectedSub.sector,
-                                            content: content
-                                        });
-                                    }}>
+                setViewingDoc({
+                  id: selectedSub.id,
+                  title: selectedSub.title,
+                  sector: selectedSub.sector,
+                  content: content
+                });
+              }}>
                                         <FileText size={20} /> VISUALITZAR DOSSIER
                                     </button>
 
@@ -323,22 +300,13 @@ Bategat amb honor pel sistema Sóc de Poble. 🏺⚡️⚖️
                             <button className="done-btn" onClick={() => setAiAdvice(null)}>Entès, Arxiver 🏺</button>
                         </footer>
                     </div>
-                </div>
-            )}
+                </div>}
 
-            {viewingDoc && (
-                <DocumentViewer 
-                    document={viewingDoc} 
-                    onClose={() => setViewingDoc(null)}
-                    onSave={() => {
-                        alert("Relíquia coronada i guardada al teu Perfil Privat! 🏺✨");
-                        setViewingDoc(null);
-                        setAiAdvice(null);
-                    }}
-                />
-            )}
-        </div>
-    );
+            {viewingDoc && <DocumentViewer document={viewingDoc} onClose={() => setViewingDoc(null)} onSave={() => {
+      alert("Relíquia coronada i guardada al teu Perfil Privat! 🏺✨");
+      setViewingDoc(null);
+      setAiAdvice(null);
+    }} />}
+        </div>;
 };
-
 export default BuscadorAjudes;

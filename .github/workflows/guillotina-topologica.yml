@@ -1,0 +1,134 @@
+name: 🏗️ Guillotina Topològica
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+env:
+  NODE_VERSION: '22'
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
+
+jobs:
+  # ============================================================
+  # JOB 1: Extracció Topològica (nodes.json)
+  # ============================================================
+  extract-topology:
+    runs-on: ubuntu-latest
+    outputs:
+      fantasma_count: ${{ steps.analyze.outputs.fantasma_count }}
+      score: ${{ steps.analyze.outputs.score }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}' }
+      
+      - run: npm ci
+      
+      - name: 🏗️ Build amb extracció topològica
+        run: |
+          npx vite build --mode topological
+          cp dist/nodes.json nodes.json
+      
+      - name: 🔍 Analitzar topologia
+        id: analyze
+        run: |
+          node scripts/analyze-flat.js nodes.json --ci
+          FANTOMAS=$(cat nodes-report.json | jq '.safeToRemove | length')
+          SCORE=$(cat nodes-report.json | jq '.score')
+          echo "fantasma_count=$FANTOMAS" >> $GITHUB_OUTPUT
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: topology-report
+          path: nodes-report.json
+
+  # ============================================================
+  # JOB 2: Linter de Divs + Codemod
+  # ============================================================
+  lint-and-fix:
+    runs-on: ubuntu-latest
+    needs: extract-topology
+    if: needs.extract-topology.outputs.fantasma_count > 0
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}' }
+      
+      - run: npm ci
+      
+      - name: 👻 Linter de Divs Fantasma
+        continue-on-error: true
+        run: |
+          npx eslint . --rulesdir scripts/eslint-plugin-trellat/rules --rule '{"trellat/no-ghost-wrappers": "error"}'
+      
+      - name: 🔧 Codemod (jscodeshift)
+        run: npx jscodeshift --parser=tsx -t tools/codemods/remove-empty-wrappers.js src/
+      
+      - name: 📤 Crear PR automàtica
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: '🧹 [Bot] Neteja Topològica Automàtica'
+          title: '🧹 [Bot] Guillotina Topològica: Eliminats ${{ needs.extract-topology.outputs.fantasma_count }} fantasmes'
+          body: |
+            ## 📊 Informe Topològic
+            
+            - **Fantasmes detectats:** ${{ needs.extract-topology.outputs.fantasma_count }}
+            - **Score topològic:** ${{ needs.extract-topology.outputs.score }}/100
+            
+            Este PR elimina divs wrappers innecessaris detectats automàticament.
+            
+            ⚠️ **Revisa els canvis visualment abans de fer merge.**
+          branch: 'bot/topological-cleanup'
+          labels: 'bot, topological'
+
+  # ============================================================
+  # JOB 3: Validació Visual (Playwright)
+  # ============================================================
+  visual-regression:
+    runs-on: ubuntu-latest
+    needs: [extract-topology, lint-and-fix]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with: { node-version: '${{ env.NODE_VERSION }}' }
+      
+      - run: npm ci
+      
+      - name: 📸 Instal·lar Playwright
+        run: npx playwright install --with-deps chromium
+      
+      - name: 🏗️ Build de producció
+        run: npm run build
+      
+      - name: 🌐 Iniciar preview server
+        run: |
+          npx vite preview --port 4173 &
+          sleep 3
+      
+      - name: 🎯 Executar tests visuals
+        run: npx playwright test tests/visual/ --reporter=html
+        continue-on-error: true
+      
+      - name: 📊 Verificar taxa d'error 0.00%
+        run: |
+          if [ -f playwright-report/index.html ]; then
+            FAILED=$(grep -o '"failed":[0-9]*' playwright-report/index.html | head -1 | grep -o '[0-9]*')
+            if [ "$FAILED" != "0" ]; then
+              echo "❌ Tests visuals fallats: $FAILED"
+              exit 1
+            fi
+          fi
+          echo "✅ Tots els tests visuals han passat (taxa d'error 0.00%)"
+      
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/

@@ -1,8 +1,6 @@
 import './Skeletons.css';
-
 const MarketSkeleton = () => {
-    return (
-        <div className="universal-card skeleton-card market-item">
+  return <div className="universal-card skeleton-card market-item">
             <div className="card-header skeleton-header-wrapper">
                 <div className="skeleton-avatar" />
                 <div className="skeleton-meta">
@@ -18,8 +16,6 @@ const MarketSkeleton = () => {
             <div className="card-footer skeleton-footer-wrapper">
                 <div className="skeleton-button-full" />
             </div>
-        </div>
-    );
+        </div>;
 };
-
 export default MarketSkeleton;

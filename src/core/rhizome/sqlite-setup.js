@@ -1,12 +1,10 @@
 // Configuració preprocessada abans de carregar SQLite
 // Resol l'error OPFS "Failed to construct 'URL': Invalid URL" en entorns Vite amb inline workers
-((scope) => {
+(scope => {
   // Els Blob Workers mantenen l'origin de la pàgina pare, però en alguns navegadors pot ser "null"
   let origin = scope.location.origin;
   if (!origin || origin === "null") {
-    const match = scope.location.href.match(
-      new RegExp("^blob:(https?://[^/]+)"),
-    );
+    const match = scope.location.href.match(new RegExp("^blob:(https?://[^/]+)"));
     if (match) {
       origin = match[1];
     } else {
@@ -18,14 +16,9 @@
   scope.sqlite3ApiConfig = {
     scriptInfo: {
       // Assegurem que sempre acaba en `/` i és una URL absoluta vàlida
-      sqlite3Dir: origin + "/assets/",
-    },
+      sqlite3Dir: origin + "/assets/"
+    }
   };
-
-  console.log(
-    `🔥 [WORKER SETUP] sqlite3ApiConfig injectat. sqlite3Dir: ${scope.sqlite3ApiConfig.scriptInfo.sqlite3Dir}`,
-  );
-
   // Interceptor de seguretat per URL (com a fallback si el sqlite engine la intenta parsejar sense base)
   const OriginalURL = scope.URL;
   scope.URL = function (url, base) {

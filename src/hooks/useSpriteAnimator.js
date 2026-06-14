@@ -15,14 +15,21 @@ import { useRef, useCallback } from "react";
 export default function useSpriteAnimator(targetRef, sequences = {}, opts = {}) {
   const runningRef = useRef(new Set());
   const timersRef = useRef([]);
-  const defaultOpts = { autoReset: true, debug: false };
-  const { autoReset, debug } = { ...defaultOpts, ...opts };
-
+  const defaultOpts = {
+    autoReset: true,
+    debug: false
+  };
+  const {
+    autoReset,
+    debug
+  } = {
+    ...defaultOpts,
+    ...opts
+  };
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(t => clearTimeout(t));
     timersRef.current = [];
   }, []);
-
   const runStepOnNode = useCallback((node, cls, duration) => {
     if (!node) return;
     node.classList.add(cls);
@@ -36,23 +43,24 @@ export default function useSpriteAnimator(targetRef, sequences = {}, opts = {}) 
       timersRef.current.push(t);
     }
   }, []);
-
   const runStep = useCallback((root, step) => {
     if (!root) return;
-    const { selector, className, duration = 800 } = step;
+    const {
+      selector,
+      className,
+      duration = 800
+    } = step;
     const nodes = root.querySelectorAll(selector);
     nodes.forEach(n => runStepOnNode(n, className, duration));
-    if (debug) console.debug('runStep', selector, className, nodes.length);
+    if (debug) {}
   }, [runStepOnNode, debug]);
-
   const schedule = useCallback((root, step, baseDelay = 0) => {
     const delay = step.delay || 0;
     const t = setTimeout(() => runStep(root, step), baseDelay + delay);
     timersRef.current.push(t);
     return t;
   }, [runStep]);
-
-  const trigger = useCallback((name) => {
+  const trigger = useCallback(name => {
     if (!targetRef.current) return;
     const seq = sequences[name];
     if (!seq) return;
@@ -92,7 +100,11 @@ export default function useSpriteAnimator(targetRef, sequences = {}, opts = {}) 
   const runMacro = useCallback((macroSteps = []) => {
     clearTimers();
     macroSteps.forEach(block => {
-      const { root, steps = [], offset = 0 } = block;
+      const {
+        root,
+        steps = [],
+        offset = 0
+      } = block;
       steps.forEach(step => {
         const t = setTimeout(() => {
           if (root) runStep(root, step);
@@ -111,7 +123,6 @@ export default function useSpriteAnimator(targetRef, sequences = {}, opts = {}) 
       }
     });
   }, [clearTimers, runStep, autoReset]);
-
   const stopAll = useCallback(() => {
     clearTimers();
     if (targetRef.current) {
@@ -122,6 +133,11 @@ export default function useSpriteAnimator(targetRef, sequences = {}, opts = {}) 
     }
     runningRef.current.clear();
   }, [clearTimers, sequences, targetRef]);
-
-  return { trigger, triggerOnRoot, runMacro, stopAll, clearTimers };
+  return {
+    trigger,
+    triggerOnRoot,
+    runMacro,
+    stopAll,
+    clearTimers
+  };
 }

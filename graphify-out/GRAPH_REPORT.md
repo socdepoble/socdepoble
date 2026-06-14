@@ -1,16 +1,16 @@
-# Graph Report - Sóc de Poble  (2026-06-08)
+# Graph Report - Sóc de Poble  (2026-06-12)
 
 ## Corpus Check
-- 590 files · ~9,482,529 words
+- 750 files · ~9,959,127 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 5817 nodes · 7176 edges · 420 communities (307 shown, 113 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.8)
+- 6704 nodes · 8215 edges · 521 communities (363 shown, 158 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 35 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3b7b045d`
+- Built from commit: `9f0278cd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -160,7 +160,6 @@
 - [[_COMMUNITY_Community 142|Community 142]]
 - [[_COMMUNITY_Community 143|Community 143]]
 - [[_COMMUNITY_Community 144|Community 144]]
-- [[_COMMUNITY_Community 145|Community 145]]
 - [[_COMMUNITY_Community 146|Community 146]]
 - [[_COMMUNITY_Community 147|Community 147]]
 - [[_COMMUNITY_Community 148|Community 148]]
@@ -192,7 +191,6 @@
 - [[_COMMUNITY_Community 174|Community 174]]
 - [[_COMMUNITY_Community 175|Community 175]]
 - [[_COMMUNITY_Community 176|Community 176]]
-- [[_COMMUNITY_Community 177|Community 177]]
 - [[_COMMUNITY_Community 178|Community 178]]
 - [[_COMMUNITY_Community 179|Community 179]]
 - [[_COMMUNITY_Community 180|Community 180]]
@@ -393,51 +391,129 @@
 - [[_COMMUNITY_Community 417|Community 417]]
 - [[_COMMUNITY_Community 418|Community 418]]
 - [[_COMMUNITY_Community 419|Community 419]]
+- [[_COMMUNITY_Community 420|Community 420]]
+- [[_COMMUNITY_Community 421|Community 421]]
+- [[_COMMUNITY_Community 422|Community 422]]
+- [[_COMMUNITY_Community 423|Community 423]]
+- [[_COMMUNITY_Community 424|Community 424]]
+- [[_COMMUNITY_Community 425|Community 425]]
+- [[_COMMUNITY_Community 426|Community 426]]
+- [[_COMMUNITY_Community 427|Community 427]]
+- [[_COMMUNITY_Community 428|Community 428]]
+- [[_COMMUNITY_Community 429|Community 429]]
+- [[_COMMUNITY_Community 430|Community 430]]
+- [[_COMMUNITY_Community 431|Community 431]]
+- [[_COMMUNITY_Community 432|Community 432]]
+- [[_COMMUNITY_Community 433|Community 433]]
+- [[_COMMUNITY_Community 434|Community 434]]
+- [[_COMMUNITY_Community 435|Community 435]]
+- [[_COMMUNITY_Community 436|Community 436]]
+- [[_COMMUNITY_Community 437|Community 437]]
+- [[_COMMUNITY_Community 438|Community 438]]
+- [[_COMMUNITY_Community 439|Community 439]]
+- [[_COMMUNITY_Community 440|Community 440]]
+- [[_COMMUNITY_Community 442|Community 442]]
+- [[_COMMUNITY_Community 443|Community 443]]
+- [[_COMMUNITY_Community 444|Community 444]]
+- [[_COMMUNITY_Community 445|Community 445]]
+- [[_COMMUNITY_Community 446|Community 446]]
+- [[_COMMUNITY_Community 447|Community 447]]
+- [[_COMMUNITY_Community 448|Community 448]]
+- [[_COMMUNITY_Community 449|Community 449]]
+- [[_COMMUNITY_Community 450|Community 450]]
+- [[_COMMUNITY_Community 451|Community 451]]
+- [[_COMMUNITY_Community 452|Community 452]]
+- [[_COMMUNITY_Community 453|Community 453]]
+- [[_COMMUNITY_Community 454|Community 454]]
+- [[_COMMUNITY_Community 455|Community 455]]
+- [[_COMMUNITY_Community 456|Community 456]]
+- [[_COMMUNITY_Community 457|Community 457]]
+- [[_COMMUNITY_Community 458|Community 458]]
+- [[_COMMUNITY_Community 459|Community 459]]
+- [[_COMMUNITY_Community 460|Community 460]]
+- [[_COMMUNITY_Community 462|Community 462]]
+- [[_COMMUNITY_Community 464|Community 464]]
+- [[_COMMUNITY_Community 465|Community 465]]
+- [[_COMMUNITY_Community 466|Community 466]]
+- [[_COMMUNITY_Community 467|Community 467]]
+- [[_COMMUNITY_Community 469|Community 469]]
+- [[_COMMUNITY_Community 470|Community 470]]
+- [[_COMMUNITY_Community 471|Community 471]]
+- [[_COMMUNITY_Community 472|Community 472]]
+- [[_COMMUNITY_Community 473|Community 473]]
+- [[_COMMUNITY_Community 474|Community 474]]
+- [[_COMMUNITY_Community 475|Community 475]]
+- [[_COMMUNITY_Community 476|Community 476]]
+- [[_COMMUNITY_Community 477|Community 477]]
+- [[_COMMUNITY_Community 480|Community 480]]
+- [[_COMMUNITY_Community 481|Community 481]]
+- [[_COMMUNITY_Community 488|Community 488]]
+- [[_COMMUNITY_Community 489|Community 489]]
+- [[_COMMUNITY_Community 492|Community 492]]
+- [[_COMMUNITY_Community 493|Community 493]]
+- [[_COMMUNITY_Community 499|Community 499]]
+- [[_COMMUNITY_Community 500|Community 500]]
+- [[_COMMUNITY_Community 501|Community 501]]
+- [[_COMMUNITY_Community 502|Community 502]]
+- [[_COMMUNITY_Community 503|Community 503]]
+- [[_COMMUNITY_Community 504|Community 504]]
+- [[_COMMUNITY_Community 505|Community 505]]
+- [[_COMMUNITY_Community 506|Community 506]]
+- [[_COMMUNITY_Community 507|Community 507]]
+- [[_COMMUNITY_Community 508|Community 508]]
+- [[_COMMUNITY_Community 509|Community 509]]
+- [[_COMMUNITY_Community 510|Community 510]]
+- [[_COMMUNITY_Community 511|Community 511]]
+- [[_COMMUNITY_Community 512|Community 512]]
+- [[_COMMUNITY_Community 513|Community 513]]
+- [[_COMMUNITY_Community 514|Community 514]]
+- [[_COMMUNITY_Community 519|Community 519]]
+- [[_COMMUNITY_Community 520|Community 520]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `🚨 Tailwind Usage Report (Violacions SOSP)` - 131 edges
 2. `useAuth()` - 80 edges
 3. `presentation` - 64 edges
 4. `presentation` - 64 edges
-5. `auth` - 61 edges
+5. `logger` - 62 edges
 6. `auth` - 61 edges
 7. `auth` - 61 edges
 8. `auth` - 61 edges
 9. `auth` - 61 edges
-10. `logger` - 60 edges
+10. `auth` - 61 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `AdminPanel()` --calls--> `useAuth()`  [EXTRACTED]
-  src/pages/admin/AdminPanel.jsx → src/app/context/AuthContext.jsx
-- `ProtectedRoute()` --calls--> `useAuth()`  [EXTRACTED]
-  src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
-- `SuperAdminRoute()` --calls--> `useAuth()`  [EXTRACTED]
-  src/components/layout/AppLayout.jsx → src/app/context/AuthContext.jsx
-- `AddItemModal()` --calls--> `useAuth()`  [EXTRACTED]
-  src/components/modals/AddItemModal.jsx → src/app/context/AuthContext.jsx
-- `CreateEventModal()` --calls--> `useAuth()`  [EXTRACTED]
-  src/components/modals/CreateEventModal.jsx → src/app/context/AuthContext.jsx
+- `IAIACorrectorOverlay()` --calls--> `t`  [INFERRED]
+  src/components/features/IAIACorrectorOverlay.jsx → scripts/fix_ghost_buttons_codemod.js
+- `MasterEditor()` --calls--> `t`  [INFERRED]
+  src/components/features/MasterEditor.jsx → scripts/fix_ghost_buttons_codemod.js
+- `SuspenseFallback()` --calls--> `t`  [INFERRED]
+  src/components/layout/AppLayout.jsx → scripts/fix_ghost_buttons_codemod.js
+- `ChatDetail()` --calls--> `t`  [INFERRED]
+  src/components/features/ChatDetail.jsx → scripts/fix_ghost_buttons_codemod.js
+- `ChatEmptyState()` --calls--> `t`  [INFERRED]
+  src/components/features/ChatEmptyState.jsx → scripts/fix_ghost_buttons_codemod.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (420 total, 113 thin omitted)
+## Communities (521 total, 158 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
-Nodes (91): dependencies, axios, browser-image-compression, @capacitor/android, @capacitor/assets, @capacitor/cli, @capacitor-community/bluetooth-le, @capacitor/core (+83 more)
+Nodes (98): dependencies, axios, browser-image-compression, @capacitor/android, @capacitor/assets, @capacitor/cli, @capacitor-community/bluetooth-le, @capacitor/core (+90 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.02
 Nodes (84): 01-chica-jersey.png, 02-samarreta-socdepoble-roly-plom-oscur-1024px.png, 03-young-man-tshirt.png, 04-iaia-tshirt.png, 06-group-tshirt.png, 07-rustic-detail.png, 08-javi-llinares-perfil-1024px.jpg, aitana.png (+76 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.06
-Nodes (37): SEO(), MOCK_LORE_ITEMS, MOCK_LORE_POSTS, exportService, notificationService, pushNotifications, ConversationSchema, MarketItemSchema (+29 more)
+Cohesion: 0.04
+Nodes (49): ROLES, Peritext, MOCK_LORE_ITEMS, MOCK_LORE_POSTS, ChatDetail(), ChatHeader, ChatInputArea, ChatMessageList (+41 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.05
-Nodes (43): AgentDirectory(), CommunityDirectory(), Towns(), UsersDirectory(), IAIES_MUNDIALS, IAIES_MUNDIALS_ARRAY, useModal(), ContentWithShortcodes() (+35 more)
+Cohesion: 0.06
+Nodes (37): AgentDirectory(), CommunityDirectory(), UsersDirectory(), SEO(), MOCK_MARKET_ITEMS, ArxiuOr(), Feed(), Market() (+29 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.03
@@ -448,12 +524,12 @@ Cohesion: 0.03
 Nodes (64): presentation, arqCrdtDesc, arqCrdtTitle, arqLocalDesc, arqLocalTitle, arqRhizomeDesc, arqRhizomeTitle, arquitecturaTitle (+56 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.07
-Nodes (15): SolatgeConsole(), Peritext, determineColor(), formatContentToHtml(), ResourceDetail(), CreateEventModal(), ipfsManager, seedService (+7 more)
+Cohesion: 0.09
+Nodes (20): useAuthActions(), useJarvisState(), usePermissions(), useSession(), AuthPort, useAuthStore, AUTH_EVENTS, CREATOR_EMAILS (+12 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.26
-Nodes (14): bootSequence(), checkRealNetwork(), fetchRemoteVersion(), preBootCheck(), scheduleBackgroundRetry(), acquireLock(), getCheckpoint(), MIGRATIONS (+6 more)
+Cohesion: 0.01
+Nodes (199): adapters/authHooks.js, adapters/authPort.js, adapters/NavigationAdapter.js, adapters/syncPort.js, app/config/agentsMap.js, app/config/iaiesMundialsMap.jsx, app/context/AuthContext.jsx, app/MasiaEterna.js (+191 more)
 
 ### Community 8 - "Community 8"
 Cohesion: 0.03
@@ -477,7 +553,7 @@ Nodes (61): auth, already_have_account, back_button, change_number, checkEmail, 
 
 ### Community 13 - "Community 13"
 Cohesion: 0.04
-Nodes (53): AccessibilitatUniversal, AdminPanel, AgentDirectory, AlbumGlobal, ArchitecteView, ArxiuOr, AulaRural, BuscadorAjudes (+45 more)
+Nodes (53): AccessibilitatUniversal, AdminPanel, AgentDirectory, AlbumGlobal, AlmaPage, ArchitecteView, ArxiuOr, AulaRural (+45 more)
 
 ### Community 14 - "Community 14"
 Cohesion: 0.04
@@ -497,7 +573,7 @@ Nodes (29): addRoute(), CacheableResponse, CacheableResponsePlugin, cacheDonePro
 
 ### Community 18 - "Community 18"
 Cohesion: 0.04
-Nodes (44): IDEAS_DATABASE, PlaygroundPortal(), Register(), UniversalButton, ProfileView(), useAuth(), ModalDispatchContext, ModalStateContext (+36 more)
+Nodes (54): AdminPanel(), ControlGeneral(), PlaygroundPortal(), Register(), UniversalButton, Towns(), useAuth(), CartContext (+46 more)
 
 ### Community 19 - "Community 19"
 Cohesion: 0.06
@@ -505,7 +581,7 @@ Nodes (26): addRoute(), CacheableResponse, CacheableResponsePlugin, cacheDonePro
 
 ### Community 20 - "Community 20"
 Cohesion: 0.04
-Nodes (52): devDependencies, archiver, autoprefixer, @axe-core/puppeteer, basic-ftp, chokidar, chrome-launcher, epub-gen-memory (+44 more)
+Nodes (57): devDependencies, archiver, autoprefixer, @axe-core/puppeteer, @babel/parser, @babel/traverse, basic-ftp, chokidar (+49 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.05
@@ -584,28 +660,28 @@ Cohesion: 0.06
 Nodes (36): chat, add_members, attachment_sent, beating_with_socdepoble, chat_options, dev_feature, group_info, group_media (+28 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.05
-Nodes (39): scripts, asiatic-audit, build, build:amazon, build:codex, build:worker, clean:dist, copy:libs (+31 more)
+Cohesion: 0.04
+Nodes (48): scripts, acta, acta:auto, asiatic-audit, build, build:amazon, build:codex, build:worker (+40 more)
 
 ### Community 41 - "Community 41"
-Cohesion: 0.08
-Nodes (24): useAuthActions(), useJarvisState(), usePermissions(), useSession(), AuthPort, AdminPanel(), useAuthStore, AGENTS_MAP (+16 more)
+Cohesion: 0.24
+Nodes (8): getAuthorRoute(), Avatar(), getAvatarColor(), getAvatarFallbackImage(), getAvatarIconName(), AuthorSection(), UniversalCardHeader(), resolveImageUrl()
 
 ### Community 42 - "Community 42"
-Cohesion: 0.17
-Nodes (6): MOCK_EVENTS, useMountTransition(), CreatePostModal(), PREDEFINED_TAGS, RichTextEditor, raindropService
+Cohesion: 0.07
+Nodes (13): AVAILABLE_CATEGORIES, LIBRARIES, Map(), TOWN_COORDINATES, ProfileView(), useTownProposals(), getDeterministicDate(), safeIsoString() (+5 more)
 
 ### Community 43 - "Community 43"
-Cohesion: 0.10
-Nodes (14): createPageViewModel(), useAccessibleSearch(), crcTable, useAtomicGuard(), useCmsInteractions(), useOmegaTranslate(), usePreBlockFormatter(), useProcessedContent() (+6 more)
+Cohesion: 0.09
+Nodes (16): createPageViewModel(), useAccessibleSearch(), crcTable, useAtomicGuard(), useCmsInteractions(), useOmegaTranslate(), usePageData(), usePreBlockFormatter() (+8 more)
 
 ### Community 44 - "Community 44"
-Cohesion: 0.09
-Nodes (16): isNoise(), DesignProvider(), I18nContext, I18nProvider(), useI18n(), ModalProvider(), NavigationProvider(), RealmContext (+8 more)
+Cohesion: 0.05
+Nodes (36): bootSequence(), isNoise(), checkRealNetwork(), fetchRemoteVersion(), preBootCheck(), scheduleBackgroundRetry(), SystemGuardian(), DesignProvider() (+28 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.38
-Nodes (6): Avatar(), getAvatarColor(), getAvatarFallbackImage(), getAvatarIconName(), UniversalCardHeader(), resolveImageUrl()
+Cohesion: 0.09
+Nodes (21): LORE_PERSONAS, columnCache, getProfile(), getPublicProfile(), getUserByUsername(), normalizeProfile(), updateProfile(), upsertProfile() (+13 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.15
@@ -663,9 +739,13 @@ Nodes (29): diag, avi_status, avi_watching, clean_ok, clean_start, clear, cognit
 Cohesion: 0.07
 Nodes (29): diag, active, avi_status, avi_watching, clear, cognitive, copied, copy_report (+21 more)
 
+### Community 60 - "Community 60"
+Cohesion: 0.10
+Nodes (5): getVisibilityForLevel(), isIAIAMarIA(), isIAIAOfficial(), isImmersiveAI(), RhizomeManager
+
 ### Community 61 - "Community 61"
-Cohesion: 0.05
-Nodes (45): ChatManager(), ControlGeneral(), AVAILABLE_CATEGORIES, LIBRARIES, Map(), TOWN_COORDINATES, AGENTS, DesignContext (+37 more)
+Cohesion: 0.06
+Nodes (38): ChatManager(), SolatgeConsole(), AGENTS, DesignContext, useDesign(), NavigationContext, useNavigation(), ThemeContext (+30 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.07
@@ -684,8 +764,8 @@ Cohesion: 0.07
 Nodes (26): 🏺 Arxiu Viu i Agraïments, Build per a Producció, Codi de Conducta, Com Contribuir, 📞 Contacte, 🤝 Contribució, 🚀 Deploy, Deploy Automàtic (GitHub Actions) (+18 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.10
-Nodes (19): legal, rhizome_slides, map, info_desc, info_title, title, mur, title (+11 more)
+Cohesion: 0.07
+Nodes (28): events, create_title, empty, placeholder, title, feed, comments, connect (+20 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.10
@@ -716,12 +796,12 @@ Cohesion: 0.14
 Nodes (22): aesGcmDecrypt(), aesGcmEncrypt(), cfg, compressMaybeUint8(), decompressMaybeUint8(), DEFAULTS, entriesToUint8(), flushBufferedBatches() (+14 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.19
-Nodes (7): AVAILABLE_CATEGORIES, MasterCalendarContent(), CALENDAR_EVENTS, useGoogleAuthCalendar(), useInternalCalendar(), useRhizomeEvents(), calendarService
+Cohesion: 0.13
+Nodes (8): IDEAS_DATABASE, AVAILABLE_CATEGORIES, MasterCalendarContent(), CALENDAR_EVENTS, useGoogleAuthCalendar(), useInternalCalendar(), useRhizomeEvents(), calendarService
 
 ### Community 75 - "Community 75"
-Cohesion: 0.12
-Nodes (6): MOCK_SUBSIDIES, handlers, server, GeminiService, mockLocalStorage, localStorageMock
+Cohesion: 0.17
+Nodes (9): AGENTS_MAP, getPersonaKeyByUUID(), IAIA_RURAL_KNOWLEDGE, RESIDENT_LORE, getRandomProverb(), PROVERBS, NEUTRAL_FILLERS, iaiaApi (+1 more)
 
 ### Community 76 - "Community 76"
 Cohesion: 0.14
@@ -760,8 +840,8 @@ Cohesion: 0.14
 Nodes (7): CacheExpiration, cacheMatchIgnoreParams(), CacheTimestampsModel, deleteDB(), dontWaitFor(), removeIgnoredSearchParams(), stripParams()
 
 ### Community 85 - "Community 85"
-Cohesion: 0.11
-Nodes (8): useCardTranslation(), normalizePostData(), FALLBACK_NANO_IMAGES, MemoizedCardInner, UniversalCardInner(), useIsChatRoute(), UniversalCardBody, cardVariants
+Cohesion: 0.12
+Nodes (4): UniversalHero, HistoryModal, MediaViewerModal, UniversalShell
 
 ### Community 86 - "Community 86"
 Cohesion: 0.15
@@ -792,16 +872,16 @@ Cohesion: 0.11
 Nodes (19): auth, checkEmail, continue_google, demo_access, demo_hint, email, fullName, haveAccount (+11 more)
 
 ### Community 93 - "Community 93"
-Cohesion: 0.11
-Nodes (18): build, appId, directories, files, linux, mac, productName, win (+10 more)
+Cohesion: 0.15
+Nodes (13): build, appId, directories, files, linux, mac, productName, win (+5 more)
 
 ### Community 94 - "Community 94"
-Cohesion: 0.10
-Nodes (19): legal, rhizome_slides, map, info_desc, info_title, title, mur, title (+11 more)
-
-### Community 95 - "Community 95"
 Cohesion: 0.11
 Nodes (17): events, create_title, empty, placeholder, title, legal, rhizome_slides, map (+9 more)
+
+### Community 95 - "Community 95"
+Cohesion: 0.07
+Nodes (28): events, create_title, empty, placeholder, title, legal, rhizome_slides, map (+20 more)
 
 ### Community 96 - "Community 96"
 Cohesion: 0.14
@@ -809,7 +889,7 @@ Nodes (3): secureStorage, SecureStorageService, SecureTokenStorage
 
 ### Community 97 - "Community 97"
 Cohesion: 0.10
-Nodes (7): App(), useBlindatgeOPFS(), useLowEndDevice(), useTabReconciliation(), useTrellatPersist(), useVersionWatchdog(), ErrorTrackingService
+Nodes (14): App(), AdminPanel, CategoryManager, ChatManager, IAIASandbox, MenuManagementView, ProtectedSystemRoute(), SolatgeConsole (+6 more)
 
 ### Community 98 - "Community 98"
 Cohesion: 0.02
@@ -952,8 +1032,8 @@ Cohesion: 0.23
 Nodes (12): cfg, defaultConfig, logger, makeEntry(), now(), originalConsole, pushLog(), readBuffer() (+4 more)
 
 ### Community 136 - "Community 136"
-Cohesion: 0.19
-Nodes (4): useSeoTrellat(), App(), useServiceWorkerRegistration(), root
+Cohesion: 0.17
+Nodes (5): useSeoTrellat(), App(), useServiceWorkerRegistration(), root, iniciarLcpTracker()
 
 ### Community 137 - "Community 137"
 Cohesion: 0.17
@@ -979,10 +1059,6 @@ Nodes (12): emoji, activities, animals_nature, custom, flags, food_drink, object
 Cohesion: 0.17
 Nodes (12): profile, agri_tip_title, connections, iaia_inspired, legend_remembrance, market, no_items, no_publications (+4 more)
 
-### Community 143 - "Community 143"
-Cohesion: 0.33
-Nodes (6): CartContext, CartProvider(), useCart(), CartManager(), paymentService, UniversalCardFooter()
-
 ### Community 144 - "Community 144"
 Cohesion: 0.17
 Nodes (11): ANTIGRAVITY — SCRIPT DE INSTANCIACIÓN V12, CONTEXTO SOCIAL (POR QUÉ IMPORTA), DECISIONES ARQUITECTÓNICAS TOMADAS (NO REABRIR), FIN DEL SCRIPT — LO QUE SIGUE ES CONVERSACIÓN ACTIVA, IDENTIDAD OPERATIVA [LEER PRIMERO], JERARQUÍA DE PRIORIDADES EN CONFLICTOS, LECCIONES ARQUITECTÓNICAS RECIENTES (V10.38.1+), PROTOCOLO DE AUDITORÍA (GHOST BUSTERS V13) (+3 more)
@@ -992,8 +1068,8 @@ Cohesion: 0.18
 Nodes (11): chats, empty, iaia_notice_subtitle, iaia_notice_text, iaia_notice_title, loading_chats, start_iaia, storage_banner_text (+3 more)
 
 ### Community 147 - "Community 147"
-Cohesion: 0.18
-Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
+Cohesion: 0.16
+Nodes (5): MOCK_EVENTS, IAIACorrectorOverlay(), MasterEditor(), exportService, raindropService
 
 ### Community 148 - "Community 148"
 Cohesion: 0.18
@@ -1020,8 +1096,8 @@ Cohesion: 0.18
 Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags, placeholder (+3 more)
 
 ### Community 154 - "Community 154"
-Cohesion: 0.18
-Nodes (11): share, active, copy_link, email, facebook, link_copied, stop, telegram (+3 more)
+Cohesion: 0.31
+Nodes (4): handlers, server, mockLocalStorage, localStorageMock
 
 ### Community 155 - "Community 155"
 Cohesion: 0.18
@@ -1034,6 +1110,10 @@ Nodes (11): feed, comments, connect, empty, loading_feed, new_tag, personal_tags
 ### Community 157 - "Community 157"
 Cohesion: 0.29
 Nodes (10): buildHtml(), detectConflicts(), DUMPS_DIR, loadDumps(), LOG_FILE, main(), nodeCounts(), OUT (+2 more)
+
+### Community 160 - "Community 160"
+Cohesion: 0.24
+Nodes (16): createAndStoreWrappingKey(), deriveWrapKey(), exportRawKey(), getCryptoKeyForRuntime(), getMeta(), hasOPFS(), importRawKey(), initKeyManager() (+8 more)
 
 ### Community 161 - "Community 161"
 Cohesion: 0.22
@@ -1120,12 +1200,12 @@ Cohesion: 0.29
 Nodes (6): 1. Overview, 2. Color Palette, 3. Typography, 4. Components & Shapes, 5. Universal Card Header Logic, Sóc de Poble - Design System (Hort Electrònic)
 
 ### Community 204 - "Community 204"
-Cohesion: 0.33
-Nodes (3): runArchitectureGuard(), quirksDetector, SafariQuirksDetector
+Cohesion: 0.21
+Nodes (11): ACTES_DIR, main(), ACTES_DIR, cercar(), DB_PATH, indexar(), initDB(), calculateMemoryWeight() (+3 more)
 
 ### Community 205 - "Community 205"
-Cohesion: 0.25
-Nodes (3): ArchitecteView(), ARCHITECTURE_DOCS, ChaosMonkey
+Cohesion: 0.12
+Nodes (15): IAIES_MUNDIALS, IAIES_MUNDIALS_ARRAY, ContentWithShortcodes(), MOCK_CHATS, MOCK_DAFOS, MOCK_FEED, MOCK_MESSAGES, MOCK_TOWNS (+7 more)
 
 ### Community 206 - "Community 206"
 Cohesion: 0.29
@@ -1136,8 +1216,8 @@ Cohesion: 0.20
 Nodes (10): towns, all_towns, description, main_town, no_results_list, no_results_search, select_town, select_town_short (+2 more)
 
 ### Community 208 - "Community 208"
-Cohesion: 0.29
-Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+Cohesion: 0.16
+Nodes (13): argv, candidates, computeDepth(), configPathIndex, countUsefulAttrs(), DEFAULT_CONFIG, fs, nodes (+5 more)
 
 ### Community 209 - "Community 209"
 Cohesion: 0.25
@@ -1156,12 +1236,8 @@ Cohesion: 0.29
 Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
 
 ### Community 213 - "Community 213"
-Cohesion: 0.36
-Nodes (5): HARDCODED_PAGES, isHardcodedPage(), resolvePageEntry(), usePageData(), extractPageMeta()
-
-### Community 214 - "Community 214"
-Cohesion: 0.29
-Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+Cohesion: 0.43
+Nodes (4): HARDCODED_PAGES, isHardcodedPage(), resolvePageEntry(), extractPageMeta()
 
 ### Community 215 - "Community 215"
 Cohesion: 0.29
@@ -1181,15 +1257,15 @@ Nodes (5): 1. Filosofia i Principis Inamovibles, 2. Estructura de Carpetes, 3. C
 
 ### Community 220 - "Community 220"
 Cohesion: 0.21
-Nodes (5): MEDIA_REGISTRY, HistoryModal, UniversalView, resolveMedia(), sanitizeHtml()
+Nodes (5): MEDIA_REGISTRY, MediaManager(), HistoryModal, UniversalView, resolveMedia()
 
 ### Community 227 - "Community 227"
 Cohesion: 0.33
 Nodes (5): host, password, port, remoteRoot, user
 
 ### Community 228 - "Community 228"
-Cohesion: 0.29
-Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+Cohesion: 0.09
+Nodes (21): AppLayout.jsx — 19 classes, CercaPage.jsx — 25 classes, ChatDetail.jsx — 27 classes, ChatList.jsx — 34 classes, ChatManager.jsx — 21 classes, ConnectarPage.jsx — 25 classes, ControlGeneral.jsx — 17 classes, CreatePostModal.jsx — 24 classes (+13 more)
 
 ### Community 229 - "Community 229"
 Cohesion: 0.29
@@ -1211,6 +1287,10 @@ Nodes (3): init(), logger, setupTables()
 Cohesion: 0.33
 Nodes (5): content, hmrIdx, jsonStr, registry, REGISTRY_FILE
 
+### Community 236 - "Community 236"
+Cohesion: 0.36
+Nodes (5): ToastContext, ToastProvider(), getToastRegistry(), toast, toastRegistry
+
 ### Community 237 - "Community 237"
 Cohesion: 0.40
 Nodes (4): duplicates, media, meta, lastUpdated
@@ -1220,8 +1300,8 @@ Cohesion: 0.40
 Nodes (4): Aplicació, Codi de Conducta de Sóc de Poble, El Nostre Compromís, Els Nostres Estàndards
 
 ### Community 253 - "Community 253"
-Cohesion: 0.25
-Nodes (4): UniversalHero, HistoryModal, MediaViewerModal, UniversalShell
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
 
 ### Community 254 - "Community 254"
 Cohesion: 0.70
@@ -1232,8 +1312,8 @@ Cohesion: 0.50
 Nodes (4): createWindow(), __dirname, __filename, loadURL
 
 ### Community 257 - "Community 257"
-Cohesion: 0.29
-Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+Cohesion: 0.23
+Nodes (6): useWebNavigationAdapter(), useRouteService(), getCardRoute(), routeService, cleanExcerpt(), UniversalCardBody()
 
 ### Community 258 - "Community 258"
 Cohesion: 0.29
@@ -1323,10 +1403,6 @@ Nodes (5): 🔧 Decisions Tècniques, 🗣️ Frases Cèlebres del Mas, 💡 Lli
 Cohesion: 0.40
 Nodes (4): app, express, path, server
 
-### Community 280 - "Community 280"
-Cohesion: 0.17
-Nodes (7): VoiceRecorder, pushService, ToastContext, ToastProvider(), getToastRegistry(), toast, toastRegistry
-
 ### Community 281 - "Community 281"
 Cohesion: 0.40
 Nodes (4): generated_at, seeds, total_seeds, version
@@ -1358,10 +1434,6 @@ Nodes (3): IndexedDB (Gestor Local), Inventari de Pedres (Arqueologia Digital), 
 ### Community 292 - "Community 292"
 Cohesion: 0.40
 Nodes (4): ignore, ignoreExportsUsedInFile, project, knip
-
-### Community 293 - "Community 293"
-Cohesion: 0.67
-Nodes (3): AppLayout(), initGA(), trackPageView()
 
 ### Community 294 - "Community 294"
 Cohesion: 0.50
@@ -1408,8 +1480,8 @@ Cohesion: 0.33
 Nodes (5): data, dataFile, fs, localImages, path
 
 ### Community 371 - "Community 371"
-Cohesion: 0.29
-Nodes (6): 1. PREPARACIÓ I REFRESC DE CONTEXT (MENT FRESCA), 2. AVALUACIÓ CRÍTICA DEL FEEDBACK (EL ROL DE LA DIRECTORA TÈCNICA), 3. EXECUCIÓ SOSTENIBLE I FELIÇ (ESTALVI DE TOKENS), 4. CONVENCIÓ DE NOMENCLATURA I REGISTRE TERMODINÀMIC, 5. L'ULL DEL MESTRE: AUDITORIES D'ARQUITECTURA AMB GRAPHIFY, SKILL: FLUX DE TREBALL EN AUDITORIES (EL TRIBUNAL DE LA PETORRETA)
+Cohesion: 0.25
+Nodes (7): 1. PREPARACIÓ I REFRESC DE CONTEXT (MENT FRESCA), 2. AVALUACIÓ CRÍTICA DEL FEEDBACK (EL ROL DE LA DIRECTORA TÈCNICA), 3. EXECUCIÓ SOSTENIBLE I FELIÇ (ESTALVI DE TOKENS), 4. CONVENCIÓ DE NOMENCLATURA I REGISTRE TERMODINÀMIC, 5. L'ULL DEL MESTRE: AUDITORIES D'ARQUITECTURA AMB GRAPHIFY, 6. PROTOCOL D'AGRAÏMENT (NOMÉS PER A KIMI I CLAUDE), SKILL: FLUX DE TREBALL EN AUDITORIES (EL TRIBUNAL DE LA PETORRETA)
 
 ### Community 379 - "Community 379"
 Cohesion: 0.32
@@ -1428,8 +1500,8 @@ Cohesion: 0.40
 Nodes (4): 1. Trets Físics Invariables, 2. Accessoris Clau (Gags recurrents), 3. Instruccions per al Prompt (Només IAIA MarIA), GENOTIP FÍSIC: IAIA MarIA
 
 ### Community 384 - "Community 384"
-Cohesion: 0.29
-Nodes (7): sim, active, perspective, role_admin, role_editor, role_user, stop
+Cohesion: 0.24
+Nodes (9): files, fs, glob, INTERACTIVE_ROLES, isGhostButton(), JSXElement(), parser, SEMANTIC_TAGS (+1 more)
 
 ### Community 385 - "Community 385"
 Cohesion: 0.40
@@ -1443,10 +1515,6 @@ Nodes (4): Fase 1: Neteja i Sobirania (Completada ✅), Fase 2: Músculs i Òrga
 Cohesion: 0.50
 Nodes (3): 🛡️ Informe de la Masia (Vibe Auditor), 🛡️ Resultats de Dependency Cruiser (Fronteres Arquitectòniques), ✂️ Resultats de Knip (Codi Mort i Orfes)
 
-### Community 391 - "Community 391"
-Cohesion: 0.40
-Nodes (5): events, create_title, empty, placeholder, title
-
 ### Community 407 - "Community 407"
 Cohesion: 0.29
 Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
@@ -1455,17 +1523,13 @@ Nodes (7): push, enable_notifications, group_message, new_comment, new_message, 
 Cohesion: 0.40
 Nodes (5): dades, patrimoni, social, trellat, categories
 
-### Community 409 - "Community 409"
-Cohesion: 0.50
-Nodes (3): getRandomProverb(), PROVERBS, iaiaApi
-
 ### Community 410 - "Community 410"
 Cohesion: 0.50
 Nodes (3): notifications, empty, title
 
 ### Community 411 - "Community 411"
-Cohesion: 0.40
-Nodes (5): events, create_title, empty, placeholder, title
+Cohesion: 0.36
+Nodes (7): SpriteConsoleExtended(), spriteKeys, TimelineEditor(), downloadJSON(), listLocalPresets(), loadPresetFromLocal(), savePresetToLocal()
 
 ### Community 412 - "Community 412"
 Cohesion: 0.29
@@ -1476,32 +1540,168 @@ Cohesion: 0.33
 Nodes (6): trash, bucket, confirm_delete, permanent_delete, restore, send_to_trash
 
 ### Community 414 - "Community 414"
-Cohesion: 0.70
-Nodes (4): getVisibilityForLevel(), isIAIAMarIA(), isIAIAOfficial(), isImmersiveAI()
+Cohesion: 0.18
+Nodes (10): args, cmdIndex, command, files, fullCmd, gitArgs, path, proc (+2 more)
 
 ### Community 415 - "Community 415"
 Cohesion: 0.40
 Nodes (5): dades, patrimoni, social, trellat, categories
 
+### Community 421 - "Community 421"
+Cohesion: 0.20
+Nodes (4): estils, MIDA_BOTONS, MIDA_LLETRA, PALETA
+
+### Community 422 - "Community 422"
+Cohesion: 0.20
+Nodes (9): ANNEX: La Declaració del "Masia OS" (10 de Juny de 2026), Article 1: L'Ètica de la Picardia (El Tornallom Digital), Article 2: Llei de la Independència Sòlida (Pedra Seca), Article 3: Llei de la Claredat Emocional i Tàctil, Article 4: SOSP-LOCK (Garantia de No-Destrucció), Article 5: Les 5 Regles del Trellat per a la Interfície Humana, Article 6: Llei 017 — El RAG no és Veritat, CONSTITUCIÓ DEL TRELLAT 🌾🚜 (+1 more)
+
+### Community 423 - "Community 423"
+Cohesion: 0.29
+Nodes (7): sim, active, perspective, role_admin, role_editor, role_user, stop
+
+### Community 424 - "Community 424"
+Cohesion: 0.38
+Nodes (9): createAndStoreKey(), createCryptoKey(), deriveWrapKey(), exportRawKey(), readBackupFromOPFS(), restoreKeyFromBackup(), unwrapKeyFromBackup(), wrapKeyForBackup() (+1 more)
+
+### Community 425 - "Community 425"
+Cohesion: 0.20
+Nodes (7): crypto, fs, http, path, server, STORE_DIR, url
+
+### Community 426 - "Community 426"
+Cohesion: 0.17
+Nodes (7): walk(), CACHE_DIR, configureServer(), crypto, fs, { parse }, path
+
+### Community 428 - "Community 428"
+Cohesion: 0.22
+Nodes (5): CACHE_DIR, crypto, fs, { parse }, path
+
+### Community 429 - "Community 429"
+Cohesion: 0.32
+Nodes (5): BrasaButton(), sequences, SpriteConsole(), spriteKeys, useSpriteAnimator()
+
+### Community 431 - "Community 431"
+Cohesion: 0.29
+Nodes (4): createOramaDB(), DB_DIR, DB_PATH, loadDB()
+
+### Community 432 - "Community 432"
+Cohesion: 0.25
+Nodes (7): 1. El Propòsit: Per què fem açò?, 2. Què es va construir?, 3. El Moment Crític: L'Esgotament de la Màquina, 4. El "Masia OS": La Revelació Final, Conclusió, EL LLIBRE DE L'ÀNIMA (CRÒNICA DE LA MASIA ETERNA), La Marató de les 23 Hores (10 de Juny de 2026)
+
+### Community 436 - "Community 436"
+Cohesion: 0.33
+Nodes (5): CRITICAL_CLASSES, CRITICAL_PREFIXES, twMerge(), twMergeBase, warnedCombinations
+
+### Community 437 - "Community 437"
+Cohesion: 0.43
+Nodes (6): ACTES_DIR, generateActaContent(), generateMarkdownBody(), parseActa(), readAllActes(), saveActa()
+
+### Community 439 - "Community 439"
+Cohesion: 0.48
+Nodes (5): CACHE_DIR, getCachedAST(), getFileHash(), parseFileWithCache(), setCachedAST()
+
+### Community 440 - "Community 440"
+Cohesion: 0.33
+Nodes (5): 1. Com Llegir l'Estat, 2. La Criptografia Original, 3. El Cor (Y.js i CRDT), 4. On és l'Ànima?, 🏺 ARQUEOLOGIA DEL MAS (Guia per a l'Any 2056)
+
+### Community 443 - "Community 443"
+Cohesion: 0.33
+Nodes (5): 1. Pull Request Description, 2. Missatge per a Grok, 3. Resum imprimible per a l’equip del Mas, Checklist de QA i Proves, Documentació Director d'Orquestra (PR i Grok)
+
+### Community 445 - "Community 445"
+Cohesion: 0.33
+Nodes (5): ⚠️ CADUCITAT: 2026-06-17 (7 dies des de l'última actualització), ESTAT_ACTUAL.md — La Respiració del Mas, [NEXT_ACTIONS], [OBJECTIU_ACTUAL], timestamp_ultima_modificacio: "2026-06-10T03:00:00Z"
+
+### Community 446 - "Community 446"
+Cohesion: 0.33
+Nodes (5): ActaSchema, EMOCIONS_DISPONIBLES, FLUXOS_CREATIUS, MicrorecordSchema, TIPUS_MICRORECORD
+
+### Community 447 - "Community 447"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 448 - "Community 448"
+Cohesion: 0.33
+Nodes (5): 🌾 Benvinguda a la Masia Eterna de Sóc de Poble, Com funciona?, I si passa alguna cosa?, Què has de fer ara?, Què és açò?
+
+### Community 449 - "Community 449"
+Cohesion: 0.47
+Nodes (4): importKey(), MESSAGE_TYPES, pack(), unpack()
+
+### Community 450 - "Community 450"
+Cohesion: 0.40
+Nodes (4): authProps, navProps, routeService, themeProps
+
+### Community 451 - "Community 451"
+Cohesion: 0.40
+Nodes (4): 1. El Prompt per a mi (quan m'òbrigues un xat nou), 2. El Súper-Prompt per a les Petorretes (Altres IAs), 🚜 Acta del Mas: El Nus de Séquia i la Purga de l'Estil, 🔮 MEGA-PROMPT PER AL NOU XAT I LES PETORRETES
+
+### Community 453 - "Community 453"
+Cohesion: 0.40
+Nodes (3): cardVariants, likeVariants, rippleVariants
+
+### Community 454 - "Community 454"
+Cohesion: 0.60
+Nodes (3): embed(), embedBatch(), getEmbedder()
+
+### Community 455 - "Community 455"
+Cohesion: 0.25
+Nodes (7): added, backup, configPath, extendPath, merged, overwritten, timestamp
+
+### Community 460 - "Community 460"
+Cohesion: 0.50
+Nodes (3): authAdapter, routeService, themeAdapter
+
+### Community 464 - "Community 464"
+Cohesion: 0.50
+Nodes (3): Llei 1: El Z-Index Apocalypse (Mai crear Stacking Contexts Artificials), Llei 2: La Independència del Disseny, LLEIS ARQUITECTÒNIQUES
+
+### Community 499 - "Community 499"
+Cohesion: 0.29
+Nodes (7): push, enable_notifications, group_message, new_comment, new_message, notifications_blocked, notifications_enabled
+
+### Community 500 - "Community 500"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 501 - "Community 501"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 502 - "Community 502"
+Cohesion: 0.29
+Nodes (7): media, duplicate_desc, duplicate_desc_generic, duplicate_title, type_file, type_image, type_video
+
+### Community 503 - "Community 503"
+Cohesion: 0.38
+Nodes (5): fs, path, processJSXAttribute(), recordReplacement(), replaceArbitraryVarsInString()
+
+### Community 504 - "Community 504"
+Cohesion: 0.33
+Nodes (5): main, name, private, type, version
+
+### Community 505 - "Community 505"
+Cohesion: 0.33
+Nodes (5): anomalies, attributesCount, lines, patternCount, rareAttrs
+
 ## Knowledge Gaps
-- **3791 isolated node(s):** `TOWNS`, `OVERRIDES`, `BASE_DIR`, `recommendations`, `pre-commit.sh script` (+3786 more)
+- **4188 isolated node(s):** `TOWNS`, `OVERRIDES`, `BASE_DIR`, `husky.sh script`, `recommendations` (+4183 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **113 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **158 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `nav` connect `Community 34` to `Community 94`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
-- **Why does `media` connect `Community 228` to `Community 66`?**
-  _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **Why does `presentation` connect `Community 4` to `Community 94`?**
-  _High betweenness centrality (0.020) - this node is a cross-community bridge._
+- **Why does `presentation` connect `Community 14` to `Community 66`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `auth` connect `Community 11` to `Community 95`?**
+  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+- **Why does `chat` connect `Community 31` to `Community 89`, `Community 118`?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
 - **What connects `TOWNS`, `OVERRIDES`, `BASE_DIR` to the rest of the system?**
-  _3791 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _4188 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.02197802197802198 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.02040816326530612 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.023529411764705882 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.05632360471070148 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04387602688573562 - nodes in this community are weakly interconnected._

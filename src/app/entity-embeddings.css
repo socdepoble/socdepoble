@@ -1,0 +1,61 @@
+/* 📂 src/app/entity-embeddings.css */
+@layer components {
+  /* BASE: Tacte de la Gent Gran (Targets grans, contrast AAA, sense soroll) */
+  .entity-embedding {
+    @apply flex items-center gap-4 p-4 rounded-2xl border-2 transition-transform duration-200 active:scale-[0.98];
+    touch-action: manipulation; /* Elimina el retard de 300ms en iPad */
+    min-height: 72px; /* Zona de toc segura (>48px) */
+  }
+
+  .entity-embedding:focus-visible {
+    @apply outline-4 outline-offset-2 outline-black;
+  }
+
+  /* GEOMETRIA PURA (Vector Embeddings en CSS/SVG) */
+  .geo-shape {
+    @apply flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg;
+  }
+
+  /* 1. POBLE: Estabilitat (Cercle amb nucli) */
+  .entity-poble {
+    @apply bg-emerald-50 border-emerald-700 hover:bg-emerald-100;
+  }
+  .entity-poble .geo-shape {
+    @apply bg-emerald-700 text-white;
+  }
+
+  /* 2. PERSONA: Proximitat (Forma humana abstracta) */
+  .entity-persona {
+    @apply bg-amber-50 border-amber-700 hover:bg-amber-100;
+  }
+  .entity-persona .geo-shape {
+    @apply bg-amber-700 text-white;
+  }
+
+  /* 3. NEGOCI: Estructura (Rectangle amb sostre) */
+  .entity-negoci {
+    @apply bg-blue-50 border-blue-800 hover:bg-blue-100;
+  }
+  .entity-negoci .geo-shape {
+    @apply bg-blue-800 text-white;
+  }
+
+  /* 4. ASSOCIACIÓ: Connexió (Triangle de suport) */
+  .entity-associacio {
+    @apply bg-purple-50 border-purple-800 hover:bg-purple-100;
+  }
+  .entity-associacio .geo-shape {
+    @apply bg-purple-800 text-white;
+  }
+
+  /* TEXT: Llegibilitat màxima (iPad A10) */
+  .entity-text {
+    @apply flex flex-col justify-center;
+  }
+  .entity-title {
+    @apply text-lg font-bold text-gray-900 leading-tight;
+  }
+  .entity-subtitle {
+    @apply text-base font-medium text-gray-700 leading-snug;
+  }
+}

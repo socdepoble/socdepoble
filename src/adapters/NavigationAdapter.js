@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ROUTE_INTENTS } from '../services/routeService';
-
 export const useWebNavigationAdapter = () => {
   const navigate = useNavigate();
-
   return (intent, payload = {}) => {
     switch (intent) {
       case ROUTE_INTENTS.CONNECT:

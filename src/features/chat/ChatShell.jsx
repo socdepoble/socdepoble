@@ -11,15 +11,15 @@ import UniversalCard from '../../components/ui/universal-card/UniversalCard';
 export default function ChatShell() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-4 acte-reflex">
-      <UniversalCard>
-        <div className="text-center">
-          <h2 className="mb-2 text-[var(--theme-accent-primary)]">Xat (En Construcció)</h2>
-          <p className="text-sm opacity-80">
-            L'arquitectura d'aquesta funcionalitat està completament aïllada del nucli.
-            Cap canvi ací trencarà La Masia.
-          </p>
-        </div>
-      </UniversalCard>
-    </div>
+        <UniversalCard>
+          <div className="text-center">
+            <h2 className='mb-2 text-sdp-theme-accent-primary'>Xat (En Construcció)</h2>
+            <p className="text-sm opacity-80">
+              L'arquitectura d'aquesta funcionalitat està completament aïllada del nucli.
+              Cap canvi ací trencarà La Masia.
+            </p>
+          </div>
+        </UniversalCard>
+      </div>
   );
 }

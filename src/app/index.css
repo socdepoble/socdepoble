@@ -4,37 +4,78 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif, "Noto Color Emoji", "Noto Emoji";
-  --font-mono: "Noto Sans Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace, "Noto Color Emoji", "Noto Emoji";
-  --font-serif: "Noto Serif", serif, "Noto Color Emoji", "Noto Emoji";
+/* ═══════════════════════════════════════════════════════════════════════════
+   SÒC DE POBLE – Trellat Design System v3.1 (Pedra Seca)
+   Tailwind v4 + Zero Thrashing + Full Accessibility + OLED Brutalism
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-  --color-primary: var(--sdp-orange);
-  --color-secondary: var(--sdp-blue);
-  --color-theme-base: var(--bg-app);
+/* ── TOKENS (Tailwind v4 @theme) ─────────────────────────────────────────── */
+@theme {
+  --color-orange-100: #FF7300;
+  --color-orange-200: #CC5C00;
+  --color-blue-100:   #0984E3;
+  --color-blue-200:   #0667B3;
+  --color-green-100:  #00B894;
+  --color-red-100:    #D63031;
+
+  --color-neutral-0:   #FFFFFF;
+  --color-neutral-50:  #FAFAF7;
+  --color-neutral-100: #F5F5F0;
+  --color-neutral-200: #E8E8E0;
+  --color-neutral-400: #BDBDAD;
+  --color-neutral-500: #8C8C80;
+  --color-neutral-700: #4A4A40;
+  --color-neutral-800: #292920;
+  --color-neutral-900: #1A1A14;
+
+  --spacing-1:  4px;
+  --spacing-2:  8px;
+  --spacing-3:  12px;
+  --spacing-4:  16px;
+  --spacing-5:  20px;
+  --spacing-6:  24px;
+  --spacing-8:  32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+
+  --radius-xs:   4px;
+  --radius-sm:   8px;
+  --radius-md:   16px;
+  --radius-lg:   20px;
+  --radius-main: 28px;
+  --radius-full: 9999px;
+
+  --font-family-sans: 'Noto Sans', system-ui, sans-serif;
+  --font-family-mono: 'Noto Sans Mono', monospace;
+
+  --text-xs:   clamp(11px, 1.4vw, 12px);
+  --text-sm:   clamp(13px, 1.8vw, 14px);
+  --text-base: clamp(15px, 2.2vw, 16px);
+  --text-lg:   clamp(17px, 2.8vw, 20px);
+  --text-xl:   clamp(20px, 3.5vw, 24px);
+  --text-2xl:  clamp(24px, 4.5vw, 32px);
+  --text-3xl:  clamp(30px, 6vw,   40px);
+
+  --transition-fast:   120ms ease-out;
+  --transition-normal: 240ms ease-out;
+  --transition-slow:   360ms ease-out;
+
+  /* Legacy Mappings for React Components that still use them */
+  --color-primary: var(--color-orange-100);
+  --color-secondary: var(--color-blue-100);
+  --color-theme-base: var(--bg-main);
   --color-theme-sidebar: var(--bg-sidebar);
   --color-theme-panel: var(--bg-panel);
   --color-theme-text: var(--text-main);
   --color-border-master: var(--border-master);
 
-  --radius-genesis: 28px;
-  --radius-tactile: 16px;
-  --radius-pill: 100px;
+  --radius-genesis: var(--radius-main);
+  --radius-tactile: var(--radius-md);
+  --radius-pill: var(--radius-full);
 
   --spacing-header: 56px;
   --spacing-sidebar: 280px;
   --spacing-unit: 1.5rem;
-
-  /* CMS TYPOGRAPHY TOKENS (Vertical Rhythm & Legibility) */
-  /* Optims per lectura llegó de llibre: Line Height base 1.6 */
-  --cms-lh-base: 1.6;
-  --cms-lh-heading: 1.25;
-  --cms-gap-paragraph: 1.25rem;         /* Space AFTER paragraph (25px) */
-  --cms-gap-h2-top: 1.6rem;            /* Space BEFORE H2 (32px) */
-  --cms-gap-h2-bottom: 0.8rem;         /* Space AFTER H2 */
-  --cms-gap-h3-top: 1.2rem;              /* Space BEFORE H3 (24px) */
-  --cms-gap-h3-bottom: 0.5rem;         /* Space AFTER H3 */
-  --cms-gap-subtitle-h3: 80px;         /* Specific spacing between Subtitle (H2) and next element as requested */
 
   --z-base: 1;
   --z-nav: 50;
@@ -45,23 +86,48 @@
   --z-modal: 500;
   --z-toast: 600;
   --z-max: 999;
-
-  --glass-bg: rgba(28, 28, 30, 0.95);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Unified soft shadow */
 }
 
+/* ── BASE + RESET (Zero Thrashing) ─────────────────────────────────────── */
 @layer base {
-  * { margin: 0; padding: 0; box-sizing: border-box; font-style: normal; }
-  html { scroll-behavior: smooth; }
-  body { -webkit-font-smoothing: antialiased; }
+  *, *::before, *::after { box-sizing: border-box; }
 
-  blockquote, q, cite, dfn, var {
-    font-family: inherit;
+  html {
+    font-family: var(--font-family-sans);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    color: var(--color-neutral-100);
+    background-color: var(--color-neutral-900);
+    height: 100%;
+    min-height: calc(var(--sp-vh, 1vh) * 100);
+    scroll-behavior: smooth;
   }
 
-  code, pre, kbd {
-    font-family: var(--font-mono);
+  body {
+    min-height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button, [role="button"] {
+    appearance: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: var(--sp-touch-min, 44px);
+    min-width: var(--sp-touch-min, 44px);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-orange-100);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
   }
 
   /* BASE DEL SISTEMA: Fix para asegurar que los iconos vectoriales escalen en producción */
@@ -72,39 +138,107 @@
   }
 
   :root {
-    --bg-main: #0e0e10;
+    --bg-main: var(--color-neutral-900);
     --bg-app: var(--bg-main);
-    --bg-panel: #141417;
-    --bg-sidebar: #0e0e10;
-    --text-main: #f3f4f6; /* Tailwind gray-100 */
-    --text-muted: #a1a1aa; /* Tailwind zinc-400 (WCAG AA+) */
+    --bg-panel: var(--color-neutral-700);
+    --bg-sidebar: var(--color-neutral-900);
+    --text-main: var(--color-neutral-100);
+    --text-muted: var(--color-neutral-400);
     --border-master: rgba(255, 255, 255, 0.08);
 
-    /* Tech-Huerta GEM Modern Palette (4 Colors) */
-    --sdp-orange: #f97316;
-    --sdp-blue: #0984E3;
+    --sdp-orange: var(--color-orange-100);
+    --sdp-blue: var(--color-blue-100);
     --theme-accent-primary: var(--sdp-orange);
     --theme-accent-secondary: var(--sdp-blue);
     --theme-iaia-brand: var(--sdp-blue);
     --theme-iaia-shadow: rgba(9, 132, 227, 0.3);
 
-    /* Link Atomic Protocol (Universal Hyperlink State) */
-    /* Link Atomic Protocol (Universal Hyperlink State) */
     --theme-link-color: inherit;
     --theme-link-hover: var(--theme-accent-primary);
     --theme-link-decoration: color-mix(in srgb, var(--text-main) 30%, transparent);
 
-    /* Motion System Tokens (iOS feel) */
     --motion-quick: 120ms;
     --motion-normal: 220ms;
     --motion-expressive: 360ms;
     --spring-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
 
-    --glass-theme-bg: rgba(20, 20, 23, 0.65);
-    --glass-theme-border: rgba(255, 255, 255, 0.08);
-    --glass-theme-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+/* ── EMPATHY ASSIST – ZERO LAYOUT THRASHING ─────────────────────────────── */
+body.empathy-assist {
+  --transition-fast: 400ms ease-out;
+}
 
+body.empathy-assist .sp-interactive {
+  position: relative;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+body.empathy-assist .sp-interactive:hover,
+body.empathy-assist .sp-interactive:focus-within {
+  transform: scale(1.02);
+  filter: brightness(1.08);
+}
+
+/* Hitbox invisible per a accessibilitat (sense nodes addicionals) */
+body.empathy-assist .sp-interactive::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ── COMPONENTS (Pedra Seca) ─────────────────────────────────────────────── */
+@layer components {
+  .sp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+    padding: 0 var(--spacing-8);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+    user-select: none;
+  }
+
+  .sp-btn:hover { transform: translateY(-1px); }
+  .sp-btn:active { transform: scale(0.97); }
+
+  .sp-btn--primary {
+    background-color: var(--color-orange-100);
+    color: white;
+  }
+
+  .sp-card {
+    background-color: var(--color-neutral-700);
+    color: var(--color-neutral-100);
+    border-radius: var(--radius-main);
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 0.08);
+    contain: layout style;
+    transition: box-shadow var(--transition-fast);
+    overflow: hidden;
+  }
+
+  .sp-card:hover {
+    box-shadow: 0 4px 12px 0 rgb(0 0 0 / 0.10);
+  }
+}
+
+/* ── OVERRIDES FINALS (Guanyen sempre) ─────────────────────────────────── */
+@layer overrides {
+  img { border-radius: 0; } /* Square Rule */
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+}
+
+
+@layer base {
+  :root {
     /* FullCalendar Dynamic Theme Overrides */
     --fc-page-bg-color: transparent;
     --fc-neutral-bg-color: var(--bg-panel);

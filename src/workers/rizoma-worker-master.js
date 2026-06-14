@@ -28,8 +28,8 @@ const BATCH_MS = 120;
 const BATCH_MAX = 200;
 
 // Variables criptogràfiques
-let aesKey = null;         // Clau actual CryptoKey
-let pendingAesKey = null;  // Nova clau durant rotació
+let aesKey = null; // Clau actual CryptoKey
+let pendingAesKey = null; // Nova clau durant rotació
 let activeKeyId = null;
 
 // ==========================================
@@ -37,20 +37,24 @@ let activeKeyId = null;
 // ==========================================
 const hexToBuf = hex => new Uint8Array(hex.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 const bufToHex = buf => Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-
 async function encryptChunk(data, key) {
   const iv = crypto.getRandomValues(new Uint8Array(12));
-  const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, data);
+  const encrypted = await crypto.subtle.encrypt({
+    name: "AES-GCM",
+    iv
+  }, key, data);
   const result = new Uint8Array(iv.length + encrypted.byteLength);
   result.set(iv, 0);
   result.set(new Uint8Array(encrypted), iv.length);
   return result;
 }
-
 async function decryptChunk(encryptedData, key) {
   const iv = encryptedData.slice(0, 12);
   const data = encryptedData.slice(12);
-  return await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, data);
+  return await crypto.subtle.decrypt({
+    name: "AES-GCM",
+    iv
+  }, key, data);
 }
 
 // ==========================================
@@ -59,7 +63,6 @@ async function decryptChunk(encryptedData, key) {
 const FALLBACK_DB_NAME = 'sdp-y-fallback';
 const CHUNK_SIZE = 256 * 1024; // 256 KB per chunk
 const GC_KEEP_LAST = 3;
-
 function openFallbackDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(FALLBACK_DB_NAME, 1);

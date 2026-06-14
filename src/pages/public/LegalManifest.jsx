@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import UniversalPage from './UniversalPage';
 import UmamiDashboard from '../../components/ui/UmamiDashboard';
-
 export const CentroLegal = () => {
-    const { t } = useTranslation();
-
-    const htmlContent = `
+  const {
+    t
+  } = useTranslation();
+  const htmlContent = `
 <p class="lead">El Manifest del Projecte Sóc de Poble</p>
 <p>Aquest document no és una simple política de privacitat copiada per un bufet d'advocats o un formulari genèric d'internet. És el veritable contracte social d'aquest projecte. És la pedra fundacional tecnològica sobre la qual s'alça Sóc de Poble: una arquitectura digital concebuda expressament per a resistir, per a ser autònoma a la muntanya profunda i per a retornar la sobirania tecnològica al territori rural.</p>
 <p>Aquesta és la teua "Constitució Digital". Llig-la amb l'atenció que mereix la protecció de la teua identitat i la llibertat de la teua comunitat.</p>
@@ -43,19 +43,13 @@ export const CentroLegal = () => {
 <h3>7. Apèndix: Tauler Directe de Telemetria i Salut Pública</h3>
 <p>Complint de forma fidedigna la nostra paraula referent a la "Transparència Radical", a continuació s'annexa directament en aquesta pàgina la via directa i viva del programari *Umami*. Sense ocultismes de corporacions opaques: açò és allò que sabem que ocurreix tècnicament al territori de Sóc de Poble i tu tens tant dret a veure-ho, estudiar-ho i analitzar-ho com els enginyers fundadors. Observa la freqüència cardíaca de la xarxa.</p>
 `;
-
-    return (
-        <UniversalPage 
-            standAlone={true}
-            forcedTitle="Legal, Privacitat i Seguretat"
-            forcedSubtitle="Política de la Plataforma"
-            forcedHeroImage={'/assets/uploads/brain/llibre_anima_cover_1776032370908.png'}
-        >
-            <div className="universal-content markdown-body w-full" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+  return <UniversalPage standAlone={true} forcedTitle="Legal, Privacitat i Seguretat" forcedSubtitle="Política de la Plataforma" forcedHeroImage={'/assets/uploads/brain/llibre_anima_cover_1776032370908.png'}>
+            <div className="universal-content markdown-body w-full" dangerouslySetInnerHTML={{
+      __html: htmlContent
+    }} />
             
             {/* TAULER NADIU D'ESTADÍSTIQUES */}
             <UmamiDashboard />
             
-        </UniversalPage>
-    );
+        </UniversalPage>;
 };

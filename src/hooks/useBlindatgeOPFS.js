@@ -10,16 +10,13 @@ export function useBlindatgeOPFS() {
         setEstatBlindatge('vulnerable');
         return;
       }
-
       try {
         // 1. Comprovem si l'escut ja està activat per l'OS
         let isPersisted = await navigator.storage.persisted();
-        
         if (!isPersisted) {
           // 2. Exigim al sistema operatiu immunitat de purga ('Storage Eviction')
           isPersisted = await navigator.storage.persist();
         }
-        
         if (isPersisted) {
           logger.log("🛡️ [BUNKER] OPFS i IndexedDB BLINDATS. L'emmagatzematge és 'Persistent'.");
           setEstatBlindatge('blindat');
@@ -32,9 +29,7 @@ export function useBlindatgeOPFS() {
         setEstatBlindatge('error');
       }
     }
-
     sol·licitarImortalitat();
   }, []);
-
   return estatBlindatge;
 }

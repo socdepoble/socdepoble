@@ -1,33 +1,39 @@
 import { useEffect, useRef } from 'react';
 import { iaiaService } from '../core/services/iaiaService';
-
 const IAIA_INITIAL_DELAY_MS = 10000;
 const IAIA_INTERVAL_MS = 120000;
+export const useIAIAAutonomousInteractions = ({
+  isPlayground,
+  isSuperAdmin,
+  setPosts
+}) => {
+  const onInteractRef = useRef(null);
+  
+  // Per ara simularem que setPosts és el callback. Guardem en ref.
+  useEffect(() => {
+    onInteractRef.current = setPosts;
+  }, [setPosts]);
 
-export const useIAIAAutonomousInteractions = ({ isPlayground, isSuperAdmin, setPosts }) => {
-    const isMounted = useRef(true);
+  useEffect(() => {
+    if (!isPlayground && !isSuperAdmin) return;
+    
+    let isMountedLocal = true;
 
-    useEffect(() => {
-        isMounted.current = true;
-        return () => { isMounted.current = false; };
-    }, []);
+    const triggerAutonomousInteraction = async () => {
+      if (!isMountedLocal) return;
+      const newPost = await iaiaService.generateAutonomousInteraction();
+      if (newPost && isMountedLocal && onInteractRef.current) {
+         onInteractRef.current(prev => [newPost, ...prev]);
+      }
+    };
 
-    useEffect(() => {
-        if (!isPlayground && !isSuperAdmin) return;
+    const initialTimer = setTimeout(triggerAutonomousInteraction, IAIA_INITIAL_DELAY_MS);
+    const interval = setInterval(triggerAutonomousInteraction, IAIA_INTERVAL_MS);
 
-        const triggerAutonomousInteraction = async () => {
-            const newPost = await iaiaService.generateAutonomousInteraction();
-            if (newPost && isMounted.current) {
-                setPosts(prev => [newPost, ...prev]);
-            }
-        };
-
-        const initialTimer = setTimeout(triggerAutonomousInteraction, IAIA_INITIAL_DELAY_MS);
-        const interval = setInterval(triggerAutonomousInteraction, IAIA_INTERVAL_MS);
-
-        return () => {
-            clearTimeout(initialTimer);
-            clearInterval(interval);
-        };
-    }, [isPlayground, isSuperAdmin, setPosts]);
+    return () => {
+      isMountedLocal = false;
+      clearTimeout(initialTimer);
+      clearInterval(interval);
+    };
+  }, [isPlayground, isSuperAdmin]); // <-- Només el necessari. setPosts està en ref.
 };

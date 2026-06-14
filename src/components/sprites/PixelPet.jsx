@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function PixelPet({ size = 140, className = "", ariaLabel = "Píxel el gos‑ratolí amb pendrive", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 100) / 140}
-      viewBox="0 0 140 100"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function PixelPet({
+  size = 140,
+  className = "",
+  ariaLabel = "Píxel el gos‑ratolí amb pendrive",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 100 / 140} viewBox="0 0 140 100" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.6" fill="none">
@@ -24,6 +18,5 @@ export default function PixelPet({ size = 140, className = "", ariaLabel = "Píx
       </g>
 
       <text x="10" y="18" fontFamily="sans-serif" fontSize="10" fill="#0EA5E9">bip‑bip</text>
-    </svg>
-  );
+    </svg>;
 }

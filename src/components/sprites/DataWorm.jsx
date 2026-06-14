@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function DataWorm({ size = 160, className = "", ariaLabel = "Cuc de dades que expulsa bits brillants", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 80) / 160}
-      viewBox="0 0 160 80"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function DataWorm({
+  size = 160,
+  className = "",
+  ariaLabel = "Cuc de dades que expulsa bits brillants",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 80 / 160} viewBox="0 0 160 80" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.2" fill="none">
@@ -25,6 +19,5 @@ export default function DataWorm({ size = 160, className = "", ariaLabel = "Cuc 
       </g>
 
       <text x="12" y="18" fontFamily="sans-serif" fontSize="10" fill="#374151">chew‑bits</text>
-    </svg>
-  );
+    </svg>;
 }

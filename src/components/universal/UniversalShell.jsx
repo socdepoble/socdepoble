@@ -1,131 +1,78 @@
-import React, { memo, Suspense } from 'react';
+import React from 'react';
+import ActionBar from '../ui/ActionBar';
 
-import SEO from '../core/SEO';
+export default function UniversalShell({
+  children,
+  title,
+  subtitle,
+  item,
+  variant = 'post'
+}) {
+  const displayTitle = title || item?.title || 'Sóc de Poble';
+  const displaySubtitle = subtitle || item?.subtitle || '';
 
-import UniversalHeader from './UniversalHeader';
-import UniversalHero from './UniversalHero';
+  return (
+    <div className="flex flex-col w-full h-full overflow-hidden bg-[var(--sp-light)]">
 
-import UniversalCardHeader from '../ui/universal-card/UniversalCard.Header';
+      {/* 1. CAPÇALERA DE NAVEGACIÓ */}
+      <header className="h-14 flex items-center px-4 bg-[var(--sp-void)] text-[var(--sp-light)] shrink-0 border-b border-white/10">
+        <h1 className="font-bold text-lg tracking-tight">{displayTitle}</h1>
+      </header>
 
-import FloatingIndex from '../ui/FloatingIndex';
+      {/* Zona desplaçable */}
+      <main className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col">
 
-const HistoryModal = React.lazy(
-    () => import('../modals/HistoryModal')
-);
+        {/* 2. HERO TARONJA */}
+        <section
+          className="w-full bg-[var(--sp-accent)] text-[var(--sp-light)] flex items-center justify-center px-6 py-10 shrink-0 min-h-[180px]"
+          aria-label="Portada"
+        >
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-center leading-none">
+            {displaySubtitle || displayTitle}
+          </h2>
+        </section>
 
-const MediaViewerModal = React.lazy(
-    () => import('../modals/MediaViewerModal')
-);
-
-const UniversalShell = memo(({
-    viewModel,
-    handlers,
-    children
-}) => {
-
-    const {
-        seo = {},
-        page = {},
-        presentation = {},
-        hero = {},
-        media = {}
-    } = viewModel || {};
-
-    const {
-        isIndexOpen = false,
-        isIndexPinned = false,
-        toggleIndex = () => {},
-        togglePin = () => {}
-    } = handlers?.ui || {};
-
-    const mediaHandlers = handlers?.media || {};
-    const refsHandlers = handlers?.refs || {};
-    const historyHandlers = handlers?.history || {};
-
-    return (
-        <div className="flex flex-col h-full min-h-0">
-
-            {seo.enabled && (
-                <SEO
-                    title={seo.title}
-                    description={seo.description}
-                    image={seo.image}
-                    url={seo.url}
-                />
+        {/* 3. BARRA DE METADADES */}
+        {item && (
+          <section className="sticky top-0 z-10 w-full bg-[var(--sp-void)] text-[var(--sp-light)] px-4 py-3 flex items-center gap-3 border-b border-white/10 shrink-0">
+            {item.author_avatar ? (
+              <img
+                src={item.author_avatar}
+                alt={item.author_name || ''}
+                className="w-10 h-10 rounded-full bg-white/20 shrink-0 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="w-10 h-10 rounded-full bg-white/20 shrink-0 flex items-center justify-center font-bold">
+                {item.author_name ? item.author_name.charAt(0).toUpperCase() : 'S'}
+              </div>
             )}
-
-            <UniversalHeader
-                routeSlug={page.slug}
-                title={presentation.title}
-                isIndexOpen={isIndexOpen}
-                onToggleIndex={toggleIndex}
-            />
-
-            <div
-                ref={refsHandlers.scrollContainerRef}
-                className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar"
-            >
-                <UniversalHero
-                    images={hero.images}
-                    format={hero.format}
-                    position={hero.position}
-                    onImageClick={mediaHandlers.openViewer}
-                    videoUrl={hero.videoUrl}
-                />
-
-                <div className="sticky top-0 z-[190]">
-                    <UniversalCardHeader
-                        item={page.item}
-                        cardVariant="project"
-                        displayTown={page.item?.town_name || page.item?.town || page.town || ''}
-                        displayAuthor={page.item?.author_name || page.item?.author || page.author || 'Sóc de Poble'}
-                        avatarSrc={page.item?.author_avatar || page.item?.logo_url || page.logo || ''}
-                        avatarRole={page.item?.author_role || page.role}
-                        isOfficial={page.item?.is_official || page.item?.official || true}
-                        displayDate={page.item?.created_at ? new Date(page.item.created_at).toLocaleDateString('ca-ES') : ''}
-                        displayTime={page.item?.time || ''}
-                        isPageHeader
-                    />
-                </div>
-
-                {children}
+            <div className="flex flex-col min-w-0">
+              <span className="font-bold leading-tight truncate">
+                {item.author_name || 'Sóc de Poble'}
+              </span>
+              <span className="text-xs opacity-60 font-mono tracking-wider uppercase">
+                {item.town_name || 'NODE AUTORITZAT'}
+              </span>
             </div>
+          </section>
+        )}
 
-            <FloatingIndex
-                scrollRef={refsHandlers.scrollContainerRef}
-                isOpen={isIndexOpen}
-                isPinned={isIndexPinned}
-                onToggle={toggleIndex}
-                onPinToggle={togglePin}
-            />
+        {/* 4. CONTINGUT */}
+        <section className="flex-1 p-6 md:p-10 bg-[var(--sp-light)]">
+          <div className="max-w-4xl mx-auto w-full text-[var(--sp-void)]">
+            {children}
+          </div>
+        </section>
 
-            {!!media.current && (
-                <Suspense fallback={null}>
-                    <MediaViewerModal
-                        isOpen
-                        src={media.current}
-                        images={media.images}
-                        onClose={mediaHandlers.closeViewer}
-                        onNavigate={mediaHandlers.navigate}
-                    />
-                </Suspense>
-            )}
+      </main>
 
-            {historyHandlers?.isOpen && (
-                <Suspense fallback={null}>
-                    <HistoryModal
-                        isOpen
-                        pageId={page.id}
-                        onClose={historyHandlers.close}
-                        onRestore={historyHandlers.restore}
-                    />
-                </Suspense>
-            )}
+      {/* 5. BARRA D'ACCIONS */}
+      <ActionBar
+        item={item}
+        variant={variant}
+      />
 
-        </div>
-    );
-});
-
-UniversalShell.displayName = 'UniversalShell';
-
-export default UniversalShell;
+    </div>
+  );
+}

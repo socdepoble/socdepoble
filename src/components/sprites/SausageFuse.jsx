@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function SausageFuse({ size = 160, className = "", ariaLabel = "Llonganissa fusible que fuma", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 80) / 160}
-      viewBox="0 0 160 80"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function SausageFuse({
+  size = 160,
+  className = "",
+  ariaLabel = "Llonganissa fusible que fuma",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 80 / 160} viewBox="0 0 160 80" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
       <defs>
         <linearGradient id="sf-g1" x1="0" x2="1">
@@ -32,6 +26,5 @@ export default function SausageFuse({ size = 160, className = "", ariaLabel = "L
       <g aria-hidden="true" fill="#F3F4F6" fontSize="10" fontFamily="sans-serif">
         <text x="12" y="18">pssssh</text>
       </g>
-    </svg>
-  );
+    </svg>;
 }

@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function SundialCron({ size = 140, className = "", ariaLabel = "Rellotge de sol que marca notificacions", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={size}
-      viewBox="0 0 140 140"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function SundialCron({
+  size = 140,
+  className = "",
+  ariaLabel = "Rellotge de sol que marca notificacions",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size} viewBox="0 0 140 140" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.4" fill="none">
@@ -22,6 +16,5 @@ export default function SundialCron({ size = 140, className = "", ariaLabel = "R
           <text x="70" y="18" textAnchor="middle">ding</text>
         </g>
       </g>
-    </svg>
-  );
+    </svg>;
 }

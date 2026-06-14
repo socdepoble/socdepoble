@@ -1,113 +1,87 @@
-/* sw.js - injectManifest compatible amb vite-plugin-pwa
-   Funcions:
-   - precache amb ignoreURLParametersMatching per a _v
-   - Activation Handshake: ready-to-activate -> espera purged-caches -> clients.claim()
-   - Network-first per a navegacions amb fallback a precache
-   - Logs estructurats JSON-friendly per diagnosi en dispositius antics
-*/
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate, NetworkFirst } from 'workbox-strategies';
+import { ExpirationPlugin } from 'workbox-expiration';
 
-import { precacheAndRoute, matchPrecache } from 'workbox-precaching';
-import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst } from 'workbox-strategies';
+// Precache estàtic (Vite ho injectarà durant la build)
+precacheAndRoute(self.__WB_MANIFEST || []);
 
-const LOG = (...args) => {
-  try { console.log(JSON.stringify({ sw: true, payload: args })); } catch (e) { /* no-op */ }
-};
+// API dinàmica amb NetworkFirst
+registerRoute(
+  ({ url }) => url.pathname.startsWith('/api/'),
+  new NetworkFirst({
+    cacheName: 'api-cache',
+    plugins: [
+      new ExpirationPlugin({ maxEntries: 100, maxAgeSeconds: 7 * 24 * 60 * 60 })
+    ]
+  })
+);
 
-const manifestEntries = self.__WB_MANIFEST || [];
+// Assets estàtics amb StaleWhileRevalidate
+registerRoute(
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  new StaleWhileRevalidate({
+    cacheName: 'static-resources'
+  })
+);
 
-// Precache generat per injectManifest; ignore _v per evitar 404 offline
-precacheAndRoute(manifestEntries, {
-  ignoreURLParametersMatching: [/^_v$/]
-});
+// Imatges amb cache progressiu
+registerRoute(
+  ({ request }) => request.destination === 'image',
+  new StaleWhileRevalidate({
+    cacheName: 'image-cache',
+    plugins: [
+      new ExpirationPlugin({ maxEntries: 60, maxAgeSeconds: 30 * 24 * 60 * 60 })
+    ]
+  })
+);
 
-LOG({ event: 'precache_done', count: manifestEntries.length, ts: Date.now() });
-
-self.addEventListener('install', (event) => {
-  LOG({ event: 'install', phase: 'start', ts: Date.now() });
-  event.waitUntil((async () => {
-    LOG({ event: 'install', phase: 'done', ts: Date.now() });
-  })());
-});
-
-self.addEventListener('activate', (event) => {
-  LOG({ event: 'activate', phase: 'start', ts: Date.now() });
-  event.waitUntil((async () => {
-    try {
-      await self.clients.claim();
-      LOG({ event: 'activate', phase: 'claimed', ts: Date.now() });
-    } catch (e) {
-      LOG({ event: 'activate', phase: 'claim_error', error: String(e), ts: Date.now() });
-    }
-  })());
-});
-
-self.addEventListener('message', (event) => {
-  const data = event.data || {};
-  const clientId = event.source && event.source.id;
-  LOG({ event: 'message_received', data, clientId, ts: Date.now() });
-
-  if (data && data.type === 'SKIP_WAITING') {
-    LOG({ event: 'skip_waiting_requested', clientId, ts: Date.now() });
-    self.skipWaiting();
+// Background Sync API per events pendents
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-sdp-events') {
+    event.waitUntil(syncPendingEvents());
   }
 });
 
-// NavigationRoute amb Network-first manual (fetch) i fallback a precache index.html
-registerRoute(
-  new NavigationRoute(async ({ request }) => {
-    const url = new URL(request.url);
-    LOG({ event: 'navigation_request', url: url.href, ts: Date.now() });
+async function syncPendingEvents() {
+  const dbName = 'SOSPStore';
+  const storeName = 'events';
+  
+  const db = await new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName, 1);
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
 
+  const tx = db.transaction(storeName, 'readwrite');
+  const store = tx.objectStore(storeName);
+  const events = await new Promise((resolve) => {
+    const request = store.getAll();
+    request.onsuccess = () => resolve(request.result);
+  });
+
+  for (const event of events) {
     try {
-      const networkResponse = await fetch(request);
-      LOG({ event: 'navigation_network_success', url: url.href, status: networkResponse.status, ts: Date.now() });
-      if (networkResponse.status === 404) {
-          throw new Error('404 from server, fallback to precache index');
-      }
-      return networkResponse;
-    } catch (err) {
-      LOG({ event: 'navigation_network_failed', url: url.href, error: String(err), ts: Date.now() });
-      const precached = await matchPrecache('/index.html');
-      if (precached) {
-        LOG({ event: 'navigation_served_precache', url: url.href, ts: Date.now() });
-        return precached;
-      }
-      LOG({ event: 'navigation_no_fallback', url: url.href, ts: Date.now() });
-      return new Response('Offline', { status: 503, statusText: 'Offline' });
+      // Això és un stub de l'enviament real
+      console.info('[SW] Sincronitzant event en segon pla:', event.type);
+      
+      await new Promise((resolve) => {
+        const deleteRequest = store.delete(event.id);
+        deleteRequest.onsuccess = () => resolve();
+      });
+      
+    } catch (error) {
+      console.error('[SW] Error sincronitzant event:', error);
+      throw error;
     }
-  })
-);
+  }
 
-// ... (altres rutes) ...
+  db.close();
+}
 
-// Recursos estàtics amb CacheFirst per rendiment
-registerRoute(
-  ({ request }) => request.destination === 'script' || request.destination === 'style' || request.destination === 'image',
-  new CacheFirst({ cacheName: 'static-resources' })
-);
-
-// [BUGFIX FIREFOX WASM] Excepció per a Web Workers i WASM.
-// Firefox bloca agressivament els Web Workers servits des de la Cache del SW.
-registerRoute(
-  ({ request, url }) => request.destination === 'worker' || url.pathname.endsWith('.wasm') || url.pathname.includes('.worker'),
-  new NetworkFirst({ 
-    cacheName: 'wasm-worker-cache',
-    plugins: [{
-      cacheWillUpdate: async ({ response }) => {
-        if (response && response.status === 200) {
-          // Assegurem que tinga el MIME type correcte si el necessitem (opcional)
-          return response;
-        }
-        return null;
-      }
-    }]
-  })
-);
-
-// Log de navegacions per diagnosi addicional
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    LOG({ event: 'fetch_navigate', url: event.request.url, ts: Date.now() });
+// Notificació quan hi ha contingut nou
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });

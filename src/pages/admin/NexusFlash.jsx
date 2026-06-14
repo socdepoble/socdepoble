@@ -1,39 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { geminiService } from '../../core/services/geminiService';
 import './NexusFlash.css';
-
 const NexusFlash = () => {
-    const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState('dashboard');
-    const [iaiaInput, setIaiaInput] = useState('');
-    const [iaiaResponse, setIaiaResponse] = useState('Bon dia fill! Què busques al Nexes?');
-    const [isIaiaThinking, setIsIaiaThinking] = useState(false);
-    const [pregonerInput, setPregonerInput] = useState('');
-    const [pregonerResult, setPregonerResult] = useState('');
-    const [isPregonerThinking, setIsPregonerThinking] = useState(false);
-    const [isV2, setIsV2] = useState(true);
-
-    const handleIaia = async () => {
-        if (!iaiaInput.trim()) return;
-        setIsIaiaThinking(true);
-        const result = await geminiService.ask('IAIA', iaiaInput);
-        setIaiaResponse(result.text);
-        setIsIaiaThinking(false);
-        setIaiaInput('');
-    };
-
-    const handlePregoner = async () => {
-        if (!pregonerInput) return;
-        setIsPregonerThinking(true);
-        const result = await geminiService.ask('CRONISTA', pregonerInput);
-        setPregonerResult(result.text);
-        setIsPregonerThinking(false);
-    };
-
-    return (
-        <div className="nexus-container">
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [iaiaInput, setIaiaInput] = useState('');
+  const [iaiaResponse, setIaiaResponse] = useState('Bon dia fill! Què busques al Nexes?');
+  const [isIaiaThinking, setIsIaiaThinking] = useState(false);
+  const [pregonerInput, setPregonerInput] = useState('');
+  const [pregonerResult, setPregonerResult] = useState('');
+  const [isPregonerThinking, setIsPregonerThinking] = useState(false);
+  const [isV2, setIsV2] = useState(true);
+  const handleIaia = async () => {
+    if (!iaiaInput.trim()) return;
+    setIsIaiaThinking(true);
+    const result = await geminiService.ask('IAIA', iaiaInput);
+    setIaiaResponse(result.text);
+    setIsIaiaThinking(false);
+    setIaiaInput('');
+  };
+  const handlePregoner = async () => {
+    if (!pregonerInput) return;
+    setIsPregonerThinking(true);
+    const result = await geminiService.ask('CRONISTA', pregonerInput);
+    setPregonerResult(result.text);
+    setIsPregonerThinking(false);
+  };
+  return <div className="nexus-container">
             <SEO title="NEXUS | Sóc de Poble" description="La fulla de ruta de Flash [V2.0-BATEGA]." />
             <div role="region" aria-label="Capçalera de Secció" className="nexus-header">
                 <div className="nexus-header-content">
@@ -46,28 +40,27 @@ const NexusFlash = () => {
                     </div>
                     <div className="nexus-status-pill">
                         <Activity size={12} className="pulse" />
-                        <span>SISTEMA ÒPTIM</span>
+                        SISTEMA ÒPTIM
                     </div>
                 </div>
                 <nav className="nexus-nav">
                     <button className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>
-                        <Layout size={18} /> <span>PANELL</span>
+                        <Layout size={18} /> PANELL
                     </button>
                     <button className={activeTab === 'lab' ? 'active' : ''} onClick={() => setActiveTab('lab')}>
-                        <Palette size={18} /> <span>LABORATORI</span>
+                        <Palette size={18} /> LABORATORI
                     </button>
                     <button className={activeTab === 'ia' ? 'active' : ''} onClick={() => setActiveTab('ia')}>
-                        <Cpu size={18} /> <span>IA SIM</span>
+                        <Cpu size={18} /> IA SIM
                     </button>
                     <button className={activeTab === 'solatge' ? 'active' : ''} onClick={() => setActiveTab('solatge')}>
-                        <Terminal size={18} /> <span>SOLATGE</span>
+                        <Terminal size={18} /> SOLATGE
                     </button>
                 </nav>
             </div>
 
             <div role="region" aria-label="Contingut Principal" className="nexus-main-content">
-                {activeTab === 'dashboard' && (
-                    <div className="nexus-dashboard fade-in">
+                {activeTab === 'dashboard' && <div className="nexus-dashboard fade-in">
                         <GlassCard className="nexus-welcome-card">
                             <h2>👋 Benvingut al Nexes, Flash!</h2>
                             <p>Aquest és el teu entorn segur per a provar la transició a la <b>Nit Digital (V2)</b>.</p>
@@ -104,11 +97,9 @@ const NexusFlash = () => {
                                 <p>Cada acció té haptic feedback i una transició orgànica.</p>
                             </GlassCard>
                         </div>
-                    </div>
-                )}
+                    </div>}
 
-                {activeTab === 'lab' && (
-                    <div className="nexus-lab fade-in">
+                {activeTab === 'lab' && <div className="nexus-lab fade-in">
                         <div className="lab-controls">
                             <h3>Comparativa d'Arquitectura</h3>
                             <button className={`btn-toggle ${isV2 ? 'v2' : 'v1'}`} onClick={() => setIsV2(!isV2)}>
@@ -134,11 +125,9 @@ const NexusFlash = () => {
                                 </ul>
                             </GlassCard>
                         </div>
-                    </div>
-                )}
+                    </div>}
 
-                {activeTab === 'ia' && (
-                    <div className="nexus-ia fade-in">
+                {activeTab === 'ia' && <div className="nexus-ia fade-in">
                         <section className="ia-sim-section">
                             <h3>👵 IAIA MarIA SIM</h3>
                             <GlassCard className={`iaia-chat-bubble ${isIaiaThinking ? 'bategant' : ''}`}>
@@ -146,14 +135,8 @@ const NexusFlash = () => {
                                 {isIaiaThinking && <div className="bategat-indicator">🏺</div>}
                             </GlassCard>
                             <div className="iaia-input-group">
-                                <input
-                                    type="text"
-                                    placeholder="Demana-li trellat..."
-                                    value={iaiaInput}
-                                    onChange={(e) => setIaiaInput(e.target.value)}
-                                    onKeyPress={(e) => e.key === 'Enter' && handleIaia()}
-                                    disabled={isIaiaThinking}
-                                />
+                                <input type="text" placeholder="Demana-li trellat..." value={iaiaInput} onChange={e => setIaiaInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleIaia()} disabled={isIaiaThinking} />
+              
                                 <button onClick={handleIaia} disabled={isIaiaThinking}>
                                     {isIaiaThinking ? <Activity size={18} className="pulse" /> : <Send size={18} />}
                                 </button>
@@ -163,31 +146,23 @@ const NexusFlash = () => {
                         <section className="ia-sim-section">
                             <h3>📢 EL PREGONER MÀGIC</h3>
                             <GlassCard className="pregoner-box">
-                                <textarea
-                                    placeholder="Escriu el que vols anunciar..."
-                                    value={pregonerInput}
-                                    onChange={(e) => setPregonerInput(e.target.value)}
-                                    disabled={isPregonerThinking}
-                                />
+                                <textarea placeholder="Escriu el que vols anunciar..." value={pregonerInput} onChange={e => setPregonerInput(e.target.value)} disabled={isPregonerThinking} />
+              
                                 <button className={`btn-pregonar ${isPregonerThinking ? 'thinking' : ''}`} onClick={handlePregoner} disabled={isPregonerThinking}>
                                     {isPregonerThinking ? 'PREGONANT AL MAS...' : 'CRIDAR BANDO 🏺'}
                                 </button>
-                                {pregonerResult && !isPregonerThinking && (
-                                    <div className="pregoner-result fade-in">
+                                {pregonerResult && !isPregonerThinking && <div className="pregoner-result fade-in">
                                         {pregonerResult}
-                                    </div>
-                                )}
+                                    </div>}
                             </GlassCard>
                         </section>
-                    </div>
-                )}
+                    </div>}
 
-                {activeTab === 'solatge' && (
-                    <div className="nexus-solatge fade-in">
+                {activeTab === 'solatge' && <div className="nexus-solatge fade-in">
                         <GlassCard className="solatge-console">
                             <div className="console-header">
                                 <Terminal size={14} />
-                                <span>SOLATGE_CONSOLE_v2.0</span>
+                                SOLATGE_CONSOLE_v2.0
                             </div>
                             <div className="console-body">
                                 <div className="line">[SISTEMA] Iniciant protocol de visió...</div>
@@ -210,16 +185,13 @@ const NexusFlash = () => {
                                 </GlassCard>
                             </div>
                         </div>
-                    </div>
-                )}
+                    </div>}
             </div>
 
             <footer className="nexus-footer">
                 <Shield size={14} />
-                <span>DIRECTIVA MASTER: SÓC DE POBLE</span>
+                DIRECTIVA MASTER: SÓC DE POBLE
             </footer>
-        </div>
-    );
+        </div>;
 };
-
 export default NexusFlash;

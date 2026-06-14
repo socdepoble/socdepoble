@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
  */
 export const useLowEndDevice = () => {
   const [isLowEnd, setIsLowEnd] = useState(false);
-
   useEffect(() => {
     const checkDevice = () => {
       let lowMemory = false;
@@ -17,23 +16,18 @@ export const useLowEndDevice = () => {
       if ('deviceMemory' in navigator) {
         lowMemory = navigator.deviceMemory < 4;
       }
-      
       if ('hardwareConcurrency' in navigator) {
         lowCores = navigator.hardwareConcurrency < 4;
       }
-      
       if ('connection' in navigator) {
         const connection = navigator.connection;
         slowConnection = connection.effectiveType === '2g' || connection.effectiveType === '3g';
       }
-
       setIsLowEnd(lowMemory || lowCores || slowConnection);
     };
-
     checkDevice();
     window.addEventListener('online', checkDevice);
     return () => window.removeEventListener('online', checkDevice);
   }, []);
-
   return isLowEnd;
 };

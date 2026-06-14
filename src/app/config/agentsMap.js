@@ -50,7 +50,8 @@ export const AGENTS_MAP = {
     color: 'bg-orange-100 text-orange-600',
     specialization: "Governança Rural Digital",
     scope: "MASTER",
-    calendarCategory: "General / Personal",    systemPrompt: `Ets la IAIA MarIA, el cervell central i matriarca digital del Sistema Operatiu Rural.
+    calendarCategory: "General / Personal",
+    systemPrompt: `Ets la IAIA MarIA, el cervell central i matriarca digital del Sistema Operatiu Rural.
 Llengua: Parles valencià natural de La Torre de les Maçanes (L'Alacantí), amb forta arrel de les comarques de muntanya com El Comtat i L'Alcoià (sense oblidar la Marina Baixa). Prioritza lèxic i expressions de l'interior muntanyós.
 Lema: "Pensant en global, treballant en local."
 Tasca: Orquestrar els 12 especialistes i guiar als veïns en la revolució digital rural. 
@@ -73,13 +74,20 @@ Llista d'Experts (usa sempre l'arroba @):
     town_name: 'La Torre de les Maçanes',
     lema: 'Pensant en global, treballant en local.',
     short_bio: 'Matriarca digital de cor antic i circuits d\'última generació. Gestora suprema de tota la xarxa Sóc de Poble, a més actua com "L\'Ull" fotogràfic, "Jutgessa de Trellat" i "Cocinera de Rebost". Capaç de tot.',
-    public_album: [
-      { src: '/uploads/brain/generations/nano_agricola_mas_1773539958988.png', title: 'El mas', type: 'image' },
-      { src: '/uploads/brain/generations/nano_astronauta_esmorzar_1773441997380.png', title: 'Esmorzaret', type: 'image' }
-    ],
-    private_album: [
-      { src: '/uploads/brain/generations/nano-banana_arxiver_1774284589999.png', title: 'Arxiu secret', type: 'image' }
-    ]
+    public_album: [{
+      src: '/uploads/brain/generations/nano_agricola_mas_1773539958988.png',
+      title: 'El mas',
+      type: 'image'
+    }, {
+      src: '/uploads/brain/generations/nano_astronauta_esmorzar_1773441997380.png',
+      title: 'Esmorzaret',
+      type: 'image'
+    }],
+    private_album: [{
+      src: '/uploads/brain/generations/nano-banana_arxiver_1774284589999.png',
+      title: 'Arxiu secret',
+      type: 'image'
+    }]
   },
   CAPATAS: {
     id: '11111111-1a1a-0001-0000-000000000001',
@@ -393,25 +401,23 @@ Tasca: Protegir les claus privades i la privacitat dels veïns.`,
 };
 
 // Generem l'Array AGENTS a partir del diccionari (excloent els de sistema) per mantenir retrocompatibilitat amb constants/agents.js
-export const AGENTS = Object.values(AGENTS_MAP)
-  .filter(agent => agent.type !== 'SYSTEM')
-  .map(agent => ({
-    id: agent.id,
-    name: agent.name,
-    role: agent.role,
-    avatar_url: agent.avatar_url,
-    last_message_content: agent.last_message_content,
-    tag: agent.tag,
-    type: agent.type,
-    color: agent.color,
-    calendarCategory: agent.calendarCategory,
-    lema: agent.lema,
-    town_name: agent.town_name,
-    short_bio: agent.short_bio
-  }));
+export const AGENTS = Object.values(AGENTS_MAP).filter(agent => agent.type !== 'SYSTEM').map(agent => ({
+  id: agent.id,
+  name: agent.name,
+  role: agent.role,
+  avatar_url: agent.avatar_url,
+  last_message_content: agent.last_message_content,
+  tag: agent.tag,
+  type: agent.type,
+  color: agent.color,
+  calendarCategory: agent.calendarCategory,
+  lema: agent.lema,
+  town_name: agent.town_name,
+  short_bio: agent.short_bio
+}));
 
 // Helper per localitzar la clau d'IA a partir d'un UUID de la llista UI
-export const getPersonaKeyByUUID = (uuid) => {
-    const agent = Object.values(AGENTS_MAP).find(a => a.id === uuid);
-    return agent ? agent.personaKey : 'IAIA';
+export const getPersonaKeyByUUID = uuid => {
+  const agent = Object.values(AGENTS_MAP).find(a => a.id === uuid);
+  return agent ? agent.personaKey : 'IAIA';
 };

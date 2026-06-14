@@ -1,6 +1,5 @@
 // No React hooks needed for this standalone hook logic unless we use state/effect, but here we don't.
 
-
 const useTrellatPersist = () => {
   const requestPersist = async () => {
     if (navigator.storage?.persist) {
@@ -22,8 +21,9 @@ const useTrellatPersist = () => {
       });
     }
   };
-
-  return { requestPersist, checkBattery };
+  return {
+    requestPersist,
+    checkBattery
+  };
 };
-
 export default useTrellatPersist;

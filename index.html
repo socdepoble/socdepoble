@@ -1,393 +1,202 @@
 <!DOCTYPE html>
-<html lang="ca">
-  <head>
-    
-    
-    <meta charset="UTF-8" />
-    <script>
-      // [TRELLAT SEO] Redireccions JS eliminades per evitar penalitzacions de Googlebot
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
-    <!-- [TRELLAT SECURITY] Content-Security-Policy estricta (Pedra 2) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cloud.umami.is https://accounts.google.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https: wss:;">
+<html lang="ca-ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Sóc de Poble</title>
 
-    <!-- ⚠️ CRITICAL: Loop Breaker MUST be first -->
-    <script src="/loop-breaker.js"></script>
-    
-    <!-- Mòdul Vanilla JS — Mode Lupa | Sincronització Tèrmica (Anti-FOUC) -->
-    <script src="/lupa.js"></script>
-    
-    <!-- CRÍTIC: Preconnect a orígens externs -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- CSS crític inline (evitar render-blocking) -->
-    <style>
-      :root { color-scheme: dark; }
-      *, *::before, *::after { box-sizing: border-box; }
-      html, body { margin: 0; background-color: #1a1a1a; color: #ff8c00; font-family: system-ui, sans-serif; }
-      #root { min-height: 100dvh; }
-      /* El CSS només afecta quan #root està buit (fase inicial) */
-      #root:empty { display: flex; height: 100vh; align-items: center; justify-content: center; flex-direction: column; }
-      .spinner-rustic { width: 40px; height: 40px; border: 4px solid #333; border-top: 4px solid #ff8c00; border-radius: 50%; animation: gira 1s linear infinite; }
-      @keyframes gira { 100% { transform: rotate(360deg); } }
-    </style>
-    
-    <!-- [TRELLAT] Telemetria Lliure i Sobirana (Umami) -->
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="6ffce900-c41a-470e-9b12-38fb6028db18"></script>
-    
-    <!-- [SILENT GUARDIAN] Filtra l'advertència obsoleta d'esdeveniments 'unload' generada per l'SDK de PowerSync -->
-    <script>
-      (function() {
-        var orig = EventTarget.prototype.addEventListener;
-        EventTarget.prototype.addEventListener = function(type, listener, options) {
-          if (type === 'unload') return orig.call(this, 'pagehide', listener, options);
-          return orig.call(this, type, listener, options);
-        };
-      })();
-    </script>
-    <!-- [BATEGAT SEO GOD] Previsualitzacions d'alt impacte per a WhatsApp/Social -->
-    <meta name="robots" content="index, follow" />
-    <title>Sóc de Poble | El Sistema Operatiu Rural</title>
-    <meta
-      name="description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital en la xarxa social KM 0."
-    />
-    <meta name="keywords" content="xarxa social rural, pobles connectats, IAIA, memòria històrica, comerç local, sobirania digital, valencià" />
-    <meta id="meta-theme-color" name="theme-color" content="#f97316" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Sóc de Poble" />
-    <meta name="google" content="notranslate" /> <!-- Elimina el banner invasiu de Chrome -->
-    <link rel="author" href="https://socdepoble.org" />
+  <!--
+    CSS CRÍTIC INLINE — Regla d'Or: cap first paint que depengui d'un arxiu extern.
+    Tot el que l'Uelo veu en T=0 viu aquí. Cap class de Tailwind, cap import.
+    Quan React munta (#root deixa de ser :empty), el skeleton desapareix per CSS.
+  -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://socdepoble.org/" />
-    <meta
-      property="og:title"
-      content="Sóc de Poble | El Sistema Operatiu Rural"
-    />
-    <meta
-      property="og:description"
-      content="Connecta amb la teua comunitat i recupera el trellat del territori. Mercat rural, memòria viva i sobirania digital."
-    />
-    <meta
-      property="og:image"
-      content="https://socdepoble.org/assets/uploads/brain/media__1775601829353.jpg"
-    />
-    <meta
-      property="og:image:secure_url"
-      content="https://socdepoble.org/assets/uploads/brain/media__1775601829353.jpg"
-    />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:alt" content="Infografia de l'ecosistema Sóc de Poble" />
-    <meta property="og:site_name" content="Sóc de Poble" />
-    <meta property="og:locale" content="ca_ES" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@socdepoble" />
-    <meta name="twitter:creator" content="@socdepoble" />
-    <meta
-      name="twitter:title"
-      content="Sóc de Poble | El Sistema Operatiu Rural"
-    />
-    <meta
-      name="twitter:description"
-      content="Connecta amb la teua comunitat i recupera el trellat. Mercat rural, memòria viva i sobirania digital."
-    />
-    <meta
-      name="twitter:image"
-      content="https://socdepoble.org/assets/uploads/brain/media__1775601829353.jpg"
-    />
-
-<!-- [Mestre: Bloqueig de FOUC] Erradicació del llamp visual de tema (FOUC) -->
-    <script>
-      (function() {
-        try {
-          var savedTheme = localStorage.getItem('nexus_theme') || 'light';
-          var root = document.documentElement;
-          root.classList.add(savedTheme);
-          root.classList.add('theme-' + savedTheme);
-        } catch (e) {
-          document.documentElement.classList.add('light');
-          document.documentElement.classList.add('theme-light');
-        }
-      })();
-    </script>
-
-
-
-
-
-
-    <!-- Google Fonts: Noto Sans (L'Ànima de Sóc de Poble) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
-
-    <!-- Estils i Protocols -->
-
-    <style>
-      .animate-in {
-        animation: fadeIn 0.4s ease-out;
-      }
-      .animate-up {
-        animation: slideUp 0.4s ease-out;
-      }
-      .zoom-in {
-        animation: zoomIn 0.4s ease-out;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      @keyframes slideUp {
-        from {
-          transform: translateY(20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      @keyframes zoomIn {
-        from {
-          transform: scale(0.95);
-          opacity: 0;
-        }
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      @keyframes spin-local { to { transform: rotate(360deg); } }
-      #app-shell-fallback {
-        position: fixed; inset: 0; background: #09090b;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        z-index: 9999; font-family: 'Noto Sans', sans-serif;
-        transition: opacity 0.3s ease-out;
-      }
-      html.light #app-shell-fallback {
-        background: #ffffff;
-      }
-      .fallback-spinner {
-        width: 32px; height: 32px; border: 3px solid rgba(249, 115, 22, 0.2);
-        border-top: 3px solid #f97316; border-radius: 50%;
-        animation: spin-local 1s linear infinite;
-      }
-
-      .blueprint-grid {
-        background-image: linear-gradient(
-            to right,
-            rgba(6, 182, 212, 0.1) 1px,
-            transparent 1px
-          ),
-          linear-gradient(
-            to bottom,
-            rgba(6, 182, 212, 0.1) 1px,
-            transparent 1px
-          );
-        background-size: 20px 20px;
-      }
-
-      .forense-active * {
-        outline: 1px solid rgba(249, 115, 22, 0.1) !important;
-      }
-
-      /* Google Translate fixes per a PWA */
-      .goog-te-banner-frame.skiptranslate {
-        display: none !important;
-      }
-      body {
-        top: 0px !important;
-      }
-      #goog-gt-tt {
-        display: none !important;
-      }
-    </style>
-    <!-- [SEO GHOST REMOVED] Metadades hardcodejades esborrades. S'injecten dinàmicament o s'agafen de package.json -->
-    
-    <!-- [DEEPSEEK AUDIT] JSON-LD Dades Estructurades (SEO) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Sóc de Poble",
-      "description": "Xarxa social local-first per a comunitats rurals. Sistema operatiu descentralitzat.",
-      "applicationCategory": "SocialNetworking",
-      "operatingSystem": "PWA iOS/Android/Desktop",
-      "offers": {
-        "@type": "Offer",
-        "price": "0"
-      }
+    :root {
+      --sp-bar-brand-h:  40px;
+      --sp-bar-action-h: 56px;
+      --sp-bar-nav-h:    60px;
+      --sp-shell-offset: calc(
+        var(--sp-bar-brand-h) +
+        var(--sp-bar-action-h) +
+        var(--sp-bar-nav-h)
+      );
+      --sp-black-900:   #0a0a0a;
+      --sp-orange-500:  #f97316;
+      --sp-blue-600:    #2563eb;
+      --sk-bg:          #e5e7eb;
+      --sk-shine:       #f9fafb;
     }
-    </script>
-    <!-- [PERFORMANCE] Els preloads de logos s'han eliminat per evitar advertències a la consola -->
-  </head>
-  <body>
-    <!-- Hidden H1 for SEO -->
-    <h1
-      style="
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        clip-path: inset(50%);
-        border: 0;
-      "
-    >
-      Sóc de Poble - La teua xarxa de territori i sobirania digital
-    </h1>
-    <div id="app-shell-fallback">
-      <div class="fallback-spinner"></div>
+
+    html, body { height: 100%; background: var(--sk-bg); }
+
+    /* ─── APP SHELL SKELETON ─────────────────────────────────── */
+    #sp-shell-sk {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      will-change: opacity;
+      transition: opacity 0.25s ease-out;
+    }
+
+    .sk-brand {
+      height: calc(var(--sp-bar-brand-h) + env(safe-area-inset-top, 0px));
+      background: var(--sp-black-900);
+    }
+    .sk-action {
+      height: var(--sp-bar-action-h);
+      background: var(--sp-blue-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sk-action-pill {
+      width: 160px;
+      height: 34px;
+      border-radius: 17px;
+      background: rgba(255,255,255,0.18);
+    }
+    .sk-nav {
+      height: var(--sp-bar-nav-h);
+      background: var(--sp-orange-500);
+    }
+
+    /* ─── CARD SKELETONS ─────────────────────────────────────── */
+    #sp-feed-sk {
+      padding-top: var(--sp-shell-offset);
+      background: #f3f4f6;
+      min-height: 100svh;    /* svh: small viewport height — més precís que vh en iOS */
+    }
+
+    .sk-card {
+      margin: 10px 14px;
+      padding: 18px 16px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+
+    .sk-line {
+      height: 14px;
+      border-radius: 7px;
+      margin-bottom: 10px;
+      background: linear-gradient(
+        90deg,
+        var(--sk-bg) 0%,
+        var(--sk-shine) 40%,
+        var(--sk-bg) 80%
+      );
+      background-size: 250% 100%;
+      animation: sk-wave 1.6s ease-in-out infinite;
+    }
+
+    /* Mides de línies per imitar la distribució real del UniversalCard */
+    .sk-line-xl  { width: 90%; height: 22px; margin-bottom: 12px; }
+    .sk-line-lg  { width: 70%; }
+    .sk-line-md  { width: 55%; }
+    .sk-line-sm  { width: 35%; }
+
+    .sk-avatar {
+      width: 40px; height: 40px;
+      border-radius: 0;         /* Square Rule del projecte */
+      background: var(--sk-bg);
+      flex-shrink: 0;
+    }
+
+    .sk-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .sk-header-text { flex: 1; }
+
+    @keyframes sk-wave {
+      0%   { background-position:  250% 0; }
+      100% { background-position: -250% 0; }
+    }
+
+    /*
+      El truc CSS pur:
+      Quan React munta, #root deixa de ser :empty.
+      El skeleton desapareix sense cap línia de JavaScript.
+      Delay de 100ms evita el flash si la hidratació és instantània.
+    */
+    #root:not(:empty) ~ #sp-shell-sk,
+    #root:not(:empty) ~ #sp-feed-sk {
+      opacity: 0;
+      pointer-events: none;
+      transition-delay: 100ms;
+    }
+    #root:not(:empty) ~ #sp-feed-sk {
+      display: none;
+    }
+
+    /* Redueix l'animació si l'usuari la té desactivada */
+    @media (prefers-reduced-motion: reduce) {
+      .sk-line { animation: none; background: var(--sk-bg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- ─── REACT MUNTA AQUÍ ─────────────────────────────────────── -->
+  <div id="root"></div>
+
+  <!-- ─── SKELETON APP SHELL (T=0ms, sense JS) ─────────────────── -->
+  <!-- aria-hidden: el lector de pantalla no l'anuncia -->
+  <div id="sp-shell-sk" aria-hidden="true">
+    <div class="sk-brand"></div>
+    <div class="sk-action"><div class="sk-action-pill"></div></div>
+    <div class="sk-nav"></div>
+  </div>
+
+  <!-- ─── SKELETON FEED (T=0ms, sense JS) ─────────────────────── -->
+  <!--
+    3 targetes skeleton amb la mateixa estructura que UniversalCard.
+    contain-intrinsic-size ha de coincidir amb l'altura real de la targeta
+    per evitar CLS quan React substitueix els skeletons pel contingut real.
+  -->
+  <div id="sp-feed-sk" aria-hidden="true">
+    <div class="sk-card" style="contain-intrinsic-size: 0 280px;">
+      <div class="sk-header">
+        <div class="sk-avatar"></div>
+        <div class="sk-header-text">
+          <div class="sk-line sk-line-md"></div>
+          <div class="sk-line sk-line-sm"></div>
+        </div>
+      </div>
+      <div class="sk-line sk-line-xl"></div>
+      <div class="sk-line sk-line-lg"></div>
+      <div class="sk-line sk-line-md"></div>
     </div>
-    <div id="root"></div>
+    <div class="sk-card" style="contain-intrinsic-size: 0 240px;">
+      <div class="sk-header">
+        <div class="sk-avatar"></div>
+        <div class="sk-header-text">
+          <div class="sk-line sk-line-md"></div>
+        </div>
+      </div>
+      <div class="sk-line sk-line-xl"></div>
+      <div class="sk-line sk-line-lg"></div>
+    </div>
+    <div class="sk-card" style="contain-intrinsic-size: 0 280px;">
+      <div class="sk-header">
+        <div class="sk-avatar"></div>
+        <div class="sk-header-text">
+          <div class="sk-line sk-line-md"></div>
+          <div class="sk-line sk-line-sm"></div>
+        </div>
+      </div>
+      <div class="sk-line sk-line-xl"></div>
+      <div class="sk-line sk-line-lg"></div>
+      <div class="sk-line sk-line-md"></div>
+    </div>
+  </div>
 
-
-    <!-- Google Identity Services per a One-Tap Login -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <!-- [PWA GHOST LOCK] Pre-Boot Failsafe OPTIMITZAT (Timeout Strict) -->
-    <script>
-      (function() {
-        const APP_CODE_VERSION = 15;
-        const TIMEOUT_MS = 400; // Protecció contra Lighthouse/WebKit Hanging Promises
-
-        function getIDBVersion() {
-          return new Promise((resolve) => {
-            try {
-              const req = window.indexedDB.open('rhizome-v1');
-              req.onupgradeneeded = (e) => {
-                e.target.transaction.abort();
-                resolve({ status: 'OK', version: 0 });
-              };
-              req.onsuccess = (e) => {
-                const db = e.target.result;
-                if (!db.objectStoreNames.contains('keyval')) {
-                  db.close();
-                  resolve({ status: 'OK', version: 0 });
-                  return;
-                }
-                const tx = db.transaction('keyval', 'readonly');
-                const store = tx.objectStore('keyval');
-                const getReq = store.get('_sdp_schema_version');
-                getReq.onsuccess = () => {
-                  db.close();
-                  resolve({ status: 'OK', version: getReq.result || 0 });
-                };
-                getReq.onerror = () => {
-                  db.close();
-                  resolve({ status: 'OK', version: 0 });
-                };
-              };
-              req.onerror = () => resolve({ status: 'ERROR', reason: 'OPEN_FAILED' });
-              req.onblocked = () => resolve({ status: 'BLOCKED', reason: 'DB_LOCKED' });
-            } catch (err) {
-              resolve({ status: 'EXCEPTION', reason: err.message });
-            }
-          });
-        }
-        
-        const timeoutPromise = new Promise(resolve => 
-          setTimeout(() => resolve({ status: 'TIMEOUT', reason: 'IDB_HUNG' }), TIMEOUT_MS)
-        );
-
-        window.__PRE_BOOT_STATE__ = Promise.race([getIDBVersion(), timeoutPromise]);
-
-        // Lògica de neteja asíncrona (NO bloqueja el FCP)
-        window.__PRE_BOOT_STATE__.then(async (result) => {
-          if (result.status === 'OK' && result.version !== 0 && result.version !== APP_CODE_VERSION) {
-            console.warn("[TRELLAT] Corrupció detectada. Netejant...");
-            window.__SDP_BOOT_ABORT = true;
-            document.getElementById('app-shell-fallback').innerHTML = `<div style="color: #ea580c; font-size: 20px; font-weight: bold;">Netejant memòria...</div>`;
-            
-            // Purga COMPLETA
-            if ('caches' in window) {
-              const keys = await caches.keys();
-              await Promise.all(keys.map(k => caches.delete(k)));
-            }
-            if ('serviceWorker' in navigator) {
-              const regs = await navigator.serviceWorker.getRegistrations();
-              await Promise.all(regs.map(r => r.unregister()));
-            }
-            
-            localStorage.removeItem('sp_app_version');
-            localStorage.removeItem('sp_last_version_reload');
-            
-            try {
-              window.indexedDB.deleteDatabase('rhizome-v1');
-            } catch(e) {}
-            
-            setTimeout(() => {
-              const url = new URL(window.location.href);
-              url.searchParams.set('_ghost', Date.now().toString(36));
-              window.location.href = url.toString();
-            }, 500);
-          } else if (result.status === 'TIMEOUT' || result.status === 'ERROR' || result.status === 'BLOCKED') {
-            console.warn('[Pre-Boot] IDB compromès o penjat a Lighthouse/Safari Private.', result);
-          }
-        });
-      })();
-    </script>
-
-    
-    <!-- Polyfill para librerías de Node (ej. simple-peer) -->
-    <script>
-      if (typeof global === 'undefined') { window.global = window; }
-      if (typeof process === 'undefined') { window.process = { env: {} }; }
-    </script>
-    
-
-    <!-- Modern App Entry -->
-    <script type="module" src="/src/app/entry.jsx"></script>
-
-    <!-- [BATEGAT FAILSAFE v3] Si el Mas no arranca en 4 segons, obrim panell d'emergència -->
-    <script>
-      setTimeout(() => {
-        if (!window.__SDP_ROOT_MOUNTED) {
-          console.error(
-            "Failsafe disparat: React no ha pogut muntar l'aplicació.",
-          );
-          document.body.innerHTML = `
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background-color:#000;color:#fff;font-family:sans-serif;padding:20px;text-align:center;box-sizing:border-box;">
-              <h2 style="color:#f97316;font-size:24px;margin-bottom:10px;font-weight:900;">TANCAT PER REFORMES</h2>
-              <p style="color:#9ca3af;margin-bottom:30px;font-size:16px;">El teu telèfon ha guardat una versió corrompuda de l'aplicació a la memòria i s'ha bloquejat.</p>
-              <button onclick="caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))); navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())); localStorage.clear(); sessionStorage.clear(); window.location.reload(true);" style="background-color:#f97316;color:#fff;border:none;padding:15px 30px;border-radius:30px;font-weight:bold;font-size:18px;cursor:pointer;box-shadow:0 4px 15px rgba(249,115,22,0.4);">
-                Forçar Neteja i Reiniciar
-              </button>
-            </div>
-          `;
-        }
-      }, 25000);
-    </script>
-  </body>
+  <!-- JS no bloquejant (Vite l'injecta automàticament en build) -->
+  <script type="module" src="/src/app/entry.jsx"></script>
+</body>
 </html>

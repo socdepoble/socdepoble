@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function PigeonDrone({ size = 160, className = "", ariaLabel = "Coloms amb petites càmeres com drons", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 100) / 160}
-      viewBox="0 0 160 100"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function PigeonDrone({
+  size = 160,
+  className = "",
+  ariaLabel = "Coloms amb petites càmeres com drons",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 100 / 160} viewBox="0 0 160 100" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g stroke="#111827" strokeWidth="1.2" fill="none">
@@ -25,6 +19,5 @@ export default function PigeonDrone({ size = 160, className = "", ariaLabel = "C
       </g>
 
       <text x="12" y="18" fontFamily="sans-serif" fontSize="10" fill="#374151">brrr</text>
-    </svg>
-  );
+    </svg>;
 }

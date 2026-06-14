@@ -4,7 +4,6 @@ import { create, insert, search, save, load } from '@orama/orama';
 import { pipeline, env } from '@xenova/transformers';
 import chalk from 'chalk';
 import yaml from 'yaml';
-import { MicrorecordSchema } from './schema.js';
 
 env.allowLocalModels = true;
 process.env.IGNORE_WARNINGS = 'true';

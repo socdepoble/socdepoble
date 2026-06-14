@@ -5,22 +5,20 @@ import React, { useState } from 'react';
 // import { db, storage } from '../firebase';
 // import { useCharacters } from '../contexts/CharacterStateContext';
 import { z } from 'zod';
-import { motion } from 'framer-motion';
+// Sense framer-motion per ser immortal
 
 // Mock lucide-react icons
 const Upload = () => <span>📤</span>;
 const X = () => <span>❌</span>;
 const Tractor = () => <span>🚜</span>;
-
 const PostSchema = z.object({
   type: z.enum(['post', 'market']),
   title: z.string().min(5, "El títol ha de tenir almenys 5 caràcters"),
   content: z.string().min(10, "Conta'ns alguna cosa amb més ànima"),
   price: z.number().optional(),
   category: z.string().optional(),
-  tags: z.array(z.string()).max(6, "Màxim 6 etiquetes"),
+  tags: z.array(z.string()).max(6, "Màxim 6 etiquetes")
 });
-
 const NouPost = () => {
   const [type, setType] = useState('post');
   const [formData, setFormData] = useState({
@@ -28,7 +26,7 @@ const NouPost = () => {
     content: '',
     price: '',
     category: 'altres',
-    tags: [],
+    tags: []
   });
   const [images, setImages] = useState([]);
   const [uploadProgress, setUploadProgress] = useState([]);
@@ -36,22 +34,18 @@ const NouPost = () => {
   const [errors, setErrors] = useState({});
 
   // Mocking characters trigger
-  const trigger = (char, anim) => console.log(`Trigger: ${char} -> ${anim}`);
-
-  const handleImageSelect = (e) => {
+  const trigger = (char, anim) => {};
+  const handleImageSelect = e => {
     const files = Array.from(e.target.files || []);
     setImages(prev => [...prev, ...files].slice(0, 6)); // màxim 6 imatges
   };
-
-  const removeImage = (index) => {
+  const removeImage = index => {
     setImages(prev => prev.filter((_, i) => i !== index));
   };
-
   const uploadImages = async () => {
     // Mock upload
     const urls = [];
     setUploadProgress(new Array(images.length).fill(0));
-
     for (let i = 0; i < images.length; i++) {
       // Simulate progress
       for (let p = 0; p <= 100; p += 20) {
@@ -66,35 +60,34 @@ const NouPost = () => {
     }
     return urls;
   };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setErrors({});
-
     try {
       const validated = PostSchema.parse({
         ...formData,
         price: formData.price ? Number(formData.price) : undefined,
-        tags: formData.tags,
+        tags: formData.tags
       });
-
       setIsUploading(true);
       trigger('ciberReme', 'excited');
-
       const imageUrls = await uploadImages();
 
       // Mock save to db
-      console.log('Saving to DB:', validated, imageUrls);
 
       trigger('iaiaMaria', 'serveCoca');
 
       // Reset form
-      setFormData({ title: '', content: '', price: '', category: 'altres', tags: [] });
+      setFormData({
+        title: '',
+        content: '',
+        price: '',
+        category: 'altres',
+        tags: []
+      });
       setImages([]);
       setUploadProgress([]);
-
       alert("¡Publicat al Mas! La IAIA està orgullosa de tu.");
-
     } catch (err) {
       if (err instanceof z.ZodError) {
         const fieldErrors = {};
@@ -108,9 +101,7 @@ const NouPost = () => {
       setIsUploading(false);
     }
   };
-
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
+  return <div className="max-w-2xl mx-auto px-4 py-10">
       <div className="bg-white border-2 border-orange-400 rounded-3xl p-8 shadow-xl relative overflow-hidden">
         
         {/* Background Bruguera Touch */}
@@ -128,18 +119,10 @@ const NouPost = () => {
 
         {/* Selector Tipus */}
         <div className="flex gap-4 mb-8">
-          <button
-            type="button"
-            onClick={() => setType('post')}
-            className={`flex-1 py-4 rounded-2xl font-black transition-all ${type === 'post' ? 'bg-orange-500 text-white' : 'border border-orange-300 text-slate-600'}`}
-          >
+          <button type="button" onClick={() => setType('post')} className={`flex-1 py-4 rounded-2xl font-black transition-all ${type === 'post' ? 'bg-orange-500 text-white' : 'border border-orange-300 text-slate-600'}`}>
             📢 Al Mur
           </button>
-          <button
-            type="button"
-            onClick={() => setType('market')}
-            className={`flex-1 py-4 rounded-2xl font-black transition-all ${type === 'market' ? 'bg-orange-500 text-white' : 'border border-orange-300 text-slate-600'}`}
-          >
+          <button type="button" onClick={() => setType('market')} className={`flex-1 py-4 rounded-2xl font-black transition-all ${type === 'market' ? 'bg-orange-500 text-white' : 'border border-orange-300 text-slate-600'}`}>
             🛒 Al Mercat
           </button>
         </div>
@@ -147,55 +130,43 @@ const NouPost = () => {
         <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
           <div>
             <label className="block text-sm font-black mb-2 text-slate-700">Títol o Nom del Trasto</label>
-            <input
-              type="text"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full p-4 rounded-2xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none"
-              placeholder={type === 'post' ? "Què ha passat hui al poble?" : "Tractor John Deere 1978 (funciona quan vol)"}
-            />
+            <input type="text" value={formData.title} onChange={e => setFormData({
+            ...formData,
+            title: e.target.value
+          })} className="w-full p-4 rounded-2xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none" placeholder={type === 'post' ? "Què ha passat hui al poble?" : "Tractor John Deere 1978 (funciona quan vol)"} />
             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
           </div>
 
           <div>
             <label className="block text-sm font-black mb-2 text-slate-700">Conta'ns la història</label>
-            <textarea
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              rows={6}
-              className="w-full p-4 rounded-3xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none resize-y"
-              placeholder="La meua iaia deia que..."
-            />
+            <textarea value={formData.content} onChange={e => setFormData({
+            ...formData,
+            content: e.target.value
+          })} rows={6} className="w-full p-4 rounded-3xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none resize-y" placeholder="La meua iaia deia que..." />
             {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content}</p>}
           </div>
 
-          {type === 'market' && (
-            <div className="grid grid-cols-2 gap-6">
+          {type === 'market' && <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-black mb-2 text-slate-700">Preu (o "Intercanvi")</label>
-                <input
-                  type="text"
-                  value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                  className="w-full p-4 rounded-2xl border border-orange-200 outline-none focus:border-orange-500"
-                  placeholder="50 o intercanvi"
-                />
+                <input type="text" value={formData.price} onChange={e => setFormData({
+              ...formData,
+              price: e.target.value
+            })} className="w-full p-4 rounded-2xl border border-orange-200 outline-none focus:border-orange-500" placeholder="50 o intercanvi" />
               </div>
               <div>
                 <label className="block text-sm font-black mb-2 text-slate-700">Categoria</label>
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full p-4 rounded-2xl border border-orange-200 outline-none focus:border-orange-500 bg-white"
-                >
+                <select value={formData.category} onChange={e => setFormData({
+              ...formData,
+              category: e.target.value
+            })} className="w-full p-4 rounded-2xl border border-orange-200 outline-none focus:border-orange-500 bg-white">
                   <option value="eines">Eines i Trastos</option>
                   <option value="aliments">Aliments i Verdures</option>
                   <option value="animals">Animals del Mas</option>
                   <option value="tecnologia_rural">Tecnologia Rural</option>
                 </select>
               </div>
-            </div>
-          )}
+            </div>}
 
           {/* Pujada d'Imatges */}
           <div>
@@ -208,41 +179,27 @@ const NouPost = () => {
               </label>
             </div>
 
-            {images.length > 0 && (
-              <div className="mt-6 space-y-4">
-                {images.map((file, i) => (
-                  <div key={i} className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+            {images.length > 0 && <div className="mt-6 space-y-4">
+                {images.map((file, i) => <div key={i} className="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
                     <div className="flex-1">
                       <div className="text-sm truncate text-slate-700 font-medium">{file.name}</div>
                       <div className="h-2 bg-slate-200 rounded-full overflow-hidden mt-2">
-                        <motion.div 
-                          className="h-full bg-gradient-to-r from-orange-400 to-amber-300"
-                          initial={{ width: 0 }}
-                          animate={{ width: `${uploadProgress[i] || 0}%` }}
-                        />
+                      <div className="h-full bg-gradient-to-r from-orange-400 to-amber-300 transition-all duration-300" style={{ width: `${uploadProgress[i] || 0}%` }} />
                       </div>
                     </div>
                     <button type="button" onClick={() => removeImage(i)} className="text-red-500 p-2 hover:bg-red-50 rounded-lg">
                       <X />
                     </button>
-                  </div>
-                ))}
-              </div>
-            )}
+                  </div>)}
+              </div>}
           </div>
 
-          <button
-            type="submit"
-            disabled={isUploading}
-            className="w-full py-5 bg-orange-500 hover:bg-orange-600 text-white font-black text-xl rounded-3xl transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-md"
-          >
+          <button type="submit" disabled={isUploading} className="w-full py-5 bg-orange-500 hover:bg-orange-600 text-white font-black text-xl rounded-3xl transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-md">
             {isUploading ? "Pujant al Mas... Reme està suant" : "Publicar al Mas"}
             {!isUploading && <Tractor />}
           </button>
         </form>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default NouPost;

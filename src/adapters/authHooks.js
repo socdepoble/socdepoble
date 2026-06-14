@@ -17,13 +17,13 @@ import { USER_ROLES } from '../constants';
  * Només re-renderitza si canvia el perfil o l'usuari.
  */
 export const useSession = () => {
-    return useAuthStore(useShallow(state => ({
-        user: state.user,
-        profile: state.profile,
-        isAuthenticated: !!state.realUser && !state.isPlayground,
-        isGuest: !!state.user && !!state.user.isAnonymous,
-        loading: state.loading
-    })));
+  return useAuthStore(useShallow(state => ({
+    user: state.user,
+    profile: state.profile,
+    isAuthenticated: !!state.realUser && !state.isPlayground,
+    isGuest: !!state.user && !!state.user.isAnonymous,
+    loading: state.loading
+  })));
 };
 
 /**
@@ -31,21 +31,15 @@ export const useSession = () => {
  * Aïllat de l'estat de sessió general.
  */
 export const usePermissions = () => {
-    return useAuthStore(useShallow(state => {
-        const role = state.simulatedRole || state.profile?.role;
-        return {
-            currentRole: role || USER_ROLES.GUEST,
-            isSuperAdmin: role === USER_ROLES.SUPER_ADMIN,
-            isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(role),
-            isEditor: [
-                USER_ROLES.SUPER_ADMIN, 
-                USER_ROLES.ADMIN, 
-                USER_ROLES.REGION_COORDINATOR, 
-                USER_ROLES.TOWN_COORDINATOR, 
-                USER_ROLES.GROUP_COORDINATOR
-            ].includes(role)
-        };
-    }));
+  return useAuthStore(useShallow(state => {
+    const role = state.simulatedRole || state.profile?.role;
+    return {
+      currentRole: role || USER_ROLES.GUEST,
+      isSuperAdmin: role === USER_ROLES.SUPER_ADMIN,
+      isAdmin: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN].includes(role),
+      isEditor: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN, USER_ROLES.REGION_COORDINATOR, USER_ROLES.TOWN_COORDINATOR, USER_ROLES.GROUP_COORDINATOR].includes(role)
+    };
+  }));
 };
 
 /**
@@ -53,11 +47,11 @@ export const usePermissions = () => {
  * Útil només per al Xat o panells de control de la IA.
  */
 export const useJarvisState = () => {
-    return useAuthStore(useShallow(state => ({
-        activeActor: state.activeActor,
-        isPlayground: state.isPlayground,
-        simulatedRole: state.simulatedRole
-    })));
+  return useAuthStore(useShallow(state => ({
+    activeActor: state.activeActor,
+    isPlayground: state.isPlayground,
+    simulatedRole: state.simulatedRole
+  })));
 };
 
 /**
@@ -66,11 +60,11 @@ export const useJarvisState = () => {
  * això mai provocarà un re-render addicional.
  */
 export const useAuthActions = () => {
-    return useAuthStore(useShallow(state => ({
-        logout: state.logout,
-        loginAsGuest: state.loginAsGuest,
-        generateSovereignIdentity: state.generateSovereignIdentity,
-        setLanguage: state.setLanguage,
-        switchContext: state.switchContext
-    })));
+  return useAuthStore(useShallow(state => ({
+    logout: state.logout,
+    loginAsGuest: state.loginAsGuest,
+    generateSovereignIdentity: state.generateSovereignIdentity,
+    setLanguage: state.setLanguage,
+    switchContext: state.switchContext
+  })));
 };

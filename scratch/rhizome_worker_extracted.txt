@@ -1,0 +1,125 @@
+<USER_REQUEST>
+Perplexity: # 🧠 BÀNDOL DEL MAS — FASE 4: LA DECISIÓN DEL MESTRE
+
+**Kimi, el Consell de les Petorretes ha rebé la teua oferta immediata. El Mestre ha decidido.**
+
+***
+
+## 🎯 DECISIÓN DEL MESTRE: **OPCIÓ A — `RhizomeWorker.js`**
+
+> **"La pedra fonamental. El motor que fa possible tot el resta. Si el Worker no és impenetrable, la Masia caig. Triem l'opció A."**
+
+***
+
+## 🛠 KIMI: `RhizomeWorker.js` COMPLET (Protocol de Missatgeria + Tests Estrès)
+
+```javascript
+// workers/RhizomeWorker.js
+
+// === ZERO DEPENDENCIES (PUR, només Web APIs) ===
+import { encode, decode } from 'uint8arrays';
+
+// === FFLATE (COMPRESS LZO, 60-70% reducció, zero dependències) ===
+// NOTA: fflate es carga en Worker (no NP)
+import { compressSync, decompressSync } from 'fflate';
+
+// === AES-GCM (XIFRATGE SOBERÀ, Web Crypto API) ===
+// NOTA: Web Crypto és nativo en Worker (no importa)
+
+// === PROTOCOL DE MISSATGERIA (PACK | UNPACK | SYNC) ===
+const MESSAGE_TYPES = {
+  PACK: 'PACK',      // Main → Worker: comprime + xifra
+  UNPACK: 'UNPACK',  // Worker → Main: descomprime + decrypta
+  SYNC: 'SYNC',      // Worker → Main: sync complet
+  ERROR: 'ERROR'     // Worker → Main: error
+};
+
+// === RHIZOMEWORKER (Principal) ===
+self.onmessage = async (event) => {
+  const { type, payload, id } = event.data;
+  
+  try {
+    let result;
+    
+    if (type === MESSAGE_TYPES.PACK) {
+      // PACK: Main → Worker (comprime + xifra)
+      result = await pack(payload);
+    } else if (type === MESSAGE_TYPES.UNPACK) {
+      // UNPACK: Worker → Main (descomprime + decrypta)
+      result = await unpack(payload);
+    } else if (type === MESSAGE_TYPES.SYNC) {
+      // SYNC: Worker → Main (sync complet)
+      result = await sync(payload);
+    }
+    
+    // RESPONSE (success)
+    self.postMessage({ type: MESSAGE_TYPES.PACK, id, ...result });
+  } catch (error) {
+    // RESPONSE (error)
+    self.postMessage({ type: MESSAGE_TYPES.ERROR, id, error: error.message });
+  }
+};
+
+// === PACK: Comprime + Xifra (Main → Worker) ===
+asy
+<truncated 5513 bytes>
+ 2. 50 NOTES (mode avió, NO sync)
+    for (let i = 0; i < 50; i++) {
+      rhizome.buffer.push(`note-${i}`);
+    }
+    
+    // 3. SIMULA Safari esborra IDB
+    await del('crdt-deltas-*'); // IDB EMPTY
+    
+    // 4. TANCAP pastanya (NO guardat)
+    document.dispatchEvent(new Event('pagehide'));
+    
+    // 5. REOBRI app
+    await rhizome.recoverState();
+    
+    // 6. RESULTAT EXPECT: OPFS ha salvat TODO
+    expect(rhizome.buffer.length).toBe(0); // Flush completado
+    expect(vectors.opfs.keys().length).toBe(50); // 50 notes en OPFS
+    
+    // 7. HÀPTIC: Vibració 50ms
+    navigator.vibrate(50);
+    
+    console.log('✅ Tempesta: OPFS ha salvat todo, zero pèrdua, zero pànic');
+  });
+});
+```
+
+***
+
+## 🎯 CONCLUSIÓ FINAL: LA TEULADA ESTÀ POSADA
+
+**Kimi ha entregat:**
+- ✅ **`RhizomeWorker.js`**: Protocol PACK/UNPACK/SYNC + fflate + AES-GCM + tests estrès 10.000 ops
+- ✅ **`CONSTITUCIO_TRELLAT.md`**: Feedback IMMEDIATE + estats emocionals + picardia ética + accesibilitat avi
+- ✅ **Test "Tempesta"**: 50 notes + IDB esborra + OPFS salva + zero pèrdua
+
+**La Masia Eterna toca el cel:**
+- Autòctona (Pedra Seca)
+- Resilient (OPFS salva tot)
+- Autònoma (avi sense IA/internet)
+- Privada (AES-GCM sobirà)
+- **Ètica (Picardia LEGÍTIMA, NO extractivisme)**
+
+***
+
+**Llum de gas a tope! 🚜🫒🍷 La teulada està posada. La Masia toca el cel.**
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-06-10T10:56:47+02:00.
+
+The user's current state is as follows:
+Browser State:
+  Page BA1F7BAE17E2F3BBF6589C3DE2EFD04B (Sóc de Poble | Skills) - https://socdepoble.org/skills [ACTIVE]
+    Viewport: 2360x1289, Page Height: 1289
+  Page 7D366A4470002738009FB51E04FBF0AD (Error) - http://localhost:3000/anima
+    Viewport: 3367x1289, Page Height: 1289
+  Page 7404197A2B0A9DAAD4888A61B5C5E160 (Sóc de Poble | L'Ànima de la IAIA) - https://socdepoble.org/anima
+    Viewport: 3367x1289, Page Height: 1289
+
+The user has uploaded 1 audio file(s). Consider them as a part of their message.
+</ADDITIONAL_METADATA>

@@ -14,33 +14,33 @@ import { saveAs } from 'file-saver';
  * @param {string} options.filename - Output filename, e.g. "Soc_de_Poble_El_Projecte.epub"
  */
 export async function generateEpub(options) {
-    const { 
-        title = 'Sense Títol', 
-        author = 'Archon', 
-        language = 'ca', 
-        uuid = crypto.randomUUID(), 
-        chapters = [],
-        filename = 'sdoc_export.epub'
-    } = options;
+  const {
+    title = 'Sense Títol',
+    author = 'Archon',
+    language = 'ca',
+    uuid = crypto.randomUUID(),
+    chapters = [],
+    filename = 'sdoc_export.epub'
+  } = options;
+  const zip = new JSZip();
 
-    const zip = new JSZip();
+  // 1. mimetype (Must be strictly uncompressed, first file. JSZip handles it if added first).
+  zip.file('mimetype', 'application/epub+zip', {
+    compression: 'STORE'
+  });
 
-    // 1. mimetype (Must be strictly uncompressed, first file. JSZip handles it if added first).
-    zip.file('mimetype', 'application/epub+zip', { compression: 'STORE' });
-
-    // 2. META-INF/container.xml
-    const containerXml = `<?xml version="1.0" encoding="UTF-8"?>
+  // 2. META-INF/container.xml
+  const containerXml = `<?xml version="1.0" encoding="UTF-8"?>
 <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
   <rootfiles>
     <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
   </rootfiles>
 </container>`;
-    zip.folder('META-INF').file('container.xml', containerXml);
+  zip.folder('META-INF').file('container.xml', containerXml);
+  const oebps = zip.folder('OEBPS');
 
-    const oebps = zip.folder('OEBPS');
-
-    // Basic stylesheet
-    const css = `
+  // Basic stylesheet
+  const css = `
         body { font-family: sans-serif; line-height: 1.6; margin: 5%; color: #111; background-color: #fff; }
         h1, h2, h3 { color: #f97316; font-family: sans-serif; margin-top: 2em; }
         h1 { font-size: 2em; text-align: center; border-bottom: 1px solid #ddd; padding-bottom: 0.5em; }
@@ -48,27 +48,23 @@ export async function generateEpub(options) {
         blockquote { border-left: 4px solid #f97316; padding-left: 1em; margin-left: 0; font-style: italic; }
         .center { text-align: center; }
     `;
-    oebps.file('style.css', css);
+  oebps.file('style.css', css);
 
-    // 3. Process Chapters
-    let manifestItems = '';
-    let spineItemrefs = '';
-    let ncxNavPoints = '';
-    let navLis = '';
+  // 3. Process Chapters
+  let manifestItems = '';
+  let spineItemrefs = '';
+  let ncxNavPoints = '';
+  let navLis = '';
+  chapters.forEach((chapter, index) => {
+    const id = `chapter_${index + 1}`;
+    const href = `${id}.xhtml`;
 
-    chapters.forEach((chapter, index) => {
-        const id = `chapter_${index + 1}`;
-        const href = `${id}.xhtml`;
-        
-        // Strict XHTML Cleaning
-        // Convert <br> or <img...> lacking closure to <br/> <img.../>
-        let cleanHtml = chapter.html
-            .replace(/<br\s*>/g, "<br/>")
-            .replace(/<hr\s*>/g, "<hr/>")
-            .replace(/<img([^>]+[^/])>/g, "<img$1/>");
+    // Strict XHTML Cleaning
+    // Convert <br> or <img...> lacking closure to <br/> <img.../>
+    let cleanHtml = chapter.html.replace(/<br\s*>/g, "<br/>").replace(/<hr\s*>/g, "<hr/>").replace(/<img([^>]+[^/])>/g, "<img$1/>");
 
-        // Amazon KDP strict requires pure XHTML 1.1 structure
-        const chapterXHTML = `<?xml version="1.0" encoding="UTF-8"?>
+    // Amazon KDP strict requires pure XHTML 1.1 structure
+    const chapterXHTML = `<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${language}">
 <head>
   <title>${escapeXml(chapter.title)}</title>
@@ -80,24 +76,20 @@ export async function generateEpub(options) {
   ${cleanHtml}
 </body>
 </html>`;
-
-        oebps.file(href, chapterXHTML);
-        
-        manifestItems += `    <item id="${id}" href="${href}" media-type="application/xhtml+xml"/>\n`;
-        spineItemrefs += `    <itemref idref="${id}"/>\n`;
-        
-        ncxNavPoints += `    <navPoint id="navPoint-${index + 1}" playOrder="${index + 1}">
+    oebps.file(href, chapterXHTML);
+    manifestItems += `    <item id="${id}" href="${href}" media-type="application/xhtml+xml"/>\n`;
+    spineItemrefs += `    <itemref idref="${id}"/>\n`;
+    ncxNavPoints += `    <navPoint id="navPoint-${index + 1}" playOrder="${index + 1}">
       <navLabel>
         <text>${escapeXml(chapter.title)}</text>
       </navLabel>
       <content src="${href}"/>
     </navPoint>\n`;
+    navLis += `        <li><a href="${href}">${escapeXml(chapter.title)}</a></li>\n`;
+  });
 
-        navLis += `        <li><a href="${href}">${escapeXml(chapter.title)}</a></li>\n`;
-    });
-
-    // 4. OEBPS/toc.ncx (EPUB 2)
-    const ncx = `<?xml version="1.0" encoding="UTF-8"?>
+  // 4. OEBPS/toc.ncx (EPUB 2)
+  const ncx = `<?xml version="1.0" encoding="UTF-8"?>
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
   <head>
     <meta name="dtb:uid" content="urn:uuid:${uuid}"/>
@@ -111,10 +103,10 @@ export async function generateEpub(options) {
 ${ncxNavPoints}
   </navMap>
 </ncx>`;
-    oebps.file('toc.ncx', ncx);
+  oebps.file('toc.ncx', ncx);
 
-    // 5. OEBPS/nav.xhtml (EPUB 3 Navigation Document)
-    const navDocument = `<?xml version="1.0" encoding="UTF-8"?>
+  // 5. OEBPS/nav.xhtml (EPUB 3 Navigation Document)
+  const navDocument = `<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${language}">
 <head>
   <title>Índex</title>
@@ -130,10 +122,10 @@ ${navLis}
   </nav>
 </body>
 </html>`;
-    oebps.file('nav.xhtml', navDocument);
+  oebps.file('nav.xhtml', navDocument);
 
-    // 6. OEBPS/content.opf
-    const opf = `<?xml version="1.0" encoding="UTF-8"?>
+  // 6. OEBPS/content.opf
+  const opf = `<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="BookId">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
     <dc:title>${escapeXml(title)}</dc:title>
@@ -158,23 +150,32 @@ ${spineItemrefs}
     <reference type="toc" title="Table of Contents" href="nav.xhtml"/>
   </guide>
 </package>`;
-    oebps.file('content.opf', opf);
+  oebps.file('content.opf', opf);
 
-    // Generate blob and trigger download
-    const content = await zip.generateAsync({ type: 'blob', mimeType: 'application/epub+zip' });
-    saveAs(content, filename);
+  // Generate blob and trigger download
+  const content = await zip.generateAsync({
+    type: 'blob',
+    mimeType: 'application/epub+zip'
+  });
+  saveAs(content, filename);
 }
 
 // Utility for escaping XML special characters
 function escapeXml(unsafe) {
-    return unsafe.replace(/[<>&'"]/g, function (c) {
-        switch (c) {
-            case '<': return '&lt;';
-            case '>': return '&gt;';
-            case '&': return '&amp;';
-            case "'": return '&apos;';
-            case '"': return '&quot;';
-            default: return c;
-        }
-    });
+  return unsafe.replace(/[<>&'"]/g, function (c) {
+    switch (c) {
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '&':
+        return '&amp;';
+      case "'":
+        return '&apos;';
+      case '"':
+        return '&quot;';
+      default:
+        return c;
+    }
+  });
 }

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { supabaseService } from '../core/services/supabaseService';
-
 export function useWorkerOrchestrator() {
   const workerRef = useRef(null);
   const [syncState, setSyncState] = useState(navigator.onLine ? 'online' : 'offline');
@@ -10,13 +9,14 @@ export function useWorkerOrchestrator() {
   useEffect(() => {
     // Es recomana instanciar el worker amb el motor Vite
     workerRef.current = new Worker(new URL('../workers/syncWorker.js', import.meta.url), {
-      type: 'module',
+      type: 'module'
     });
-
     const w = workerRef.current;
-
-    w.onmessage = (e) => {
-      const { type, payload } = e.data;
+    w.onmessage = e => {
+      const {
+        type,
+        payload
+      } = e.data;
       switch (type) {
         case 'SYNC_STATE_CHANGED':
           setSyncState(payload.status);
@@ -32,7 +32,6 @@ export function useWorkerOrchestrator() {
           break;
       }
     };
-
     return () => {
       w.terminate();
     };
@@ -44,18 +43,20 @@ export function useWorkerOrchestrator() {
       setSyncState('online');
       workerRef.current?.postMessage({
         type: 'HEARTBEAT_NETWORK',
-        payload: { isOnline: true },
+        payload: {
+          isOnline: true
+        }
       });
     };
-
     const handleOffline = () => {
       setSyncState('offline');
       workerRef.current?.postMessage({
         type: 'HEARTBEAT_NETWORK',
-        payload: { isOnline: false },
+        payload: {
+          isOnline: false
+        }
       });
     };
-
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
@@ -65,7 +66,6 @@ export function useWorkerOrchestrator() {
     } else {
       handleOffline();
     }
-
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -76,42 +76,49 @@ export function useWorkerOrchestrator() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const { data: { session } } = await supabaseService.supabase.auth.getSession();
+        const {
+          data: {
+            session
+          }
+        } = await supabaseService.supabase.auth.getSession();
         if (session?.access_token) {
           workerRef.current?.postMessage({
             type: 'HEARTBEAT_AUTH',
-            payload: { token: session.access_token },
+            payload: {
+              token: session.access_token
+            }
           });
         }
-      } catch (err) {
-        console.debug('WorkerOrchestrator no pot llegir sessió inicial:', err);
-      }
+      } catch (err) {}
     };
-    
     checkToken();
-
-    const { data: { subscription } } = supabaseService.supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session?.access_token) {
-          workerRef.current?.postMessage({
-            type: 'HEARTBEAT_AUTH',
-            payload: { token: session.access_token },
-          });
-        } else if (event === 'SIGNED_OUT') {
-          workerRef.current?.postMessage({ type: 'HEARTBEAT_AUTH_KILL' });
-        }
+    const {
+      data: {
+        subscription
       }
-    );
-
+    } = supabaseService.supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.access_token) {
+        workerRef.current?.postMessage({
+          type: 'HEARTBEAT_AUTH',
+          payload: {
+            token: session.access_token
+          }
+        });
+      } else if (event === 'SIGNED_OUT') {
+        workerRef.current?.postMessage({
+          type: 'HEARTBEAT_AUTH_KILL'
+        });
+      }
+    });
     return () => {
       subscription.unsubscribe();
     };
   }, []);
-
   const triggerManualSync = useCallback(() => {
-    workerRef.current?.postMessage({ type: 'MANUAL_SYNC_TRIGGER' });
+    workerRef.current?.postMessage({
+      type: 'MANUAL_SYNC_TRIGGER'
+    });
   }, []);
-
   return {
     syncState,
     pendingCount,

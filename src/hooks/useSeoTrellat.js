@@ -7,23 +7,29 @@ import { useEffect } from 'react';
  * S'assegura que Googlebot i altres rastejadors tinguen la informació correcta 
  * en cada pàgina i evita contingut duplicat.
  */
-export function useSeoTrellat({ titol, descripcio, urlCanonica, ogImatge, tipus = 'website' }) {
+export function useSeoTrellat({
+  titol,
+  descripcio,
+  urlCanonica,
+  ogImatge,
+  tipus = 'website'
+}) {
   useEffect(() => {
     const base = 'Sóc de Poble';
-    
+
     // 1. Mutació asèptica del títol
     document.title = titol ? `${titol} | ${base}` : base;
-    
+
     // 2. Injecció o modificació de meta etiquetes base
     setMeta('name', 'description', descripcio || 'Connecta amb la teua comunitat i recupera el trellat del territori.');
-    
+
     // 3. Open Graph (Social)
     setMeta('property', 'og:title', titol ? `${titol} | ${base}` : base);
     setMeta('property', 'og:description', descripcio || '');
     setMeta('property', 'og:type', tipus);
     if (ogImatge) setMeta('property', 'og:image', ogImatge);
     if (urlCanonica) setMeta('property', 'og:url', `https://socdepoble.org${urlCanonica}`);
-    
+
     // 4. Twitter Cards
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', titol ? `${titol} | ${base}` : base);

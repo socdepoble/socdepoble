@@ -1,53 +1,58 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 export function useScrollMetrics(scrollRef) {
-    const pageNumberRef = useRef(null);
-    const [totalPages, setTotalPages] = useState(1);
+  // Defecte 3: Utilitzem useState perquè UI s'actualitze (només dispara quan canvia)
+  const [totalPages, setTotalPages] = useState(1);
+  const pageNumberRef = useRef(null);
+  const rafIdRef = useRef(null);
 
-    useEffect(() => {
-        const scrollContainer = scrollRef.current;
-        if (!scrollContainer) return;
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
 
-        let rafId = null;
-        let resizeObs = null;
+    const updateMetrics = () => {
+      if (rafIdRef.current) return;
+      rafIdRef.current = requestAnimationFrame(() => {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
+        if (clientWidth <= 0) {
+          rafIdRef.current = null;
+          return;
+        }
 
-        const updateMetrics = () => {
-            cancelAnimationFrame(rafId);
-            rafId = requestAnimationFrame(() => {
-                const { scrollLeft, scrollWidth, clientWidth } = scrollContainer;
-                if (clientWidth <= 0) return;
+        const calculated = Math.max(1, Math.min(10000, Math.ceil(scrollWidth / clientWidth)));
+        setTotalPages(prev => prev !== calculated ? calculated : prev);
 
-                const calculated = Math.max(1, Math.min(10000, Math.ceil(scrollWidth / clientWidth)));
-                setTotalPages(prev => prev !== calculated ? calculated : prev);
+        if (scrollWidth > clientWidth) {
+          const percentage = scrollLeft / (scrollWidth - clientWidth);
+          const current = Math.max(1, Math.min(calculated, Math.round(percentage * (calculated - 1)) + 1));
+          if (pageNumberRef.current && pageNumberRef.current.textContent !== String(current)) {
+            pageNumberRef.current.textContent = String(current);
+          }
+        } else if (pageNumberRef.current && pageNumberRef.current.textContent !== '1') {
+          pageNumberRef.current.textContent = '1';
+        }
+        rafIdRef.current = null;
+      });
+    };
 
-                if (scrollWidth > clientWidth) {
-                    const percentage = scrollLeft / (scrollWidth - clientWidth);
-                    const current = Math.max(1, Math.min(calculated, Math.round(percentage * (calculated - 1)) + 1));
-                    if (pageNumberRef.current && pageNumberRef.current.textContent !== String(current)) {
-                        pageNumberRef.current.textContent = String(current);
-                    }
-                } else if (pageNumberRef.current && pageNumberRef.current.textContent !== '1') {
-                    pageNumberRef.current.textContent = '1';
-                }
-            });
-        };
+    const resizeObs = new ResizeObserver(updateMetrics);
+    resizeObs.observe(scrollContainer);
+    scrollContainer.addEventListener('scroll', updateMetrics, { passive: true });
 
-        resizeObs = new ResizeObserver(updateMetrics);
-        resizeObs.observe(scrollContainer);
-        scrollContainer.addEventListener('scroll', updateMetrics, { passive: true });
+    const t1 = setTimeout(updateMetrics, 500);
+    const t2 = setTimeout(updateMetrics, 1500);
 
-        // Delay per a esperar que carreguen fonts i imatges
-        const t1 = setTimeout(updateMetrics, 500);
-        const t2 = setTimeout(updateMetrics, 1500);
+    return () => {
+      cancelAnimationFrame(rafIdRef.current);
+      resizeObs.disconnect();
+      scrollContainer.removeEventListener('scroll', updateMetrics);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [scrollRef]);
 
-        return () => {
-            cancelAnimationFrame(rafId);
-            resizeObs?.disconnect();
-            scrollContainer.removeEventListener('scroll', updateMetrics);
-            clearTimeout(t1);
-            clearTimeout(t2);
-        };
-    }, [scrollRef]);
-
-    return { pageNumberRef, totalPages };
+  return {
+    pageNumberRef,
+    totalPages
+  };
 }

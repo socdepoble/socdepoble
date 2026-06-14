@@ -1,0 +1,105 @@
+/* src/styles/matrioixca.css */
+/* EL DNA INVIOLABLE DE PEDRA SECA */
+:root {
+  --sp-surface: #ffffff;
+  --uc-accent: #F97316;
+  --sp-color-mercat: #3B82F6;
+  --sp-color-sostenible: #10B981;
+  --sp-color-alert: #EF4444;
+  --sp-color-neutral: #F97316;
+}
+
+.sp-matrioixca {
+  display: flex;
+  flex-direction: column;
+  contain: layout paint; /* El baluard termodinàmic per excel·lència */
+  isolation: isolate;
+  background-color: var(--sp-surface, #ffffff);
+  /* La sang visual fluirà en cascada cap als elements fills */
+  --mat-accent: var(--uc-accent, #F97316); 
+  position: relative;
+}
+
+/* Fallback per a variables dinàmiques sense estils inline */
+.sp-matrioixca[data-accent="mercat"] { --mat-accent: var(--sp-color-mercat); }
+.sp-matrioixca[data-accent="sostenible"] { --mat-accent: var(--sp-color-sostenible); }
+.sp-matrioixca[data-accent="alert"] { --mat-accent: var(--sp-color-alert); }
+.sp-matrioixca[data-accent="neutral"] { --mat-accent: var(--sp-color-neutral); }
+
+/* 1. L'Anatomia Compartida */
+.sp-matrioixca-head { flex-shrink: 0; min-height: 56px; padding: 1rem; font-weight: bold; }
+.sp-matrioixca-body { flex-grow: 1; overflow-y: auto; padding: 1rem; }
+.sp-matrioixca-foot { flex-shrink: 0; margin-top: auto; padding: 1rem; background-color: var(--mat-accent); display: flex; gap: 0.5rem; justify-content: flex-end; }
+
+/* 2. L'Aura Unificada (Antic Corner Glow amagat al DOM) */
+.sp-matrioixca::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: clamp(4rem, 15%, 8rem); aspect-ratio: 1/1;
+  background: var(--mat-accent); border-bottom-left-radius: 100%;
+  opacity: 0.04; pointer-events: none; z-index: -1;
+}
+
+/* === LES MUTACIONS D'ESCALA === */
+
+/* Escala 1: La Nina Menuda (Targeta al Mur) */
+.sp-matrioixca[data-escala="targeta"] {
+  height: 100%; border-radius: 1rem;
+  border: 1px solid #e5e5e5;
+}
+
+@supports (content-visibility: auto) {
+  .sp-matrioixca[data-escala="targeta"] {
+    content-visibility: auto; /* Virtualització asíncrona salvatge */
+    contain-intrinsic-size: 0 450px;
+  }
+}
+
+/* Escala 2: La Nina Mitjana (Modal / Diàleg natiu) */
+dialog.sp-matrioixca {
+  width: 100vw; max-width: 32rem; max-height: 85dvh;
+  border-radius: 1.5rem; margin: auto; /* WebKit ho centra automàticament */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 0; /* El padding va al head/body/foot */
+  contain: layout paint;
+  content-visibility: auto;
+}
+dialog.sp-matrioixca::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Escala 3: La Nina Gran (Pàgina Completa / AppShell) */
+.sp-matrioixca[data-escala="pagina"] {
+  width: 100vw; height: 100dvh; /* Bloqueja els rebrots d'iOS */
+  border-radius: 0; border: none;
+}
+
+/* --- OVERSCROLL CONDICIONAL --- */
+.sp-matrioixca[data-escala="pagina"] .sp-matrioixca-body {
+  overscroll-behavior-y: auto;
+}
+
+.sp-matrioixca[data-escala="targeta"] .sp-matrioixca-body,
+.sp-matrioixca[data-escala="mitjana"] .sp-matrioixca-body {
+  overscroll-behavior-y: contain;
+}
+
+/* Util class per botons primaris d'acció */
+.sp-btn-primary {
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  color: var(--mat-accent);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@supports not (height: 100dvh) {
+  .sp-matrioixca[data-escala="pagina"] {
+    height: 100vh;
+  }
+  dialog.sp-matrioixca {
+    max-height: 85vh;
+  }
+}

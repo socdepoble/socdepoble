@@ -13,7 +13,9 @@ export class VectorClock {
    * Retorna un nou vector clock amb el comptador del node actual incrementat.
    */
   increment(nodeId) {
-    const newEntries = { ...this.entries };
+    const newEntries = {
+      ...this.entries
+    };
     newEntries[nodeId] = (newEntries[nodeId] || 0) + 1;
     return new VectorClock(newEntries);
   }
@@ -25,11 +27,7 @@ export class VectorClock {
   compare(other) {
     let less = false;
     let greater = false;
-    const allNodes = new Set([
-      ...Object.keys(this.entries),
-      ...Object.keys(other.entries)
-    ]);
-
+    const allNodes = new Set([...Object.keys(this.entries), ...Object.keys(other.entries)]);
     for (const node of allNodes) {
       const a = this.entries[node] || 0;
       const b = other.entries[node] || 0;
@@ -37,7 +35,6 @@ export class VectorClock {
       if (a > b) greater = true;
       if (less && greater) return null; // concurrents
     }
-
     if (less) return -1;
     if (greater) return 1;
     return 0;
@@ -47,7 +44,9 @@ export class VectorClock {
    * Fusiona dos vector clocks (pren el màxim de cada node).
    */
   merge(other) {
-    const merged = { ...this.entries };
+    const merged = {
+      ...this.entries
+    };
     for (const [node, count] of Object.entries(other.entries)) {
       merged[node] = Math.max(merged[node] || 0, count);
     }

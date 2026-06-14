@@ -1,26 +1,20 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
 export function usePreBlockFormatter(htmlContent) {
-    const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
 
-    // En lloc de mutar el DOM amb document.createElement, transformem el HTML abans de renderitzar.
-    // Això evita problemes de repintat i inconsistències al Virtual DOM de React.
-    const formattedHtml = useMemo(() => {
-        if (!htmlContent) return '';
-        
-        return htmlContent.replace(
-            /<pre([^>]*)>([\s\S]*?)<\/pre>/gi,
-            (match, attrs, innerContent) => {
-                // Detectar llenguatge
-                const langMatch = innerContent.match(/class="[^"]*language-(\w+)/);
-                const lang = langMatch ? langMatch[1] : '';
-                
-                const langBadge = lang 
-                    ? `<span class="pedra-code__lang text-xs uppercase font-bold text-[var(--sp-text-muted)]">${lang}</span>` 
-                    : '';
-                
-                return `
+  // En lloc de mutar el DOM amb document.createElement, transformem el HTML abans de renderitzar.
+  // Això evita problemes de repintat i inconsistències al Virtual DOM de React.
+  const formattedHtml = useMemo(() => {
+    if (!htmlContent) return '';
+    return htmlContent.replace(/<pre([^>]*)>([\s\S]*?)<\/pre>/gi, (match, attrs, innerContent) => {
+      // Detectar llenguatge
+      const langMatch = innerContent.match(/class="[^"]*language-(\w+)/);
+      const lang = langMatch ? langMatch[1] : '';
+      const langBadge = lang ? `<span class="pedra-code__lang text-xs uppercase font-bold text-[var(--sp-text-muted)]">${lang}</span>` : '';
+      return `
                     <div class="pedra-code relative my-6 rounded-lg overflow-hidden border border-[var(--sp-border-master)] bg-[var(--sp-bg-panel)] shadow-sm">
                         <div class="pedra-code__header flex justify-between items-center px-4 py-2 bg-[var(--sp-bg-app)] border-b border-[var(--sp-border-master)]">
                             <span class="pedra-code__title text-sm font-semibold flex items-center gap-2">
@@ -42,9 +36,7 @@ export function usePreBlockFormatter(htmlContent) {
                         </div>
                     </div>
                 `;
-            }
-        );
-    }, [htmlContent, t]);
-
-    return formattedHtml;
+    });
+  }, [htmlContent, t]);
+  return formattedHtml;
 }

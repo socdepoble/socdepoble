@@ -4,73 +4,63 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearSca
 import './GenesisViewer.css';
 
 // Register ChartJS components
-ChartJS.register(
-    ArcElement, Tooltip, Legend, CategoryScale,
-    LinearScale, PointElement, LineElement, Title, Filler
-);
-
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler);
 const GenesisViewer = () => {
-    const navigate = useNavigate();
-    const [currentTab, setCurrentTab] = useState('dashboard');
-    const [radius, setRadius] = useState(16);
-    const [solarMode, setSolarMode] = useState(false);
+  const navigate = useNavigate();
+  const [currentTab, setCurrentTab] = useState('dashboard');
+  const [radius, setRadius] = useState(16);
+  const [solarMode, setSolarMode] = useState(false);
 
-    // Sync radius with CSS theme variable
-    useEffect(() => {
-        document.documentElement.style.setProperty('--radius-raw', `${radius}px`);
-    }, [radius]);
+  // Sync radius with CSS theme variable
+  useEffect(() => {
+    document.documentElement.style.setProperty('--radius-raw', `${radius}px`);
+  }, [radius]);
+  const toggleSolarMode = () => {
+    setSolarMode(!solarMode);
+    // This would ideally toggle a global class
+    document.body.classList.toggle('solar-mode', !solarMode);
+  };
 
-    const toggleSolarMode = () => {
-        setSolarMode(!solarMode);
-        // This would ideally toggle a global class
-        document.body.classList.toggle('solar-mode', !solarMode);
-    };
-
-    // Chart Data
-    const rhizomeData = {
-        labels: ['Dl', 'Dt', 'Dc', 'Dj', 'Dv'],
-        datasets: [{
-            label: 'Nodes Actius (Veïns)',
-            data: [12, 19, 8, 15, 22],
-            borderColor: '#ff6d00',
-            backgroundColor: 'rgba(255, 109, 0, 0.1)',
-            borderWidth: 3,
-            tension: 0.4,
-            fill: true,
-            pointRadius: 4,
-            pointBackgroundColor: '#FFFFFF',
-            pointBorderColor: '#ff6d00'
-        }]
-    };
-
-    const tasksData = {
-        labels: ['Trellat (Útil)', 'Morca (Brossa)'],
-        datasets: [{
-            data: [65, 35],
-            backgroundColor: ['#007aff', '#e2e8f0'],
-            borderWidth: 0,
-            hoverOffset: 4
-        }]
-    };
-
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: false }
-        }
-    };
-
-    return (
-        <div className="genesis-viewer">
+  // Chart Data
+  const rhizomeData = {
+    labels: ['Dl', 'Dt', 'Dc', 'Dj', 'Dv'],
+    datasets: [{
+      label: 'Nodes Actius (Veïns)',
+      data: [12, 19, 8, 15, 22],
+      borderColor: '#ff6d00',
+      backgroundColor: 'rgba(255, 109, 0, 0.1)',
+      borderWidth: 3,
+      tension: 0.4,
+      fill: true,
+      pointRadius: 4,
+      pointBackgroundColor: '#FFFFFF',
+      pointBorderColor: '#ff6d00'
+    }]
+  };
+  const tasksData = {
+    labels: ['Trellat (Útil)', 'Morca (Brossa)'],
+    datasets: [{
+      data: [65, 35],
+      backgroundColor: ['#007aff', '#e2e8f0'],
+      borderWidth: 0,
+      hoverOffset: 4
+    }]
+  };
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      }
+    }
+  };
+  return <div className="genesis-viewer">
             {/* Header: Identity & Navigation */}
             <div role="region" aria-label="Capçalera de Secció" className="genesis-header">
                 <div className="header-container flex items-center gap-6">
-                    <button 
-                        onClick={() => navigate(-1)} 
-                        className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0"
-                        title="Tornar"
-                    >
+                    <button onClick={() => navigate(-1)} className="p-3 bg-white/5 hover:bg-white/10 rounded-full text-white transition-colors border border-white/10 shrink-0" title="Tornar">
+            
                         <ArrowLeft size={20} />
                     </button>
                     <div className="brand-box flex-1">
@@ -90,8 +80,7 @@ const GenesisViewer = () => {
 
             {/* Main Content */}
             <div role="region" aria-label="Contingut Principal" className="genesis-content">
-                {currentTab === 'dashboard' && (
-                    <section id="dashboard" className="fade-in">
+                {currentTab === 'dashboard' && <section id="dashboard" className="fade-in">
                         <div className="intro-card shadow-sm">
                             <h2 className="text-xl font-bold">👋 Xé, Mestre Javi!</h2>
                             <p className="text-body mt-2">
@@ -115,15 +104,15 @@ const GenesisViewer = () => {
                                 <p className="text-small">Estat de sincronització dels agents intel·ligents.</p>
                                 <ul className="team-list mt-4">
                                     <li className="team-item">
-                                        <span>Mestre Javi</span>
+                                        Mestre Javi
                                         <span className="role-tag">Huma/Sobirà</span>
                                     </li>
                                     <li className="team-item active-sync">
-                                        <span>Flash (LM)</span>
+                                        Flash (LM)
                                         <span className="status-tag">Analista</span>
                                     </li>
                                     <li className="team-item active-sync">
-                                        <span>Gem (Personalitzat)</span>
+                                        Gem (Personalitzat)
                                         <span className="status-tag">Arquitecta</span>
                                     </li>
                                 </ul>
@@ -139,18 +128,12 @@ const GenesisViewer = () => {
 
                                 <div className="control-group mt-6">
                                     <label className="control-label">Radi de les Voreres (Border Radius)</label>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="32"
-                                        value={radius}
-                                        onChange={(e) => setRadius(parseInt(e.target.value))}
-                                        className="token-slider"
-                                    />
+                                    <input type="range" min="0" max="32" value={radius} onChange={e => setRadius(parseInt(e.target.value))} className="token-slider" />
+                
                                     <div className="slider-labels">
-                                        <span>Recte</span>
+                                        Recte
                                         <span className="current-value">{radius}px</span>
-                                        <span>Rodó</span>
+                                        Rodó
                                     </div>
                                 </div>
                                 <button className="btn-tonal w-full mt-6" onClick={toggleSolarMode}>
@@ -171,14 +154,12 @@ const GenesisViewer = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
-                )}
+                    </section>}
 
-                {currentTab === 'doctrine' && (
-                    <section id="doctrine" className="fade-in space-y-8">
+                {currentTab === 'doctrine' && <section id="doctrine" className="fade-in space-y-8">
                         <div className="section-header">
                             <h2 className="text-2xl font-bold flex items-center gap-2">
-                                <span>📜</span> Els Tres Pilars (Core Values)
+                                📜 Els Tres Pilars (Core Values)
                             </h2>
                             <p className="text-secondary">Extret directament del manifest mestre.</p>
                         </div>
@@ -204,17 +185,15 @@ const GenesisViewer = () => {
                         <div className="dictionary-card card bg-stone-100">
                             <h3>🗣️ El Llenguatge del Poble</h3>
                             <div className="dictionary-grid">
-                                <div className="word-box"><strong>Esmunyir</strong> <span>No perdre res</span></div>
-                                <div className="word-box"><strong>Trastombar</strong> <span>Girar / Canviar</span></div>
-                                <div className="word-box"><strong>Morca</strong> <span>Informació brossa</span></div>
-                                <div className="word-box"><strong>Gronsa</strong> <span>Balancejar</span></div>
+                                <div className="word-box"><strong>Esmunyir</strong> No perdre res</div>
+                                <div className="word-box"><strong>Trastombar</strong> Girar / Canviar</div>
+                                <div className="word-box"><strong>Morca</strong> Informació brossa</div>
+                                <div className="word-box"><strong>Gronsa</strong> Balancejar</div>
                             </div>
                         </div>
-                    </section>
-                )}
+                    </section>}
 
-                {currentTab === 'visuals' && (
-                    <section id="visuals" className="fade-in grid lg:grid-cols-2 gap-12">
+                {currentTab === 'visuals' && <section id="visuals" className="fade-in grid lg:grid-cols-2 gap-12">
                         <div className="lab-tokens">
                             <h2 className="text-2xl font-bold mb-4">🎛️ Laboratori de Tokens</h2>
                             <div className="card p-8 space-y-8">
@@ -236,13 +215,14 @@ const GenesisViewer = () => {
                             <div className="card p-6 h-80 flex flex-col">
                                 <h4 className="font-bold mb-4">Qualitat de la Dada</h4>
                                 <div className="flex-grow">
-                                    <Doughnut data={tasksData} options={{ maintainAspectRatio: false }} />
+                                    <Doughnut data={tasksData} options={{
+                maintainAspectRatio: false
+              }} />
                                 </div>
                                 <p className="text-center italic text-small mt-4">"Qui guarda, troba."</p>
                             </div>
                         </div>
-                    </section>
-                )}
+                    </section>}
             </div>
 
             <footer className="genesis-footer p-8 border-t mt-12">
@@ -251,8 +231,6 @@ const GenesisViewer = () => {
                     <p className="text-micro opacity-50 mt-2">BUILD: IAIA_MARIA_V3.1.0 // PROTOCOL ATUM READY</p>
                 </div>
             </footer>
-        </div>
-    );
+        </div>;
 };
-
 export default GenesisViewer;

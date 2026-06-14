@@ -1,7 +1,5 @@
-
 const IAIASandbox = () => {
-    return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4 font-sans max-w-3xl mx-auto">
+  return <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4 font-sans max-w-3xl mx-auto">
             <Helmet>
                 <title>IAIA Voz Sandbox - Sóc de Poble</title>
                 <meta name="robots" content="noindex, nofollow" />
@@ -33,7 +31,7 @@ const IAIASandbox = () => {
                     Laboratori d'Interacció
                 </h2>
                 
-                <IAIAVozButton onResult={(text) => console.log('Transcrit: ', text)} />
+                <IAIAVozButton onResult={text => {}} />
             </div>
 
             {/* Contexto técnico */}
@@ -46,8 +44,6 @@ const IAIASandbox = () => {
                 <p className="mb-2">» Detecció de suport per idioma: <code>ca-ES</code> (Català/Valencià).</p>
                 <p>» Per connectar xarxes neuronals quantitzades localment (WebGPU), s'haurien d'instal·lar i descarregar ~40MB via @huggingface/transformers. Hem blindat aquesta acció en producció.</p>
             </div>
-        </div>
-    );
+        </div>;
 };
-
 export default IAIASandbox;

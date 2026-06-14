@@ -13,16 +13,20 @@ const DEFAULTS = {
   flushInterval: 30_000,
   maxBuffer: 1000,
   batchSize: 100,
-  pbkdf2: { iterations: 150_000, hash: 'SHA-256' },
-  aes: { name: 'AES-GCM', length: 256 },
+  pbkdf2: {
+    iterations: 150_000,
+    hash: 'SHA-256'
+  },
+  aes: {
+    name: 'AES-GCM',
+    length: 256
+  },
   saltBytes: 16,
   ivBytes: 12,
   sendWhenOnlineOnly: true
 };
-
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
-
 function toBase64(buf) {
   let binary = '';
   const bytes = new Uint8Array(buf);
@@ -47,46 +51,40 @@ function randBytes(n) {
 
 // Deriva una clau CryptoKey a partir d'una passphrase i salt
 async function deriveKeyFromPassphrase(passphrase, salt, iterations, hash) {
-  const baseKey = await crypto.subtle.importKey(
-    'raw',
-    textEncoder.encode(passphrase),
-    { name: 'PBKDF2' },
-    false,
-    ['deriveKey']
-  );
-  const key = await crypto.subtle.deriveKey(
-    {
-      name: 'PBKDF2',
-      salt,
-      iterations,
-      hash
-    },
-    baseKey,
-    { name: DEFAULTS.aes.name, length: DEFAULTS.aes.length },
-    false,
-    ['encrypt', 'decrypt']
-  );
+  const baseKey = await crypto.subtle.importKey('raw', textEncoder.encode(passphrase), {
+    name: 'PBKDF2'
+  }, false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({
+    name: 'PBKDF2',
+    salt,
+    iterations,
+    hash
+  }, baseKey, {
+    name: DEFAULTS.aes.name,
+    length: DEFAULTS.aes.length
+  }, false, ['encrypt', 'decrypt']);
   return key;
 }
 
 // Xifra un Uint8Array amb AES-GCM i retorna objecte amb iv i ciphertext (ArrayBuffer)
 async function aesGcmEncrypt(key, plaintextUint8) {
   const iv = randBytes(DEFAULTS.ivBytes);
-  const ct = await crypto.subtle.encrypt(
-    { name: DEFAULTS.aes.name, iv: new Uint8Array(iv) },
-    key,
-    plaintextUint8
-  );
-  return { iv: iv, ciphertext: ct };
+  const ct = await crypto.subtle.encrypt({
+    name: DEFAULTS.aes.name,
+    iv: new Uint8Array(iv)
+  }, key, plaintextUint8);
+  return {
+    iv: iv,
+    ciphertext: ct
+  };
 }
 
 // Desxifra AES-GCM
 async function aesGcmDecrypt(key, ivBuf, ciphertextBuf) {
-  const plain = await crypto.subtle.decrypt(
-    { name: DEFAULTS.aes.name, iv: new Uint8Array(ivBuf) },
-    key,
-    ciphertextBuf
-  );
+  const plain = await crypto.subtle.decrypt({
+    name: DEFAULTS.aes.name,
+    iv: new Uint8Array(ivBuf)
+  }, key, ciphertextBuf);
   return new Uint8Array(plain);
 }
 
@@ -114,13 +112,19 @@ async function compressMaybeUint8(dataUint8) {
         out.set(c, offset);
         offset += c.length;
       }
-      return { bytes: out, compressed: true };
+      return {
+        bytes: out,
+        compressed: true
+      };
     } catch (e) {
       // fallback to no compression
     }
   }
   // fallback: no compress
-  return { bytes: new Uint8Array(dataUint8), compressed: false };
+  return {
+    bytes: new Uint8Array(dataUint8),
+    compressed: false
+  };
 }
 
 // Decompressió: si CompressionStream i gunzip suportat, intentar descomprimir; si no, retornar original
@@ -161,9 +165,7 @@ async function decompressMaybeUint8(bytes, wasCompressed) {
 function storeEncryptedObject(obj) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-  } catch (e) {
-    console.warn('[logger] no s\'ha pogut escriure a localStorage', e);
-  }
+  } catch (e) {}
 }
 function readEncryptedObject() {
   try {
@@ -185,7 +187,9 @@ function uint8ToEntries(u8) {
 }
 
 // Logger intern
-let cfg = { ...DEFAULTS };
+let cfg = {
+  ...DEFAULTS
+};
 let cryptoKey = null; // CryptoKey derivada
 let initialized = false;
 let flushTimer = null;
@@ -211,9 +215,10 @@ async function readBufferDecrypted() {
     if (!Array.isArray(entries)) return [];
     return entries;
   } catch (e) {
-    console.warn('[logger] no s\'ha pogut desxifrar buffer local, purgant', e);
     // si no podem desxifrar, purguem per evitar bloquejos
-    try { localStorage.removeItem(STORAGE_KEY); } catch (err) { /* no-op */ }
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (err) {/* no-op */}
     return [];
   }
 }
@@ -230,7 +235,8 @@ async function writeBufferEncrypted(entries) {
   const iv = _encRes.iv;
   const ciphertext = _encRes.ciphertext;
   const payload = {
-    salt: toBase64(cryptoKey.__saltBuf || new Uint8Array(0)), // __saltBuf assignat a la clau en init
+    salt: toBase64(cryptoKey.__saltBuf || new Uint8Array(0)),
+    // __saltBuf assignat a la clau en init
     iv: toBase64(iv),
     data: toBase64(ciphertext),
     compressed: compressed
@@ -247,9 +253,7 @@ async function pushLogEntry(entry) {
     // mantenir mida
     if (buf.length > cfg.maxBuffer) buf.splice(0, buf.length - cfg.maxBuffer);
     await writeBufferEncrypted(buf);
-  } catch (e) {
-    console.warn('[logger] pushLogEntry error', e);
-  }
+  } catch (e) {}
 }
 
 // Compressar i enviar un batch (retorna true si enviat)
@@ -257,12 +261,16 @@ async function sendBatchToServer(batch) {
   if (!cfg.endpoint) return false;
   if (cfg.sendWhenOnlineOnly && typeof navigator !== 'undefined' && !navigator.onLine) return false;
   try {
-    const payloadJson = JSON.stringify({ logs: batch });
+    const payloadJson = JSON.stringify({
+      logs: batch
+    });
     const payloadUint8 = textEncoder.encode(payloadJson);
     const _compRes = await compressMaybeUint8(payloadUint8);
     const compressedBytes = _compRes.bytes;
     const compressed = _compRes.compressed;
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = {
+      'Content-Type': 'application/json'
+    };
     if (compressed) headers['Content-Encoding'] = 'gzip';
     const res = await fetch(cfg.endpoint, {
       method: 'POST',
@@ -271,7 +279,6 @@ async function sendBatchToServer(batch) {
     });
     return res.ok;
   } catch (e) {
-    console.warn('[logger] sendBatchToServer error', e);
     return false;
   }
 }
@@ -290,10 +297,11 @@ async function flushBufferedBatches() {
       idx += cfg.batchSize;
     }
     // si tot ok, purguem local
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* no-op */ }
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {/* no-op */}
     return true;
   } catch (e) {
-    console.warn('[logger] flushBufferedBatches error', e);
     return false;
   }
 }
@@ -302,7 +310,10 @@ async function flushBufferedBatches() {
 const logger = {
   // options: { passphrase, endpoint, verbose, flushInterval, maxBuffer, batchSize }
   async init(options = {}) {
-    cfg = { ...cfg, ...options };
+    cfg = {
+      ...cfg,
+      ...options
+    };
     if (!cfg.passphrase) {
       throw new Error('logger.init requereix passphrase per a xifrar el buffer local');
     }
@@ -331,21 +342,22 @@ const logger = {
       ts: new Date().toISOString(),
       level: 'info',
       tag: 'logger.init',
-      cfg: { verbose: cfg.verbose, endpoint: cfg.endpoint ? '[REDACTED]' : null }
+      cfg: {
+        verbose: cfg.verbose,
+        endpoint: cfg.endpoint ? '[REDACTED]' : null
+      }
     });
-
     return true;
   },
-
   // Captura console.* i emmagatzema entrades; manté comportament original
   captureConsole() {
     if (typeof console === 'undefined') return;
-    ['log', 'info', 'warn', 'error', 'debug'].forEach((m) => {
+    ['log', 'info', 'warn', 'error', 'debug'].forEach(m => {
       if (!console[m]) return;
       originalConsole[m] = console[m].bind(console);
       console[m] = function (...args) {
         try {
-          const level = (m === 'warn' || m === 'error') ? m : 'info';
+          const level = m === 'warn' || m === 'error' ? m : 'info';
           if (cfg.verbose || level === 'warn' || level === 'error') {
             pushLogEntry({
               ts: new Date().toISOString(),
@@ -354,20 +366,20 @@ const logger = {
               args
             });
           }
-        } catch (e) { /* no-op */ }
+        } catch (e) {/* no-op */}
         originalConsole[m].apply(console, args);
       };
     });
   },
-
   restoreConsole() {
-    Object.keys(originalConsole).forEach(k => { console[k] = originalConsole[k]; });
+    Object.keys(originalConsole).forEach(k => {
+      console[k] = originalConsole[k];
+    });
   },
-
   // Captura errors globals
   captureErrors() {
     if (typeof window === 'undefined') return;
-    errorHandler = (ev) => {
+    errorHandler = ev => {
       try {
         pushLogEntry({
           ts: new Date().toISOString(),
@@ -379,9 +391,9 @@ const logger = {
           colno: ev.colno,
           stack: ev.error && ev.error.stack
         });
-      } catch (e) { /* no-op */ }
+      } catch (e) {/* no-op */}
     };
-    rejectionHandler = (ev) => {
+    rejectionHandler = ev => {
       try {
         pushLogEntry({
           ts: new Date().toISOString(),
@@ -389,22 +401,20 @@ const logger = {
           tag: 'unhandledrejection',
           reason: ev.reason
         });
-      } catch (e) { /* no-op */ }
+      } catch (e) {/* no-op */}
     };
     window.addEventListener('error', errorHandler);
     window.addEventListener('unhandledrejection', rejectionHandler);
   },
-
   stopCaptureErrors() {
     if (typeof window === 'undefined') return;
     if (errorHandler) window.removeEventListener('error', errorHandler);
     if (rejectionHandler) window.removeEventListener('unhandledrejection', rejectionHandler);
   },
-
   // Captura missatges del Service Worker
   captureSWMessages(registration) {
     if (typeof navigator === 'undefined' || !navigator.serviceWorker) return;
-    swMessageHandler = (ev) => {
+    swMessageHandler = ev => {
       try {
         pushLogEntry({
           ts: new Date().toISOString(),
@@ -412,50 +422,73 @@ const logger = {
           tag: 'sw.message',
           data: ev.data
         });
-      } catch (e) { /* no-op */ }
+      } catch (e) {/* no-op */}
     };
     navigator.serviceWorker.addEventListener('message', swMessageHandler);
-
     if (registration && registration.addEventListener) {
       try {
         registration.addEventListener('updatefound', () => {
-          pushLogEntry({ ts: new Date().toISOString(), level: 'info', tag: 'sw.updatefound' });
+          pushLogEntry({
+            ts: new Date().toISOString(),
+            level: 'info',
+            tag: 'sw.updatefound'
+          });
         });
-      } catch (e) { /* no-op */ }
+      } catch (e) {/* no-op */}
     }
   },
-
   stopCaptureSWMessages() {
     if (typeof navigator === 'undefined' || !navigator.serviceWorker) return;
     if (swMessageHandler) navigator.serviceWorker.removeEventListener('message', swMessageHandler);
     swMessageHandler = null;
   },
-
   // Envia ara mateix (intenta enviar tots els batches)
   async flushNow() {
     if (!initialized) throw new Error('logger no inicialitzat');
     return await flushBufferedBatches();
   },
-
   // Purga local (esborra localStorage)
   purgeLocal() {
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* no-op */ }
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {/* no-op */}
   },
-
   // Obté buffer actual (desxifrat) per a UI; retorna array d'entrades
   async getBuffer() {
     if (!initialized) throw new Error('logger no inicialitzat');
     return await readBufferDecrypted();
   },
-
   // API de logging manual
-  info(tag, obj = {}) { pushLogEntry({ ts: new Date().toISOString(), level: 'info', tag, ...obj }); },
-  warn(tag, obj = {}) { pushLogEntry({ ts: new Date().toISOString(), level: 'warn', tag, ...obj }); },
-  error(tag, obj = {}) { pushLogEntry({ ts: new Date().toISOString(), level: 'error', tag, ...obj }); },
-
+  info(tag, obj = {}) {
+    pushLogEntry({
+      ts: new Date().toISOString(),
+      level: 'info',
+      tag,
+      ...obj
+    });
+  },
+  warn(tag, obj = {}) {
+    pushLogEntry({
+      ts: new Date().toISOString(),
+      level: 'warn',
+      tag,
+      ...obj
+    });
+  },
+  error(tag, obj = {}) {
+    pushLogEntry({
+      ts: new Date().toISOString(),
+      level: 'error',
+      tag,
+      ...obj
+    });
+  },
   // Atura el logger i neteja listeners
   shutdown() {
-    if (flushTimer) { clearInterval(flushTimer); flushTimer = null; }
+    if (flushTimer) {
+      clearInterval(flushTimer);
+      flushTimer = null;
+    }
     logger.restoreConsole();
     logger.stopCaptureErrors();
     logger.stopCaptureSWMessages();
@@ -463,5 +496,4 @@ const logger = {
     initialized = false;
   }
 };
-
 export default logger;

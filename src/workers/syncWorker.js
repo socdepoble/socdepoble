@@ -8,49 +8,62 @@
 let isNetworkAlive = true;
 let currentJwt = null;
 let pendingQueueSize = 0;
-
-self.addEventListener('message', async (e) => {
-  const { type, payload } = e.data;
-
+self.addEventListener('message', async e => {
+  const {
+    type,
+    payload
+  } = e.data;
   switch (type) {
     case 'HEARTBEAT_NETWORK':
       isNetworkAlive = payload.isOnline;
       // Actualitzem imediatament l'Interfície
       self.postMessage({
         type: 'SYNC_STATE_CHANGED',
-        payload: { status: isNetworkAlive ? 'online' : 'offline' }
+        payload: {
+          status: isNetworkAlive ? 'online' : 'offline'
+        }
       });
       break;
-
     case 'HEARTBEAT_AUTH':
       currentJwt = payload.token;
       if (isNetworkAlive && pendingQueueSize > 0) {
-         self.postMessage({
-           type: 'SYNC_STATE_CHANGED',
-           payload: { status: 'syncing' }
-         });
+        self.postMessage({
+          type: 'SYNC_STATE_CHANGED',
+          payload: {
+            status: 'syncing'
+          }
+        });
       }
       break;
-
     case 'HEARTBEAT_AUTH_KILL':
       currentJwt = null;
       break;
-      
     case 'MANUAL_SYNC_TRIGGER':
       if (isNetworkAlive) {
         self.postMessage({
           type: 'SYNC_STATE_CHANGED',
-          payload: { status: 'syncing' }
+          payload: {
+            status: 'syncing'
+          }
         });
-        
+
         // Simular que hem posat tasques a la cua que l'SDK consumeix
         setTimeout(() => {
-          self.postMessage({ type: 'SYNC_STATE_CHANGED', payload: { status: 'online' }});
-          self.postMessage({ type: 'SYNC_PROGRESS', payload: { count: 0 }});
+          self.postMessage({
+            type: 'SYNC_STATE_CHANGED',
+            payload: {
+              status: 'online'
+            }
+          });
+          self.postMessage({
+            type: 'SYNC_PROGRESS',
+            payload: {
+              count: 0
+            }
+          });
         }, 1500); // 1.5s visual feedback
       }
       break;
-
     default:
       console.warn('[SyncWorker] Heartbeat Desconegut:', type);
   }

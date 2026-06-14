@@ -19,35 +19,26 @@ const playAtomicFeedback = () => {
     // Safari iOS silencia l'error
   }
 };
-
-export const UniversalCard = React.forwardRef(
-  ({ children, className = '', interactive = false, as: ComponentProp, onClick, ...props }, ref) => {
-    const Component = ComponentProp || (onClick ? 'button' : 'article');
-    const isInteractive = interactive || !!onClick;
-
-    const cardClasses = [
-      styles['universal-card'],
-      isInteractive ? styles.interactive : '',
-      isInteractive ? 'tactil' : '', // Per a la vibració òptica a acte-reflex.css
-      className
-    ].filter(Boolean).join(' ');
-
-    return (
-      <Component
-        ref={ref}
-        className={cardClasses}
-        onClick={(e) => {
-          if (isInteractive) {
-            playAtomicFeedback();
-          }
-          if (onClick) onClick(e);
-        }}
-        {...props}
-      >
+export const UniversalCard = React.forwardRef(({
+  children,
+  className = '',
+  interactive = false,
+  as: ComponentProp,
+  onClick,
+  ...props
+}, ref) => {
+  const Component = ComponentProp || (onClick ? 'button' : 'article');
+  const isInteractive = interactive || !!onClick;
+  const cardClasses = [styles['universal-card'], isInteractive ? styles.interactive : '', isInteractive ? 'tactil' : '',
+  // Per a la vibració òptica a acte-reflex.css
+  className].filter(Boolean).join(' ');
+  return <Component ref={ref} className={cardClasses} onClick={e => {
+    if (isInteractive) {
+      playAtomicFeedback();
+    }
+    if (onClick) onClick(e);
+  }} {...props}>
         {children}
-      </Component>
-    );
-  }
-);
-
+      </Component>;
+});
 UniversalCard.displayName = 'UniversalCard';

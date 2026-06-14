@@ -1,8 +1,6 @@
 import './AulaRural.css';
-
 const AulaRural = () => {
-    return (
-        <div className="aula-rural-container">
+  return <div className="aula-rural-container">
             <div role="region" aria-label="Capçalera de Secció" className="aula-header">
                 <div className="header-meta">
                     <span className="badge-rural">PATRIMONI DIGITAL</span>
@@ -79,11 +77,9 @@ const AulaRural = () => {
             <footer className="aula-footer">
                 <div className="footer-content">
                     <Globe size={18} />
-                    <span>Projecte d'Arquitectura Social per a la Ruralitat Connectada</span>
+                    Projecte d'Arquitectura Social per a la Ruralitat Connectada
                 </div>
             </footer>
-        </div>
-    );
+        </div>;
 };
-
 export default AulaRural;

@@ -7,10 +7,8 @@ import { useState, useEffect } from 'react';
  */
 export function useSafeObjectUrl(blob) {
   const [url, setUrl] = useState(null);
-
   useEffect(() => {
     if (!blob) return;
-
     const objectUrl = URL.createObjectURL(blob);
     queueMicrotask(() => setUrl(objectUrl));
 
@@ -19,6 +17,5 @@ export function useSafeObjectUrl(blob) {
       URL.revokeObjectURL(objectUrl);
     };
   }, [blob]);
-
   return url;
 }

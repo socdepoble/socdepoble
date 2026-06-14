@@ -1,17 +1,11 @@
 import React from "react";
-
-export default function EmberDust({ size = 160, className = "", ariaLabel = "Pols de cendra que formen icones d'error", ...rest }) {
-  return (
-    <svg
-      role="img"
-      aria-label={ariaLabel}
-      width={size}
-      height={(size * 80) / 160}
-      viewBox="0 0 160 80"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+export default function EmberDust({
+  size = 160,
+  className = "",
+  ariaLabel = "Pols de cendra que formen icones d'error",
+  ...rest
+}) {
+  return <svg role="img" aria-label={ariaLabel} width={size} height={size * 80 / 160} viewBox="0 0 160 80" className={className} xmlns="http://www.w3.org/2000/svg" {...rest}>
       <title>{ariaLabel}</title>
 
       <g fill="#F97316" opacity="0.9" stroke="#111827" strokeWidth="0.8">
@@ -23,6 +17,5 @@ export default function EmberDust({ size = 160, className = "", ariaLabel = "Pol
       </g>
 
       <text x="12" y="18" fontFamily="sans-serif" fontSize="10" fill="#374151">*error*</text>
-    </svg>
-  );
+    </svg>;
 }

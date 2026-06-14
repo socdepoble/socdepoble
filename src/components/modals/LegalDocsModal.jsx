@@ -1,12 +1,15 @@
 import './LegalDocsModal.css';
-
-const LegalDocsModal = ({ isOpen, onClose, title, content, type = 'estatuts', authorName }) => {
-    if (!isOpen) return null;
-
-    const isProfessional = type === 'professional' || type === 'autonom';
-
-    return (
-        <div className="legal-modal-overlay animate-fade-in" onClick={onClose}>
+const LegalDocsModal = ({
+  isOpen,
+  onClose,
+  title,
+  content,
+  type = 'estatuts',
+  authorName
+}) => {
+  if (!isOpen) return null;
+  const isProfessional = type === 'professional' || type === 'autonom';
+  return <div className="legal-modal-overlay animate-fade-in" onClick={onClose}>
             <div className={`legal-modal-content ${isProfessional ? 'mode-professional' : 'glass-ia'}`} onClick={e => e.stopPropagation()}>
                 <div role="region" aria-label="Capçalera de Secció" className="legal-modal-header">
                     <div className="header-icon-badge">
@@ -26,38 +29,32 @@ const LegalDocsModal = ({ isOpen, onClose, title, content, type = 'estatuts', au
                 <div className="legal-document-body">
                     {!isProfessional && <div className="watermark-logo">SÓC DE POBLE</div>}
                     <div className="doc-scroll-area">
-                        {content ? (
-                            <div className="legal-text-content">
+                        {content ? <div className="legal-text-content">
                                 {content.split('\n').map((line, idx) => {
-                                    if (line.startsWith('# ')) return <h1 key={idx}>{line.replace('# ', '')}</h1>;
-                                    if (line.startsWith('## ')) return <h2 key={idx}>{line.replace('## ', '')}</h2>;
-                                    if (line.startsWith('### ')) return <h3 key={idx}>{line.replace('### ', '')}</h3>;
-                                    if (line.startsWith('- ')) return <li key={idx}>{line.replace('- ', '')}</li>;
-                                    if (line.trim() === '---') return <hr key={idx} />;
-                                    if (line.includes('**')) {
-                                        const parts = line.split('**');
-                                        return (
-                                            <p key={idx}>
-                                                {parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
-                                            </p>
-                                        );
-                                    }
-                                    return <p key={idx}>{line}</p>;
-                                })}
-                            </div>
-                        ) : (
-                            <div className="no-content">
+              if (line.startsWith('# ')) return <h1 key={idx}>{line.replace('# ', '')}</h1>;
+              if (line.startsWith('## ')) return <h2 key={idx}>{line.replace('## ', '')}</h2>;
+              if (line.startsWith('### ')) return <h3 key={idx}>{line.replace('### ', '')}</h3>;
+              if (line.startsWith('- ')) return <li key={idx}>{line.replace('- ', '')}</li>;
+              if (line.trim() === '---') return <hr key={idx} />;
+              if (line.includes('**')) {
+                const parts = line.split('**');
+                return <p key={idx}>
+                                                {parts.map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part)}
+                                            </p>;
+              }
+              return <p key={idx}>{line}</p>;
+            })}
+                            </div> : <div className="no-content">
                                 <FileText size={48} opacity={0.3} />
                                 <p>No hi ha contingut disponible per a aquest document.</p>
-                            </div>
-                        )}
+                            </div>}
                     </div>
                 </div>
 
                 <footer className="legal-modal-footer">
                     <div className="protection-badge">
                         <Landmark size={14} />
-                        <span>{isProfessional ? 'PROFESSIONAL VERIFICAT' : 'ENTITAT SOBERANA'}</span>
+                        {isProfessional ? 'PROFESSIONAL VERIFICAT' : 'ENTITAT SOBERANA'}
                     </div>
                     <div className="footer-actions">
                         <button className="legal-utility-btn" onClick={() => window.print()}>
@@ -69,8 +66,6 @@ const LegalDocsModal = ({ isOpen, onClose, title, content, type = 'estatuts', au
                     </div>
                 </footer>
             </div>
-        </div>
-    );
+        </div>;
 };
-
 export default LegalDocsModal;

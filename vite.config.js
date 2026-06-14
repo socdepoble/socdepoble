@@ -57,8 +57,8 @@ export default defineConfig({
     wasm(),
     staticAssetsReload(),
     comlink(),
-    react(),
     tailwindcss(),
+    react(),
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
@@ -113,7 +113,8 @@ export default defineConfig({
       "onnxruntime-web",
       "@journeyapps/wa-sqlite",
       "@powersync/web",
-      "@dashlane/pqc-kem-kyber768-wasm"
+      "@dashlane/pqc-kem-kyber768-wasm",
+      "src/lib/tw-merge-config.js"
     ],
     // Explicit runtime dependencies to speed up HMR
     include: [

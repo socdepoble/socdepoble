@@ -1,0 +1,297 @@
+name: CI — Tailwind import guard Pro with Issue and Slack
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  check-tailwind-imports:
+    runs-on: ubuntu-latest
+    name: Check Tailwind imports and Anti-Zombi with remediation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup ripgrep
+        run: |
+          if ! command -v rg >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y ripgrep
+          fi
+
+      - name: Make CI script executable
+        run: chmod +x ci/check-tailwind-imports.sh
+
+      - name: Run Tailwind import guard and capture output
+        id: run_check
+        continue-on-error: true
+        env:
+          ALLOWED_TAILWIND_IMPORT: src/app/index.css
+          FAIL_ON_SOURCES_OUTSIDE: "true"
+          WARN_ONLY_SELECTORS: "true"
+          ALLOWLIST_PACKAGES: ""
+          MAX_CSS_SIZE_BYTES: "200000"
+        run: |
+          set -o pipefail
+          ./ci/check-tailwind-imports.sh 2>&1 | tee check-output.txt
+          echo "EXITCODE=${PIPESTATUS[0]}" >> check-output.txt
+          # expose outputs
+          echo "::set-output name=exitcode::${PIPESTATUS[0]}"
+          # limit output length for comment
+          head -n 300 check-output.txt > check-output-short.txt
+          SHORT=$(sed ':a;N;$!ba;s/\n/\\n/g' check-output-short.txt | sed 's/%/%%/g')
+          echo "::set-output name=out::${SHORT}"
+
+      - name: Create PR comment if checks failed
+        if: steps.run_check.outputs.exitcode != '0'
+        uses: actions/github-script@v7
+        id: post_comment
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const output = `\`\`\`\n${process.env['RUN_CHECK_OUT'] || '${{ steps.run_check.outputs.out }}'}\n\`\`\``;
+            const body = [
+              "⚠️ **Tailwind import guard detected issues**",
+              "",
+              "The CI detected imports or global CSS that may break the Tailwind v4 layering model (Unlayered CSS).",
+              "",
+              "**Quick fix**",
+              "1. Remove any `@import \"tailwindcss\"` from packages; keep a single import in `src/app/index.css`.",
+              "2. Move global resets and CSS variables into `@layer base { ... }` inside `src/app/index.css`.",
+              "3. If a third-party package injects global CSS, replace it with a component-scoped import or ask upstream to remove global resets.",
+              "",
+              "**CI output (truncated)**:",
+              output,
+              "",
+              "If you need help migrating a package or adjusting your CSS, reply here and we’ll guide you."
+            ].join("\n");
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body
+            });
+
+      - name: Create or reuse Issue for remediation with reopen and rate limit
+        if: steps.run_check.outputs.exitcode != '0'
+        uses: actions/github-script@v7
+        id: create_or_reuse_issue
+        env:
+          CSS_ISSUE_ASSIGNEES: ${{ secrets.CSS_ISSUE_ASSIGNEES }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+
+            const issueTitle = `[AUTO] Migrate and Clean Tailwind v4 - PR #${pr.number} introduced Unlayered CSS`;
+            const issueLabel = 'tailwind-migration';
+            const now = new Date();
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+            // truncated CI output from previous step
+            const ciOutput = process.env['RUN_CHECK_OUT'] || '${{ steps.run_check.outputs.out }}';
+
+            // Helper: list issues (open + closed) to find matches
+            async function findExistingIssue() {
+              // search open issues first
+              const open = await github.rest.issues.listForRepo({
+                owner: repoOwner,
+                repo: repoName,
+                state: 'open',
+                per_page: 100
+              });
+              for (const it of open.data) {
+                if (it.title === issueTitle || (it.labels || []).some(l => l.name === issueLabel)) {
+                  return { issue: it, state: 'open' };
+                }
+              }
+              // then search closed issues
+              const closed = await github.rest.issues.listForRepo({
+                owner: repoOwner,
+                repo: repoName,
+                state: 'closed',
+                per_page: 100
+              });
+              for (const it of closed.data) {
+                if (it.title === issueTitle || (it.labels || []).some(l => l.name === issueLabel)) {
+                  return { issue: it, state: 'closed' };
+                }
+              }
+              return null;
+            }
+
+            // Helper: check rate limit - was an issue created in last 24h with our label
+            async function recentIssueExists() {
+              const issues = await github.rest.issues.listForRepo({
+                owner: repoOwner,
+                repo: repoName,
+                state: 'all',
+                labels: issueLabel,
+                per_page: 100
+              });
+              for (const it of issues.data) {
+                const createdAt = new Date(it.created_at);
+                if ((now - createdAt) <= ONE_DAY_MS) {
+                  return it; // return the recent issue
+                }
+              }
+              return null;
+            }
+
+            // Build issue body
+            const issueBody = [
+              "Automated issue created by the Tailwind import guard.",
+              "",
+              `Related PR: #${pr.number} (${pr.html_url})`,
+              "",
+              "Problem detected: Unlayered global CSS or unauthorized `@import \"tailwindcss\"` was found. This breaks the Tailwind v4 layering model and can override utility classes.",
+              "",
+              "Suggested tasks:",
+              "- Remove `@import \"tailwindcss\"` from packages and keep a single import in `src/app/index.css`.",
+              "- Move global resets and CSS variables into `@layer base { ... }` inside `src/app/index.css`.",
+              "- Replace third-party global CSS with component-scoped styles or request upstream changes.",
+              "",
+              "Checklist for migration:",
+              "- [ ] Identify offending files and packages",
+              "- [ ] Remove unauthorized imports",
+              "- [ ] Move legacy resets into @layer base",
+              "- [ ] Run the Tailwind guard locally and ensure CI passes",
+              "- [ ] Add tests or docs to prevent regressions",
+              "",
+              "CI output (truncated):",
+              "```",
+              ciOutput,
+              "```"
+            ].join("\n");
+
+            // 1) Try to find existing issue (open or closed)
+            const found = await findExistingIssue();
+
+            if (found) {
+              const existing = found.issue;
+              if (found.state === 'open') {
+                // Reuse open issue: comment and link
+                await github.rest.issues.createComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: existing.number,
+                  body: `A related PR (#${pr.number}) triggered the Tailwind guard again. See PR: ${pr.html_url}\n\nCI output (truncated):\n\`\`\`\n${ciOutput}\n\`\`\``
+                });
+                // comment on PR linking the issue
+                await github.rest.issues.createComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: pr.number,
+                  body: `⚠️ A remediation issue already exists: #${existing.number}. We linked the CI output there. Please follow that issue for the migration steps.`
+                });
+                return { issue_number: existing.number, action: 'reused' };
+              } else {
+                // found closed issue: reopen it, add comment and link
+                await github.rest.issues.update({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: existing.number,
+                  state: 'open'
+                });
+                await github.rest.issues.createComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: existing.number,
+                  body: `This issue was reopened automatically because PR #${pr.number} triggered the Tailwind guard again. See PR: ${pr.html_url}\n\nCI output (truncated):\n\`\`\`\n${ciOutput}\n\`\`\``
+                });
+                await github.rest.issues.createComment({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: pr.number,
+                  body: `⚠️ A remediation issue was reopened: #${existing.number}. Please follow that issue for migration steps.`
+                });
+                return { issue_number: existing.number, action: 'reopened' };
+              }
+            }
+
+            // 2) No existing issue found: check rate limit (1 issue per 24h)
+            const recent = await recentIssueExists();
+            if (recent) {
+              // Do not create a new issue; just comment on PR and link the recent issue
+              await github.rest.issues.createComment({
+                owner: repoOwner,
+                repo: repoName,
+                issue_number: pr.number,
+                body: `⚠️ The Tailwind guard detected an issue but a remediation issue was already created recently (#${recent.number}). To avoid spamming the issue tracker we will not create a new issue now. Please follow #${recent.number} for progress. CI output (truncated):\n\`\`\`\n${ciOutput}\n\`\`\``
+              });
+              return { issue_number: recent.number, action: 'rate_limited' };
+            }
+
+            // 3) Create a new issue and assign to team (list of users from secret)
+            const assigneesRaw = process.env.CSS_ISSUE_ASSIGNEES || '';
+            const assignees = assigneesRaw.split(',').map(s => s.trim()).filter(Boolean);
+
+            const created = await github.rest.issues.create({
+              owner: repoOwner,
+              repo: repoName,
+              title: issueTitle,
+              body: issueBody,
+              labels: [issueLabel],
+              assignees: assignees.slice(0, 10)
+            });
+
+            const newNumber = created.data.number;
+
+            // Comment on PR linking the new issue
+            await github.rest.issues.createComment({
+              owner: repoOwner,
+              repo: repoName,
+              issue_number: pr.number,
+              body: `⚠️ A remediation issue has been created: #${newNumber}. The issue is assigned to the team for follow-up. Please follow that issue for migration steps.`
+            });
+
+            return { issue_number: newNumber, action: 'created' };
+
+      - name: Post Slack notification
+        if: steps.run_check.outputs.exitcode != '0'
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          set -e
+          # Compose a concise Slack message
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          PR_URL=${{ github.event.pull_request.html_url }}
+          REPO="${{ github.repository }}"
+          SUMMARY="Tailwind guard failed on PR #${PR_NUMBER} in ${REPO}. See ${PR_URL}"
+          # include truncated CI output
+          CI_OUT="${{ steps.run_check.outputs.out }}"
+          PAYLOAD=$(jq -n --arg text "$SUMMARY" --arg details "$CI_OUT" '{
+            text: $text,
+            blocks: [
+              { type: "section", text: { type: "mrkdwn", text: $text } },
+              { type: "section", text: { type: "mrkdwn", text: "*CI details (truncated):*\\n" + $details } },
+              { type: "context", elements: [ { type: "mrkdwn", text: "Automated Tailwind guard — Masia" } ] }
+            ]
+          }')
+          if [ -z "$SLACK_WEBHOOK" ]; then
+            echo "No SLACK_WEBHOOK configured; skipping Slack notification."
+            exit 0
+          fi
+          curl -s -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK" || true
+
+      - name: Fail job if checks failed
+        if: steps.run_check.outputs.exitcode != '0'
+        run: |
+          echo "Tailwind guard detected issues. Failing job."
+          exit 1
+
+      - name: Optional build step when checks pass
+        if: steps.run_check.outputs.exitcode == '0'
+        run: |
+          npm ci
+          npm run build --if-present

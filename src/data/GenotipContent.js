@@ -718,5 +718,4 @@ A l'hora d'incorporar aquests estats en les interfícies:
     </div>
   </div>
 `;
-
 export default GENOTIP_HTML;

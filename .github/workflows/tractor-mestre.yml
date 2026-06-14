@@ -1,0 +1,130 @@
+name: Tractor Mestre 2.0
+
+on:
+  pull_request:
+    branches: [ main, develop, master ]
+  workflow_dispatch:  # 🔄 Botó manual per a reexecutar
+    inputs:
+      reason:
+        description: 'Motiu de la reexecució manual (opcional)'
+        required: false
+        default: 'Reexecució manual del Tractor Mestre'
+
+jobs:
+  run-tractor:
+    name: Executar Tractor Mestre
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necessari per a obtenir el dif complet
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tractor Mestre
+        id: tractor
+        run: |
+          node _auditories/scripts/tractor_mestre_2.0/tractor.js
+          # Guardem el JSON en una variable d'entorn
+          echo "RESULTS_JSON=$(cat informe-tractor-2.0.json)" >> $GITHUB_ENV
+          # Comptem els errors de Risc Extrem
+          EXTREME_COUNT=$(jq '.[] | select(.severity == "extreme") | length' <<< "$RESULTS_JSON" || echo "0")
+          echo "EXTREME_COUNT=$EXTREME_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Generate Excel Report
+        run: node _auditories/scripts/tractor_mestre_2.0/generarExcel.js
+
+      - name: Upload Excel Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-tractor
+          path: informe-tractor.xlsx
+
+      # --- Comentari al PR (només si és un PR) ---
+      - name: Comment PR with Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+
+            const results = JSON.parse(process.env.RESULTS_JSON);
+            const extremeRisks = results.filter(r => r.severity === 'extreme');
+            const highRisks = results.filter(r => r.severity === 'high');
+            const mediumRisks = results.filter(r => r.severity === 'medium');
+            const lowRisks = results.filter(r => r.severity === 'low');
+
+            let message = `## 🚜 **Informe del Tractor Mestre 2.0**\n\n`;
+            message += `📊 **Resum**: ${results.length} problemes detectats al PR [#${context.issue.number}](${pr.html_url})\n\n`;
+            message += `| 📌 Gravetat | 🔢 Quantitat |\n`;
+            message += `|-------------|--------------|\n`;
+            message += `| 🔴 **Extrem** | ${extremeRisks.length} |\n`;
+            message += `| 🟠 **Alt** | ${highRisks.length} |\n`;
+            message += `| 🟡 **Mitjà** | ${mediumRisks.length} |\n`;
+            message += `| 🟢 **Baix** | ${lowRisks.length} |\n\n`;
+
+            if (extremeRisks.length > 0) {
+              message += `❌ **⚠️ BLOQUEJAT: Risc Extrem detectat!**\n\n`;
+              message += `Aquest PR **no es pot fusionar** fins que es resolguen aquests errors:\n\n`;
+              extremeRisks.slice(0, 5).forEach(r => {
+                message += `- **\`${r.type}\`** a \`${r.file}:${r.line}\`: ${r.message}\n`;
+              });
+              if (extremeRisks.length > 5) {
+                message += `- ... i **${extremeRisks.length - 5} errors més** de Risc Extrem.\n`;
+              }
+              message += `\n📥 **Informe complet**: [Descàrrega l'Excel](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) (artifacts).\n`;
+            } else if (highRisks.length > 0) {
+              message += `⚠️ **Advertència: Risc Alt detectat**\n\n`;
+              message += `Recomanem revisar aquests errors abans de fusionar:\n\n`;
+              highRisks.slice(0, 5).forEach(r => {
+                message += `- **\`${r.type}\`** a \`${r.file}:${r.line}\`: ${r.message}\n`;
+              });
+              if (highRisks.length > 5) {
+                message += `- ... i **${highRisks.length - 5} errors més** de Risc Alt.\n`;
+              }
+              message += `\n📥 **Informe complet**: [Descàrrega l'Excel](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) (artifacts).\n`;
+            } else {
+              message += `✅ **Tot correcte!** No s'han detectat errors greus.\n\n`;
+              message += `El codi compleix amb els estàndards de la **Pedra Seca**.\n`;
+            }
+
+            // Detalls col·lapsats
+            message += `\n<details>\n<summary>📋 **Detalls complets** (${results.length} problemes)</summary>\n\n`;
+            message += `| 📌 Tipus | 📁 Fitxer | 📍 Línia | 🔧 Acció | 📌 Missatge |\n`;
+            message += `|---------|---------|---------|---------|------------|\n`;
+            results.slice(0, 20).forEach(r => {
+              message += `| \`${r.type}\` | \`${r.file}\` | ${r.line} | ${r.action} | ${r.message} |\n`;
+            });
+            if (results.length > 20) {
+              message += `| ... | ... | ... | ... | +${results.length - 20} més |\n`;
+            }
+            message += `\n</details>\n\n`;
+            message += `*Generat pel **Tractor Mestre 2.0** de [Sóc de Poble](https://socdepoble.net).*\n`;
+            message += `*${github.event_name === 'workflow_dispatch' ? `Reexecutat manualment: ${context.payload.inputs.reason || 'Sense motiu'}` : ''}*`;
+
+            // Publicar el comentari al PR
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message,
+            });
+
+      # --- Bloquejar PR si hi ha Risc Extrem (només en PRs) ---
+      - name: Fail if Extreme Risks
+        if: steps.tractor.outputs.EXTREME_COUNT > 0 && github.event_name == 'pull_request'
+        run: |
+          echo "❌ Errors de Risc Extrem detectats. El PR no es pot fusionar."
+          exit 1

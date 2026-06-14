@@ -10,16 +10,7 @@ export const normalizePostData = (rawItem, contextOverrides = {}) => {
 
   // Adapter Logic: Determine if a post is considered 'official' 
   // without hardcoding business rules inside presentation layers.
-  const isOfficial = 
-    contextOverrides.forcedOfficial || 
-    rawItem.author_role === 'official' || 
-    rawItem.author_role === 'oficial' || 
-    rawItem.type === 'oficial' || 
-    rawItem.type === 'system' || 
-    rawItem.type === 'bando' || 
-    rawItem.type === 'tramit' || 
-    rawItem.official === true;
-    
+  const isOfficial = contextOverrides.forcedOfficial || rawItem.author_role === 'official' || rawItem.author_role === 'oficial' || rawItem.type === 'oficial' || rawItem.type === 'system' || rawItem.type === 'bando' || rawItem.type === 'tramit' || rawItem.official === true;
   return {
     ...rawItem,
     isOfficial // Exposing the computed property for the UniversalCard

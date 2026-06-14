@@ -6,10 +6,9 @@ if (process.env.NODE_ENV === 'development') {
   whyDidYouRender(React, {
     trackAllPureComponents: true,
     trackExtraHooks: [
-      // Vigilem específicament Zustand per si AuthStore o J.A.R.V.I.S causen renders tòxics
-      [require('zustand'), 'useStore']
-    ],
+    // Vigilem específicament Zustand per si AuthStore o J.A.R.V.I.S causen renders tòxics
+    [require('zustand'), 'useStore']],
     logOnDifferentValues: true,
-    collapseGroups: true,
+    collapseGroups: true
   });
 }

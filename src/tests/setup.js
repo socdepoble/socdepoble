@@ -10,7 +10,9 @@ afterEach(() => {
 });
 
 // [MOCK] Servidor MSW per a tests d'integració
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => server.listen({
+  onUnhandledRequest: 'error'
+}));
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
@@ -23,7 +25,6 @@ const localStorageMock = {
   length: 0,
   key: vi.fn()
 };
-
 global.localStorage = localStorageMock;
 
 // [MOCK] matchMedia (per a tests responsive)
@@ -45,7 +46,7 @@ Object.defineProperty(window, 'matchMedia', {
 global.fetch = vi.fn();
 
 // [UTIL] Helper per a esperar
-global.waitFor = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+global.waitFor = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // [LOG] Silenciar logs en tests (opcional)
 console.log = vi.fn();
