@@ -1,114 +1,119 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, Suspense, lazy, useRef } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import { logger } from '../utils/logger';
-
-// [Noves Portes / Cimentació Mestre]
 import { useLowEndDevice } from '../hooks/useLowEndDevice';
-import { useTabReconciliation } from '../hooks/useTabReconciliation';
-import { useBlindatgeOPFS } from '../hooks/useBlindatgeOPFS';
-import { useVersionWatchdog } from '../hooks/useVersionWatchdog';
-import { useLocation } from 'react-router-dom';
 import useTrellatPersist from '../hooks/useTrellatPersist';
-import SystemRoutes from '../components/core/SystemRoutes';
-import AppLayout from '../components/layout/AppLayout';
-import GlobalModals from '../components/modals/GlobalModals';
+
+import AppLayout from './AppLayout';
+import VisorNano from '../components/core/VisorNano';
 import SEO from '../components/core/SEO';
-import AntiTsunamiSync from '../components/core/AntiTsunamiSync';
 import ErrorBoundary from '../components/core/ErrorBoundary';
-import OfflineGate from '../components/gates/OfflineGate';
-import LocalFirstGate from '../components/gates/LocalFirstGate';
-import AuthGate from '../components/gates/AuthGate';
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
-const LayoutBoundary = () => {
-  const location = useLocation();
-  const isSystemRoute = location.pathname.startsWith('/admin') || location.pathname.startsWith('/solatge') || location.pathname.startsWith('/ofici/menu') || location.pathname.startsWith('/ofici/categories') || location.pathname.startsWith('/ofici/xats') || location.pathname.startsWith('/utilitats') || location.pathname.startsWith('/tools/trellat') || location.pathname.startsWith('/iaia-sandbox');
-  if (isSystemRoute) {
-    return <SystemRoutes />;
-  }
-  return <>
-            <AppLayout />
-            <GlobalModals />
-        </>;
-};
 
-/**
- * 🏺 LA BÍBLIA ESTRUCTURAL (App.jsx) - BLINDATGE v2.0
- * Aquest fitxer conté la cimentació mestre orquestrant l'estat i les portes d'entrada.
- * FORÇAT: Fons Negre, Arquitectura de Ferro, Local First, Zero Fantasmes.
- */
+import MurPage from '../pages/MurPage';
+import MercatPage from '../pages/MercatPage';
+import ProjectePage from '../pages/ProjectePage';
+import BackgroundWorkers from '../components/core/BackgroundWorkers';
+
+const EnConstruccio = () => (
+  <div className="flex flex-col items-center justify-center min-h-full p-6 text-center">
+    <div className="text-5xl mb-4" aria-hidden="true">🚧</div>
+    <h2 className="text-2xl font-bold text-[#FF7300] mb-2 uppercase tracking-wide">En construcció</h2>
+    <p className="text-[17px] text-gray-600 max-w-md mx-auto">Aquesta secció de la Masia Virtual encara s'està alçant pedra a pedra. Torna prompte!</p>
+  </div>
+);
+
 const App = () => {
-  // [BÚNKER]: Persistència i Control de Service Worker
-  useBlindatgeOPFS();
-
-  // Sanea "Amnesia BFCache"
-  useTabReconciliation();
-
-  // Sentinel·la Perenne (Version Watchdog)
-  useVersionWatchdog();
-
-  // [ERROR] Global error handlers refactoritzats
-  const handleError = useCallback(event => {
-    logger.error('Error global interceptat:', event.error || event.message);
-  }, []);
-  const handleUnhandledRejection = useCallback(event => {
-    logger.error('Rebuig no gestionat:', event.reason);
-  }, []);
-  useEffect(() => {
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleUnhandledRejection);
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
-    };
-  }, [handleError, handleUnhandledRejection]);
   const isLowEnd = useLowEndDevice();
-  useEffect(() => {
-    if (isLowEnd) {
-      document.body.classList.add('low-end-device');
-    } else {
-      document.body.classList.remove('low-end-device');
-    }
-  }, [isLowEnd]);
-  const {
-    requestPersist,
-    checkBattery
-  } = useTrellatPersist();
+  const { requestPersist, checkBattery } = useTrellatPersist();
 
-  // [SW] Service Worker Registration & Trellat Persist
+  // Listeners globals amb referència estable i tancament correcte
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      if (import.meta.env.DEV) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (let registration of registrations) {
-            registration.unregister();
-          }
-        });
-      } else {
-        // [TÀCTICA ATRC] Retardem 3.5s el registre del SW per no ofegar el fil principal durant el First Paint en iPads antics (Recomanat pel Consell)
-        setTimeout(() => {
-          navigator.serviceWorker.register('/sw.js').then(() => {
-            // logger.log('[ServiceWorker] Trellat Shield Activado');
-          }).catch(e => logger.error('[ServiceWorker] Failed', e));
-        }, 3500);
-      }
-    }
-    requestPersist();
-    checkBattery();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const onErr = (ev) => logger.error('Error global interceptat:', ev.error || ev.message);
+    const onRej = (ev) => logger.error('Rebuig no gestionat:', ev.reason);
+    window.addEventListener('error', onErr);
+    window.addEventListener('unhandledrejection', onRej);
+    return () => {
+      window.removeEventListener('error', onErr);
+      window.removeEventListener('unhandledrejection', onRej);
+    };
   }, []);
-  const AppContent = <>
-            <SEO />
-            <AntiTsunamiSync />
-            <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
-                <OfflineGate>
-                    <LocalFirstGate>
-                        <AuthGate>
-                            <LayoutBoundary />
-                        </AuthGate>
-                    </LocalFirstGate>
-                </OfflineGate>
-            </ErrorBoundary>
-        </>;
-  return AppContent;
+
+  // Marca dispositiu baix rendiment → una sola vegada si canvia
+  useEffect(() => {
+    if (isLowEnd) document.body.classList.add('low-end-device');
+    else document.body.classList.remove('low-end-device');
+  }, [isLowEnd]);
+
+  const hidratatRef = useRef(false);
+
+  // ⭐ HIDRATACIÓ CONTROLADA ATRC · SENYAL ÚNICA I DEFINITIVA
+  useEffect(() => {
+    if (hidratatRef.current) return; // ⭐ TANCA EL BUCLE PER SEMPRE
+
+    let hydTimer;
+    const marcarHidratat = () => {
+      if (document.documentElement.dataset.hydrated) return;
+      hidratatRef.current = true;
+      requestAnimationFrame(() => {
+        document.documentElement.dataset.hydrated = '1';
+        // Neteja per a casos de fallback o reduced-motion (Claude + Gemini)
+        setTimeout(() => document.getElementById('sp-shell-sk')?.remove(), 1000);
+        document.getElementById('fatal-fallback')?.remove();
+      });
+    };
+
+    if (isLowEnd) hydTimer = setTimeout(marcarHidratat, 60);
+    else marcarHidratat();
+
+    // Endarrerim només l'execució d'accions per oxigenar l'A10
+    const runPersist = () => {
+      requestPersist();
+      checkBattery();
+    };
+
+    // Kimi Fix: Extirpat requestIdleCallback per evitar stutters asíncrons a A10
+    const timerId = setTimeout(runPersist, isLowEnd ? 900 : 450);
+
+    return () => { 
+      if (hydTimer) clearTimeout(hydTimer);
+      clearTimeout(timerId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLowEnd]);
+
+  return (
+    <>
+      <SEO />
+      <VisorNano />
+      <ErrorBoundary fallbackMessage="Excepció Nuclear Detectada al Mas.">
+        <BackgroundWorkers />
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<Navigate to="/mur" replace />} />
+            <Route path="mur" element={<MurPage />} />
+            <Route path="mercat" element={<MercatPage />} />
+            <Route path="projecte" element={<ProjectePage />} />
+            
+            {/* Rutes provisionals (En construcció) */}
+            <Route path="xat" element={<EnConstruccio />} />
+            <Route path="pobles" element={<EnConstruccio />} />
+            <Route path="events" element={<EnConstruccio />} />
+            <Route path="mapa" element={<EnConstruccio />} />
+            <Route path="multimedia" element={<EnConstruccio />} />
+            <Route path="notes" element={<EnConstruccio />} />
+            <Route path="constitucio" element={<EnConstruccio />} />
+            <Route path="disseny" element={<EnConstruccio />} />
+            <Route path="skills" element={<EnConstruccio />} />
+            <Route path="ia" element={<EnConstruccio />} />
+            <Route path="roadmap" element={<EnConstruccio />} />
+
+            <Route path="*" element={<Navigate to="/mur" replace />} />
+          </Route>
+        </Routes>
+      </ErrorBoundary>
+    </>
+  );
 };
+
 export default App;

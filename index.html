@@ -1,202 +1,144 @@
 <!DOCTYPE html>
-<html lang="ca-ES">
+<html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="light dark" />
   <title>Sóc de Poble</title>
-
-  <!--
-    CSS CRÍTIC INLINE — Regla d'Or: cap first paint que depengui d'un arxiu extern.
-    Tot el que l'Uelo veu en T=0 viu aquí. Cap class de Tailwind, cap import.
-    Quan React munta (#root deixa de ser :empty), el skeleton desapareix per CSS.
-  -->
+  
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    /* VARIABLES GLOBALS - TOKENS CANÒNICS IAIA */
     :root {
-      --sp-bar-brand-h:  40px;
-      --sp-bar-action-h: 56px;
-      --sp-bar-nav-h:    60px;
-      --sp-shell-offset: calc(
-        var(--sp-bar-brand-h) +
-        var(--sp-bar-action-h) +
-        var(--sp-bar-nav-h)
-      );
-      --sp-black-900:   #0a0a0a;
-      --sp-orange-500:  #f97316;
-      --sp-blue-600:    #2563eb;
-      --sk-bg:          #e5e7eb;
-      --sk-shine:       #f9fafb;
+      --sp-black-900: #000000;
+      --sp-orange-500: #FF7300;
+      --sp-blue-600: #0984E3;
     }
 
-    html, body { height: 100%; background: var(--sk-bg); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body { height: 100%; background: #f3f4f6; }
+    
+    @media (min-width: 768px) {
+      html, body { background: #1a1a1a; }
+    }
 
-    /* ─── APP SHELL SKELETON ─────────────────────────────────── */
+    body {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* La reducció d'animacions de low-end-device s'ha mogut a index.css per centralitzar-la */
+
+    #root { height: 100%; }
+
     #sp-shell-sk {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 9999;
-      will-change: opacity;
-      transition: opacity 0.25s ease-out;
-    }
-
-    .sk-brand {
-      height: calc(var(--sp-bar-brand-h) + env(safe-area-inset-top, 0px));
-      background: var(--sp-black-900);
-    }
-    .sk-action {
-      height: var(--sp-bar-action-h);
-      background: var(--sp-blue-600);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .sk-action-pill {
-      width: 160px;
-      height: 34px;
-      border-radius: 17px;
-      background: rgba(255,255,255,0.18);
-    }
-    .sk-nav {
-      height: var(--sp-bar-nav-h);
-      background: var(--sp-orange-500);
-    }
-
-    /* ─── CARD SKELETONS ─────────────────────────────────────── */
-    #sp-feed-sk {
-      padding-top: var(--sp-shell-offset);
+      inset: 0;
+      z-index: 60;
       background: #f3f4f6;
-      min-height: 100svh;    /* svh: small viewport height — més precís que vh en iOS */
-    }
-
-    .sk-card {
-      margin: 10px 14px;
-      padding: 18px 16px;
-      border-radius: 14px;
-      background: #fff;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-    }
-
-    .sk-line {
-      height: 14px;
-      border-radius: 7px;
-      margin-bottom: 10px;
-      background: linear-gradient(
-        90deg,
-        var(--sk-bg) 0%,
-        var(--sk-shine) 40%,
-        var(--sk-bg) 80%
-      );
-      background-size: 250% 100%;
-      animation: sk-wave 1.6s ease-in-out infinite;
-    }
-
-    /* Mides de línies per imitar la distribució real del UniversalCard */
-    .sk-line-xl  { width: 90%; height: 22px; margin-bottom: 12px; }
-    .sk-line-lg  { width: 70%; }
-    .sk-line-md  { width: 55%; }
-    .sk-line-sm  { width: 35%; }
-
-    .sk-avatar {
-      width: 40px; height: 40px;
-      border-radius: 0;         /* Square Rule del projecte */
-      background: var(--sk-bg);
-      flex-shrink: 0;
+      transition: opacity 350ms ease-out;
+      display: flex;
+      flex-direction: column;
     }
 
     .sk-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
+      height: 56px;
+      height: calc(56px + env(safe-area-inset-top, 0px));
+      padding-top: env(safe-area-inset-top, 0px);
+      background: #000000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      flex-shrink: 0;
     }
 
-    .sk-header-text { flex: 1; }
-
-    @keyframes sk-wave {
-      0%   { background-position:  250% 0; }
-      100% { background-position: -250% 0; }
-    }
-
-    /*
-      El truc CSS pur:
-      Quan React munta, #root deixa de ser :empty.
-      El skeleton desapareix sense cap línia de JavaScript.
-      Delay de 100ms evita el flash si la hidratació és instantània.
-    */
-    #root:not(:empty) ~ #sp-shell-sk,
-    #root:not(:empty) ~ #sp-feed-sk {
-      opacity: 0;
-      pointer-events: none;
-      transition-delay: 100ms;
-    }
-    #root:not(:empty) ~ #sp-feed-sk {
+    .sk-sidebar {
       display: none;
     }
 
-    /* Redueix l'animació si l'usuari la té desactivada */
+    .sk-bottomnav {
+      margin-top: auto;
+      height: 64px;
+      height: calc(64px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: #050505;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+      box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      .sk-bottomnav { display: none; }
+      #sp-shell-sk { flex-direction: row; background: #1a1a1a; }
+      .sk-sidebar {
+        display: block;
+        width: 240px;
+        background: #050505;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        height: 100%;
+        flex-shrink: 0;
+      }
+      .sk-header { display: none; }
+    }
+    @media (min-width: 1024px) {
+      .sk-sidebar { width: 280px; }
+    }
+
+    /* NAVEGADOR INDICA HIDRATACIÓ FINALITZADA */
+    html[data-hydrated="1"] #sp-shell-sk {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .sk-line { animation: none; background: var(--sk-bg); }
+      #sp-shell-sk { transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <!-- ─── REACT MUNTA AQUÍ ─────────────────────────────────────── -->
   <div id="root"></div>
 
-  <!-- ─── SKELETON APP SHELL (T=0ms, sense JS) ─────────────────── -->
-  <!-- aria-hidden: el lector de pantalla no l'anuncia -->
+  <!-- SKELETON INITIAL PAINT -->
   <div id="sp-shell-sk" aria-hidden="true">
-    <div class="sk-brand"></div>
-    <div class="sk-action"><div class="sk-action-pill"></div></div>
-    <div class="sk-nav"></div>
-  </div>
-
-  <!-- ─── SKELETON FEED (T=0ms, sense JS) ─────────────────────── -->
-  <!--
-    3 targetes skeleton amb la mateixa estructura que UniversalCard.
-    contain-intrinsic-size ha de coincidir amb l'altura real de la targeta
-    per evitar CLS quan React substitueix els skeletons pel contingut real.
-  -->
-  <div id="sp-feed-sk" aria-hidden="true">
-    <div class="sk-card" style="contain-intrinsic-size: 0 280px;">
-      <div class="sk-header">
-        <div class="sk-avatar"></div>
-        <div class="sk-header-text">
-          <div class="sk-line sk-line-md"></div>
-          <div class="sk-line sk-line-sm"></div>
-        </div>
-      </div>
-      <div class="sk-line sk-line-xl"></div>
-      <div class="sk-line sk-line-lg"></div>
-      <div class="sk-line sk-line-md"></div>
+    <div class="sk-sidebar" style="padding: 24px;">
+      <div style="height: 42px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 40px;"></div>
+      <div style="height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; margin-bottom: 16px;"></div>
+      <div style="height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; margin-bottom: 16px;"></div>
+      <div style="height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; margin-bottom: 16px;"></div>
+      <div style="height: 24px; background: rgba(255,255,255,0.05); border-radius: 6px; margin-bottom: 16px;"></div>
     </div>
-    <div class="sk-card" style="contain-intrinsic-size: 0 240px;">
-      <div class="sk-header">
-        <div class="sk-avatar"></div>
-        <div class="sk-header-text">
-          <div class="sk-line sk-line-md"></div>
-        </div>
-      </div>
-      <div class="sk-line sk-line-xl"></div>
-      <div class="sk-line sk-line-lg"></div>
-    </div>
-    <div class="sk-card" style="contain-intrinsic-size: 0 280px;">
-      <div class="sk-header">
-        <div class="sk-avatar"></div>
-        <div class="sk-header-text">
-          <div class="sk-line sk-line-md"></div>
-          <div class="sk-line sk-line-sm"></div>
-        </div>
-      </div>
-      <div class="sk-line sk-line-xl"></div>
-      <div class="sk-line sk-line-lg"></div>
-      <div class="sk-line sk-line-md"></div>
+    <div style="flex:1; display:flex; flex-direction:column;">
+      <div class="sk-header"></div>
+      <div style="flex:1;"></div>
+      <div class="sk-bottomnav"></div>
     </div>
   </div>
 
-  <!-- JS no bloquejant (Vite l'injecta automàticament en build) -->
+  <script>
+    var sk = document.getElementById('sp-shell-sk');
+    if (sk) {
+      sk.addEventListener('transitionend', function(e) { 
+        if (e.propertyName === 'opacity') this.remove(); 
+      }, { once: true });
+    }
+    
+    setTimeout(function() {
+      if (!document.documentElement.dataset.hydrated) {
+        if (sk && sk.parentNode) sk.remove();
+        if (!document.getElementById('fatal-fallback')) {
+          var fallback = document.createElement('div');
+          fallback.id = 'fatal-fallback';
+          fallback.style.cssText = 'position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#050505;color:#fff;font-family:sans-serif;z-index:9999;padding:20px;text-align:center;';
+          fallback.innerHTML = '<div style="font-size:40px;margin-bottom:20px;">⚠️</div><h2 style="margin-bottom:10px;">Sóc de Poble no respon.</h2><p style="color:#aaa;">El dispositiu no ha pogut carregar el sistema.</p>';
+          document.body.appendChild(fallback);
+          console.warn('Antigravity Failsafe: Skeleton suprimit i fallback fatal injectat.');
+        }
+      }
+    }, 5000);
+  </script>
+
   <script type="module" src="/src/app/entry.jsx"></script>
 </body>
 </html>

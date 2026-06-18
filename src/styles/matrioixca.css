@@ -64,6 +64,9 @@ dialog.sp-matrioixca {
   contain: layout paint;
   content-visibility: auto;
 }
+dialog.sp-matrioixca:not([open]) {
+  display: none !important;
+}
 dialog.sp-matrioixca::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }

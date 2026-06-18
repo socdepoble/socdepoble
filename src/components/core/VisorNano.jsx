@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { logger } from '../../utils/logger';
-import { errorTrackingService } from '../../core/services/errorTrackingService';
 
 /**
  * 📡 VISOR NANO (Monitorització Interna Termodinàmica)
@@ -21,11 +20,9 @@ export default function VisorNano() {
     // Capturar drops de xarxa per cridar "El Paradigma de l'Aixada" internament
     const handleOffline = () => {
       logger.warn('[VISOR NANO] Xarxa caiguda. Activant protocols DNT (Delay-Tolerant Networking).');
-      errorTrackingService.addBreadcrumb('Dispositiu offline', 'network', 'warning');
     };
     const handleOnline = () => {
       logger.info('[VISOR NANO] Xarxa recuperada. Preparant sincronització CRDT.');
-      errorTrackingService.addBreadcrumb('Dispositiu online', 'network', 'info');
     };
     window.addEventListener('offline', handleOffline);
     window.addEventListener('online', handleOnline);

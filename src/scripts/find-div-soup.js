@@ -14,8 +14,8 @@
  *   Llista de fitxers i línies on es detecten possibles "div soup".
  */
 
-const fs = require("fs");
-const path = require("path");
+import fs from 'fs';
+import path from 'path';
 const glob = require("glob");
 const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;

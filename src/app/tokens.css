@@ -165,16 +165,7 @@ html.lupa--active {
   transition: font-size 0.2s ease-out; /* Única transició legal en lupa */
 }
 
-/* Matar les altres transicions en Lupa */
-html.lupa--active * {
-  transition-duration: 0ms !important;
-  animation-duration: 0ms !important;
-}
 
-/* Excepció arrel */
-html.lupa--active {
-  transition-duration: 0.2s !important;
-}
 
 /* Compatibilitat iOS Antic */
 @supports (-webkit-touch-callout: none) {
