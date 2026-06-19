@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import UniversalPage from '../public/UniversalPage';
+import UniversalPage from './UniversalPage';
 import { UniversalGridWrapper, UniversalGridRow } from '../../components/ui/UniversalGrid';
 import UniversalCard from "../../components/ui/universal-card";
 

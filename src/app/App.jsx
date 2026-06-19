@@ -14,6 +14,14 @@ import MurPage from '../pages/MurPage';
 import MercatPage from '../pages/MercatPage';
 import ProjectePage from '../pages/ProjectePage';
 import Pobles from '../pages/Pobles';
+import Map from '../pages/community/Map';
+import GlobalAssetAlbum from '../pages/features/GlobalAssetAlbum';
+import Notes from '../pages/features/Notes';
+import DesignSystem from '../pages/features/DesignSystem_original';
+import SessionRulesPage from '../pages/SessionRulesPage';
+import AlmaPage from '../pages/features/anima-del-mas/AlmaPage';
+import RoadmapView from '../pages/public/RoadmapView';
+import LegalManifest from '../pages/public/LegalManifest';
 import BackgroundWorkers from '../components/core/BackgroundWorkers';
 
 const EnConstruccio = () => (
