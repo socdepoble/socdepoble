@@ -86,9 +86,11 @@ function AppLayout() {
       </div>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#050505] border-t border-white/5 flex items-center justify-evenly px-2 shadow-sm" style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <NavLink to="/xat" className={({ isActive }) => `w-12 h-12 flex items-center justify-center transition-colors ${isActive ? 'text-[#0984E3]' : 'text-white/60 hover:text-white'}`} aria-label="Anar al Xat"><span className="text-2xl" aria-hidden="true">💬</span></NavLink>
         <NavLink to="/mur" className={({ isActive }) => `w-12 h-12 flex items-center justify-center transition-colors ${isActive ? 'text-[#0984E3]' : 'text-white/60 hover:text-white'}`} aria-label="Anar al Mur"><span className="text-2xl" aria-hidden="true">🏠</span></NavLink>
         <button type="button" className="w-[52px] h-[52px] bg-[#0984E3] text-white rounded-full flex items-center justify-center shadow-md shrink-0 -mt-6 border-[4px] border-[#f3f4f6]" aria-label="Nova publicació"><span className="text-3xl font-bold leading-none mt-[-2px]" aria-hidden="true">+</span></button>
-        <NavLink to="/projecte" className={({ isActive }) => `w-12 h-12 flex items-center justify-center transition-colors ${isActive ? 'text-[#0984E3]' : 'text-white/60 hover:text-white'}`} aria-label="El Projecte"><span className="text-2xl" aria-hidden="true">⚙️</span></NavLink>
+        <NavLink to="/mercat" className={({ isActive }) => `w-12 h-12 flex items-center justify-center transition-colors ${isActive ? 'text-[#0984E3]' : 'text-white/60 hover:text-white'}`} aria-label="Anar al Mercat"><span className="text-2xl" aria-hidden="true">🛒</span></NavLink>
+        <NavLink to="/pobles" className={({ isActive }) => `w-12 h-12 flex items-center justify-center transition-colors ${isActive ? 'text-[#0984E3]' : 'text-white/60 hover:text-white'}`} aria-label="Anar a Pobles"><span className="text-2xl" aria-hidden="true">📍</span></NavLink>
       </nav>
     </div>
   );

@@ -1,6 +1,4 @@
 import React from 'react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
 import { buttonVariants } from './Button.variants';
 import { hapticService } from '../../../core/services/hapticService';
 export const Button = React.forwardRef(({
@@ -26,7 +24,7 @@ export const Button = React.forwardRef(({
     isLoading,
     context
   });
-  const mergedClasses = twMerge(clsx(baseClasses, className));
+  const mergedClasses = [baseClasses, className].filter(Boolean).join(' ');
   return <Component ref={ref} className={mergedClasses} disabled={Component === 'button' ? isLoading || props.disabled : undefined} aria-disabled={isLoading || props.disabled ? true : undefined} onClick={e => {
     if (isLoading || props.disabled) {
       e.preventDefault();
