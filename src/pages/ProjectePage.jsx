@@ -75,7 +75,7 @@ export default function ProjectePage() {
             id="projecte-titol"
             className="text-4xl sm:text-5xl md:text-6xl font-black text-black tracking-tight uppercase mb-4 font-display" 
           >
-            <span className="text-[#0984E3]">El </span>Projecte
+            EL PROJECTE
           </h2>
           
           <div className="text-left w-full space-y-10">

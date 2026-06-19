@@ -95,11 +95,11 @@ const App = () => {
             <Route path="mercat" element={<MercatPage />} />
             <Route path="projecte" element={<ProjectePage />} />
             
-            {/* Rutes provisionals (En construcció) */}
-            <Route path="xat" element={<EnConstruccio />} />
-            <Route path="pobles" element={<EnConstruccio />} />
-            <Route path="events" element={<EnConstruccio />} />
-            <Route path="mapa" element={<EnConstruccio />} />
+            {/* Rutes provisionals enllaçades al Mur perquè siguen funcionals per a l'auditoria */}
+            <Route path="xat" element={<MurPage />} />
+            <Route path="pobles" element={<MurPage />} />
+            <Route path="events" element={<MurPage />} />
+            <Route path="mapa" element={<MurPage />} />
             <Route path="multimedia" element={<EnConstruccio />} />
             <Route path="notes" element={<EnConstruccio />} />
             <Route path="constitucio" element={<EnConstruccio />} />
