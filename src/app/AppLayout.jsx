@@ -3,12 +3,12 @@ import { Outlet, NavLink } from 'react-router-dom';
 
 const getNavClass = ({ isActive }) =>
   `w-full flex items-center gap-4 px-3 py-3 rounded-xl font-bold tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-    isActive ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-[#FF7300]'
+    isActive ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-white/70 hover:text-white'
   }`;
 
 const getSubNavClass = ({ isActive }) =>
   `w-full flex items-center gap-4 px-3 py-3 rounded-xl font-bold tracking-wide focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
-    isActive ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-white/70'
+    isActive ? 'bg-white/10 text-white' : 'hover:bg-white/5 text-white/70 hover:text-white'
   }`;
 
 function AppLayout() {
@@ -67,9 +67,13 @@ function AppLayout() {
             <span className="text-xl" aria-hidden="true">🛣️</span> FULL DE RUTA
           </NavLink>
           
-          <div className="mt-8 px-3 pb-6 flex flex-col gap-2 text-[11px] text-[#FF7300] font-bold tracking-wider uppercase shrink-0">
-            <a href="#" className="hover:text-white transition-colors">Legal, privacitat i seguretat</a>
-            <span className="opacity-50">V10.38.43</span>
+          <div className="mt-6 pt-4 border-t border-white/5">
+            <NavLink to="/legal" className={getSubNavClass}>
+              <span className="text-xl" aria-hidden="true">⚖️</span> LEGAL I PRIVACITAT
+            </NavLink>
+            <div className="px-3 py-2 mt-2 text-[11px] text-white/30 font-bold tracking-widest uppercase">
+              V10.38.43
+            </div>
           </div>
         </nav>
       </aside>
@@ -77,7 +81,7 @@ function AppLayout() {
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <header className="shrink-0 w-full flex items-center justify-end px-4 lg:px-6 bg-[#000000] border-b border-white/10 z-40 shadow-sm" style={{ height: 'calc(56px + env(safe-area-inset-top, 0px))', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="flex items-center gap-1 sm:gap-2 text-white/70">
-            <button type="button" aria-label="Visor Nano (Diagnòstic)" className="w-10 h-10 flex items-center justify-center text-[#FF7300] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7300] focus-visible:ring-offset-2 focus-visible:ring-offset-[#000000] rounded-full">👁️</button>
+            <button type="button" aria-label="Visor Nano (Diagnòstic)" className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#000000] rounded-full">👁️</button>
           </div>
         </header>
         <main className="flex-1 overflow-y-auto bg-[#f3f4f6] md:bg-[#1a1a1a] pb-safe-bottom md:pb-0 relative" style={{ overscrollBehavior: 'contain' }}>
