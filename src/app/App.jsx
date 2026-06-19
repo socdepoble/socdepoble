@@ -13,6 +13,7 @@ import ErrorBoundary from '../components/core/ErrorBoundary';
 import MurPage from '../pages/MurPage';
 import MercatPage from '../pages/MercatPage';
 import ProjectePage from '../pages/ProjectePage';
+import Pobles from '../pages/Pobles';
 import BackgroundWorkers from '../components/core/BackgroundWorkers';
 
 const EnConstruccio = () => (
@@ -95,18 +96,19 @@ const App = () => {
             <Route path="mercat" element={<MercatPage />} />
             <Route path="projecte" element={<ProjectePage />} />
             
-            {/* Rutes provisionals enllaçades al Mur perquè siguen funcionals per a l'auditoria */}
             <Route path="xat" element={<MurPage />} />
-            <Route path="pobles" element={<MurPage />} />
+            <Route path="pobles" element={<Pobles />} />
             <Route path="events" element={<MurPage />} />
-            <Route path="mapa" element={<MurPage />} />
-            <Route path="multimedia" element={<EnConstruccio />} />
-            <Route path="notes" element={<EnConstruccio />} />
+            
+            <Route path="mapa" element={<Map />} />
+            <Route path="multimedia" element={<GlobalAssetAlbum />} />
+            <Route path="notes" element={<Notes />} />
             <Route path="constitucio" element={<EnConstruccio />} />
-            <Route path="disseny" element={<EnConstruccio />} />
-            <Route path="skills" element={<EnConstruccio />} />
-            <Route path="ia" element={<EnConstruccio />} />
-            <Route path="roadmap" element={<EnConstruccio />} />
+            <Route path="disseny" element={<DesignSystem />} />
+            <Route path="skills" element={<SessionRulesPage />} />
+            <Route path="ia" element={<AlmaPage />} />
+            <Route path="roadmap" element={<RoadmapView />} />
+            <Route path="legal" element={<LegalManifest />} />
 
             <Route path="*" element={<Navigate to="/mur" replace />} />
           </Route>

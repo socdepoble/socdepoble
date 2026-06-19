@@ -68,9 +68,13 @@ function AppLayout() {
           <NavLink to="/roadmap" className={getSubNavClass}>
             <span className="text-xl" aria-hidden="true">🛣️</span> FULL DE RUTA
           </NavLink>
+          <div className="h-px bg-white/10 my-1 mx-3" />
           <NavLink to="/legal" className={getSubNavClass}>
             <span className="text-xl" aria-hidden="true">⚖️</span> LEGAL I PRIVACITAT
           </NavLink>
+          <div className="px-3 py-1 text-[10px] text-white/30 font-mono">
+            V10.38.43
+          </div>
         </nav>
       </aside>
 
