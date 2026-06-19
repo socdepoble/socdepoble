@@ -44,9 +44,7 @@ Auditoria_Copilot/
 # Directoris interns i de treball local
 _auditories/
 _scripts/
-_skills/
 _services/
 _backups/
-_docs/
 _historico_codi/
 .rag-db/

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SÓC DE POBLE - DOSSIER TÈCNIC SOLLUTIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Noto Sans', sans-serif;
+            color: #1a1a1a;
+        }
+        .a4-page {
+            background: white;
+            width: 21cm;
+            min-height: 29.7cm;
+            display: block;
+            margin: 0 auto;
+            padding: 2cm 1.5cm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        .header {
+            border-bottom: 3px solid #4F46E5;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #F97316;
+            margin: 0;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+        .meta-info {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .content {
+            column-count: 2;
+            column-gap: 40px;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        h3 {
+            color: #4F46E5;
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 10px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        ul {
+            margin-top: 0;
+            padding-left: 20px;
+        }
+        .highlight-box {
+            background: #FDF5E6;
+            padding: 15px;
+            border-left: 4px solid #F97316;
+            font-family: monospace;
+            font-size: 12px;
+            break-inside: avoid;
+            margin-top: 15px;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .a4-page { box-shadow: none; margin: 0; width: auto; min-height: auto; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="a4-page">
+    <div class="header">
+        <h1>Sóc de Poble - Dossier Tècnic</h1>
+    </div>
+    
+    <div class="meta-info">
+        <strong>Per a:</strong> Equip de Sistemes i Desenvolupament (Sollutia)<br>
+        <strong>De:</strong> Javi Llinares / Antigravity (IA Lead Developer)<br>
+        <strong>Data:</strong> Juny 2026
+    </div>
+
+    <div class="content">
+        <h3>1. El Paradigma "Sóc de Poble"</h3>
+        <p>Sóc de Poble no és un portal web tradicional ni un simple CMS (Wordpress, Joomla). És una <strong>Progressive Web App (PWA) Offline-First</strong> i Local-First dissenyada específicament per a entorns rurals, agricultors i usuaris de tecnologia bàsica (mòbils antics, zones de baixa o nul·la cobertura). L'arquitectura s'ha forjat sota una premissa: eficiència extrema de bateria, renderitzat i zero espoli de dades.</p>
+
+        <h3>2. Arquitectura CRDT (Local-First)</h3>
+        <p>A diferència de les aplicacions altament dependents del núvol (Cloud-centric), fem servir el model <strong>Local-First</strong>. Les dades resideixen de forma primària al dispositiu de l'usuari (utilitzant <code>IndexedDB</code> al navegador). La sincronització global entre usuaris es fa utilitzant <strong>CRDTs (Conflict-free Replicated Data Types)</strong>.</p>
+        <p>Això permet que, per exemple, dos usuaris puguen intercanviar informació via Bluetooth/P2P o xarxa local a la plaça del poble sense internet, i quan qualsevol dispositiu troba cobertura, sincronitza l'estat global de la xarxa sense generar cap conflicte d'escriptura.</p>
+
+        <h3>3. Rendiment: "La Sèquia" i el DOM</h3>
+        <p>Sabem que els frameworks moderns (React, Vue) poden ofegar dispositius antics amb excessius cicles de renderitzat (Virtual DOM thrashing). Per solucionar-ho, hem implementat la filosofia de la "Sèquia de 32 gotes":</p>
+        <ul>
+            <li><strong>DOM Divorciat:</strong> Evitem mutacions inútils. La vista (renderitzat UI) i la lògica de dades estan totalment desacoblades asíncronament.</li>
+            <li><strong>Flux Controlat:</strong> El <em>feed</em> d'informació descarrega blocs limitats en el temps per no saturar la memòria RAM del dispositiu mòbil sota cap concepte.</li>
+        </ul>
+
+        <h3>4. Cànon Visual i Accesibilitat UX</h3>
+        <p>L'estètica corporativa fuig del disseny genèric. Les regles són matemàticament estrictes per a garantir màxima accessibilitat a gent major i treballadors del camp:</p>
+        <ul>
+            <li><strong>Tipografia Única:</strong> Només fem servir la font <code>Noto Sans SemiCondensed</code>. Més llegible, més pes i estalvia espai horitzontal sense sacrificar visibilitat.</li>
+            <li><strong>Regla dels 44px:</strong> Cap element clicable o botó pot tindre un objectiu interactiu inferior a 44x44 píxels (dissenyat a consciència per a dits grossos o cansats).</li>
+            <li><strong>Colors d'Alt Contrast:</strong> Alt contrast tèrmic amb la "Boina Taronja" institucional (<code>#F97316</code>) i el botó/peu blau índigo complementari (<code>#4F46E5</code>). Mai fem servir un blanc nuclear de fons per no cremar la vista.</li>
+        </ul>
+
+        <h3>5. Programari Lliure i Estructura</h3>
+        <p>Tot el projecte està concebut i estructurat com a <strong>Programari Lliure (Free Open Source Software)</strong>. El codi base és net. Dins de la carpeta principal <code>_docs/</code> hi ha "La Constitució" del codi: 7 Actes Generals on cada decisió arquitectònica, de disseny i de lògica asíncrona està documentada filosòficament i tècnicament al mil·límetre, lliure de dependències inútils.</p>
+
+        <h3>6. Accés a l'Auditoria i Codi</h3>
+        <p>Aquesta arquitectura necessita del múscul d'un Soci Tecnològic que puga proveir l'estabilitat, la seguretat de hosting, el *backend* de xarxa per als CRDTs i la garantia corporativa que requereixen els grans usuaris (ajuntaments o col·lectius).</p>
+        
+        <p>Vos convidem a fer un <em>Git Clone</em>, obrir el capó, llegir l'arxiu de l'Acta d'Arquitectura i auditar el *performance* inicial del que estem construint:</p>
+
+        <div class="highlight-box">
+            <strong>🔗 REPOSITORI GITHUB:</strong><br>
+            github.com/javillinares/socdepoble<br><br>
+            <strong>🔐 ACCÉS DEMO (Exemple):</strong><br>
+            Usuari: auditor@sollutia.com<br>
+            Pass: MasiaTecnologica2026
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

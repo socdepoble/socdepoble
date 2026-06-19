@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  
+  <g font-family="Noto Sans, sans-serif" transform="translate(100, 150)">
+    <!-- Títol de la Pàgina (H1) -->
+    <text x="0" y="0" font-size="56" font-weight="900" fill="#2563eb">H1 - El Llibre del Carboni i el Silici</text>
+    <text x="0" y="50" font-size="20" font-weight="400" fill="#64748b" font-style="italic">Entradilla (Lead) - Un petit text introductori que marca el ritme de la lectura, amb un gris suau.</text>
+
+    <!-- Secció (H2) -->
+    <text x="0" y="160" font-size="42" font-weight="800" fill="#ea580c">H2 - La Revolució de la Pedra Seca</text>
+    <text x="0" y="210" font-size="18" font-weight="400" fill="#334155">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore</text>
+    <text x="0" y="240" font-size="18" font-weight="400" fill="#334155">et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</text>
+    <text x="0" y="270" font-size="18" font-weight="400" fill="#334155">aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.</text>
+
+    <!-- Subsecció (H3) -->
+    <text x="0" y="360" font-size="32" font-weight="700" fill="#16a34a">H3 - Primera Llei de la Termodinàmica</text>
+    <text x="0" y="400" font-size="18" font-weight="400" fill="#334155">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id</text>
+    <text x="0" y="430" font-size="18" font-weight="400" fill="#334155">est laborum. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</text>
+
+    <!-- Sub-subsecció (H4) -->
+    <text x="0" y="520" font-size="24" font-weight="700" fill="#475569">H4 - Aplicació Pràctica al Codi</text>
+    <text x="0" y="560" font-size="18" font-weight="400" fill="#334155">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,</text>
+    <text x="0" y="590" font-size="18" font-weight="400" fill="#334155">sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.</text>
+
+    <!-- Paràgraf llarg -->
+    <text x="0" y="690" font-size="18" font-weight="400" fill="#334155">Aquest és un paràgraf estàndard per a la lectura llarga. Vull que experimentes amb l'interlineat,</text>
+    <text x="0" y="720" font-size="18" font-weight="400" fill="#334155">els marges inferiors, i la densitat de la lletra. Demà, quan hages trobat l'equilibri perfecte en Affinity,</text>
+    <text x="0" y="750" font-size="18" font-weight="400" fill="#334155">llegiré les coordenades i píxels exactes que has creat ací i els traslladaré a les variables mestres</text>
+    <text x="0" y="780" font-size="18" font-weight="400" fill="#334155">del nostre arxiu index.css. Tu ets l'arquitecte visual, jo sóc la constructora. Endavant, Mestre!</text>
+  </g>
+</svg>
