@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TargetaPoble from '../components/ui/TargetaPoble';
 import { supabase } from '../supabaseClient';
+import UniversalPageLayout from '../components/layout/UniversalPageLayout';
 
 export default function MurPage() {
   const [posts, setPosts] = useState([]);
@@ -27,29 +28,33 @@ export default function MurPage() {
   }, []);
 
   return (
-    <section aria-label="Mur del poble">
-      {loading && <p className="text-center opacity-50 p-4 font-bold">Connectant amb el poble...</p>}
-      {!loading && posts.length === 0 && <p className="text-center opacity-50 p-4">El mur està buit. Esperant històries...</p>}
-      
-      {!loading && posts.map(post => {
-        // En Supabase, les columnes poden ser diferents depenent de l'esquema
-        const title = post.title || post.seo_title || 'Publicació';
-        const content = post.content || post.seo_description || '';
-        // Si no hi ha autor, fiquem un genèric
-        const author = post.author_name || (post.author_role === 'company' ? 'Entitat' : 'Sóc de Poble');
+    <UniversalPageLayout
+      title="EL MUR"
+      subtitle="Publicacions recents"
+      coverImage="/assets/media/backgrounds/landscape_placeholder.jpg"
+    >
+      <div className="flex flex-col gap-4">
+        {loading && <p className="text-center opacity-50 p-4 font-bold">Connectant amb el poble...</p>}
+        {!loading && posts.length === 0 && <p className="text-center opacity-50 p-4">El mur està buit. Esperant històries...</p>}
         
-        return (
-          <TargetaPoble 
-            key={post.id}
-            id={post.id}
-            author={author}
-            title={title}
-            content={content}
-            date={new Date(post.created_at).toLocaleDateString('ca-ES')}
-            category="mur"
-          />
-        );
-      })}
-    </section>
+        {!loading && posts.map(post => {
+          const title = post.title || post.seo_title || 'Publicació';
+          const content = post.content || post.seo_description || '';
+          const author = post.author_name || (post.author_role === 'company' ? 'Entitat' : 'Sóc de Poble');
+          
+          return (
+            <TargetaPoble 
+              key={post.id}
+              id={post.id}
+              author={author}
+              title={title}
+              content={content}
+              date={new Date(post.created_at).toLocaleDateString('ca-ES')}
+              category="mur"
+            />
+          );
+        })}
+      </div>
+    </UniversalPageLayout>
   );
 }

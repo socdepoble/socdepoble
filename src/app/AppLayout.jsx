@@ -17,7 +17,9 @@ function AppLayout() {
     <div className="bg-[#f3f4f6] min-h-screen min-h-[100dvh] w-full flex font-sans text-gray-900">
       <aside className="hidden md:flex flex-col w-[240px] lg:w-[280px] bg-[#050505] text-white shrink-0 h-screen h-[100dvh] overflow-y-auto border-r border-white/10 z-50" style={{ overscrollBehavior: 'contain', scrollBehavior: 'auto' }}>
         <div className="h-[64px] flex items-center px-6 shrink-0" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
-          <img alt="Sóc de Poble" className="h-8 sm:h-10 object-contain" src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" width="180" height="42" />
+          <NavLink to="/" className="block" aria-label="Inici Sóc de Poble">
+            <img alt="Sóc de Poble" className="h-8 sm:h-10 object-contain" src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" width="180" height="42" />
+          </NavLink>
         </div>
         <button type="button" className="min-h-[56px] w-full flex items-center px-6 gap-3 bg-[#0984E3] hover:bg-[#076aba] text-white font-bold tracking-widest uppercase shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#050505]">
           <span className="text-2xl font-bold leading-none" aria-hidden="true">+</span>
@@ -75,6 +77,11 @@ function AppLayout() {
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <header className="shrink-0 w-full flex items-center justify-end px-4 lg:px-6 bg-[#000000] border-b border-white/10 z-40 shadow-sm" style={{ height: 'calc(56px + env(safe-area-inset-top, 0px))', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div className="flex items-center gap-1 sm:gap-2 text-white/70">
+            <button type="button" aria-label="Web" className="w-10 h-10 flex items-center justify-center hover:text-white rounded-full">🌐</button>
+            <button type="button" aria-label="Accessibilitat" className="w-10 h-10 flex items-center justify-center hover:text-white rounded-full">🧍</button>
+            <button type="button" aria-label="Cercador" className="w-10 h-10 flex items-center justify-center hover:text-white rounded-full">🔍</button>
+            <button type="button" aria-label="Tema fosc" className="w-10 h-10 flex items-center justify-center hover:text-white rounded-full">🌙</button>
+            <button type="button" aria-label="Perfil" className="w-10 h-10 flex items-center justify-center hover:text-white rounded-full">👤</button>
             <button type="button" aria-label="Visor Nano (Diagnòstic)" className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#000000] rounded-full">👁️</button>
           </div>
         </header>

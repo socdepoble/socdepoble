@@ -1,5 +1,6 @@
 import React from 'react';
 import TargetaPoble from '../components/ui/TargetaPoble';
+import UniversalPageLayout from '../components/layout/UniversalPageLayout';
 
 export default function MercatPage() {
   const productes = [
@@ -13,25 +14,26 @@ export default function MercatPage() {
   ];
 
   return (
-    <section aria-label="Mercat local">
-      <header className="mb-6">
-        <h2 className="m-0 font-bold text-2xl" style={{ color: 'var(--sp-orange)' }}>🏪 El Mercat</h2>
-        <p className="opacity-70 mt-2">Publicacions amb preu o intercanvi</p>
-      </header>
-
-      {productes.length === 0 && <p className="text-center opacity-50 p-4">El mercat està buit hui.</p>}
-      
-      {productes.map(post => (
-        <TargetaPoble 
-          key={post.id}
-          id={post.id}
-          author={post.author}
-          title={post.title}
-          content={post.content}
-          date={post.date}
-          category="mercat"
-        />
-      ))}
-    </section>
+    <UniversalPageLayout
+      title="EL MERCAT"
+      subtitle="Publicacions amb preu o intercanvi"
+      coverImage="/assets/media/backgrounds/landscape_placeholder.jpg"
+    >
+      <div className="flex flex-col gap-4">
+        {productes.length === 0 && <p className="text-center opacity-50 p-4">El mercat està buit hui.</p>}
+        
+        {productes.map(post => (
+          <TargetaPoble 
+            key={post.id}
+            id={post.id}
+            author={post.author}
+            title={post.title}
+            content={post.content}
+            date={post.date}
+            category="mercat"
+          />
+        ))}
+      </div>
+    </UniversalPageLayout>
   );
 }
