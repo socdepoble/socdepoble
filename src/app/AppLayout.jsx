@@ -14,8 +14,8 @@ const getSubNavClass = ({ isActive }) =>
 function AppLayout() {
 
   return (
-    <div className="bg-[#f3f4f6] min-h-screen min-h-[100dvh] w-full flex font-sans text-gray-900">
-      <aside className="hidden md:flex flex-col w-[240px] lg:w-[280px] bg-[#050505] text-white shrink-0 h-screen h-[100dvh] overflow-y-auto border-r border-white/10 z-50" style={{ overscrollBehavior: 'contain', scrollBehavior: 'auto' }}>
+    <div className="bg-[#f3f4f6] h-[100dvh] w-full flex flex-1 min-h-0 font-sans text-gray-900 overflow-hidden">
+      <aside className="hidden md:flex flex-col w-[240px] lg:w-[280px] bg-[#050505] text-white shrink-0 h-full overflow-y-auto border-r border-white/10 z-50" style={{ overscrollBehavior: 'contain', scrollBehavior: 'auto' }}>
         <div className="h-[64px] flex items-center px-6 shrink-0" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <NavLink to="/" className="block" aria-label="Inici Sóc de Poble">
             <img alt="Sóc de Poble" className="h-8 sm:h-10 object-contain" src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" width="180" height="42" />

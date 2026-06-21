@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Languages, MessageCircle, Share2, Plus, ArrowLeft, BookText } from 'lucide-react';
+import { emit, SDP } from '../../lib/eventBus';
 
 export default function UniversalPageLayout({
   title,
@@ -12,20 +14,43 @@ export default function UniversalPageLayout({
   const [imgError, setImgError] = useState(false);
   const handleImgError = () => setImgError(true);
 
+  const handleEvent = (eventName) => {
+    if (window.navigator?.vibrate) window.navigator.vibrate(10);
+    emit(eventName, { entityTitle: title, entityType: 'page' });
+  };
+
   return (
     <article className="min-h-screen min-h-[100dvh] bg-[#f3f4f6] text-gray-900 md:pb-20">
       
       {/* CAPÇALERA VISUAL (Universal Page Pattern) */}
       <header className="w-full relative">
         
-        {/* BARRA BLAVA (Tornar enrere / Índex) */}
-        <div className="w-full bg-[#0984E3] text-white flex justify-between items-center px-4" style={{ minHeight: 48 }}>
-          <button type="button" aria-label="Tornar enrere" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors">
-            <span aria-hidden="true" className="text-xl">←</span>
-          </button>
+        {/* BARRA BLAVA */}
+        <div className="w-full bg-[#0984E3] text-white flex justify-between items-center px-3 h-14" style={{ minHeight: 56 }}>
+          {/* Navegació Esquerra */}
+          <div className="flex items-center gap-1">
+            <button type="button" aria-label="Tornar enrere" onClick={() => window.history.back()} className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors">
+              <ArrowLeft size={24} />
+            </button>
+            <button type="button" aria-label="Índex" className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors">
+              <BookText size={24} />
+            </button>
+          </div>
           
-          <div className="flex items-center gap-2 font-bold text-sm tracking-wider uppercase">
-            <span aria-hidden="true">📑</span> ÍNDEX
+          {/* Accions Targeta Dreta (Clonat Exacte Universal Card) */}
+          <div className="flex items-center gap-1">
+            <button type="button" onClick={() => handleEvent(SDP?.TRANSLATE)} aria-label="Traduir" className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors">
+              <Languages size={22} />
+            </button>
+            <button type="button" onClick={() => handleEvent(SDP?.COMMENT)} aria-label="Comentar" className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors">
+              <MessageCircle size={22} />
+            </button>
+            <button type="button" onClick={() => handleEvent(SDP?.SHARE)} aria-label="Compartir" className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors mr-1">
+              <Share2 size={22} />
+            </button>
+            <button type="button" onClick={() => handleEvent(SDP?.CONNECT)} className="flex items-center gap-1.5 bg-white text-black font-black text-xs rounded-full px-4 py-2 hover:bg-white/90 active:opacity-80 transition-opacity ml-1">
+              <Plus size={14} strokeWidth={3} /> CONNECTAR
+            </button>
           </div>
         </div>
 
