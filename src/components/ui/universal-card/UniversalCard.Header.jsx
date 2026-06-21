@@ -12,7 +12,7 @@ const UniversalCardHeader = React.memo(({
   const showImage = avatarSrc && !imgError;
 
   return (
-    <header className={className || styles.cardHeader} aria-label={`Informació de l'autor: ${displayAuthor || 'desconegut'}`}>
+    <header className={`${styles.cardHeader} ${className || ''}`.trim()} aria-label={`Informació de l'autor: ${displayAuthor || 'desconegut'}`}>
       {showImage ? (
         <img
           src={avatarSrc}
@@ -27,7 +27,9 @@ const UniversalCardHeader = React.memo(({
           aria-label={typeof displayAuthor === 'string' && displayAuthor.trim() ? `Avatar de ${displayAuthor}` : 'Avatar per defecte'}
           className="w-11 h-11 shrink-0 flex items-center justify-center bg-black/10 text-black/80 font-bold text-lg"
         >
-          {(typeof displayAuthor === 'string' ? displayAuthor.trim().charAt(0) : 'S').toUpperCase()}
+          <span aria-hidden="true">
+            {(typeof displayAuthor === 'string' ? displayAuthor.trim().charAt(0) : 'S').toUpperCase()}
+          </span>
         </div>
       )}
     <div className="flex flex-col min-w-0">

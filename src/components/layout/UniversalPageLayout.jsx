@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, BookText } from 'lucide-react';
 import ActionBar from '../ui/ActionBar';
+import { LayoutProvider } from '../../contexts/LayoutContext';
 
 export default function UniversalPageLayout({
   id,
   title,
+  subtitle,
+  coverImage,
+  authorIcon = '/assets/system/icons/icon-orange.svg',
+  authorName = 'Sóc de Poble',
+  authorLocation = 'La Torre de les Maçanes',
   type = 'page',
   primaryLabel = 'CONNECTAR',
   primaryEvent = 'CONNECT',
@@ -22,8 +28,9 @@ export default function UniversalPageLayout({
   };
 
   return (
-    <article className="min-h-screen min-h-[100dvh] bg-[var(--sdp-fons,#f3f4f6)] text-[var(--sp-text,#111827)] md:pb-20">
-      <header className="w-full relative">
+    <LayoutProvider hideActionBar={true}>
+      <article className="min-h-screen min-h-[100dvh] bg-[var(--sdp-fons,#f3f4f6)] text-[var(--sp-text,#111827)] md:pb-20">
+        <header className="w-full relative">
         
         {/* BARRA BLAVA CANÒNICA */}
         <div 
@@ -44,7 +51,7 @@ export default function UniversalPageLayout({
             </button>
             <button 
               type="button" 
-              aria-label="Índex" 
+              aria-label="Tornar a l'índex principal de publicacions" 
               onClick={() => navigate('/')}
               className="w-11 h-11 rounded-full flex items-center justify-center hover:bg-white/30 active:bg-white/40 text-white shrink-0 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation"
             >
@@ -92,6 +99,7 @@ export default function UniversalPageLayout({
           <div className="text-left w-full">{children}</div>
         </section>
       </div>
-    </article>
+      </article>
+    </LayoutProvider>
   );
 }

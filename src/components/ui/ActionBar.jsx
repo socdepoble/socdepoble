@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Languages, MessageCircle, Share2, Plus, ShoppingCart } from 'lucide-react';
 import safeEmit from '../../lib/safeEmit';
@@ -24,14 +24,19 @@ const ActionBar = ({
 }) => {
   const toolbarRef = useRef(null);
 
-  const handleEvent = (eventName) => {
+  const handleEvent = useCallback((eventName) => {
     try {
       if (typeof window !== 'undefined' && window.navigator?.vibrate) window.navigator.vibrate(10);
     } catch (e) {
       // Ignorem silenciosament si l'API no està disponible o l'usuari no ha interactuat
     }
-    safeEmit(eventName, { entityId: String(entityId), entityTitle, entityType });
-  };
+    // [TRELLAT]: Ternari pur. Només fem String si tenim un valor real.
+    safeEmit(eventName, { 
+      entityId: entityId != null ? String(entityId) : undefined, 
+      entityTitle, 
+      entityType 
+    });
+  }, [entityId, entityTitle, entityType]);
 
   const handleKeyDown = (e) => {
     if (!toolbarRef.current) return;
@@ -61,17 +66,17 @@ const ActionBar = ({
       <ActionIconBtn 
         onClick={() => handleEvent('TRANSLATE')} 
         label="Traduir" 
-        icon={<Languages size={22} aria-hidden="true" />} 
+        icon={<Languages size={22} aria-hidden="true" role="presentation" />} 
       />
       <ActionIconBtn 
         onClick={() => handleEvent('COMMENT')} 
         label="Comentar" 
-        icon={<MessageCircle size={22} aria-hidden="true" />} 
+        icon={<MessageCircle size={22} aria-hidden="true" role="presentation" />} 
       />
       <ActionIconBtn 
         onClick={() => handleEvent('SHARE')} 
         label="Compartir" 
-        icon={<Share2 size={22} aria-hidden="true" />} 
+        icon={<Share2 size={22} aria-hidden="true" role="presentation" />} 
       />
     </>
   );
@@ -83,7 +88,7 @@ const ActionBar = ({
       aria-label={entityTitle ? `${primaryLabel} amb ${entityTitle}` : primaryLabel}
       className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 min-h-[44px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? 'py-2' : 'py-2.5'}`}
     >
-      {primaryLabel === 'AFEGIR' ? <ShoppingCart size={16} strokeWidth={3} aria-hidden="true" /> : <Plus size={16} strokeWidth={3} aria-hidden="true" />} 
+      {primaryLabel === 'AFEGIR' ? <ShoppingCart size={16} strokeWidth={3} aria-hidden="true" role="presentation" /> : <Plus size={16} strokeWidth={3} aria-hidden="true" role="presentation" />} 
       <span>{primaryLabel}</span>
     </button>
   );

@@ -11,7 +11,7 @@ const UniversalCardMedia = React.memo(({
   className
 }) => {
 
-  const mediaClass = className || styles.cardMedia;
+  const mediaClass = `${styles.cardMedia} ${className || ''}`.trim();
 
   if (videoUrl) {
     return (

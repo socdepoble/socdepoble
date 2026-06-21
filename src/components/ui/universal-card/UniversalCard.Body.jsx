@@ -16,7 +16,7 @@ const UniversalCardBody = React.memo(({
   const displayPrice = price !== null && price !== undefined ? `${price} €` : null;
 
   return (
-    <section className={className || styles.cardBody}>
+    <section className={`${styles.cardBody} ${className || ''}`.trim()}>
       <div className="flex items-start justify-between gap-3">
         <h2 className={`${styles.title} flex-1 min-w-0`}>{displayTitle}</h2>
         {displayPrice ? (

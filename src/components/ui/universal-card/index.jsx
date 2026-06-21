@@ -5,6 +5,7 @@ import UniversalCardBody from './UniversalCard.Body';
 import ActionBar from '../ActionBar';
 import styles from './UniversalCard.module.css';
 import { SDP } from '../../../lib/eventBus';
+import { useLayout } from '../../../contexts/LayoutContext';
 
 const resolveCardUrl = ({ type, id, slug }) => {
   if (!id && !slug) return '/';
@@ -39,6 +40,7 @@ const UniversalCard = ({
 }) => {
   const cardUrl = onNavigate ? undefined : resolveCardUrl({ type, id, slug });
   const hasMedia = Boolean(image || videoUrl);
+  const { hideActionBar } = useLayout();
 
   const isMarket = variant === 'mercat' || type === 'market_item' || type === 'product';
   const primaryLabel = isMarket ? 'AFEGIR' : 'CONNECTAR';
@@ -82,15 +84,17 @@ const UniversalCard = ({
 
       {/* Footer slot opcional (Grok) per a quan s'embeu al Layout */}
       {footer !== undefined ? footer : (
-        <div className={styles.cardActionBar}>
-          <ActionBar
-            entityId={id}
-            entityType={type}
-            entityTitle={title}
-            primaryLabel={primaryLabel}
-            primaryEvent={primaryEvent}
-          />
-        </div>
+        !hideActionBar && (
+          <div className={styles.cardActionBar}>
+            <ActionBar
+              entityId={id}
+              entityType={type}
+              entityTitle={title}
+              primaryLabel={primaryLabel}
+              primaryEvent={primaryEvent}
+            />
+          </div>
+        )
       )}
     </article>
   );
