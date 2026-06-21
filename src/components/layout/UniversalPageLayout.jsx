@@ -6,15 +6,11 @@ import ActionBar from '../ui/ActionBar';
 export default function UniversalPageLayout({
   id,
   title,
-  subtitle,
-  coverImage,
-  authorIcon = '/assets/system/icons/icon-orange.svg',
-  authorName = 'Sóc de Poble',
-  authorLocation = 'La Torre de les Maçanes',
+  type = 'page',
+  primaryLabel = 'CONNECTAR',
+  primaryEvent = 'CONNECT',
   children
 }) {
-  const [imgError, setImgError] = useState(false);
-  const handleImgError = () => setImgError(true);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -60,7 +56,9 @@ export default function UniversalPageLayout({
           <ActionBar 
             entityId={id} 
             entityTitle={title} 
-            entityType="page" 
+            entityType={type} 
+            primaryLabel={primaryLabel}
+            primaryEvent={primaryEvent}
             variant="header" 
           />
         </div>

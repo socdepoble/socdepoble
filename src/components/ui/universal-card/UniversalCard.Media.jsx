@@ -10,7 +10,7 @@ const UniversalCardMedia = React.memo(({
   aspectMode = 'square',
   className
 }) => {
-  const isVideo = aspectMode === 'video';
+
   const mediaClass = className || styles.cardMedia;
 
   if (videoUrl) {

@@ -17,7 +17,7 @@ const UniversalCardHeader = React.memo(({
         <img
           src={avatarSrc}
           alt={typeof displayAuthor === 'string' && displayAuthor.trim() ? `Avatar de ${displayAuthor}` : 'Autor desconegut'}
-          className="w-11 h-11 rounded-full shrink-0 object-cover"
+          className="w-11 h-11 shrink-0 object-cover"
           loading="lazy"
           onError={() => setImgError(true)}
         />
@@ -25,7 +25,7 @@ const UniversalCardHeader = React.memo(({
         <div 
           role="img" 
           aria-label={typeof displayAuthor === 'string' && displayAuthor.trim() ? `Avatar de ${displayAuthor}` : 'Avatar per defecte'}
-          className="w-11 h-11 rounded-full shrink-0 flex items-center justify-center bg-white/20 text-white font-bold text-lg"
+          className="w-11 h-11 shrink-0 flex items-center justify-center bg-black/10 text-black/80 font-bold text-lg"
         >
           {(typeof displayAuthor === 'string' ? displayAuthor.trim().charAt(0) : 'S').toUpperCase()}
         </div>

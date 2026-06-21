@@ -9,8 +9,6 @@ export const sanitizeHtml = html => {
     RETURN_DOM: false,
     RETURN_DOM_FRAGMENT: false,
     // Evita que el parser natiu del navegador talli per nesting invàlid
-    FORCE_BODY: true,
-    // Relaxa el sanititzador de CSS només per propietats segures
-    ALLOWED_CSS_PROPERTIES: ['color', 'background', 'background-color', 'border', 'border-radius', 'padding', 'margin', 'font-size', 'font-weight', 'text-align', 'display', 'flex', 'gap', 'align-items', 'justify-content', 'box-shadow', 'width', 'height', 'max-width', 'opacity', 'line-height']
+    FORCE_BODY: true
   });
 };
