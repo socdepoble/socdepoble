@@ -5,7 +5,9 @@
   isolation: isolate;
   contain: layout paint;
   content-visibility: auto;
+  contain-intrinsic-size: 0 450px;
   contain-intrinsic-size: auto 450px;
+  will-change: transform;
   --uc-accent: #FF7300;
   
   --card-radius: 16px;
@@ -69,6 +71,7 @@
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 

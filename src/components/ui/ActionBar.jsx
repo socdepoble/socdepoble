@@ -27,7 +27,9 @@ const ActionBar = ({
   const handleEvent = (eventName) => {
     try {
       if (typeof window !== 'undefined' && window.navigator?.vibrate) window.navigator.vibrate(10);
-    } catch (e) {}
+    } catch (e) {
+      // Ignorem silenciosament si l'API no està disponible o l'usuari no ha interactuat
+    }
     safeEmit(eventName, { entityId: String(entityId), entityTitle, entityType });
   };
 
@@ -60,19 +62,16 @@ const ActionBar = ({
         onClick={() => handleEvent('TRANSLATE')} 
         label="Traduir" 
         icon={<Languages size={22} aria-hidden="true" />} 
-        className={variant === 'header' ? 'rounded-full' : ''}
       />
       <ActionIconBtn 
         onClick={() => handleEvent('COMMENT')} 
         label="Comentar" 
         icon={<MessageCircle size={22} aria-hidden="true" />} 
-        className={variant === 'header' ? 'rounded-full' : ''}
       />
       <ActionIconBtn 
         onClick={() => handleEvent('SHARE')} 
         label="Compartir" 
         icon={<Share2 size={22} aria-hidden="true" />} 
-        className={variant === 'header' ? 'rounded-full' : ''}
       />
     </>
   );
@@ -82,7 +81,7 @@ const ActionBar = ({
       type="button" 
       onClick={(e) => { e.stopPropagation(); handleEvent(primaryEvent); }} 
       aria-label={entityTitle ? `${primaryLabel} amb ${entityTitle}` : primaryLabel}
-      className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 py-2 min-h-[44px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? '' : 'py-2.5'}`}
+      className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 min-h-[44px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? 'py-2' : 'py-2.5'}`}
     >
       {primaryLabel === 'AFEGIR' ? <ShoppingCart size={16} strokeWidth={3} aria-hidden="true" /> : <Plus size={16} strokeWidth={3} aria-hidden="true" />} 
       <span>{primaryLabel}</span>

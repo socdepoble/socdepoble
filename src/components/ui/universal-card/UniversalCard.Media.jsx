@@ -19,9 +19,12 @@ const UniversalCardMedia = React.memo(({
         <video 
           src={videoUrl} 
           controls 
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-cover bg-gradient-to-br from-slate-900 to-black" 
           poster={displayImage}
           preload="none"
+          playsInline
+          tabIndex={0}
+          role="region"
           aria-label={displayTitle ? `Vídeo: ${displayTitle}` : 'Vídeo de contingut'}
         >
           {subtitleUrl && <track kind="subtitles" src={subtitleUrl} srcLang="ca" label="Català" default />}

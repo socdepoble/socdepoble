@@ -63,12 +63,32 @@ export default function UniversalPageLayout({
           />
         </div>
         
-        {/* IMATGE DE PORTADA I BARRA TARONJA CANÒNICA OMITIDES PER BREVETAT (Mantenim el teu disseny previ) */}
+        {/* Imatge de Portada */}
+        {coverImage && (
+          <div className="w-full h-48 sm:h-64 md:h-80 relative overflow-hidden bg-slate-900">
+            <img src={coverImage} alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 sm:p-6 text-white">
+              {title && <h1 className="text-2xl sm:text-3xl font-black mb-1 leading-tight">{title}</h1>}
+              {subtitle && <p className="text-sm sm:text-base opacity-90">{subtitle}</p>}
+            </div>
+          </div>
+        )}
+
+        {/* Barra Taronja Canònica */}
+        <div className="bg-[var(--sdp-taronja,#FF7300)] text-white px-4 py-3 flex items-center gap-3">
+          {authorIcon && <img src={authorIcon} alt="" className="w-10 h-10 rounded-none bg-white/10 object-cover" />}
+          <div className="flex flex-col min-w-0">
+            <span className="font-bold truncate text-sm sm:text-base">{authorName}</span>
+            <span className="text-xs sm:text-sm opacity-90 truncate">{authorLocation}</span>
+          </div>
+        </div>
       </header>
       
       {/* CONTINGUT: Isolate natiu pur de Tailwind i z-index lògic */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10 isolate">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8 relative z-10 isolate">
         <section className="bg-white rounded-[28px] p-6 sm:p-10 mb-8 flex flex-col shadow-md">
+          {(!coverImage && title) && <h1 className="text-3xl font-black mb-2">{title}</h1>}
+          {(!coverImage && subtitle) && <p className="text-xl text-gray-600 mb-6">{subtitle}</p>}
           <div className="text-left w-full">{children}</div>
         </section>
       </div>
