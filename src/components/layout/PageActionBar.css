@@ -1,0 +1,11 @@
+.sdp-page-actions * {
+  box-sizing: border-box;
+}
+
+.sdp-page-actions button {
+  flex-shrink: 0;
+}
+
+.sdp-page-actions svg {
+  display: block;
+}

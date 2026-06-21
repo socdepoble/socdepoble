@@ -1,0 +1,41 @@
+/* src/styles/pedra-seca.css */
+:root {
+  --sdp-blau: #0984E3;
+  --sdp-taronja: #FF7300;
+  --sdp-fons: #f3f4f6; /* Canònic per al fons global */
+  --sdp-text-fosc: #111827; /* Gray-900 per al text base */
+}
+
+/* Utilitats globals compartides per evitar duplicar codi a la UI */
+.trellat-button {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.boto-icona {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.boto-icona:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.boto-icona:active {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(0.95);
+}
+
+.boto-icona:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}

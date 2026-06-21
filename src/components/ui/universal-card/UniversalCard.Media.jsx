@@ -1,13 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './UniversalCard.module.css';
 
 const UniversalCardMedia = React.memo(({
   displayImage,
   displayTitle,
   videoUrl,
-  aspectMode = 'square'
+  subtitleUrl,
+  aspectMode = 'square',
+  className
 }) => {
   const isVideo = aspectMode === 'video';
-  const mediaClass = isVideo ? 'uc-media uc-media--video' : 'uc-media';
+  const mediaClass = className || styles.cardMedia;
 
   if (videoUrl) {
     return (
@@ -15,9 +19,13 @@ const UniversalCardMedia = React.memo(({
         <video 
           src={videoUrl} 
           controls 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover" 
           poster={displayImage}
-        />
+          preload="none"
+          aria-label={displayTitle ? `Vídeo: ${displayTitle}` : 'Vídeo de contingut'}
+        >
+          {subtitleUrl && <track kind="subtitles" src={subtitleUrl} srcLang="ca" label="Català" default />}
+        </video>
       </div>
     );
   }
@@ -26,7 +34,7 @@ const UniversalCardMedia = React.memo(({
     return (
       <img
         src={displayImage}
-        alt={displayTitle || ''}
+        alt={displayTitle ? `Imatge per a: ${displayTitle}` : 'Imatge decorativa'}
         loading="lazy"
         decoding="async"
         className={mediaClass}
@@ -38,4 +46,14 @@ const UniversalCardMedia = React.memo(({
 });
 
 UniversalCardMedia.displayName = 'UniversalCardMedia';
+
+UniversalCardMedia.propTypes = {
+  displayImage: PropTypes.string,
+  displayTitle: PropTypes.string,
+  videoUrl: PropTypes.string,
+  subtitleUrl: PropTypes.string,
+  aspectMode: PropTypes.string,
+  className: PropTypes.string
+};
+
 export default UniversalCardMedia;

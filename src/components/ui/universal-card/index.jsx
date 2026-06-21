@@ -3,12 +3,12 @@ import UniversalCardHeader from './UniversalCard.Header';
 import UniversalCardMedia from './UniversalCard.Media';
 import UniversalCardBody from './UniversalCard.Body';
 import ActionBar from '../ActionBar';
-import './UniversalCard.css';
+import styles from './UniversalCard.module.css';
 import { SDP } from '../../../lib/eventBus';
 
 const resolveCardUrl = ({ type, id, slug }) => {
   if (!id && !slug) return '/';
-  if (type === 'mercat' || type === 'product') return `/mercat/${id}`;
+  if (type === 'mercat' || type === 'product' || type === 'market_item') return `/mercat/${id}`;
   if (type === 'page') return `/page/${slug || id}`;
   return `/mur/${id || ''}`;
 };
@@ -40,17 +40,16 @@ const UniversalCard = ({
   const cardUrl = onNavigate ? undefined : resolveCardUrl({ type, id, slug });
   const hasMedia = Boolean(image || videoUrl);
 
-  // Lògica de negoci internalitzada (Grok)
   const isMarket = variant === 'mercat' || type === 'market_item' || type === 'product';
   const primaryLabel = isMarket ? 'AFEGIR' : 'CONNECTAR';
-  const primaryEvent = isMarket ? SDP.ADD_CART : SDP.CONNECT;
+  const primaryEvent = isMarket ? 'ADD_CART' : 'CONNECT';
 
   return (
     <article
-      className={`universal-card ${className}`}
+      className={`${styles.universalCard} ${className}`.trim()}
       data-variant={variant}
       data-viewmode={viewMode}
-      data-senior={seniorMode || undefined}
+      data-senior={seniorMode ? 'true' : undefined}
       data-post-id={id}
       aria-label={title}
     >
@@ -58,15 +57,17 @@ const UniversalCard = ({
         displayAuthor={authorName}
         avatarSrc={authorAvatar}
         displayTown={townName}
+        className={styles.cardHeader}
       />
 
-      {hasMedia && (
+      {hasMedia ? (
         <UniversalCardMedia
           displayImage={image}
           displayTitle={title}
           videoUrl={videoUrl}
+          className={styles.cardMedia}
         />
-      )}
+      ) : null}
 
       <UniversalCardBody
         displayTitle={title}
@@ -74,19 +75,22 @@ const UniversalCard = ({
         subtitle={subtitle}
         price={price}
         cardUrl={cardUrl}
+        className={styles.cardBody}
       >
         {children}
       </UniversalCardBody>
 
-      {/* Footer slot opcional (Grok) */}
+      {/* Footer slot opcional (Grok) per a quan s'embeu al Layout */}
       {footer !== undefined ? footer : (
-        <ActionBar
-          entityId={id}
-          entityType={type}
-          entityTitle={title}
-          primaryLabel={primaryLabel}
-          primaryEvent={primaryEvent}
-        />
+        <div className={styles.cardActionBar}>
+          <ActionBar
+            entityId={id}
+            entityType={type}
+            entityTitle={title}
+            primaryLabel={primaryLabel}
+            primaryEvent={primaryEvent}
+          />
+        </div>
       )}
     </article>
   );

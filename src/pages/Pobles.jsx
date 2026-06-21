@@ -1,19 +1,19 @@
 import React, { useMemo } from 'react';
 import UniversalPage from './UniversalPage';
-import { UniversalGridWrapper, UniversalGridRow } from '../../components/ui/UniversalGrid';
-import UniversalCard from "../../components/ui/universal-card";
+import { UniversalGridWrapper, UniversalGridRow } from '../components/ui/UniversalGrid';
+import UniversalCard from "../components/ui/universal-card";
+
+// En aquesta pàgina va per ordre qui publica i l'ordre és per pobles. Y punto.
+const publications = [
+  { id: 'p1', author: 'Vicent', town: 'Agres', content: 'Oferisc ametles de la serra d\'Agres.' },
+  { id: 'p2', author: 'Maria', town: 'Banyeres de Mariola', content: 'Llibre sobre la història de la nostra filà.' },
+  { id: 'p3', author: 'Joan', town: 'Cocentaina', content: 'Tinc eines per al camp per intercanviar.' },
+  { id: 'p4', author: 'Lluïsa', town: 'Cocentaina', content: 'Marmelada casolana de nispro.' },
+  { id: 'p5', author: 'Pep', town: 'Muro d\'Alcoi', content: 'Busquem gent per a la recollida de l\'oliva.' }
+];
 
 export default function Pobles() {
-  // En aquesta pàgina va per ordre qui publica i l'ordre és per pobles. Y punto.
-  const publications = [
-    { id: 'p1', author: 'Vicent', town: 'Agres', content: 'Oferisc ametles de la serra d\'Agres.' },
-    { id: 'p2', author: 'Maria', town: 'Banyeres de Mariola', content: 'Llibre sobre la història de la nostra filà.' },
-    { id: 'p3', author: 'Joan', town: 'Cocentaina', content: 'Tinc eines per al camp per intercanviar.' },
-    { id: 'p4', author: 'Lluïsa', town: 'Cocentaina', content: 'Marmelada casolana de nispro.' },
-    { id: 'p5', author: 'Pep', town: 'Muro d\'Alcoi', content: 'Busquem gent per a la recollida de l\'oliva.' }
-  ];
 
-  // Ordenem els publicadors estrictament per poble alfabèticament
   const orderedPublications = useMemo(() => {
     return [...publications].sort((a, b) => a.town.localeCompare(b.town));
   }, []);

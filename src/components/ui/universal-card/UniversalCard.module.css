@@ -1,0 +1,139 @@
+/* src/components/ui/universal-card/UniversalCard.module.css */
+
+.universalCard {
+  position: relative;
+  isolation: isolate;
+  contain: layout paint;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 450px;
+  --uc-accent: #FF7300;
+  
+  --card-radius: 16px;
+  background: var(--card-bg, #ffffff);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--card-text, #111827);
+  font-family: inherit;
+}
+
+.universalCard[data-variant="mercat"],
+.universalCard[data-variant="market"],
+.universalCard[data-variant="product"] { 
+  --uc-accent: #0984E3; 
+}
+
+.universalCard[data-variant="sostenible"] { 
+  --uc-accent: var(--sdp-taronja, #FF7300); 
+}
+
+.universalCard[data-variant="alert"] { 
+  --uc-accent: var(--sdp-taronja, #FF7300); 
+}
+
+.universalCard::before {
+  content: '';
+  position: absolute;
+  top: 0; 
+  right: 0;
+  width: 4rem; 
+  height: 4rem;
+  background: var(--uc-accent);
+  border-bottom-left-radius: 100%;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Header */
+.cardHeader {
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+/* Media */
+.cardMedia {
+  width: 100%;
+  display: block;
+  position: relative;
+  background: #f8fafc;
+}
+
+.cardMedia img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Body */
+.cardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Link inside card */
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+/* Action bar area */
+.cardActionBar {
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+/* Small utility classes local to the module */
+.kicker {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--card-title, #0f172a);
+}
+
+.excerpt {
+  font-size: 14px;
+  color: #374151;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--uc-accent);
+}
+
+.author {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.town {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Responsive tweaks */
+@media (min-width: 640px) {
+  .universalCard {
+    border-radius: 20px;
+  }
+}

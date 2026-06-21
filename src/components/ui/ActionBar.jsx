@@ -1,13 +1,14 @@
-import React from 'react';
-import { Languages, MessageCircle, Share2, Plus } from 'lucide-react';
-import { emit, SDP } from '../../lib/eventBus';
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { Languages, MessageCircle, Share2, Plus, ShoppingCart } from 'lucide-react';
+import safeEmit from '../../lib/safeEmit';
 
-const ActionIconBtn = ({ onClick, icon, label }) => (
+const ActionIconBtn = ({ onClick, icon, label, className = '' }) => (
   <button 
     type="button" 
-    onClick={onClick} 
+    onClick={(e) => { e.stopPropagation(); onClick(e); }} 
     aria-label={label} 
-    className="action-icon-btn"
+    className={`w-11 h-11 rounded-full flex items-center justify-center text-white hover:bg-white/30 active:bg-white/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white shrink-0 transition-colors touch-manipulation ${className}`}
   >
     {icon}
   </button>
@@ -18,42 +19,110 @@ const ActionBar = ({
   entityType = 'post',
   entityTitle = 'Sóc de Poble',
   primaryLabel = 'CONNECTAR',
-  primaryEvent = SDP.CONNECT 
+  primaryEvent = 'CONNECT',
+  variant = 'footer'
 }) => {
+  const toolbarRef = useRef(null);
+
   const handleEvent = (eventName) => {
-    if (window.navigator?.vibrate) window.navigator.vibrate(10);
-    emit(eventName, { entityId, entityTitle, entityType });
+    try {
+      if (typeof window !== 'undefined' && window.navigator?.vibrate) window.navigator.vibrate(10);
+    } catch (e) {}
+    safeEmit(eventName, { entityId: String(entityId), entityTitle, entityType });
   };
+
+  const handleKeyDown = (e) => {
+    if (!toolbarRef.current) return;
+    
+    const buttons = Array.from(toolbarRef.current.querySelectorAll('button'));
+    const currentIndex = buttons.indexOf(document.activeElement);
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextIndex = (currentIndex + 1) % buttons.length;
+      buttons[nextIndex].focus();
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prevIndex = (currentIndex - 1 + buttons.length) % buttons.length;
+      buttons[prevIndex].focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      buttons[0].focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      buttons[buttons.length - 1].focus();
+    }
+  };
+
+  const actionButtons = (
+    <>
+      <ActionIconBtn 
+        onClick={() => handleEvent('TRANSLATE')} 
+        label="Traduir" 
+        icon={<Languages size={22} aria-hidden="true" />} 
+        className={variant === 'header' ? 'rounded-full' : ''}
+      />
+      <ActionIconBtn 
+        onClick={() => handleEvent('COMMENT')} 
+        label="Comentar" 
+        icon={<MessageCircle size={22} aria-hidden="true" />} 
+        className={variant === 'header' ? 'rounded-full' : ''}
+      />
+      <ActionIconBtn 
+        onClick={() => handleEvent('SHARE')} 
+        label="Compartir" 
+        icon={<Share2 size={22} aria-hidden="true" />} 
+        className={variant === 'header' ? 'rounded-full' : ''}
+      />
+    </>
+  );
+
+  const primaryButton = (
+    <button 
+      type="button" 
+      onClick={(e) => { e.stopPropagation(); handleEvent(primaryEvent); }} 
+      aria-label={entityTitle ? `${primaryLabel} amb ${entityTitle}` : primaryLabel}
+      className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 py-2 min-h-[44px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? '' : 'py-2.5'}`}
+    >
+      {primaryLabel === 'AFEGIR' ? <ShoppingCart size={16} strokeWidth={3} aria-hidden="true" /> : <Plus size={16} strokeWidth={3} aria-hidden="true" />} 
+      <span>{primaryLabel}</span>
+    </button>
+  );
+
+  if (variant === 'header') {
+    return (
+      <div className="flex items-center gap-1 sm:gap-1.5 shrink-0" ref={toolbarRef} onKeyDown={handleKeyDown} role="toolbar" aria-label="Accions de la pàgina">
+        <div className="flex items-center gap-0.5 shrink-0">
+          {actionButtons}
+        </div>
+        {primaryButton}
+      </div>
+    );
+  }
 
   return (
     <footer 
-      className="action-bar flex items-center justify-between px-3 h-14 shrink-0" 
+      className="flex items-center justify-between px-2 sm:px-3 h-14 shrink-0" 
+      role="toolbar" 
+      aria-label="Accions de la targeta"
+      ref={toolbarRef}
+      onKeyDown={handleKeyDown}
     >
-      <div className="flex items-center gap-1">
-        <ActionIconBtn 
-          onClick={() => handleEvent(SDP.TRANSLATE)} 
-          label="Traduir" 
-          icon={<Languages size={22} />} 
-        />
-        <ActionIconBtn 
-          onClick={() => handleEvent(SDP.COMMENT)} 
-          label="Comentar" 
-          icon={<MessageCircle size={22} />} 
-        />
-        <ActionIconBtn 
-          onClick={() => handleEvent(SDP.SHARE)} 
-          label="Compartir" 
-          icon={<Share2 size={22} />} 
-        />
+      <div className="flex items-center gap-0.5 sm:gap-1">
+        {actionButtons}
       </div>
-      <button 
-        onClick={() => handleEvent(primaryEvent)} 
-        className="flex items-center gap-1.5 bg-white text-black font-black text-xs rounded-full px-4 py-2 hover:bg-white/90 active:opacity-80 transition-opacity"
-      >
-        <Plus size={14} strokeWidth={3} /> {primaryLabel}
-      </button>
+      {primaryButton}
     </footer>
   );
+};
+
+ActionBar.propTypes = {
+  entityId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  entityType: PropTypes.string,
+  entityTitle: PropTypes.string,
+  primaryLabel: PropTypes.string,
+  primaryEvent: PropTypes.string,
+  variant: PropTypes.string
 };
 
 export default React.memo(ActionBar);
