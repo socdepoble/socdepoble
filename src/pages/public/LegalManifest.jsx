@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import UniversalPage from './UniversalPage';
+import UniversalPageLayout from '../../components/layout/UniversalPageLayout';
 import UmamiDashboard from '../../components/ui/UmamiDashboard';
+
 export const CentroLegal = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const htmlContent = `
 <p class="lead">El Manifest del Projecte Sóc de Poble</p>
 <p>Aquest document no és una simple política de privacitat copiada per un bufet d'advocats o un formulari genèric d'internet. És el veritable contracte social d'aquest projecte. És la pedra fundacional tecnològica sobre la qual s'alça Sóc de Poble: una arquitectura digital concebuda expressament per a resistir, per a ser autònoma a la muntanya profunda i per a retornar la sobirania tecnològica al territori rural.</p>
@@ -16,7 +15,7 @@ export const CentroLegal = () => {
 <p>El creador i els mantenedors de la infraestructura —habitualment denominats com "Masovers"— actuen com a simples facilitadors de les canonades digitals, no sentint-se responsables legals de l'ús il·lícit, les disputes personals o el context extemporani que determinats individus puguen donar a la plataforma, salvant les responsabilitats per defecte de l'Estat.</p>
 
 <h3>2. La Sobirania de les Dades i l'Arquitectura Local-First</h3>
-<p>Ens prenem molt seriosament la protecció de la teua intimitat. Mentre que el món corporatiu globalitzat ha pres la determinació de segrestar informació massiva de la ciutadania dins de centres de dades llunyans (Núvols Centrals), aquest mas virtual opera a la inversa: ací, el teu telèfon mòbil és el teu castell infranquejable.</p>telèfon mòbil és el teu castell infranquejable.</p>
+<p>Ens prenem molt seriosament la protecció de la teua intimitat. Mentre que el món corporatiu globalitzat ha pres la determinació de segrestar informació massiva de la ciutadania dins de centres de dades llunyans (Núvols Centrals), aquest mas virtual opera a la inversa: ací, el teu telèfon mòbil és el teu castell infranquejable.</p>
 <p>Utilitzant una revolució anomenada "Local-First" amb tecnologies de bases de dades locals (IndexedDB, Storage Sync), prop del 90% de la teua informació personal, la teua memòria compartida, l'àlies identificatiu i el registre criptogràfic de seguretat, viuen única i exclusivament a l'interior de la memòria sòlida del teu dispositiu. Al nostre servidor central únicament puja la fracció d'informació indispensable per a garantir la sincronització bàsica amb la resta del poble (el principi de resiliència fora de línia), mitjançant un sofisticat model de resolució CRDT.</p>
 <p>Complim escrupolosament amb els mandats del Reglament (UE) 2016/679 (RGPD) i la Llei Orgànica 3/2018 (LOPDGDD). Però no ho fem per imperatiu legal, ho fem per principi existencial. Com que tu eres amo absolut de la teua informació i aquesta resideix físicament a la teua butxaca, exercir els teus drets ARCO (Accés, Rectificació, Cancel·lació, Oposició, Oblid) no passa per un tràmit administratiu complex; pots autodestruir el teu usuari directament polsant un botó a l'app.</p>
 
@@ -43,13 +42,24 @@ export const CentroLegal = () => {
 <h3>7. Apèndix: Tauler Directe de Telemetria i Salut Pública</h3>
 <p>Complint de forma fidedigna la nostra paraula referent a la "Transparència Radical", a continuació s'annexa directament en aquesta pàgina la via directa i viva del programari *Umami*. Sense ocultismes de corporacions opaques: açò és allò que sabem que ocurreix tècnicament al territori de Sóc de Poble i tu tens tant dret a veure-ho, estudiar-ho i analitzar-ho com els enginyers fundadors. Observa la freqüència cardíaca de la xarxa.</p>
 `;
-  return <UniversalPage standAlone={true} forcedTitle="Legal, Privacitat i Seguretat" forcedSubtitle="Política de la Plataforma" forcedHeroImage={'/assets/uploads/brain/llibre_anima_cover_1776032370908.png'}>
-            <div className="universal-content markdown-body w-full" dangerouslySetInnerHTML={{
-      __html: htmlContent
-    }} />
-            
-            {/* TAULER NADIU D'ESTADÍSTIQUES */}
-            <UmamiDashboard />
-            
-        </UniversalPage>;
-};export default CentroLegal;
+
+  return (
+    <UniversalPageLayout 
+      id="legal"
+      title="Legal, Privacitat i Seguretat" 
+      subtitle="Política de la Plataforma" 
+      coverImage={'/assets/uploads/brain/llibre_anima_cover_1776032370908.png'}
+      type="page"
+    >
+      <div 
+        className="universal-content markdown-body w-full" 
+        dangerouslySetInnerHTML={{ __html: htmlContent }} 
+      />
+      
+      {/* TAULER NADIU D'ESTADÍSTIQUES */}
+      <UmamiDashboard />
+    </UniversalPageLayout>
+  );
+};
+
+export default CentroLegal;
