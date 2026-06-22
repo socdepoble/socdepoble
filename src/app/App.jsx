@@ -16,7 +16,7 @@ import Pobles from '../pages/Pobles';
 import Map from '../pages/community/Map';
 import GlobalAssetAlbum from '../pages/features/GlobalAssetAlbum';
 import Notes from '../pages/features/Notes';
-import DesignSystem from '../pages/features/DesignSystem_original';
+import DesignSystem from '../pages/features/DesignSystem';
 import AlmaPage from '../pages/features/anima-del-mas/AlmaPage';
 import UniversalPage from '../pages/public/UniversalPage';
 import BackgroundWorkers from '../components/core/BackgroundWorkers';

@@ -1,15 +1,23 @@
 import React, { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 const UniversalPage = ({ title, forcedTitle, icon, htmlContent, children }) => {
   const containerRef = useRef(null);
 
-  // Quan canvia el contingut, fem scroll a dalt de manera nativa
+  const location = useLocation();
+
+  // Quan canvia de pàgina, fem scroll a dalt
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTo({ top: 0, behavior: 'auto' });
+    // Si estem usant el scroll del document, feu window.scrollTo
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    
+    // Per si de cas el main té overflow
+    const main = document.querySelector('main.overflow-y-auto');
+    if (main) {
+      main.scrollTo({ top: 0, behavior: 'auto' });
     }
-  }, [htmlContent, children]);
+  }, [location.pathname]);
 
   const displayTitle = forcedTitle || title || 'Document';
 

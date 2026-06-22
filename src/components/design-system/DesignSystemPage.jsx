@@ -10,6 +10,7 @@ const Buttons = React.lazy(() => import('./sections/Buttons').then(m => ({ defau
 const FormsAndInputs = React.lazy(() => import('./sections/FormsAndInputs').then(m => ({ default: m.FormsAndInputs })));
 const Cards = React.lazy(() => import('./sections/Cards').then(m => ({ default: m.Cards })));
 const Alerts = React.lazy(() => import('./sections/Alerts').then(m => ({ default: m.Alerts })));
+const LegacySections = React.lazy(() => import('./sections/LegacySections').then(m => ({ default: m.LegacySections })));
 
 export default function DesignSystemPage() {
   return (
@@ -47,6 +48,7 @@ export default function DesignSystemPage() {
           <FormsAndInputs />
           <Cards />
           <Alerts />
+          <LegacySections />
         </Suspense>
         
         <div className="text-center p-12 bg-stone-100 rounded-xl border border-dashed border-stone-300 mt-16">
