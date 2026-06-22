@@ -1,3 +1,8 @@
+[TRELLAT]: Aquesta és l'última part (PART 3 de 3).
+Ara sí, amb tot el codi de la IU processat en els últims missatges, dona'm el teu vistiplau definitiu!
+
+### `src/components/layout/UniversalPageLayout.jsx`
+```javascript
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, BookText } from 'lucide-react';
@@ -71,15 +76,15 @@ export default function UniversalPageLayout({
         </div>
         
         {/* Imatge de Portada */}
-        {coverImage ? (
-          <div className="w-full h-48 sm:h-64 md:h-80 relative overflow-hidden bg-[var(--sp-text,#1A1A1A)]">
+        {coverImage && (
+          <div className="w-full h-48 sm:h-64 md:h-80 relative overflow-hidden bg-slate-900">
             <img src={coverImage} alt="" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-4 sm:p-6 text-white">
-              {title ? <h1 className="text-2xl sm:text-3xl font-black mb-1 leading-tight">{title}</h1> : null}
-              {subtitle ? <p className="text-sm sm:text-base opacity-90">{subtitle}</p> : null}
+              {title && <h1 className="text-2xl sm:text-3xl font-black mb-1 leading-tight">{title}</h1>}
+              {subtitle && <p className="text-sm sm:text-base opacity-90">{subtitle}</p>}
             </div>
           </div>
-        ) : null}
+        )}
 
         {/* Barra Taronja Canònica */}
         <div className="bg-[var(--sdp-taronja,#FF7300)] text-white px-4 py-3 flex items-center gap-3">
@@ -94,8 +99,8 @@ export default function UniversalPageLayout({
       {/* CONTINGUT: Isolate natiu pur de Tailwind i z-index lògic */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8 relative z-10 isolate">
         <section className="bg-white rounded-[28px] p-6 sm:p-10 mb-8 flex flex-col shadow-md">
-          {(!coverImage && title) ? <h1 className="text-3xl font-black mb-2">{title}</h1> : null}
-          {(!coverImage && subtitle) ? <p className="text-xl text-[var(--sp-text)] opacity-70 mb-6">{subtitle}</p> : null}
+          {(!coverImage && title) && <h1 className="text-3xl font-black mb-2">{title}</h1>}
+          {(!coverImage && subtitle) && <p className="text-xl text-gray-600 mb-6">{subtitle}</p>}
           <div className="text-left w-full">{children}</div>
         </section>
       </div>
@@ -103,3 +108,22 @@ export default function UniversalPageLayout({
     </LayoutProvider>
   );
 }
+
+```
+
+### `src/contexts/LayoutContext.jsx`
+```javascript
+import React, { createContext, useContext } from 'react';
+
+const LayoutContext = createContext({ hideActionBar: false });
+
+export const LayoutProvider = ({ children, hideActionBar = false }) => (
+  <LayoutContext.Provider value={{ hideActionBar }}>
+    {children}
+  </LayoutContext.Provider>
+);
+
+export const useLayout = () => useContext(LayoutContext);
+
+```
+
