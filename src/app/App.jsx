@@ -1,4 +1,4 @@
-import { useEffect, Suspense, lazy, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
 import { logger } from '../utils/logger';
