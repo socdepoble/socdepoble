@@ -12,15 +12,15 @@ export default function UniversalShell({
   const displaySubtitle = subtitle || item?.subtitle || '';
 
   return (
-    <div className="flex flex-col w-full h-full overflow-hidden bg-[var(--sp-light)]">
+    <div className="flex flex-col w-full bg-[var(--sp-light)] min-h-full relative isolate">
 
       {/* 1. CAPÇALERA DE NAVEGACIÓ */}
-      <header className="h-14 flex items-center px-4 bg-[var(--sp-void)] text-[var(--sp-light)] shrink-0 border-b border-white/10">
+      <header className="h-14 flex items-center px-4 bg-[var(--sp-void)] text-[var(--sp-light)] shrink-0 border-b border-white/10 sticky top-0 z-40">
         <h1 className="font-bold text-lg tracking-tight">{displayTitle}</h1>
       </header>
 
-      {/* Zona desplaçable */}
-      <main className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col">
+      {/* Zona principal */}
+      <main className="flex-1 flex flex-col w-full z-10 relative">
 
         {/* 2. HERO TARONJA */}
         <section
@@ -68,10 +68,12 @@ export default function UniversalShell({
       </main>
 
       {/* 5. BARRA D'ACCIONS */}
-      <ActionBar
-        item={item}
-        variant={variant}
-      />
+      <div className="sticky bottom-0 w-full z-50">
+        <ActionBar
+          item={item}
+          variant={variant}
+        />
+      </div>
 
     </div>
   );
