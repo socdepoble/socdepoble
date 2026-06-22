@@ -272,9 +272,9 @@ const ChatList = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-[#0e0e0e] relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a] dark:border-transparent">
+    <div className="flex-1 flex flex-col min-w-0 bg-white relative overflow-hidden h-full chat-list-container font-['Noto_Sans',sans-serif] transition-colors border-r border-[#0000000a]">
       {/* HEADER CANÒNIC (Tech-Huerta V12) - OBSIDIAN MODE */}
-      <div role="region" aria-label="Capçalera de Secció" className="shrink-0 flex items-center justify-between px-3 sm:px-4 h-[56px] min-h-[56px] bg-[#F97316] dark:bg-[#4F46E5] sticky top-0 z-20 transition-colors gap-2 shadow-md">
+      <div role="region" aria-label="Capçalera de Secció" className="shrink-0 flex items-center justify-between px-3 sm:px-4 h-[56px] min-h-[56px] bg-[#F97316] sticky top-0 z-20 transition-colors gap-2 shadow-md">
         <div className="flex items-center flex-1 h-[36px] bg-white rounded-[28px] overflow-hidden focus-within:ring-2 focus-within:ring-[#0369A1] transition-all group">
           <div className="flex items-center justify-center pl-4 pr-2 h-full">
             <Search
@@ -307,26 +307,26 @@ const ChatList = () => {
             {isSettingsMenuOpen && (
                 <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsSettingsMenuOpen(false)}></div>
-                    <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white dark:bg-[#1a1a1a] py-3 text-[16px] text-theme-text shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 dark:border-gray-800 duration-200">
+                    <div className="absolute right-0 top-14 z-50 w-72 origin-top-right animate-in fade-in zoom-in-95 rounded-[28px] bg-white py-3 text-[16px] text-gray-900 shadow-[0_8px_32px_rgba(0,0,0,0.25)] border border-gray-100 duration-200">
                         {/* Header del menú */}
-                        <div className="px-5 pb-3 mb-2 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                            <span className="font-['Noto_Sans'] font-bold text-[18px] text-gray-900 dark:text-white capitalize">{t('chat.chat_control', 'Control general')}</span>
+                        <div className="px-5 pb-3 mb-2 border-b border-gray-100 flex items-center justify-between">
+                            <span className="font-['Noto_Sans'] font-bold text-[18px] text-gray-900 capitalize">{t('chat.chat_control', 'Control general')}</span>
                         </div>
                         {/* Opcions Mestre */}
-                        <button onClick={() => { setIsSettingsMenuOpen(false); navigate('/control-general'); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-bold text-theme-accent-primary hover:bg-theme-accent-primary/10 transition-colors uppercase tracking-wider text-[14px]">
+                        <button onClick={() => { setIsSettingsMenuOpen(false); navigate('/control-general'); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-bold text-orange-500 hover:bg-orange-50 transition-colors uppercase tracking-wider text-[14px]">
                             {t('chat.open_general_control', '⚙️ Entrar al Control General')}
                         </button>
-                        <div className="mx-5 my-1 border-b border-gray-100 dark:border-gray-800"></div>
+                        <div className="mx-5 my-1 border-b border-gray-100"></div>
                         
                         {/* Opcions Ràpides */}
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.add_members', 'Afegir membres')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_info', 'Informació del grup')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.group_media', 'Multimèdia del grup')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.search', 'Cercar')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.mute_notifications', 'Silenciar')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.temporary_messages', 'Missatges temporals')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary">{t('chat.wallpaper', 'Fons de pantalla')}</button>
-                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-theme-accent-primary/10 hover:text-theme-accent-primary text-gray-500">{t('chat.more', 'Més opcions...')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.add_members', 'Afegir membres')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.group_info', 'Informació del grup')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.group_media', 'Multimèdia del grup')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.search', 'Cercar')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.mute_notifications', 'Silenciar')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.temporary_messages', 'Missatges temporals')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500">{t('chat.wallpaper', 'Fons de pantalla')}</button>
+                        <button onClick={() => { setIsSettingsMenuOpen(false); handleNotReady(); }} className="w-full px-5 py-3 text-left font-['Noto_Sans'] font-medium transition-colors hover:bg-orange-50 hover:text-orange-500 text-gray-500">{t('chat.more', 'Més opcions...')}</button>
                     </div>
                 </>
             )}
@@ -334,7 +334,7 @@ const ChatList = () => {
       </div>
       {/* LLISTA D'AGENTS (M3) */}
       <div 
-        className="flex-1 overflow-y-auto bg-white dark:bg-[#0e0e0e] min-h-0 custom-scrollbar overscroll-contain transition-colors"
+        className="flex-1 overflow-y-auto bg-white min-h-0 custom-scrollbar overscroll-contain transition-colors"
         style={{ scrollPaddingTop: isDegraded ? '56px' : '0px' }}
       >
         {filteredChats.length > 0 ? (
@@ -344,8 +344,8 @@ const ChatList = () => {
               onClick={() => handleChatClick(chat)}
               className={`flex items-center pl-4 cursor-pointer transition-all relative chat-item group
                         ${
-                          location.pathname.includes(chat.id) ? "bg-[#F0F2F5] dark:bg-[#2A3942]" : ""
-                        } hover:bg-[#F5F6F6] dark:hover:bg-[#202C33]`}
+                          location.pathname.includes(chat.id) ? "bg-[#F0F2F5]" : ""
+                        } hover:bg-[#F5F6F6]`}
             >
               {/* Avatar Táctil con tamaño correcto M3 i Badge IA */}
               <div className="flex-shrink-0 relative py-3 pr-4">
@@ -356,24 +356,24 @@ const ChatList = () => {
                   size={48}
                 />
                 {chat.id?.startsWith('11111111') && (
-                  <div className="absolute bottom-2 right-3 bg-white dark:bg-[#0e0e0e] rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 dark:border-[rgba(255,255,255,0.1)] flex items-center justify-center">
-                    <span className="text-[#C25300] dark:text-[#FF6D00] text-[9px] font-black tracking-widest uppercase">IA</span>
+                  <div className="absolute bottom-2 right-3 bg-white rounded-[10px] px-1.5 py-0.5 z-10 shadow-sm border border-gray-200 flex items-center justify-center">
+                    <span className="text-[#C25300] text-[9px] font-black tracking-widest uppercase">IA</span>
                   </div>
                 )}
               </div>
 
               {/* Contenido Core del Chat (WhatsApp Copy) */}
-              <div className="flex-1 min-w-0 flex flex-col justify-center h-[72px] pr-4 border-b border-gray-200 dark:border-white/5 group-last:border-0">
+              <div className="flex-1 min-w-0 flex flex-col justify-center h-[72px] pr-4 border-b border-gray-200 group-last:border-0">
                  {/* Fila Superior: Nom + Temps */}
                  <div className="flex justify-between items-center gap-2">
-                  <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold leading-tight text-[#0369A1] dark:text-[#F97316] transition-colors tracking-normal">
+                  <div className="m-0 truncate text-[17px] md:text-[19px] font-semibold leading-tight text-[#0369A1] transition-colors tracking-normal">
                     {chat.other_info?.name ||
                       (chat.participant_1_id === user?.id
                         ? chat.p2_info?.name
                         : chat.p1_info?.name) ||
                       "Sóc de Poble"}
                   </div>
-                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal leading-tight text-[#54656F] dark:text-[#8696A0] ml-2">
+                  <div className="shrink-0 text-[12px] md:text-[13px] font-normal leading-tight text-[#54656F] ml-2">
                     {currentTab === 'xat' && (() => {
                       const { day, time } = formatBategatDate(chat.last_message_time);
                       return time || day;
@@ -383,7 +383,7 @@ const ChatList = () => {
                 
                 {/* Fila Inferior: Missatge */}
                 <div className="flex items-center text-[15px] font-normal transition-colors mt-[1px]">
-                  <p className="m-0 truncate w-full text-[#54656F] dark:text-[#8696A0] leading-tight">
+                  <p className="m-0 truncate w-full text-[#54656F] leading-tight">
                     {chat.last_message_content || t("chat.beating_with_socdepoble")}
                   </p>
                 </div>
@@ -396,10 +396,10 @@ const ChatList = () => {
               size={64}
               className="mb-6 text-[#0369A1] mx-auto opacity-70"
             />
-            <p className="text-gray-900 dark:text-white text-[16px] font-bold tracking-wide">
+            <p className="text-gray-900 text-[16px] font-bold tracking-wide">
               {t("chat.silence_total")}
             </p>
-            <p className="text-gray-600 dark:text-white/50 text-[14px] mt-2">
+            <p className="text-gray-600 text-[14px] mt-2">
               {t("chat.start_conversation_wall")}
             </p>
           </div>

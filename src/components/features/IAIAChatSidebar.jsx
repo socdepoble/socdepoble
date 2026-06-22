@@ -11,7 +11,7 @@ const VoiceRecorder = lazy(() => import('../ui/VoiceRecorder'));
 
 const FallbackLoader = () => (
     <div className="h-12 flex items-center justify-center">
-        <Loader2 className="animate-spin text-[var(--theme-accent-primary)] w-6 h-6" />
+        <Loader2 className="animate-spin text-[#F97316] w-6 h-6" />
     </div>
 );
 
@@ -405,7 +405,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                         duration: 6000,
                         icon: '🏺',
                         style: {
-                            border: '2px solid var(--color-fuchsia-400)',
+                            border: '2px solid #e879f9',
                             background: '#1a1a1a',
                             color: '#fff',
                             fontWeight: 'bold'
@@ -529,13 +529,13 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                   onClick={() => triggerAudioResponse(msg, 'voice')} 
                   className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
                 >
-                    <Mic size={14} className="text-[var(--theme-accent-primary)]"/> Diga-ho
+                    <Mic size={14} className="text-[#F97316]"/> Diga-ho
                 </button>
                 <button 
                   onClick={() => triggerAudioResponse(msg, 'text')} 
                   className="flex-1 bg-white/10 hover:bg-white/20 py-2.5 rounded-[28px] text-[11px] font-black uppercase tracking-wider text-center transition-colors flex items-center justify-center gap-2"
                 >
-                    <Type size={14} className="text-[var(--theme-accent-secondary)]"/> Escriu-ho
+                    <Type size={14} className="text-purple-500"/> Escriu-ho
                 </button>
             </div>
           )}
@@ -548,13 +548,13 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     <Portal>
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 z-[var(--z-overlay,9998)] touch-none overscroll-none animate-in fade-in duration-300 pointer-events-auto" 
+          className="fixed inset-0 bg-black/50 z-[9998] touch-none overscroll-none animate-in fade-in duration-300 pointer-events-auto" 
           onClick={onClose} 
         />
       )}
       <div 
           ref={sidebarRef}
-          className={`iaia-chat-sidebar relative z-sidebar bg-theme-sidebar border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
+          className={`iaia-chat-sidebar relative z-sidebar bg-gray-900 border-l border-white/5 ${isOpen ? 'open' : ''} ${isResizing ? 'resizing' : ''}`}
         style={{ 
           width: (isOpen && typeof window !== 'undefined' && window.innerWidth > 768) 
             ? `${width}px` 
@@ -719,7 +719,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
                     
                     {!input.trim() && !selectedFile ? (
                         <button 
-                            className="send-btn bg-transparent hover:bg-white/5 text-gray-400 hover:text-[var(--theme-accent-primary)] transition-colors !pr-[6px]"
+                            className="send-btn bg-transparent hover:bg-white/5 text-gray-400 hover:text-[#F97316] transition-colors !pr-[6px]"
                             onClick={() => setIsRecording(true)}
                             title="Nota de Veu"
                         >

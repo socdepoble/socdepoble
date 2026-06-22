@@ -42,7 +42,7 @@ export default function UniversalReactionVote({ targetId, targetType, initialVot
             className={`flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold transition-all transform active:scale-90
                 ${hasVoted 
                     ? 'bg-[#FF6D23]/20 text-[#FF6D23] border border-[#FF6D23]/30' 
-                    : 'bg-black/5 dark:bg-white/5 text-[var(--text-muted)] border border-transparent hover:bg-black/10 dark:hover:bg-white/10'
+                    : 'bg-black/5 text-gray-500 border border-transparent hover:bg-black/10'
                 }`}
             aria-label="Votar proposta"
         >

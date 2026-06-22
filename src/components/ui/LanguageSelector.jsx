@@ -46,7 +46,7 @@ const LanguageSelector = ({
     return (
       <div className="w-full bg-white/5 border border-white/10 rounded-2xl overflow-hidden mt-6 mb-2">
           <div className="px-5 py-4 border-b border-white/10 flex items-center gap-3">
-              <div className='w-10 h-10 rounded-full bg-sdp-theme-accent-primary/20 flex items-center justify-center text-sdp-theme-accent-primary'>
+              <div className='w-10 h-10 rounded-full bg-[#F97316]/20 flex items-center justify-center text-[#F97316]'>
                   <Globe size={20} />
               </div>
               <div>
@@ -55,7 +55,7 @@ const LanguageSelector = ({
               </div>
           </div>
           <div className="p-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {LANGUAGES.map(lang => <button key={lang.code} onClick={() => handleSelect(lang.code)} className={`px-4 py-3 rounded-xl flex items-center justify-between transition-all ${activeLangCode === lang.code ? 'bg-[var(--theme-accent-primary)]/20 text-[var(--theme-accent-primary)] font-bold ring-1 ring-[var(--theme-accent-primary)]/50' : 'text-white/80 hover:bg-white/10 bg-black/20'}`}>
+              {LANGUAGES.map(lang => <button key={lang.code} onClick={() => handleSelect(lang.code)} className={`px-4 py-3 rounded-xl flex items-center justify-between transition-all ${activeLangCode === lang.code ? 'bg-[#F97316]/20 text-[#F97316] font-bold ring-1 ring-[#F97316]/50' : 'text-white/80 hover:bg-white/10 bg-black/20'}`}>
               
                       {lang.label}
                       {activeLangCode === lang.code && <Check size={18} />}
