@@ -1,0 +1,82 @@
+From 4adab39ad143e549e7a07d093344a8a8c8af366f Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:17 +0200
+Subject: [PATCH 6/8] chore(ghosts): add src/styles/app-cms-content.css
+
+---
+ src/styles/app-cms-content.css | 63 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 src/styles/app-cms-content.css
+
+diff --git a/src/styles/app-cms-content.css b/src/styles/app-cms-content.css
+new file mode 100644
+index 0000000..6c62a45
+--- /dev/null
++++ b/src/styles/app-cms-content.css
+@@ -0,0 +1,63 @@
++/* src/styles/app-cms-content.css
++   Contenció i estil net per al contingut injectat dins .app-cms-content
++   Aquest fitxer ha de ser importat en el layout abans d'inserir contingut.
++*/
++.app-cms-content {
++  color: var(--sp-text, #111827);
++  font-family: 'Noto Sans', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
++  line-height: 1.6;
++  word-break: break-word;
++  -webkit-font-smoothing: antialiased;
++  -moz-osx-font-smoothing: grayscale;
++}
++
++/* Reset visual per evitar fantasmes */
++.app-cms-content * {
++  box-shadow: none !important;
++  background: transparent !important;
++  border: none !important;
++  outline: none !important;
++}
++
++.app-cms-content h1,
++.app-cms-content h2,
++.app-cms-content h3,
++.app-cms-content h4 {
++  margin: 1rem 0;
++  font-weight: 700;
++  color: inherit;
++}
++
++.app-cms-content p {
++  margin: 0.6rem 0;
++  color: inherit;
++}
++
++.app-cms-content ul,
++.app-cms-content ol {
++  margin: 0.6rem 0 0.6rem 1.25rem;
++}
++
++.app-cms-content img {
++  max-width: 100%;
++  height: auto;
++  display: block;
++  margin: 0.5rem 0;
++}
++
++.app-cms-content a {
++  color: var(--sdp-accent, #0984E3);
++  text-decoration: underline;
++}
++
++.app-cms-content video {
++  max-width: 100%;
++  height: auto;
++  display: block;
++}
++
++/* Defensive rule for emergency audits */
++.app-cms-content .__emergency-reset__ {
++  box-shadow: none !important;
++  background: transparent !important;
++}
+-- 
+2.50.1 (Apple Git-155)
+

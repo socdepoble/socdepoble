@@ -1,0 +1,36 @@
+/* 
+ * PedraSecaPurifier.css
+ * Aïllament extrem per a components heretats.
+ */
+.pedra-seca-purifier {
+  isolation: isolate;
+  contain: layout style;
+  width: 100%;
+}
+
+/* 1. Elimina estils inline per força (sobreescriu react style={...}) */
+.pedra-seca-purifier [style] {
+  all: revert !important;
+}
+
+/* 2. Força touch targets correctes per a qualsevol element clicable */
+.pedra-seca-purifier button, 
+.pedra-seca-purifier a, 
+.pedra-seca-purifier [role="button"] {
+  min-height: 44px !important;
+  min-width: 44px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3. Restaura estils semàntics canònics (Treballant sense Tailwind Typography) */
+.pedra-seca-purifier h1 { font-size: 2rem; font-weight: 900; margin-bottom: 1rem; color: var(--sp-accent, #FF7300); }
+.pedra-seca-purifier h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.75rem; }
+.pedra-seca-purifier h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+.pedra-seca-purifier p { margin-bottom: 1rem; line-height: 1.6; }
+
+/* 4. Protecció contra desbordaments */
+.pedra-seca-purifier * {
+  max-width: 100%;
+}

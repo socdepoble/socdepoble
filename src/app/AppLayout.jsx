@@ -90,7 +90,7 @@ function AppLayout() {
             <button type="button" aria-label="Visor Nano (Diagnòstic)" className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#000000] rounded-full">👁️</button>
           </div>
         </header>
-        <main className="flex-1 overflow-y-auto scroll-container bg-[#f3f4f6] md:bg-[#1a1a1a] pb-safe-bottom md:pb-0 relative">
+        <main className="flex-1 overflow-y-auto system-scroll-container bg-[#f3f4f6] md:bg-[#1a1a1a] pb-safe-bottom md:pb-0 relative">
           <Outlet />
         </main>
       </div>

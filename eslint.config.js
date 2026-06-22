@@ -90,6 +90,17 @@ export default defineConfig([
       "react/jsx-uses-vars": "error",
       "architecture-guard/no-core-imports": "error",
       "architecture-guard/no-unsafe-pwa": "error",
+      "no-restricted-syntax": [
+        "error",
+        {
+          "selector": "JSXAttribute[name.name='style']",
+          "message": "⛔ PROHIBIT: Estils inline. Usa CSS Modules o classes de Pedra Seca."
+        },
+        {
+          "selector": "JSXAttribute[name.name='onClick'] CallExpression[callee.property.name='stopPropagation']",
+          "message": "⛔ PROHIBIT: Events inline. Mou el handler al hook o component pare."
+        }
+      ],
     },
   },
 ]);

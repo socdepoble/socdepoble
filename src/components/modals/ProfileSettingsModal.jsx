@@ -7,7 +7,9 @@ import { authService } from '../../core/services/authService';
 import { useModalFocusTrap } from '../../hooks/useModalFocusTrap';
 import TownSelectorModal from './TownSelectorModal';
 import LanguageSelector from '../ui/LanguageSelector';
-import { X, User, ImageIcon, Camera, MapPin, Plus, ShieldAlert, Loader2, Beaker, Terminal } from 'lucide-react';
+import { X, User, ImageIcon, Camera, MapPin, Plus, ShieldAlert, Beaker, Terminal } from 'lucide-react';
+import { Button } from '../ui/Button/Button';
+import { UniversalInput } from '../ui/Input/UniversalInput';
 
 const ProfileSettingsModal = ({
   isOpen,
@@ -180,6 +182,11 @@ const ProfileSettingsModal = ({
     }
   };
 
+  const handleAvatarClick = (e) => {
+    e.stopPropagation();
+    document.getElementById('avatar-input').click();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
@@ -201,6 +208,7 @@ const ProfileSettingsModal = ({
 
                     <div className="relative w-full h-32 rounded-2xl bg-gray-200 overflow-visible border border-gray-300 mb-10 mt-6 group/cover">
                         {coverPreview ? (
+                            /* eslint-disable-next-line no-restricted-syntax */
                             <img src={coverPreview} alt="Cover" className="w-full h-full object-cover rounded-2xl" style={{ objectPosition: `50% ${coverPositionY}%` }} />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center rounded-2xl cursor-pointer hover:bg-gray-300 transition-colors" onClick={() => document.getElementById('cover-input').click()}>
@@ -223,13 +231,10 @@ const ProfileSettingsModal = ({
 
                         <input type="file" id="cover-input" className="hidden" accept="image/jpeg, image/png, image/webp" onChange={handleCoverChange} />
                         
-                        <div className="absolute -bottom-8 left-6 z-30" onClick={e => {
-                            e.stopPropagation();
-                            document.getElementById('avatar-input').click();
-                        }}>
+                        <div className="absolute -bottom-8 left-6 z-30" onClick={handleAvatarClick}>
                             <div className='relative w-24 h-24 rounded-[50%] border-4 border-white overflow-hidden bg-gray-100 group/avatar cursor-pointer shadow-sm isolate aspect-square flex items-center justify-center'>
                                 {avatarPreview ? (
-                                    <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover group-hover/avatar:opacity-50 transition-opacity rounded-[50%] block aspect-square" style={{ borderRadius: '50%' }} />
+                                    <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover group-hover/avatar:opacity-50 transition-opacity rounded-[50%] block aspect-square" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
                                         <User size={32} className="text-gray-400" />
@@ -245,8 +250,7 @@ const ProfileSettingsModal = ({
 
                     <div className="space-y-4 pt-2">
                         <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Nom / Denominació</label>
-                            <input type="text" value={localProfile.full_name || ''} onChange={e => setLocalProfile({ ...localProfile, full_name: e.target.value })} className='w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all font-bold' placeholder="Com et dius?" />
+                            <UniversalInput label="Nom / Denominació" type="text" value={localProfile.full_name || ''} onChange={e => setLocalProfile({ ...localProfile, full_name: e.target.value })} placeholder="Com et dius?" />
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">Presentació (Bio)</label>
@@ -342,19 +346,19 @@ const ProfileSettingsModal = ({
                             En virtut de la normativa de sobiranía digital (GDPR), pots eliminar el teu compte i totes les teues dades de forma completament permanent. <strong className="text-red-500">Aquesta acció NO es pot desfer ni recuperar.</strong>
                         </p>
                         {!showDeleteConfirm ? (
-                            <button onClick={() => setShowDeleteConfirm(true)} className="w-full py-3 bg-white border border-red-200 text-red-500 font-bold uppercase tracking-wider rounded-xl hover:bg-red-50 hover:border-red-300 transition-all text-sm">
+                            <Button variant="danger" fullWidth onClick={() => setShowDeleteConfirm(true)}>
                                 Eliminar el meu compte
-                            </button>
+                            </Button>
                         ) : (
                             <div className="space-y-3 bg-white p-3 rounded-xl border border-red-200 animate-in fade-in slide-in-from-bottom-2 duration-300 shadow-sm">
                                 <p className="text-sm font-black text-red-500 uppercase tracking-widest text-center mb-1 m-0">Doble Confirmació</p>
                                 <div className="flex gap-2">
-                                    <button onClick={handleDeleteAccount} disabled={isDeletingAccount} className="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 text-xs h-12">
-                                        {isDeletingAccount ? <Loader2 size={16} className="animate-spin" /> : 'SÍ, ESBORRAR'}
-                                    </button>
-                                    <button onClick={() => setShowDeleteConfirm(false)} disabled={isDeletingAccount} className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold uppercase tracking-wider rounded-lg transition-all text-xs h-12">
+                                    <Button variant="danger" onClick={handleDeleteAccount} disabled={isDeletingAccount} fullWidth>
+                                        SÍ, ESBORRAR
+                                    </Button>
+                                    <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)} disabled={isDeletingAccount} fullWidth>
                                         CANCEL·LAR
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         )}
@@ -406,9 +410,9 @@ const ProfileSettingsModal = ({
             </div>
 
             <div className='p-6 border-t border-gray-200 bg-white'>
-                <button onClick={handleSave} disabled={isSaving} className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black uppercase tracking-widest py-4 rounded-[20px] transition-all flex items-center justify-center gap-2 shadow-sm">
-                    {isSaving ? <Loader2 size={20} className="animate-spin" /> : 'Guardar Canvis'}
-                </button>
+                <Button intent="primary" size="large" fullWidth onClick={handleSave} isLoading={isSaving}>
+                    Guardar Canvis
+                </Button>
             </div>
         </div>
 

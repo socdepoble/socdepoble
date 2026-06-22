@@ -1,0 +1,68 @@
+From 83a26b39c460861794f2bb30ddb7a403bf6041f4 Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:16 +0200
+Subject: [PATCH 4/8] chore(ghosts): add src/utils/cleanHtmlNode.js
+
+---
+ src/utils/cleanHtmlNode.js | 49 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
+ create mode 100644 src/utils/cleanHtmlNode.js
+
+diff --git a/src/utils/cleanHtmlNode.js b/src/utils/cleanHtmlNode.js
+new file mode 100644
+index 0000000..0d31077
+--- /dev/null
++++ b/src/utils/cleanHtmlNode.js
+@@ -0,0 +1,49 @@
++/**
++ * src/utils/cleanHtmlNode.js
++ * Neteja i normalitza una cadena HTML abans d'injectar-la amb dangerouslySetInnerHTML.
++ * Elimina atributs perillosos, inline styles i classes de Tailwind sospitoses.
++ */
++export function cleanHtmlString(html) {
++  if (!html || typeof html !== 'string') return '';
++
++  // DOMParser en entorn navegador
++  if (typeof window === 'undefined' || typeof DOMParser === 'undefined') {
++    // En entorn Node, fem una neteja bàsica amb regex com fallback
++    return html
++      .replace(/style\s*=\s*["'][^"']*["']/gi, '')
++      .replace(/class\s*=\s*["'][^"']*["']/gi, '')
++      .replace(/on[a-z]+\s*=\s*["'][^"']*["']/gi, '');
++  }
++
++  const parser = new DOMParser();
++  const doc = parser.parseFromString(html, 'text/html');
++
++  const allowedAttrs = new Set(['href', 'title', 'alt', 'src', 'loading', 'width', 'height', 'controls', 'poster', 'target', 'rel', 'aria-label', 'aria-hidden']);
++  const tailwindPattern = /(^|\s)(p-|m-|bg-|text-|shadow-|w-|h-|flex|grid|gap-|sm:|md:|lg:|xl:)/;
++
++  const walk = (node) => {
++    if (node.nodeType === 1) {
++      // remove inline style
++      if (node.hasAttribute('style')) node.removeAttribute('style');
++
++      // sanitize class attribute: remove classes that look like Tailwind utility classes
++      if (node.hasAttribute('class')) {
++        const cls = node.getAttribute('class') || '';
++        const kept = cls.split(/\s+/).filter(c => !tailwindPattern.test(c)).join(' ');
++        if (kept) node.setAttribute('class', kept);
++        else node.removeAttribute('class');
++      }
++
++      // strip attributes not in allowedAttrs except aria-*
++      [...node.attributes].forEach(attr => {
++        const name = attr.name;
++        if (name.startsWith('aria-')) return;
++        if (!allowedAttrs.has(name)) node.removeAttribute(name);
++      });
++    }
++    node.childNodes.forEach(walk);
++  };
++
++  doc.body.childNodes.forEach(walk);
++  return doc.body.innerHTML;
++}
+-- 
+2.50.1 (Apple Git-155)
+

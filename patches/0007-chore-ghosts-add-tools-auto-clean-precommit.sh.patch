@@ -1,0 +1,37 @@
+From 0df00476c893bea38c91bff98ff1597ef12517ee Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:17 +0200
+Subject: [PATCH 7/8] chore(ghosts): add tools/auto-clean-precommit.sh
+
+---
+ tools/auto-clean-precommit.sh | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 tools/auto-clean-precommit.sh
+
+diff --git a/tools/auto-clean-precommit.sh b/tools/auto-clean-precommit.sh
+new file mode 100644
+index 0000000..30cf17b
+--- /dev/null
++++ b/tools/auto-clean-precommit.sh
+@@ -0,0 +1,18 @@
++#!/usr/bin/env bash
++# tools/auto-clean-precommit.sh
++# Script per executar neteja ràpida abans de fer commit.
++# Retorna 0 si tot ok, 1 si hi ha errors.
++set -e
++echo "Running quick ghost scan..."
++node scripts/find-ghosts.js src || true
++if [ -f ghosts-report.json ]; then
++  COUNT=$(jq '. | length' ghosts-report.json 2>/dev/null || echo "0")
++  if [ "$COUNT" -gt "0" ]; then
++    echo "Warning: ghosts-report.json contains $COUNT files with potential issues."
++    echo "Run 'node scripts/find-ghosts.js src' and fix issues or run 'node scripts/clean-html-build.js' to sanitize."
++    # Non-blocking by default; return success to avoid blocking commits in emergency.
++    exit 0
++  fi
++fi
++echo "Quick scan passed."
++exit 0
+-- 
+2.50.1 (Apple Git-155)
+

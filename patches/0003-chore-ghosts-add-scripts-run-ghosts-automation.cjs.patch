@@ -1,0 +1,56 @@
+From 6ad08a660f616b0b095966bf04f90b47946a8ac7 Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:16 +0200
+Subject: [PATCH 3/8] chore(ghosts): add scripts/run-ghosts-automation.cjs
+
+---
+ scripts/run-ghosts-automation.cjs | 37 +++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 scripts/run-ghosts-automation.cjs
+
+diff --git a/scripts/run-ghosts-automation.cjs b/scripts/run-ghosts-automation.cjs
+new file mode 100644
+index 0000000..08c97be
+--- /dev/null
++++ b/scripts/run-ghosts-automation.cjs
+@@ -0,0 +1,37 @@
++#!/usr/bin/env node
++/**
++ * scripts/run-ghosts-automation.js
++ * Orquestrador: executa escaneig i build-time sanitization.
++ *
++ * Usage:
++ *   node scripts/run-ghosts-automation.js [--fix]
++ *
++ * --fix : executa també scripts/clean-html-build.js per intentar netejar automàticament.
++ */
++const { spawnSync } = require('child_process');
++const args = process.argv.slice(2);
++const shouldFix = args.includes('--fix');
++
++function run(cmd, args, opts = {}) {
++  const res = spawnSync(cmd, args, { stdio: 'inherit', ...opts });
++  if (res.error) throw res.error;
++  return res.status;
++}
++
++try {
++  console.log('1) Running ghost scan...');
++  run('node', ['scripts/find-ghosts.cjs', 'src']);
++
++  if (shouldFix) {
++    console.log('2) Running build-time sanitizer (may modify files)...');
++    run('node', ['scripts/clean-html-build.cjs', 'src/data']);
++  } else {
++    console.log('Tip: run with --fix to attempt automatic sanitization of content files.');
++  }
++
++  console.log('Automation complete.');
++  process.exit(0);
++} catch (err) {
++  console.error('Automation failed', err && err.message);
++  process.exit(2);
++}
+-- 
+2.50.1 (Apple Git-155)
+

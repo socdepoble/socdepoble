@@ -1,0 +1,101 @@
+From 727bbd8baef04c9f0d0d6e9fa746f61c7d77047a Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:16 +0200
+Subject: [PATCH 2/8] chore(ghosts): add scripts/clean-html-build.cjs
+
+---
+ scripts/clean-html-build.cjs | 82 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 scripts/clean-html-build.cjs
+
+diff --git a/scripts/clean-html-build.cjs b/scripts/clean-html-build.cjs
+new file mode 100644
+index 0000000..83686ce
+--- /dev/null
++++ b/scripts/clean-html-build.cjs
+@@ -0,0 +1,82 @@
++#!/usr/bin/env node
++/**
++ * scripts/clean-html-build.js
++ * Build-time sanitizer: recorre fitxers de contingut (JSON/JS) i neteja HTML amb DOMPurify via jsdom.
++ * Útil per executar abans del build per assegurar que el HTML injectat està normalitzat.
++ *
++ * Usage:
++ *   node scripts/clean-html-build.js path/to/content/folder
++ *
++ * Nota: requereix dependències dev: jsdom, dompurify (instal·lar si cal)
++ */
++const fs = require('fs');
++const path = require('path');
++const { JSDOM } = require('jsdom');
++const createDOMPurify = require('dompurify');
++
++const root = path.resolve(process.argv[2] || 'src/data');
++const exts = ['.js', '.jsx', '.json', '.html'];
++
++function walk(dir, files = []) {
++  const entries = fs.readdirSync(dir, { withFileTypes: true });
++  for (const entry of entries) {
++    const p = path.join(dir, entry.name);
++    if (entry.isDirectory()) {
++      if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') continue;
++      walk(p, files);
++    } else if (exts.includes(path.extname(p))) {
++      files.push(p);
++    }
++  }
++  return files;
++}
++
++function sanitizeHtmlString(window, html) {
++  const DOMPurify = createDOMPurify(window);
++  return DOMPurify.sanitize(html, {
++    ALLOWED_TAGS: ['h1','h2','h3','h4','h5','p','b','i','strong','em','u','ul','ol','li','br','hr','a','span','img','blockquote','pre','code','video','source','track'],
++    ALLOWED_ATTR: ['href','title','target','src','alt','loading','width','height','controls','poster','aria-label'],
++    KEEP_CONTENT: true,
++    RETURN_DOM: false
++  });
++}
++
++function processFile(file) {
++  const src = fs.readFileSync(file, 'utf8');
++  // Heurística simple: buscar constants d'HTML dins de fitxers JS/JSON
++  const htmlMatches = [];
++  const regex = /`([^`]{20,})`/g; // template literals llargs
++  let m;
++  while ((m = regex.exec(src)) !== null) {
++    htmlMatches.push({ match: m[0], content: m[1], index: m.index });
++  }
++
++  if (!htmlMatches.length) return;
++
++  const dom = new JSDOM('<!doctype html><html><body></body></html>');
++  const window = dom.window;
++
++  let out = src;
++  for (const h of htmlMatches) {
++    const cleaned = sanitizeHtmlString(window, h.content);
++    out = out.replace(h.match, '`' + cleaned.replace(/`/g, '\\`') + '`');
++  }
++
++  fs.writeFileSync(file, out, 'utf8');
++  console.log('Sanitized', file);
++}
++
++function main() {
++  const files = walk(root);
++  for (const f of files) {
++    try {
++      processFile(f);
++    } catch (err) {
++      // eslint-disable-next-line no-console
++      console.error('Error processing', f, err && err.message);
++    }
++  }
++  console.log('Build-time sanitization complete.');
++}
++
++main();
+-- 
+2.50.1 (Apple Git-155)
+

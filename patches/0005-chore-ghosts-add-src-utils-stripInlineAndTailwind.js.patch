@@ -1,0 +1,64 @@
+From 340fe3a90bf7932910f584926978f7b45db52be7 Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:17 +0200
+Subject: [PATCH 5/8] chore(ghosts): add src/utils/stripInlineAndTailwind.js
+
+---
+ src/utils/stripInlineAndTailwind.js | 45 +++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 src/utils/stripInlineAndTailwind.js
+
+diff --git a/src/utils/stripInlineAndTailwind.js b/src/utils/stripInlineAndTailwind.js
+new file mode 100644
+index 0000000..7a12960
+--- /dev/null
++++ b/src/utils/stripInlineAndTailwind.js
+@@ -0,0 +1,45 @@
++/**
++ * src/utils/stripInlineAndTailwind.js
++ * Runtime utility that removes inline styles and Tailwind-like utility classes
++ * dins del wrapper .app-cms-content. Retorna el MutationObserver per poder
++ * desconnectar-lo quan ja no sigui necessari.
++ */
++export function stripInlineAndTailwind(rootSelector = '.app-cms-content') {
++  if (typeof document === 'undefined') return null;
++  const root = document.querySelector(rootSelector);
++  if (!root) return null;
++
++  const tailwindRe = /(^|\s)(p-|m-|bg-|text-|shadow-|w-|h-|flex|grid|gap-|sm:|md:|lg:|xl:)/;
++
++  const cleanNode = (node) => {
++    if (node.nodeType !== 1) return;
++    if (node.hasAttribute('style')) node.removeAttribute('style');
++    const cls = node.getAttribute('class');
++    if (cls) {
++      const kept = cls.split(/\s+/).filter(c => !tailwindRe.test(c)).join(' ');
++      if (kept) node.setAttribute('class', kept);
++      else node.removeAttribute('class');
++    }
++  };
++
++  // initial clean
++  root.querySelectorAll('*').forEach(cleanNode);
++
++  const observer = new MutationObserver(mutations => {
++    for (const m of mutations) {
++      if (m.type === 'childList') {
++        m.addedNodes.forEach(n => {
++          if (n.nodeType === 1) {
++            n.querySelectorAll('*').forEach(cleanNode);
++            cleanNode(n);
++          }
++        });
++      } else if (m.type === 'attributes') {
++        cleanNode(m.target);
++      }
++    }
++  });
++
++  observer.observe(root, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
++  return observer;
++}
+-- 
+2.50.1 (Apple Git-155)
+

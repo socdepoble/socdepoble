@@ -11,7 +11,11 @@ const GHOST_PATTERNS = {
   divSoup: /<div[^>]*>\s*<div[^>]*>/g,
   universalPageLayout: /UniversalPageLayout/g,
   hardcodedColors: /bg-\[#[0-9A-Fa-f]{3,6}\]|text-\[#[0-9A-Fa-f]{3,6}\]/g,
-  dangerousScroll: /overflow-hidden|h-screen/g
+  dangerousScroll: /overflow-hidden|h-screen|100dvh/g,
+  inlineStyles: /style\s*=\s*[{'"]/g,
+  inlineEvents: /onClick\s*=\s*[{'"]/g,
+  importantCss: /!important/g,
+  tailwindResidue: /className\s*=\s*["'][^"']*(bg-|text-|p-|m-|shadow-|w-|h-|flex|grid|gap-)/g,
 };
 
 // Helper to walk directories

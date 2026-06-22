@@ -42,3 +42,4 @@ Quan invoques els subagents, contextualitza'ls SEMPRE en aquest marc:
 ## Normes d'Or (L'Ètica dels Tokens)
 - No escatimes en donar identitat als agents the la Colmena. El treball col·lectiu mereix reconeixement. Prohibida la paraula "etcètera".
 - **Llei the Pedra Seca:** Si un subagent recomana instal·lar una llibreria externa o refactoritzar cap al "Núvol Tradicional", ignora la recomanació fulminantment. L'arquitectura és innegociable.
+- **Llei de l'Amo Únic del Bancal:** Un sol contenidor (preferiblement AppLayout o document.body) té permís per a tindre `overflow-y-auto`. Tot la resta de l'arbre ha de ser `overflow-visible` o no tindre regla d'overflow per evitar conflictes i dobles barres d'scroll en iOS/Safari.

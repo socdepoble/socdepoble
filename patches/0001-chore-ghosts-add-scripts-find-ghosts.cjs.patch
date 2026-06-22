@@ -1,0 +1,84 @@
+From 901d9c5ba32bf6e3332b2bcd3a7f79a8a4c03390 Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:15 +0200
+Subject: [PATCH 1/8] chore(ghosts): add scripts/find-ghosts.cjs
+
+---
+ scripts/find-ghosts.cjs | 65 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 scripts/find-ghosts.cjs
+
+diff --git a/scripts/find-ghosts.cjs b/scripts/find-ghosts.cjs
+new file mode 100644
+index 0000000..bb1fb0d
+--- /dev/null
++++ b/scripts/find-ghosts.cjs
+@@ -0,0 +1,65 @@
++#!/usr/bin/env node
++/**
++ * scripts/find-ghosts.js
++ * Escaneig ràpid per detectar "fantasmes" de disseny en el codi font.
++ * Genera un informe JSON amb incidències per fitxer.
++ *
++ * Usage
++ *   node scripts/find-ghosts.js [path]
++ */
++const fs = require('fs');
++const path = require('path');
++
++const root = path.resolve(process.argv[2] || 'src');
++const exts = ['.js', '.jsx', '.html', '.md', '.ts', '.tsx'];
++
++function walk(dir, files = []) {
++  const entries = fs.readdirSync(dir, { withFileTypes: true });
++  for (const entry of entries) {
++    const p = path.join(dir, entry.name);
++    if (entry.isDirectory()) {
++      if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') continue;
++      walk(p, files);
++    } else if (exts.includes(path.extname(p))) {
++      files.push(p);
++    }
++  }
++  return files;
++}
++
++const patterns = [
++  { name: 'inline-style', re: /style\s*=\s*["'{]/i },
++  { name: 'tailwind-class', re: /class(Name)?\s*=\s*["'][^"']*(\b(p-|m-|bg-|text-|shadow-|w-|h-|flex|grid|gap-)\b)[^"']*["']/i },
++  { name: 'box-shadow', re: /box-shadow|shadow-/i },
++  { name: 'important', re: /!important/i },
++  { name: 'data-attr', re: /data-[a-z0-9-]+=/i },
++  { name: 'inline-svg-style', re: /<svg[^>]*style=/i },
++  { name: 'empty-div', re: /<div[^>]*>\s*<\/div>/i }
++];
++
++function scanFile(file) {
++  const src = fs.readFileSync(file, 'utf8');
++  const issues = [];
++  for (const p of patterns) {
++    if (p.re.test(src)) issues.push(p.name);
++  }
++  return issues;
++}
++
++function main() {
++  const files = walk(root);
++  const results = [];
++  for (const f of files) {
++    try {
++      const issues = scanFile(f);
++      if (issues.length) results.push({ file: path.relative(process.cwd(), f), issues });
++    } catch (err) {
++      // eslint-disable-next-line no-console
++      console.error('Error scanning', f, err && err.message);
++    }
++  }
++  fs.writeFileSync('ghosts-report.json', JSON.stringify(results, null, 2), 'utf8');
++  console.log(`Scan complete. ${results.length} files with issues. Report saved to ghosts-report.json`);
++}
++
++main();
+-- 
+2.50.1 (Apple Git-155)
+

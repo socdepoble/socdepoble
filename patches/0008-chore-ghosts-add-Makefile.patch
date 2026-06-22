@@ -1,0 +1,121 @@
+From c922c7c58a7ee50a65035eff8a2a5d8a66a13f3b Mon Sep 17 00:00:00 2001
+From: Javi Llinares <javillinares@example.com>
+Date: Mon, 22 Jun 2026 05:42:18 +0200
+Subject: [PATCH 8/8] chore(ghosts): add Makefile
+
+---
+ Makefile | 104 +++++++++++++++++++------------------------------------
+ 1 file changed, 35 insertions(+), 69 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index f7d8d27..7afc59b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,69 +1,35 @@
+-# Makefile per a entorn de tests de la Masía amb suport multi-node
+-IMAGE_NAME := socdepoble-tests
+-CONTAINER_NAME := socdepoble-tests-run
+-COMPOSE_FILE := docker-compose.yml
+-HOST_PORT := 8081
+-REPO_DIR := $(shell pwd)
+-
+-.PHONY: all build-image run-container run-tests shell clean test-network build-compose
+-
+-all: build-image
+-
+-# Construir imatge Docker
+-build-image:
+-	@echo "[make] Construint imatge Docker..."
+-	DOCKER_BUILDKIT=1 docker build -t $(IMAGE_NAME) .
+-
+-# Executar contenidor amb el repo muntat (per a desenvolupament)
+-run-container: build-image
+-	@echo "[make] Executant contenidor amb el repo muntat..."
+-	docker run --rm -it \
+-	  --name $(CONTAINER_NAME) \
+-	  -p $(HOST_PORT):8081 \
+-	  -v "$(REPO_DIR):/app:delegated" \
+-	  $(IMAGE_NAME)
+-
+-# Executar tests dins d'un contenidor (no munta el repo, usa la imatge)
+-run-tests: build-image
+-	@echo "[make] Executant tests dins d'un contenidor..."
+-	docker run --rm \
+-	  --name $(CONTAINER_NAME) \
+-	  -p $(HOST_PORT):8081 \
+-	  -v "$(REPO_DIR)/tests:/app/tests:ro" \
+-	  -v "$(REPO_DIR)/scripts:/app/scripts:ro" \
+-	  $(IMAGE_NAME)
+-
+-# Obrir shell dins d'un contenidor per depuració
+-shell: build-image
+-	docker run --rm -it --entrypoint /bin/bash -v "$(REPO_DIR):/app" $(IMAGE_NAME)
+-
+-# Neteja d'artefactes locals
+-clean:
+-	@echo "[make] Netejant artefactes..."
+-	rm -rf node_modules
+-	rm -rf tests/.test_server.log || true
+-	rm -rf data || true
+-
+-# Construir i arrancar la xarxa de prova multi-node i executar la coreografia
+-test-network: build-image build-compose
+-	@echo "[make] Iniciant prova multi-node..."
+-	# Assegurar directoris de dades nets
+-	rm -rf data || true
+-	mkdir -p data/node1 data/node2 data/node3
+-	# Llençar docker-compose en mode detached
+-	docker-compose -f $(COMPOSE_FILE) up --build -d
+-	# Esperar que l'orquestrador acabe la prova (l'orquestrador s'atura quan la prova acaba)
+-	@echo "[make] Esperant finalització de l'orquestrador..."
+-	# Pollar l'estat del contenidor orchestrator
+-	@while docker ps --filter "name=socdepoble-orchestrator" --format '{{.Names}}' | grep -q socdepoble-orchestrator; do \
+-	  sleep 2; \
+-	done
+-	@echo "[make] Prova multi-node finalitzada. Recollint logs..."
+-	docker-compose -f $(COMPOSE_FILE) logs --no-color orchestrator > tests/network_orchestrator.log || true
+-	docker-compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
+-	@echo "[make] Logs guardats a tests/network_orchestrator.log"
+-
+-# Assegura que docker-compose.yml existeix i la imatge està construïda
+-build-compose: build-image
+-	@echo "[make] Verificant docker-compose..."
+-	@test -f $(COMPOSE_FILE) || (echo "Error: $(COMPOSE_FILE) no trobat"; exit 1)
++# Makefile for Trellat ghosts automation
++# Usage:
++#   make scan        # run quick scan and produce ghosts-report.json
++#   make sanitize    # run build-time sanitizer (requires jsdom + dompurify)
++#   make auto        # run orchestrator (scan + optional fix)
++#   make precommit-install  # install pre-commit hook (requires git)
++
++.PHONY: scan sanitize auto precommit-install
++
++scan:
++	@echo "Running ghost scan..."
++	@node scripts/find-ghosts.cjs src
++
++sanitize:
++	@echo "Running build-time sanitizer (may modify files)..."
++	@node scripts/clean-html-build.cjs src/data
++
++auto:
++	@echo "Running automation orchestrator (scan only)..."
++	@node scripts/run-ghosts-automation.cjs
++
++auto-fix:
++	@echo "Running automation orchestrator with --fix (scan + sanitize)..."
++	@node scripts/run-ghosts-automation.cjs --fix
++
++precommit-install:
++	@echo "Installing pre-commit hook (tools/auto-clean-precommit.sh)..."
++	@if [ -d .git ]; then \
++	  mkdir -p .git/hooks; \
++	  cp tools/auto-clean-precommit.sh .git/hooks/pre-commit; \
++	  chmod +x .git/hooks/pre-commit; \
++	  echo "Pre-commit hook installed."; \
++	else \
++	  echo "Not a git repo. Skipping."; \
++	fi
+-- 
+2.50.1 (Apple Git-155)
+

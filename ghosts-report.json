@@ -1,0 +1,1442 @@
+[
+  {
+    "file": "src/App.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/AppRouter.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/AppShell.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/__tests__/accessibility/AppLayout.test.jsx",
+    "issues": [
+      "inline-style",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/__tests__/hooks/useScrollDirection.test.js",
+    "issues": [
+      "inline-style",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/__tests__/integration/AppShell.integration.test.jsx",
+    "issues": [
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/app/App.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/app/AppLayout.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/app/AppSkeleton.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/app/Masia.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/app/config/iaiesMundialsMap.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/BrasaButton.jsx",
+    "issues": [
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ClauerDeLaTerreta.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ClauerVisual.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/Mercat.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/MurFeed.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/NavigationRail.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/NouPost.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/PwaUpdater.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/RecuperacioDelMas.jsx",
+    "issues": [
+      "inline-style",
+      "box-shadow",
+      "important"
+    ]
+  },
+  {
+    "file": "src/components/SpriteConsole.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/SpriteConsoleExtended.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/TimelineEditor.jsx",
+    "issues": [
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/TimelineGraphic.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "data-attr",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/TimelineMobile.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/UniversalCard.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/boundaries/WaitingForBackend.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/core/ContentWithShortcodes.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/core/ErrorBoundary.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/core/GlobalErrorBoundary.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/core/SafeHtml.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/core/SafeShell.jsx",
+    "issues": [
+      "inline-style",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/core/VersionGatekeeper.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/design-system/DesignSystemPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/primitives/ColorSwatch.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/Alerts.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/Buttons.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "data-attr",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/Cards.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/ColorPalette.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/FormsAndInputs.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/SpacingAndGrid.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/design-system/sections/Typography.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/ArchitecteView.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/features/CartManager.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/CategoryManager.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/ChatDetail.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/features/ChatEmptyState.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/ChatList.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/features/CreationHub.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/features/EpubViewer.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/features/Feed.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/features/IAIAChatSidebar.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/features/IAIACorrectorOverlay.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/MagicPregoner.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/features/Marketplace.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/features/MasterEditor.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/features/NotebookList.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/SocialManager.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/features/infoteca/InfografiaGallery.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/feed/VirtualCardList.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/gates/AuthGate.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/gates/LocalFirstGate.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/gates/OfflineGate.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/icons/IAIAIcon.jsx",
+    "issues": [
+      "inline-style",
+      "inline-svg-style"
+    ]
+  },
+  {
+    "file": "src/components/keychain/KeychainBackupUI.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/layout/NotebookSidebar.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/layout/PageActionBar.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/layout/UniversalPageLayout.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/AddItemModal.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/AgentSelectorModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/CalendarManagerModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/modals/ConnectionSelectorModal.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/CreateEventModal.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/modals/CreatePostModal.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/modals/HistoryModal.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/modals/LegalDocsModal.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/MediaViewerModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/modals/ProfileSettingsModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/modals/ProfileStudioModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/modals/TownSelectorModal.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/modals/TranslationModal.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/patterns/SearchNavBar.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/profile/EntityProfile.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/profile/TownProposalsTab.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/profile/UniversalAjuntament.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/profile/UniversalGentDePoble.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/pwa/PwaUpdater.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/shell/ProgressiveHydrator.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/ui/AccessibilitatUniversal.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/ui/ActionBar.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/AdvancedDataGrid.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/BrandLogo.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "inline-svg-style"
+    ]
+  },
+  {
+    "file": "src/components/ui/Button/Button.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/Button/Button.variants.js",
+    "issues": [
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/Button/UniversalButton.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/ConflictBanner.tsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/ConnectButton.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/ContextualMenu.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/DegradedBanner.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/EntityEmbedding.jsx",
+    "issues": [
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/ErrorBoundary.jsx",
+    "issues": [
+      "inline-style",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/FloatingIndex.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/FloatingScrollButton.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/GlobalDropOverlay.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/LanguageSelector.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/ModalManager.jsx",
+    "issues": [
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/MurCentralitzat.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/NanoLoader.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/PedraPanel.jsx",
+    "issues": [
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/ProfilePowerMenu.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/RichTextEditor.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/ui/StatusLoader.jsx",
+    "issues": [
+      "inline-style",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/ui/SyncIndicator.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/TargetaPoble.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/ToastProvider.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/ui/UmamiDashboard.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/UniversalCard.jsx",
+    "issues": [
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/UniversalGrid.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/ui/VoiceRecorder.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/ui/skeletons/MarketSkeleton.jsx",
+    "issues": [
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/components/ui/trellat/BancalInput.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/components/ui/trellat/ButtonTrellat.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/trellat/PedraMissatge.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/trellat/VirtualizedContainer.jsx",
+    "issues": [
+      "inline-style",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-card/UniversalCard.Body.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-card/UniversalCard.Footer.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-card/UniversalCard.Header.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-card/UniversalCard.Media.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-card/index.jsx",
+    "issues": [
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-header/UniversalHeader.Button.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-header/UniversalHeader.Logo.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/ui/universal-header/index.jsx",
+    "issues": [
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/components/universal/UniversalPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/components/universal/UniversalShell.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/core/services/exportService.js",
+    "issues": [
+      "inline-style",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/core/services/notebookService.js",
+    "issues": [
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/data/GenotipContent.js",
+    "issues": [
+      "box-shadow",
+      "important"
+    ]
+  },
+  {
+    "file": "src/data/SkillsExtensivesContent.js",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important"
+    ]
+  },
+  {
+    "file": "src/docs/amazon_books/llibre-humans.html",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/docs/amazon_books/llibre-maquina.html",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important",
+      "data-attr",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/docs/archive_html_books/llibre-humans.html",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/docs/archive_html_books/llibre-maquina.html",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "important",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/docs/design_canon.html",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/features/chat/ChatShell.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/hooks/useAccessibleSearch.js",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/hooks/usePreBlockFormatter.js",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/lib/spriteSequences.js",
+    "issues": [
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/pages/MercatPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/MurPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/Pobles.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/UniversalPage.jsx",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/pages/admin/AdminPanel.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/AulaRural.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/admin/ChatManager.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/Chrome145Report.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/admin/ControlGeneral.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/admin/DesignCanon.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/admin/GenesisViewer.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/admin/GhostMemorial.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "data-attr",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/IAIASandbox.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/Ideoteca.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "data-attr",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/ManualPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/admin/MenuManagementView.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/admin/NexusFlash.jsx",
+    "issues": [
+      "tailwind-class",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/SessionChronicle.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/admin/SolatgeConsole.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/admin/Utilitats.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/auth/Register.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/community/AgentDirectory.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/community/CommunityDirectory.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/community/ProfileView.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/community/Towns.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/community/UsersDirectory.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/features/Archive.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/features/BuscadorAjudes.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/CercaPage.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/ConnectarPage.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/DesignSystem_original.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/GlobalAssetAlbum.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/pages/features/HubView.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/MedicationConfirm.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/Notes.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/OficiDocumentacio.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/ResourceDetail.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/Translations.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/UniversalDetail.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/VisionView.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/VisorMetricPage.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/features/VisorNano.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/VitalSecurity.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/anima-del-mas/AlmaPage.jsx",
+    "issues": [
+      "tailwind-class"
+    ]
+  },
+  {
+    "file": "src/pages/features/anima-del-mas/EmotionalArc.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/anima-del-mas/LawsGrid.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "data-attr"
+    ]
+  },
+  {
+    "file": "src/pages/features/anima-del-mas/MemoryBar.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/features/anima-del-mas/TimelineScroll.jsx",
+    "issues": [
+      "inline-style",
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/public/UniversalPage.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/pages/public/components/UniversalPageContent.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow",
+      "empty-div"
+    ]
+  },
+  {
+    "file": "src/pages/system/ConflictResolutionPage.jsx",
+    "issues": [
+      "tailwind-class",
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/utils/cleanHtmlNode.js",
+    "issues": [
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/utils/health-sentinel.js",
+    "issues": [
+      "inline-style"
+    ]
+  },
+  {
+    "file": "src/utils/stripInlineAndTailwind.js",
+    "issues": [
+      "box-shadow"
+    ]
+  },
+  {
+    "file": "src/utils/thermoConsole.js",
+    "issues": [
+      "inline-style",
+      "box-shadow"
+    ]
+  }
+]

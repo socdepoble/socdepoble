@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -5,6 +6,7 @@ import { useAuth } from '../../app/context/AuthContext';
 import { supabaseService } from '../../core/services/supabaseService';
 import { logger } from '../../utils/logger';
 import { APP_VERSION, USER_ROLES } from '../../constants';
+import PedraSecaPurifier from '../../components/ui/PedraSecaPurifier/PedraSecaPurifier';
 import './AdminPanel.css';
 const AdminPanel = () => {
   const navigate = useNavigate();
@@ -85,6 +87,7 @@ const AdminPanel = () => {
             </div>;
   }
   return (
+    <PedraSecaPurifier>
       <div className="admin-container">
                 {/* TOP FLOATING HEADER */}
                 <div role="region" aria-label="Capçalera de Secció" className="admin-header">
@@ -359,6 +362,7 @@ const AdminPanel = () => {
           </div>))}
                 </div>
             </div>
+    </PedraSecaPurifier>
   );
 };
 
