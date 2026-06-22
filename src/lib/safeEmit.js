@@ -1,5 +1,6 @@
 // src/lib/safeEmit.js
 import { emit, SDP as RAW_SDP } from './eventBus';
+import { logError } from './logger';
 
 const DEFAULT_SDP = {
   TRANSLATE: 'sdp:translate',
@@ -23,7 +24,7 @@ export default function safeEmit(eventKeyOrName, payload = {}) {
     if (!eventName) return;
     emit(eventName, payload);
   } catch (err) {
-    console.error('[safeEmit] emit failed', err);
+    logError(err, { module: 'safeEmit', eventKeyOrName, payload });
   }
 }
 
