@@ -1,7 +1,10 @@
 .safe-shell-container {
     position: relative;
     width: 100%;
-    min-height: 100dvh;
+    height: 100dvh;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     background: var(--bg-canvas);
@@ -9,6 +12,8 @@
 
 .safe-shell-main {
     flex: 1;
+    min-height: 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     position: relative;
