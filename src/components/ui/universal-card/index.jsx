@@ -59,7 +59,6 @@ const UniversalCard = ({
         displayAuthor={authorName}
         avatarSrc={authorAvatar}
         displayTown={townName}
-        className={styles.cardHeader}
       />
 
       {hasMedia ? (
@@ -77,7 +76,6 @@ const UniversalCard = ({
         subtitle={subtitle}
         price={price}
         cardUrl={cardUrl}
-        className={styles.cardBody}
       >
         {children}
       </UniversalCardBody>
