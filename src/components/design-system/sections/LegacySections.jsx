@@ -652,6 +652,54 @@ export function LegacySections() {
               </article>
             </div>
           </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.5 Targeta de Botiga (Samarreta)</p>
+            <article className="sosp-targeta sosp-targeta-amb-imatge max-w-sm bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <figure className="sosp-targeta-imatge bg-stone-100 aspect-square flex items-center justify-center p-4">
+                <img src="/assets/uploads/empresa/soc-de-poble/mercat/samarreta-soc-de-poble/02-samarreta-socdepoble-roly-plom-oscur-1024px.png" alt="Camiseta Sóc de Poble" className="w-full h-full object-contain mix-blend-multiply" />
+              </figure>
+              <div className="sosp-targeta-cos p-5">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="sosp-targeta-titol font-bold text-xl text-stone-900 leading-tight">Camiseta Sóc de Poble <br/><span className="text-base text-stone-500 font-normal">Edició Gris</span></h3>
+                  <span className="text-xl font-black text-orange-600">15.00€</span>
+                </div>
+                <p className="text-stone-600 text-sm mb-4">L'edició definitiva amb el Logotip Complet (Mapa del Tresor). Cotó Roly Gris de màxima qualitat.</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <img src="/assets/system/ui/logo-socdepoble-cuadrat-verd.svg" alt="Sóc de Poble" className="w-6 h-6 rounded-full" />
+                    <span className="text-xs font-bold text-stone-500">Sóc de Poble</span>
+                  </div>
+                  <button className="sosp-btn sosp-btn-primari sosp-btn-sm rounded-full px-4" onClick={() => alert('Afegit al carret!')}>Afegir al carret</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div>
+            <p className="text-sm text-gray-500 mb-4">24.6 Targeta de Vídeo (Sóc de Poble)</p>
+            <article className="sosp-targeta sosp-targeta-amb-imatge max-w-sm bg-black border border-stone-800 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+              <figure className="sosp-targeta-imatge bg-black aspect-video relative flex items-center justify-center group cursor-pointer">
+                {/* Fallback to poster and iframe or video tag */}
+                <video src="https://www.w3schools.com/html/mov_bbb.mp4" poster="/assets/uploads/brain/hero_panoramic_landscape_1774710654078.png" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" loop muted playsInline />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 text-white group-hover:scale-110 transition-transform">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                </div>
+              </figure>
+              <div className="sosp-targeta-cos p-5 bg-stone-900">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="sosp-targeta-titol font-bold text-xl text-white leading-tight">La Masia Virtual <br/><span className="text-base text-stone-400 font-normal">Vídeo Presentació</span></h3>
+                </div>
+                <p className="text-stone-400 text-sm mb-4">Descobreix la filosofia darrere de la Masia Virtual i la connexió P2P de la Pedra Seca amb els pobles d'Alacant.</p>
+                <div className="flex items-center gap-2">
+                  <img src="/assets/system/ui/logo-socdepoble-cuadrat-verd.svg" alt="Sóc de Poble" className="w-6 h-6 rounded-full" />
+                  <span className="text-xs font-bold text-stone-300">Sóc de Poble</span>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
