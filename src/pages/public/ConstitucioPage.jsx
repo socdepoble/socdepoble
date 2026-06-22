@@ -1,6 +1,7 @@
 import React from 'react';
 import UniversalPageLayout from '../../components/layout/UniversalPageLayout';
 import { CONSTITUCIO_HTML } from '../../data/ConstitucioContent';
+import { sanitizeHtml } from '../../utils/sanitizeHtml';
 
 export default function ConstitucioPage() {
   return (
@@ -13,7 +14,7 @@ export default function ConstitucioPage() {
     >
       <div 
         className="universal-content markdown-body w-full" 
-        dangerouslySetInnerHTML={{ __html: CONSTITUCIO_HTML }} 
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(CONSTITUCIO_HTML) }} 
       />
     </UniversalPageLayout>
   );

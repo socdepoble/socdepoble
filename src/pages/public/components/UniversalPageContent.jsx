@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import ContentWithShortcodes from '../../../components/core/ContentWithShortcodes';
 import { useExtractedTags } from '../../../hooks/useExtractedTags';
+import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 
 const RichTextEditor = lazy(() => import('../../../components/ui/RichTextEditor'));
 
@@ -129,7 +130,7 @@ export const UniversalPageContent = React.memo(function UniversalPageContent({
           <div className="app-cms-content w-full relative flex flex-col items-center">
             {children || (hasShortcodes 
               ? <ContentWithShortcodes content={formattedHtml} /> 
-              : <div dangerouslySetInnerHTML={{ __html: formattedHtml }} className="w-full h-full" />)}
+              : <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(formattedHtml) }} className="w-full h-full" />)}
           </div>
         )}
       </section>

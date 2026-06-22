@@ -1,5 +1,6 @@
 import React from 'react';
 import ActionBar from '../ui/ActionBar';
+import '../../styles/legacy-compat.css'; // Importem els styles de compatibilitat
 
 export default function UniversalShell({
   children,
@@ -12,8 +13,8 @@ export default function UniversalShell({
   const displaySubtitle = subtitle || item?.subtitle || '';
 
   return (
-    <div className="flex flex-col w-full bg-[var(--sp-light)] min-h-full relative isolate">
-
+    <div className="flex flex-col w-full bg-[var(--sp-light)] min-h-screen relative">
+      
       {/* 1. CAPÇALERA DE NAVEGACIÓ */}
       <header className="h-14 flex items-center px-4 bg-[var(--sp-void)] text-[var(--sp-light)] shrink-0 border-b border-white/10 sticky top-0 z-40">
         <h1 className="font-bold text-lg tracking-tight">{displayTitle}</h1>
@@ -33,8 +34,8 @@ export default function UniversalShell({
         </section>
 
         {/* 3. BARRA DE METADADES */}
-        {item && (
-          <section className="sticky top-0 z-10 w-full bg-[var(--sp-void)] text-[var(--sp-light)] px-4 py-3 flex items-center gap-3 border-b border-white/10 shrink-0">
+        {item ? (
+          <section className="sticky top-14 z-10 w-full bg-[var(--sp-void)] text-[var(--sp-light)] px-4 py-3 flex items-center gap-3 border-b border-white/10 shrink-0">
             {item.author_avatar ? (
               <img
                 src={item.author_avatar}
@@ -43,8 +44,14 @@ export default function UniversalShell({
                 loading="lazy"
               />
             ) : (
-              <div className="w-10 h-10 rounded-full bg-white/20 shrink-0 flex items-center justify-center font-bold">
-                {item.author_name ? item.author_name.charAt(0).toUpperCase() : 'S'}
+              <div 
+                role="img"
+                aria-label={item.author_name ? `Avatar de ${item.author_name}` : 'Avatar per defecte'}
+                className="w-10 h-10 rounded-full bg-white/20 shrink-0 flex items-center justify-center font-bold"
+              >
+                <span aria-hidden="true">
+                  {item.author_name ? item.author_name.charAt(0).toUpperCase() : 'S'}
+                </span>
               </div>
             )}
             <div className="flex flex-col min-w-0">
@@ -56,7 +63,7 @@ export default function UniversalShell({
               </span>
             </div>
           </section>
-        )}
+        ) : null}
 
         {/* 4. CONTINGUT */}
         <section className="flex-1 p-6 md:p-10 bg-[var(--sp-light)]">
@@ -68,9 +75,13 @@ export default function UniversalShell({
       </main>
 
       {/* 5. BARRA D'ACCIONS */}
-      <div className="sticky bottom-0 w-full z-50">
+      <div className="sticky bottom-0 w-full z-50 bg-[var(--sp-void)]/90 backdrop-blur-md border-t border-white/10" style={{ willChange: 'transform' }}>
         <ActionBar
-          item={item}
+          entityId={item?.id}
+          entityType={item?.type || variant}
+          entityTitle={displayTitle}
+          primaryLabel={item?.type === 'market' ? 'CONNECTAR' : 'AFEGIR'}
+          primaryEvent={item?.type === 'market' ? 'sdp:connect' : 'sdp:comment'}
           variant={variant}
         />
       </div>

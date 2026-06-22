@@ -9,6 +9,7 @@ export function logError(error, context = {}) {
     };
 
     if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
       console.error('[logger] error', payload);
       return;
     }
@@ -18,14 +19,19 @@ export function logError(error, context = {}) {
         window.__REPORT_ERROR__(payload);
         return;
       } catch (e) {
+        // si falla el reporter, caiem a no-op
       }
     }
+
+    // No-op en producció per defecte
   } catch (e) {
+    // no fer res si el logger falla
   }
 }
 
 export function logInfo(...args) {
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
     console.info('[logger]', ...args);
   }
 }

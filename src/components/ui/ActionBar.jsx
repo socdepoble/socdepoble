@@ -130,3 +130,12 @@ ActionBar.propTypes = {
 };
 
 export default React.memo(ActionBar);
+
+ActionBar.propTypes = {
+  entityId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  entityType: PropTypes.string,
+  entityTitle: PropTypes.string,
+  primaryLabel: PropTypes.string,
+  primaryEvent: PropTypes.string,
+  variant: PropTypes.string
+};
