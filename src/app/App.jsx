@@ -22,6 +22,7 @@ import SessionRulesPage from '../pages/SessionRulesPage';
 import AlmaPage from '../pages/features/anima-del-mas/AlmaPage';
 import RoadmapView from '../pages/public/RoadmapView';
 import LegalManifest from '../pages/public/LegalManifest';
+import ConstitucioPage from '../pages/public/ConstitucioPage';
 import BackgroundWorkers from '../components/core/BackgroundWorkers';
 
 const EnConstruccio = () => (
@@ -111,7 +112,7 @@ const App = () => {
             <Route path="mapa" element={<Map />} />
             <Route path="multimedia" element={<GlobalAssetAlbum />} />
             <Route path="notes" element={<Notes />} />
-            <Route path="constitucio" element={<EnConstruccio />} />
+            <Route path="constitucio" element={<ConstitucioPage />} />
             <Route path="disseny" element={<DesignSystem />} />
             <Route path="skills" element={<SessionRulesPage />} />
             <Route path="ia" element={<AlmaPage />} />
