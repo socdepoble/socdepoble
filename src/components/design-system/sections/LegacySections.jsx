@@ -279,7 +279,7 @@ export function LegacySections() {
               <span className="text-sm text-stone-500">45%</span>
             </div>
             <div className="sosp-progress-bar">
-              <div className="sosp-progress-fill" style={{ width: '45%' }} />
+              <div className="sosp-progress-fill w-[45%]" />
             </div>
           </div>
           <div>
@@ -288,7 +288,7 @@ export function LegacySections() {
               <span className="text-sm text-stone-500">78%</span>
             </div>
             <div className="sosp-progress-bar">
-              <div className="sosp-progress-fill bg-[#2D5A3D]" style={{ width: '78%' }} />
+              <div className="sosp-progress-fill bg-[#2D5A3D] w-[78%]" />
             </div>
           </div>
         </div>
@@ -385,7 +385,7 @@ export function LegacySections() {
           <div>
             <p className="text-sm text-gray-500 mb-2">20.1 Barra de progrés lineal</p>
             <div className="sosp-progres" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
-              <div className="sosp-progres-barra" style={{ width: '65%' }}></div>
+              <div className="sosp-progres-barra w-[65%]"></div>
             </div>
           </div>
 
@@ -397,7 +397,7 @@ export function LegacySections() {
                 <span>65%</span>
               </div>
               <div className="sosp-progres-barra-fons">
-                <div className="sosp-progres-barra" style={{ width: '65%' }}></div>
+                <div className="sosp-progres-barra w-[65%]"></div>
               </div>
             </div>
           </div>
