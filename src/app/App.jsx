@@ -12,18 +12,18 @@ import ErrorBoundary from '../components/core/ErrorBoundary';
 
 import MurPage from '../pages/MurPage';
 import MercatPage from '../pages/MercatPage';
-import ProjectePage from '../pages/ProjectePage';
 import Pobles from '../pages/Pobles';
 import Map from '../pages/community/Map';
 import GlobalAssetAlbum from '../pages/features/GlobalAssetAlbum';
 import Notes from '../pages/features/Notes';
 import DesignSystem from '../pages/features/DesignSystem_original';
-import SessionRulesPage from '../pages/SessionRulesPage';
 import AlmaPage from '../pages/features/anima-del-mas/AlmaPage';
-import RoadmapView from '../pages/public/RoadmapView';
-import LegalManifest from '../pages/public/LegalManifest';
-import ConstitucioPage from '../pages/public/ConstitucioPage';
+import UniversalPage from '../pages/public/UniversalPage';
 import BackgroundWorkers from '../components/core/BackgroundWorkers';
+
+import { SKILLS_HTML } from '../data/SkillsContent';
+import { CONSTITUCIO_HTML } from '../data/ConstitucioContent';
+import { HUMAN_PROJECT_HTML } from '../data/HumanProjectContent';
 
 const EnConstruccio = () => (
   <div className="flex flex-col items-center justify-center min-h-full p-6 text-center">
@@ -37,7 +37,6 @@ const App = () => {
   const isLowEnd = useLowEndDevice();
   const { requestPersist, checkBattery } = useTrellatPersist();
 
-  // Listeners globals amb referència estable i tancament correcte
   useEffect(() => {
     const onErr = (ev) => logger.error('Error global interceptat:', ev.error || ev.message);
     const onRej = (ev) => logger.error('Rebuig no gestionat:', ev.reason);
@@ -49,7 +48,6 @@ const App = () => {
     };
   }, []);
 
-  // Marca dispositiu baix rendiment → una sola vegada si canvia
   useEffect(() => {
     if (isLowEnd) document.body.classList.add('low-end-device');
     else document.body.classList.remove('low-end-device');
@@ -57,39 +55,29 @@ const App = () => {
 
   const hidratatRef = useRef(false);
 
-  // ⭐ HIDRATACIÓ CONTROLADA ATRC · SENYAL ÚNICA I DEFINITIVA
   useEffect(() => {
-    if (hidratatRef.current) return; // ⭐ TANCA EL BUCLE PER SEMPRE
-
+    if (hidratatRef.current) return;
     let hydTimer;
     const marcarHidratat = () => {
       if (document.documentElement.dataset.hydrated) return;
       hidratatRef.current = true;
       requestAnimationFrame(() => {
         document.documentElement.dataset.hydrated = '1';
-        // Neteja per a casos de fallback o reduced-motion (Claude + Gemini)
         setTimeout(() => document.getElementById('sp-shell-sk')?.remove(), 1000);
         document.getElementById('fatal-fallback')?.remove();
       });
     };
-
     if (isLowEnd) hydTimer = setTimeout(marcarHidratat, 60);
     else marcarHidratat();
-
-    // Endarrerim només l'execució d'accions per oxigenar l'A10
     const runPersist = () => {
       requestPersist();
       checkBattery();
     };
-
-    // Kimi Fix: Extirpat requestIdleCallback per evitar stutters asíncrons a A10
     const timerId = setTimeout(runPersist, isLowEnd ? 900 : 450);
-
     return () => { 
       if (hydTimer) clearTimeout(hydTimer);
       clearTimeout(timerId);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLowEnd]);
 
   return (
@@ -103,21 +91,21 @@ const App = () => {
             <Route index element={<Navigate to="/mur" replace />} />
             <Route path="mur" element={<MurPage />} />
             <Route path="mercat" element={<MercatPage />} />
-            <Route path="projecte" element={<ProjectePage />} />
-            
             <Route path="xat" element={<MurPage />} />
             <Route path="pobles" element={<Pobles />} />
             <Route path="events" element={<MurPage />} />
-            
             <Route path="mapa" element={<Map />} />
             <Route path="multimedia" element={<GlobalAssetAlbum />} />
             <Route path="notes" element={<Notes />} />
-            <Route path="constitucio" element={<ConstitucioPage />} />
             <Route path="disseny" element={<DesignSystem />} />
-            <Route path="skills" element={<SessionRulesPage />} />
             <Route path="ia" element={<AlmaPage />} />
-            <Route path="roadmap" element={<RoadmapView />} />
-            <Route path="legal" element={<LegalManifest />} />
+            
+            {/* NOUS ENDPOINTS UNIVERSALS NETS */}
+            <Route path="projecte" element={<UniversalPage title="El Projecte" icon="⚙️" htmlContent={HUMAN_PROJECT_HTML} />} />
+            <Route path="skills" element={<UniversalPage title="Skills" icon="📈" htmlContent={SKILLS_HTML} />} />
+            <Route path="constitucio" element={<UniversalPage title="La Constitució" icon="⚖️" htmlContent={CONSTITUCIO_HTML} />} />
+            <Route path="legal" element={<UniversalPage title="Legal i Privacitat" icon="⚖️" htmlContent={"<h2>Política de Privacitat</h2><p>Treballem sota codi lliure i respectem l'arquitectura local. Les teues dades viuen al teu dispositiu i als servidors P2P encriptats de Sóc de Poble.</p>"} />} />
+            <Route path="roadmap" element={<UniversalPage title="Full de Ruta" icon="🛣️" htmlContent={"<h2>Pròxims Passos</h2><p>L'optimització de UniversalPage ja està integrada. Continuarem amb CRDT sync asíncrona i ampliació del Mercat P2P.</p>"} />} />
 
             <Route path="*" element={<Navigate to="/mur" replace />} />
           </Route>

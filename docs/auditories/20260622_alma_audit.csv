@@ -1,0 +1,73 @@
+Element;Type;Classes;Ghosts Detected
+UniversalPage;Component;N/A;Legacy Component (UniversalPage)
+div;HTML;universal-content max-w-5xl mx-auto py-12 px-4 md:px-8;Legacy Wrapper (universal-content)
+div;HTML;lead mb-12;Bootstrap Legacy (lead)
+strong;HTML;NO CLASSES;None
+div;HTML;mb-12;Possible Useless Div
+h3;HTML;mb-6;None
+p;HTML;mb-4 italic;None
+p;HTML;mb-4;None
+em;HTML;NO CLASSES;None
+em;HTML;NO CLASSES;None
+em;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+p;HTML;mb-4;None
+strong;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+p;HTML;mb-4 italic font-bold;None
+p;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+em;HTML;NO CLASSES;None
+em;HTML;NO CLASSES;None
+h2;HTML;mb-8;None
+p;HTML;mb-6;None
+strong;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+p;HTML;mb-8;None
+em;HTML;NO CLASSES;None
+em;HTML;NO CLASSES;None
+div;HTML;mb-12;Possible Useless Div
+h3;HTML;mb-6;None
+p;HTML;NO CLASSES;None
+ul;HTML;my-6;None
+li;HTML;mb-4;None
+strong;HTML;NO CLASSES;None
+li;HTML;mb-4;None
+strong;HTML;NO CLASSES;None
+li;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+div;HTML;mb-12;Possible Useless Div
+h3;HTML;mb-6;None
+p;HTML;NO CLASSES;None
+p;HTML;mt-4;None
+strong;HTML;NO CLASSES;None
+ul;HTML;my-6;None
+li;HTML;mb-6;None
+strong;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+li;HTML;mb-6;None
+strong;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+li;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+br;HTML;NO CLASSES;None
+p;HTML;mt-4 italic;None
+div;HTML;mb-12;Possible Useless Div
+h3;HTML;mb-6;None
+p;HTML;NO CLASSES;None
+ul;HTML;my-6;None
+li;HTML;mb-4;None
+strong;HTML;NO CLASSES;None
+li;HTML;NO CLASSES;None
+strong;HTML;NO CLASSES;None
+div;HTML;pt-8 mt-12 text-center;None
+h2;HTML;mb-6;None
+p;HTML;lead;Bootstrap Legacy (lead)
+strong;HTML;NO CLASSES;None

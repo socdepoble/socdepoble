@@ -139,7 +139,7 @@ const EpubViewer = ({
                 <div className="flex items-center gap-1 md:gap-2">
                     <button 
                         onClick={handleTocClick}
-                        className={`p-2 rounded-full transition-colors hidden md:block ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+                        className={`p-2 rounded-full transition-colors hidden md:block ${tocOpen ? 'bg-[#F97316] text-white' : 'hover:bg-white/10'}`}
                         title="Índex"
                     >
                         <List size={20} />
@@ -147,7 +147,7 @@ const EpubViewer = ({
                     
                     <button 
                         onClick={handleSearchClick}
-                        className={`p-2 rounded-full transition-colors ${searchOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+                        className={`p-2 rounded-full transition-colors ${searchOpen ? 'bg-[#F97316] text-white' : 'hover:bg-white/10'}`}
                         title="Cercar al libre"
                     >
                         <Search size={20} />
@@ -155,7 +155,7 @@ const EpubViewer = ({
 
                     <button 
                         onClick={handleSettingsClick}
-                        className={`p-2 rounded-full transition-colors ${settingsOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+                        className={`p-2 rounded-full transition-colors ${settingsOpen ? 'bg-[#F97316] text-white' : 'hover:bg-white/10'}`}
                         title="Aparença"
                     >
                         <Type size={20} />
@@ -164,7 +164,7 @@ const EpubViewer = ({
                     {/* Mobile Index Toggle */}
                     <button 
                         onClick={handleTocClick}
-                        className={`p-2 rounded-full transition-colors md:hidden ${tocOpen ? 'bg-[var(--theme-accent-primary)] text-white' : 'hover:bg-white/10'}`}
+                        className={`p-2 rounded-full transition-colors md:hidden ${tocOpen ? 'bg-[#F97316] text-white' : 'hover:bg-white/10'}`}
                     >
                         <Menu size={20} />
                     </button>
@@ -209,12 +209,12 @@ const EpubViewer = ({
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && performSearch()}
                                 placeholder="Busca paraules..."
-                                className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[var(--theme-accent-primary)]"
+                                className="flex-1 bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#F97316]"
                             />
                             <button 
                                 onClick={performSearch}
                                 disabled={isSearching || !searchQuery}
-                                className="bg-[var(--theme-accent-primary)] hover:bg-[var(--theme-accent-primary)]/80 text-white px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 transition-colors"
+                                className="bg-[#F97316] hover:bg-[#F97316]/80 text-white px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50 transition-colors"
                             >
                                 {isSearching ? '...' : 'Cercar'}
                             </button>
@@ -233,7 +233,7 @@ const EpubViewer = ({
                                 }}
                                 className="w-full text-left p-3 hover:bg-white/5 rounded-lg mb-1 transition-colors border border-transparent hover:border-white/5"
                             >
-                                <p className="text-xs text-white/80 line-clamp-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: res.excerpt.replace(new RegExp(`(${searchQuery})`, 'gi'), '<strong class="text-[var(--theme-accent-primary)] bg-white/10 px-0.5 rounded">$1</strong>') }} />
+                                <p className="text-xs text-white/80 line-clamp-3 leading-relaxed" dangerouslySetInnerHTML={{ __html: res.excerpt.replace(new RegExp(`(${searchQuery})`, 'gi'), '<strong class="text-[#F97316] bg-white/10 px-0.5 rounded">$1</strong>') }} />
                             </button>
                         ))}
                     </div>
@@ -266,13 +266,13 @@ const EpubViewer = ({
                     <div className="grid grid-cols-2 gap-2 mb-4">
                         <button 
                             onClick={() => setFontFamily('Sans')}
-                            className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Sans' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-sans`}
+                            className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Sans' ? 'bg-[#F97316] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-sans`}
                         >
                             MODERN<br/><span className="text-[10px] opacity-70 font-normal">Sans-Serif</span>
                         </button>
                         <button 
                             onClick={() => setFontFamily('Serif')}
-                            className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Serif' ? 'bg-[var(--theme-accent-primary)] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-serif`}
+                            className={`py-2 px-3 rounded-lg text-sm transition-colors border ${fontFamily === 'Serif' ? 'bg-[#F97316] border-transparent font-bold' : 'bg-transparent border-white/10 hover:bg-white/5'} font-serif`}
                         >
                             CLÀSSIC<br/><span className="text-[10px] opacity-70 font-normal">Serif</span>
                         </button>
@@ -282,11 +282,11 @@ const EpubViewer = ({
                     <div className="flex gap-2">
                         <button 
                             onClick={() => setTheme('light')}
-                            className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'light' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-white`}
+                            className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'light' ? 'border-[#F97316] scale-110' : 'border-white/20'} bg-white`}
                         />
                         <button 
                             onClick={() => setTheme('dark')}
-                            className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'dark' ? 'border-[var(--theme-accent-primary)] scale-110' : 'border-white/20'} bg-[#0e0e0e]`}
+                            className={`flex-1 w-10 h-10 rounded-full border-2 transition-transform ${theme === 'dark' ? 'border-[#F97316] scale-110' : 'border-white/20'} bg-[#0e0e0e]`}
                         />
                     </div>
                 </div>

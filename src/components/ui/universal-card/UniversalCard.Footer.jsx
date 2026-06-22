@@ -131,15 +131,15 @@ const UniversalCardFooter = ({
                     role="presentation"
                 >
                     <div 
-                        className="bg-theme-base border border-theme-border p-6 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col gap-4" 
+                        className="bg-white border border-gray-200 p-6 rounded-3xl w-full max-w-sm shadow-2xl flex flex-col gap-4" 
                         onClick={e => e.stopPropagation()}
                         role="dialog"
                         aria-label="Selector de connexió"
                     >
-                        <h3 className="font-black text-xl text-center mb-2 uppercase text-theme-text">Amb qui vols {pendingAction === 'comment' ? 'parlar' : 'connectar'}?</h3>
+                        <h3 className="font-black text-xl text-center mb-2 uppercase text-gray-900">Amb qui vols {pendingAction === 'comment' ? 'parlar' : 'connectar'}?</h3>
                         
                         <button 
-                            className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2 dark:focus:ring-offset-[#111111]"
+                            className="w-full bg-[#4F46E5] text-white p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-4 shadow-[0_4px_14px_rgba(79,70,229,0.3)] focus:outline-none focus:ring-2 focus:ring-[#4F46E5] focus:ring-offset-2"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsSelectorOpen(false);
@@ -219,7 +219,7 @@ const UniversalCardFooter = ({
                         </button>
 
                         <button 
-                            className="w-full mt-2 p-3 text-theme-text opacity-50 hover:opacity-100 font-bold uppercase tracking-widest text-sm transition-opacity"
+                            className="w-full mt-2 p-3 text-gray-900 opacity-50 hover:opacity-100 font-bold uppercase tracking-widest text-sm transition-opacity"
                             onClick={(e) => { e.stopPropagation(); setIsSelectorOpen(false); }}
                         >
                             Cancel·lar

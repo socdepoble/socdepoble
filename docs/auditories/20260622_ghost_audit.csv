@@ -1,0 +1,247 @@
+Component;Path;Div Count;Ghosts Detected;Action Priority
+UniversalPageLayout;components/layout/UniversalPageLayout.jsx;8;bootstrapLegacy (1x) | universalPageLayout (1x) | hardcodedColors (1x) | dangerousScroll (2x);CRÍTICA
+LegalManifest;pages/public/LegalManifest.jsx;7;ghostVariables (13x) | bootstrapLegacy (3x) | divSoup (1x) | universalPageLayout (1x) | dangerousScroll (1x);CRÍTICA
+MercatPage;pages/MercatPage.jsx;1;universalPageLayout (4x);CRÍTICA
+MurPage;pages/MurPage.jsx;1;universalPageLayout (4x);CRÍTICA
+ConstitucioPage;pages/public/ConstitucioPage.jsx;1;universalPageLayout (4x);CRÍTICA
+ProjectePage;pages/ProjectePage.jsx;0;bootstrapLegacy (1x) | universalPageLayout (4x);CRÍTICA
+DesignSystem_original;pages/features/DesignSystem_original.jsx;297;bootstrapLegacy (10x) | divSoup (77x) | hardcodedColors (13x) | dangerousScroll (24x);Mitja
+AdminPanel;pages/admin/AdminPanel.jsx;96;bootstrapLegacy (1x) | divSoup (13x) | dangerousScroll (2x);Mitja
+UniversalGentDePoble;components/profile/UniversalGentDePoble.jsx;57;bootstrapLegacy (20x) | divSoup (11x) | hardcodedColors (14x) | dangerousScroll (8x);Mitja
+ProfileSettingsModal;components/modals/ProfileSettingsModal.jsx;51;bootstrapLegacy (1x) | divSoup (10x) | hardcodedColors (3x) | dangerousScroll (3x);Mitja
+EntityProfile;components/profile/EntityProfile.jsx;50;bootstrapLegacy (18x) | divSoup (9x) | hardcodedColors (12x) | dangerousScroll (8x);Mitja
+UniversalAjuntament;components/profile/UniversalAjuntament.jsx;49;bootstrapLegacy (17x) | divSoup (9x) | hardcodedColors (12x) | dangerousScroll (8x);Mitja
+Register;pages/auth/Register.jsx;47;bootstrapLegacy (4x) | divSoup (10x) | hardcodedColors (2x) | dangerousScroll (4x);Mitja
+CercaPage;pages/features/CercaPage.jsx;47;bootstrapLegacy (4x) | divSoup (3x) | dangerousScroll (5x);Mitja
+GenesisViewer;pages/admin/GenesisViewer.jsx;40;divSoup (9x);Mitja
+TimelineGraphic;components/TimelineGraphic.jsx;38;divSoup (9x);Mitja
+BuscadorAjudes;pages/features/BuscadorAjudes.jsx;38;divSoup (8x);Mitja
+SolatgeConsole;pages/admin/SolatgeConsole.jsx;35;divSoup (5x);Mitja
+NexusFlash;pages/admin/NexusFlash.jsx;33;divSoup (6x);Mitja
+IAIAChatSidebar;components/features/IAIAChatSidebar.jsx;30;bootstrapLegacy (1x) | divSoup (3x) | hardcodedColors (3x) | dangerousScroll (3x);Mitja
+ChatManager;pages/admin/ChatManager.jsx;29;bootstrapLegacy (3x) | divSoup (6x) | hardcodedColors (18x) | dangerousScroll (4x);Mitja
+RecuperacioDelMas;components/RecuperacioDelMas.jsx;28;divSoup (3x);Mitja
+ProfilePowerMenu;components/ui/ProfilePowerMenu.jsx;28;divSoup (3x);Mitja
+Towns;pages/community/Towns.jsx;28;bootstrapLegacy (1x) | divSoup (3x) | hardcodedColors (6x);Mitja
+VisionView;pages/features/VisionView.jsx;28;divSoup (7x);Mitja
+ResourceDetail;pages/features/ResourceDetail.jsx;26;bootstrapLegacy (2x) | divSoup (7x) | hardcodedColors (1x) | dangerousScroll (2x);Mitja
+RoadmapView;pages/public/RoadmapView.jsx;26;bootstrapLegacy (10x) | divSoup (5x) | dangerousScroll (4x);Mitja
+CalendarManagerModal;components/modals/CalendarManagerModal.jsx;24;bootstrapLegacy (2x) | divSoup (6x);Mitja
+SpriteConsoleExtended;components/SpriteConsoleExtended.jsx;23;divSoup (6x);Mitja
+ArchitecteView;components/features/ArchitecteView.jsx;23;bootstrapLegacy (5x) | divSoup (7x) | hardcodedColors (1x);Mitja
+ConnectarPage;pages/features/ConnectarPage.jsx;23;bootstrapLegacy (2x) | divSoup (3x) | hardcodedColors (4x) | dangerousScroll (3x);Mitja
+TimelineEditor;components/TimelineEditor.jsx;22;divSoup (5x);Mitja
+AddItemModal;components/modals/AddItemModal.jsx;22;divSoup (6x);Mitja
+MediaViewerModal;components/modals/MediaViewerModal.jsx;22;bootstrapLegacy (1x) | divSoup (1x);Mitja
+ProfileStudioModal;components/modals/ProfileStudioModal.jsx;22;bootstrapLegacy (1x) | divSoup (8x) | hardcodedColors (1x);Mitja
+UniversalDetail;pages/features/UniversalDetail.jsx;22;bootstrapLegacy (2x) | divSoup (2x) | hardcodedColors (9x) | dangerousScroll (4x);Mitja
+NouPost;components/NouPost.jsx;21;divSoup (5x) | dangerousScroll (2x);Mitja
+CreatePostModal;components/modals/CreatePostModal.jsx;21;bootstrapLegacy (2x) | divSoup (4x) | hardcodedColors (14x) | dangerousScroll (2x);Mitja
+TownProposalsTab;components/profile/TownProposalsTab.jsx;21;bootstrapLegacy (10x) | divSoup (3x) | hardcodedColors (2x);Mitja
+TimelineMobile;components/TimelineMobile.jsx;20;divSoup (6x) | dangerousScroll (1x);Mitja
+ChatDetail;components/features/ChatDetail.jsx;20;bootstrapLegacy (1x) | divSoup (4x) | hardcodedColors (15x) | dangerousScroll (2x);Mitja
+MasterEditor;components/features/MasterEditor.jsx;20;divSoup (4x) | hardcodedColors (8x) | dangerousScroll (1x);Mitja
+OficiDocumentacio;pages/features/OficiDocumentacio.jsx;20;bootstrapLegacy (2x) | divSoup (3x) | hardcodedColors (1x) | dangerousScroll (4x);Mitja
+ChatList;components/features/ChatList.jsx;19;bootstrapLegacy (4x) | divSoup (2x) | hardcodedColors (20x) | dangerousScroll (2x);Mitja
+UmamiDashboard;components/ui/UmamiDashboard.jsx;19;bootstrapLegacy (2x) | divSoup (4x) | hardcodedColors (1x) | dangerousScroll (5x);Mitja
+Chrome145Report;pages/admin/Chrome145Report.jsx;19;bootstrapLegacy (1x) | divSoup (4x) | dangerousScroll (1x);Mitja
+EpubViewer;components/features/EpubViewer.jsx;18;bootstrapLegacy (2x) | divSoup (3x) | hardcodedColors (10x) | dangerousScroll (3x);Mitja
+GhostMemorial;pages/admin/GhostMemorial.jsx;18;bootstrapLegacy (4x) | divSoup (3x) | dangerousScroll (2x);Mitja
+Ideoteca;pages/admin/Ideoteca.jsx;18;bootstrapLegacy (1x) | divSoup (4x) | hardcodedColors (7x) | dangerousScroll (1x);Mitja
+SessionChronicle;pages/admin/SessionChronicle.jsx;18;divSoup (4x);Mitja
+Archive;pages/features/Archive.jsx;18;bootstrapLegacy (1x) | divSoup (3x) | dangerousScroll (2x);Mitja
+TownSelectorModal;components/modals/TownSelectorModal.jsx;17;bootstrapLegacy (1x) | divSoup (4x) | dangerousScroll (1x);Mitja
+AccessibilitatUniversal;components/ui/AccessibilitatUniversal.jsx;17;bootstrapLegacy (9x) | divSoup (4x);Mitja
+AulaRural;pages/admin/AulaRural.jsx;17;divSoup (5x);Mitja
+SocialManager;components/features/SocialManager.jsx;15;divSoup (2x);Mitja
+InfografiaGallery;components/features/infoteca/InfografiaGallery.jsx;15;divSoup (2x);Mitja
+RichTextEditor;components/ui/RichTextEditor.jsx;15;bootstrapLegacy (12x) | divSoup (2x) | hardcodedColors (1x) | dangerousScroll (4x);Mitja
+DesignCanon;pages/admin/DesignCanon.jsx;15;divSoup (4x);Mitja
+MenuManagementView;pages/admin/MenuManagementView.jsx;15;divSoup (5x) | dangerousScroll (1x);Mitja
+HubView;pages/features/HubView.jsx;15;bootstrapLegacy (6x) | hardcodedColors (4x);Mitja
+CategoryManager;components/features/CategoryManager.jsx;14;divSoup (3x) | hardcodedColors (3x) | dangerousScroll (2x);Mitja
+NotebookSidebar;components/layout/NotebookSidebar.jsx;14;divSoup (4x) | hardcodedColors (6x) | dangerousScroll (2x);Mitja
+DidacticPage;pages/admin/DidacticPage.jsx;14;divSoup (3x);Mitja
+PlaygroundPortal;pages/admin/PlaygroundPortal.jsx;14;divSoup (3x);Mitja
+Utilitats;pages/admin/Utilitats.jsx;14;bootstrapLegacy (2x) | divSoup (3x) | hardcodedColors (3x) | dangerousScroll (1x);Mitja
+UniversalPageContent;pages/public/components/UniversalPageContent.jsx;14;bootstrapLegacy (2x) | divSoup (2x) | hardcodedColors (4x);Mitja
+SpriteConsole;components/SpriteConsole.jsx;13;divSoup (3x);Mitja
+ContentWithShortcodes;components/core/ContentWithShortcodes.jsx;13;divSoup (2x) | hardcodedColors (3x);Mitja
+CartManager;components/features/CartManager.jsx;13;divSoup (3x);Mitja
+VisorMetricPage;pages/features/VisorMetricPage.jsx;13;bootstrapLegacy (3x) | divSoup (5x) | dangerousScroll (3x);Mitja
+TimelineScroll;pages/features/anima-del-mas/TimelineScroll.jsx;13;bootstrapLegacy (1x) | divSoup (3x) | dangerousScroll (1x);Mitja
+CreationHub;components/features/CreationHub.jsx;12;divSoup (2x) | hardcodedColors (2x);Mitja
+Feed;components/features/Feed.jsx;12;divSoup (1x) | hardcodedColors (4x) | dangerousScroll (2x);Mitja
+MagicPregoner;components/features/MagicPregoner.jsx;12;bootstrapLegacy (1x) | divSoup (4x) | hardcodedColors (10x) | dangerousScroll (2x);Mitja
+HistoryModal;components/modals/HistoryModal.jsx;12;bootstrapLegacy (3x) | divSoup (2x) | dangerousScroll (1x);Mitja
+LegalDocsModal;components/modals/LegalDocsModal.jsx;12;divSoup (2x);Mitja
+MarketSkeleton;components/ui/skeletons/MarketSkeleton.jsx;12;divSoup (6x);Mitja
+IAIACorrectorOverlay;components/features/IAIACorrectorOverlay.jsx;11;bootstrapLegacy (1x) | divSoup (4x);Mitja
+ControlGeneral;pages/admin/ControlGeneral.jsx;11;divSoup (1x) | hardcodedColors (10x) | dangerousScroll (1x);Mitja
+GlobalAssetAlbum;pages/features/GlobalAssetAlbum.jsx;11;divSoup (2x) | hardcodedColors (2x) | dangerousScroll (2x);Mitja
+AdvancedDataGrid;components/ui/AdvancedDataGrid.jsx;10;divSoup (2x);Mitja
+Alerts;components/design-system/sections/Alerts.jsx;9;bootstrapLegacy (4x);Mitja
+UniversalCard.Footer;components/ui/universal-card/UniversalCard.Footer.jsx;9;bootstrapLegacy (2x) | divSoup (1x) | hardcodedColors (2x);Mitja
+MemoryBar;pages/features/anima-del-mas/MemoryBar.jsx;9;divSoup (2x) | dangerousScroll (1x);Mitja
+ClauerDeLaTerreta;components/ClauerDeLaTerreta.jsx;8;divSoup (2x);Mitja
+MurFeed;components/MurFeed.jsx;8;divSoup (2x);Mitja
+UniversalCard;components/UniversalCard.jsx;8;divSoup (2x) | dangerousScroll (1x);Mitja
+SpacingAndGrid;components/design-system/sections/SpacingAndGrid.jsx;8;divSoup (3x) | hardcodedColors (1x);Mitja
+Marketplace;components/features/Marketplace.jsx;8;divSoup (1x);Mitja
+NotebookList;components/features/NotebookList.jsx;8;divSoup (1x) | hardcodedColors (10x);Mitja
+KeychainBackupUI;components/keychain/KeychainBackupUI.jsx;8;Net;Baixa
+AgentSelectorModal;components/modals/AgentSelectorModal.jsx;8;divSoup (2x);Mitja
+TranslationModal;components/modals/TranslationModal.jsx;8;bootstrapLegacy (2x) | divSoup (2x) | hardcodedColors (3x);Mitja
+IAIASandbox;pages/admin/IAIASandbox.jsx;8;bootstrapLegacy (1x) | divSoup (2x) | dangerousScroll (2x);Mitja
+VisorNano;pages/features/VisorNano.jsx;8;bootstrapLegacy (1x) | divSoup (2x);Mitja
+ConflictResolutionPage;pages/system/ConflictResolutionPage.jsx;8;divSoup (1x) | hardcodedColors (5x) | dangerousScroll (1x);Mitja
+App;App.jsx;7;divSoup (1x);Mitja
+ConnectionSelectorModal;components/modals/ConnectionSelectorModal.jsx;7;divSoup (2x);Mitja
+CreateEventModal;components/modals/CreateEventModal.jsx;7;divSoup (1x) | hardcodedColors (2x) | dangerousScroll (1x);Mitja
+ModalManager;components/ui/ModalManager.jsx;7;bootstrapLegacy (1x);Mitja
+ManualPage;pages/admin/ManualPage.jsx;7;divSoup (3x);Mitja
+CommunityDirectory;pages/community/CommunityDirectory.jsx;7;bootstrapLegacy (1x) | divSoup (1x) | dangerousScroll (1x);Mitja
+UsersDirectory;pages/community/UsersDirectory.jsx;7;divSoup (1x) | dangerousScroll (1x);Mitja
+MedicationConfirm;pages/features/MedicationConfirm.jsx;7;divSoup (1x) | hardcodedColors (3x);Mitja
+AlmaPage;pages/features/anima-del-mas/AlmaPage.jsx;7;bootstrapLegacy (2x) | divSoup (1x);Mitja
+AppLayout;app/AppLayout.jsx;6;bootstrapLegacy (2x) | hardcodedColors (13x) | dangerousScroll (2x);Mitja
+AppSkeleton;app/AppSkeleton.jsx;6;divSoup (1x);Mitja
+ClauerVisual;components/ClauerVisual.jsx;6;Net;Baixa
+DesignSystemPage;components/design-system/DesignSystemPage.jsx;6;bootstrapLegacy (1x);Mitja
+SearchNavBar;components/patterns/SearchNavBar.jsx;6;bootstrapLegacy (1x) | divSoup (1x) | dangerousScroll (1x);Mitja
+LanguageSelector;components/ui/LanguageSelector.jsx;6;divSoup (1x) | dangerousScroll (1x);Mitja
+DAFOPage;pages/admin/DAFOPage.jsx;6;Net;Baixa
+Notes;pages/features/Notes.jsx;6;dangerousScroll (2x);Mitja
+VitalSecurity;pages/features/VitalSecurity.jsx;6;bootstrapLegacy (1x) | divSoup (2x) | dangerousScroll (1x);Mitja
+AppShell;AppShell.jsx;5;dangerousScroll (2x);Alta
+Mercat;components/Mercat.jsx;5;divSoup (2x);Alta
+PwaUpdater;components/PwaUpdater.jsx;5;divSoup (1x);Alta
+GlobalErrorBoundary;components/core/GlobalErrorBoundary.jsx;5;bootstrapLegacy (1x) | divSoup (2x) | hardcodedColors (4x) | dangerousScroll (2x);Alta
+Buttons;components/design-system/sections/Buttons.jsx;5;Net;Baixa
+LocalFirstGate;components/gates/LocalFirstGate.jsx;5;divSoup (1x) | hardcodedColors (5x) | dangerousScroll (3x);Alta
+FloatingIndex;components/ui/FloatingIndex.jsx;5;bootstrapLegacy (1x);Alta
+StatusLoader;components/ui/StatusLoader.jsx;5;divSoup (2x);Alta
+VirtualizedContainer;components/ui/trellat/VirtualizedContainer.jsx;5;divSoup (1x);Alta
+UniversalShell;components/universal/UniversalShell.jsx;5;ghostVariables (10x) | bootstrapLegacy (2x) | dangerousScroll (1x);Alta
+ProfileView;pages/community/ProfileView.jsx;5;hardcodedColors (3x) | dangerousScroll (4x);Alta
+AppRouter;AppRouter.jsx;4;Net;Baixa
+SafeShell;components/core/SafeShell.jsx;4;divSoup (1x);Alta
+ChatEmptyState;components/features/ChatEmptyState.jsx;4;divSoup (1x) | hardcodedColors (1x);Alta
+ContextualMenu;components/ui/ContextualMenu.jsx;4;divSoup (1x) | hardcodedColors (4x) | dangerousScroll (1x);Alta
+VoiceRecorder;components/ui/VoiceRecorder.jsx;4;divSoup (1x) | hardcodedColors (2x) | dangerousScroll (1x);Alta
+Masia;app/Masia.jsx;3;Net;Baixa
+ErrorBoundary;components/core/ErrorBoundary.jsx;3;bootstrapLegacy (1x) | divSoup (1x);Alta
+VirtualCardList;components/feed/VirtualCardList.jsx;3;Net;Baixa
+AuthGate;components/gates/AuthGate.jsx;3;hardcodedColors (1x) | dangerousScroll (2x);Alta
+ActionBar;components/ui/ActionBar.jsx;3;divSoup (1x) | hardcodedColors (1x);Alta
+TargetaPoble;components/ui/TargetaPoble.jsx;3;bootstrapLegacy (3x) | hardcodedColors (4x) | dangerousScroll (1x);Alta
+ToastProvider;components/ui/ToastProvider.jsx;3;divSoup (1x);Alta
+UniversalCard.Body;components/ui/universal-card/UniversalCard.Body.jsx;3;hardcodedColors (1x);Alta
+AgentDirectory;pages/community/AgentDirectory.jsx;3;dangerousScroll (1x);Alta
+Translations;pages/features/Translations.jsx;3;bootstrapLegacy (1x) | hardcodedColors (2x);Alta
+AppLayout.test;__tests__/accessibility/AppLayout.test.jsx;2;Net;Baixa
+App;app/App.jsx;2;divSoup (1x) | hardcodedColors (1x);Alta
+NavigationRail;components/NavigationRail.jsx;2;Net;Baixa
+VersionGatekeeper;components/core/VersionGatekeeper.jsx;2;Net;Baixa
+PwaUpdater;components/pwa/PwaUpdater.jsx;2;Net;Baixa
+ProgressiveHydrator;components/shell/ProgressiveHydrator.jsx;2;Net;Baixa
+ConnectButton;components/ui/ConnectButton.jsx;2;hardcodedColors (1x) | dangerousScroll (1x);Alta
+DegradedBanner;components/ui/DegradedBanner.jsx;2;bootstrapLegacy (1x) | divSoup (1x) | hardcodedColors (4x);Alta
+EntityEmbedding;components/ui/EntityEmbedding.jsx;2;Net;Baixa
+GlobalDropOverlay;components/ui/GlobalDropOverlay.jsx;2;divSoup (1x);Alta
+UniversalHeader;components/ui/Header/UniversalHeader.jsx;2;Net;Baixa
+NanoLoader;components/ui/NanoLoader.jsx;2;divSoup (1x);Alta
+SyncIndicator;components/ui/SyncIndicator.jsx;2;divSoup (1x);Alta
+UniversalGrid;components/ui/UniversalGrid.jsx;2;Net;Baixa
+UniversalCard.Header;components/ui/universal-card/UniversalCard.Header.jsx;2;Net;Baixa
+UniversalCard.test;components/ui/universal-card/__tests__/UniversalCard.test.jsx;2;Net;Baixa
+ChatShell;features/chat/ChatShell.jsx;2;Net;Baixa
+SessionRulesPage;pages/SessionRulesPage.jsx;2;dangerousScroll (1x);Alta
+LawsGrid;pages/features/anima-del-mas/LawsGrid.jsx;2;bootstrapLegacy (1x);Alta
+AppShell.integration.test;__tests__/integration/AppShell.integration.test.jsx;1;Net;Baixa
+SystemGuardian;app/SystemGuardian.jsx;1;Net;Baixa
+BrasaButton;components/BrasaButton.jsx;1;Net;Baixa
+WaitingForBackend;components/boundaries/WaitingForBackend.jsx;1;hardcodedColors (1x);Alta
+ColorSwatch;components/design-system/primitives/ColorSwatch.jsx;1;dangerousScroll (1x);Alta
+Cards;components/design-system/sections/Cards.jsx;1;bootstrapLegacy (4x) | hardcodedColors (2x) | dangerousScroll (1x);Alta
+FormsAndInputs;components/design-system/sections/FormsAndInputs.jsx;1;Net;Baixa
+OfflineGate;components/gates/OfflineGate.jsx;1;Net;Baixa
+PageActionBar;components/layout/PageActionBar.jsx;1;Net;Baixa
+GlobalModals;components/modals/GlobalModals.jsx;1;Net;Baixa
+ErrorBoundary;components/ui/ErrorBoundary.jsx;1;Net;Baixa
+UniversalInput;components/ui/Input/UniversalInput.jsx;1;Net;Baixa
+UniversalCard;components/ui/UniversalCard.jsx;1;Net;Baixa
+PedraMissatge;components/ui/trellat/PedraMissatge.jsx;1;Net;Baixa
+UniversalCard.Media;components/ui/universal-card/UniversalCard.Media.jsx;1;Net;Baixa
+index;components/ui/universal-card/index.jsx;1;Net;Baixa
+UniversalHeader.Group;components/ui/universal-header/UniversalHeader.Group.jsx;1;Net;Baixa
+UniversalPage;components/universal/UniversalPage.jsx;1;Net;Baixa
+Pobles;pages/Pobles.jsx;1;Net;Baixa
+EmotionalArc;pages/features/anima-del-mas/EmotionalArc.jsx;1;hardcodedColors (1x) | dangerousScroll (1x);Alta
+AppShell.test;__tests__/accessibility/AppShell.test.jsx;0;Net;Baixa
+AppShell.test;__tests__/components/AppShell.test.jsx;0;Net;Baixa
+Bars.test;__tests__/components/Bars.test.jsx;0;Net;Baixa
+UniversalHeader.test;__tests__/components/UniversalHeader.test.jsx;0;Net;Baixa
+BootstrapProvider;app/BootstrapProvider.jsx;0;Net;Baixa
+iaiesMundialsMap;app/config/iaiesMundialsMap.jsx;0;Net;Baixa
+entry;app/entry.jsx;0;Net;Baixa
+QueryProvider;app/providers/QueryProvider.jsx;0;Net;Baixa
+SpInteractive;components/atoms/SpInteractive.jsx;0;Net;Baixa
+AntiTsunamiSync;components/core/AntiTsunamiSync.jsx;0;Net;Baixa
+BackgroundWorkers;components/core/BackgroundWorkers.jsx;0;Net;Baixa
+SEO;components/core/SEO.jsx;0;Net;Baixa
+SystemRoutes;components/core/SystemRoutes.jsx;0;Net;Baixa
+VisorNano;components/core/VisorNano.jsx;0;Net;Baixa
+TactileButton;components/design/TactileButton.jsx;0;Net;Baixa
+Section;components/design-system/primitives/Section.jsx;0;Net;Baixa
+ColorPalette;components/design-system/sections/ColorPalette.jsx;0;Net;Baixa
+Typography;components/design-system/sections/Typography.jsx;0;bootstrapLegacy (2x) | dangerousScroll (1x);Alta
+IAIAIcon;components/icons/IAIAIcon.jsx;0;Net;Baixa
+ProfileCard;components/patterns/ProfileCard.jsx;0;Net;Baixa
+BootAntenna;components/sprites/BootAntenna.jsx;0;Net;Baixa
+ChickenRouter;components/sprites/ChickenRouter.jsx;0;Net;Baixa
+DataWorm;components/sprites/DataWorm.jsx;0;Net;Baixa
+EmberDust;components/sprites/EmberDust.jsx;0;Net;Baixa
+PigeonDrone;components/sprites/PigeonDrone.jsx;0;Net;Baixa
+PixelPet;components/sprites/PixelPet.jsx;0;Net;Baixa
+RatSolder;components/sprites/RatSolder.jsx;0;Net;Baixa
+SausageFuse;components/sprites/SausageFuse.jsx;0;Net;Baixa
+SnailCable;components/sprites/SnailCable.jsx;0;Net;Baixa
+SundialCron;components/sprites/SundialCron.jsx;0;Net;Baixa
+BrandLogo;components/ui/BrandLogo.jsx;0;Net;Baixa
+Button;components/ui/Button/Button.jsx;0;Net;Baixa
+Button.test;components/ui/Button/Button.test.jsx;0;Net;Baixa
+UniversalButton;components/ui/Button/UniversalButton.jsx;0;Net;Baixa
+UniversalCard;components/ui/Card/UniversalCard.jsx;0;Net;Baixa
+FloatingScrollButton;components/ui/FloatingScrollButton.jsx;0;Net;Baixa
+MurCentralitzat;components/ui/MurCentralitzat.jsx;0;bootstrapLegacy (2x) | dangerousScroll (1x);Alta
+PedraPanel;components/ui/PedraPanel.jsx;0;dangerousScroll (1x);Alta
+Portal;components/ui/Portal.jsx;0;Net;Baixa
+UniversalCard.Body;components/ui/UniversalCard.Body.jsx;0;Net;Baixa
+UniversalCard.Header;components/ui/UniversalCard.Header.jsx;0;Net;Baixa
+UniversalCard.Media;components/ui/UniversalCard.Media.jsx;0;Net;Baixa
+AdvancedDataGrid.test;components/ui/__tests__/AdvancedDataGrid.test.jsx;0;Net;Baixa
+BancalInput;components/ui/trellat/BancalInput.jsx;0;Net;Baixa
+ButtonTrellat;components/ui/trellat/ButtonTrellat.jsx;0;Net;Baixa
+UniversalCard.ActionButton;components/ui/universal-card/UniversalCard.ActionButton.jsx;0;Net;Baixa
+UniversalReactionVote;components/ui/universal-card/UniversalReactionVote.jsx;0;bootstrapLegacy (1x) | hardcodedColors (2x);Alta
+UniversalHeader.Button;components/ui/universal-header/UniversalHeader.Button.jsx;0;Net;Baixa
+UniversalHeader.Logo;components/ui/universal-header/UniversalHeader.Logo.jsx;0;Net;Baixa
+index;components/ui/universal-header/index.jsx;0;hardcodedColors (1x);Alta
+LayoutContext;contexts/LayoutContext.jsx;0;Net;Baixa
+EventOrchestrator;core/EventOrchestrator.jsx;0;Net;Baixa
+ArchitectureHealthProvider;core/internals/ArchitectureHealthProvider.jsx;0;Net;Baixa
+ArchitectureShell;core/internals/ArchitectureShell.jsx;0;Net;Baixa
+universal-test;dev/universal-test.jsx;0;Net;Baixa
+main;main.jsx;0;Net;Baixa
+UniversalPage;pages/UniversalPage.jsx;0;Net;Baixa
+Versions;pages/admin/Versions.jsx;0;Net;Baixa
+Map;pages/community/Map.jsx;0;Net;Baixa
+MasterCalendar;pages/community/MasterCalendar.jsx;0;Net;Baixa
+DesignSystem;pages/features/DesignSystem.jsx;0;Net;Baixa
+MediaManager;pages/features/MediaManager.jsx;0;Net;Baixa
+UniversalPage;pages/public/UniversalPage.jsx;0;Net;Baixa
+UniversalPage.legacy;pages/public/UniversalPage.legacy.jsx;0;Net;Baixa
+PageEditStoreProvider;stores/PageEditStoreProvider.jsx;0;Net;Baixa
+PageUIStoreProvider;stores/PageUIStoreProvider.jsx;0;Net;Baixa
+ViewportManager;system/ViewportManager.jsx;0;Net;Baixa

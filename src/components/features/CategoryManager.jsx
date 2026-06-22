@@ -14,7 +14,7 @@ const CategoryManager = () => {
                     <ArrowLeft size={20} />
                 </button>
                 <div className="flex items-center gap-3">
-                    <Settings className="text-[var(--theme-accent-primary)]" size={32} />
+                    <Settings className="text-[#F97316]" size={32} />
                     <h1 className="text-3xl font-black text-white tracking-tight uppercase">
                         GESTIÓ DE CATEGORIES
                     </h1>
@@ -30,7 +30,7 @@ const CategoryManager = () => {
                             <Layout className="text-[#00D2FF]" size={20} />
                             <span className="font-black text-xs tracking-widest text-white">MENÚS ACTIUS</span>
                         </div>
-                        <button className="text-[10px] font-bold text-[var(--theme-accent-primary)] hover:underline">RESTAURAR</button>
+                        <button className="text-[10px] font-bold text-[#F97316] hover:underline">RESTAURAR</button>
                     </div>
                     <div className="p-6 space-y-4">
                         {['MUR', 'MERCAT', 'XAT', 'IAIA'].map(menu => (
@@ -48,16 +48,16 @@ const CategoryManager = () => {
                 <div className="bg-[#111111] border border-white/5 rounded-[28px] overflow-hidden">
                     <div className="p-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                            <Tag className="text-[var(--theme-accent-primary)]" size={20} />
+                            <Tag className="text-[#F97316]" size={20} />
                             <span className="font-black text-xs tracking-widest text-white">ETIQUETES DE BATEGAT</span>
                         </div>
-                        <button className="p-2 bg-[var(--theme-accent-primary)] rounded-full text-white">
+                        <button className="p-2 bg-[#F97316] rounded-full text-white">
                             <Tag size={16} />
                         </button>
                     </div>
                     <div className="p-6 space-y-2 flex flex-wrap gap-2">
                         {['#poble', '#territori', '#festa', '#trellat', '#horta', '#mar'].map(tag => (
-                            <span key={tag} className="px-4 py-2 bg-black border border-white/10 rounded-full text-xs font-bold text-slate-400 hover:border-[var(--theme-accent-primary)] cursor-pointer transition-colors">
+                            <span key={tag} className="px-4 py-2 bg-black border border-white/10 rounded-full text-xs font-bold text-slate-400 hover:border-[#F97316] cursor-pointer transition-colors">
                                 {tag}
                             </span>
                         ))}
@@ -66,7 +66,7 @@ const CategoryManager = () => {
             </div>
 
             <footer className="pt-10 flex justify-end">
-                <button className="master-button-canonic bg-[var(--theme-accent-primary)] text-white gap-2 px-8">
+                <button className="master-button-canonic bg-[#F97316] text-white gap-2 px-8">
                     <Save size={20} />
                     GUARDAR CONFIGURACIÓ
                 </button>

@@ -462,7 +462,7 @@ const ChatDetail = ({ embeddedId }) => {
 
   return (
     <section
-      className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-theme-bg text-theme-text"
+      className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col bg-gray-50 text-gray-900"
       onClick={() => setContextMenuId(null)}
     >
       <ChatHeader
@@ -477,9 +477,9 @@ const ChatDetail = ({ embeddedId }) => {
         isEmbedded={isEmbedded}
       />
 
-      <div role="region" aria-label="Contingut Principal" className="flex min-h-0 flex-1 flex-col bg-theme-bg">
+      <div role="region" aria-label="Contingut Principal" className="flex min-h-0 flex-1 flex-col bg-gray-50">
         {isNPC && (
-          <div className="mx-3 mt-2 rounded-3xl bg-theme-surface px-4 py-3 text-center text-[13px] text-theme-accent-primary shadow-lg">
+          <div className="mx-3 mt-2 rounded-3xl bg-white px-4 py-3 text-center text-[13px] text-orange-500 shadow-lg">
             <span className="font-bold">{t('chat.npc_delegate_title')}</span> {t('chat.npc_delegate_desc')}
             <strong className="underline">IAIA MarIA</strong>
             {t('chat.npc_delegate_desc_2')}
@@ -487,7 +487,7 @@ const ChatDetail = ({ embeddedId }) => {
         )}
 
         {isGuest && otherInfo?.id?.startsWith('11111111-') && (
-          <div className="mx-3 mt-2 rounded-3xl bg-theme-accent-primary/10 px-4 py-3 text-center text-[15px] text-theme-accent-primary shadow-xl">
+          <div className="mx-3 mt-2 rounded-3xl bg-orange-50 px-4 py-3 text-center text-[15px] text-orange-500 shadow-xl">
             <span className="font-bold">{t('common.warning', 'Avís')}:</span> {t('chat.guest_warning_text')}{' '}
             <a href="/registre" className="font-bold underline">
               {t('chat.guest_warning_link', "Registra't per a guardar las converses.")}
@@ -580,7 +580,7 @@ const ChatMessageList = React.memo(({ messages }) => {
   }, [messages]);
 
   return (
-    <div className="flex-1 h-full overflow-y-auto px-4 py-6 flex flex-col gap-4 bg-theme-base custom-scrollbar">
+    <div className="flex-1 h-full overflow-y-auto px-4 py-6 flex flex-col gap-4 bg-white custom-scrollbar">
       {messages?.map(m => {
         const isAI = m.is_ai;
         return (
@@ -600,8 +600,8 @@ const ChatMessageList = React.memo(({ messages }) => {
         );
       })}
       {messages?.length === 0 && (
-        <div className="flex flex-col items-center justify-center text-center text-theme-muted mt-20 opacity-60">
-          <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/5 shadow-inner">
+        <div className="flex flex-col items-center justify-center text-center text-gray-500 mt-20 opacity-60">
+          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4 border border-gray-200 shadow-inner">
              <Send size={24} className="text-[#FF6D00] ml-1 opacity-50" />
           </div>
           <p className="font-bold text-sm tracking-wide">Inicia la conversa</p>
@@ -624,20 +624,20 @@ const ChatInputArea = React.memo(({ handleSendMessage, isSending }) => {
   };
 
   return (
-    <div className="p-3 bg-white dark:bg-[#111111] border-t border-gray-100 dark:border-white/5 pb-safe">
+    <div className="p-3 bg-white border-t border-gray-100 pb-safe">
       <form onSubmit={onSubmit} className="flex items-end gap-2 max-w-4xl mx-auto w-full">
         {/* Attachment Options */}
         <div className="flex gap-1 pb-1 shrink-0">
-            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 transition-colors">
               <Paperclip size={20} />
             </button>
-            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors hidden sm:flex">
+            <button type="button" className="w-[42px] h-[42px] flex items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 transition-colors hidden sm:flex">
               <ImageIcon size={20} />
             </button>
         </div>
 
         {/* Input Bubble */}
-        <div className="flex-1 bg-gray-100 dark:bg-[#1A1A1A] border border-transparent dark:border-white/5 rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white dark:focus-within:bg-[#222222] focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
+        <div className="flex-1 bg-gray-100 border border-transparent rounded-[24px] flex items-center relative overflow-hidden transition-all focus-within:border-[#FF6D00]/30 focus-within:bg-white focus-within:shadow-[0_4px_20px_rgba(255,109,0,0.08)] min-h-[48px]">
           <textarea 
             value={text}
             onChange={e => setText(e.target.value)}
@@ -648,7 +648,7 @@ const ChatInputArea = React.memo(({ handleSendMessage, isSending }) => {
               }
             }}
             placeholder="Escriu un missatge..." 
-            className="flex-1 bg-transparent border-none px-4 py-3 outline-none text-[15px] resize-none max-h-[120px] overflow-y-auto text-gray-800 dark:text-white placeholder:text-gray-400 m-0 w-full"
+            className="flex-1 bg-transparent border-none px-4 py-3 outline-none text-[15px] resize-none max-h-[120px] overflow-y-auto text-gray-800 placeholder:text-gray-400 m-0 w-full"
             rows="1"
             style={{ minHeight: '48px' }}
           />

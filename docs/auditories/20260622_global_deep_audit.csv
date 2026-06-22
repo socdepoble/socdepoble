@@ -1,0 +1,59 @@
+File;Ghost_Class_Count;Ghost_Types
+components/profile/UniversalGentDePoble.jsx;32;bg-theme-base | text-theme-text | text-sdp-text-muted
+components/profile/EntityProfile.jsx;29;bg-theme-base | text-theme-text | text-sdp-text-muted
+components/profile/UniversalAjuntament.jsx;28;bg-theme-base | text-theme-text | text-sdp-text-muted
+pages/auth/Register.jsx;23;bg-theme-base | border-sdp-border-master | text-theme-text
+pages/features/OficiDocumentacio.jsx;17;bg-theme-base | border-sdp-border-master | text-theme-text | bg-sdp-bg-app
+components/ui/AccessibilitatUniversal.jsx;15;text-theme-text
+pages/features/CercaPage.jsx;12;text-theme-text
+pages/features/HubView.jsx;12;text-theme-text | bg-theme-base
+components/modals/HistoryModal.jsx;11;bg-sdp-bg-panel | border-sdp-border-master | text-sdp-text-main | text-sdp-text-muted | bg-sdp-bg-app
+components/ui/RichTextEditor.jsx;11;bg-sdp-bg-panel | border-sdp-border-master | bg-sdp-bg-app | text-sdp-text-main | text-sdp-text-muted
+components/profile/TownProposalsTab.jsx;10;text-sdp-text-muted | text-theme-text
+pages/features/UniversalDetail.jsx;9;text-theme-text | bg-theme-base | bg-sdp-bg-panel | border-sdp-border-master
+components/modals/TownSelectorModal.jsx;8;text-theme-text | bg-theme-base | border-sdp-border-master
+pages/community/CommunityDirectory.jsx;6;bg-theme-base | text-theme-text
+components/modals/CreatePostModal.jsx;6;bg-sdp-bg-panel | border-sdp-border-master | text-sdp-text-main | text-sdp-text-muted
+components/modals/ProfileSettingsModal.jsx;6;border-sdp-border-master | text-theme-text
+pages/community/UsersDirectory.jsx;5;bg-theme-base | border-sdp-border-master | text-theme-text
+components/modals/CalendarManagerModal.jsx;3;border-sdp-border-master | text-sdp-text-muted
+components/ui/universal-card/UniversalCard.Footer.jsx;3;bg-theme-base | text-theme-text
+pages/features/ConnectarPage.jsx;2;bg-theme-base | text-theme-text
+pages/public/components/UniversalPageContent.jsx;2;bg-sdp-bg-panel | text-theme-text
+components/features/ChatDetail.jsx;2;text-theme-text | bg-theme-base
+components/features/Feed.jsx;2;bg-theme-base
+components/ui/NanoLoader.jsx;2;text-sdp-text-main | bg-sdp-bg-app
+pages/admin/ChatManager.jsx;1;bg-theme-base
+pages/admin/MenuManagementView.jsx;1;bg-theme-base
+pages/admin/Utilitats.jsx;1;bg-theme-base
+pages/community/AgentDirectory.jsx;1;bg-theme-base
+pages/community/ProfileView.jsx;1;bg-theme-base
+pages/community/Towns.jsx;1;bg-theme-base
+pages/features/VitalSecurity.jsx;1;text-sdp-text-muted
+components/design-system/sections/Typography.jsx;1;bg-sdp-bg-panel
+components/features/ChatEmptyState.jsx;1;bg-theme-base
+components/features/ChatList.jsx;1;text-theme-text
+components/features/Marketplace.jsx;1;bg-theme-base
+components/ui/FloatingIndex.jsx;1;bg-sdp-bg-panel
+components/ui/universal-header/index.jsx;1;border-sdp-border-master
+pages/MercatPage.jsx;0;
+pages/MurPage.jsx;0;
+pages/Pobles.jsx;0;Uses UniversalPage Legacy
+pages/ProjectePage.jsx;0;
+pages/UniversalPage.jsx;0;
+pages/admin/Versions.jsx;0;Uses UniversalPage Legacy
+pages/community/Map.jsx;0;Uses UniversalPage Legacy
+pages/community/MasterCalendar.jsx;0;Uses UniversalPage Legacy
+pages/features/DesignSystem_original.jsx;0;Uses UniversalPage Legacy
+pages/features/MediaManager.jsx;0;Uses UniversalPage Legacy
+pages/features/VisorMetricPage.jsx;0;Uses UniversalPage Legacy
+pages/features/VisorNano.jsx;0;Uses UniversalPage Legacy
+pages/features/anima-del-mas/AlmaPage.jsx;0;Uses UniversalPage Legacy
+pages/public/ConstitucioPage.jsx;0;
+pages/public/RoadmapView.jsx;0;
+pages/public/UniversalPage.jsx;0;
+pages/public/UniversalPage.legacy.jsx;0;
+components/design-system/DesignSystemPage.jsx;0;Uses UniversalPage Legacy
+components/layout/UniversalPageLayout.jsx;0;
+components/ui/MurCentralitzat.jsx;0;
+components/universal/UniversalPage.jsx;0;

@@ -288,7 +288,7 @@ const Market = ({ searchTerm = '' }) => {
 
 
     return (
-        <RootPageContainer className="bg-theme-base w-full" ref={containerRef}>
+        <RootPageContainer className="bg-white w-full" ref={containerRef}>
             <SEO
                 title={t('market.title') || 'El Mercat'}
                 description={t('market.description') || 'Productes de proximitat, artesania i segona mà directament dels teus veïns.'}
@@ -324,7 +324,7 @@ const Market = ({ searchTerm = '' }) => {
             <h1 className="sr-only">Mercat de Proximitat de Sóc de Poble</h1>
 
 
-            <div className="flex-none w-full z-dropdown shadow-md bg-theme-base">
+            <div className="flex-none w-full z-dropdown shadow-md bg-white">
                 <ContextualHeader
                     searchTerm={internalSearchTerm}
                     onSearchChange={setInternalSearchTerm}

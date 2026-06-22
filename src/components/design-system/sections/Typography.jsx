@@ -8,7 +8,7 @@ export const Typography = () => (
     </p>
 
     {/* S'ha eliminat el wrapper innecessari: s'ha fusionat sosp-card amb app-cms-content per reduir DOM_DEPTH */}
-    <article className="app-cms-content border border-stone-200 p-8 rounded-xl bg-sdp-bg-panel relative overflow-hidden sosp-card mb-6">
+    <article className="app-cms-content border border-stone-200 p-8 rounded-xl bg-white relative overflow-hidden sosp-card mb-6">
       <span className="absolute top-2 right-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Preview CMS</span>
       
       <h1>El poble que no es rendeix</h1>

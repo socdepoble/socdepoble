@@ -13,10 +13,10 @@ export default function UniversalShell({
   const displaySubtitle = subtitle || item?.subtitle || '';
 
   return (
-    <div className="flex flex-col w-full bg-[var(--sp-light)] min-h-screen relative">
+    <div className="flex flex-col w-full bg-white min-h-screen relative">
       
       {/* 1. CAPÇALERA DE NAVEGACIÓ */}
-      <header className="h-14 flex items-center px-4 bg-[var(--sp-void)] text-[var(--sp-light)] shrink-0 border-b border-white/10 sticky top-0 z-40">
+      <header className="h-14 flex items-center px-4 bg-[#000000] text-white shrink-0 border-b border-white/10 sticky top-0 z-40">
         <h1 className="font-bold text-lg tracking-tight">{displayTitle}</h1>
       </header>
 
@@ -25,7 +25,7 @@ export default function UniversalShell({
 
         {/* 2. HERO TARONJA */}
         <section
-          className="w-full bg-[var(--sp-accent)] text-[var(--sp-light)] flex items-center justify-center px-6 py-10 shrink-0 min-h-[180px]"
+          className="w-full bg-[#FF7300] text-white flex items-center justify-center px-6 py-10 shrink-0 min-h-[180px]"
           aria-label="Portada"
         >
           <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-center leading-none">
@@ -35,7 +35,7 @@ export default function UniversalShell({
 
         {/* 3. BARRA DE METADADES */}
         {item ? (
-          <section className="sticky top-14 z-10 w-full bg-[var(--sp-void)] text-[var(--sp-light)] px-4 py-3 flex items-center gap-3 border-b border-white/10 shrink-0">
+          <section className="sticky top-14 z-10 w-full bg-[#000000] text-white px-4 py-3 flex items-center gap-3 border-b border-white/10 shrink-0">
             {item.author_avatar ? (
               <img
                 src={item.author_avatar}
@@ -66,8 +66,8 @@ export default function UniversalShell({
         ) : null}
 
         {/* 4. CONTINGUT */}
-        <section className="flex-1 p-6 md:p-10 bg-[var(--sp-light)]">
-          <div className="max-w-4xl mx-auto w-full text-[var(--sp-void)]">
+        <section className="flex-1 p-6 md:p-10 bg-white">
+          <div className="max-w-4xl mx-auto w-full text-[#111827]">
             {children}
           </div>
         </section>
@@ -75,7 +75,7 @@ export default function UniversalShell({
       </main>
 
       {/* 5. BARRA D'ACCIONS */}
-      <div className="sticky bottom-0 w-full z-50 bg-[var(--sp-void)]/90 backdrop-blur-md border-t border-white/10" style={{ willChange: 'transform' }}>
+      <div className="sticky bottom-0 w-full z-50 bg-[#000000]/90 backdrop-blur-md border-t border-white/10" style={{ willChange: 'transform' }}>
         <ActionBar
           entityId={item?.id}
           entityType={item?.type || variant}

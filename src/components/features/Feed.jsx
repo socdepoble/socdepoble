@@ -272,7 +272,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
     if (loading && posts.length === 0) {
         return (
-            <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+            <div className="flex-1 flex flex-col h-full bg-white relative overflow-hidden items-center justify-center p-8">
                 <Loader2 className="animate-spin text-[#F97316]" size={48} strokeWidth={2.5} />
             </div>
         );
@@ -280,7 +280,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
 
     if (error) {
         return (
-            <div className="flex-1 flex flex-col h-full bg-theme-base relative overflow-hidden items-center justify-center p-8">
+            <div className="flex-1 flex flex-col h-full bg-white relative overflow-hidden items-center justify-center p-8">
                 <p className="text-[#EF4444] text-center font-bold mb-4">{t('feed.error_loading') || 'Error de càrrega'}</p>
                 <StatusLoader type="error" message={error} onRetry={() => fetchPosts()} />
             </div>
@@ -288,7 +288,7 @@ const Feed = ({ townId = null, townName = null, customPosts = null, contentMode 
     }
 
     return (
-        <RootPageContainer className="bg-theme-base">
+        <RootPageContainer className="bg-white">
             <div className="sr-only" aria-atomic="true">
                 {loading && posts.length === 0 && 'Carregant publicacions...'}
                 {loadingMore && 'Carregant més publicacions...'}

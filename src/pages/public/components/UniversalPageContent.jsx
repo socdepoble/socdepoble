@@ -6,37 +6,30 @@ import { sanitizeHtml } from '../../../utils/sanitizeHtml';
 const RichTextEditor = lazy(() => import('../../../components/ui/RichTextEditor'));
 
 const TAG_COLORS = [
-  'bg-[#0369A1]/10 text-[#0369A1]',
-  'bg-[#F97316]/10 text-[#F97316]',
-  'bg-black/5 dark:bg-white/10 text-theme-text'
+  'bg-sky-100 text-sky-700',
+  'bg-orange-100 text-orange-600',
+  'bg-gray-100 text-gray-900'
 ];
 
 function LogoSlot({ logoLight, logoDark }) {
-  if (logoLight || logoDark) {
-    return <>
-      {logoLight && <img src={logoLight} alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all dark:hidden" aria-hidden="true" />}
-      {logoDark && <img src={logoDark} alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all hidden dark:block" aria-hidden="true" />}
-    </>;
+  if (logoLight) {
+    return <img src={logoLight} alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all" aria-hidden="true" />;
   }
-  return <>
-    <img src="/assets/system/ui/logo-socdepoble-rect-negre.svg" alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all dark:hidden" aria-hidden="true" />
-    <img src="/assets/system/ui/logo-socdepoble-rect-blanc.svg" alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all hidden dark:block" aria-hidden="true" />
-  </>;
+  return <img src="/assets/system/ui/logo-socdepoble-rect-negre.svg" alt="" className="h-20 sm:h-28 w-auto mb-6 object-contain transition-all" aria-hidden="true" />;
 }
 
 function LoadingSkeleton() {
   return (
     <div className="w-full flex-1 flex flex-col items-center justify-center p-10 min-h-[50vh]">
       <div className="animate-pulse flex flex-col items-center gap-4 w-full max-w-2xl">
-        <div className="h-8 bg-black/10 dark:bg-white/10 rounded w-3/4 mb-4" />
-        <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-full" />
-        <div className="h-4 bg-black/10 dark:bg-white/10 rounded w-5/6" />
+        <div className="h-8 bg-gray-200 rounded w-3/4 mb-4" />
+        <div className="h-4 bg-gray-200 rounded w-full" />
+        <div className="h-4 bg-gray-200 rounded w-5/6" />
       </div>
     </div>
   );
 }
 
-const ARTICLE_STYLE = {};
 const HASHTAG_REGEX = /#[a-zA-Z0-9_À-ÿ]+/g;
 const SHORTCODE_TABS = '[TABS_START]';
 
@@ -81,7 +74,7 @@ export const UniversalPageContent = React.memo(function UniversalPageContent({
 
   return (
     <article className="bg-transparent flex flex-col z-10 flex-1 min-w-0 w-full" aria-label={`Pàgina de ${title}`}>
-      <header className="flex flex-col items-center justify-center pb-5 pt-8 bg-sdp-bg-panel rounded-b-[2.5rem] shadow-[0_4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)] mb-0 relative z-10 shrink-0 mx-2 md:mx-3">
+      <header className="flex flex-col items-center justify-center pb-5 pt-8 bg-white rounded-b-[2.5rem] shadow-sm mb-0 relative z-10 shrink-0 mx-2 md:mx-3">
         <div className="w-full flex flex-col items-center justify-center px-4 md:px-6 relative max-w-4xl mx-auto">
           <LogoSlot logoLight={logoLight} logoDark={logoDark} />
           
@@ -107,15 +100,15 @@ export const UniversalPageContent = React.memo(function UniversalPageContent({
             type="text"
             value={localSubtitle}
             onChange={e => setLocalSubtitle(e.target.value)}
-            className="text-2xl md:text-3xl font-bold text-sdp-theme-accent-primary uppercase bg-transparent border-b-2 border-dashed border-sdp-theme-accent-primary outline-none w-full focus:bg-sdp-theme-accent-primary/10 transition-colors pb-1 text-center mt-10 mb-4"
+            className="text-2xl md:text-3xl font-bold text-orange-500 uppercase bg-transparent border-b-2 border-dashed border-orange-500 outline-none w-full focus:bg-orange-50 transition-colors pb-1 text-center mt-10 mb-4"
             placeholder="INTRODUEIX EL SUBTÍTOL (H2)"
           />
         ) : localSubtitle ? (
-          <h2 className="text-2xl md:text-3xl font-bold text-sdp-theme-accent-primary uppercase mb-4 mt-10 text-center w-full break-words">{localSubtitle}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-orange-500 uppercase mb-4 mt-10 text-center w-full break-words">{localSubtitle}</h2>
         ) : null}
 
         {cleanDescription && (
-          <p className="text-lg md:text-xl font-medium text-theme-text/80 leading-relaxed text-center mb-6 w-full">
+          <p className="text-lg md:text-xl font-medium text-gray-700 leading-relaxed text-center mb-6 w-full">
             {cleanDescription}
           </p>
         )}

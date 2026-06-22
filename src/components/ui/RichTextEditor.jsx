@@ -43,16 +43,16 @@ const RawHTMLNode = Node.create({
       node
     }) => {
       const container = document.createElement('div');
-      container.className = 'custom-raw-html-editor my-6 bg-[var(--bg-panel-elevated)] border-2 border-dashed border-[var(--theme-accent-primary)] rounded-xl relative overflow-hidden group';
+      container.className = 'custom-raw-html-editor my-6 bg-white border-2 border-dashed border-orange-500 rounded-xl relative overflow-hidden group';
       const header = document.createElement('div');
-      header.className = 'bg-[var(--bg-panel)] border-b border-dashed border-[var(--theme-accent-primary)] px-3 py-1 flex items-center justify-between opacity-50 group-data-[active=true]:opacity-100 transition-opacity';
+      header.className = 'bg-gray-50 border-b border-dashed border-orange-500 px-3 py-1 flex items-center justify-between opacity-50 group-data-[active=true]:opacity-100 transition-opacity';
       const badge = document.createElement('span');
-      badge.className = 'text-[var(--theme-accent-primary)] text-xs font-bold uppercase tracking-wider';
+      badge.className = 'text-orange-500 text-xs font-bold uppercase tracking-wider';
       badge.innerText = 'HTML Incrustat / Widget';
       header.appendChild(badge);
       container.appendChild(header);
       const content = document.createElement('div');
-      content.className = 'p-4 overflow-x-auto';
+      content.className = 'p-4 overflow-x-auto text-gray-900';
       content.innerHTML = node.attrs.html;
       container.appendChild(content);
       return {
@@ -85,8 +85,8 @@ const ToolbarButton = ({
   disabled,
   children,
   ariaLabel
-}) => <button onClick={onClick} disabled={disabled} type="button" title={ariaLabel} aria-label={ariaLabel} aria-pressed={isActive} className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sdp-theme-accent-primary
-            ${isActive ? 'bg-[var(--theme-accent-primary)] text-white shadow-inner' : 'bg-transparent text-[var(--text-main)] hover:bg-[var(--bg-panel-elevated)] hover:text-[var(--theme-accent-primary)]'} 
+}) => <button onClick={onClick} disabled={disabled} type="button" title={ariaLabel} aria-label={ariaLabel} aria-pressed={isActive} className={`p-2 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500
+            ${isActive ? 'bg-orange-500 text-white shadow-inner' : 'bg-transparent text-gray-700 hover:bg-gray-100 hover:text-orange-500'} 
             ${disabled ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
         `}>
   
@@ -106,7 +106,7 @@ const MenuBar = ({
     return null;
   }
   return (
-    <div className={`flex flex-wrap items-center gap-1 border-b border-sdp-border-master bg-sdp-bg-panel sticky top-0 z-10 w-full shadow-sm ${minimal ? 'p-1' : 'p-2'}`}>
+    <div className={`flex flex-wrap items-center gap-1 border-b border-gray-200 bg-white sticky top-0 z-10 w-full shadow-sm ${minimal ? 'p-1' : 'p-2'}`}>
         <ToolbarButton onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} ariaLabel="Desfer">
           
           <Undo size={minimal ? 16 : 18} />
@@ -116,7 +116,7 @@ const MenuBar = ({
           <Redo size={minimal ? 16 : 18} />
         </ToolbarButton>
 
-        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-sdp-border-master mx-1`}></div>
+        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-gray-200 mx-1`}></div>
 
         <ToolbarButton onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editor.can().chain().focus().toggleBold().run()} isActive={editor.isActive('bold')} ariaLabel="Negreta">
           
@@ -157,7 +157,7 @@ const MenuBar = ({
         </ToolbarButton>
         
         {!minimal && <>
-              <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-sdp-border-master mx-1`}></div>
+              <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-gray-200 mx-1`}></div>
               <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({
           level: 2
         }).run()} isActive={editor.isActive('heading', {
@@ -200,7 +200,7 @@ const MenuBar = ({
               </ToolbarButton>
             </>}
         
-        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-sdp-border-master mx-1`}></div>
+        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-gray-200 mx-1`}></div>
 
         <ToolbarButton onClick={() => editor.chain().focus().toggleBulletList().run()} isActive={editor.isActive('bulletList')} ariaLabel="Llista">
           
@@ -240,7 +240,7 @@ const MenuBar = ({
               <MousePointerClick size={18} />
             </ToolbarButton>}
 
-        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-sdp-border-master mx-1 ml-auto md:mx-1 md:ml-0`}></div>
+        <div className={`w-px ${minimal ? 'h-4' : 'h-6'} bg-gray-200 mx-1 ml-auto md:mx-1 md:ml-0`}></div>
 
         {!minimal && <div className="hidden sm:flex items-center gap-1">
               <ToolbarButton onClick={() => editor.chain().focus().setTextAlign('left').run()} isActive={editor.isActive({
@@ -258,7 +258,7 @@ const MenuBar = ({
             </div>}
 
         <div className="ml-auto flex items-center gap-1">
-          {onSave && <button onClick={() => onSave(editor.getHTML())} disabled={isSaving} className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-[var(--bg-panel-elevated)] text-[var(--theme-accent-primary)] py-1.5 px-3 rounded-lg text-xs hover:bg-[var(--theme-accent-primary)] hover:text-white' : 'ml-2 bg-[var(--theme-accent-primary)] text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}>
+          {onSave && <button onClick={() => onSave(editor.getHTML())} disabled={isSaving} className={`flex items-center gap-2 font-bold shadow-md transition-all disabled:opacity-50 ${minimal ? 'ml-1 bg-gray-100 text-orange-500 py-1.5 px-3 rounded-lg text-xs hover:bg-orange-500 hover:text-white' : 'ml-2 bg-orange-500 text-white py-1.5 px-4 rounded-xl hover:bg-orange-600 active:scale-95 text-xs md:text-sm'}`}>
             
                   {isSaving ? <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span> : <>
                           <Save size={16} className="hidden sm:block" />
@@ -297,12 +297,11 @@ const RichTextEditor = ({
     }) => {
       if (onChange) onChange(editor.getHTML());
     },
-    // Aplica los estilos de Sóc de Poble a todo el contenido del editor directamente
     editorProps: {
       attributes: {
         'aria-label': t('editor.accessibilityLabel', 'Editor de contingut ric'),
         role: 'textbox',
-        class: `focus:outline-none font-sans w-full text-[var(--text-main)] ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-[var(--theme-accent-secondary)] [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-[var(--theme-accent-primary)] [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-[var(--theme-accent-secondary)] [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-[var(--text-muted)] [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-[var(--text-muted)] [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-[var(--text-muted)] [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-[var(--text-main)] [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-[var(--bg-panel-elevated)] [&_li.bullet-button>p]:text-[var(--text-main)] [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-[var(--theme-accent-primary)] [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-[var(--theme-accent-primary)] [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-[var(--theme-accent-primary)] [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-[var(--bg-panel)] [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-[var(--text-main)] [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-[var(--border-master)] [&_img]:my-6 [&_img]:w-full [&_a]:text-[var(--theme-accent-primary)] [&_a]:underline'}`
+        class: `focus:outline-none font-sans w-full text-gray-900 ${minimal ? 'min-h-[120px] p-3 text-base [&>h1]:text-2xl [&>h1]:font-black [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>p]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5' : 'min-h-[60vh] p-6 lg:p-10 [&>h1]:text-3xl [&>h1]:md:text-4xl [&>h1]:font-black [&>h1]:uppercase [&>h1]:tracking-tight [&>h1]:text-center [&>h1]:mb-6 [&>h1]:text-blue-600 [&>h2]:text-xl [&>h2]:md:text-2xl [&>h2]:font-bold [&>h2]:text-orange-500 [&>h2]:uppercase [&>h2]:mb-4 [&>h2]:mt-8 [&>h3]:text-lg [&>h3]:font-bold [&>h3]:text-blue-600 [&>h3]:mb-2 [&>h3]:mt-6 [&>h4]:text-base [&>h4]:font-bold [&>h4]:uppercase [&>h4]:mb-2 [&>h4]:mt-4 [&>h4]:text-gray-500 [&>h5]:text-sm [&>h5]:font-semibold [&>h5]:text-gray-500 [&>h5]:mb-2 [&>h5]:mt-4 [&>h6]:text-xs [&>h6]:font-medium [&>h6]:uppercase [&>h6]:tracking-widest [&>h6]:text-gray-500 [&>h6]:mb-1 [&>h6]:mt-2 [&_.lead]:text-xl [&_.lead]:md:text-2xl [&_.lead]:font-normal [&_.lead]:text-gray-700 [&_.lead]:mb-8 [&>p]:text-lg [&>p]:md:text-xl [&>p]:leading-relaxed [&>p]:mb-6 [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul]:text-lg [&>ul]:md:text-xl [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol]:text-lg [&>ol]:md:text-xl [&_li]:mb-1 [&_li>p]:m-0 [&_li.bullet-button]:!list-none [&_li.bullet-button]:!pl-0 [&_li.bullet-button]:my-4 [&_li.bullet-button]:w-full [&_li.bullet-button]:flex [&_li.bullet-button]:justify-center [&_li.bullet-button>p]:inline-flex [&_li.bullet-button>p]:items-center [&_li.bullet-button>p]:justify-center [&_li.bullet-button>p]:m-0 [&_li.bullet-button>p]:bg-white [&_li.bullet-button>p]:text-gray-900 [&_li.bullet-button>p]:font-bold [&_li.bullet-button>p]:px-8 [&_li.bullet-button>p]:py-3 [&_li.bullet-button>p]:rounded-full [&_li.bullet-button>p]:border-2 [&_li.bullet-button>p]:border-orange-500 [&_li.bullet-button>p]:shadow-md [&_li.bullet-button>p]:text-center [&_li.bullet-button>p]:transition-all [&_li.bullet-button>p]:active:scale-95 hover:[&_li.bullet-button>p]:bg-orange-500 [&_li.bullet-button:hover>p]:!text-white [&_li.bullet-button_a]:!text-inherit [&_li.bullet-button_a]:!no-underline [&_blockquote]:border-l-4 [&_blockquote]:border-orange-500 [&_blockquote]:pl-6 [&_blockquote]:py-4 [&_blockquote]:pr-4 [&_blockquote]:my-8 [&_blockquote]:mx-0 [&_blockquote]:bg-gray-50 [&_blockquote]:rounded-r-2xl [&_blockquote_p]:text-xl [&_blockquote_p]:md:text-2xl [&_blockquote_p]:italic [&_blockquote_p]:font-medium [&_blockquote_p]:text-gray-800 [&_blockquote_p]:mb-0 [&_img]:rounded-2xl [&_img]:border [&_img]:border-gray-200 [&_img]:my-6 [&_img]:w-full [&_a]:text-orange-500 [&_a]:underline'}`
       }
     }
   }, []);
@@ -312,36 +311,36 @@ const RichTextEditor = ({
     }
   }, [editor, editable]);
   return (
-    <div className={`w-full flex flex-col bg-sdp-bg-app ${editable && !minimal ? 'border-t border-[var(--theme-accent-primary)]/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-[var(--border-master)] focus-within:ring-2 focus-within:ring-[var(--theme-accent-primary)] transition-all' : ''} overflow-hidden`} style={editable && !minimal ? {
+    <div className={`w-full flex flex-col bg-gray-50 ${editable && !minimal ? 'border-t border-orange-500/20 shadow-2xl relative z-20' : minimal && editable ? 'rounded-xl border border-gray-200 focus-within:ring-2 focus-within:ring-orange-500 transition-all' : ''} overflow-hidden`} style={editable && !minimal ? {
       boxShadow: '0 -15px 40px -10px rgba(0,0,0,0.1)'
     } : {}}>
         {editable && <MenuBar editor={editor} onSave={onSave} isSaving={isSaving} minimal={minimal} onOpenHtmlDialog={() => setIsHtmlDialogOpen(true)} />}
-        <div className={`flex-1 overflow-y-auto ${editable && !minimal ? 'bg-[var(--bg-panel)]' : ''} custom-scrollbar`}>
-          <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-[var(--border-master)] dark:bg-[#0f0f0f] bg-white' : ''}`}>
+        <div className={`flex-1 overflow-y-auto ${editable && !minimal ? 'bg-white' : ''} custom-scrollbar`}>
+          <div className={`max-w-4xl mx-auto bg-transparent ${editable && !minimal ? 'shadow-sm min-h-screen my-0 sm:my-8 sm:rounded-2xl sm:border border-gray-200 bg-white' : ''}`}>
               <EditorContent editor={editor} />
           </div>
         </div>
         
         {isHtmlDialogOpen && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in">
-            <div className='bg-sdp-bg-app rounded-2xl w-full max-w-2xl shadow-2xl border border-sdp-border-master overflow-hidden flex flex-col scale-100 animate-up'>
-              <div className='flex items-center justify-between p-4 border-b border-sdp-border-master bg-sdp-bg-panel'>
-                <h3 className='font-bold text-lg text-sdp-text-main flex items-center gap-2'>
-                  <CodeXml className='text-sdp-theme-accent-primary' size={20} />
+            <div className='bg-gray-50 rounded-2xl w-full max-w-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col scale-100 animate-up'>
+              <div className='flex items-center justify-between p-4 border-b border-gray-200 bg-white'>
+                <h3 className='font-bold text-lg text-gray-900 flex items-center gap-2'>
+                  <CodeXml className='text-orange-500' size={20} />
                   Incrustar HTML / Codi Extern
                 </h3>
-                <button onClick={() => setIsHtmlDialogOpen(false)} className='p-2 hover:bg-sdp-bg-panel-elevated rounded-full text-sdp-text-muted hover:text-sdp-text-main transition-colors'>
+                <button onClick={() => setIsHtmlDialogOpen(false)} className='p-2 hover:bg-gray-100 rounded-full text-gray-500 hover:text-gray-900 transition-colors'>
                   <X size={20} />
                 </button>
               </div>
               <div className="p-4 flex-1">
-                <p className='text-sm text-sdp-text-muted mb-3'>
+                <p className='text-sm text-gray-500 mb-3'>
                   Enganxa aquí el codi <code>&lt;iframe&gt;</code>, un script de dades, o qualsevol component HTML que vulgues incrustar. Es mostrarà directament a la pàgina.
                 </p>
-                <textarea value={htmlInput} onChange={e => setHtmlInput(e.target.value)} placeholder="<iframe src='...'></iframe>" className='w-full h-48 bg-sdp-bg-panel text-sdp-text-main border border-sdp-border-master rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-sdp-theme-accent-primary custom-scrollbar resize-none' />
+                <textarea value={htmlInput} onChange={e => setHtmlInput(e.target.value)} placeholder="<iframe src='...'></iframe>" className='w-full h-48 bg-white text-gray-900 border border-gray-200 rounded-xl p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 custom-scrollbar resize-none' />
               
               </div>
-              <div className='p-4 border-t border-sdp-border-master bg-sdp-bg-panel flex justify-end gap-2'>
-                <button onClick={() => setIsHtmlDialogOpen(false)} className='px-4 py-2 font-bold text-sdp-text-muted hover:text-sdp-text-main hover:bg-sdp-bg-panel-elevated rounded-xl transition-all'>
+              <div className='p-4 border-t border-gray-200 bg-white flex justify-end gap-2'>
+                <button onClick={() => setIsHtmlDialogOpen(false)} className='px-4 py-2 font-bold text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all'>
                   Cancel·lar
                 </button>
                 <button onClick={() => {
@@ -355,7 +354,7 @@ const RichTextEditor = ({
               }
               setIsHtmlDialogOpen(false);
               setHtmlInput('');
-            }} className='px-6 py-2 font-bold bg-sdp-theme-accent-primary text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95'>
+            }} className='px-6 py-2 font-bold bg-orange-500 text-white rounded-xl shadow-md hover:bg-orange-600 transition-all active:scale-95'>
                 
                   Inserir Codi
                 </button>
