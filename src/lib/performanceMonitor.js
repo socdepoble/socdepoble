@@ -18,14 +18,17 @@ class PerformanceMonitor {
     }
 
     if (typeof PerformanceObserver !== 'undefined') {
-      this.observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (entry.duration > 50) {
-            this.trackLongTask(entry);
+      const supported = PerformanceObserver.supportedEntryTypes || [];
+      if (supported.includes('longtask')) {
+        this.observer = new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (entry.duration > 50) {
+              this.trackLongTask(entry);
+            }
           }
-        }
-      });
-      this.observer.observe({ entryTypes: ['longtask'] });
+        });
+        this.observer.observe({ entryTypes: ['longtask'] });
+      }
     }
   }
 
