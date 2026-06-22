@@ -1,1 +1,1 @@
-export { default } from '../UniversalPage';
+export { default } from './UniversalPage.legacy';
