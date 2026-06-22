@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const UniversalPage = ({ title, icon, htmlContent }) => {
+const UniversalPage = ({ title, forcedTitle, icon, htmlContent, children }) => {
   const containerRef = useRef(null);
 
   // Quan canvia el contingut, fem scroll a dalt de manera nativa
@@ -9,7 +9,9 @@ const UniversalPage = ({ title, icon, htmlContent }) => {
     if (containerRef.current) {
       containerRef.current.scrollTo({ top: 0, behavior: 'auto' });
     }
-  }, [htmlContent]);
+  }, [htmlContent, children]);
+
+  const displayTitle = forcedTitle || title || 'Document';
 
   return (
     <div className="w-full min-h-full bg-[#f3f4f6] text-gray-900">
@@ -19,16 +21,22 @@ const UniversalPage = ({ title, icon, htmlContent }) => {
           {icon || '📄'}
         </div>
         <h1 className="text-xl font-black tracking-tight m-0 text-gray-900 line-clamp-1">
-          {title || 'Document'}
+          {displayTitle}
         </h1>
       </header>
 
-      {/* Contingut Universal, on es llig el HTML/Markdown processat */}
-      <div 
-        ref={containerRef}
-        className="w-full max-w-3xl mx-auto px-4 py-8 prose prose-orange prose-lg"
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-      />
+      {/* Contingut Universal, on es llig el HTML/Markdown processat o els components fills directes */}
+      {htmlContent ? (
+        <div 
+          ref={containerRef}
+          className="w-full max-w-3xl mx-auto px-4 py-8 prose prose-orange prose-lg"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
+      ) : (
+        <div ref={containerRef} className="w-full mx-auto px-4 py-8">
+          {children}
+        </div>
+      )}
       
       {/* Footer net */}
       <div className="w-full max-w-3xl mx-auto px-4 py-8 mt-12 border-t border-gray-200 text-center">
