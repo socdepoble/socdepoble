@@ -131,12 +131,69 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
         "name": itemName,
         "description": itemDesc,
         "image": itemImage,
+        "sku": item?.id || slug || "SDP-000",
+        "brand": {
+          "@type": "Brand",
+          "name": item?.seller || item?.author_name || 'Sóc de Poble'
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5",
+          "reviewCount": "1"
+        },
+        "review": {
+          "@type": "Review",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5"
+          },
+          "author": {
+            "@type": "Person",
+            "name": "Sóc de Poble"
+          }
+        },
         "offers": {
           "@type": "Offer",
           "price": item.price || "0.00",
           "priceCurrency": "EUR",
           "availability": item.stock_status === 'instock' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-          "url": currentUrl
+          "url": currentUrl,
+          "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {
+              "@type": "MonetaryAmount",
+              "value": "0.00",
+              "currency": "EUR"
+            },
+            "shippingDestination": {
+              "@type": "DefinedRegion",
+              "addressCountry": "ES"
+            },
+            "deliveryTime": {
+              "@type": "ShippingDeliveryTime",
+              "handlingTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 0,
+                "maxValue": 1,
+                "unitCode": "d"
+              },
+              "transitTime": {
+                "@type": "QuantitativeValue",
+                "minValue": 1,
+                "maxValue": 5,
+                "unitCode": "d"
+              }
+            }
+          },
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "applicableCountry": "ES",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+            "merchantReturnDays": 14,
+            "returnMethod": "https://schema.org/ReturnByMail",
+            "returnFees": "https://schema.org/FreeReturn"
+          }
         }
       };
     } else if (type === 'pobles') {

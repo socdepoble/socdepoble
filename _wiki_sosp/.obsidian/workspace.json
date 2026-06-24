@@ -1,0 +1,219 @@
+{
+  "main": {
+    "id": "d7806a9dc15f4740",
+    "type": "split",
+    "children": [
+      {
+        "id": "2c7ad100939df018",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "471e3df6febb114b",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "Nueva pestaña"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "d31db8d788cbb060",
+    "type": "split",
+    "children": [
+      {
+        "id": "b2d62f6c2f8a6ab6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "95d91e6241e15ade",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "01333e482219d71f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "b7250112c15e55dd",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 571.5
+  },
+  "right": {
+    "id": "8964847d7ce734f8",
+    "type": "split",
+    "children": [
+      {
+        "id": "ea118f4f11eba156",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d526e5fe5d91650d",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes"
+            }
+          },
+          {
+            "id": "c5d517825662f7ba",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Sin título.base",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Sin título"
+            }
+          },
+          {
+            "id": "fe1c1830f88919dc",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "f4d310e4808dc182",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "f9217686f4371211",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Sin título.base",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Sin título"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "471e3df6febb114b",
+  "lastOpenFiles": [
+    "Sin título.base",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Planificacio.md",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Modo_Produccion.md",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Doc_to_App.md",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Creador_Skills.md",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Branding.md",
+    "06_arxiu_historic/plantilles/260619_1430_Plantilla_Brainstorming.md",
+    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_Sistema_Nervios.md",
+    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_Protocol_Lazaro.md",
+    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_La_Forja.md",
+    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Ecosistema.md",
+    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Anima.md",
+    "06_arxiu_historic/arquitectura/260616_0520_Arquitectura_Skills_Arrel.md",
+    "06_arxiu_historic/arquitectura/260616_0515_Arquitectura_Identitat.md",
+    "06_arxiu_historic/arquitectura/260616_0510_Arquitectura_Gestio.md",
+    "06_arxiu_historic/arquitectura/260616_0505_Arquitectura_Etnografia.md",
+    "06_arxiu_historic/arquitectura/260616_0500_Arquitectura_Disseny.md",
+    "06_arxiu_historic/arquitectura/260616_0455_Arquitectura_Directives.md",
+    "06_arxiu_historic/arquitectura/260616_0450_Arquitectura_General.md",
+    "06_arxiu_historic/cultura_local/INSTRUCCIONS_SAFATA.md",
+    "06_arxiu_historic/plantilles",
+    "06_arxiu_historic/cultura_local",
+    "06_arxiu_historic/arquitectura",
+    "06_arxiu_historic",
+    "05_skills_colmena/ment_colmena_atrc.md",
+    "05_skills_colmena",
+    "04_actes_marmota/actes/reunions_humanes/260618_1200_Acta_Sollutia.md",
+    "04_actes_marmota/actes/sessions/260619_1300_Sessio_Estandarditzacio_Termodinamica.md",
+    "04_actes_marmota/actes_sessio/26-06-15_0328_ACTA_SESSIO_tecnica_pedra_seca.md",
+    "04_actes_marmota/actes_sessio/26-06-14_1200_ACTA_SESSIO_petorreta_asiatica.md",
+    "04_actes_marmota/actes_sessio/26-06-14_1100_ACTA_SESSIO_prompts_complets.md",
+    "04_actes_marmota/actes/sessions",
+    "04_actes_marmota/actes/reunions_humanes",
+    "04_actes_marmota/actes_sessio",
+    "04_actes_marmota/actes_marmota",
+    "04_actes_marmota/actes"
+  ]
+}
