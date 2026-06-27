@@ -4,10 +4,10 @@
 
 ## 🗂️ SKILLs Associades (Membres d'aquesta Capability)
 
-1. `homeostasi-crdt/SKILL.md` - Consolidació de tombstones de Y.js.
-2. `backup-recovery/SKILL.md` - Estratègia de snapshot diari d'IndexedDB.
-3. `mas-cau/SKILL.md` - Protocol d'emergència per caigudes globals de xarxa o serveis core.
-4. `error-boundaries/SKILL.md` - Contenció d'errors de codi a nivell de React.
-5. `schema-migrations/SKILL.md` - Procediments segurs per actualitzar estructures de dades en dispositius locals.
-6. `service-worker-pwa/SKILL.md` - Memòria cau i disponibilitat offline-first radical.
-7. `seguretat-dades/SKILL.md` - Protecció i xifratge de les dades del Mas.
+1. [[05_skills_ia/homeostasi_crdt/SKILL|Homeostasi CRDT]] - Consolidació de tombstones de Y.js.
+2. [[05_skills_ia/backup_recovery/SKILL|Backup i Recovery]] - Estratègia de snapshot diari d'IndexedDB.
+3. [[05_skills_ia/mas_cau/SKILL|Mas Cau]] - Protocol d'emergència per caigudes globals de xarxa o serveis core.
+4. [[05_skills_ia/error_boundaries/SKILL|Error Boundaries]] - Contenció d'errors de codi a nivell de React.
+5. [[05_skills_ia/schema_migrations/SKILL|Schema Migrations]] - Procediments segurs per actualitzar estructures de dades en dispositius locals.
+6. [[05_skills_ia/service_worker_pwa/SKILL|Service Worker PWA]] - Memòria cau i disponibilitat offline-first radical.
+7. [[05_skills_ia/seguretat_dades/SKILL|Seguretat de Dades]] - Protecció i xifratge de les dades del Mas.

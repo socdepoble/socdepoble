@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07_skills_colmena/ment_colmena_integral.md",
+                "file": "06_capabilities/resiliencia.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ment_colmena_integral"
+              "title": "resiliencia"
             }
           }
         ]
@@ -185,9 +185,9 @@
   },
   "active": "6c2281b448c41853",
   "lastOpenFiles": [
+    "01_identitat_iaia/antigravity.md",
     "01_identitat_iaia/iaia_maria.md",
     "07_skills_colmena/ment_colmena_integral.md",
-    "01_identitat_iaia/antigravity.md",
     "02_filosofia/el_trellat.md",
     "05_skills_ia/legislatura_evolutiva/SKILL.md",
     "05_skills_ia/plantilla_skill_iso.md",
