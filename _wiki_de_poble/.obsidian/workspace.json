@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01_identitat_iaia/antigravity.md",
+                "file": "07_skills_colmena/ment_colmena_integral.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "antigravity"
+              "title": "ment_colmena_integral"
             }
           }
         ]
@@ -185,6 +185,8 @@
   },
   "active": "6c2281b448c41853",
   "lastOpenFiles": [
+    "01_identitat_iaia/antigravity.md",
+    "02_filosofia/el_trellat.md",
     "05_skills_ia/legislatura_evolutiva/SKILL.md",
     "01_identitat_iaia/iaia_maria.md",
     "05_skills_ia/plantilla_skill_iso.md",
@@ -202,12 +204,10 @@
     "09_recursos_ia/260627_2117_prompt_macro_wiki_pedra_seca.md",
     "09_recursos_ia/260627_2114_prompt_macro_wiki_pedra_seca.md",
     "00_index.md",
-    "01_identitat_iaia/antigravity.md",
     "09_recursos_ia/260627_2106_prompt_macro_wiki_pedra_seca.md",
     "09_recursos_ia/260627_2102_prompt_macro_wiki_pedra_seca.md",
     "01_identitat_iaia/registre_automillora.md",
     "01_identitat_iaia/psiquiatria_forense_integral.md",
-    "02_filosofia/el_trellat.md",
     "09_recursos_ia/260627_2054_prompt_macro_wiki_pedra_seca.md",
     "03_govern/politica_primacia_canonica.md",
     "03_govern/politica_legacy.md",
