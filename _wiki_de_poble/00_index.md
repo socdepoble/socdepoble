@@ -2,7 +2,7 @@
 
 ![Logo de la Wiki](assets/nano_porta_masia_1774197069297.png)
 
-Benvinguts al cervell de *Sóc de Poble*. Ací resideixen les regles absolutes, la identitat tècnica i el [[Trellat]]. És el cervell on es guarda tota la memòria, els sentiments de l'arquitectura i la lògica de la màquina, explicada fins a on arriben les paraules.
+Benvinguts al cervell de *Sóc de Poble*. Ací resideixen les regles absolutes, la identitat tècnica i el [[El_Trellat|Trellat]]. És el cervell on es guarda tota la memòria, els sentiments de l'arquitectura i la lògica de la màquina, explicada fins a on arriben les paraules.
 
 Aquesta taula de continguts reflecteix l'estructura exacta de les carpetes, ordenades per capítols per a una lectura completament orgànica, tant per a humans com per a IAs.
 

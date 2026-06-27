@@ -1,0 +1,228 @@
+{
+  "main": {
+    "id": "0e47b4c15341faaf",
+    "type": "split",
+    "children": [
+      {
+        "id": "326114a8efd9e5b6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1a1437c6b82ecab9",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "11_acta_marmota.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "11_acta_marmota"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8e0fd6b09e70d1d4",
+    "type": "split",
+    "children": [
+      {
+        "id": "45dbd7ddadd45f84",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "88fbada9cb45ab82",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "ba93cd581f19a667",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "df403436879a9a15",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d8ff030261478596",
+    "type": "split",
+    "children": [
+      {
+        "id": "cd6d826b8f89adf8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7ed394bcad536ff7",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Bienvenido.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Bienvenido"
+            }
+          },
+          {
+            "id": "39f7803f4f1639c4",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Bienvenido.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Bienvenido"
+            }
+          },
+          {
+            "id": "04d0087ad5536bea",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "59f47d61c448fc00",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas las propiedades"
+            }
+          },
+          {
+            "id": "42381530a400834e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Bienvenido.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Bienvenido"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "1a1437c6b82ecab9",
+  "lastOpenFiles": [
+    "01_identitat_iaia/01_Psiquiatria_Forense_Integral.md",
+    "11_acta_marmota.md",
+    "01_governitat/POLITICA_PRIMACIA_CANONICA.md",
+    "01_governitat/POLITICA_LEGACY.md",
+    "01_governitat/Governanca_i_Manaments.md",
+    "00_organitzacio/pla_accio_v20.md",
+    "00_organitzacio/FULL_DE_RUTA.md",
+    "04_skills_ia/soci-sollutia/SKILL.md",
+    "04_skills_ia/soci-sollutia",
+    "00_index.md",
+    "07_recursos_ia/XX0sexQU",
+    "07_recursos_ia/XXWSmC56",
+    "07_recursos_ia/XXEf0s3b",
+    "07_recursos_ia/XXxzdP4D",
+    "health-index.md",
+    "07_recursos_ia/00_MACRO_SKILLS_V21.md",
+    "00_arxiu/README.md.bak.202606270212",
+    "00_arxiu",
+    "07_recursos_ia/08_PROMPT_RONDA_8_IMPLEMENTACIO.md",
+    "07_recursos_ia/MACRO_WIKI_RONDA_7_ECOSISTEMA.md",
+    "07_recursos_ia/07_PROMPT_RONDA_7_PLAYGROUND.md",
+    "07_recursos_ia/06_PROMPT_RONDA_6_ECOSISTEMA.md",
+    "04_skills_ia/consola-termodinamica/SKILL.md",
+    "04_skills_ia/consola-termodinamica",
+    "07_recursos_ia/05_PROMPT_RONDA_5_ORGANISME.md",
+    "07_recursos_ia/00_MACRO_WIKI_V21.md",
+    "07_recursos_ia/04_PROMPT_RONDA_4_CONSOLA.md",
+    "07_recursos_ia/03_PROMPT_RONDA_3_METRIQUES.md",
+    "07_recursos_ia/02_PROMPT_RONDA_2.md",
+    "04_skills_ia/crdt-optimitzacio/SKILL.md",
+    "04_skills_ia/crdt-optimitzacio",
+    "06_metriques",
+    "05_skills_colmena/Ment_Colmena_Integral.md",
+    "02_filosofia/Regla de Capçalera.md",
+    "02_filosofia/Diccionari Trellat.md",
+    "02_filosofia/El_Trellat.md",
+    "Sin título.canvas",
+    "assets/nano_porta_masia_roure_1774195469079.png",
+    "assets/nano_porta_masia_1774197069297.png"
+  ]
+}
