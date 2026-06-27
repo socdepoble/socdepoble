@@ -1,0 +1,42 @@
+# REGLAMENT TERMODINÀMIC I POLÍTIQUES D'ESTAT (ISO 1.4.0)
+# Aquest fitxer consolida les polítiques del Mas i les transicions de la FSM (Recomanació Dola)
+
+name: policy_engine_rules
+version: 1.4.0
+strict_mode: true
+
+fsm:
+  states:
+    - NASCENT      # Estat inicial d'arrancada. Permet rebre estructures noves.
+    - ESTABLE      # Estat ideal. 60 FPS. UDR baix.
+    - QUARANTENA   # Activat per emergència. El Playground es desconnecta. Mode només-lectura.
+    - REGENERANT   # Activat automàticament des de quarantena o per Watchdog per intentar curar-se.
+
+  transitions:
+    NASCENT_TO_ESTABLE:
+      condition: "UDR < 5 AND FPS > 30 AND uptime > 3s"
+      action: "emit SOSP_READY"
+
+    ESTABLE_TO_QUARANTENA:
+      condition: "UDR > 15 OR FPS < 15 OR memory_spike > 80%"
+      action: "freeze_crdt; disconnect_playground; alert_mestre"
+
+    QUARANTENA_TO_REGENERANT:
+      condition: "manual_override OR (time_in_quarantine > 10m AND memory < 60%)"
+      action: "restart_workers; clear_caches"
+
+    REGENERANT_TO_ESTABLE:
+      condition: "UDR < 5 AND FPS > 45"
+      action: "resume_crdt"
+
+limits:
+  thermodynamics:
+    max_udr: 15.0       # Tasa de variació no controlada
+    min_fps_a10: 30.0   # Mínim acceptable a l'iPad abans d'entrar en quarantena
+    max_ram_usage: 65.0 # Percentatge relatiu d'ús al Worker abans de reiniciar (Watchdog)
+    max_tombstones: 500 # Llindar per forçar un garbage collection al yjs
+
+promotion:
+  requires_dual_signature: true
+  allowed_from_state: "NASCENT"
+  forbidden_states: ["QUARANTENA", "REGENERANT"]

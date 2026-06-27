@@ -1,0 +1,5 @@
+# Ignorar logs de la caixa negra per evitar pujar dades sensibles
+*.log
+*.json
+!logger.mjs
+!logger.js

@@ -1,0 +1,27 @@
+version: "1.4.0"
+name: "Sóc de Poble — Organisme Cognitiu"
+status: "GESTATION"
+owner: "Consell de la Petorreta"
+
+core:
+  independence_level: "full"
+  fallback: "core-fallback.html"
+  technologies: ["vanilla-js", "yjs", "idb-keyval", "webrtc"]
+  ai_runtime: false
+
+playground:
+  path: "/playground"
+  isolation: "iframe + csp + feature-flags"
+  promotion_policy: "dual-signature + thermodynamic-validation"
+
+vendor_pin:
+  noble-ed25519: "sha256:pendent"
+  yjs: "sha256:pendent"
+
+principles:
+  - "Core sense IA en runtime."
+  - "Playground aïllat, observable i reversible."
+  - "Promoció només amb evidències i signatures duals."
+  - "Zero dependències innecessàries."
+  - "VanillaJS primer."
+  - "CRDT pur per a persistència i sincronització."
