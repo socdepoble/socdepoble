@@ -1,0 +1,7 @@
+{
+  "host": "ftp.socdepoble.org",
+  "user": "deploy@socdepoble.org",
+  "password": "tinc1MACtinc1MAC",
+  "port": 21,
+  "remoteRoot": "/socdepoble.org/public_html"
+}

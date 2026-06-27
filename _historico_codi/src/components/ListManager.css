@@ -1,0 +1,26 @@
+.list-manager-overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    background: rgba(0,0,0,0.8);
+}
+
+.list-card {
+    transform: translateY(20px);
+    opacity: 0;
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.list-manager-overlay.animate-in .list-card {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.items-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.items-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}

@@ -6,9 +6,9 @@ const INDEX_FILE = path.join(WIKI_DIR, '00_index.md');
 
 const HEADER = `# Wiki de Poble
 
-![Logo de la Wiki](assets/nano_porta_masia_1774197069297.png)
+![Logo de la Wiki](assets/nano_porta_del_mas.png)
 
-Benvinguts al cervell de *Sóc de Poble*. Ací resideixen les regles absolutes, la identitat tècnica i el [[Trellat]]. És el cervell on es guarda tota la memòria, els sentiments de l'arquitectura i la lògica de la màquina, explicada fins a on arriben les paraules.
+Benvinguts al cervell de *Sóc de Poble*. Ací resideixen les regles absolutes, la identitat tècnica i el [[el_trellat|Trellat]]. És el cervell on es guarda tota la memòria, els sentiments de l'arquitectura i la lògica de la màquina, explicada fins a on arriben les paraules.
 
 Aquesta taula de continguts reflecteix l'estructura exacta de les carpetes, ordenades per capítols per a una lectura completament orgànica, tant per a humans com per a IAs.
 
@@ -35,9 +35,9 @@ function generateIndex() {
     
     const items = fs.readdirSync(WIKI_DIR, { withFileTypes: true });
     
-    // Filtrem només carpetes numèriques (ex: 00_arxiu, 01_governitat, etc.)
+    // Filtrem només carpetes numèriques (ex: 00_arxiu, 01_governitat, etc.) i ignorem l'històric
     const dirs = items
-        .filter(item => item.isDirectory() && /^\d\d_/.test(item.name))
+        .filter(item => item.isDirectory() && /^\d\d_/.test(item.name) && item.name !== '10_arxiu_historic')
         .map(item => item.name)
         .sort();
 
@@ -45,9 +45,19 @@ function generateIndex() {
         content += `## ${parseDirName(dir)}\n`;
         const dirPath = path.join(WIKI_DIR, dir);
         
-        const files = fs.readdirSync(dirPath)
-            .filter(f => f.endsWith('.md'))
-            .sort();
+        let files = [];
+        const dirItems = fs.readdirSync(dirPath, { withFileTypes: true });
+        for (const item of dirItems) {
+            if (item.isFile() && item.name.endsWith('.md') && !item.name.includes('macro_wiki') && !item.name.includes('asiatic_audit')) {
+                files.push(item.name);
+            } else if (item.isDirectory() && dir === '05_skills_ia') {
+                const skillFile = path.join(dirPath, item.name, 'SKILL.md');
+                if (fs.existsSync(skillFile)) {
+                    files.push(`${item.name}/SKILL.md`);
+                }
+            }
+        }
+        files.sort();
             
         if (files.length === 0) {
             content += `*(Buit)*\n\n`;
@@ -55,8 +65,13 @@ function generateIndex() {
         }
 
         for (const file of files) {
-            const fileNameWithoutExt = file.replace(/\.md$/, '');
-            content += `- [[${fileNameWithoutExt}]]\n`;
+            if (file.endsWith('/SKILL.md')) {
+                const skillName = file.split('/')[0];
+                content += `- [[05_skills_ia/${skillName}/SKILL|${skillName}]]\n`;
+            } else {
+                const fileNameWithoutExt = file.replace(/\.md$/, '');
+                content += `- [[${fileNameWithoutExt}]]\n`;
+            }
         }
         content += `\n`;
     }

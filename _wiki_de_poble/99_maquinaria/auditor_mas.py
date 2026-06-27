@@ -20,7 +20,7 @@ def auditar_mas():
                     nodes_existents.add(f"{os.path.basename(root)}/SKILL")
                 else:
                     nodes_existents.add(file.replace(".md", ""))
-                if "08_arxiu_historic" not in root and "06_actes_marmota" not in root and "MACRO_WIKI" not in file and file != "00_LLIBRE_SINTETIC_DE_POBLE.md":
+                if "10_arxiu_historic" not in root and "06_actes_marmota" not in root and "macro_wiki" not in file and file != "00_LLIBRE_SINTETIC_DE_POBLE.md":
                     arxius_audit.append(os.path.join(root, file))
 
     errors = 0

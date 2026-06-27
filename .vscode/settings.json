@@ -1,0 +1,16 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+  "github-actions.validation": {
+    "secrets": false
+  },
+  "github-actions.workflows.validation.contextAccess": false,
+  "yaml.validate": false,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.{yml,yaml}"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
+}

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const skillsDir = path.join(__dirname, '../04_skills_ia');
+const skillsDir = path.join(__dirname, '../05_skills_ia');
 
 function processDirectory(directory) {
   const files = fs.readdirSync(directory);

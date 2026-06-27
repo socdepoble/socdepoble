@@ -1,0 +1,1432 @@
+
+> soc-de-poble-app@10.41.0 dev
+> npm run build:codex && node _scripts/_build_and_deploy/generate_skills_md.js && vite & npm run watch:codex
+
+
+> soc-de-poble-app@10.41.0 watch:codex
+> node _scripts/_build_and_deploy/build_amazon_codex.js watch
+
+
+> soc-de-poble-app@10.41.0 build:codex
+> node _scripts/_build_and_deploy/build_amazon_codex.js || true
+
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+✅ public/skills.md generat correctament per a les IAs!
+
+  VITE v7.3.1  ready in 279 ms
+
+  ➜  Local:   http://localhost:3333/
+  ➜  Network: http://192.168.0.14:3333/
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:35:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:35:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:36:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:36:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:36:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:36:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:36:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:36:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:37:08 AM [vite] (client) hmr update /src/app/index.css, /src/components/universal/UniversalShell.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:37:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:37:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:37:17 AM [vite] (client) hmr update /src/app/AppLayout.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:37:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:37:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:37:25 AM [vite] (client) hmr update /src/app/AppLayout.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:37:26 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:37:26 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:39:43 AM [vite] (client) hmr update /src/app/index.css, /src/components/universal/UniversalShell.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:39:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:39:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:40:08 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/components/UniversalPageContent.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:40:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:40:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:40:16 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/components/UniversalPageContent.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:40:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:40:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:40:25 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:40:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:40:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:40:35 AM [vite] (client) hmr update /src/app/index.css, /src/components/universal/UniversalShell.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:40:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:40:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:45:34 AM [vite] (client) hmr update /src/app/index.css, /src/components/universal/UniversalShell.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:45:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:45:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+2:55:09 AM [vite] (client) hmr update /src/pages/public/LegalManifest.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+2:55:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+2:55:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:07:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:07:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:08:08 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:08:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:08:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:09:21 AM [vite] (client) hmr update /src/pages/public/LegalManifest.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:09:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:09:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:09:53 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:09:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:09:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:10:30 AM [vite] (client) hmr update /src/app/index.css, /src/components/universal/UniversalShell.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:10:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:10:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:21:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:21:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:29:12 AM [vite] (client) hmr update /src/pages/public/RoadmapView.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:29:13 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:29:13 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:29:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:29:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:30:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:30:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/components/UniversalPageContent.jsx
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css, /src/components/ui/FloatingIndex.jsx
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css
+3:30:33 AM [vite] (client) hmr update /src/app/index.css, /src/components/ui/universal-header/index.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:30:34 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:30:34 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:39:29 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:39:29 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:45:19 AM [vite] (client) hmr update /src/pages/features/anima-del-mas/AlmaPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:45:20 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:45:20 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:49:47 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:49:47 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:52:20 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:52:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:52:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:53:17 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:53:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:53:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:54:23 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:54:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:54:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:54:55 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:54:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:54:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:59:06 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:59:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:59:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+3:59:55 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+3:59:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+3:59:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:00:30 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:00:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:00:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:01:14 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:01:15 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:01:15 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:02:17 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:02:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:02:18 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:02:32 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:02:33 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:02:33 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:03:09 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:03:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:03:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:03:35 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:03:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:03:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:04:18 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/components/UniversalPageContent.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:04:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:04:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:04:52 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:04:53 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:04:53 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:05:24 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:05:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:05:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:05:42 AM [vite] (client) hmr update /src/app/index.css
+4:05:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:05:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:06:09 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:06:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:06:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:06:51 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:06:52 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:06:52 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:07:36 AM [vite] (client) hmr update /src/app/index.css
+4:07:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:07:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:07:43 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:07:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:07:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:08:23 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:08:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:08:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:08:54 AM [vite] (client) hmr update /src/app/index.css
+4:08:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:08:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:09:40 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:09:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:09:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:10:23 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:10:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:10:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:10:59 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:10:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:10:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:11:07 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:11:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:11:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:11:23 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:11:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:11:24 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:12:06 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:12:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:12:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:13:21 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:13:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:13:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:13:38 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:13:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:13:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:14:05 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:14:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:14:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:14:25 AM [vite] (client) hmr update /src/app/index.css
+4:14:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:14:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:15:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:15:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:16:28 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+4:17:37 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:17:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:17:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:18:09 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:18:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:18:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:18:45 AM [vite] (client) hmr update /src/app/index.css, /src/components/ui/FloatingIndex.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:18:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:18:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:19:04 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:19:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:19:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:19:23 AM [vite] (client) hmr update /src/app/index.css
+4:19:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:19:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:19:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:19:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:20:34 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+4:39:14 AM [vite] (client) hmr update /src/app/index.css, /src/pages/community/Map.jsx, /src/pages/features/DesignSystem_original.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:39:15 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:39:15 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:39:41 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:39:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:39:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:40:30 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:40:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:40:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:41:29 AM [vite] (client) hmr update /src/pages/SessionRulesPage.jsx, /src/app/index.css
+4:41:29 AM [vite] (client) hmr update /src/pages/ProjectePage.jsx, /src/app/index.css
+4:41:29 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+4:41:29 AM [vite] (client) hmr update /src/pages/public/LegalManifest.jsx, /src/app/index.css
+4:41:29 AM [vite] (client) hmr update /src/pages/public/RoadmapView.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:41:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:41:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:41:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:41:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:42:30 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+4:42:43 AM [vite] (client) hmr update /src/app/index.css
+4:46:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:46:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:46:38 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+4:52:12 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/app/App.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:52:12 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:52:12 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:52:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/app/App.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:52:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:52:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:52:15 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/app/App.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:52:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:52:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:52:18 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:52:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:52:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:53:29 AM [vite] (client) hmr update /src/app/AppLayout.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:53:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:53:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:55:24 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:55:28 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:29 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:29 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:33 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:33 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:35 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:55:54 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+4:55:54 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:55:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:55:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+4:56:09 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+4:56:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+4:56:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:04:41 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:04:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:04:42 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:05:09 AM [vite] (client) hmr update /src/app/index.css, /src/components/ui/universal-card/UniversalCard.Body.jsx, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/components/UniversalPageContent.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:05:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:05:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:05:24 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/SkillsPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:05:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:05:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:05:26 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:05:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:05:27 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:05:28 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/ProjectePage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:05:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:05:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:08:04 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/SkillsPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:08:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:08:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:08:21 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:08:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:08:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:08:38 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/SkillsPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:08:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:08:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:09:02 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/ConstitucioPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:09:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:09:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:09:04 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/ProjectePage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:09:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:09:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:13:35 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/SkillsPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:13:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:13:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:13:37 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:13:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:13:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:13:39 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/ProjectePage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:13:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:13:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:14:07 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:14:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:14:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:15:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:15:23 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:16:06 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:16:08 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:09 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:16:27 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/SkillsPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:28 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:28 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:16:29 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:30 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:16:31 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/ProjectePage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:16:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:16:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:17:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:17:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:17:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:17:04 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:17:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:17:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:17:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:17:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:17:44 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:17:47 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:17:47 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:18:19 AM [vite] (client) page reload index.html
+5:18:21 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:18:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:18:22 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:18:43 AM [vite] (client) hmr update /src/app/index.css
+5:18:43 AM [vite] (client) hmr update /src/app/index.css
+5:18:43 AM [vite] (client) hmr update /src/app/index.css
+5:18:43 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:18:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:18:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:18:53 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:18:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:18:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:25:40 AM [vite] (client) hmr update /src/app/index.css
+5:25:58 AM [vite] (client) hmr update /src/app/index.css
+5:25:58 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/ConstitucioPage.jsx
+5:25:58 AM [vite] (client) hmr update /src/app/index.css
+5:25:58 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/ProjectePage.jsx
+5:25:58 AM [vite] (client) hmr update /src/app/index.css
+5:25:59 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.legacy.jsx, /src/pages/public/SkillsPage.jsx
+5:25:59 AM [vite] (client) hmr update /src/app/index.css
+5:25:59 AM [vite] (client) hmr update /src/app/index.css
+5:26:00 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:26:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:26:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:30:39 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+5:30:39 AM [vite] Internal server error: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx: Expected corresponding JSX closing tag for <UniversalPageLayout>. (1848:4)
+
+  1846 |       </section>
+  1847 |       </div>
+> 1848 |     </UniversalPage>
+       |     ^
+  1849 |   );
+  1850 | }
+  1851 |
+  Plugin: vite:react-babel
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx:1848:4
+  1846 |        </section>
+  1847 |        </div>
+  1848 |      </UniversalPage>
+       |      ^
+  1849 |    );
+  1850 |  }
+      at constructor (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:6616:19)
+      at JSXParserMixin.jsxParseElementAt (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4739:16)
+      at JSXParserMixin.jsxParseElement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4761:17)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4771:19)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12443:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12510:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11692:28)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11348:23)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4776:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at JSXParserMixin.parseExpressionBase (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10801:23)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12438:16)
+      at JSXParserMixin.parseExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:17)
+      at JSXParserMixin.parseReturnStatement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13159:28)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseStatementListItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12764:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:61)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseBlock (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13314:10)
+      at JSXParserMixin.parseFunctionBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12117:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12103:10)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13462:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12420:14)
+      at JSXParserMixin.parseFunction (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13461:10)
+      at JSXParserMixin.parseExportDefaultExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13924:19)
+      at JSXParserMixin.parseExport (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13845:25)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12895:27)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseProgram (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12639:10)
+5:30:39 AM [vite] Internal server error: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx: Expected corresponding JSX closing tag for <UniversalPageLayout>. (1848:4)
+
+  1846 |       </section>
+  1847 |       </div>
+> 1848 |     </UniversalPage>
+       |     ^
+  1849 |   );
+  1850 | }
+  1851 |
+  Plugin: vite:react-babel
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx:1848:4
+  1846 |        </section>
+  1847 |        </div>
+  1848 |      </UniversalPage>
+       |      ^
+  1849 |    );
+  1850 |  }
+      at constructor (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:6616:19)
+      at JSXParserMixin.jsxParseElementAt (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4739:16)
+      at JSXParserMixin.jsxParseElement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4761:17)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4771:19)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12443:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12510:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11692:28)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11348:23)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4776:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at JSXParserMixin.parseExpressionBase (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10801:23)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12438:16)
+      at JSXParserMixin.parseExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:17)
+      at JSXParserMixin.parseReturnStatement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13159:28)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseStatementListItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12764:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:61)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseBlock (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13314:10)
+      at JSXParserMixin.parseFunctionBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12117:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12103:10)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13462:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12420:14)
+      at JSXParserMixin.parseFunction (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13461:10)
+      at JSXParserMixin.parseExportDefaultExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13924:19)
+      at JSXParserMixin.parseExport (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13845:25)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12895:27)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseProgram (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12639:10)
+5:30:39 AM [vite] Internal server error: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx: Expected corresponding JSX closing tag for <UniversalPageLayout>. (1848:4)
+
+  1846 |       </section>
+  1847 |       </div>
+> 1848 |     </UniversalPage>
+       |     ^
+  1849 |   );
+  1850 | }
+  1851 |
+  Plugin: vite:react-babel
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx:1848:4
+  1846 |        </section>
+  1847 |        </div>
+  1848 |      </UniversalPage>
+       |      ^
+  1849 |    );
+  1850 |  }
+      at constructor (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:6616:19)
+      at JSXParserMixin.jsxParseElementAt (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4739:16)
+      at JSXParserMixin.jsxParseElement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4761:17)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4771:19)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12443:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10817:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12510:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11692:28)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11348:23)
+      at JSXParserMixin.parseExprAtom (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:4776:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11098:23)
+      at JSXParserMixin.parseUpdate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10916:61)
+      at JSXParserMixin.parseExprOps (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10848:21)
+      at JSXParserMixin.parseExpressionBase (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10801:23)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:39
+      at JSXParserMixin.allowInAnd (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12438:16)
+      at JSXParserMixin.parseExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:10797:17)
+      at JSXParserMixin.parseReturnStatement (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13159:28)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseStatementListItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12764:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:61)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseBlock (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13314:10)
+      at JSXParserMixin.parseFunctionBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12117:24)
+      at JSXParserMixin.parseFunctionBodyAndFinish (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12103:10)
+      at /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13462:12
+      at JSXParserMixin.withSmartMixTopicForbiddingContext (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12420:14)
+      at JSXParserMixin.parseFunction (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13461:10)
+      at JSXParserMixin.parseExportDefaultExpression (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13924:19)
+      at JSXParserMixin.parseExport (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13845:25)
+      at JSXParserMixin.parseStatementContent (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12895:27)
+      at JSXParserMixin.parseStatementLike (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:13326:10)
+      at JSXParserMixin.parseProgram (/Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/@babel/parser/lib/index.js:12639:10)
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:30:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:30:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:30:40 AM [vite] (client) Pre-transform error: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx: Expected corresponding JSX closing tag for <UniversalPageLayout>. (1848:4)
+
+  1846 |       </section>
+  1847 |       </div>
+> 1848 |     </UniversalPage>
+       |     ^
+  1849 |   );
+  1850 | }
+  1851 |
+  Plugin: vite:react-babel
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_original.jsx:1848:4
+  1846 |        </section>
+  1847 |        </div>
+  1848 |      </UniversalPage>
+       |      ^
+  1849 |    );
+  1850 |  }
+5:30:40 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:30:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:30:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:30:59 AM [vite] (client) page reload index.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:33:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:33:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:33:13 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+5:33:13 AM [vite] Internal server error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+      at TransformPluginContext._formatLog (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28999:43)
+      at TransformPluginContext.error (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28996:14)
+      at normalizeUrl (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27119:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27177:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27145:4)
+      at async EnvironmentPluginContainer.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28797:14)
+      at async loadAndTransform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:22670:26)
+5:33:13 AM [vite] (client) Pre-transform error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+5:33:13 AM [vite] Internal server error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+      at TransformPluginContext._formatLog (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28999:43)
+      at TransformPluginContext.error (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28996:14)
+      at normalizeUrl (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27119:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27177:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27145:4)
+      at async EnvironmentPluginContainer.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28797:14)
+      at async loadAndTransform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:22670:26)
+      at async viteTransformMiddleware (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:24542:20)
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:33:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:33:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:33:14 AM [vite] (client) Pre-transform error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+5:33:14 AM [vite] Internal server error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+      at TransformPluginContext._formatLog (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28999:43)
+      at TransformPluginContext.error (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28996:14)
+      at normalizeUrl (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27119:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27177:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27145:4)
+      at async EnvironmentPluginContainer.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28797:14)
+      at async loadAndTransform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:22670:26)
+      at async viteTransformMiddleware (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:24542:20)
+5:33:15 AM [vite] Internal server error: Failed to resolve import "../../components/ui/Input/Input" from "src/pages/features/DesignSystem_clean.jsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/features/DesignSystem_clean.jsx:5:18
+  4  |  import Button from "../../components/ui/Button/Button";
+  5  |  import UniversalCard from "../../components/ui/UniversalCard";
+  6  |  import Input from "../../components/ui/Input/Input";
+     |                     ^
+  7  |  export default function DesignSystem() {
+  8  |    return /* @__PURE__ */ jsxDEV(
+      at TransformPluginContext._formatLog (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28999:43)
+      at TransformPluginContext.error (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28996:14)
+      at normalizeUrl (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27119:18)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27177:32
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:27145:4)
+      at async EnvironmentPluginContainer.transform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:28797:14)
+      at async loadAndTransform (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:22670:26)
+      at async viteTransformMiddleware (file:///Users/javillinares/Documents/Antigravity/So%CC%81c%20de%20Poble/node_modules/vite/dist/node/chunks/config.js:24542:20)
+5:33:54 AM [vite] (client) hmr update /src/app/index.css, /src/app/App.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:33:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:33:54 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:35:05 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:35:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:35:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:35:12 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+5:42:30 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:42:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:42:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:44:38 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:44:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:44:39 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:44:45 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:44:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:44:46 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:45:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:45:40 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:45:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:45:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:45:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:45:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:48:00 AM [vite] (client) hmr update /src/app/index.css
+5:48:16 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:48:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:48:17 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:49:00 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:49:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:49:01 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:50:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:50:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:50:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:50:58 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:51:09 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:51:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:51:10 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:52:34 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:52:34 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:52:34 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:52:42 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:52:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:52:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:52:49 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:52:50 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:52:50 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:53:40 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:53:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:53:41 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:53:49 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:53:50 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:53:50 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:53:55 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:53:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:53:56 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:54:21 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:54:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:54:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:55:18 AM [vite] (client) hmr update /src/app/index.css
+5:55:19 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:55:20 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:55:20 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+5:57:06 AM [vite] (client) hmr update /src/app/index.css, /src/pages/features/DesignSystem_clean.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+5:57:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+5:57:07 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:02:59 AM [vite] (client) hmr update /src/app/index.css
+6:04:05 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+6:04:05 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+6:04:05 AM [vite] (client) hmr update /src/app/index.css, /src/components/layout/UniversalPageLayout.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:04:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:04:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/features/DesignSystem_clean.jsx
+6:04:13 AM [vite] (client) hmr update /src/pages/public/ConstitucioPage.jsx, /src/app/index.css
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/LegalPage.jsx
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/ProjectePage.jsx
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/RoadmapPage.jsx
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/SkillsPage.jsx
+6:04:13 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:04:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:04:14 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:04:14 AM [vite] (client) Pre-transform error: Failed to load url /src/pages/public/UniversalPage.jsx (resolved id: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/public/UniversalPage.jsx) in /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/community/Map.jsx. Does the file exist?
+6:04:14 AM [vite] (client) Pre-transform error: Failed to load url /src/pages/public/UniversalPage.jsx (resolved id: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/public/UniversalPage.jsx) in /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/community/Map.jsx. Does the file exist?
+6:04:15 AM [vite] (client) Pre-transform error: Failed to load url /src/pages/public/UniversalPage.jsx (resolved id: /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/public/UniversalPage.jsx) in /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/community/Map.jsx. Does the file exist?
+6:04:31 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:04:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:04:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:27:43 AM [vite] (client) hmr update /src/app/index.css, /src/core/EventOrchestrator.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:27:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:27:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:29:31 AM [vite] (client) hmr update /src/app/index.css, /src/core/EventOrchestrator.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:29:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:29:32 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:34:18 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:34:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:34:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:35:35 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:35:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:35:36 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:41:54 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:41:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:41:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:42:05 AM [vite] (client) hmr update /src/app/index.css, /src/pages/public/UniversalPage.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:42:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:42:06 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:42:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:42:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:43:10 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:43:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:43:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:43:37 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:43:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:43:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:43:43 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:43:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:43:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:43:51 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:43:52 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:43:52 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:43:58 AM [vite] (client) hmr update /src/app/App.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:43:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:43:59 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:44:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:44:05 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:44:16 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+6:44:20 AM [vite] (client) hmr update /src/pages/features/DesignSystem_original.jsx, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:44:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:44:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:45:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:45:11 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:45:30 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:45:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:45:31 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:45:37 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:45:37 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:45:55 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:45:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:45:55 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:46:00 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:46:00 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:46:15 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:46:16 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:46:16 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:46:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:46:21 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:46:37 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:46:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:46:38 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:46:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:46:44 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:47:02 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:47:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:47:03 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+6:47:07 AM [vite] (client) hmr update /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:47:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:47:08 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:47:12 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:47:12 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+6:47:25 AM [vite] (client) page reload .agents/auditories/bundle_stats.html
+6:53:24 AM [vite] (client) hmr update /src/components/core/SafeShell.css, /src/app/index.css
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+6:53:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+6:53:25 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+7:08:17 AM [vite] (client) hmr update /src/app/index.css, /src/components/design-system/sections/LegacySections.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+7:08:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+7:08:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html
+7:13:17 AM [vite] (client) hmr update /src/app/index.css, /src/components/design-system/sections/LegacySections.jsx
+📝 Trobat un total de 0 arxius per alimentar el Llibre (Només Humà)...
+✅ Llibre Humà forjat a src/docs/amazon_books/llibre-humans.html. (7 pàgines)
+✅ Llibre Màquina forjat a src/docs/amazon_books/llibre-maquina.html. (4 pàgines)
+7:13:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-humans.html
+7:13:19 AM [vite] (client) page reload src/docs/amazon_books/llibre-maquina.html

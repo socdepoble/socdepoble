@@ -1,0 +1,397 @@
+import { useState, useMemo, useRef, useEffect, useCallback, useDeferredValue } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, Sparkles, Brain, ArrowLeft, ArrowRight, Grid, LayoutList, Settings, Plus, Globe, MessageCircle, Share2 } from 'lucide-react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
+
+import ProjectPresentation from './ProjectPresentation';
+import { useViewMode } from '../hooks/useViewMode';
+import { useTranslation } from 'react-i18next';
+import esLocale from '@fullcalendar/core/locales/es';
+import caLocale from '@fullcalendar/core/locales/ca';
+import enLocale from '@fullcalendar/core/locales/en-gb';
+import frLocale from '@fullcalendar/core/locales/fr';
+import deLocale from '@fullcalendar/core/locales/de';
+import { useDesign } from '../app/context/DesignContext';
+import SEO from '../shared/components/SEO';
+import { CALENDAR_EVENTS } from '../shared/data/calendarData';
+import { MOCK_EVENTS } from '../shared/data';
+import { AGENTS } from '../app/config/agentsMap';
+import { useGoogleAuthCalendar } from '../hooks/useGoogleAuthCalendar';
+import { useInternalCalendar } from '../hooks/useInternalCalendar';
+import CalendarManagerModal from '../shared/components/CalendarManagerModal';
+import GlobalErrorBoundary from '../shared/components/GlobalErrorBoundary';
+import VirtualizedEventFeed from '../shared/components/VirtualizedEventFeed';
+import { useRhizomeEvents } from '../hooks/useRhizomeEvents';
+import { useUnifiedFeedData } from '../hooks/useUnifiedFeedData';
+import CategoryTabs from '../shared/components/CategoryTabs';
+import { useAuth } from '../app/context/AuthContext';
+import './MasterCalendar.css';
+
+const MasterCalendarContent = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [isManagerOpen, setIsManagerOpen] = useState(false);
+    const [isTranslationOpen, setIsTranslationOpen] = useState(false);
+
+    const { user, isPlayground } = useAuth();
+    const { posts: unifiedPosts } = useUnifiedFeedData({ 
+        activeTown: 'global', 
+        isPlayground, 
+        user 
+    });
+
+    const { i18n } = useTranslation();
+    const { visionMode } = useDesign();
+
+    const fcLocale = useMemo(() => {
+        const lang = i18n.language?.toLowerCase().split('-')[0];
+        if (lang === 'va' || lang === 'ca') return caLocale;
+        if (lang === 'es') return esLocale;
+        if (lang === 'fr') return frLocale;
+        if (lang === 'de') return deLocale;
+        return enLocale;
+    }, [i18n.language]);
+
+    const [selectedRole, setSelectedRole] = useState('esdeveniments');
+
+    const { viewMode, setViewMode, columnCount, effectiveViewMode, containerRef } = useViewMode('calendar_view_mode', 'grid');
+
+    const { 
+        calendars, selectedCalIds, toggleCalendar, hostCalId, toggleHost, 
+        fetchGoogleEventsRange, login, logout, token 
+    } = useGoogleAuthCalendar(currentDate);
+
+    const {
+        internalCalendars, selectedInternalCalIds, toggleInternalCalendar,
+        fetchInternalEventsRange
+    } = useInternalCalendar(currentDate);
+
+    const { events: rhizomeEvents } = useRhizomeEvents();
+
+    const [rawEvents, setRawEvents] = useState([]);
+    const [currentRangeStr, setCurrentRangeStr] = useState('');
+    const [calendarTitle, setCalendarTitle] = useState('');
+    const [calendarView, setCalendarView] = useState('dayGridMonth');
+
+    const fetchAllEventsRange = useCallback(async (range) => {
+        if (!range?.startStr) return;
+        try {
+            const [gEvents, iEvents] = await Promise.all([
+                fetchGoogleEventsRange(range.startStr, range.endStr),
+                fetchInternalEventsRange(range.startStr, range.endStr)
+            ]);
+            setRawEvents([...gEvents, ...iEvents]);
+        } catch (e) {
+            console.error("Calendar fetch error:", e);
+        }
+    }, [fetchGoogleEventsRange, fetchInternalEventsRange]);
+
+    const handleDatesSet = useCallback((arg) => {
+        const newRange = { startStr: arg.start.toISOString(), endStr: arg.end.toISOString() };
+        
+        setCurrentDate(prev => {
+            if (prev && prev.getTime() === arg.view.currentStart.getTime()) return prev;
+            return arg.view.currentStart;
+        });
+        
+        setCurrentRangeStr(prev => {
+            const str = JSON.stringify(newRange);
+            return prev === str ? prev : str;
+        });
+        
+        setCalendarTitle(prev => prev === arg.view.title ? prev : arg.view.title);
+        setCalendarView(prev => prev === arg.view.type ? prev : arg.view.type);
+    }, []);
+
+    useEffect(() => {
+        if (!currentRangeStr) return;
+        const range = JSON.parse(currentRangeStr);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchAllEventsRange(range);
+    }, [selectedCalIds, selectedInternalCalIds, fetchAllEventsRange, currentRangeStr]);
+
+    const { combinedEvents, calendarEvents } = useMemo(() => {
+        const isImmersive = visionMode !== 'humana';
+        const rawMocks = isImmersive ? [...CALENDAR_EVENTS, ...MOCK_EVENTS] : [];
+        const range = currentRangeStr ? JSON.parse(currentRangeStr) : { startStr: '1970-01-01', endStr: '2100-01-01' };
+        const startR = new Date(range.startStr);
+        const endR = new Date(range.endStr);
+
+        const mEvents = rawMocks.filter(e => {
+            const d = new Date(e.date || e.start || e.created_at || 0);
+            return d >= startR && d <= endR;
+        });
+
+        // Adapta los unifiedPosts para que el calendário visual no se vuelva loco
+        // pero que sí aparezcan en el timeline del VirtualizedEventFeed
+        const uEvents = (unifiedPosts || []).map(p => ({
+            ...p,
+            start: p.created_at || p.date,
+            date: p.created_at || p.date,
+            // Forzamos que los posts no abarroten el calendario (se muestran como dots si acaso)
+            // pero que estén íntegros para el feed
+            isPost: true
+        }));
+
+        // Deduplicar eventos combinados basándose en ID explícito (evitando clashing de React Keys y duplicidad visual)
+        const combinedMap = new Map();
+        [...rawEvents, ...mEvents, ...rhizomeEvents, ...uEvents].forEach((evt, idx) => {
+            const key = String(evt.uuid || evt.id || `temp-${idx}`);
+            // Preferir la primera aparición (mEvents/Calendar) antes que el fallback de uEvents
+            if (!combinedMap.has(key)) {
+                combinedMap.set(key, evt);
+            }
+        });
+        
+
+        let combined = Array.from(combinedMap.values());
+
+        if (selectedRole === 'esdeveniments') {
+            combined = combined.filter(e => !e.isPost);
+        } else if (selectedRole !== 'tot') {
+            combined = combined.filter(e => (e.type || e.role || 'personal').toLowerCase() === selectedRole.toLowerCase());
+        }
+        if (searchTerm) {
+            const searchLower = searchTerm.toLowerCase();
+            combined = combined.filter(e => 
+                e.title?.toLowerCase().includes(searchLower) || 
+                e.description?.toLowerCase().includes(searchLower) ||
+                e.content?.toLowerCase().includes(searchLower)
+            );
+        }
+
+        // Ordenar cronològicament garantint newest first en el timeline
+        combined.sort((a, b) => {
+            const dateA = new Date(a.date || a.start || a.created_at || 0).getTime();
+            const dateB = new Date(b.date || b.start || b.created_at || 0).getTime();
+            return (isNaN(dateB) ? Number.MAX_SAFE_INTEGER : dateB) - 
+                   (isNaN(dateA) ? Number.MAX_SAFE_INTEGER : dateA);
+        });
+
+        // Generar calendarEvents exclusivament per al calendari visual (FullCalendar)
+        const calEvents = combined.filter(e => !e.isPost).map(ev => ({
+            id: String(ev.id || ev.uuid),
+            title: ev.title,
+            start: ev.timeStart || ev.date || ev.start || ev.created_at, // Incluir created_at para posts
+            allDay: !ev.timeStart,
+            extendedProps: {
+                description: ev.description,
+                agentId: ev.agentId,
+                type: ev.type,
+                sourceCalendarId: ev.sourceCalendarId,
+                emoji: ev.emoji,
+                rawDate: ev.date || ev.start || ev.created_at
+            },
+            backgroundColor: ev.colorId ? 'var(--hud-accent)' : undefined
+        }));
+
+        return { combinedEvents: combined, calendarEvents: calEvents };
+    }, [rawEvents, visionMode, selectedRole, searchTerm, currentRangeStr, rhizomeEvents, unifiedPosts]);
+
+    const deferredEvents = useDeferredValue(calendarEvents);
+    const deferredCombined = useDeferredValue(combinedEvents);
+    const calendarRef = useRef(null);
+
+    const handleViewModeChange = useCallback((newMode) => {
+        setViewMode(newMode);
+        const api = calendarRef.current?.getApi();
+        if (api) {
+            if (newMode === 'single') api.changeView('dayGridMonth');
+            if (newMode === 'grid') api.changeView('timeGridWeek');
+            if (newMode === 'list') api.changeView('listWeek');
+        }
+    }, [setViewMode]);
+
+    const handlePrev = useCallback(() => calendarRef.current?.getApi().prev(), []);
+    const handleNext = useCallback(() => calendarRef.current?.getApi().next(), []);
+    const handleToday = useCallback(() => calendarRef.current?.getApi().today(), []);
+
+    useEffect(() => {
+        window.dispatchEvent(new CustomEvent('calendar-events-count', { 
+            detail: deferredEvents.length 
+        }));
+    }, [deferredEvents.length]);
+
+    const calendarActions = (
+        <>
+            <div className="flex items-center gap-1 bg-black/20 dark:bg-white/10 p-1 rounded-xl mr-2 sm:mr-4">
+                <button 
+                    onClick={() => setSelectedRole('esdeveniments')} 
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap transition-colors ${selectedRole === 'esdeveniments' ? 'bg-white text-black dark:bg-black dark:text-white shadow-sm' : 'text-white hover:bg-white/10 dark:text-theme-text'}`}
+                >
+                    🗓️ Esdeveniments
+                </button>
+                <button 
+                    onClick={() => setSelectedRole('tot')} 
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap transition-colors hidden sm:block ${selectedRole === 'tot' ? 'bg-white text-black dark:bg-black dark:text-white shadow-sm' : 'text-white hover:bg-white/10 dark:text-theme-text'}`}
+                >
+                    🌍 Totes
+                </button>
+                <select 
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e.target.value)}
+                    className="bg-transparent text-white font-bold text-sm outline-none cursor-pointer hidden sm:block w-[20px] px-0 appearance-none"
+                    style={{ textAlignLast: 'center' }}
+                >
+                    <option value="esdeveniments" className="text-black">🗓️ Esdeveniments</option>
+                    <option value="tot" className="text-black">🌍 Totes</option>
+                    <option value="gent" className="text-black">👤 Veïnat</option>
+                    <option value="grup" className="text-black">👥 Associacions</option>
+                    <option value="empresa" className="text-black">🏪 Comerços</option>
+                    <option value="oficial" className="text-black">🏛️ Oficial</option>
+                </select>
+                <select 
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e.target.value)}
+                    className="bg-transparent text-white font-bold text-sm outline-none cursor-pointer sm:hidden appearance-none px-2"
+                >
+                    <option value="esdeveniments" className="text-black">🗓️ Esdeveniments</option>
+                    <option value="tot" className="text-black">🌍 Totes</option>
+                    <option value="gent" className="text-black">👤 Veïnat</option>
+                    <option value="grup" className="text-black">👥 Associacions</option>
+                    <option value="empresa" className="text-black">🏪 Comerços</option>
+                    <option value="oficial" className="text-black">🏛️ Oficial</option>
+                </select>
+            </div>
+            
+            <button onClick={handlePrev} className="p-1.5 sm:p-2 text-white/80 hover:text-white transition-colors rounded-full" title="Anterior">
+                <ChevronLeft size={20}/>
+            </button>
+            <button onClick={handleToday} className="px-3 py-1.5 text-sm font-bold uppercase text-white hover:bg-white/20 transition-colors rounded-xl" title="Avui">
+                Avui
+            </button>
+            <button onClick={handleNext} className="p-1.5 sm:p-2 text-white/80 hover:text-white transition-colors rounded-full" title="Següent">
+                <ChevronRight size={20}/>
+            </button>
+            <div className="w-px h-6 bg-white/20 mx-1 sm:mx-2"></div>
+            <button onClick={() => setIsManagerOpen(true)} className="p-2 text-white/80 hover:text-white transition-colors rounded-xl hover:bg-white/10" title="Configuració">
+                <Settings size={20}/>
+            </button>
+            <button onClick={() => console.log('Open creation modal')} className="flex items-center gap-2 p-2 px-3 text-white transition-opacity rounded-xl bg-[#F97316] hover:bg-[#F97316]/80 shadow-sm ml-1 sm:ml-2 font-bold uppercase text-sm" title="Nou Esdeveniment">
+                <Plus size={20}/><span className="hidden sm:inline">Nou</span>
+            </button>
+        </>
+    );
+
+    return (
+        <ProjectPresentation
+            forcedTitle={calendarTitle || "Agenda de Sóc de Poble"}
+            forcedSubtitle={`${deferredEvents.length} esdeveniments actius`}
+            viewModes={['calendar', 'document']}
+            defaultViewMode="calendar"
+            enableSearch={false}
+            customActions={calendarActions}
+            seoImage="/assets/products/2026-03-22_2233_ROBA_samarreta_soc_de_poble/camiseta_nano_oficial.jpg"
+            renderCalendar={() => (
+                <div className="flex flex-col relative w-full h-full max-w-[1500px] mx-auto px-0 md:px-8 pb-12 pt-4">
+                    <div className="fc-theme-socdepoble relative px-2 mb-8">
+                        <FullCalendar
+                            ref={calendarRef}
+                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
+                            initialView="dayGridMonth"
+                            locales={[caLocale, esLocale, enLocale, frLocale, deLocale]}
+                            locale="ca"
+                            firstDay={1}
+                            navLinks={true}
+                            nowIndicator={true}
+                            dayMaxEventRows={true}
+                            views={{ timeGridFourDay: { type: 'timeGrid', duration: { days: 4 }, buttonText: '4 dies' } }}
+                            headerToolbar={false}
+                            datesSet={handleDatesSet}
+                            events={deferredEvents}
+                            editable={true}
+                            droppable={true}
+                            selectable={true}
+                            selectMirror={true}
+                            dayMaxEvents={true}
+                            height="auto"
+                            contentHeight="auto"
+                            eventContent={(eventInfo) => {
+                                const { extendedProps, title } = eventInfo.event;
+                                const agent = extendedProps?.agentId ? AGENTS.find(a => a.id === extendedProps.agentId) : null;
+                                const hasAvatar = agent && agent.avatar_url;
+
+                                return (
+                                    <div 
+                                        className={`fc-event-capsule ${extendedProps?.type || 'personal'} flex items-center gap-1 overflow-hidden whitespace-nowrap text-xs p-1 rounded w-full backdrop-blur-md cursor-pointer`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={title}
+                                    >
+                                        {hasAvatar ? (
+                                            <img src={agent.avatar_url} alt="" className="w-4 h-4 rounded-full object-cover shrink-0" aria-hidden="true" />
+                                        ) : (
+                                            <span className="emoji flex items-center justify-center shrink-0" aria-hidden="true">
+                                                {extendedProps.emoji || '✨'}
+                                            </span>
+                                        )}
+                                        <span className="truncate">{title}</span>
+                                    </div>
+                                );
+                            }}
+                            eventClick={(clickInfo) => {
+                                if (!clickInfo.event.id.startsWith('MOCK')) {
+                                    navigate(`/sessio/${clickInfo.event.id.replace('gcal-', '')}`);
+                                }
+                            }}
+                            eventDrop={(dropInfo) => {
+                                console.log(`Event ${dropInfo.event.title} dropped to ${dropInfo.event.start}`);
+                            }}
+                        />
+                    </div>
+                    <CalendarManagerModal 
+                        isOpen={isManagerOpen}
+                        onClose={() => setIsManagerOpen(false)}
+                        calendars={calendars}
+                        selectedCalIds={selectedCalIds}
+                        toggleCalendar={toggleCalendar}
+                        hostCalId={hostCalId}
+                        toggleHost={toggleHost}
+                        token={token}
+                        login={login}
+                        logout={logout}
+                        internalCalendars={internalCalendars}
+                        selectedInternalCalIds={selectedInternalCalIds}
+                        toggleInternalCalendar={toggleInternalCalendar}
+                    />
+                </div>
+            )}
+            renderDocument={() => (
+                <section ref={containerRef} className="pb-12 pt-8 w-full relative max-w-[1500px] mx-auto px-0 md:px-8">
+                    <div className="flex items-center gap-3 mb-6 px-4">
+                        <Brain size={20} className="text-[#F97316]" />
+                        <h2 className="text-xl font-black tracking-wider text-theme-text uppercase flex items-center gap-3">
+                            ÀNCORES DE MEMÒRIA RECENT
+                            <span className="text-sm font-bold bg-theme-accent-primary/10 px-3 py-1 rounded-full text-theme-text/70">
+                                {deferredEvents.length} PUBLICACIONS
+                            </span>
+                        </h2>
+                    </div>
+                    
+                    <VirtualizedEventFeed 
+                        effectiveViewMode={effectiveViewMode} 
+                        columnCount={columnCount} 
+                        events={deferredCombined}
+                    />
+                </section>
+            )}
+        />
+    );
+};
+
+export default function MasterCalendar() {
+    return (
+        <GlobalErrorBoundary>
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || 'dummy_client_id'}>
+                <MasterCalendarContent />
+            </GoogleOAuthProvider>
+        </GlobalErrorBoundary>
+    );
+}

@@ -32,7 +32,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isAttachmentMenuOpen, setIsAttachmentMenuOpen] = useState(false);
   const [activeModule, setActiveModule] = useState(null); // 'poll' | 'list'
-  const [inputHeight, setInputHeight] = useState('44px');
+  const [inputHeight, setInputHeight] = useState('48px');
   const fileInputRef = useRef(null);
   const textareaRef = useRef(null);
   const scrollRef = useRef(null);
@@ -71,7 +71,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     const el = textareaRef.current;
     if (!el) return;
     
-    el.style.height = '44px';
+    el.style.height = '48px';
     const newHeight = Math.min(el.scrollHeight, 150);
     el.style.height = `${newHeight}px`; // Mutació directa DOM
     
@@ -318,7 +318,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
           setMessages(prev => prev.map(m => m.id === promptMsg.id ? { ...m, type: 'archon', text: "Ai, m'he travat processant la nota de veu. La pols digital es massa grossa." } : m));
       } finally {
           setIsTyping(false);
-          setInputHeight('44px');
+          setInputHeight('48px');
       }
   }, [context]);
 
@@ -462,7 +462,7 @@ const IAIAChatSidebar = ({ isOpen, onClose, context = "general" }) => {
     } finally {
       if (geminiTimerId) clearTimeout(geminiTimerId);
       setIsTyping(false);
-      setInputHeight('44px');
+      setInputHeight('48px');
     }
   };
 

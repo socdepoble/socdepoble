@@ -1,0 +1,155 @@
+.admin-pinned-manager {
+    background: var(--m3-surface);
+    border-radius: 0px ;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    width: 100%;
+    box-shadow: var(--shadow-hard);
+    z-index: 1000;
+}
+
+.admin-pinned-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--m3-outline-variant);
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-gold {
+    color: #FFD700;
+}
+
+.admin-pinned-body {
+    padding: 24px;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.description {
+    color: var(--m3-on-surface-variant);
+}
+
+.pinned-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pin-slot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 0px;
+    border: 2px dashed var(--m3-outline);
+    background: var(--m3-surface-variant);
+}
+
+.pin-slot.occupied {
+    border-style: solid;
+    border-color: var(--m3-primary);
+    background: var(--m3-secondary-container);
+}
+
+.slot-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 0px;
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.slot-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.item-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: 0px;
+    object-fit: cover;
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.remove-btn {
+    padding: 8px;
+    color: var(--m3-error);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.m3-search-bar {
+    background: var(--m3-surface-container-high);
+    border-radius: 0px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+}
+
+.m3-search-bar input {
+    background: none;
+    border: none;
+    width: 100%;
+    padding: 8px;
+    color: var(--m3-on-surface);
+    outline: none;
+}
+
+.search-results {
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px;
+    background: var(--m3-surface-container-low);
+    border-radius: 0px;
+}
+
+.slot-assign-btn {
+    padding: 4px 12px;
+    min-width: 40px;
+}
+
+.assign-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.admin-pinned-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--m3-outline-variant);
+    display: flex;
+    justify-content: flex-end;
+}

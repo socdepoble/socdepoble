@@ -49,7 +49,7 @@
 
 @supports (content-visibility: auto) {
   .sp-matrioixca[data-escala="targeta"] {
-    content-visibility: auto; /* Virtualització asíncrona salvatge */
+    /* content-visibility: auto; - Disabled for iPad A10 */ /* Virtualització asíncrona salvatge */
     contain-intrinsic-size: 0 450px;
   }
 }
@@ -62,7 +62,7 @@ dialog.sp-matrioixca {
   border: none;
   padding: 0; /* El padding va al head/body/foot */
   contain: layout paint;
-  content-visibility: auto;
+  /* content-visibility: auto; - Disabled for iPad A10 */
 }
 dialog.sp-matrioixca:not([open]) {
   display: none !important;

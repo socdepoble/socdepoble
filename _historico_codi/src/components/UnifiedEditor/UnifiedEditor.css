@@ -1,0 +1,58 @@
+/* UnifiedEditor.css - import this after Tailwind so custom vars apply */
+:root{
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-blur: 6px;
+}
+
+/* Root container keeps layout to Tailwind flex; avoid grid conflicts */
+.unified-editor-root { width:100%; }
+
+/* Card style for reading comfort and glass effect */
+.block-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* Editor textarea visual tuning */
+.editor-textarea {
+  min-height: 220px;
+  max-height: 60vh;
+  border-radius: 12px;
+  border: 1px dashed rgba(255,255,255,0.03);
+  line-height: 1.5;
+  caret-color: var(--theme-accent-primary);
+}
+
+/* Preview pane ensures text wraps and doesn't overflow */
+.preview-pane {
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Print/export safe rules */
+@media print {
+  .editor-textarea, .nav, .unified-editor-root > header { display: none !important; }
+  .block-card { box-shadow: none !important; border: none !important; background: #fff !important; color: #000 !important; }
+  img { max-width: 100% !important; height: auto !important; page-break-inside: avoid; }
+  h1,h2,h3 { page-break-after: avoid; }
+}
+
+/* -------------------------------------------
+   PAGINACIÓ HÍBRIDA (Visor de Lectura A10) 
+   ------------------------------------------- */
+
+/* Només desktop landscape activa columnes reals per fer d'eReader */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .book-viewer .flex-1.overflow-auto {
+    column-count: 2 !important;
+  }
+}
+
+/* Snap-y sempre actiu per a sensació de pas de plana físic */
+.book-viewer .flex-1.overflow-auto {
+  scroll-snap-type: y mandatory;
+}

@@ -17,8 +17,8 @@
 .pedra-seca-purifier button, 
 .pedra-seca-purifier a, 
 .pedra-seca-purifier [role="button"] {
-  min-height: 44px !important;
-  min-width: 44px !important;
+  min-height: 48px !important;
+  min-width: 48px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -1,0 +1,172 @@
+.master-console-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.master-console-window {
+    width: 90%;
+    max-width: 600px;
+    background: #0a0a0c;
+    border: 1px solid rgba(0, 242, 255, 0.3);
+    border-radius: 0px;
+    box-shadow: var(--shadow-hard);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: masterFadeIn 0.3s ease-out;
+}
+
+@keyframes masterFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.master-header {
+    padding: 16px 20px;
+    background: rgba(0, 242, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.master-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: var(--font-weight-bold);
+    font-size: 0.9rem;
+    color: #00f2ff;
+    letter-spacing: 1px;
+}
+
+.master-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.master-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.master-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.master-field label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.master-field select,
+.master-field textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0px;
+    color: var(--text-main);
+    padding: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.master-field select:focus,
+.master-field textarea:focus {
+    border-color: #00f2ff;
+    background: rgba(0, 242, 255, 0.03);
+}
+
+.master-bottom-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.master-bottom-controls .master-field {
+    flex: 1;
+}
+
+.master-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: #ff0055;
+    padding: 8px 12px;
+    background: rgba(255, 0, 85, 0.05);
+    border: 1px solid rgba(255, 0, 85, 0.2);
+    border-radius: 0px;
+}
+
+.master-footer {
+    padding: 16px 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-master-primary {
+    background: linear-gradient(135deg, #00f2ff, #0072ff);
+    border: none;
+    border-radius: 0px;
+    color: var(--text-main);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-master-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hard);
+}
+
+.btn-master-secondary {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0px;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-master-secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}

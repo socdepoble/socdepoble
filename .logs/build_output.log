@@ -1,0 +1,213 @@
+
+> soc-de-poble-app@10.38.1 prebuild
+> npm run build:codex
+
+
+> soc-de-poble-app@10.38.1 build:codex
+> node scripts/build_amazon_codex.js
+
+📝 Trobat un total de 790 arxius per alimentar el Llibre...
+✅ Llibre forjat a public/llibre-sencer.html amb l'arbre de directoris i el codi destil·lat.
+
+> soc-de-poble-app@10.38.1 build
+> vite build && npm run copy-wasm
+
+vite v7.3.1 building client environment for production...
+transforming...
+
+&#39;/assets/patterns/noise.png&#39; referenced in & didn't resolve at build time, it will remain unchanged to be resolved at runtime
+
+/assets/patterns/noise.png referenced in /assets/patterns/noise.png didn't resolve at build time, it will remain unchanged to be resolved at runtime
+✓ 4458 modules transformed.
+rendering chunks...
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/supabaseClient.js is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/ToastProvider.jsx but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/app/context/AuthContext.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/authService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/calendarService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/chatService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/geminiService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/healthCheckService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/marketService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/notificationService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/pushNotifications.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/seedService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/Notes.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ProjectPresentation.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/ChatDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/HistoryModal.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/MagicPregoner.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/marketService.js is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/iaiaService.js but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/exportService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/iaiaService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/notebookService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/Archive.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/MarketItemDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ResourceDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/AddItemModal.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/AdminPinnedManager.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/Marketplace.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/hooks/useUnifiedFeedData.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/node_modules/helia/dist/src/index.js is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/ipfsManager.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/ipfsManager.js but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/ipfsManager.js, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ProjectPresentation.jsx is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/AppLayout.jsx but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/ChatEmptyState.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/utils/toast.js is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/chat/ChatInputArea.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/chat/ChatInputArea.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/chat/ChatInputArea.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/chat/ChatInputArea.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/chat/MessageBubble.jsx but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/ChatDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/IAIAChatSidebar.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/ToastProvider.jsx, dynamic import will not move module into another chunk.
+
+[plugin vite:reporter] 
+(!) /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/data.js is dynamically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/chatService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/chatService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/core/services/supabaseService.js but also statically imported by /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/Archive.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/DAFOPage.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/DidacticPage.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/MarketItemDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/MasterCalendar.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/PostDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ResourceDetail.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/SearchDiscover.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/Towns.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/components/Marketplace.jsx, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/hooks/useFeedData.js, /Users/javillinares/Documents/Antigravity/Sóc de Poble/src/shared/hooks/useUnifiedFeedData.js, dynamic import will not move module into another chunk.
+
+computing gzip size...
+dist/manifest.webmanifest                                       0.48 kB
+dist/assets/syncWorker-CMAN2t-s.js                              0.60 kB
+dist/assets/AccessHandlePoolVFS-DIxy3VGY.js                     3.79 kB
+dist/assets/AccessHandlePoolVFS-DG_6iK89.js                     3.83 kB
+dist/assets/FacadeVFS-DODodVUc.js                               6.30 kB
+dist/assets/iaiaWorker-CamnKnFe.js                              6.45 kB
+dist/assets/FacadeVFS-C_uRDmok.js                               6.68 kB
+dist/assets/OPFSCoopSyncVFS-BacznC-s.js                         7.72 kB
+dist/assets/OPFSCoopSyncVFS-B1Zoj_cA.js                         7.77 kB
+dist/assets/sqlite3-opfs-async-proxy-DnD87MEV.js                9.42 kB
+dist/assets/IDBBatchAtomicVFS-C_awszT8.js                      12.44 kB
+dist/assets/IDBBatchAtomicVFS-DNqUxn_7.js                      12.48 kB
+dist/index.html                                                19.37 kB │ gzip:     6.14 kB
+dist/assets/visionWorker-G_0ISxHx.js                          117.37 kB
+dist/assets/WASQLiteDB.worker-BPyg-ARJ.js                     141.93 kB
+dist/assets/SharedSyncImplementation.worker-U_mdonrz.js       182.64 kB
+dist/assets/sqlite3-worker1-BLFiFvgf.js                       210.91 kB
+dist/assets/sqlite3-DGXXSD5r.wasm                             859.73 kB │ gzip:   399.15 kB
+dist/assets/wa-sqlite-Ba70bhIr.wasm                         1,116.88 kB │ gzip:   524.58 kB
+dist/assets/mc-wa-sqlite-CDz-quho.wasm                      1,302.58 kB │ gzip:   598.56 kB
+dist/assets/wa-sqlite-async-BqRatN9A.wasm                   2,278.92 kB │ gzip:   797.62 kB
+dist/assets/mc-wa-sqlite-async-DMvouIT-.wasm                2,499.89 kB │ gzip:   881.46 kB
+dist/assets/ort-wasm-simd-threaded.asyncify-KJiUAddF.wasm  27,099.55 kB │ gzip: 6,408.13 kB
+dist/assets/VoiceRecorder-DoX0HfJE.css                          1.02 kB │ gzip:     0.42 kB
+dist/assets/GhostMemorial-BoixzBwD.css                          1.05 kB │ gzip:     0.59 kB
+dist/assets/Map-DNHijmCf.css                                    1.18 kB │ gzip:     0.53 kB
+dist/assets/Notes-8YK5oTC3.css                                  1.75 kB │ gzip:     0.69 kB
+dist/assets/ManualPage-E822kZvN.css                             1.91 kB │ gzip:     0.65 kB
+dist/assets/InfografiaGallery-DAlZlxqf.css                      2.04 kB │ gzip:     0.80 kB
+dist/assets/ShareHub-R67Spftt.css                               2.27 kB │ gzip:     0.78 kB
+dist/assets/AulaRural-DgxeneBg.css                              2.33 kB │ gzip:     0.87 kB
+dist/assets/DidacticPage-CAq_5WxQ.css                           2.47 kB │ gzip:     0.92 kB
+dist/assets/ProfilePowerMenu-cnLZhYQE.css                       2.57 kB │ gzip:     0.88 kB
+dist/assets/DAFOPage-ZRHPOelX.css                               2.90 kB │ gzip:     1.01 kB
+dist/assets/GenesisViewer-Uvtojn5-.css                          3.00 kB │ gzip:     1.04 kB
+dist/assets/DesignCanon-iag9JjOq.css                            3.08 kB │ gzip:     0.99 kB
+dist/assets/SessionChronicle-DEH69UqG.css                       3.24 kB │ gzip:     1.00 kB
+dist/assets/Marketplace-DjFIOAMV.css                            4.21 kB │ gzip:     1.35 kB
+dist/assets/PlaygroundPortal-BEgSgrEe.css                       4.74 kB │ gzip:     1.51 kB
+dist/assets/SolatgeConsole-S55vPfhf.css                         4.91 kB │ gzip:     1.40 kB
+dist/assets/IAIAChatSidebar-_ME2Xef3.css                        5.21 kB │ gzip:     1.39 kB
+dist/assets/MasterCalendar-vRRtLzDU.css                         5.75 kB │ gzip:     1.51 kB
+dist/assets/Archive-Ds_0S4--.css                                6.11 kB │ gzip:     1.63 kB
+dist/assets/PDFBategatManager-BF0O5XIV.css                      6.32 kB │ gzip:     1.63 kB
+dist/assets/NexusFlash-CgExU_pf.css                             6.89 kB │ gzip:     2.00 kB
+dist/assets/VisionView-CfIZHAM5.css                             7.32 kB │ gzip:     1.81 kB
+dist/assets/GlobalAssetAlbum-D4Q_qXTI.css                       7.84 kB │ gzip:     2.11 kB
+dist/assets/SearchDiscover-DclrrP-V.css                         8.87 kB │ gzip:     2.27 kB
+dist/assets/ProfileView-GeYw3sSu.css                            9.06 kB │ gzip:     2.31 kB
+dist/assets/OficiDocumentacio-BUfoEjum.css                      9.12 kB │ gzip:     2.40 kB
+dist/assets/Towns-Di6C4PiI.css                                 10.46 kB │ gzip:     2.51 kB
+dist/assets/TownDetail-RIkI3mT0.css                            12.72 kB │ gzip:     3.13 kB
+dist/assets/AdminPanel-DuMeaQ7j.css                            13.28 kB │ gzip:     2.93 kB
+dist/assets/BuscadorAjudes-fv7TsaCi.css                        13.62 kB │ gzip:     3.35 kB
+dist/assets/authService-BojwfV2a.css                           18.83 kB │ gzip:     4.42 kB
+dist/assets/index-CEDbZVae.css                                421.98 kB │ gzip:    57.90 kB
+dist/assets/_commonjs-dynamic-modules-TDtrdbi3.js               0.26 kB │ gzip:     0.20 kB
+dist/assets/ProfileCard-BXzP9Tjr.js                             0.73 kB │ gzip:     0.46 kB
+dist/assets/SystemPageLayout-DHY1KEzz.js                        1.07 kB │ gzip:     0.55 kB
+dist/assets/seedService-C0WNgMnQ.js                             1.16 kB │ gzip:     0.64 kB
+dist/assets/web-D34-IjiF.js                                     1.30 kB │ gzip:     0.56 kB
+dist/assets/authService-Bgkte3gq.js                             1.59 kB │ gzip:     0.67 kB
+dist/assets/AgentDirectory-CjnzK8SI.js                          1.75 kB │ gzip:     0.91 kB
+dist/assets/useUnifiedFeedData-B2xrhbkA.js                      2.07 kB │ gzip:     1.04 kB
+dist/assets/SearchNavBar-DvAzFEkd.js                            2.46 kB │ gzip:     1.00 kB
+dist/assets/ManualPage-kW-YcO7X.js                              2.67 kB │ gzip:     0.93 kB
+dist/assets/PlaygroundPortal-BIDo8qNk.js                        2.99 kB │ gzip:     1.11 kB
+dist/assets/ShareHub-Cn5D7BE1.js                                3.13 kB │ gzip:     1.27 kB
+dist/assets/DidacticPage-DBLT10_p.js                            3.18 kB │ gzip:     1.15 kB
+dist/assets/MedicationConfirm-G-BNz6VS.js                       3.35 kB │ gzip:     1.25 kB
+dist/assets/CategoryManager-DgLF14EE.js                         3.55 kB │ gzip:     1.13 kB
+dist/assets/syncService-2mELgCGo.js                             3.64 kB │ gzip:     1.59 kB
+dist/assets/Utilitats-BtAWyggB.js                               3.75 kB │ gzip:     1.40 kB
+dist/assets/SessionChronicle-YXjS2MiR.js                        3.76 kB │ gzip:     1.30 kB
+dist/assets/AulaRural-DNDdGuzo.js                               3.78 kB │ gzip:     1.38 kB
+dist/assets/DAFOPage-Cw_pwcip.js                                3.86 kB │ gzip:     1.27 kB
+dist/assets/CommunityDirectory-BGo7Ajnt.js                      4.00 kB │ gzip:     1.57 kB
+dist/assets/TranslationModal-hSiLWIhS.js                        4.38 kB │ gzip:     1.71 kB
+dist/assets/ControlGeneral-DZlwIFYA.js                          4.55 kB │ gzip:     1.79 kB
+dist/assets/VisionView-ceP7dYlf.js                              4.59 kB │ gzip:     1.42 kB
+dist/assets/Versions-CxpHeoBx.js                                4.64 kB │ gzip:     1.80 kB
+dist/assets/Ideoteca-Bjk249YH.js                                4.75 kB │ gzip:     1.77 kB
+dist/assets/wikipediaService-rkdaCDbm.js                        4.87 kB │ gzip:     1.57 kB
+dist/assets/SystemActionBar-DExMDlOb.js                         4.97 kB │ gzip:     1.61 kB
+dist/assets/DesignCanon-OJQog_qD.js                             5.25 kB │ gzip:     1.98 kB
+dist/assets/GhostMemorial-CIl5AgUy.js                           5.36 kB │ gzip:     1.92 kB
+dist/assets/MarketItemDetail-B5HKxQrc.js                        5.38 kB │ gzip:     2.23 kB
+dist/assets/InfografiaGallery-CCEMO3Sg.js                       5.43 kB │ gzip:     2.02 kB
+dist/assets/MenuManagementView-Btw9Vzm9.js                      5.74 kB │ gzip:     1.88 kB
+dist/assets/IAIASandbox-CFKMuBeo.js                             6.01 kB │ gzip:     2.36 kB
+dist/assets/ProfilePowerMenu-BPDTeKMY.js                        6.82 kB │ gzip:     1.90 kB
+dist/assets/MediaManager-CPP687se.js                            7.26 kB │ gzip:     2.35 kB
+dist/assets/Chrome145Report-CG5VRkj7.js                         7.47 kB │ gzip:     2.29 kB
+dist/assets/VoiceRecorder-D-O0t_1Y.js                           7.50 kB │ gzip:     2.60 kB
+dist/assets/AccessHandlePoolVFS-Br9doGmV.js                     7.95 kB │ gzip:     2.54 kB
+dist/assets/NexusFlash-BC4k9RCQ.js                              8.36 kB │ gzip:     2.47 kB
+dist/assets/ConnectarPage-DPoQVfDd.js                           8.39 kB │ gzip:     2.84 kB
+dist/assets/ArchitecteView-CJenFi-V.js                          8.64 kB │ gzip:     3.32 kB
+dist/assets/ResourceDetail-B0z_Tn4E.js                          9.07 kB │ gzip:     2.92 kB
+dist/assets/IaiesMundialsDirectory-CsT2hbp_.js                  9.46 kB │ gzip:     3.93 kB
+dist/assets/HubView-BOaisKxx.js                                 9.52 kB │ gzip:     2.36 kB
+dist/assets/GlobalAssetAlbum-DEmPFoRp.js                        9.54 kB │ gzip:     2.88 kB
+dist/assets/PostDetail-D6nHZmUA.js                              9.75 kB │ gzip:     3.35 kB
+dist/assets/AccessibilitatUniversal-BEnjEojU.js                 9.81 kB │ gzip:     2.39 kB
+dist/assets/Archive-8Of70H02.js                                 9.97 kB │ gzip:     3.14 kB
+dist/assets/Marketplace-DvdZ6Z_p.js                            10.11 kB │ gzip:     3.87 kB
+dist/assets/HistoryModal-DL8BJPGl.js                           10.29 kB │ gzip:     3.84 kB
+dist/assets/ChatManager-B6r9wZ7f.js                            11.98 kB │ gzip:     3.66 kB
+dist/assets/FacadeVFS-Bl9j1MnB.js                              12.87 kB │ gzip:     2.69 kB
+dist/assets/OPFSCoopSyncVFS-Cb8U0h64.js                        12.98 kB │ gzip:     3.45 kB
+dist/assets/VitalSecurity-BYQU4Vtq.js                          13.05 kB │ gzip:     3.98 kB
+dist/assets/Towns-Dp8pZHiv.js                                  14.61 kB │ gzip:     4.98 kB
+dist/assets/RoadmapView-C9KL4EuK.js                            19.11 kB │ gzip:     6.75 kB
+dist/assets/Register-Cq7SiQbr.js                               20.22 kB │ gzip:     5.91 kB
+dist/assets/TownDetail-D5soXwgm.js                             21.49 kB │ gzip:     6.55 kB
+dist/assets/SearchDiscover-DpFTDPep.js                         21.66 kB │ gzip:     6.00 kB
+dist/assets/IDBBatchAtomicVFS-Dxd5-9UN.js                      23.26 kB │ gzip:     5.75 kB
+dist/assets/BuscadorAjudes-BB0_qFda.js                         25.68 kB │ gzip:     9.09 kB
+dist/assets/SolatgeConsole-SSdIedkA.js                         27.14 kB │ gzip:     6.02 kB
+dist/assets/Notes-CFGmnfy2.js                                  43.77 kB │ gzip:     9.99 kB
+dist/assets/IAIAChatSidebar-C0DEdEvE.js                        45.72 kB │ gzip:    10.81 kB
+dist/assets/Map-HhKo9GpW.js                                    59.71 kB │ gzip:    17.06 kB
+dist/assets/OficiDocumentacio-CIQiJz0c.js                      67.50 kB │ gzip:    15.58 kB
+dist/assets/vendor-CGTr5EVC.js                                 74.02 kB │ gzip:    21.00 kB
+dist/assets/browser-image-compression-CasUJMke.js              80.40 kB │ gzip:    23.91 kB
+dist/assets/ProfileView-CvXzlz-0.js                            81.14 kB │ gzip:    15.45 kB
+dist/assets/wa-sqlite-3-QVFwmL.js                              82.19 kB │ gzip:    22.03 kB
+dist/assets/mc-wa-sqlite-BAjv5Lvj.js                           82.59 kB │ gzip:    22.10 kB
+dist/assets/wa-sqlite-async-BmsEVK61.js                        86.66 kB │ gzip:    23.37 kB
+dist/assets/mc-wa-sqlite-async-jazQgvff.js                     87.06 kB │ gzip:    23.44 kB
+dist/assets/bson-BkvxR-ZB.js                                   96.56 kB │ gzip:    23.94 kB
+dist/assets/utils-DRsvG2OK.js                                 148.77 kB │ gzip:    36.88 kB
+dist/assets/epubGenerator-CQQdrYMr.js                         151.96 kB │ gzip:    36.79 kB
+dist/assets/AdminPanel-Cnp9dWa-.js                            185.37 kB │ gzip:    30.89 kB
+dist/assets/data-DvWQxayI.js                                  214.83 kB │ gzip:    47.34 kB
+dist/assets/db-core-4PmIjps2.js                               225.34 kB │ gzip:    68.63 kB
+dist/assets/GenesisViewer-DI1S8fWU.js                         238.67 kB │ gzip:    69.76 kB
+dist/assets/emoji-picker-react.esm-b_4JcXfi.js                333.42 kB │ gzip:    73.90 kB
+dist/assets/MasterCalendar-BgMtJAIj.js                        362.34 kB │ gzip:    96.42 kB
+dist/assets/EpubViewer-zM8uH0bj.js                            512.79 kB │ gzip:   125.92 kB
+dist/assets/RichTextEditor-BHQhvnuU.js                        515.31 kB │ gzip:   136.65 kB
+dist/assets/index-DuOaK0rE.js                                 576.94 kB │ gzip:   163.66 kB
+dist/assets/ui-BvBturPG.js                                    665.87 kB │ gzip:   160.34 kB
+dist/assets/PDFBategatManager-CvPYRbsi.js                   1,185.94 kB │ gzip:   321.76 kB
+dist/assets/index-BiBCCEfr.js                               4,385.93 kB │ gzip: 1,018.85 kB
+
+(!) Some chunks are larger than 1000 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 42.24s
+
+PWA v1.2.0
+Building src/app/sw.js service worker ("es" format)...
+vite v7.3.1 building client environment for production...
+transforming...
+✓ 65 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/sw.mjs  18.07 kB │ gzip: 6.12 kB
+✓ built in 227ms
+
+PWA v1.2.0
+mode      injectManifest
+format:   es
+precache  391 entries (147295.70 KiB)
+files generated
+  dist/sw.js
+
+> soc-de-poble-app@10.38.1 copy-wasm
+> mkdir -p dist/assets && cp node_modules/@sqlite.org/sqlite-wasm/dist/sqlite3.wasm dist/assets/sqlite3.wasm || copy node_modules\@sqlite.org\sqlite-wasm\dist\sqlite3.wasm dist\assets\sqlite3.wasm
+

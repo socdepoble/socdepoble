@@ -11,10 +11,10 @@
             "id": "471e3df6febb114b",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "icon": "lucide-git-fork",
+              "title": "Vista gráfica"
             }
           }
         ]
@@ -74,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 571.5
+    "width": 459.5
   },
   "right": {
     "id": "8964847d7ce734f8",
@@ -164,7 +164,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,6 +180,24 @@
   },
   "active": "471e3df6febb114b",
   "lastOpenFiles": [
+    "05_skills_colmena/Les Petorretes.md",
+    "registre_automillora.md",
+    "05_skills_colmena/Les 11 Petorretes.md",
+    "IAIA MarIA.md",
+    "05_skills_colmena/ment_colmena_atrc.md",
+    "Les 11 Petorretas.md",
+    "04_actes_marmota/acta_marmota.md",
+    "05_skills_colmena/registre_automejora.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_deepseek_part2.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_deepseek_part1.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_copilot_part3.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_copilot_part2.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_copilot_part1.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_copilot.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final/prompt_ronda_3_complet.md",
+    "04_actes_marmota/actes/260622_prompts_auditoria_final",
+    "00_index.md",
+    "02_filosofia_sosp/filosofia_rituals.md",
     "Sin título.base",
     "06_arxiu_historic/plantilles/260619_1430_Plantilla_Planificacio.md",
     "06_arxiu_historic/plantilles/260619_1430_Plantilla_Modo_Produccion.md",
@@ -189,31 +208,13 @@
     "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_Sistema_Nervios.md",
     "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_Protocol_Lazaro.md",
     "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_La_Forja.md",
-    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Ecosistema.md",
-    "06_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Anima.md",
-    "06_arxiu_historic/arquitectura/260616_0520_Arquitectura_Skills_Arrel.md",
-    "06_arxiu_historic/arquitectura/260616_0515_Arquitectura_Identitat.md",
-    "06_arxiu_historic/arquitectura/260616_0510_Arquitectura_Gestio.md",
-    "06_arxiu_historic/arquitectura/260616_0505_Arquitectura_Etnografia.md",
-    "06_arxiu_historic/arquitectura/260616_0500_Arquitectura_Disseny.md",
-    "06_arxiu_historic/arquitectura/260616_0455_Arquitectura_Directives.md",
-    "06_arxiu_historic/arquitectura/260616_0450_Arquitectura_General.md",
-    "06_arxiu_historic/cultura_local/INSTRUCCIONS_SAFATA.md",
     "06_arxiu_historic/plantilles",
     "06_arxiu_historic/cultura_local",
     "06_arxiu_historic/arquitectura",
     "06_arxiu_historic",
-    "05_skills_colmena/ment_colmena_atrc.md",
     "05_skills_colmena",
-    "04_actes_marmota/actes/reunions_humanes/260618_1200_Acta_Sollutia.md",
-    "04_actes_marmota/actes/sessions/260619_1300_Sessio_Estandarditzacio_Termodinamica.md",
-    "04_actes_marmota/actes_sessio/26-06-15_0328_ACTA_SESSIO_tecnica_pedra_seca.md",
-    "04_actes_marmota/actes_sessio/26-06-14_1200_ACTA_SESSIO_petorreta_asiatica.md",
-    "04_actes_marmota/actes_sessio/26-06-14_1100_ACTA_SESSIO_prompts_complets.md",
     "04_actes_marmota/actes/sessions",
     "04_actes_marmota/actes/reunions_humanes",
-    "04_actes_marmota/actes_sessio",
-    "04_actes_marmota/actes_marmota",
-    "04_actes_marmota/actes"
+    "04_actes_marmota/actes_sessio"
   ]
 }

@@ -244,18 +244,18 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
             <div className="flex items-center justify-between min-h-[56px] px-2 sm:px-4 w-full max-w-7xl mx-auto overflow-hidden">
                 
                 <div className="flex items-center justify-start gap-1 shrink-0">
-                    <button onClick={() => navigate(-1)} className="flex items-center justify-center min-h-[44px] w-[44px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0" aria-label="Tornar arrere">
+                    <button onClick={() => navigate(-1)} className="flex items-center justify-center min-h-[48px] w-[48px] rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation shrink-0" aria-label="Tornar arrere">
                         <ArrowLeft size={20} strokeWidth={2.5} />
                     </button>
                     
-                    <button className={`flex items-center justify-center gap-1.5 min-h-[44px] px-3 sm:px-4 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 opacity-100 shadow-inner' : ''}`} aria-label={t('project.open_index', "Obrir Índex i Pàgines")} title={t('project.open_index', "Obrir Índex i Pàgines")} onClick={() => setIsTocOpen(!isTocOpen)}>
+                    <button className={`flex items-center justify-center gap-1.5 min-h-[48px] px-3 sm:px-4 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm ${isTocOpen ? 'bg-white/20 opacity-100 shadow-inner' : ''}`} aria-label={t('project.open_index', "Obrir Índex i Pàgines")} title={t('project.open_index', "Obrir Índex i Pàgines")} onClick={() => setIsTocOpen(!isTocOpen)}>
                         <Book size={20} strokeWidth={2.5} />
                         <span className="tabular-nums font-black tracking-widest whitespace-nowrap opacity-90">
                             1/{totalPages}
                         </span>
                     </button>
 
-                    <button className="hidden md:flex items-center justify-center min-h-[44px] w-[44px] hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation shrink-0" title={isFullscreen ? "Surt de Pantalla Completa" : "Llegit a Pantalla Completa"} onClick={toggleFullscreen}>
+                    <button className="hidden md:flex items-center justify-center min-h-[48px] w-[48px] hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation shrink-0" title={isFullscreen ? "Surt de Pantalla Completa" : "Llegit a Pantalla Completa"} onClick={toggleFullscreen}>
                         {isFullscreen ? <Minimize size={20} strokeWidth={2.5} /> : <Maximize size={20} strokeWidth={2.5} />}
                     </button>
                 </div>
@@ -264,16 +264,16 @@ const UniversalDetail = ({ type: propType, slug: propSlug }) => {
                 </div>
 
                 <div className="flex items-center justify-end gap-1 sm:gap-2 flex-1 min-w-0 overflow-x-auto no-scrollbar scroll-smooth">
-                    <button className={`flex items-center justify-center gap-1.5 min-h-[44px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 animate-pulse" : ""}`} aria-label="Traduir Pàgina" disabled={translating} onClick={() => openTranslationModal({ postId: item?.id || slug, title: itemName })}>
+                    <button className={`flex items-center justify-center gap-1.5 min-h-[48px] px-2 sm:px-3 rounded-xl hover:bg-white/20 active:scale-95 transition-colors touch-manipulation font-bold uppercase text-sm shrink-0 ${translating ? "text-amber-300 animate-pulse" : ""}`} aria-label="Traduir Pàgina" disabled={translating} onClick={() => openTranslationModal({ postId: item?.id || slug, title: itemName })}>
                         {translating ? <Globe size={20} strokeWidth={2.5} className="animate-spin" /> : <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg" alt="Google Translate" className="w-[20px] h-[20px] object-contain drop-shadow-sm brightness-110" />}
                         <span className="hidden xl:inline tracking-wider">{t('project.translate', 'Traduir')}</span>
                     </button>
 
-                    <button className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" onClick={() => navigate('/chats/socdepoble')}>
+                    <button className="flex items-center justify-center gap-2 min-h-[48px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" onClick={() => navigate('/chats/socdepoble')}>
                         <MessageCircle size={20} /><span className="hidden xl:inline tracking-wider">{t('project.comment', 'Comentar')}</span>
                     </button>
 
-                    <button className="flex items-center justify-center gap-2 min-h-[44px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" onClick={() => {
+                    <button className="flex items-center justify-center gap-2 min-h-[48px] px-2 sm:px-3 hover:bg-white/20 rounded-xl active:scale-95 touch-manipulation font-bold uppercase text-sm shrink-0" onClick={() => {
         if (navigator.share) navigator.share({ title: 'Sóc de Poble', url: window.location.href });
       }}>
                         <Share2 size={20} /><span className="hidden xl:inline tracking-wider">{t('project.share', 'Compartir')}</span>

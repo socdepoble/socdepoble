@@ -1,0 +1,90 @@
+{
+  "name": "Sóc de Poble",
+  "short_name": "Sóc de Poble",
+  "description": "La xarxa social rural sobirana. Connectant pobles, preservant memòria, bategant en comunitat.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ca-ES",
+  "dir": "ltr",
+  "categories": ["social", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "El Mur",
+      "short_name": "Mur",
+      "description": "Veure les últimes publicacions del poble",
+      "url": "/mur"
+    },
+    {
+      "name": "El Mercat",
+      "short_name": "Mercat",
+      "description": "Explora productes locals i de proximitat",
+      "url": "/mercat"
+    },
+    {
+      "name": "Xat",
+      "short_name": "Xat",
+      "description": "Conversa amb els veïns i agents IAIA",
+      "url": "/xat"
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "images",
+          "accept": ["image/*"]
+        }
+      ]
+    }
+  },
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "serviceworker": {
+    "url": "/sw.js",
+    "scope": "/",
+    "type": "module",
+    "update_via_cache": "none"
+  }
+}

@@ -1,0 +1,39 @@
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/app/context/DesignContext.jsx
+  78:8  warning  React Hook useEffect has a missing dependency: 'compactMenus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/Carousel.jsx
+  20:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  18 |      
+  19 |     useEffect(() => {
+> 20 |         setWorkingImages(images.filter(img => img));
+     |         ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  21 |         setLoadedImages({});
+  22 |         setCurrentIndex(0);
+  23 |     }, [images]);  react-hooks/set-state-in-effect
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/components/ChatDetail.jsx
+   74:17  warning  The ref value 'timersRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'timersRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+  345:5   warning  React Hook useCallback has missing dependencies: 'replyingToItem' and 'safeSetTimeout'. Either include them or remove the dependency array                                                                                                                         react-hooks/exhaustive-deps
+  387:6   warning  React Hook useEffect has a missing dependency: 'safeSetTimeout'. Either include it or remove the dependency array                                                                                                                                                  react-hooks/exhaustive-deps
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useBidirectionalSupabaseSync.js
+  67:6  warning  React Hook useEffect has a missing dependency: 'syncToSupabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/hooks/useCIDRenderer.js
+  232:6   warning  React Hook useEffect has a missing dependency: 'resolveCidsWithLimit'. Either include it or remove the dependency array                                                                                                                                          react-hooks/exhaustive-deps
+  238:43  warning  The ref value 'cacheRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'cacheRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+  243:16  warning  The ref value 'fetchRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'fetchRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+/Users/javillinares/Documents/Antigravity/Sóc de Poble/src/pages/ProjectPresentation.jsx
+  294:8  warning  React Hook useCallback has missing dependencies: 'forcedHtml', 'forcedSubtitle', and 'forcedTitle'. Either include them or remove the dependency array. If 'setHtmlContent' needs the current value of 'forcedHtml', you can also switch to useReducer instead of useState and read 'forcedHtml' in the reducer  react-hooks/exhaustive-deps
+
+✖ 10 problems (1 error, 9 warnings)
+

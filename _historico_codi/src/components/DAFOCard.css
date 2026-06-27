@@ -1,0 +1,123 @@
+.dafo-card-premium {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0px;
+    padding: 24px;
+    color: var(--text-main);
+    box-shadow: var(--shadow-hard);
+    margin: 20px 0;
+}
+
+.dafo-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.dafo-header h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    background: linear-gradient(to right, var(--color-primary), var(--color-primary-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dafo-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.dafo-matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+}
+
+.dafo-quadrant {
+    padding: 20px;
+    border-radius: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.quadrant-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.dafo-quadrant ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dafo-quadrant li {
+    font-size: 0.9rem;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    line-height: 1.4;
+}
+
+.dafo-quadrant li:last-child {
+    border-bottom: none;
+}
+
+/* 🟢 FORTALESES */
+.fortaleses {
+    border-left: 4px solid #22c55e;
+}
+
+.fortaleses .quadrant-label {
+    color: #22c55e;
+}
+
+/* 🔵 OPORTUNITATS */
+.oportunitats {
+    border-left: 4px solid #3b82f6;
+}
+
+.oportunitats .quadrant-label {
+    color: #3b82f6;
+}
+
+/* 🟡 DEBILITATS */
+.debilitats {
+    border-left: 4px solid #eab308;
+}
+
+.debilitats .quadrant-label {
+    color: #eab308;
+}
+
+/* 🔴 AMENACES */
+.amenaces {
+    border-left: 4px solid #ef4444;
+}
+
+.amenaces .quadrant-label {
+    color: #ef4444;
+}
+
+.dafo-footer-info {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .dafo-matrix {
+        grid-template-columns: 1fr;
+    }
+}

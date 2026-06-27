@@ -1,0 +1,360 @@
+.rural-ia-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--md-sys-color-surface);
+    min-height: calc(100dvh - var(--header-height));
+    padding-top: calc(var(--header-height) + 20px);
+}
+
+.rural-ia-header {
+    background: var(--accent);
+    color: white;
+    padding: 0 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    box-shadow: var(--shadow-hard);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.llumeta {
+    color: #ffd700;
+    display: flex;
+    align-items: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.icon-btn-ia {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.icon-btn-ia:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.rural-ia-header h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.persona-selector {
+    display: flex;
+    gap: 10px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--bg-card);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.persona-selector::-webkit-scrollbar {
+    display: none;
+}
+
+.persona-chip {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    border-radius: 0;
+    /* Llei del Zero Radius */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-secondary);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.persona-chip.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--md-sys-color-primary);
+    box-shadow: var(--shadow-hard);
+}
+
+.persona-info-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.persona-label {
+    font-size: var(--font-size-base);
+    opacity: 0.7;
+    text-transform: uppercase;
+}
+
+.persona-name {
+    font-size: var(--font-size-base);
+    font-weight: 800;
+}
+
+.query-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 0 ;
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.query-box textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: var(--font-size-base);
+    resize: none;
+    outline: none;
+    padding: 12px;
+}
+
+.consult-btn {
+    background: var(--md-sys-color-tertiary);
+    color: black;
+    padding: 12px 24px;
+    border-radius: 0;
+    /* ZERO RADIUS DIRECTIVE */
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.consult-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    border-color: var(--color-primary);
+}
+
+.btn-setup {
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    font-size: var(--font-size-base);
+}
+
+.history-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 60px;
+}
+
+.response-card {
+    padding: 20px;
+    border-radius: 0;
+    /* ZERO RADIUS */
+    border-left: 4px solid var(--md-sys-color-tertiary);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.response-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    opacity: 0.9;
+    font-size: var(--font-size-base);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--md-sys-color-tertiary);
+}
+
+.header-names {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.pet-badge {
+    background: var(--color-tertiary);
+    color: white;
+    font-size: 8px;
+    padding: 2px 6px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    border-radius: 0px;
+}
+
+.header-label {
+    font-size: 9px;
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+.header-avatar-name {
+    font-size: var(--font-size-base);
+    color: white;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.timestamp {
+    opacity: 0.5;
+    font-size: var(--font-size-base);
+}
+
+.copy-btn-mini {
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--color-teal);
+    color: var(--color-teal);
+    padding: 4px 10px;
+    font-size: var(--font-size-base);
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.copy-btn-mini:hover {
+    background: var(--color-teal);
+    color: black;
+}
+
+.response-query {
+    font-style: italic;
+    font-size: var(--font-size-base);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 12px;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.response-content {
+    line-height: 1.8;
+    font-size: var(--font-size-base);
+    color: white;
+    font-family: var(--font-main);
+    white-space: pre-wrap;
+}
+
+/* [V27] NOVES CLASSES: L'ULL DE LA IAIA (VISIÓ) */
+.query-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.camera-btn-ia {
+    background: rgba(93, 95, 239, 0.1);
+    border: 1px solid rgba(93, 95, 239, 0.2);
+    color: #5D5FEF;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px; 
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.camera-btn-ia:hover {
+    background: rgba(93, 95, 239, 0.2);
+    transform: scale(1.05);
+}
+
+.image-preview-bubble {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #5D5FEF;
+    margin-bottom: 15px;
+    background: #000;
+}
+
+.image-preview-bubble img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.remove-img-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #FF3B30;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+/* Animations from index.css are reused here (animate-bategat, status-pulse, llumeta) */

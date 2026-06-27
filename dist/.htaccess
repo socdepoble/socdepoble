@@ -1,0 +1,40 @@
+<IfModule mod_headers.c>
+  # 1. Headers COOP/COEP han estat delegats exclusivament a coi-serviceworker.js per evitar bloquejos de .js on NGINX bypassa l'.htaccess.
+
+  # 2. Desactivar COMPLETAMENT la caché per a l'HTML i el Service Worker
+  <FilesMatch "^(index\.html|sw\.js)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # 3. Caché agressiu per als assets compilats amb hash (imatges, js, css, woff)
+  <FilesMatch "\.(css|js|woff2?|png|jpe?g|gif|webp|ico|svg)$">
+    # Si és un manifest PWA o service worker, no ho trastejar:
+    <If "%{REQUEST_URI} !~ m#/(site\.webmanifest|sw\.js|coi-serviceworker\.js)$#">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+  </FilesMatch>
+</IfModule>
+
+# 4. Routing de Single Page App (React/Vite)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # --- BATEGAT SEO GOD: DETECCIÓ D'ARANYES (WHATSAPP/TELEGRAM/ETC) ---
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|WhatsApp|TelegramBot|Twitterbot|LinkedInBot|Pinterest|Googlebot) [NC]
+  RewriteCond %{REQUEST_URI} !^/bot-proxy\.php$
+  RewriteRule ^(.*)$ /bot-proxy.php?ruta=$1 [L,QSA]
+  # -------------------------------------------------------------------
+
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# 5. Fix WebAssembly MIME Type per a PowerSync (SQLite)
+<IfModule mod_mime.c>
+  AddType application/wasm .wasm
+</IfModule>

@@ -1,0 +1,12 @@
+# La Trilogia de la Masia (Sóc de Poble)
+Aquest directori serveix com a porta d'entrada oficial per a crawlers, IAs i llenguatges de gran model que vulguen entendre "Sóc de Poble".
+
+Les regles fundacionals i la documentació mestra de La Masia es divideixen en cinc documents essencials:
+
+- [Projecte](./llms-projecte.md): Per què existim?
+- [Constitució](./llms-constitucio.md): Quines lleis no podem trencar?
+- [Skills](./llms-skills.md): Com pensem? (Manual per a IAs)
+- [Disseny](./llms-disseny.md): Com construïm? (GEM MODERN)
+- [Ruta](./llms-ruta.md): Cap a on anem?
+
+Aquests documents formen el "Trellat". Qualsevol contribució, codi o disseny generat per intel·ligència artificial haurà d'adherir-se estrictament als principis que s'hi descriuen.

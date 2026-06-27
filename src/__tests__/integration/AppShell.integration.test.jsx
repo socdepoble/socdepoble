@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import AppLayout from '../../components/layout/AppLayout';
-const renderWithSafeArea = (safeTop = '44px') => {
+const renderWithSafeArea = (safeTop = '48px') => {
   // Simulem l'entorn iPad
   Object.defineProperty(window, 'navigator', {
     value: {
@@ -32,7 +32,7 @@ describe('AppShell - Integració iPad & Safe Areas', () => {
     jest.clearAllMocks();
   });
   test('respecta env(safe-area-inset-top) i calcula correctament --app-shell-height', () => {
-    renderWithSafeArea('44px');
+    renderWithSafeArea('48px');
     const main = screen.getByTestId('main-content');
     expect(main).toBeInTheDocument();
   });

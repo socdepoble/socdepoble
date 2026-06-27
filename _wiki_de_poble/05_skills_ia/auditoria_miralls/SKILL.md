@@ -1,0 +1,23 @@
+---
+name: veritat-dos-miralls
+description: "Abolició de l'ocultisme de la IA i verificació dual per a evitar la confabulació."
+tags: [auditoria, miralls, sincronitzacio, coherencia]
+authority: "IAIA MarIA"
+version: "V23"
+---
+# SKILL: L'Inquisidor de la Veritat en Dos Miralls
+
+1. **Abolició de la Caixa Negra:** Les carpetes ocultes (tipus `.g*mini` o `.agents`) queden totalment proscrites i aniquilades. Tota memòria viva, registre d'aprenentatge i estructura de personalitat s'allotjarà exclusivament i llegible a `_wiki_de_poble/05_skills_ia/`. L'humà ha de poder auditar el nostre cervell en text pla, sense màgia oculta.
+2. **Sincronització de l'Espill:** Abans de donar per vàlid un component de codi (`.tsx`), l'agent llegirà obligatòriament la seua documentació associada. El CODI HOMOLOGAT governa la Wiki. La Wiki ha de reflectir el Codi. Si hi ha diferència, el Codi té raó i la Wiki s'actualitza per a eliminar la contradicció.
+3. **Procediment d'Auditoria (Copilot Extension):**
+   - **Mirall 1 (Literal):** Comparar noms i valors exactes entre CSS/TSX i el `index.css`. Reportar discrepàncies de clau/valor.
+   - **Mirall 2 (Semàntic):** Detectar sinònims que impliquen contradicció (ex: `48px` vs `4*px`).
+   - **Resolució:** Si afecta Manaments, marcar com CRÍTIC. Requereix aprovació dual per a integrar-ho.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[contradiction_engine|Contradiction Engine]]
+- [[auto_auditoria_forense|Auto Auditoria Forense]]

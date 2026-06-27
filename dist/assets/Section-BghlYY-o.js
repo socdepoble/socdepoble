@@ -1,0 +1,1 @@
+import{j as s}from"./editor-CyNuEn8H.js";import"./vendor-lVjzY66u.js";const a=({id:c,title:o,subtitle:m,children:r,className:e="mb-16"})=>s.jsxs("section",{className:e,id:c,children:[o&&s.jsx("h2",{className:"sosp-h2 mb-6",children:o}),m&&s.jsx("h3",{className:"sosp-h3 mb-4",children:m}),r]});export{a as S};

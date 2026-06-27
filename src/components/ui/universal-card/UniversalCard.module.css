@@ -4,9 +4,7 @@
   position: relative;
   isolation: isolate;
   contain: layout paint;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 450px;
-  will-change: transform;
+  /* content-visibility: auto; - Disabled for iPad A10 */
   --uc-accent: #FF7300;
   
   --card-radius: 16px;

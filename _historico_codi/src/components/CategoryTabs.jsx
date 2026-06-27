@@ -1,0 +1,68 @@
+import { useTranslation } from 'react-i18next';
+import { useSocial } from '../app/context/SocialContext';
+import { useModalDispatch } from '../app/context/ModalContext';
+import './CategoryTabs.css';
+
+const CategoryTabs = ({ selectedRole, onSelectRole, exclude = [], tabs }) => {
+    const { t } = useTranslation();
+    const { setIsSocialManagerOpen } = useModalDispatch();
+    const { activeCategories } = useSocial();
+
+    const defaultRoles = [
+        { id: 'tot', label: t('common.role_all') },
+        { id: 'xat', label: t('common.role_all') }, // Fallback for chat-specific tabs
+        { id: 'gent', label: t('common.role_gent') },
+        { id: 'grup', label: t('common.role_grup') },
+        { id: 'empresa', label: t('common.role_empresa') },
+        { id: 'oficial', label: t('common.role_oficial') },
+        { id: 'treball', label: t('common.role_treball') },
+        { id: 'pobo', label: t('common.role_pobo') }
+    ];
+
+    const allRoles = tabs || defaultRoles;
+
+    // Filter by activeCategories, but always keep 'tot' or 'xat' (not both)
+    const roles = allRoles.filter(role => {
+        if (exclude.includes(role.id)) return false;
+
+        // Show 'tot', 'xat' or 'esdeveniments' as standard views
+        if (role.id === 'tot' || role.id === 'xat' || role.id === 'esdeveniments' || role.id === 'pobles') {
+            return true;
+        }
+
+        return activeCategories.includes(role.id);
+    }).reduce((acc, current) => {
+        // Robust deduplication by label
+        const x = acc.find(item => item.label.toLowerCase().trim() === current.label.toLowerCase().trim());
+        if (!x) {
+            return acc.concat([current]);
+        } else {
+            return acc;
+        }
+    }, []);
+
+    return (
+        <div className="category-tabs-master">
+            <div className="category-tabs-scroll">
+                {roles.map(role => (
+                    <button
+                        key={role.id}
+                        className={`category-tab ${selectedRole === role.id ? 'active' : ''}`}
+                        onClick={() => onSelectRole(role.id)}
+                    >
+                        {role.label}
+                    </button>
+                ))}
+            </div>
+            <button
+                className="category-add-button"
+                onClick={() => setIsSocialManagerOpen(true)}
+                title={t('social.personalize_menu', 'Personalitzar Menú')}
+            >
+                <Plus size={20} />
+            </button>
+        </div>
+    );
+};
+
+export default CategoryTabs;

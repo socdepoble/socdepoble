@@ -1,0 +1,234 @@
+.master-gallery-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.gallery-header {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gallery-header h2 {
+    font-size: 1.5rem;
+    color: var(--color-text-primary);
+    border-left: 4px solid var(--color-primary);
+    padding-left: 15px;
+}
+
+.gallery-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.gallery-search {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+}
+
+.gallery-search svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+}
+
+.gallery-search input {
+    width: 100%;
+    padding: 10px 15px 10px 40px;
+    border-radius: 0px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-primary);
+    outline: none;
+    transition: all 0.2s;
+}
+
+.gallery-search input:focus {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-hard);
+}
+
+.gallery-filter-chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.gallery-filter-chips button {
+    padding: 8px 16px;
+    border-radius: 0px;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.gallery-filter-chips button.active {
+    background: var(--color-primary);
+    color: black;
+    border-color: var(--color-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item-card {
+    background: var(--color-surface);
+    border-radius: 0px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-hard);
+}
+
+.item-preview {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #111;
+}
+
+.item-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.gallery-item-card:hover .item-preview img {
+    transform: scale(1.1);
+}
+
+.item-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 242, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.gallery-item-card:hover .item-overlay {
+    opacity: 1;
+}
+
+.item-badges {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.perm-badge {
+    padding: 4px;
+    border-radius: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+.perm-badge.private {
+    color: #ff4444;
+}
+
+.perm-badge.workgroup {
+    color: #ffaa00;
+}
+
+.perm-badge.public {
+    color: #00ff88;
+}
+
+.item-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.item-main-info {
+    flex: 1;
+}
+
+.item-info h3 {
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-info p {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.item-uploader {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.uploader-avatar,
+.uploader-avatar-placeholder {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    object-fit: cover;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.uploader-name {
+    font-size: 0.7rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+@media (max-width: 480px) {
+    .grid-view {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}

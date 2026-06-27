@@ -252,7 +252,7 @@ module.exports = {
       "__lit_env-safe-area-inset-top-0px--56px": "env(safe-area-inset-top,0px)+56px",
       "__lit_env-safe-area-inset-top-0px": "env(safe-area-inset-top,0px)",
       "__lit_var---z-sticky-200": "var(--z-sticky,200)",
-      "__lit_44px": "44px",
+      "__lit_48px": "48px",
       "__lit_201": "201",
       "__lit_40vh": "40vh",
       "__lit_500px": "500px",

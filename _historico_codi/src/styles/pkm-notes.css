@@ -1,0 +1,50 @@
+/* 
+  Lleis Arquitectòniqes Claude PKM 
+  SÓC DE POBLE - A10 Tèrmic Survival 
+*/
+
+/* 
+ LLEI 2: BLINDATGE A L'ASIDE DE NOTES 
+ Evita que qualsevol lletra escrivint-se force un repintat global 
+*/
+#pkm-mountPoint, aside.pkm-container {
+    contain: strict; /* Aïllament absolut de size, layout, paint i style */
+    content-visibility: auto; /* El navegador no recalcula res si no està al viewport */
+    will-change: transform, contents; /* Hint pipeline isolat GPU */
+    
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    transform: translateZ(0); /* Forcem Compositor layer pel GPU (0 repaints en reflow) */
+    
+    background-color: var(--bg-panel);
+    border-left: 1px solid var(--border-master);
+    box-shadow: -4px 0 16px rgba(0,0,0,0.05);
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* 
+ LLEI 4: HIGHLIGHTS SENSE COL·LAPSE COLUMNAR
+ El format multi-column (CSS columns) mor quan hi ha elements block interns 
+ que forcen talls estrambòtics. Ací evitem el trencament:
+*/
+mark.pkm-highlight {
+    display: inline;
+    break-inside: avoid;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    
+    background-color: rgba(249, 115, 22, 0.3); /* Theme Accent 0.3 opacity aprox */
+    border-bottom: 2px solid var(--theme-accent-primary, #F97316);
+    color: inherit;
+    transition: background-color 0.2s ease;
+    border-radius: 2px;
+}
+
+mark.pkm-highlight:hover,
+mark.pkm-highlight.active {
+    background-color: rgba(249, 115, 22, 0.5);
+    cursor: pointer;
+}

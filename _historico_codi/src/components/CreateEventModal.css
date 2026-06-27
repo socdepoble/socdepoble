@@ -1,0 +1,65 @@
+.ai-suggestion-bar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16px 8px 16px;
+    margin-top: -8px;
+    /* Pull closer to identity bar */
+}
+
+.ai-magic-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 0px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    cursor: pointer;
+    box-shadow: var(--shadow-hard);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-size: 200% auto;
+}
+
+.ai-magic-pill:hover:not(:disabled) {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hard);
+}
+
+.ai-magic-pill:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #e2e8f0;
+    color: #94a3b8;
+    box-shadow: var(--shadow-hard);
+    transform: none;
+}
+
+.ai-magic-pill.generating {
+    background: #334155;
+    cursor: wait;
+}
+
+.ai-magic-pill .spinner {
+    animation: spin 1s linear infinite;
+}
+
+#event-content-input {
+    /* Reset padding as button is now outside */
+    padding-bottom: 16px ;
+    border-top-right-radius: 4px;
+    /* Adjust if needed */
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

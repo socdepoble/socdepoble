@@ -1,0 +1,178 @@
+/*
+  SÓC DE POBLE - ACCESSIBILITY & PRINT PRESETS
+  "La tecnologia que s'adapta a l'humà, no a l'inrevés."
+  
+  (Refactorització Coral: Copilot + ChatGPT + Grok)
+*/
+
+@layer base, components, utilities;
+
+:root {
+  /* Paleta base accessible - mai usar pure black/white */
+  --sdp-text-primary: #1a1a1a;      /* 95% black */
+  --sdp-bg-primary: #fafafa;        /* 98% white */
+  --sdp-border-strong: #000;
+}
+
+/* =========================================================================
+   1. TEMA GRAN LLIBRE (Lectura còmoda per a majors 70+)
+   ========================================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .theme-gran-llibre {
+    --sdp-font-size-body: clamp(22px, 4vw, 28px);
+    --sdp-line-height: 1.75;
+    --sdp-letter-spacing: 0.05em;
+    font-feature-settings: "kern" 1, "liga" 0, "clig" 0;
+    
+    font-family: 'Noto Sans', sans-serif;
+    font-size: var(--sdp-font-size-body);
+    line-height: var(--sdp-line-height);
+    color: var(--sdp-text-primary);
+    background-color: var(--sdp-bg-primary);
+  }
+}
+
+.theme-gran-llibre p {
+  margin-bottom: 2rem;
+  max-width: 60ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================================
+   2. TEMA DISLÈXIA
+   ========================================================================= */
+.theme-dyslexia {
+  /* Contrast exacte optimitzat */
+  --sdp-font-family-body: "OpenDyslexic", "Noto Sans", sans-serif;
+  font-feature-settings: "kern" 1;
+  line-height: 1.8;
+  letter-spacing: 0.08em;
+  word-spacing: 0.15em;
+  
+  font-family: var(--sdp-font-family-body);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #222222;
+  background-color: #fafafa;
+}
+
+.theme-dyslexia p {
+  margin-bottom: 2.5rem;
+  padding-left: 1rem;
+  border-left: 4px solid #FF4500;
+}
+
+/* =========================================================================
+   3. TEMA ALT CONTRAST (Sol directe / Fotosensibilitat)
+   ========================================================================= */
+.theme-alt-contrast {
+  --sdp-text-primary: #000000;
+  --sdp-bg-primary: #ffffff;
+  --sdp-border-strong: #000000;
+  
+  color: var(--sdp-text-primary);
+  background-color: var(--sdp-bg-primary);
+}
+
+@media (prefers-contrast: less) {
+  .theme-alt-contrast {
+    --sdp-text-primary: #1a1a1a;
+    --sdp-bg-primary: #fafafa;
+  }
+}
+
+.theme-alt-contrast * {
+  border-color: var(--sdp-border-strong) !important;
+}
+
+/* =========================================================================
+   4. FOCUS VISIBLE SEMPRE I BOTONS IAIOS (WCAG 2.2)
+   ========================================================================= */
+*:focus-visible {
+  outline: 4px solid #00F2FF;
+  outline-offset: 4px;
+}
+
+.theme-dyslexia *:focus-visible,
+.theme-alt-contrast *:focus-visible {
+  outline-color: Highlight; 
+}
+
+/* Botons Iaios (64px + icones patrimonials) */
+.btn-boina, button, [role="button"], input[type="submit"] {
+  min-height: 64px;    /* Suprem touch target size per dits iaios */
+  min-width: 64px;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: 900;
+  border-radius: 32px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: env(safe-area-inset-bottom, 0); /* Fallback segur iOS */
+}
+
+/* =========================================================================
+   5. SUPORT WINDOWS HIGH CONTRAST (forced-colors)
+   ========================================================================= */
+@media (forced-colors: active) {
+  body, .theme-gran-llibre, .theme-dyslexia, .theme-alt-contrast {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  button:focus, [role="button"]:focus, *:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+    forced-color-adjust: none;
+  }
+
+  img {
+    forced-color-adjust: none;
+  }
+}
+
+/* =========================================================================
+   6. IMPRESSIÓ A4 NOTARIAL AUTOMÀTICA (CSS PRINT)
+   ========================================================================= */
+@media print {
+  .ui-no-print, .boina-app-bar, .side-menu, button, .btn-boina {
+    display: none !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm 20mm 19mm 20mm;
+  }
+
+  body {
+    font-family: "Noto Sans Condensed", serif;
+    font-size: 18pt;
+    line-height: 1.5;
+    color: #111;
+    background: #FDFCF9;
+    max-width: none;
+  }
+
+  h1 { font-size: 30pt; font-weight: 900; color: #F97316; page-break-after: avoid; }
+  h2, h3 { font-size: 22pt; color: #F97316; page-break-after: avoid; }
+  
+  p, li { widows: 3; orphans: 3; }
+  
+  .record-card, .photo-gallery, .oral-history {
+    display: block !important;
+    break-inside: avoid;        
+    page-break-inside: avoid;   
+  }
+  
+  .story-section + .story-section {
+    break-before: page;
+    page-break-before: always;
+  }
+  
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid; 
+  }
+}

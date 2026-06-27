@@ -1,0 +1,46 @@
+-- Actualització automàtica de copy_texto des de Wikipedia
+-- Generat: 2026-05-06T20:31:23.663Z
+
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Banyeres_de_Mariola' WHERE id = 5;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/D%C3%A9nia' WHERE id = 6;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/X%C3%A0bia' WHERE id = 7;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Barcelona' WHERE id = 8;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Girona' WHERE id = 9;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/La_Torre_de_les_Ma%C3%A7anes' WHERE id = 51;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Cocentaina' WHERE id = 52;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Alcoi' WHERE id = 53;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Xixona' WHERE id = 54;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Pen%C3%A0guila' WHERE id = 55;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Benifallim' WHERE id = 56;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Benialfaqu%C3%AD' WHERE id = 57;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Alacant' WHERE id = 99;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Elx' WHERE id = 100;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Benidorm' WHERE id = 101;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Villena' WHERE id = 102;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Elda' WHERE id = 103;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Oriola' WHERE id = 104;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Castell%C3%B3_de_la_Plana' WHERE id = 105;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Vila-real' WHERE id = 106;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Vinar%C3%B2s' WHERE id = 107;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Morella' WHERE id = 108;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Sogorb' WHERE id = 109;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Llucena' WHERE id = 110;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Alboc%C3%A0sser' WHERE id = 111;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Cirat' WHERE id = 112;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Val%C3%A8ncia' WHERE id = 113;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Torrent' WHERE id = 114;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Paterna' WHERE id = 115;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Gandia' WHERE id = 116;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Alzira' WHERE id = 117;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Cullera' WHERE id = 118;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Sagunt' WHERE id = 119;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Ontinyent' WHERE id = 120;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/X%C3%A0tiva' WHERE id = 121;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Ll%C3%ADria' WHERE id = 122;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Requena' WHERE id = 123;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Xelva' WHERE id = 124;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Adem%C3%BAs' WHERE id = 125;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Aiora' WHERE id = 126;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Bunyol' WHERE id = 127;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/Enguera' WHERE id = 128;
+UPDATE towns SET copy_texto = 'https://ca.wikipedia.org/wiki/I%C3%A0tova' WHERE id = 129;

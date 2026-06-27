@@ -1,0 +1,132 @@
+.onboarding-overlay {
+  animation: fade-in 0.3s ease-out;
+}
+
+.onboarding-container {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.onboarding-icon {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.onboarding-title {
+  font-family: 'Inter Tight', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.onboarding-feature {
+  transition: all 0.2s ease;
+}
+
+.onboarding-feature:hover {
+  transform: translateX(4px);
+}
+
+.onboarding-option {
+  transition: all 0.2s ease;
+}
+
+.onboarding-option:hover {
+  transform: translateY(-2px);
+}
+
+.onboarding-toggle {
+  transition: all 0.2s ease;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  width: 44px;
+  height: 24px;
+  background: #cbd5e1;
+  border-radius: 9999px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.dark .toggle-switch {
+  background: #334155;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.toggle-switch.active {
+  background: #2563eb;
+}
+
+.dark .toggle-switch.active {
+  background: #ff6b00;
+}
+
+.toggle-switch.active::after {
+  transform: translateX(20px);
+}
+
+.toggle-checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Navigation */
+.onboarding-next:hover {
+  transform: translateY(-1px);
+}
+
+/* Badges */
+.badge-success {
+  animation: slide-in 0.3s ease-out;
+}
+
+.badge-info {
+  animation: slide-in 0.3s ease-out 0.1s backwards;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .onboarding-container {
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+  
+  .onboarding-content {
+    padding: 1.5rem;
+  }
+  
+  .onboarding-title {
+    font-size: 1.5rem;
+  }
+}

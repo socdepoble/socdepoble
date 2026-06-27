@@ -1,50 +1,12 @@
-# Logs
-logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-dist
-*.tar.gz
-*.zip
-*.log
-node_modules
-.DS_Store
+# Dependències
+node_modules/
+.npm/
+
+# Entorn
 .env
 .env.local
-.vercel
-public/assets/brain/
-dist-ssr
-*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.vercel
-*.keystore
-.cerrojos_master/
-
-# Deployment Credentials
-.env.deploy
-deploy-config.json
-
-# Ignorar arxius generats massa grans per Github
-.morca_arxiu/
-Auditoria_Copilot/
-*.pdf
-
-# Directoris interns i de treball local
-_auditories/
-_scripts/
-_services/
+# Backups locals i brossa del SO
 _backups/
-_historico_codi/
-.rag-db/
+.DS_Store
+Thumbs.db

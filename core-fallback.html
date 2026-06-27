@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sóc de Poble - Core Fallback (Supervivència)</title>
+    <style>
+        body { font-family: system-ui, sans-serif; background: #fffdf9; color: #333; padding: 20px; }
+        .alert { background: #ffebee; border-left: 4px solid #b00020; padding: 10px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="alert">
+        <strong>Mode de Supervivència (file://)</strong><br>
+        Aquest és el Mas nu. Tota la infraestructura asíncrona i d'IA està apagada per evitar bloquejos CORS. 
+        Si pots llegir açò, el Mas és immortal.
+    </div>
+    
+    <h2>Estat de les Mètriques</h2>
+    <pre id="log">Inicialitzant memòria monolítica...</pre>
+
+    <script>
+        // Simulació Monolítica per a mode file:// (Seguint el dictamen de Gemini i Dola)
+        window.MAS_MANIFEST = { version: "1.4.0", mode: "FALLBACK" };
+        
+        function log(msg) {
+            document.getElementById('log').innerText += '\n' + msg;
+        }
+
+        log("[Cervell Reptilià] Sense ES Modules. Sense Web Workers.");
+        
+        // Simular neteja de tombstones (Yjs GC) en el main thread
+        if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(() => {
+                log("[GC] Tombstones de Yjs netejades a l'espera de la CPU.");
+            });
+        }
+    </script>
+</body>
+</html>

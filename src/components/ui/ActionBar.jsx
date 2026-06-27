@@ -86,7 +86,7 @@ const ActionBar = ({
       type="button" 
       onClick={(e) => { e.stopPropagation(); handleEvent(primaryEvent); }} 
       aria-label={entityTitle ? `${primaryLabel} amb ${entityTitle}` : primaryLabel}
-      className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 min-h-[44px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? 'py-2' : 'py-2.5'}`}
+      className={`flex items-center justify-center gap-1.5 bg-white text-[#0984E3] text-sm font-extrabold tracking-wide rounded-full px-5 min-h-[48px] hover:bg-white/90 active:scale-95 transition-all shadow-sm shrink-0 whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white touch-manipulation ${variant === 'header' ? 'py-2' : 'py-2.5'}`}
     >
       {primaryLabel === 'AFEGIR' ? <ShoppingCart size={16} strokeWidth={3} aria-hidden="true" role="presentation" /> : <Plus size={16} strokeWidth={3} aria-hidden="true" role="presentation" />} 
       <span>{primaryLabel}</span>

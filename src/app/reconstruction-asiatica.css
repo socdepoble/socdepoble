@@ -41,7 +41,7 @@
   /* === 2. CONTENEDORES OPTIMIZADOS (Virtual Scrolling A10) === */
   .sdp-card,
   .universal-card { /* Fallback to existing global class in Sóc de Poble */
-    content-visibility: auto;
+    /* content-visibility: auto; - Disabled for iPad A10 */
     contain-intrinsic-size: 0 var(--sdp-card-min-h); 
     min-height: var(--sdp-card-min-h);
     display: flex;

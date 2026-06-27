@@ -1,0 +1,414 @@
+/* 🏺 BATEGADOR PRO: GEOMETRIA DEL TACTE v10.26.0 */
+
+.pdf-manager-container {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+.pdf-header {
+  height: var(--spacing-header);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  background: var(--bg-theme-header);
+  border-bottom: 1px solid var(--border-master);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 100;
+  gap: 1rem;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-master);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.05);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-title h1 {
+  font-family: var(--font-condensed);
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.pdf-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 🧬 UNIVERSAL CARD PROTOCOL */
+.form-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-master);
+  border-radius: var(--radius-genesis);
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.iaia-tip {
+  display: flex;
+  gap: 1rem;
+  background: rgba(14, 165, 233, 0.05); /* Azul Cielo Soft */
+  padding: 1.25rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  margin-bottom: 1rem;
+}
+
+.iaia-tip p {
+  font-family: var(--font-condensed);
+  font-size: 1rem;
+  font-style: italic;
+  color: #0ea5e9; /* Azul Cielo */
+  line-height: 1.4;
+  margin: 0;
+}
+
+.file-active-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(34, 197, 94, 0.05);
+  padding: 0.75rem 1.25rem;
+  border-radius: 100px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4ade80;
+  width: fit-content;
+}
+
+.clear-file {
+  background: transparent;
+  border: none;
+  color: rgba(239, 68, 68, 0.8);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.upload-zone {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-master);
+  border-radius: var(--radius-genesis);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.upload-zone:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--sdp-orange);
+}
+
+.upload-zone h3 {
+  font-family: var(--font-condensed);
+  font-size: 1.5rem; /* Augmentat per a llegibilitat mestre */
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 1rem 0 0.5rem;
+}
+
+.upload-zone p {
+  font-size: 1.1rem; /* Augmentat per a vistes canades */
+  color: var(--text-secondary);
+  max-width: 80%;
+  text-align: center;
+}
+
+.divider {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-master);
+}
+
+.action-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.mode-btn {
+  flex: 1;
+  height: 48px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-btn.autofill {
+  background: var(--gradient-bategat);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+}
+
+.mode-btn.clear {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-master);
+  color: var(--text-main);
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-family: var(--font-condensed);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 6px; /* GÈNESI SPACING */
+  display: block;
+}
+
+.input-group input,
+.input-group textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-master);
+  padding: 0.85rem 1rem;
+  border-radius: 16px;
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--sdp-orange);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* 🎭 ASIDE: THE STAGE */
+.preview-action-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.status-card {
+  background: var(--bg-panel);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: var(--radius-genesis);
+  padding: 1.5rem;
+  backdrop-filter: blur(20px);
+}
+
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-condensed);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: #4ade80;
+  margin-bottom: 0.5rem;
+}
+
+.status-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.generate-btn {
+  width: 100%; /* Blindatge d'amplada total */
+  min-height: 80px; /* Alçada sobirana per al tacte */
+  background: var(--gradient-bategat);
+  border: none;
+  border-radius: var(--radius-genesis);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  filter: brightness(1.1);
+  box-shadow: 0 15px 50px rgba(249, 115, 22, 0.3);
+}
+
+.generate-btn:active {
+  transform: translateY(0);
+}
+
+.generate-btn span {
+  font-family: var(--font-condensed);
+  font-weight: 900;
+  font-size: 1.1rem; /* Mida llegible i potent */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap; /* Evitem el trencament de línia lleig */
+}
+
+.generate-btn.loading {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-master);
+  cursor: wait;
+  box-shadow: none;
+}
+
+/* 🏺 SUCCESS STATE */
+.success-card {
+  background: var(--bg-panel);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: var(--radius-genesis);
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  animation: success-bounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-card .mode-btn.autofill {
+  width: 100% ;
+  max-width: 400px;
+  height: 60px ;
+  border-radius: 30px ;
+  font-size: 1rem ;
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+  margin-top: 1rem;
+}
+
+@keyframes success-bounce {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.success-card h3 {
+  font-family: var(--font-condensed);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #4ade80;
+  margin: 0;
+}
+
+.success-card p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1px solid var(--border-master);
+  color: var(--text-muted);
+  padding: 0.75rem 1.5rem;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reset-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+/* 🏺 MOBILE REFINEMENT */
+@media (max-width: 1024px) {
+  .pdf-main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .input-grid {
+    grid-template-columns: 1fr;
+  }
+}

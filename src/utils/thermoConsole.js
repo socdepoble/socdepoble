@@ -91,7 +91,7 @@ class ThermoConsole {
     `;
     
     this.canvas = document.createElement('canvas');
-    this.canvas.style.cssText = 'width: 100%; height: 244px; display: block;';
+    this.canvas.style.cssText = 'width: 100%; height: 248px; display: block;';
     this.canvas.width = 420 * this.dpr;
     this.canvas.height = 244 * this.dpr;
     

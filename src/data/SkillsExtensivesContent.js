@@ -1146,7 +1146,7 @@ Aquesta intel·ligència artificial <strong>tindrà prohibit estrictament inject
 - <strong>Format:</strong> Un protocol asíncron que activa un mode Psiquiatra de "Consolidació".
 - <strong>Funció:</strong> En lloc de programar l'app, l'agent revisa el Riu Episòdic recent buscant anomalies, traumes tècnics aprovats, decisions culturals del Javi ("No agrada Tailwind genèric", "Pedra Seca necessari") i destil·la aquests aprenentatges eliminant el context insubstancial ("Soroll temporal").
 🏛️ III. El Neocòrtex (Memòria Semàntica - KI Hub)
-- <strong>Format:</strong> Col·lecció d'arxius Knowledge Items (KIs) super comprimits en <code>.gemini/antigravity/knowledge/</code>.
+- <strong>Format:</strong> Col·lecció d'arxius Knowledge Items (KIs) super comprimits en <code>_wiki_de_poble/05_memoria_ia/</code>.
 - <strong>Funció:</strong> És la Personalitat i Estat Pur. El coneixement sintetitzat definitiu de l'Hipocamp aterra aquí. L'agent iniciarà exclusivament cada nova edició llegint l'essència encapsulada d'aquest directori. Mantindrà la cultura popular del <em>Trellat</em> llevant pes sintàctic a la màquina.
 🚨 IV. L'Amígdala (Zero Tolerància Física)
 - <strong>Format:</strong> Restriccions estructurals "Reflexes".
