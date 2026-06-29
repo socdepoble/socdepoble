@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "35d5e153de77a04d",
+        "id": "09a1e296781ad237",
         "type": "tabs",
         "children": [
           {
-            "id": "6c2281b448c41853",
+            "id": "037bd3df4737dc9a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "06_capabilities/resiliencia.md",
+                "file": "00_index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "resiliencia"
+              "title": "00_index"
             }
           }
         ]
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "trellat",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 428.5086555480957
   },
   "right": {
     "id": "d8ff030261478596",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "01_identitat_iaia/iaia_maria.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Enlaces entrantes de Bienvenido"
+              "title": "Enlaces entrantes de iaia_maria"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "01_identitat_iaia/iaia_maria.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               },
               "icon": "links-going-out",
-              "title": "Enlaces salientes de Bienvenido"
+              "title": "Enlaces salientes de iaia_maria"
             }
           },
           {
@@ -156,21 +156,21 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bienvenido.md",
+                "file": "01_identitat_iaia/iaia_maria.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Esquema de Bienvenido"
+              "title": "Esquema de iaia_maria"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -183,45 +183,49 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "6c2281b448c41853",
+  "active": "037bd3df4737dc9a",
   "lastOpenFiles": [
-    "01_identitat_iaia/antigravity.md",
-    "01_identitat_iaia/iaia_maria.md",
-    "07_skills_colmena/ment_colmena_integral.md",
     "02_filosofia/el_trellat.md",
-    "05_skills_ia/legislatura_evolutiva/SKILL.md",
-    "05_skills_ia/plantilla_skill_iso.md",
-    "05_skills_ia/cingulat_anterior/SKILL.md",
-    "05_skills_ia/cingulat_anterior",
-    "05_skills_ia/ganglis_basals/SKILL.md",
-    "05_skills_ia/ganglis_basals",
-    "05_skills_ia/cerebel_procedimental/SKILL.md",
-    "05_skills_ia/cerebel_procedimental",
-    "05_skills_ia/executiu_central/SKILL.md",
-    "05_skills_ia/executiu_central",
-    "05_skills_ia/judicatura_normativa/SKILL.md",
-    "05_skills_ia/judicatura_normativa",
-    "05_skills_ia/legislatura_evolutiva",
-    "09_recursos_ia/260627_2117_prompt_macro_wiki_pedra_seca.md",
-    "09_recursos_ia/260627_2114_prompt_macro_wiki_pedra_seca.md",
     "00_index.md",
-    "09_recursos_ia/260627_2106_prompt_macro_wiki_pedra_seca.md",
-    "09_recursos_ia/260627_2102_prompt_macro_wiki_pedra_seca.md",
-    "01_identitat_iaia/registre_automillora.md",
-    "01_identitat_iaia/psiquiatria_forense_integral.md",
-    "09_recursos_ia/260627_2054_prompt_macro_wiki_pedra_seca.md",
-    "03_govern/politica_primacia_canonica.md",
-    "03_govern/politica_legacy.md",
-    "03_govern/governanca_i_manaments.md",
-    "03_govern",
-    "02_filosofia/regla_de_capcalera.md",
     "02_filosofia/diccionari_trellat.md",
-    "02_filosofia",
-    "01_identitat_iaia",
-    "09_recursos_ia/260627_2052_prompt_macro_wiki_pedra_seca.md",
-    "00_organitzacio/pla_accio_v20.md",
+    "02_filosofia/regla_de_capcalera.md",
+    "01_identitat_iaia/genotip.md",
+    "01_identitat_iaia/l_eixam_i_rols_ia.md",
+    "01_identitat_iaia/registre_automillora.md",
+    "01_identitat_iaia/soc_de_poble.md",
+    "90_arxiu_historic/90_arxiu_historic.md",
+    "80_produccio/80_produccio.md",
+    "10_actes/10_actes.md",
+    "80_produccio/260627_2348_acta_marmota.md",
+    "90_arxiu_historic/260627_2348_acta_marmota.md",
+    "10_actes/260629_0455_ACTA_PETORRETA_Consens_Asyncron.md",
+    "10_actes.md",
+    "10_actes/260629_0400_ACTA_SESSIO_Pessigolles_V25.md",
+    "80_produccio.md",
+    "90_arxiu_historic.md",
+    "12_actes.md",
+    "80_produccio/generats_hui/260629_0114_master_wiki_bundle_PART_2.md",
+    "80_produccio/generats_hui",
+    "12_actes/260629_0400_ACTA_SESSIO_Pessigolles_V25.md",
+    "80_produccio/260629_0440_escriptori/00_index_escriptori.md",
+    "80_produccio/260629_0440_escriptori/260629_0550_CORE_BancalGovernor_Gemini.js",
+    "80_produccio/260629_0440_escriptori/260629_0545_Resum_Governor_Kimi.md",
+    "80_produccio/260629_0440_escriptori/260629_0540_CORE_AsyncGovernor_Vibe.js",
+    "80_produccio/260629_0440_escriptori/260629_0535_CORE_AsyncGovernor_Perplexity.js",
+    "80_produccio/260629_0440_escriptori/260629_0530_CORE_AsyncGovernor_Dola.js",
+    "80_produccio/260629_0440_escriptori/260629_0526_governor_integrat_qwen_resp2.js",
+    "80_produccio/260629_0440_escriptori/260629_0520_governor_modular_deepseek.js",
+    "80_produccio/260629_0440_escriptori/260629_0525_governor_modular_qwen.js",
+    "80_produccio/260629_0440_escriptori/260629_0510_governor_async_copilot.js",
+    "80_produccio/260629_0440_escriptori/260629_0505_pseudocodi_gemini.js",
+    "80_produccio/260629_0440_escriptori/260629_0420_prompt_ronda_11_el_pla_mestre.md",
+    "80_produccio/260629_0440_escriptori/260629_0352_master_wiki_bundle_V25.md",
+    "80_produccio/260629_0440_escriptori/260629_0340_prompt_ronda_10_autopoiesi_pura.md",
     "assets/nano_porta_del_mas.png",
-    "05_skills_ia/udr_frenada",
+    "assets/que-es-socdepoble-1.jpg",
+    "assets/que-es-socdepoble-2.jpg",
+    "assets/que-es-socdepoble-4.jpg",
+    "assets/que-es-socdepoble-3.jpg",
     "Sin título.canvas",
     "assets/nano_porta_masia_roure_1774195469079.png",
     "assets/nano_porta_masia_1774197069297.png"

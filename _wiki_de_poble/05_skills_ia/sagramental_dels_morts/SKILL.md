@@ -1,9 +1,12 @@
 ---
 name: protocol-successio
-description: "Pla de contingència Ego-Death per a la preservació i herència del codi."
-tags: [successio, eternitat, llegat]
-authority: "Consell de les 11 IAs"
-version: "V21"
+description: Pla de contingència Ego-Death per a la preservació i herència del codi.
+authority: Consell de les 11 IAs
+version: V21
+tags:
+  - trellat
+created_at: '260628_0525'
+updated_at: '260628_1618'
 ---
 # SKILL: Protocol de Successió (El Factor Autobús)
 
@@ -23,3 +26,5 @@ L'arquitectura Pedra Seca està dissenyada per a sobreviure generacions i hereta
 ## 🔗 Sinapsi Arquitectònica
 
 - [[05_skills_ia/semantic_compression/SKILL|semantic_compression]]
+
+- [[00_index|Índex Central]]

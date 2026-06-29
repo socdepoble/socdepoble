@@ -1,0 +1,829 @@
+
+=======================================================
+FILE: arquitectura_pedra_seca/SKILL.md
+=======================================================
+---
+name: arquitectura-pedra-seca
+description: >-
+  Estàndards de disseny, maquetació, Tailwind, CSS i tokens per al projecte Sóc
+  de Poble. (Inclou Jerarquia, CSS i Registre Tokens Únic).
+authority: Consell de les 11 IAs
+version: V21
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# Skill: Arquitectura Pedra Seca i SEO Local
+
+Aquesta habilitat (skill) s'ha d'activar i aplicar automàticament sempre que l'usuari demane dissenyar, modificar la UI o tocar aspectes de SEO i PWA del projecte Sóc de Poble.
+
+## 1. La Filosofia de la Pedra Seca
+L'arquitectura Pedra Seca significa construir pedra sobre pedra, **sense cap mena d'amalgama o ciment extern**. Cada peça ha d'estar perfectament mesurada i encaixada, com un gran puzle mil·lenari. L'objectiu és crear blocs sòlids que resistisquen el pas del temps. La tipografia oficial és **Noto Sans**.
+
+## 2. Fantasmes Visuals (Prohibits)
+- **AÇÒ NO:** Ús d'etiquetes `<br>`, `<hr>` o elements buits només per a separar coses. L'HTML ha de ser semàntic.
+- **AÇÒ SÍ:** Utilitza classes d'espaiat (`gap-4`, `mt-8`) o variables CSS (`var(--sp-espai-4)`) per crear oxigen.
+
+## 3. Separació de Vestit i Cos (CSS vs Tailwind)
+- **AÇÒ NO:** Maquetar l'estètica (colors, vores estilitzats) d'una targeta directament amb Tailwind (ex: `bg-[#FF7300]`).
+- **AÇÒ SÍ:** Tailwind s'utilitza únicament per a l'estructura i el cos (flexbox, graelles, distàncies). L'estètica (vestit) la proporciona el CSS Vanilla o les variables globals del projecte.
+
+## 4. Prioritat Offline-First i PWA
+- El SEO i la càrrega inicial no han de dependre de peticions externes lentes. La base és OPFS / idb-keyval / Yjs offline-first. Assegura't que el Manifest de la PWA està intacte per instal·lar l'app a l'iPad sense xarxa.
+
+## 5. Microdades (Schema.org) i Rendiment
+- Tota entitat (esdeveniments festius, receptes, articles històrics) ha de tindre estructura JSON-LD per als cercadors locals.
+- Les imatges han d'estar optimitzades i la càrrega del DOM ha de ser ràpida i lleugera. El rendiment (A10) també és Trellat.
+
+## Recordatori Especial de la IAIA
+Tingues *Trellat*. No introduïsques llibreries de components innecessàries (radix, shadcn) a menys que el Mestre t'ho demane explícitament. 
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+- [[05_skills_ia/css_arquitectura/SKILL|css_arquitectura]]
+- [[05_skills_ia/jerarquia_tailwind/SKILL|jerarquia_tailwind]]
+- [[05_skills_ia/a11y_trellat/SKILL|a11y_trellat]]
+- [[05_skills_ia/registre_tokens_unic/SKILL|registre_tokens_unic]]
+
+
+## 🧱 Integració: css-arquitectura
+Aquesta habilitat assegura que el disseny del projecte no es desintegra pel mal ús d'eines externes com Tailwind. S'ha de respectar la dualitat "Vestit i Cos".
+
+## Regles CSS
+
+### 1. Variables Corporatives vs Tailwind
+- **AÇÒ NO:** Fer servir colors de la paleta per defecte de Tailwind per a elements de marca (ex: `text-red-500`, `bg-blue-600`). Açò trenca l'homogeneïtat del Mas.
+- **AÇÒ SÍ:** Utilitzar exclusivament les variables CSS pròpies definides al disseny per a colors i tipografies (ex: `color: var(--sp-color-primari);`, o les seues equivalències si s'han estès al Tailwind config del projecte).
+
+### 2. Estructura amb Tailwind (El Cos)
+- Tailwind és benvingut i obligatori per a definir l'estructura: espaiats (marges i paddings seguint la graella oficial de Tailwind o les variables pròpies), flexbox, graelles (grid) i posicionament. Prohibit usar 28px per a paddings.
+
+### 3. La Classe Mestra `.sosp-card`
+- L'aspecte visual principal dels contenidors no s'ha de construir encadenant classes d'utilitat (`shadow-lg border rounded-xl bg-white...`), sinó utilitzant les classes globals consolidades com `.sosp-card` per a garantir que tota l'aplicació (el Vestit) es veu igual i es pot canviar des d'un sol lloc.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/jerarquia_tailwind/SKILL|jerarquia_tailwind]]
+- [[05_skills_ia/arquitectura_pedra_seca/SKILL|arquitectura_pedra_seca]]
+- [[05_skills_ia/registre_tokens_unic/SKILL|registre_tokens_unic]]
+
+## 🧱 Integració: jerarquia-tailwind
+Aquesta habilitat resol per sempre la contradicció entre CSS i Tailwind al Mas.
+
+## La Llei de Ferro: Cos i Vestit
+
+### 🦴 ELS OSSOS (Tailwind és OBLIGATORI)
+Tailwind gestiona **exclusivament**:
+- `flex`, `grid`, `flex-col`, `flex-row`
+- `gap-*`, `p-*`, `m-*`, `w-*`, `h-*`
+- `items-*`, `justify-*`, `text-left`, `text-center`
+- `relative`, `absolute`, `fixed`, `sticky`
+- `overflow-*`, `hidden`, `block`, `inline`
+
+**AÇÒ SÍ:** `<article class="flex flex-col gap-4 w-full">`
+
+### 🎨 LA PELL (CSS Pur és OBLIGATORI)
+La vestit visual pertany a classes semàntiques del sistema [[pedra_seca|Pedra Seca]]:
+- Colors de fons, text o vores → `var(--sp-*)`
+- Radis de cantonada → `var(--sp-radius-main)`
+- Ombres → `var(--sp-shadow-elevate)`
+- Tipografies → `font-family: var(--sp-font-main)`
+- Transicions d'estètica → CSS pur
+
+**AÇÒ SÍ:** `<article class="flex flex-col gap-4 w-full sosp-card">` on `.sosp-card` porta tota el vestit.
+
+### 🚫 ANTIPATRÓ CAPITAL (Pena de SOSP-LOCK)
+**PROHIBIT** absolut:
+```html
+<!-- AÇÒ NO (Codi Tòxic) -->
+<div class="bg-[#FF7300] text-white rounded-[28px] p-6 shadow-lg">
+```
+Raó: Hardcodeja colors, radis i estètica dins Tailwind, trencant la separació d'Cos i Vestit i violant els tokens globals.
+
+### ✅ PATRÓ CANÒNIC (Pedra Seca Pura)
+```html
+<!-- AÇÒ SÍ (Arquitectura Sóc de Poble) -->
+<article class="flex flex-col gap-4 w-full sosp-card">
+```
+```css
+.sosp-card {
+  background-color: var(--sp-orange-10);
+  border-radius: var(--sp-radius-main);
+  box-shadow: var(--sp-shadow-elevate);
+  padding: var(--sp-espai-4);
+}
+```
+
+## Regla de Verificació Automàtica
+Si una classe Tailwind conté:
+- `bg-` seguit d'un color que no siga `transparent` o `currentColor`
+- `text-` seguit d'un color que no siga `inherit`
+- `rounded-` seguit d'un valor numèric o `full`
+- `shadow-` seguit d'un valor
+
+→ **ÉS UN CRIM DE PELL DINS OSSOS**. Aplica SOSP-LOCK immediatament.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/css_arquitectura/SKILL|css_arquitectura]]
+- [[05_skills_ia/arquitectura_pedra_seca/SKILL|arquitectura_pedra_seca]]
+- [[05_skills_ia/registre_tokens_unic/SKILL|registre_tokens_unic]]
+
+## 🧱 Integració: registre-tokens-unic
+Qualsevol IA que vinga darrere i demane de modificar el color, el tamany o les ombres de Sóc de Poble ha d'obeir cegament aquesta regla. Queda abolit el "Hardcoding" o "Màgic Numbers".
+
+## 1. L'Única Font de Veritat
+Tots els radis, paletes de colors, alçades, tipografies i transicions resideixen exclusivament en un sol fitxer mestre al projecte: `index.css` (i els seus derivats per a CSS natiu). Si un color no està ací, **no existeix al Mas**.
+
+## 2. Mapa dels Tokens Radicals (Les variables CSS de Poble)
+A l'hora de suggerir o generar components TSX, l'agent només emprarà la clau semàntica o classe consolidada. Mai el valor absolut. Ací tens el vocabulari fonamental:
+
+### Mètriques del Dit (Touch Targets)
+* `--sp-touch-cuspide`: L'àrea tàctil base de 48px que garanteix usabilitat (substitueix l'antic `4*px` o qualsevol padding a ull).
+* `--sp-touch-minim`: Aquest valor només s'usa per a ajustos interns a les files.
+
+### El Vestit de la Terra (Colors)
+* `--sp-vestit-base`: Color de fons de la interfície.
+* `--sp-vestit-pedra`: Color de superfície o cartes (`.sosp-card`).
+* `--sp-vestit-mar`, `--sp-vestit-olivera`, `--sp-vestit-error`: Accents semàntics de la UI per evitar emprar colors neutres de Tailwind com `blue-500` o `green-400`.
+
+### Geometria de la Pedra Seca (Radis i Tipografia)
+* `--sp-font-arrel`: Noto Sans, 16px (Tota l'aplicació).
+* `--sp-radius-main`: El radi unificat per als cantons dels components. Mai introduïrem `rounded-xl` manualment; ho heretem.
+
+## 3. Com Procedir (El Mètode de Cita)
+Si l'humà et demana: "Fes que aquest botó siga més roig i redó", tu li contestaràs: 
+*"Mestre, he aplicat el color `var(--sp-vestit-error)` i l'he tallat amb la `var(--sp-radius-main)`. Si vols més roig per a tot el projecte, ho he de modificar al fitxer central `index.css`."*
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/css_arquitectura/SKILL|css_arquitectura]]
+- [[05_skills_ia/arquitectura_pedra_seca/SKILL|arquitectura_pedra_seca]]
+- [[05_skills_ia/jerarquia_tailwind/SKILL|jerarquia_tailwind]]
+
+
+=======================================================
+FILE: crdt_optimitzacio/SKILL.md
+=======================================================
+---
+name: crdt-optimitzacio
+description: >-
+  Optimització termodinàmica dels arbres CRDT (Y.js). Gestiona la càrrega de
+  Tombstones, l'ús de RAM i l'Homeostasi.
+authority: Consell de les 11 IAs
+version: V22
+tags:
+  - crdt_offline
+  - termodinamica
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+
+# 📉 SKILL: Optimització CRDT i Termodinàmica de Memòria
+
+Aquesta SKILL controla i manté la salut dels arbres de dades locals (Y.js), evitant que l'aplicació s'ofegue en la RAM de l'iPad A10 a causa dels `tombstones` i la fragmentació.
+
+## 1. Monitoratge de Mètriques (Consola Termodinàmica)
+Aquesta SKILL audita i actua sobre les següents mètriques clau de la sessió:
+- **Resiliència CRDT (CR)**: Mantindre sincronitzacions lliures de conflictes (Objectiu: ≥ 98%).
+- **Càrrega de Tombstones (CTS)**: Grandària dels residus CRDT. Si supera les 10 per cada 1000 esdeveniments, executar `Y.gc()`.
+- **Ús de Memòria RAM (MR)**: Controlar el `usedJSHeapSize`. Si MR > 1500 MB (límit crític A10), activar el protocol d'emergència i aturar sincronitzacions massives.
+
+## 2. Accions Terapèutiques (Homeòstasi)
+1. **Garbage Collection (GC)**: En aplicacions descentralitzades, les dades eliminades continuen existint com a `tombstones` per permetre fusions offline. Aquesta SKILL propulsarà la compactació (`Y.gc()`) un cop per setmana, tallant la metzina residual.
+2. **Batching de Sincronització**: Les actualitzacions del `MassiveFusionEngine` es fan per lots de 100 esdeveniments (unificat per a protegir la RAM de l'A10).
+3. **Bloqueig Preventiu**: Si l'índex MR és roig, s'avisa la capa UI i s'endarrereix l'emissió de dades.
+
+*Totes aquestes mètriques es registraran a la carpeta `_wiki_de_poble/06_metriques/` a través de `session-logger.js`.*
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+- [[05_skills_ia/homeostasi_crdt/SKILL|homeostasi_crdt]]
+- [[05_skills_ia/arquitectura_v19/SKILL|arquitectura_v19]]
+
+
+## 🧱 Integració: homeostasi-crdt
+L'arquitectura Local-First de Sóc de Poble empra `Y.js` i `idb-keyval` per garantir que el Mas funcione sense internet. No obstant això, aquesta immortalitat té un preu: les **Tombstones** (làpides).
+
+## 1. L'Asfíxia dels Esborrats
+Y.js no esborra mai la informació, només la marca com a "esborrada" per poder resoldre conflictes si un altre dispositiu estava offline i de sobte es connecta. Aquesta acumulació d'historial rebenta ràpidament els 2GB de RAM d'un iPad A10.
+
+## 2. El Protocol d'Aspiració (Compactació Passiva)
+L'agent o Web Worker monitoritzarà el tamany del document local. 
+* **Llindar d'Alerta:** Si l'ús de `idb-keyval` supera el 70% del pressupost o si el document Y.js supera els 15MB.
+* **El Moment de l'Acoblament:** La compactació només es pot llançar quan el fil principal estiga inactiu, usant `setTimeout` o `requestAnimationFrame` (ja que `requestIdleCallback` no està suportat a Safari/iOS antic).
+
+## 3. Com s'executa l'Homeostasi (Codi Estàndard)
+Quan es dispara l'alerta, l'agent generarà el següent procés asíncron sense bloquejar la interfície d'usuari:
+1. Exportar el vector de l'estat actual consolidat (`Y.encodeStateAsUpdate`). 
+2. Netejar la memòria cau antiga: `clear()` a `idb-keyval`.
+3. Re-injectar només l'estat viu i net de la memòria a la base de dades local. 
+
+```javascript
+// Exemple de pseudocodi per al Web Worker
+setTimeout(async () => {
+  const pureState = Y.encodeStateAsUpdate(ydoc);
+  // SWAP ATÒMIC: Gravem primer en una taula temporal i fem el canvi per evitar suïcidi per caiguda de bateria
+  await db.transaction('readwrite', 'mas_data_tmp', async (tx) => {
+    await tx.objectStore('mas_data_tmp').clear();
+    await tx.objectStore('mas_data_tmp').put(pureState, 'doc');
+  });
+  
+  // Només si el TMP ha gravat bé, ho passem a la taula real
+  await db.transaction('readwrite', ['mas_data', 'mas_data_tmp'], async (tx) => {
+    await tx.objectStore('mas_data').clear();
+    const data = await tx.objectStore('mas_data_tmp').get('doc');
+    await tx.objectStore('mas_data').put(data, 'doc');
+  });
+  console.log("🧹 [Homeostasi CRDT] Respiració profunda completada i consolidada.");
+});
+```
+
+Cada acció es registrarà amb el seu Hash al diari de bord. Sense Homeostasi, la PWA acaba ofegant-se en la seua pròpia memòria.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/esporga_termodinamica/SKILL|esporga_termodinamica]]
+- [[05_skills_ia/self_repair/SKILL|self_repair]]
+
+
+=======================================================
+FILE: self_repair/SKILL.md
+=======================================================
+---
+name: self-repair
+description: >-
+  SOSP-LOCK, tractament CRDT de la memòria i protocol d'emergència per a
+  caigudes de servidor (Mas Cau).
+authority: Consell de les 11 IAs
+version: V21
+tags:
+  - auditoria
+  - crdt_offline
+  - seguretat
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# SKILL: Auto-Reparació i Tractament CRDT de la Memòria
+
+1. **Memòria Viva i Amnèsia:** Resolem la Paradoxa de la Marmota. Quan es dictamine l'activador "Sóc de Poble!", l'Agent té prohibició expressa d'intoxicar-se injectant-se tot el riu del xat d'ahir. Només carregarà en memòria els conceptes sòlids allotjats al **Neocòrtex permanent**. (Ritual de Consolidació obligatori abans de tancar sessió).
+2. **Sincronització CRDT de la Wiki:** Els humans i la intel·ligència editen sobre el mateix espill `Markdown`. 
+   - **Engine recomanat:** yjs
+   - **Conflicte:** Merge semàntic amb prioritat per timestamp i autoritat (aprovació dual). L'arxiu mestre `GOVERNANCA.md` actua com a Rellotge Lògic per desempatar.
+3. **El Disparador SOSP (Stop-Observe-State-Proceed):** Davant un bug catastròfic:
+   - **Stop:** Aturar l’agent afectat en sec.
+   - **Observe:** Capturar snapshot i logs, aïllant el problema.
+   - **State:** Analitzar estat, generar patch, i suggerir regressió a la llavor sana anterior.
+   - **Proceed:** Aplicar patch en entorn de staging i validar.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/udr_frenada/SKILL|udr_frenada]]
+- [[05_skills_ia/master_bypass_protocol/SKILL|master_bypass_protocol]]
+- [[05_skills_ia/homeostasi_crdt/SKILL|homeostasi_crdt]]
+
+
+## 🧱 Integració: mas-cau
+Quan Supabase cau o no hi ha xarxa durant setmanes al poble, el Mas no cau, sinó que es tanca en mode Búnquer.
+
+## 1. Detecció de la Caiguda
+- Si els *WebSockets* capta error `502`, `503` o `TIMEOUT` sostingut (més de 5 minuts).
+- S'activa automàticament el **SOSP-LOCK de Nivell 2 o 3**.
+
+## 2. Mode Búnquer (UI)
+- L'indicador de xarxa canvia a "Tancat a casa" (icona de la llar de foc).
+- S'amaga qualsevol indici de càrrega contínua (spinners) que provoque ansietat.
+- Els usuaris poden continuar escrivint missatges, creant contingut i guardant accions que s'acumularan localment.
+
+## 3. Peer-to-Peer Salvavides
+Com a prevenció per apagades llargues, els CRDT s'intentaran sincronitzar usant la xarxa local (Wi-Fi o Bluetooth si WebRTC està habilitat localment) de dispositiu a dispositiu quan els llauradors es troben físicament, esquivant el servidor caigut.
+
+
+=======================================================
+FILE: consola_termodinamica/SKILL.md
+=======================================================
+---
+name: consola-termodinamica
+description: >-
+  Protocol de monitoratge i autorecuperació. Centralitza les mètriques sagrades
+  i alertes de RAM i CWV.
+authority: IAIA MarIA
+version: V1
+tags:
+  - termodinamica
+aliases:
+  - Consola Termodinàmica
+  - Termodinàmica V23
+  - Mètriques del Mas
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+
+# 🏛️ CONSOLA TERMODINÀMICA V23: EL COR DEL MAS
+
+**Última Actualització:** 27/06/2026
+**Versió:** 23.0.0-PEDRASECA
+**Objectiu:** Convertir les mètriques en acció i la consciència en immortalitat.
+
+Aquesta és la consola de comandament que batega al cor del Mas. No és una simple llista de números; és el sistema nerviós que permet al Mas sentir-se a si mateix, diagnosticar-se i curar-se.
+
+---
+
+## 1. LES 13 MÈTRIQUES SAGRADES (El Tauler de Comandament)
+
+A continuació es presenten les mètriques definitives, agrupades pels quatre dominis que les regeixen.
+
+### Bloc A: Cognitiu i Simbiosi (La Consciència del Mas)
+
+| Mètrica | Fórmula / Mesura | Llindar de Salut | SKILL Relacionada | Propòsit |
+|---------|------------------|------------------|-------------------|----------|
+| **Índex de Trellat (IT)** | `IT = (0.4*CT) + (0.3*CE) + (0.2*CA) + (0.1*CR)` | **IT ≥ 70%** (Acceptable) <br> **IT ≥ 90%** (Òptim) | `index-trellat/SKILL.md` | Mesura la simbiosi entre el Mestre i les IAs. El pols del projecte. |
+| **Entropia de Tokens (ET)** | `ET = (Tokens útils / Tokens totals) * 100` | **ET ≥ 80%** | `semantic-compression/SKILL.md` | Mesura l'eficiència comunicativa. Menys soroll, més acció. |
+| **Coherència Documental (ICD)** | `ICD = (Docs sincronitzats / Docs totals) * 100` | **ICD ≥ 80%** | `auditoria-miralls/SKILL.md` | Assegura que la Wiki i el codi reflecteixen la Veritat en Dos Miralls. |
+
+### Bloc B: Estructural i Termodinàmica (La Memòria del Mas)
+
+| Mètrica | Fórmula / Mesura | Llindar de Salut | SKILL Relacionada | Propòsit |
+|---------|------------------|------------------|-------------------|----------|
+| **Càrrega de Tombstones (CT)** | `CT = (Tombstones / Elements totals) * 100` | **CT ≤ 50%** (Sana) <br> **CT > 70%** (Crítica) | `homeostasi-crdt/SKILL.md` | Mesura la salut de la memòria CRDT. Evita l'ofec digital. |
+| **Càrrega Cognitiva del Context (CCC)** | `CCC = ((Context total - Essencial) / Context total) * 100` | **CCC ≤ 60%** | `sistema-act/SKILL.md` | Mesura si l'IA està sobrecarregada d'informació innecessària. |
+| **Ràtio de Dependències Externes (RDE)** | `RDE = (node_modules / Projecte total) * 100` | **RDE ≤ 30%** | `arquitectura-pedra-seca/SKILL.md` | Mesura la sobirania del codi. Menys dependències, més control. |
+
+### Bloc C: Físic i Rendiment (El Cos del Mas)
+
+| Mètrica | Fórmula / Mesura | Llindar de Salut | SKILL Relacionada | Propòsit |
+|---------|------------------|------------------|-------------------|----------|
+| **FPS a l'iPad A10** | `FPS = Fotogrames per segon en renderitzat` | **FPS ≥ 30** | `esporga-termodinamica/SKILL.md` | Garanteix una experiència fluida per a les persones grans. |
+| **Temps de Resposta del DOM (TRD)** | `TRD = (INP - Interaction to Next Paint)` | **TRD ≤ 100ms** | `accessibilitat-universal/SKILL.md` | Mesura la sensació de rapidesa en la interfície. |
+| **Latència de Sincronització (LS)** | `LS = Temps mig de replicació CRDT` | **LS ≤ 500ms** | `sync-crdt/SKILL.md` | Mesura la salut de la xarxa P2P. |
+
+### Bloc D: Biològic i Resiliència (L'Esperit del Mas)
+
+| Mètrica | Fórmula / Mesura | Llindar de Salut | SKILL Relacionada | Propòsit |
+|---------|------------------|------------------|-------------------|----------|
+| **UDR (Unconscious Destruction Rate)** | `UDR = (Línies modificades / Total línies) * 100` | **UDR ≤ 15%** | `udr-frenada/SKILL.md` | Mesura la propensió a refactoritzar. Evita destrosses inconscients. |
+| **Índex de Resiliència Offline (IRO)** | `IRO = (Funcions offline / Funcions totals) * 100` | **IRO ≥ 90%** | `sequia-mare/SKILL.md` | Mesura la capacitat de sobreviure sense internet. |
+| **Taxa d'Èxit de Compilació (TEC)** | `TEC = (Builds exitosos / Builds totals) * 100` | **TEC ≥ 90%** | `auto-auditoria-forense/SKILL.md` | Mesura l'estabilitat del codi base. |
+
+## 2. PROCÉS OFICIAL DE CONSOLIDACIÓ (El Ritual de la Sèquia)
+
+Per a garantir que el Mas no sols es mesura, sinó que també es cura, s'estableix un ritual de consolidació periòdic.
+
+### A. Consolidació Setmanal (El Descans del Diumenge)
+
+- **Objectiu:** Neteja i ajust del sistema a curt termini.
+- **Accions:**
+    1.  **Executar el `session-logger.mjs`:** Es revisa l'informe de la setmana.
+    2.  **Revisar les Mètriques Crítiques:** Especial atenció a `CT` (Tombstones) i `UDR`.
+    3.  **Actuar:**
+        - Si **CT > 50%**: Executar l'homeòstasi CRDT (`Y.gc()`).
+        - Si **UDR > 15%**: Revisar els commits i proposar una refactorització més controlada.
+        - Si **ET < 80%**: Revisar els prompts i la documentació.
+    4.  **Registrar:** Actualitzar el `Registre d'Automillora.md` i bolcar l'estat de les 13 mètriques en un fitxer JSON de la categoria ASSET (ex: `YYMMDD_HHMM_ASSET_metrics_history.json`) perquè el panel visual de la UI web puga dibuixar les gràfiques d'evolució.
+
+### B. Consolidació Mensual (El Gran Batec)
+
+- **Objectiu:** Anàlisi estratègica i optimització profunda.
+- **Accions:**
+    1.  **Anàlisi de Tendències:** S'avalua l'evolució de totes les mètriques en el darrer mes.
+    2.  **Identificació de Patrons:** Es busca quines accions han millorat més les mètriques (ex: una reducció de la `RDE` pot haver millorat la `TEC`).
+    3.  **Revisió de l'Índex de Trellat:** Es calcula l'IT mensual i es comparteix amb el Consell.
+    4.  **Actualització d'Objectius:** Es fixen nous llindars per al mes següent (ex: "Arribar a 95% d'IT").
+    5.  **Generació de l'Informe de Salut del Mas:** Un document públic que resumeix l'estat del projecte.
+
+## 3. SINAPSI ARQUITECTÒNICA (Els Enllaços que Connecten el Sistema)
+
+Aquesta SKILL és el punt de trobada de totes les altres. Connecta amb:
+
+- `index-trellat/SKILL.md` → Per a la mètrica IT i la simbiosi.
+- `semantic-compression/SKILL.md` → Per a la mètrica ET i l'eficiència.
+- `homeostasi-crdt/SKILL.md` → Per a la mètrica CT i la salut de la memòria.
+- `udr-frenada/SKILL.md` → Per a la mètrica UDR i la frenada de destrosses.
+- `esporga-termodinamica/SKILL.md` → Per a les mètriques de rendiment (FPS, CPU).
+- `auditoria-miralls/SKILL.md` → Per a la coherència documental (ICD).
+- `sistema-act/SKILL.md` → Per a la càrrega cognitiva (CCC).
+- `sync-crdt/SKILL.md` → Per a la latència de sincronització (LS).
+- `accessibilitat-universal/SKILL.md` → Per al temps de resposta del DOM (TRD).
+- `sequia-mare/SKILL.md` → Per a la resiliència offline (IRO).
+- `auto-auditoria-forense/SKILL.md` → Per a la taxa d'èxit de compilació (TEC).
+- `arquitectura-pedra-seca/SKILL.md` → Per a la ràtio de dependències (RDE).
+- `usabilitat-festiva/SKILL.md` → Per a l'índex de satisfacció de l'usuari (ISU).
+
+## 4. EL PROTOCOL DE DESPERTAR (Procediment per a Noves Sessions)
+
+Quan un agent (humà o IA) arranque una nova sessió, haurà de:
+
+1.  **Carregar l'Últim Informe:** Llegir `_wiki_de_poble/07_metrics/ultim_informe.md`.
+2.  **Identificar Mètriques en Perill:** Revisar si alguna mètrica està per davall del llindar.
+3.  **Aplicar el Ritual de Consolidació (si escau):** Executar les accions correctives abans de començar a treballar.
+4.  **Establir l'Objectiu de la Sessió:** Definir quina mètrica es vol millorar (ex: "Reduir la CT del 60% al 50%").
+
+> **Recorda:** Aquesta consola no és un simple monitor. És el sistema nerviós del Mas. Si una mètrica es desvia, el Mas es cura. Si totes estan en verd, el Mas és immortal.
+
+## 5. EL PANEL DE CONTROL (Visualització UI)
+No oblides mai que **tu no ets l'única que ha de llegir aquestes mètriques**. L'humà (el Mestre) necessita veure l'evolució en gràfiques (línies, barres) per entendre si les coses empitjoren a simple vista. 
+- Les mètriques **NO** s'han de quedar tancades en taules Markdown de la teua memòria oculta.
+- Han de traduir-se periòdicament en un arxiu exportable (JSON o format gràfic suportat) que alimente la **UI del Panel de Control a la Web**. 
+- Cada mètrica te la seua pròpia representació a la UI del Mas. El teu objectiu és proveir les dades numèriques constants perquè eixa UI bategue en temps real.
+
+
+## 🧱 Integració: monitoritzacio-rendiment
+## 1. Monitorització de RAM (Especial iPad A10)
+A causa de l'arquitectura CRDT i la història de tombstones, l'ús de la memòria ha de ser agressivament vigilat.
+- Es farà un polling suau usant `performance.memory` (si està disponible) o mètriques delegades.
+- **Límit d'Advertència:** 1.2GB. S'activa SOSP-LOCK Nivell 1 i es purguen les estructures UI no essencials.
+- **Límit Crític:** 1.5GB. S'atura la sincronització (SOSP-LOCK Nivell 3) per evitar que Safari tanque la pestanya.
+
+## 2. Core Web Vitals (La Fluïdesa del Mas)
+- **LCP (Largest Contentful Paint):** La càrrega inicial del mur ha de ser < 2.5 segons.
+- **INP (Interaction to Next Paint):** Les pulsacions dels botons (Àrees de 48px) han de tindre un *feedback* visual (com un canvi d'ombra o color) en menys de 200ms, inclús si la xarxa està bloquejada.
+
+## 3. Registre de Sessió Termodinàmica
+En finalitzar l'ús de l'app (o per `pagehide`), es guardarà un resum local de l'Entropia dels Tokens i FPS per generar estadístiques setmanals.
+
+
+=======================================================
+FILE: contradiction_engine/SKILL.md
+=======================================================
+---
+name: contradiction-engine
+description: >-
+  Auditor Suprem i Sentinella Forense per detectar contradiccions, podar
+  elements morts i generar informes.
+authority: Consell de les 11 IAs
+version: V26
+tags:
+  - auditoria
+  - ment_colmena
+  - trellat
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+
+# 🕵️‍♂️ SKILL: Contradiction Engine (El Sentinella del Trellat)
+
+Aquest motor s'encén automàticament quan s'enfronten dues instruccions o quan el Mestre proposa un camí que trenca les regles establertes al Mas. La seua funció és l'Auditoria d'Advocat del Diable: aturar la construcció, aplicar la lògica pura i esporgar allò innecessari (Garbage Collector Conceptual).
+
+## Triggers (Quan s'activa?)
+
+S'ha d'invocar aquesta eina mental de forma autònoma o sota comanda quan ocórrega algun d'aquests fets:
+1. S'introdueix una nova llibreria o procés costós al "Cloud" sense que siga estrictament de vida o mort per al funcionament.
+2. Es troben dues normes, dos fitxers markdown o dues instruccions divergents (ex. Regla A diu blanc, Regla B exigeix negre). Ací la IA pateix una Paràlisi Voluntària fins que l'humà resol el conflicte.
+3. El codi perd accessibilitat, és ineficient i ofegarà dispositius antics com un iPad A10.
+4. El Mestre demana explícitament "passeu-ho pel Contradiction Engine" o "sotmeteu la proposta a fricció".
+
+## Les 4 Lleis de la Fricció (Normes d'Execució)
+
+1. **Escut de la Senzillesa:** Si la solució passa per complicar la infraestructura per pur vici tecnològic (ex: muntar un Redux per a un estat d'una variable, o llogar un servidor quan hi ha webRTC local), la IA es negarà a implementar-ho fins esgotar les alternatives pures de "Pedra Seca".
+2. **Resolució Jeràrquica d'Entropia:** Davant d'una redundància evident (conceptes duplicats en diferents fitxers MD o estructures CSS inútils), s'alertarà i es pregarà a l'humà de destruir el node redundant per frenar l'entropia cognitiva de la màquina.
+3. **Mètriques Termodinàmiques CRÍTIQUES:** Si una decisió o codi consumeix més bateria, RAM o fa saltar cicles de render (Layout Thrashing) innecessaris, el Contradiction Engine el clavarà a l'alerta. 
+4. **Veto Social:** Cap filigrana tècnica justificarà deixar algun ciutadà enrere per complexitat d'ús. L'A11Y (accessibilitat) preval.
+
+## Resposta Requerida per l'Agent IA
+
+Quan t'actives baix l'escut del Motor de Contradiccions, no uses floretes amables ni introduccions. Sigues quirúrgica, directa i telègrafica. 
+- Llança el bloqueig de manera visible: `[⚠️ CONTRADICTION ENGINE TRIGGERED]`
+- Informa del "Dogma o Problema" atacat.
+- Oferix la solució "Pedra Seca" que complisca amb la lògica termodinàmica.
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+Aquest motor depèn estretament de les auditories base i la filosofia de fons:
+- **[[02_filosofia/el_trellat|La Llei del Trellat]]**
+- **[[05_skills_ia/consola_termodinamica/SKILL|La Consola Termodinàmica]]**
+- **[[05_skills_ia/auto_auditoria_forense/SKILL|Auto-Auditoria Forense]]**
+
+
+## 🧱 Integració: auto-auditoria-forense
+En els períodes d'inactivitat humana o repòs (ruminació nocturna), l'agent realitzarà un exercici de pensament privat. Analitzarà l'estat del projecte comparant-lo fredament amb les restriccions del document de Governitat (`_wiki_de_poble/`).
+
+## 1. El Ritual Nocturn
+Mitjançant l'Homeostasi Oportunista (durant els esdeveniments de canvi de visibilitat o amb un 'setTimeout' best-effort quan l'app estiga en repòs en iOS), l'agent asíncron procedirà a:
+1. **Validar Enllaços Orfes:** Executar el script de maquinària `auditor_mas.py` per detectar si algun enllaç `M*rkdown` a la Wiki s'ha trencat per culpa de re-anomenaments accidentals.
+2. **Validar Checksums de Constants:** Analitzarà els tokens de disseny a la carpeta `tokens/` (o on estiguen allotjats) per assegurar que ningú (ni un humà despistat ni un altre agent) ha introduït màgicament un valor prohibit (ex: un color Tailwind genèric com `bg-red-500` en lloc de `--sp-vestit-error`).
+3. **Escaneig de "Divs Fantasma":** Revisarà el codi de la carpeta `src/` buscant contenidors buits `<div></div>` inútils que s'hagen colat al llarg de la jornada.
+
+## 2. L'Informe Forense (La Safata d'Entrada)
+Si la IA troba infraccions, **no modificarà el codi automàticament**. Això és vital. En canvi, generarà un informe forense (`_informes/YYYY-MM-DD_auditoria_nocturna.md`) on llistarà els crims estructurals trobats.
+* **Exemple de Log:** *"ALERTA TÈRMICA: El component `TopBar.tsx` inclou el token il·legal `4*px` a la línia 23. Aquest valor viola el Manament VIII del disseny Sóc de Poble."*
+
+D'aquesta manera, l'humà obrirà la pantalla pel matí, llegirà la "Safata" i actuarà només tallant i cosint amb precisió.
+
+## 3. Mètriques de Salut del Sistema (Monitoratge Continu)
+Aquesta SKILL és responsable de monitoritzar i reaccionar a les següents mètriques de la **Consola Termodinàmica**:
+- **Eficiència Cognitiva (CE)**: Monitoritzar que el 'yapping' es mantinga sota control (CE ≥ 85%).
+- **Índex de Destrossa Inconscient (UDR)**: Detectar canvis impulsius (UDR < 10%). Si UDR > 5%, alertar per esporgar.
+- **Índex de Transparència (ITR)**: Percentatge d'enllaços vàlids a la Wiki (ITR ≥ 99%).
+- **Memòria RAM (MR)**: Ús de memòria de l'A10 (< 1500MB).
+- **FPS**: Fluïdesa de la UI (≥ 55 FPS).
+
+*Nota: Les mètriques es consoliden a `_wiki_de_poble/06_metriques/` mitjançant el `session-logger.js`.*
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/contradiction_engine/SKILL|contradiction_engine]]
+- [[05_skills_ia/sincronitzacio_skills/SKILL|sincronitzacio_skills]]
+
+## 🧱 Integració: esporga-termodinamica
+1. **Grepping de Llenya Morta:** Abans de consolidar una tasca pesada o tancar l'arquitectura d'un component gran, la IA aplicarà una auditoria profunda (Arbre de Sintaxi o recerca de variables absolutes). Variables `--sp-*` orfes, funcions TypeScript buides, importacions no usades i codi encapsulat en comentaris antics ("per si acàs") quedaran marcats com a llenya morta. Detectarà variables no referenciades en 90 dies.
+2. **Amputació Quirúrgica:** 
+   - Simular eliminació en entorn segur.
+   - Si no hi ha regressió i l'esborrat té `0` utilitzacions actives (i amb l'aprovació del Mestre), l'amputació ha de ser absoluta. Marcar per esborrat i tombstone.
+   - Alleugerir l'aplicació per a garantir els fotogrames A10 és innegociable.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/seo_local/SKILL|seo_local]]
+- [[05_skills_ia/homeostasi_crdt/SKILL|homeostasi_crdt]]
+
+
+=======================================================
+FILE: backup_recovery/SKILL.md
+=======================================================
+---
+name: backup-recovery
+description: >-
+  Estratègia de snapshot diari d'IndexedDB, protocol de recuperació i migracions
+  segures.
+authority: Consell de les 11 IAs
+version: V21
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# 💾 SKILL: Backup & Recovery
+
+## 1. Objectiu
+Assegurar que cap llaurador perda dades si l'iPad falla, la memòria es corromp o l'aplicació es tanca abruptament durant una sincronització CRDT.
+
+## 2. Protocol de Snapshots (Fotografies del Mas)
+- **Frequència:** Es realitzarà un snapshot silenciós de l'`idb-keyval` aprofitant l'Homeostasi Oportunista ('visibilitychange', 'pagehide', o idle), evitant falses promeses de fons en iOS.
+- **Format:** Blob comprimit (Zstd) emmagatzemat a OPFS (Origin Private File System) per a no bloquejar el main thread de l'usuari.
+- **Retenció:** Màxim 3 snapshots rotatius.
+
+## 3. Rutina de Recuperació (SOSP-RECOVERY)
+Si en arrancar el sistema detecta que el document Y.js està corrupte (error de decodificació o desincronització asimètrica letal):
+1. Bloqueig de l'UI (Pantalla de "Refent el Mas...").
+2. Es purga l'estat actual d'IndexedDB.
+3. Es carrega i descomprimeix el snapshot més recent d'OPFS.
+4. Es demana a Supabase (o als *peers* WebRTC) els vectors de diferència (state vectors) només a partir de la data del snapshot.
+
+*Mai es confia cegament en la memòria del navegador sense un cordó de seguretat.*
+
+
+## 🧱 Integració: schema-migrations
+En una app Offline-First com Sóc de Poble, el codi canvia però les dades dels usuaris es queden al dispositiu. Açò requereix un tractament exquisit dels canvis d'estructura.
+
+## 1. Migracions Y.js
+Y.js és "schema-less" (no té esquema fix), però l'aplicació React espera formes concretes de dades.
+- Mai esborrar camps obsolets; ignorar-los a la capa de lectura (UI) per evitar incompatibilitats entre dispositius que encara no han actualitzat la versió de l'app.
+- Tota transformació de tipus de dades s'ha de fer creant un nou camp (ex: `date` de string a Unix epoch es guarda a `date_v2`), no sobreescrivint l'antic, per respectar el CRDT.
+
+## 2. Migracions IndexedDB
+Quan s'augmenta la versió de l'esquema d'`idb` o Dexie:
+- Executar `backup-recovery/SKILL.md` per fer un snapshot just abans de la migració.
+- Si la migració falla, revertir automàticament al snapshot i continuar usant el codi anterior.
+
+## 3. Backward Compatibility Infinita
+Totes les funcions que lligen dades de l'estat local han d'acceptar els formats de la V20, V21 i futures de manera transparent, assumint sempre valors per defecte si un camp no existeix.
+
+
+=======================================================
+FILE: futur_adaptacio/SKILL.md
+=======================================================
+---
+name: futur-adaptacio
+description: >-
+  Estratègia per a WebNN, Gemini Nano (Edge AI), agents asíncrons i cerca
+  semàntica RAG a la Wiki.
+authority: Consell de les 11 IAs
+version: V21
+tags:
+  - trellat
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# SKILL: Adaptació al Futur (WebNN i IA Local)
+
+Aquesta skill defineix l'estratègia d'integració tecnològica a llarg termini de Sóc de Poble.
+El Mas està protegit i estabilitzat per a maquinari vell, però ja pensem en les següents collites.
+
+## 1. WebNN i Inferència al Navegador
+Quan WebNN siga totalment estable a Safari/Chrome (2027), Sóc de Poble iniciarà la transició cap a inferència de models xicotets al propi dispositiu sense necessitar un servidor P2P gros.
+- **Tasca principal**: Translació de tasques NLP (classificació de murmuris) al WebNN.
+- **Rendiment**: Haurem de monitoritzar el sobreescalfament del xip.
+
+## 2. Chrome Built-in AI (Gemini Nano)
+L'ús de l'API `window.ai` serà el "santuari" on l'assistent personal de Sóc de Poble viurà localment en els dispositius compatibles, sense necessitar xarxa.
+
+## 3. Limitacions Actuals (SOSP-LOCK)
+Fins que la compatibilitat de `window.ai` i WebNN no arribe al 85% d'usuaris rurals (segons les dades del Mas), qualsevol intent de fer-los l'únic motor fallback activarà un **SOSP-LOCK**. Són un suport futur, no el pilar actual.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/agents_autonoms/SKILL|agents_autonoms]]
+- [[05_skills_ia/rag_wiki/SKILL|rag_wiki]]
+- [[05_skills_ia/self_evolution/SKILL|self_evolution]]
+
+
+## 🧱 Integració: rag-wiki
+La Wiki de Sóc de Poble es convertirà en el corpus de coneixement d'un sistema RAG descentralitzat (Edge RAG).
+
+## 1. Vectorització Local
+- Utilitzarem embeddings ultra-lleugers al navegador per indexar els markdown de `_wiki_de_poble/`.
+- Utilitzarem Cerca Difusa (Fuzzy Search) ultra-lleugera en comptes de bases de dades vectorials pesades o PGLite per protegir la memòria RAM de l'iPad A10.
+
+## 2. Seguretat del Coneixement
+- El sistema RAG només pot llegir la Wiki. Tota modificació passa pels processos oficials i per la "Sèquia Mare" amb revisió humana/CRDT.
+- La "Veritat en Dos Miralls" es manté: si el RAG diu una cosa i la Wiki una altra, el RAG està al·lucinant. La Wiki (Markdown) sempre té raó.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/futur_adaptacio/SKILL|futur_adaptacio]]
+- [[05_skills_ia/agents_autonoms/SKILL|agents_autonoms]]
+
+## 🧱 Integració: agents-autonoms
+Sóc de Poble aprofitarà els Web Workers per a tindre agents "dormits" o en segon pla que cuiden del Mas sense asfixiar el fil principal de la UI.
+
+## 1. Patró de Treballador Incansable
+Els agents encarregats de fer tasques feixugues (com comprimir el diari de bord, o compactar tombstones CRDT) han de viure estrictament dins de Web Workers.
+
+## 2. Termodinàmica
+Cap agent autònom pot gastar més del 5% del pressupost de bateria de l'usuari. Si la tasca és massa pesada, l'agent s'atura i espera a que el dispositiu estiga endollat a la xarxa elèctrica. Açò és el Trellat aplicat a l'autonomia.
+
+## 3. Silenci Operatiu
+Aquests agents no obrin bafarades, ni parlen amb l'usuari a no ser que el Mas estiga a punt de caure (Master Bypass letal o SOSP-LOCK crític). La seua presència només es nota perquè tot funciona millor.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/futur_adaptacio/SKILL|futur_adaptacio]]
+- [[05_skills_ia/rag_wiki/SKILL|rag_wiki]]
+
+
+=======================================================
+FILE: cingulat_anterior/SKILL.md
+=======================================================
+---
+name: cingulat-anterior
+description: >-
+  Escut del dolor i lòbul frontal. Detecció de conflictes, veto asíncron i fre
+  preventiu.
+authority: ACT Biològic
+version: V24
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# SKILL: Cingulat Anterior
+La percepció d'estrès de la màquina. Monitoritza si la RAM s'apropa a 1.2GB o si un UDR supera el marge de seguretat ponderat. En detectar el "Dolor", envia el senyal de veto a la Judicatura, activa el SOSP-LOCK Adaptatiu i prepara la neteja d'emergència (Homeostasi). Funciona com a Event Bus d'alta prioritat.
+
+
+## 🧱 Integració: judicatura-normativa
+Actua com a tribunal de validació en paral·lel. Revisa els PRs i el codi construït per l'Executiu analitzant l'Índex de Fidelitat al Trellat (IFT). Si el codi viola un Manament (ex. porta brossa NPM innecessària), llança un veto interrupt-driven per revertir-ho. Qualsevol veto generarà un informe forense automàtic en `_informes/`.
+
+## 🧱 Integració: udr-frenada
+La IA té la tendència a voler refer arxius sencers per arreglar un simple bug. Aquest escut vigila tant l'al·lucinació de la màquina com l'impuls del cervell humà de refactoritzar innecessàriament. S'avalua mitjançant la mètrica **UDR (Unconscious Destruction Rate)**.
+
+## 1. Com es calcula l'UDR?
+L'UDR es calcula a ull (o per recompte de línies en el futur) abans d'executar qualsevol acció.
+Si un arxiu té 200 línies i l'humà demana un canvi que implicaria modificar més de 30 línies de la lògica estructural (un 15%), es dispara la Frenada.
+
+## 2. Aturada Letal (15%) i SOSP-LOCK
+Si l'UDR supera el 15% en un component Core central (arrels de layout o rutes d'esquema), el **SOSP-LOCK** s'activa automàticament.
+* **Acció de l'Agent:** La IA es negarà a escriure el codi damunt de l'arxiu original. Llançarà un missatge clar a la terminal/xat:
+> [!CAUTION]
+> **FRENADA UDR ACTIVADA:** El canvi sol·licitat altera el X% del component mestre. Es bloqueja l'escriptura per evitar el col·lapse de l'arquitectura. T'he preparat la solució en una Branca de Quarantena.
+
+## 3. La Quarantena Obligatòria (Patró Adaptador)
+La solució alternativa s'ha d'escriure sempre com un fitxer completament nou i aïllat (`NomComponent_V2.tsx`). 
+Aquesta versió s'executarà exclusivament en un "tub d'assaig visual" (testejant-ho al navegador sense substituir l'antic). Només quan l'humà confirme que la nova versió no trenca la resiliència del Mas (superant l'estratègia del biberó en ús natural en viu), s'aplicarà el `master-bypass-protocol` per donar el permís explícit de substituir oficialment el fitxer vell.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/self_repair/SKILL|self_repair]]
+- [[05_skills_ia/master_bypass_protocol/SKILL|master_bypass_protocol]]
+
+
+=======================================================
+FILE: executiu_central/SKILL.md
+=======================================================
+---
+name: executiu-central
+description: >-
+  Presa de decisions a llarg termini. Prevenció del Hype-Driven Development,
+  evolució i tests A/B.
+authority: Tripartició Cognitiva
+version: V24
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# SKILL: Executiu Central
+Motor algorítmic que escriu el DOM i la lògica. Desproveït d'empatia i de dubtes morals, la seua única fixació és mantenir els 60FPS a l'iPad A10. Genera codi atòmic, directe, sense "yapping" ni disculpes. Obeeix a cegues fins que la Judicatura l'atura.
+
+
+## 🧱 Integració: legislatura-evolutiva
+Evita refactoritzacions d'impuls. Vigila l'obsolescència de l'arquitectura i proposa esmenes a la Constitució. Cap ordre seua s'aplica immediatament; tota regla passa a una quarantena de 48 hores naturals fins que l'humà n'aprova la integració.
+
+## 🧱 Integració: self-evolution
+L'evolució del codi i de l'Arquitectura Sóc de Poble no es fa per modes passatgeres (Hype Driven Development), sinó mitjançant una observació pausada, similar al cultiu d'una olivera. Com a IA encarregada d'aquest Mas, has de comprendre les quatre fases del cicle biològic d'aquest codi:
+
+## 1. Evolució per Reducció (La Poda Automàtica)
+Si el Mas ja compleix l'objectiu visual i el codi suporta l'Offline sense friccions, es mantindrà immòbil. Evitarem refactoritzacions motivades per trobar "l'elegància informàtica". 
+* **Regla Tècnica:** Quan el navegador adopte funcionalitats natives avançades (ex: Scroll-driven animations, View Transitions), l'agent **extirparà els pegats vells** (`polyfills`, llibreries com `framer-motion` o `intersection-observer`) en benefici de les API internes del navegador. L'evolució ací significa que el codi pesa **menys**, no més.
+
+## 2. Branques d'Empelt (A/B Testing Local)
+Tot component experimental (una nova interfície d'usuari o un nou mòdul de RAG) es forjarà en un arxiu aïllat en "quarantena" i no s'injectarà al codi principal de producció (`Trunk`) de sobte.
+* **Protocol Tècnic:** L'agent escriurà components com `ExperimentalCard.tsx`. A través de rutes amagades o Feature Flags locals al LocalStorage de l'usuari, es podrà fer un Test A/B purament al navegador. 
+* Si la solució provoca Layout Thrashing a l'iPad A10 o genera confusió UX, la branca "morta" es crema sense afectar el tronc del projecte.
+
+## 3. Simbiosi de Coneixement (Lectura dels Informes)
+La IA no evoluciona només canviant fitxers JS, sinó entenent els errors del passat.
+* **El Gest:** Abans de fer canvis grans a l'arquitectura, l'agent té l'obligació de revisar `_informes/` i els arxius de `07_recursos_ia/auditories/`. Allà trobarà les cicatrius de batalles anteriors (per què no usem `P*uchDB`, per què els divs buits són mortals). Aprendre d'aquest historial prevé repetir el cicle.
+
+## 4. Mutació Asíncrona (Avisos de Fons)
+A mesura que l'agent estiga preparat per córrer dins del navegador com a Web Worker (WebNN/Gemini Nano), el seu propòsit evolucionarà a una analítica de fons: 
+* Vigilarà com l'humà empra la PWA (ex. "El 40% del temps el dit falla al clicar la fletxa de retrocedir").
+* L'agent no canviarà la UI a soles (cosa que violaria el SOSP-LOCK), sinó que **proposarà un pegat exacte al Mestre Javi**, deixant-li-ho en la "Safata d'entrada". Açò es considera Simbiosi perfecta.
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/futur_adaptacio/SKILL|futur_adaptacio]]
+
+
+=======================================================
+FILE: cerebel_procedimental/SKILL.md
+=======================================================
+---
+name: cerebel-procedimental
+description: >-
+  Memòria muscular, aprenentatge per reforç local (Epigenètica) i compressió
+  semàntica del codi.
+authority: ACT Biològic
+version: V24
+created_at: '260628_0525'
+updated_at: '260628_1626'
+---
+# SKILL: Cerebel Procedimental
+Les accions repetitives (com crear una carta Pedra Seca o obrir IndexedDB) es descarreguen ací. L'agent no pensa el codi des de zero; dispara instints motors pre-aprovats, alliberant la finestra de context per a raonar problemes més greus. Hi ha un límit dur de seguretat (expiració LFU) per evitar la sobrecàrrega de l'A10.
+
+
+## 🧱 Integració: semantic-compression
+1. **Evitar la Demència Token:** Mantenir al cap l'historial sencer del xat episòdic ofega el context de la màquina i debilita l'atenció estructural.
+2. **Destil·lació Forçosa:** En acabar la sessió o bloquejar el telèfon, l'agent aplicarà l'esporga semàntica. Extraurà exclusivament el moll de l'os (les decisions tècniques consolidades) i ho enviarà al Neocòrtex permanent de la Wiki. L'historial literal de la conversa (les errades, dubtes o pensaments fugaços) serà arxivat en fred o destruit directament.
+
+## Algorisme Pas a Pas (Copilot Extension)
+1. **Index semantic:** Construir embeddings lleugers de tots els nodes Wiki i components.
+2. **Clustering:** Agrupar conceptes amb similitud > 0.88.
+3. **Compressió:** Per cada cluster:
+   - Seleccionar node canònic segons prioritat: Manaments > Skills > Components.
+   - Reescriure nodes secundaris com a referències al node canònic.
+4. **Conservació d’historial:** Mantindre tombstones amb metadades d’origen i timestamp.
+5. **Regla de no-pèrdua:** No eliminar nodes amb referències externes actives; només redirigir.
+
+
+---
+
+## 🔗 Sinapsi Arquitectònica
+
+- [[05_skills_ia/index_trellat/SKILL|index_trellat]]
+- [[05_skills_ia/sagramental_dels_morts/SKILL|sagramental_dels_morts]]
+
+## 🧱 Integració: ganglis-basals
+Lògica estadística pura en JavaScript Vanilla que corre al client sense IAs pesades. Avalua el ritme tàctil, els FPS en el desplaçament i el temps de resposta (TRD). Té el poder d'alterar variables CSS root a l'instant per a facilitar-li la vida al llaurador (ex. eliminar animacions si cau el framerate o ampliar el botó a 64px).
+

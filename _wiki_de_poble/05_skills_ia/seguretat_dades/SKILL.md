@@ -1,8 +1,10 @@
 ---
 name: seguretat-dades
-description: "Lògica GDPR, xifratge en repòs i esborrat complet (Dret a l'Oblit)."
-authority: "Consell de les 11 IAs"
-version: "V21"
+description: 'Lògica GDPR, xifratge en repòs i esborrat complet (Dret a l''Oblit).'
+authority: Consell de les 11 IAs
+version: V21
+created_at: '260628_0525'
+updated_at: '260628_1618'
 ---
 # 🔐 SKILL: Seguretat de Dades i GDPR
 
@@ -18,3 +20,5 @@ Tot i ser dades del poble, l'iPad podria ser robat.
 
 ## 3. Consentiment Invisible (Trellat GDPR)
 Sense banners de cookies molestos. Si s'utilitza una *skill* que guarda dades, s'informa en el mateix context ("Aquesta foto es guardarà al teu dispositiu"). El disseny ha de respectar la privacitat per defecte.
+
+- [[00_index|Índex Central]]

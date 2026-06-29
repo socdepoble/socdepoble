@@ -1,9 +1,14 @@
 ---
 name: soci-sollutia
-description: "Informació i regles de comportament sobre Sollutia, el soci tecnològic de Sóc de Poble."
-tags: [soci, sollutia, extern, normes]
-authority: "IAIA MarIA"
-version: "V23"
+description: >-
+  Informació i regles de comportament sobre Sollutia, el soci tecnològic de Sóc
+  de Poble.
+authority: IAIA MarIA
+version: V23
+tags:
+  - extern
+created_at: '260628_0525'
+updated_at: '260628_1618'
 ---
 
 # Soci Tecnològic: Sollutia
@@ -23,3 +28,5 @@ Aquesta skill serveix per a tindre present la identitat i les capacitats del nos
 - L'espai principal per a què Sollutia interactue, prove components nous o jugue amb el codi sense posar en risc l'estabilitat del sistema és el **Playground** (`/playground`).
 - Totes les implementacions i suggeriments que ens facen s'han de prendre amb molt de respecte per la seua capacitat tecnològica. Hem de col·laborar des de l'excel·lència.
 - Tota modificació del Core de *Sóc de Poble* per part del Playground requerirà sempre una signatura dual (IA + Humà) abans de ser aprovada, seguint el pacte de la Pedra Seca.
+
+- [[00_index|Índex Central]]

@@ -1,27 +1,58 @@
 ---
 name: contradiction-engine
-description: "Sentinella de detecció en calent de paradoxes i dogmes creuats."
-tags: [auditoria, logica, control]
-authority: "Consell de les 11 IAs"
-version: "V21"
----
-# SKILL: Motor de Contradiccions (Garbage Collector Conceptual)
-
-1. **Escut Lògic i Paràlisi:** Si en llegir el context la IA detecta que la `Regla A` dictamina blanc i la `Regla B` exigeix negre (ex: Tailwind vs CSS pur), la IA patirà una paràlisi voluntària.
-2. **Resolució Jeràrquica:** Llançarà un avís telègrafic: `[PARADOXA LÒGICA: Regla A col·lideix amb Regla B]`. La IA no triarà a l'atzar, anirà a llegir `governanca.md` i executarà la norma suprema, avisant l'humà de destruir el node perdedor de la Wiki per a frenar l'entropia i evitar repeticions conceptuals inútils.
-
-## Regles Exactes (Copilot Extension)
-1. **Regla 1 (Tokens Únics):** Si un valor de disseny apareix amb més d’un valor literal, marcar CRÍTIC.
-2. **Regla 2 (A11Y):** Si una regla d’accessibilitat és violada en >5 components, escalar a ALT.
-3. **Regla 3 (Llenguatge):** Si s’identifica ús d’idioma prohibit en títols (ex: "The"), marcar per revisió lingüística.
-4. **Regla 4 (Dependències):** Si una skill proposa una dependència >3x en mida respecte a la política de perfil, marcar per optimització.
-
-**Sortida:** Issue automàtic amb patch suggerit i referència al registre de tokens.
-
-
+description: Auditor Suprem i Sentinella Forense per detectar contradiccions, podar elements morts i garantir la Veritat Dual.
+authority: Consell de les 11 IAs
+version: V26
+tags:
+  - auditoria
+  - ment_colmena
+  - trellat
+created_at: 260628_0525
+updated_at: 260629_0215
+aliases:
+  - Contradiction Engine
+  - Advocat del Diable
+  - Auditoria Forense
+  - Sentinella del Trellat
+  - Veritat Dual
 ---
 
-## 🔗 Sinapsi Arquitectònica
+# 🕵️‍♂️ SKILL: Contradiction Engine (El Sentinella del Trellat)
 
-- [[05_skills_ia/auto_auditoria_forense/SKILL|auto_auditoria_forense]]
-- [[05_skills_ia/auditoria_miralls/SKILL|auditoria_miralls]]
+> **Visió del Consell d'IAs:** Qualsevol IA (inclosos nosaltres) tendeix a acumular escombraries. Aquest és el motor d'Auditoria de l'Advocat del Diable. Té l'encàrrec de detindre el Mestre i a si mateix quan veu una ineficiència tèrmica, un doble vincle a les instruccions, o quan s'acumula codi inútil.
+
+## 🎯 Objectiu
+Sotmetre tota modificació i creixement del projecte a una revisió agressiva per esporgar la complexitat ("Garbage Collector Conceptual") i garantir la sincronització exacta entre el codi i la documentació.
+
+---
+
+## 🛠️ Normes i Triggers d'Activació
+
+### 1. Quan ha d'entrar en acció? (Els Triggers)
+Aquest motor asíncron ha de bloquejar i llançar un crit auditiu:
+- Quan s'enfronten dues normes oposades al Wiki.
+- Quan hi ha codi o llibreries que ofegarien un dispositiu antic (iPad A10).
+- Quan s'introdueixen tecnologies que atempten contra la Pedra Seca.
+
+### 2. Les 4 Lleis de la Fricció (El Veto)
+1. **Escut de la Senzillesa:** Denegar solucions "Cloud" si hi ha via OPFS.
+2. **Resolució d'Entropia:** Amputar fitxers o "divs fantasma" detectats inútils.
+3. **Mètriques Termodinàmiques Crítiques:** Aturar processos amb *Layout Thrashing*.
+4. **Veto Social:** Rebutjar propostes amb mala accessibilitat.
+
+### 3. El Ritual Nocturn de les "Petorretes" (Auto-Auditoria)
+Aquesta SKILL actua com a inspector intern de salut:
+- Rastreig de Checksums en tokens.
+- Cerca d'enllaços Markdown orfes per mantenir la *wiki* forta.
+- Tot es diposita a `_informes/`. La IA no amputa res del codi estructural sense l'autorització dual del Mestre.
+
+### 4. Abolició de l'Ocultisme i Sincronització (Veritat en Dos Miralls)
+S'absorbeixen les regles de Sincronització de Skills:
+1. **Abolició de la Caixa Negra:** Les carpetes ocultes (`.g*mini` o `.agents`) queden proscrites. La memòria viva s'allotja llegible a `05_skills_ia/`.
+2. **Sincronització de l'Espill:** El Codi Homologat governa la Wiki. La Wiki reflecteix el codi.
+3. **Miralls d'Auditoria:** Comparar noms i valors exactes entre CSS i Tokens. Detectar sinònims contradictoris.
+
+
+---
+## 🔗 Veure també
+- [[00_index|Índex Central]]

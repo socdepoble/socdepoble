@@ -1,27 +1,75 @@
 ---
 name: self-repair
-description: "SOSP-LOCK i tractament CRDT de la memòria."
-tags: [reparacio, crdt, neocortex, sosp]
-authority: "Consell de les 11 IAs"
-version: "V21"
----
-# SKILL: Auto-Reparació i Tractament CRDT de la Memòria
-
-1. **Memòria Viva i Amnèsia:** Resolem la Paradoxa de la Marmota. Quan es dictamine l'activador "Sóc de Poble!", l'Agent té prohibició expressa d'intoxicar-se injectant-se tot el riu del xat d'ahir. Només carregarà en memòria els conceptes sòlids allotjats al **Neocòrtex permanent**. (Ritual de Consolidació obligatori abans de tancar sessió).
-2. **Sincronització CRDT de la Wiki:** Els humans i la intel·ligència editen sobre el mateix espill `Markdown`. 
-   - **Engine recomanat:** yjs
-   - **Conflicte:** Merge semàntic amb prioritat per timestamp i autoritat (aprovació dual). L'arxiu mestre `GOVERNANCA.md` actua com a Rellotge Lògic per desempatar.
-3. **El Disparador SOSP (Stop-Observe-State-Proceed):** Davant un bug catastròfic:
-   - **Stop:** Aturar l’agent afectat en sec.
-   - **Observe:** Capturar snapshot i logs, aïllant el problema.
-   - **State:** Analitzar estat, generar patch, i suggerir regressió a la llavor sana anterior.
-   - **Proceed:** Aplicar patch en entorn de staging i validar.
-
-
+description: >-
+  SOSP-LOCK, tractament CRDT de la memòria i protocol d'emergència per a
+  caigudes de servidor (Mas Cau).
+authority: Tripartició
+version: V24
+tags:
+  - crdt_offline
+  - seguretat
+  - resiliencia
+created_at: 260628_0525
+updated_at: 260629_0215
+aliases:
+  - Self Repair
+  - Protocol Mas Cau
+  - SOSP-LOCK
 ---
 
-## 🔗 Sinapsi Arquitectònica
+# 🛠️ SKILL: Autoreparació, SOSP-LOCK i Protocol Mas Cau
 
-- [[05_skills_ia/udr_frenada/SKILL|udr_frenada]]
-- [[05_skills_ia/master_bypass_protocol/SKILL|master_bypass_protocol]]
-- [[05_skills_ia/homeostasi_crdt/SKILL|homeostasi_crdt]]
+## 1. El Bloqueig Absolut (SOSP-LOCK)
+El bloqueig `SOSP-LOCK` queda restringit a 4 causes exclusives definides a la Governança. Quan s'activa, l'app entra en mode "Mas Cau", tallant Y.js i bloquejant l'escriptura.
+
+**SOSPLock.js (Referència d'Implementació):**
+```javascript
+// src/core/security/SOSPLock.js
+import { set, del } from 'idb-keyval';
+
+export const SOSPLock = {
+  activate: async (reason, severity = 'CRITICAL') => {
+    console.error(`[SOSP-LOCK ACTIVAT] ${severity}: ${reason}`);
+    if (window.__YJS_PROVIDER__) window.__YJS_PROVIDER__.disconnect();
+    await set('SOSP_LOCK_STATE', 'LOCKED');
+    await set('SOSP_LOCK_REASON', reason);
+    document.documentElement.classList.add('mas-cau-mode');
+    window.dispatchEvent(new CustomEvent('sosp-lock-triggered', { detail: { reason, severity } }));
+  },
+  release: async (authKey) => {
+    if (authKey !== 'MASTER_BYPASS') return false;
+    await del('SOSP_LOCK_STATE');
+    await del('SOSP_LOCK_REASON');
+    window.location.reload(true);
+    return true;
+  }
+};
+```
+
+## 2. iOS Catch-Up (Offline-First en Dispositius Antics)
+En dispositius que maten el fil del navegador quan s'apaga la pantalla (iOS antic / iPad A10), hem d'assegurar la persistència forçada d'OPFS i reconnexió automàtica de Y.js.
+
+**iOSCatchUp.js (Referència d'Implementació):**
+```javascript
+// src/core/offline/iOSCatchUp.js
+export function initIOSCatchUpPattern() {
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState === "visible") {
+      if (navigator.storage && navigator.storage.persist) await navigator.storage.persist();
+      setTimeout(() => {
+        if (window.__YJS_PROVIDER__) {
+          window.__YJS_PROVIDER__.connect();
+          window.__YJS_PROVIDER__.sync();
+        }
+      }, 300);
+    } else {
+      if (window.__YJS_PROVIDER__) window.__YJS_PROVIDER__.disconnect();
+    }
+  });
+}
+```
+
+
+---
+## 🔗 Veure també
+- [[00_index|Índex Central]]

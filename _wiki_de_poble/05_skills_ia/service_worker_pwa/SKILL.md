@@ -1,8 +1,12 @@
 ---
 name: service-worker-pwa
-description: "Estratègia Cache-First i actualitzacions transparents per a la PWA de Sóc de Poble."
-authority: "Consell de les 11 IAs"
-version: "V21"
+description: >-
+  Estratègia Cache-First i actualitzacions transparents per a la PWA de Sóc de
+  Poble.
+authority: Consell de les 11 IAs
+version: V21
+created_at: '260628_0525'
+updated_at: '260628_1618'
 ---
 # 🌐 SKILL: Service Worker & PWA
 
@@ -13,7 +17,9 @@ version: "V21"
 ## 2. Actualitzacions "Fes la becaina"
 - Quan hi ha una nova versió de l'app, es descarrega silenciosament en segon pla.
 - A l'usuari (normalment gent major) no se li interromp l'activitat. La nova versió s'aplica només quan es tanca completament la pestanya i es torna a obrir (quan fa la becaina).
-- Si l'actualització és **crítica** (forçada per vulnerabilitat o SOSP), s'utilitzarà el `mas-cau/SKILL.md` per forçar el refresc.
+- Si l'actualització és **crítica** (forçada per vulnerabilitat o SDP), s'utilitzarà el `mas-cau/SKILL.md` per forçar el refresc.
 
 ## 3. Instal·lació de PWA
 El manifest web inclourà la icona del Mas a 512x512px i obligarà al mode `standalone` per eliminar la barra de direccions i que semble una app nativa a l'iPad.
+
+- [[00_index|Índex Central]]

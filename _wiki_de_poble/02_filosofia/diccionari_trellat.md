@@ -1,6 +1,18 @@
 ---
-tags: [diccionari, trellat, llenguatge, normativa]
-aliases: [Diccionari Trellat, Glosari d'Anglicismes, Diccionari_Trellat]
+name: diccionari-trellat
+description: >-
+  Única Font de Veritat per a la terminologia i traducció de termes al valencià
+  canònic del projecte.
+authority: IAIA MarIA
+version: V1
+tags:
+  - trellat
+aliases:
+  - Diccionari Trellat
+  - Glosari d'Anglicismes
+  - Diccionari_Trellat
+created_at: '260627_0240'
+updated_at: '260628_1618'
 ---
 # Diccionari Canònic de la Llengua del Mas
 

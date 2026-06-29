@@ -1,8 +1,12 @@
 ---
 name: a11y-trellat
-description: "Directrius d'accessibilitat i usabilitat festiva per a Sóc de Poble. Enfocat a la facilitat d'ús, UX, botons grans i semàntica clara en valencià."
-authority: "Consell de les 11 IAs"
-version: "V21"
+description: >-
+  Directrius d'accessibilitat i usabilitat festiva per a Sóc de Poble. Enfocat a
+  la facilitat d'ús, UX, botons grans i semàntica clara en valencià.
+authority: Consell de les 11 IAs
+version: V21
+created_at: '260628_0525'
+updated_at: '260628_1618'
 ---
 # Skill: Accessibilitat de Poble i Usabilitat Festiva (A11Y Trellat)
 
@@ -41,3 +45,5 @@ Aquesta SKILL vigila la fluïdesa interactiva de l'iPad A10 i la satisfacció hu
 
 ## 🔗 Sinapsi Arquitectònica
 - [[05_skills_ia/arquitectura_pedra_seca/SKILL|arquitectura_pedra_seca]]
+
+- [[00_index|Índex Central]]

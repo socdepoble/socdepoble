@@ -1,0 +1,38 @@
+- **a11y-trellat**: Directrius d'accessibilitat i usabilitat festiva per a Sóc de Poble. Enfocat a la facilitat d'ús, UX, botons grans i semàntica clara en valencià.
+- **agents-autonoms**: Directrius per a futurs agents asíncrons (Web Workers).
+- **undefined**: undefined
+- **arquitectura-pedra-seca**: Estàndards de disseny, maquetació i SEO Local per al projecte Sóc de Poble. Prohibició de fantasmes visuals, ús de Tailwind genèric i prioritat Offline-First.
+- **auto-auditoria-forense**: Execució nocturna de checksums, detecció d’anomalies i generació d’informes forenses.
+- **backup-recovery**: Estratègia de snapshot diari d'IndexedDB i protocol de recuperació davant corrupció de dades locals.
+- **cerebel-procedimental**: Memòria muscular del codi per estalviar tokens i càrrega computacional.
+- **cingulat-anterior**: L'escut del dolor. Detecció de conflictes i ofec de memòria.
+- **consola-termodinamica**: Protocol de monitoratge, salut i autorecuperació del Mas. Centralitza les 13 mètriques sagrades i orquestra la simbiosi del sistema.
+- **contradiction-engine**: Motor d'avaluació implacable. Sentinella forense per detectar sobre-enginyeria, dependències inútils i contradiccions amb la filosofia de la Pedra Seca.
+- **crdt-optimitzacio**: Optimització termodinàmica dels arbres CRDT (Y.js). Gestiona la càrrega de Tombstones, l'ús de RAM i la Resiliència de la Sincronització.
+- **css-arquitectura**: Blindatge de l'arquitectura CSS. Regles estrictes sobre la separació de variables corporatives (Vestit) i classes d'utilitat (Cos).
+- **error-boundaries**: Contenció d'errors a la UI mitjançant React Error Boundaries per evitar l'apantallament blanc de la mort.
+- **esporga-termodinamica**: Poda d’elements morts i variables inactives per garantir A10.
+- **executiu-central**: Antigravity purificat. Velocitat i obediència termodinàmica.
+- **futur-adaptacio**: Estratègia per a WebNN i Gemini Nano (Chrome Built-in AI) a l'iPad.
+- **ganglis-basals**: Aprenentatge per reforç local (Epigenètica). Sensor de la vida real.
+- **homeostasi-crdt**: Consolidar tombstones de Y.js i alliberar RAM.
+- **index-trellat**: Fórmula matemàtica per avaluar la qualitat de la simbiosi humà-màquina en cada sessió. Basat en Trellat, eficiència termodinàmica i coherència arquitectònica.
+- **jerarquia-tailwind**: Jerarquia definitiva i inamovible de Tailwind dins l'arquitectura Sóc de Poble. Tailwind per a cos, CSS per a vestit.
+- **judicatura-normativa**: Veto asíncron i guàrdia pretoriana del Trellat.
+- **legislatura-evolutiva**: Poder de pensament a llarg termini i prevenció de l'Hype-Driven Development.
+- **mas-cau**: Protocol d'emergència per a situacions de caiguda massiva de servidors (SOSP-LOCK 3) i persistència de búnquer.
+- **monitoritzacio-rendiment**: Alertes automàtiques de RAM i Core Web Vitals per mantindre la termodinàmica del sistema en valors òptims.
+- **rag-wiki**: Cerca semàntica a la Wiki (Edge AI) per a Sóc de Poble.
+- **registre-tokens-unic**: El Diccionari Inviolable i font única de veritat per al CSS.
+- **protocol-successio**: Pla de contingència Ego-Death per a la preservació i herència del codi.
+- **schema-migrations**: Migracions segures per a la base de dades local (IndexedDB i Y.js) sense corrompre l'estat offline.
+- **seguretat-dades**: Lògica GDPR, xifratge en repòs i esborrat complet (Dret a l'Oblit).
+- **self-evolution**: Iteracions controlades de mutació de models locals amb tests A/B i rollback automàtic.
+- **self-repair**: SOSP-LOCK i tractament CRDT de la memòria.
+- **semantic-compression**: Destil·lació del Riu de la Consciència per a previndre el col·lapse de memòria.
+- **seo-trellat**: Motor d'optimització de cercadors basat en l'Arquitectura de Pedra Seca. Semàntica impecable i rendiment de càrrega extrema per a entorns rurals.
+- **sequia-mare**: Motor d'Async Batching (Sincronització per lots offline-first). També conegut metafòricament com La Sèquia Mare.
+- **service-worker-pwa**: Estratègia Cache-First i actualitzacions transparents per a la PWA de Sóc de Poble.
+- **sincronitzacio-skills**: Abolició de l'ocultisme de la IA i sincronització de Skills (Verificació Dual i Codi/Wiki).
+- **soci-sollutia**: Informació i regles de comportament sobre Sollutia, el soci tecnològic de Sóc de Poble.
+- **udr-frenada**: Fre preventiu quan alteració > 15%.

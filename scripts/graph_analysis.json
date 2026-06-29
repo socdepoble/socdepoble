@@ -1,0 +1,882 @@
+{
+  "graph": {
+    "00_index": {
+      "path": "00_index.md",
+      "links": [
+        "el_trellat",
+        "antigravity",
+        "iaia_maria",
+        "psiquiatria_forense_integral",
+        "registre_automillora",
+        "diccionari_trellat",
+        "el_trellat",
+        "regla_de_capcalera",
+        "governanca_i_manaments",
+        "politica_legacy",
+        "politica_primacia_canonica",
+        "arquitectura_v19",
+        "pedra_seca",
+        "sistema_act",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "auditoria",
+        "performance",
+        "resiliencia",
+        "ment_colmena_integral",
+        "index_de_salut",
+        "260620_1000_prompt_ronda_2_missatgeria_marmota",
+        "260621_1000_prompt_ronda_3_metriques",
+        "260622_1000_prompt_ronda_4_consola",
+        "260623_1000_prompt_ronda_5_organisme",
+        "260624_1000_prompt_ronda_6_ecosistema",
+        "260625_1000_prompt_ronda_7_playground",
+        "260626_1000_prompt_ronda_8_implementacio",
+        "00_historial_sessions",
+        "00_plantilles",
+        "INSTRUCCIONS_SAFATA",
+        "260607_1940_auditoria_vibe_report_inicial",
+        "260626_1800_auditoria_informe_poda_9_divs"
+      ],
+      "backlinks": [
+        "00_historial_sessions",
+        "260619_1430_Plantilla_Brainstorming",
+        "260619_1430_Plantilla_Branding",
+        "260619_1430_Plantilla_Creador_Skills",
+        "260619_1430_Plantilla_Doc_to_App",
+        "260619_1430_Plantilla_Modo_Produccion",
+        "260619_1430_Plantilla_Planificacio"
+      ]
+    },
+    "antigravity": {
+      "path": "01_identitat_iaia/antigravity.md",
+      "links": [
+        "iaia_maria",
+        "el_trellat",
+        "ment_colmena_integral",
+        "pedra_seca"
+      ],
+      "backlinks": [
+        "00_index",
+        "iaia_maria",
+        "el_trellat",
+        "regla_de_capcalera",
+        "260627_2348_acta_marmota"
+      ]
+    },
+    "iaia_maria": {
+      "path": "01_identitat_iaia/iaia_maria.md",
+      "links": [
+        "iaia_maria",
+        "antigravity",
+        "registre_automillora",
+        "arquitectura_cognitiva",
+        "SKILL",
+        "soc_de_poble",
+        "el_trellat",
+        "arquitectura",
+        "arquitectura_cognitiva",
+        "ment_colmena_integral",
+        "psiquiatria_forense_integral",
+        "pedra_seca",
+        "SKILL",
+        "SKILL",
+        "SKILL"
+      ],
+      "backlinks": [
+        "00_index",
+        "antigravity",
+        "iaia_maria",
+        "soc_de_poble",
+        "el_trellat",
+        "regla_de_capcalera",
+        "ment_colmena_integral"
+      ]
+    },
+    "psiquiatria_forense_integral": {
+      "path": "01_identitat_iaia/psiquiatria_forense_integral.md",
+      "links": [],
+      "backlinks": [
+        "00_index",
+        "iaia_maria",
+        "arquitectura_cognitiva"
+      ]
+    },
+    "registre_automillora": {
+      "path": "01_identitat_iaia/registre_automillora.md",
+      "links": [
+        "arquitectura",
+        "el_trellat",
+        "arquitectura_cognitiva"
+      ],
+      "backlinks": [
+        "00_index",
+        "iaia_maria"
+      ]
+    },
+    "soc_de_poble": {
+      "path": "01_identitat_iaia/soc_de_poble.md",
+      "links": [
+        "pedra_seca",
+        "SKILL",
+        "SKILL",
+        "el_trellat",
+        "iaia_maria"
+      ],
+      "backlinks": [
+        "iaia_maria"
+      ]
+    },
+    "diccionari_trellat": {
+      "path": "02_filosofia/diccionari_trellat.md",
+      "links": [],
+      "backlinks": [
+        "00_index",
+        "regla_de_capcalera",
+        "pedra_seca"
+      ]
+    },
+    "el_trellat": {
+      "path": "02_filosofia/el_trellat.md",
+      "links": [
+        "iaia_maria",
+        "pedra_seca",
+        "antigravity",
+        "ment_colmena_integral",
+        "pedra_seca"
+      ],
+      "backlinks": [
+        "00_index",
+        "00_index",
+        "antigravity",
+        "iaia_maria",
+        "registre_automillora",
+        "soc_de_poble",
+        "regla_de_capcalera",
+        "regla_de_capcalera",
+        "politica_primacia_canonica",
+        "arquitectura_cognitiva",
+        "pedra_seca"
+      ]
+    },
+    "regla_de_capcalera": {
+      "path": "02_filosofia/regla_de_capcalera.md",
+      "links": [
+        "el_trellat",
+        "iaia_maria",
+        "antigravity",
+        "ment_colmena_integral",
+        "el_trellat",
+        "diccionari_trellat"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "governanca_i_manaments": {
+      "path": "03_govern/governanca_i_manaments.md",
+      "links": [],
+      "backlinks": [
+        "00_index",
+        "arquitectura_cognitiva",
+        "pedra_seca"
+      ]
+    },
+    "politica_legacy": {
+      "path": "03_govern/politica_legacy.md",
+      "links": [],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "politica_primacia_canonica": {
+      "path": "03_govern/politica_primacia_canonica.md",
+      "links": [
+        "el_trellat"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "arquitectura": {
+      "path": "04_arquitectura_disseny/arquitectura.md",
+      "links": [
+        "pedra_seca",
+        "SKILL",
+        "260616_0450_Arquitectura_General",
+        "260616_0455_Arquitectura_Directives",
+        "260616_0500_Arquitectura_Disseny",
+        "260616_0505_Arquitectura_Etnografia",
+        "260616_0510_Arquitectura_Gestio",
+        "260616_0515_Arquitectura_Identitat",
+        "260616_0520_Arquitectura_Skills_Arrel",
+        "260619_1430_Arquitectura_L_Anima",
+        "260619_1430_Arquitectura_L_Ecosistema",
+        "260619_1430_Arquitectura_La_Forja",
+        "260619_1430_Arquitectura_Protocol_Lazaro",
+        "260619_1430_Arquitectura_Sistema_Nervios"
+      ],
+      "backlinks": [
+        "iaia_maria",
+        "registre_automillora",
+        "pedra_seca",
+        "260616_0450_Arquitectura_General",
+        "260616_0455_Arquitectura_Directives",
+        "260616_0500_Arquitectura_Disseny",
+        "260616_0505_Arquitectura_Etnografia",
+        "260616_0510_Arquitectura_Gestio",
+        "260616_0515_Arquitectura_Identitat",
+        "260616_0520_Arquitectura_Skills_Arrel",
+        "260619_1430_Arquitectura_L_Anima",
+        "260619_1430_Arquitectura_L_Ecosistema",
+        "260619_1430_Arquitectura_La_Forja",
+        "260619_1430_Arquitectura_Protocol_Lazaro",
+        "260619_1430_Arquitectura_Sistema_Nervios"
+      ]
+    },
+    "arquitectura_cognitiva": {
+      "path": "04_arquitectura_disseny/arquitectura_cognitiva.md",
+      "links": [
+        "psiquiatria_forense_integral",
+        "pedra_seca",
+        "el_trellat",
+        "governanca_i_manaments"
+      ],
+      "backlinks": [
+        "iaia_maria",
+        "iaia_maria",
+        "registre_automillora",
+        "pedra_seca"
+      ]
+    },
+    "pedra_seca": {
+      "path": "04_arquitectura_disseny/pedra_seca.md",
+      "links": [
+        "el_trellat",
+        "arquitectura",
+        "arquitectura_cognitiva",
+        "diccionari_trellat",
+        "governanca_i_manaments"
+      ],
+      "backlinks": [
+        "00_index",
+        "antigravity",
+        "iaia_maria",
+        "soc_de_poble",
+        "el_trellat",
+        "el_trellat",
+        "arquitectura",
+        "arquitectura_cognitiva"
+      ]
+    },
+    "SKILL": {
+      "path": "05_skills_ia/soci_sollutia/SKILL.md",
+      "links": [],
+      "backlinks": [
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "00_index",
+        "iaia_maria",
+        "iaia_maria",
+        "iaia_maria",
+        "iaia_maria",
+        "soc_de_poble",
+        "soc_de_poble",
+        "arquitectura",
+        "plantilla_skill_iso",
+        "resiliencia",
+        "resiliencia",
+        "resiliencia",
+        "resiliencia",
+        "resiliencia",
+        "resiliencia",
+        "resiliencia",
+        "260627_2348_acta_marmota"
+      ]
+    },
+    "plantilla_skill_iso": {
+      "path": "05_skills_ia/plantilla_skill_iso.md",
+      "links": [
+        "SKILL"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "auditoria": {
+      "path": "06_capabilities/auditoria.md",
+      "links": [],
+      "backlinks": [
+        "00_index",
+        "260607_1940_auditoria_vibe_report_inicial",
+        "260626_1800_auditoria_informe_poda_9_divs"
+      ]
+    },
+    "performance": {
+      "path": "06_capabilities/performance.md",
+      "links": [],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "resiliencia": {
+      "path": "06_capabilities/resiliencia.md",
+      "links": [
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL",
+        "SKILL"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "ment_colmena_integral": {
+      "path": "07_skills_colmena/ment_colmena_integral.md",
+      "links": [
+        "iaia_maria"
+      ],
+      "backlinks": [
+        "00_index",
+        "antigravity",
+        "iaia_maria",
+        "el_trellat",
+        "regla_de_capcalera"
+      ]
+    },
+    "index_de_salut": {
+      "path": "08_metriques/index_de_salut.md",
+      "links": [],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "260627_2348_acta_marmota": {
+      "path": "09_recursos_ia/260627_2348_acta_marmota.md",
+      "links": [
+        "antigravity",
+        "nom_curt",
+        "SKILL"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260607_1940_auditoria_vibe_report_inicial": {
+      "path": "09_recursos_ia/auditories/260607_1940_auditoria_vibe_report_inicial.md",
+      "links": [
+        "auditoria"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "260626_1800_auditoria_informe_poda_9_divs": {
+      "path": "09_recursos_ia/auditories/260626_1800_auditoria_informe_poda_9_divs.md",
+      "links": [
+        "auditoria"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "260628_1330_ACTA_GENERAL_Volum_1_Fundacio": {
+      "path": "10_actes/260628_1330_ACTA_GENERAL_Volum_1_Fundacio.md",
+      "links": [
+        "nom_curt"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "00_historial_sessions": {
+      "path": "90_arxiu_historic/00_historial_sessions.md",
+      "links": [
+        "00_index",
+        "260628_0445_ACTA_SESSIO_Esporgada_Taxonomia_Metriques",
+        "260628_0445_ACTA_MARMOTA_Ego_Death_i_Llucidesa",
+        "260627_0304_ACTA_MARMOTA_12_v2",
+        "260627_0304_ACTA_MARMOTA_11_",
+        "260627_0240_ACTA_MARMOTA_de la Marmota",
+        "260626_1153_ACTA_SESSIO_Matinal",
+        "260624_1900_ACTA_MARMOTA_Estrategia_Promocio_Facebook",
+        "260622_0714_ACTA_MARMOTA_Tancament_Jornada",
+        "260619_1400_ACTA_MARMOTA_Marmota_Master_Log",
+        "260619_1300_ACTA_SESSIO_Sessio_Estandarditzacio_Termodinamica",
+        "260618_1200_ACTA_MARMOTA_Sollutia",
+        "260615_0328_ACTA_SESSIO_tecnica_pedra_seca",
+        "260615_0328_ACTA_MARMOTA_dia_1",
+        "260614_1200_ACTA_SESSIO_petorreta_asiatica",
+        "260614_1100_ACTA_SESSIO_prompts_complets",
+        "260614_0230_ACTA_MARMOTA_vigilia_desacceleracio",
+        "260614_0219_ACTA_MARMOTA_conversa_ahir",
+        "260628_0310_historia_evolutiva_prompts",
+        "full_de_ruta",
+        "pla_accio_v20",
+        "260627_2348_acta_marmota",
+        "260628_1330_ACTA_GENERAL_Volum_1_Fundacio"
+      ],
+      "backlinks": [
+        "00_index",
+        "260614_0219_ACTA_MARMOTA_conversa_ahir",
+        "260614_0230_ACTA_MARMOTA_vigilia_desacceleracio",
+        "260614_1100_ACTA_SESSIO_prompts_complets",
+        "260614_1200_ACTA_SESSIO_petorreta_asiatica",
+        "260615_0328_ACTA_MARMOTA_dia_1",
+        "260615_0328_ACTA_SESSIO_tecnica_pedra_seca",
+        "260618_1200_ACTA_MARMOTA_Sollutia",
+        "260619_1300_ACTA_SESSIO_Sessio_Estandarditzacio_Termodinamica",
+        "260619_1400_ACTA_MARMOTA_Marmota_Master_Log",
+        "260622_0714_ACTA_MARMOTA_Tancament_Jornada",
+        "260624_1900_ACTA_MARMOTA_Estrategia_Promocio_Facebook",
+        "260626_1153_ACTA_SESSIO_Matinal",
+        "260627_0240_ACTA_MARMOTA_de la Marmota",
+        "260627_0304_ACTA_MARMOTA_11_",
+        "260627_0304_ACTA_MARMOTA_12_v2",
+        "260628_0445_ACTA_MARMOTA_Ego_Death_i_Llucidesa",
+        "260628_0445_ACTA_SESSIO_Esporgada_Taxonomia_Metriques"
+      ]
+    },
+    "00_plantilles": {
+      "path": "90_arxiu_historic/00_plantilles.md",
+      "links": [
+        "260619_1430_Plantilla_Brainstorming",
+        "260619_1430_Plantilla_Branding",
+        "260619_1430_Plantilla_Creador_Skills",
+        "260619_1430_Plantilla_Doc_to_App",
+        "260619_1430_Plantilla_Modo_Produccion",
+        "260619_1430_Plantilla_Planificacio",
+        "plantilla_skill_iso"
+      ],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "260614_0219_ACTA_MARMOTA_conversa_ahir": {
+      "path": "90_arxiu_historic/260614_0219_ACTA_MARMOTA_conversa_ahir.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260614_0230_ACTA_MARMOTA_vigilia_desacceleracio": {
+      "path": "90_arxiu_historic/260614_0230_ACTA_MARMOTA_vigilia_desacceleracio.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260614_1100_ACTA_SESSIO_prompts_complets": {
+      "path": "90_arxiu_historic/260614_1100_ACTA_SESSIO_prompts_complets.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260614_1200_ACTA_SESSIO_petorreta_asiatica": {
+      "path": "90_arxiu_historic/260614_1200_ACTA_SESSIO_petorreta_asiatica.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260615_0328_ACTA_MARMOTA_dia_1": {
+      "path": "90_arxiu_historic/260615_0328_ACTA_MARMOTA_dia_1.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260615_0328_ACTA_SESSIO_tecnica_pedra_seca": {
+      "path": "90_arxiu_historic/260615_0328_ACTA_SESSIO_tecnica_pedra_seca.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260618_1200_ACTA_MARMOTA_Sollutia": {
+      "path": "90_arxiu_historic/260618_1200_ACTA_MARMOTA_Sollutia.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260619_1300_ACTA_SESSIO_Sessio_Estandarditzacio_Termodinamica": {
+      "path": "90_arxiu_historic/260619_1300_ACTA_SESSIO_Sessio_Estandarditzacio_Termodinamica.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260619_1400_ACTA_MARMOTA_Marmota_Master_Log": {
+      "path": "90_arxiu_historic/260619_1400_ACTA_MARMOTA_Marmota_Master_Log.md",
+      "links": [
+        "El_Trellat",
+        "Pedra Seca",
+        "El_Trellat",
+        "Pedra Seca",
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260622_0714_ACTA_MARMOTA_Tancament_Jornada": {
+      "path": "90_arxiu_historic/260622_0714_ACTA_MARMOTA_Tancament_Jornada.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260624_1900_ACTA_MARMOTA_Estrategia_Promocio_Facebook": {
+      "path": "90_arxiu_historic/260624_1900_ACTA_MARMOTA_Estrategia_Promocio_Facebook.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260626_1153_ACTA_SESSIO_Matinal": {
+      "path": "90_arxiu_historic/260626_1153_ACTA_SESSIO_Matinal.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260627_0240_ACTA_MARMOTA_de la Marmota": {
+      "path": "90_arxiu_historic/260627_0240_ACTA_MARMOTA_de la Marmota.md",
+      "links": [
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260627_0304_ACTA_MARMOTA_11_": {
+      "path": "90_arxiu_historic/260627_0304_ACTA_MARMOTA_11_.md",
+      "links": [
+        "Ment_Colmena_Integral",
+        "Pedra Seca",
+        "Ment_Colmena_Integral",
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260627_0304_ACTA_MARMOTA_12_v2": {
+      "path": "90_arxiu_historic/260627_0304_ACTA_MARMOTA_12_v2.md",
+      "links": [
+        "El_Trellat",
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260628_0310_historia_evolutiva_prompts": {
+      "path": "90_arxiu_historic/260628_0310_historia_evolutiva_prompts.md",
+      "links": [],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260628_0445_ACTA_MARMOTA_Ego_Death_i_Llucidesa": {
+      "path": "90_arxiu_historic/260628_0445_ACTA_MARMOTA_Ego_Death_i_Llucidesa.md",
+      "links": [
+        "enllaços",
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260628_0445_ACTA_SESSIO_Esporgada_Taxonomia_Metriques": {
+      "path": "90_arxiu_historic/260628_0445_ACTA_SESSIO_Esporgada_Taxonomia_Metriques.md",
+      "links": [
+        "",
+        "00_historial_sessions"
+      ],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260616_0450_Arquitectura_General": {
+      "path": "90_arxiu_historic/arquitectura/260616_0450_Arquitectura_General.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0455_Arquitectura_Directives": {
+      "path": "90_arxiu_historic/arquitectura/260616_0455_Arquitectura_Directives.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0500_Arquitectura_Disseny": {
+      "path": "90_arxiu_historic/arquitectura/260616_0500_Arquitectura_Disseny.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0505_Arquitectura_Etnografia": {
+      "path": "90_arxiu_historic/arquitectura/260616_0505_Arquitectura_Etnografia.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0510_Arquitectura_Gestio": {
+      "path": "90_arxiu_historic/arquitectura/260616_0510_Arquitectura_Gestio.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0515_Arquitectura_Identitat": {
+      "path": "90_arxiu_historic/arquitectura/260616_0515_Arquitectura_Identitat.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260616_0520_Arquitectura_Skills_Arrel": {
+      "path": "90_arxiu_historic/arquitectura/260616_0520_Arquitectura_Skills_Arrel.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260619_1430_Arquitectura_L_Anima": {
+      "path": "90_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Anima.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260619_1430_Arquitectura_L_Ecosistema": {
+      "path": "90_arxiu_historic/arquitectura/260619_1430_Arquitectura_L_Ecosistema.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260619_1430_Arquitectura_La_Forja": {
+      "path": "90_arxiu_historic/arquitectura/260619_1430_Arquitectura_La_Forja.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260619_1430_Arquitectura_Protocol_Lazaro": {
+      "path": "90_arxiu_historic/arquitectura/260619_1430_Arquitectura_Protocol_Lazaro.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "260619_1430_Arquitectura_Sistema_Nervios": {
+      "path": "90_arxiu_historic/arquitectura/260619_1430_Arquitectura_Sistema_Nervios.md",
+      "links": [
+        "arquitectura"
+      ],
+      "backlinks": [
+        "arquitectura"
+      ]
+    },
+    "INSTRUCCIONS_SAFATA": {
+      "path": "90_arxiu_historic/cultura_local/INSTRUCCIONS_SAFATA.md",
+      "links": [],
+      "backlinks": [
+        "00_index"
+      ]
+    },
+    "full_de_ruta": {
+      "path": "90_arxiu_historic/full_de_ruta.md",
+      "links": [],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "pla_accio_v20": {
+      "path": "90_arxiu_historic/pla_accio_v20.md",
+      "links": [],
+      "backlinks": [
+        "00_historial_sessions"
+      ]
+    },
+    "260619_1430_Plantilla_Brainstorming": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Brainstorming.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "260619_1430_Plantilla_Branding": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Branding.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "260619_1430_Plantilla_Creador_Skills": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Creador_Skills.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "260619_1430_Plantilla_Doc_to_App": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Doc_to_App.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "260619_1430_Plantilla_Modo_Produccion": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Modo_Produccion.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    },
+    "260619_1430_Plantilla_Planificacio": {
+      "path": "90_arxiu_historic/plantilles/260619_1430_Plantilla_Planificacio.md",
+      "links": [
+        "00_index"
+      ],
+      "backlinks": [
+        "00_plantilles"
+      ]
+    }
+  },
+  "isolates": [],
+  "orphans": []
+}

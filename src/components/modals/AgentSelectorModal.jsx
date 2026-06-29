@@ -5,7 +5,7 @@ import './AgentSelectorModal.css';
 /**
  * AgentSelectorModal [VOS]
  * Permet a l'usuari triar amb quin agent bategar per a comentar una publicació.
- * Recorda que l'IAIA és el nucli, però l'agent té la seua pròpia pell.
+ * Recorda que l'IAIA és el nucli, però l'agent té la seua pròpia vestit.
  */
 const AgentSelectorModal = ({
   isOpen,

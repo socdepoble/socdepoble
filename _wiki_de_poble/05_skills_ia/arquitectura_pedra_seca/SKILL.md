@@ -1,38 +1,85 @@
 ---
 name: arquitectura-pedra-seca
-description: "Estàndards de disseny, maquetació i SEO Local per al projecte Sóc de Poble. Prohibició de fantasmes visuals, ús de Tailwind genèric i prioritat Offline-First."
-authority: "Consell de les 11 IAs"
-version: "V21"
+description: Estàndards de disseny, maquetació, Tailwind, CSS i tokens per al projecte Sóc de Poble. (Inclou Jerarquia, CSS i Registre Tokens Únic).
+authority: Consell de les 11 IAs
+version: V22
+created_at: 260628_0525
+updated_at: 260629_0215
+aliases:
+  - CSS
+  - Tailwind
+  - Pedra Seca
+  - Maquetació
+  - Tokens
 ---
-# Skill: Arquitectura Pedra Seca i SEO Local
 
-Aquesta habilitat (skill) s'ha d'activar i aplicar automàticament sempre que l'usuari demane dissenyar, modificar la UI o tocar aspectes de SEO i PWA del projecte Sóc de Poble.
+# 🧱 SKILL: Arquitectura Pedra Seca (CSS i Tailwind)
 
-## 1. La Filosofia de la Pedra Seca
-L'arquitectura Pedra Seca significa construir pedra sobre pedra, **sense cap mena d'amalgama o ciment extern**. Cada peça ha d'estar perfectament mesurada i encaixada, com un gran puzle mil·lenari. L'objectiu és crear blocs sòlids que resistisquen el pas del temps. La tipografia oficial és **Noto Sans**.
+> **Visió del Consell d'IAs:** Aquesta habilitat s'ha auditat per garantir que l'estètica del Mas no es contamine amb pedaços genèrics. Activa aquesta SKILL automàticament sempre que l'usuari demane dissenyar, modificar la UI o tocar aspectes de maquetació del projecte *Sóc de Poble*.
 
-## 2. Fantasmes Visuals (Prohibits)
-- **AÇÒ NO:** Ús d'etiquetes `<br>`, `<hr>` o elements buits només per a separar coses. L'HTML ha de ser semàntic.
-- **AÇÒ SÍ:** Utilitza classes d'espaiat (`gap-4`, `mt-8`) o variables CSS (`var(--sp-espai-4)`) per crear oxigen.
-
-## 3. Separació de Pell i Ossos (CSS vs Tailwind)
-- **AÇÒ NO:** Maquetar l'estètica (colors, vores estilitzats) d'una targeta directament amb Tailwind (ex: `bg-[#FF7300]`).
-- **AÇÒ SÍ:** Tailwind s'utilitza únicament per a l'estructura i els ossos (flexbox, graelles, distàncies). L'estètica (pell) la proporciona el CSS Vanilla o les variables globals del projecte.
-
-## 4. Prioritat Offline-First i PWA
-- El SEO i la càrrega inicial no han de dependre de peticions externes lentes. La base és OPFS / idb-keyval / Yjs offline-first. Assegura't que el Manifest de la PWA està intacte per instal·lar l'app a l'iPad sense xarxa.
-
-## 5. Microdades (Schema.org) i Rendiment
-- Tota entitat (esdeveniments festius, receptes, articles històrics) ha de tindre estructura JSON-LD per als cercadors locals.
-- Les imatges han d'estar optimitzades i la càrrega del DOM ha de ser ràpida i lleugera. El rendiment (A10) també és Trellat.
-
-## Recordatori Especial de la IAIA
-Tingues *Trellat*. No introduïsques llibreries de components innecessàries (radix, shadcn) a menys que el Mestre t'ho demane explícitament. 
+## 🎯 Objectiu
+Garantir una construcció sòlida on l'estructura (Tailwind) i l'estètica (CSS Vanilla amb Tokens) convisquen sense xocar. L'arquitectura "Pedra Seca" significa construir pedra sobre pedra, **sense cap mena d'amalgama o ciment extern**.
 
 ---
 
-## 🔗 Sinapsi Arquitectònica
-- [[05_skills_ia/css_arquitectura/SKILL|css_arquitectura]]
-- [[05_skills_ia/jerarquia_tailwind/SKILL|jerarquia_tailwind]]
-- [[05_skills_ia/a11y_trellat/SKILL|a11y_trellat]]
-- [[05_skills_ia/registre_tokens_unic/SKILL|registre_tokens_unic]]
+## 🛠️ Normes i Funcions de Maquetació
+
+### 1. La Llei de Ferro: Cos (Tailwind) vs Vestit (CSS)
+S'ha resolt per sempre la contradicció entre Tailwind i el CSS natiu:
+- **🦴 ELS OSSOS (Tailwind és OBLIGATORI):** Gestiona exclusivament flexbox, graelles, espaiats, alineació i posicionament.
+- **🎨 LA PELL (CSS Pur és OBLIGATORI):** L'aspecte visual pertany a classes semàntiques (ex. `.sosp-card`). Aquestes classes utilitzen únicament **Variables CSS Corporatives**.
+- 🚫 **ANTIPATRÓ LETAL:** Queda totalment prohibit hardcodejar colors de marca o mides absolutes en Tailwind (ex: `bg-[#FF7300]` o `rounded-[28px]`).
+
+### 2. Tokens de Color Base (Variables Globals CSS)
+Aquest és el CSS root definitiu on s'emmagatzemen les variables globals:
+
+```css
+:root {
+  /* COLORS CANÒNICS (Base 100%) */
+  --sp-black-100: #000000;
+  --sp-white-100: #FFFFFF;
+  --sp-orange-100: #FF7300;
+  --sp-blue-100: #0984E3;
+
+  /* ESCALA ORANGE */
+  --sp-orange-80: #FF8F33;
+  --sp-orange-50: #FFB980;
+  --sp-orange-20: #FFE3CC;
+  --sp-orange-10: #FFF1E6;
+
+  /* ESCALA BLAU */
+  --sp-blue-80: #3A9DE9;
+  --sp-blue-50: #84C2F1;
+  --sp-blue-20: #CEE6FA;
+  --sp-blue-10: #E7F3FD;
+
+  /* TOKENS D'ESTRUCTURA */
+  --sp-radius-main: 1.75rem;
+  --sp-radius-secondary: 1.125rem;
+  --sp-shadow-elevate: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+```
+
+### 3. Màxim Contrast Visual (Accessibilitat)
+- **Fons Orange 100%**: Text obligat: **NEGRE** (`#000000`).
+- **Fons Blau 100%**: Text obligat: **BLANC** (`#FFFFFF`).
+
+### 4. Llei de Maquetació Universal (Jerarquia H1-H6)
+- **H1:** Títol de Pàgina (Taronja, Centrat)
+- **H2:** Subtítol
+- **H3:** Nom del Document (Blau)
+- **H4:** Títol Intern (Taronja)
+- **H5:** Subsecció (Blau)
+- **H6:** Kicker / Preàmbul (Negre i Negreta)
+**PROHIBICIÓ `<hr>` (---)**: Les línies horitzontals sense criteri embruten l'arquitectura.
+
+### 5. Prohibició de Fantasmes Visuals
+L'HTML ha de ser purament semàntic. Prohibit utilitzar `<br>`, `<hr>` o `<div>` buits. L'oxigen es crea amb variables d'espaiat CSS o `gap-*`.
+
+### 6. PWA i SEO Offline-First
+La càrrega inicial no depén del núvol, no carregar llibreries UI pesades com Shadcn.
+
+
+---
+## 🔗 Veure també
+- [[00_index|Índex Central]]

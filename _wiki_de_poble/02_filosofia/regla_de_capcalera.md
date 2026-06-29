@@ -1,6 +1,17 @@
 ---
-tags: [regles, empatia, comunicacio, trellat]
-aliases: [Regla de Capçalera, Trellat i Empatia]
+name: regla-de-capcalera
+description: >-
+  Defineix l'ànima de la comunicació simbiòtica: empatia, to adequat i
+  prohibició de saturar amb tecnicismes.
+authority: IAIA MarIA
+version: V1
+tags:
+  - trellat
+aliases:
+  - Regla de Capçalera
+  - Trellat i Empatia
+created_at: '260627_0240'
+updated_at: '260628_1618'
 ---
 # Regla de Capçalera i Comunicació ([[el_trellat|Trellat]] i Empatia)
 
