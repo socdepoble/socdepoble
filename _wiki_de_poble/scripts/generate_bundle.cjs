@@ -11,8 +11,9 @@ const min = String(now.getMinutes()).padStart(2, '0');
 const timestamp = `${yy}${mm}${dd}_${hh}${min}`;
 
 const wikiRoot = '/Users/javillinares/Documents/Antigravity/Sóc de Poble/_wiki_de_poble';
-const outputDir = path.join(wikiRoot, '80_produccio/generats_hui');
-const outputFile = path.join(outputDir, `${timestamp}_master_wiki_bundle_V25.md`);
+const outputDir = path.join(wikiRoot, '80_produccio/260629_1630_escriptori');
+if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+const outputFile = path.join(outputDir, `${timestamp}_master_wiki_bundle_V26.md`);
 
 let bundleContent = `# 📦 BUNDLE WIKI COMPLETA - SÓC DE POBLE (Versió V25 Autopoiesi)
 **Data de generació:** ${timestamp}
