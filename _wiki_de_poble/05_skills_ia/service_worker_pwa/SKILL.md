@@ -14,11 +14,11 @@ updated_at: '260628_1618'
 - El Service Worker usarà una estratègia **Cache-First** per a tots els assets de la UI (CSS, JS, fonts, icones).
 - Per a les dades (Mur, Missatges), s'usarà IndexedDB governada per Y.js. El Service Worker només interceptarà per donar un fallback offline si la petició fetch cau.
 
-## 2. Actualitzacions "Fes la becaina"
-- Quan hi ha una nova versió de l'app, es descarrega silenciosament en segon pla.
-- A l'usuari (normalment gent major) no se li interromp l'activitat. La nova versió s'aplica només quan es tanca completament la pestanya i es torna a obrir (quan fa la becaina).
-- **Indicador Visual Silenciós:** Per confirmar que estan a l'última versió sense enviar popups estressants, implementarem un indicador passiu molt subtil (ex. un xicotet punt verd prop del logotip o al menú), que confirmarà visualment que la "becaina" ha funcionat i estan actualitzats.
-- Si l'actualització és **crítica** (forçada per vulnerabilitat o SDP), s'utilitzarà el `mas-cau/SKILL.md` per forçar el refresc.
+## 2. Actualitzacions Explícites i Punt de Restauració
+- Quan hi ha una nova versió de l'app (detectada pel Service Worker), es descarrega en segon pla.
+- **Botó d'Actualització:** En lloc d'esperar que l'usuari tanque l'app ("la becaina"), es mostrarà un botó gran i clar a la UI indicant que hi ha una versió nova. Quan l'usuari el polsa, la pàgina es refresca a l'instant, aplicant la nova versió. D'aquesta manera, evitem que estiguen mesos usant una app desfasada.
+- **Rollback (Restauració):** Si l'usuari actualitza i detecta problemes o trencaments en el seu dispositiu, sempre hi haurà una opció tècnica (Punt de Restauració) per tornar ràpidament a la versió anterior (fallback) des de la memòria cau, garantint que ningú es quede sense servei per un bug.
+- Si l'actualització és **crítica** (forçada per vulnerabilitat o SDP), s'utilitzarà el `mas-cau/SKILL.md` per forçar el refresc automàtic.
 
 ## 3. Instal·lació de PWA
 El manifest web inclourà la icona del Mas a 512x512px i obligarà al mode `standalone` per eliminar la barra de direccions i que semble una app nativa a l'iPad.

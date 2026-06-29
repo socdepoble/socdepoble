@@ -26,6 +26,7 @@ Com a mètrica post-sprint per vigilar l'ofec de la Sèquia, **es consultarà l'
 
 > [!WARNING]
 > *Qualsevol resultat d'Índex de Trellat inferior a 70 o si la bateria del dispositiu baixa del 20% significa SDP-LOCK ACTIVAT per a la Sèquia Mare. La sincronització s'aturarà i les dades s'acumularan exclusivament en local (Buffer) fins que el tractor recupere energia o estabilitat de xarxa.*
+> **Sincronització d'Emergència (Override):** Malgrat el bloqueig per bateria (<20%), es mostrarà un avís informatiu o una icona de bateria baixa. L'usuari podrà clicar aquest avís per **forçar la sincronització manualment** en cas de necessitat humana real, prioritzant l'enviament de missatges per damunt del consum d'energia.
 
 ---
 

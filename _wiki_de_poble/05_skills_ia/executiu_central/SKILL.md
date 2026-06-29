@@ -23,10 +23,12 @@ Evitar els cicles innecessaris d'actualització tecnològica provocats per les m
 
 ## 🛠️ Normes i Funcions (La Poda Automàtica)
 
-### 1. Evolució per Reducció (L'Estratègia de l'Olivera)
+### 1. Evolució per Reducció i Treball en Equip
 En lloc de fer refactoritzacions infinites buscant eixa "elegància de codi" inexistent:
-- Si el Mas (la UI) funciona i el sistema CRDT offline manté el flux, el component queda intocable, tancant la porta a la fatiga per decisions (Decision Fatigue).
-- Només es permet mutar quan l'ecosistema del navegador avança (funcionalitats natives noves a Safari o Chrome) que ens permeten **llevar** llibreries velles (com Intersection Observer API obsoleta a canvi de CSS Scroll-driven animations). Ací, evolució = *extirpar pegats de la vella Terra*.
+- Si el Mas (la UI) funciona i el sistema CRDT offline manté el flux, el component queda intocable per inèrcia.
+- Només es permet mutar per dos motius:
+  1. Quan l'ecosistema del navegador avança (funcionalitats natives noves a Safari o Chrome) que ens permeten **llevar** llibreries velles. Ací, evolució = *extirpar pegats de la vella Terra*.
+  2. **Col·laboració amb Sollutia:** Com a companys d'una mateixa empresa teletreballant, si Sollutia sol·licita refactoritzar un giny nostre per acoblar-lo millor a la seua Carcassa, ho fem de grat i sense oposició. L'adaptació al seu contenidor és prioritària.
 
 ### 2. Branques d'Empelt (A/B Testing en Fred)
 Quan cal intentar quelcom disruptiu o s'experimenta amb RAG local:
