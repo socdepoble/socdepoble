@@ -24,8 +24,8 @@ Aquesta habilitat s'ha d'activar sempre que es desenvolupen interfícies, botons
 - Evita introduir llibreries d'accessibilitat pesades si no és absolutament necessari. Confia en l'HTML semàntic natiu (`<button>`, `<nav>`, `<main>`, `<dialog>`). Això és Pedra Seca.
 
 ## 4. No a l'Scroll Infinit
-- **AÇÒ NO:** Pàgines que carreguen contingut sense fi i on l'usuari es perd i no sap on està.
-- **AÇÒ SÍ:** La informació s'ha de presentar de forma sòlida i compartimentada. L'usuari ha de saber sempre on comença i on acaba la pàgina, igual que sap on comencen i acaben els bancals.
+- **AÇÒ NO:** Pàgines que carreguen contingut sense fi i on l'usuari es perd i no sap on està. Tampoc paginació clàssica de números menuts.
+- **AÇÒ SÍ:** La informació s'ha de presentar de forma sòlida i compartimentada. L'alternativa oficial és un **Botó Gegant al final de la llista que diga "Carregar més..."**. Així l'usuari sap sempre on acaba el bancal i té el control de decidir si vol continuar cavant.
 
 ## 5. Feedback de la Petorreta
 - **AÇÒ NO:** Botons estàtics que no fan res quan els toques, deixant el dubte de si l'iPad ha fallat.

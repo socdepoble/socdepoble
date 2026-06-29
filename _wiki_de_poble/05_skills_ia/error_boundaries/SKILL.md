@@ -13,7 +13,7 @@ updated_at: '260628_1618'
 ## 1. Compartimentació Estructural
 Si un widget (com un mapa de l'horta o un reproductor d'àudio) peta, la resta del Mas ha de continuar dempeus.
 - L'app estarà dividida en Web Components regionals natius (`<sdp-bancal-segur>`). Està estrictament prohibit usar *React Error Boundaries*.
-- **SDP UI Fallback:** Si un widget cau, mostrarà un missatge tranquil·litzador: "Hem perdut la connexió amb aquest tros de bancal. Torna-ho a provar més tard", amb un botó de recàrrega de l'element (de 48x48px).
+- **SDP UI Fallback:** Si un widget cau, mostrarà un **Pop-up informatiu o una Pàgina Específica** explicant exactament què ha passat. L'usuari ha de tindre opcions clares i entendre el problema (res de missatges tècnics invisibles). S'inclourà un botó gran (48x48px) de recàrrega de l'element.
 
 ## 2. Registre de Fractures
 Quan un `<sdp-bancal-segur>` captura un error, aquest no es perd:

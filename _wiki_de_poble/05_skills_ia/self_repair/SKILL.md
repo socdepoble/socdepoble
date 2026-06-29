@@ -19,6 +19,7 @@ aliases:
 
 ## 1. El Bloqueig Absolut (SOSP-LOCK)
 El bloqueig `SOSP-LOCK` queda restringit a 4 causes exclusives definides a la Governança. Quan s'activa, l'app entra en mode "Mas Cau", tallant Y.js i bloquejant l'escriptura.
+**Prohibició de Hard Reset:** Queda completament prohibit oferir a l'usuari un botó de "reseteig fàbrica" o "pànic" que esborre la base de dades local. Les dades de l'horta són sagrades. És preferible que l'aplicació quede trencada tota la vesprada mostrant una pàgina explicativa d'error i la recomanació d'esperar a tindre internet, abans que permetre que l'usuari destruïsca l'històric local sense voler.
 
 **SOSPLock.js (Referència d'Implementació):**
 ```javascript
