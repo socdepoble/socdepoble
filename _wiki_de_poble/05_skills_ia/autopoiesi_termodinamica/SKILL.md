@@ -22,7 +22,8 @@ Abans d'executar qualsevol operació pesada (com La Verema CRDT, sincronització
 - **Conseqüència:** "Degradació Agrària Segura". Si no hi ha pressupost de recursos, el sistema posposa la feina asíncrona per evitar un *crash*.
 
 ## 2. El Cicle de Vida Automàtic (wiki-autopoiesis.js)
-El Mas es manté net a si mateix mitjançant un script de fons (`wiki-autopoiesis.js`) que s'executa en un Service Worker/Web Worker periòdicament:
+El Mas es manté net a si mateix mitjançant l'script `wiki-autopoiesis.js`.
+**Regla de Protecció del Dispositiu Client:** Aquest procés asíncron pesat s'executa **exclusivament al nostre entorn de desenvolupament local**, governat per la IA i el Mestre Javi. Mai es carregarà aquest procés als dispositius dels usuaris (com els iPads antics), evitant saturar la seua CPU i bateria. Un cop l'autopoiesi finalitza i s'aprova a l'entorn de desenvolupament, els usuaris simplement reben la versió ja polida i neta de la web "pre-mastegada".
 
 1. **Escaneig Semàntic:** Escaneja tots els fitxers `.md` a `_wiki_de_poble/` i busca documents amb baixa densitat de backlinks (Índex d'Orfandat) o duplicació semàntica mitjançant *Fuzzy Search*.
 2. **Compressió Automàtica:** Detecta text innecessari i el comprimeix aplicant les normes del Trellat.

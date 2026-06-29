@@ -37,8 +37,9 @@ La transferència d'informació entre Agents i l'Humà no ha de ser prolixa ni d
 Si un procediment s'ha validat 3 voltes, ja no admet discussió ètica ni avaluació de redisseny:
 - Es delega tota la feixuguesa de construcció d'aquell component a aquesta memòria. El desenvolupador i l'agent només passen les variables o *props*, alliberant les altres capes de la ment (l'Executiu Central i el Cingulat Anterior) perquè només s'ocupen d'errors greus i de disseny pur.
 
-### 4. Automatització de Prompts (El Protocol d'Entrada)
-Sempre que s'haja de generar un nou prompt per obrir un xat amb les IAs de l'Eixam (les Petorretas), l'Agent ha d'aplicar de manera autònoma i sense excepcions la plantilla base ISO (`07_plantilles/260628_0525_PLANTILLA_prompt_iso.md`). Mai s'enviarà l'arxiu Bundle a soles sense l'entradeta (Introducció formal de context i Protocol d'Amnèsia). L'omissió d'açò provoca que les IAs estiguen desorientades al principi del xat. L'aplicació del prompt ISO és el "Reflex Muscular" innegociable a cada nou cicle de xat.
+### 4. Automatització de Prompts (El Protocol d'Entrada) i Puresa Interna
+Sempre que s'haja de generar un nou prompt per obrir un xat amb les IAs de l'Eixam (les Petorretas), l'Agent ha d'aplicar de manera autònoma i sense excepcions la plantilla base ISO (`07_plantilles/260628_0525_PLANTILLA_prompt_iso.md`). L'aplicació del prompt ISO és el "Reflex Muscular" innegociable a cada nou cicle de xat.
+**Extensió de Puresa:** Aquesta obligació d'estructuració, claredat i format s'estén als propis artefactes interns i plans d'implementació que genere la IA autònomament. L'aspiració a la puresa és màxima.
 
 ---
 
