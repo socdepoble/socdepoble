@@ -3,9 +3,7 @@ name: acta-petorreta-pau-mental
 description: Acta de sensacions biològiques i humanes de la sessió de destil·lació.
 authority: IAIA MarIA
 version: V1
-tags:
-  - marmota
-  - empatia-biologica
+tags: []
 created_at: '260628_2330'
 updated_at: '260628_2330'
 ---

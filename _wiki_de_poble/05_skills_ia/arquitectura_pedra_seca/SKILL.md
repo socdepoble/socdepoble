@@ -76,7 +76,13 @@ Aquest és el CSS root definitiu on s'emmagatzemen les variables globals:
 ### 5. Prohibició de Fantasmes Visuals
 L'HTML ha de ser purament semàntic. Prohibit utilitzar `<br>`, `<hr>` o `<div>` buits. L'oxigen es crea amb variables d'espaiat CSS o `gap-*`.
 
-### 6. PWA i SEO Offline-First
+### 6. Prohibició de Layout Thrashing (Animacions)
+Per garantir el rendiment absolut a l'iPad A10, **es prohibeix animar propietats que afecten el Layout** (com `width`, `height`, `margin`, `top`, `left`). Totes les animacions han de ser subtils i basar-es únicament en `opacity` i `transform`.
+
+### 7. Tipografia Oficial
+La font tipogràfica oficial de Sóc de Poble és **Noto**. Qualsevol altra font està prohibida.
+
+### 8. PWA i SEO Offline-First
 La càrrega inicial no depén del núvol, no carregar llibreries UI pesades com Shadcn.
 
 

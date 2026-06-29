@@ -42,7 +42,7 @@ iOS Safari és implacable suspenent Web Workers en segon pla si l'usuari canvia 
 
 ### 4. Sharding Termodinàmic (La Verema)
 L'estratègia definitiva contra el creixement infinit (*Append-only log*) d'Y.js.
-- **Cicle de Vida:** Cada mes, el sistema tanca el document `mur_actual.yjs`.
+- **Cicle de Vida (Mètrica Física):** La Verema ja no depén del temps, sinó exclusivament del pes. El sistema tanca el document `mur_actual.yjs` automàticament just quan assoleix els **10MB exactes**.
 - **Congelació:** Es consolida l'estat pur en un JSON pla comprimit i s'arxiva a l'OPFS (Arxiu Fred de només lectura).
 - **Reneixement:** S'inicialitza un `Y.Doc` completament verge.
 - **Efecte:** El consum de RAM del tractor torna a zero cada cicle `O(1)`. Si es busca el passat, es llig el JSON pla sense instanciar el motor CRDT.

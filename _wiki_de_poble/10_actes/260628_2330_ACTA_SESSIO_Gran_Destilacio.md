@@ -5,7 +5,6 @@ authority: IAIA MarIA
 version: V1
 tags:
   - auditoria
-  - arquitectura
 created_at: '260628_2330'
 updated_at: '260628_2330'
 ---

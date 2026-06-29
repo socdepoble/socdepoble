@@ -1,27 +1,6 @@
 ---
-doc_id: SDP-SKILL-000
-doc_type: "SKILL"
-authoring_agent: "[NOM_AGENT_CREADOR]"
-version_semver: 1.0.0
-schema_id: "skill_trellat_v1"
-device_compatibility: ["iPad_A10_iOS15", "Web_Modern"]
-energy_budget_estimate: "[Baix | Mitjà | Alt_ATRC]"
-privacy_classification: "[Pública | Interna | Sensible]"
-linked_skills: []
-last_audit_hash: "[HASH_SHA256_OPCIONAL]"
-test_vectors: []
-owner: Consell de la Petorreta
-domain: global
-subdomain: architecture
-locale: ca-valencia
-objective: "[Missió clau d'aquesta skill]"
-scope: "[Abast de la skill]"
-hora_creacio: "[HH:MM]"
-hora_modificacio: "[HH:MM]"
-exif_cognitiu:
-  estat_emocional_sistema: "Mecànic"
-  entorn_operatiu: "Entorn_Dev_Local"
-  nivell_entropia: "Zero"
+created_at: '[HH:MM]'
+updated_at: '[HH:MM]'
 ---
 
 # ⚙️ SOSP SKILL MASTER TEMPLATE

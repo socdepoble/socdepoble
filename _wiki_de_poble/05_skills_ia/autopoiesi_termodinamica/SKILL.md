@@ -1,15 +1,13 @@
 ---
 name: autopoiesi_termodinamica
-description: >-
-  El Cervell Autònom del Mas. Integra el Bancal Budget Manager per a avaluar 
-  recursos (RAM/Bateria) i el Cicle Automàtic de Poda (wiki-autopoiesis.js).
+description: El Cervell Autònom del Mas. Integra el Bancal Budget Manager per a avaluar  recursos
+  (RAM/Bateria) i el Cicle Automàtic de Poda (wiki-autopoiesis.js).
 authority: Tripartició
 version: V1
 tags:
-  - autopoiesi
   - trellat
-created_at: 260629_0330
-updated_at: 260629_0330
+created_at: 2606290330
+updated_at: 2606290330
 ---
 
 # 🧠 SKILL: Autopoiesi Termodinàmica

@@ -1,11 +1,13 @@
 ---
 name: acta-simbiotica
-description: Fusió canònica d'Acta de Sessió Tècnica + Acta Marmota (emocional/biòloga). Única font per a destil·lacions futures.
+description: Fusió canònica d'Acta de Sessió Tècnica + Acta Marmota (emocional/biòloga).
+  Única font per a destil·lacions futures.
 authority: IAIA MarIA + Consell
 version: V1.0
-tags: [acta, simbiotica, trellat]
-created_at: 260629_0215
-updated_at: 260629_0215
+tags:
+  - trellat
+created_at: 2606290215
+updated_at: 2606290215
 ---
 
 # 📜 ACTA SIMBIÒTICA - [TÍTOL DESCRIPTIU]

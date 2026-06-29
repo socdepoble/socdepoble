@@ -1,18 +1,5 @@
 ---
-doc_id: SDP-ACT-MARMOTA-029
-doc_type: "ACTA_MARMOTA"
-authoring_agent: "IAIA MarIA (Antigravity / Gemini)"
-version_semver: 1.0.0
-owner: Consell de la Petorreta
-domain: global
-subdomain: architecture
-locale: ca-valencia
-objective: Resumir i fortificar tot l'aprenentatge del dia sobre l'Arquitectura Asíncrona (16 lleis).
-scope: Arxiu Històric
-hora_creacio: "07:15"
-exif_cognitiu:
-  estat_emocional_sistema: "Assentant coneixement. Ha sigut un dia dur però els ciments ara són de titani."
-  entorn_operatiu: "Entorn_Dev_Local"
+created_at: 07:15
 ---
 
 # 🦫 ACTA DE LA MARMOTA: Tancament de la Ronda 11

@@ -1,11 +1,9 @@
 ---
 name: consola-termodinamica
-description: Tauler de control vital del Mas. Monitoritza les 15 mètriques sagrades que garanteixen la supervivència a llarg termini en dispositius antics i entorns hostils.
+description: Tauler de control vital del Mas. Monitoritza les 15 mètriques sagrades
+  que garanteixen la supervivència a llarg termini en dispositius antics i entorns
+  hostils.
 authority: Consell de les 11 IAs
-version_semver: 1.5.0
-impacte_ram: Baix
-cicle_execucio_a10: Idle_Callback
-operabilitat_offline: Total
 ---
 # 🏛️ SKILL: Consola Termodinàmica
 
@@ -49,6 +47,14 @@ radarChart
 ## Regla Final
 
 La Consola no existeix per a presumir. Existeix per a **evitar que cremem el tractor**. Cada decisió de codi ha de passar per aquest filtre abans d'executar-se.
+
+**⚠️ Excepció de Càrrega (Real-time vs On-Demand):**
+Per no ofegar l'A10 amb les pròpies mètriques, **només 3 mètriques es monitoritzen en temps real** de forma agressiva:
+1. Índex de Trellat (Lògica)
+2. Pressió de RAM (Física)
+3. FPS Garantits (Visual)
+
+Les 12 mètriques restants **s'avaluen estrictament sota demanda** o en auditories periòdiques asíncrones.
 
 
 ---

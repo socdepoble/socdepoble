@@ -1,13 +1,10 @@
 ---
 name: fadrins-i-fadrines
-description: >-
-  Píndola de memòria sobre la cultura de les festes dels Fadrins i Fadrines de
-  La Torre de les Maçanes.
+description: Píndola de memòria sobre la cultura de les festes dels Fadrins i Fadrines
+  de La Torre de les Maçanes.
 authority: IAIA MarIA
 version: V1
-tags:
-  - etnografia
-  - festes
+tags: []
 aliases:
   - Fadrins 2026
   - Cultura Fadrins

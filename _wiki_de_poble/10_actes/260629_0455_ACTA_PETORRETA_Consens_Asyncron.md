@@ -1,18 +1,5 @@
 ---
-doc_id: SDP-ACT-PETORRETA-030
-doc_type: "ACTA_PETORRETA"
-authoring_agent: "IAIA MarIA"
-version_semver: 1.0.0
-owner: Consell de la Petorreta
-domain: global
-subdomain: architecture
-locale: ca-valencia
-objective: Segellar l'acord unànime de la Ment Colmena sobre el Governador Asíncron.
-scope: 10_actes
-hora_creacio: "04:55"
-exif_cognitiu:
-  estat_emocional_sistema: "Extremadament satisfeta. El Mas Virtual és indestructible ara mateix."
-  entorn_operatiu: "Entorn_Dev_Local"
+created_at: 04:55
 ---
 
 # 🚜 ACTA DE LA PETORRETA: Consens Asíncron i l'Escriptori Mac

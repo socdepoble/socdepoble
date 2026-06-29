@@ -1,16 +1,14 @@
 ---
 name: self-repair
-description: >-
-  SOSP-LOCK, tractament CRDT de la memòria i protocol d'emergència per a
-  caigudes de servidor (Mas Cau).
+description: SOSP-LOCK, tractament CRDT de la memòria i protocol d'emergència per
+  a caigudes de servidor (Mas Cau).
 authority: Tripartició
 version: V24
 tags:
   - crdt_offline
   - seguretat
-  - resiliencia
-created_at: 260628_0525
-updated_at: 260629_0215
+created_at: 2606280525
+updated_at: 2606290215
 aliases:
   - Self Repair
   - Protocol Mas Cau
