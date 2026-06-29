@@ -27,7 +27,7 @@ Assegurar implacablement que cap llaurador ni habitant perda dades si l'iPad fal
 La memòria de l'usuari no només resideix en IndexedDB, sinó en còpies de seguretat fredes inabastables per al motor renderitzador.
 - **Quan es dispara:** Es realitza un `snapshot` absolutament silenciós de tota la clau idb-keyval. Es llança únicament quan el dispositiu respira (event `visibilitychange`, `pagehide` o quan detecta inactivitat per omissió), no interrompent mai el scroll.
 - **Magatzem (OPFS):** Aquesta fotografia es comprimeix fortament (Zstd o equivalent) i s'enterra a l'OPFS (Origin Private File System), lluny de les freqüents i letals purgues asíncrones de l'Storage de Safari.
-  - **⚠️ AMNÈSIA DE SAFARI (iOS 15):** Safari esborra tot l'Storage (incloent IndexedDB i OPFS) si l'aplicació no s'obre en 30 dies. Cal educar als usuaris o establir un mecanisme de ping físic/background per evitar l'apocalipsi local.
+  - **⚠️ AMNÈSIA DE SAFARI (iOS WebKit):** Safari esborra absolutament tot l'Storage local (incloent IndexedDB i OPFS) si la web no s'obre en **7 dies**. L'única salvaguarda (l'escut definitiu) és **educar i obligar els usuaris a prémer "Afegeix a la pantalla d'inici" (Add to Home Screen)**. Com a PWA instal·lada (Standalone), Apple li atorga estatus d'App i eximeix l'aplicació d'aquesta purga letal.
 - **Rotació:** Es guarden un màxim de 3 fotografies en bucle (les més noves esborren les més velles). 
 
 ### 2. Rutina de Recuperació (SDP-RECOVERY)

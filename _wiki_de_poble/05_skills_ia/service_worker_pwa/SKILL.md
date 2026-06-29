@@ -17,6 +17,7 @@ updated_at: '260628_1618'
 ## 2. Actualitzacions "Fes la becaina"
 - Quan hi ha una nova versió de l'app, es descarrega silenciosament en segon pla.
 - A l'usuari (normalment gent major) no se li interromp l'activitat. La nova versió s'aplica només quan es tanca completament la pestanya i es torna a obrir (quan fa la becaina).
+- **Indicador Visual Silenciós:** Per confirmar que estan a l'última versió sense enviar popups estressants, implementarem un indicador passiu molt subtil (ex. un xicotet punt verd prop del logotip o al menú), que confirmarà visualment que la "becaina" ha funcionat i estan actualitzats.
 - Si l'actualització és **crítica** (forçada per vulnerabilitat o SDP), s'utilitzarà el `mas-cau/SKILL.md` per forçar el refresc.
 
 ## 3. Instal·lació de PWA
