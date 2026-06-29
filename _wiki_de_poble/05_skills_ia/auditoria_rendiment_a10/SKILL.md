@@ -15,7 +15,7 @@ Aquesta habilitat vigila que cap modificació de codi o estructura no puga ofega
 ## Normes
 1. **Límit de RAM**: Màxim de 1.2GB en execució contínua. Més d'això obliga a Garbage Collection (Tombstones de Y.js).
 2. **Límit de CPU**: Operacions asíncrones llargues han de desviar-se a Web Workers. L'activitat del main thread ha de mantenir-se per sota de 16ms/frame per evitar "Jank".
-3. **Mètriques FPS**: Controlar que l'interfície estiga sobre 30 FPS constants.
+3. **Mètriques FPS i Invisibilitat:** Controlar que l'interfície estiga sobre 30 FPS constants. **Important:** No s'embrutarà la UI amb ginys o comptadors visibles per a l'usuari ni per al desenvolupador. Tota l'auditoria de rendiment es delega de manera silenciosa a la *Consola Termodinàmica* i als processos de fons, per mantindre la puresa visual de la Pedra Seca.
 
 
 ---

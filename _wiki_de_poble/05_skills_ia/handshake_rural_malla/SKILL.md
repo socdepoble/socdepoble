@@ -13,9 +13,9 @@ updated_at: 260629_0215
 Facilitar la connexió inicial entre dos dispositius de iaies o llauradors sense necessitat de comprendre adreces IP o protocols de xarxa.
 
 ## Normes
-1. La connexió s'estableix exclusivament mostrant un codi QR gran i d'alt contrast a la pantalla.
-2. **Prohibició de Bluetooth LE:** Apple bloqueja nativament l'API Web Bluetooth a iOS Safari. El descobriment de nodes via BLE no funcionarà a la PWA. El Handshake rural depèn exclusivament dels Codis QR.
-3. El disseny de la UI de connexió ha de ser tan senzill com acceptar una foto.
+1. La connexió s'estableix inicialment mostrant un codi QR gran i d'alt contrast a la pantalla.
+2. **Prohibició de Bluetooth LE:** Apple bloqueja nativament l'API Web Bluetooth a iOS Safari. El descobriment de nodes via BLE no funcionarà a la PWA. El Handshake rural depèn exclusivament dels Codis QR o del PIN numèric.
+3. **Alternativa d'Accessibilitat (PIN Numèric):** Donat que els permisos de càmera poden generar desconfiança o confusió en usuaris majors, sempre s'oferirà una opció d'introduir un **PIN curt de 4 a 6 dígits** mitjançant un teclat gran en pantalla per establir l'enllaç. El disseny de la UI de connexió ha de ser tan senzill com acceptar una foto o marcar un telèfon.
 
 
 ---
