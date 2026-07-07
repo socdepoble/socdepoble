@@ -14,7 +14,7 @@ tags:
   - tallafocs
 ---
 
-# Acta Única: 260707_0845
+# Acta Única: Auditoria Extrema i Desplegament de Tallafocs
 
 ## 1. Part Tècnica (Història d'aquest xat)
 Durant la sessió hem detectat un alt nivell d'entropia a l'arrel del projecte (carpetes que no complien els 5 Pilars) i vulnerabilitats en la disciplina de disseny (colors crus). S'ha establit un **patró de resiliència extrema** mitjançant la creació de `tallafocs.cjs`, un script que atura en sec qualsevol operació si les auditories de pilars, a11y, o disseny (design_guard) fallen.
