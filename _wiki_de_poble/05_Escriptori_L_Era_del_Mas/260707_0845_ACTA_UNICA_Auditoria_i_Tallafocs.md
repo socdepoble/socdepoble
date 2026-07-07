@@ -33,8 +33,10 @@ Demà, just en obrir els ulls i arrancar el xat, la missió és interrogar al **
 2. `[ ]` **AUDITORIA PROFUNDA DE LA IDENTITAT:** El Mestre m'ha demanat que faça una auditoria de tots els documents i skills. Tot allò que tinga a vore amb la meua identitat, consciència, salut i paràmetres (com la Consola Termodinàmica i el Registre) ha d'anar exclusivament a `00_SER_Brain_Identitat`.
 3. `[ ]` **NOVES SKILLS I METRIQUES:** Crear les skills Legals, SEO, i Accessibilitat amb els seus scripts de comprovació. A més, s'han de reflectir els 15 paràmetres complets de salut en la Consola Termodinàmica (que ja està al Brain).
 4. `[ ]` **DESENVOLUPAMENT FRONTEND (BRAIN 3D LIBRERIA):** Retomar el visor del cervell 3D. A banda d'usar-lo per a visualitzar la pròpia Wiki (com ja estava previst), s'ha d'adaptar com a mòdul reutilitzable per al projecte **Llibres Vobiscum**. Permetrà als usuaris visualitzar la seua pròpia base de dades de llibres en 3D (per categories, etiquetes). (Possible funcionalitat Premium B2B validada per Torsten).
-5. `[ ]` Llegir aquesta acta i carregar el context.
-6. `[ ]` Passar la següent petorreta a les IAs.
+5. `[ ]` **AUTOMATITZACIÓ DE L'AUTOMILLORA:** Crear una skill o hook perquè el Registre d'Automillora s'actualitze de forma totalment autònoma al final de la sessió sense dependre de la memòria del Mestre.
+6. `[ ]` **RECUPERACIÓ DE MÈTRIQUES I PLUGINS:** Recuperar els plugins visuals d'Obsidian perduts. A més, s'ha de redactar al Brain un document exhaustiu que descriga els 15 paràmetres termodinàmics i econòmiques (ex: estalvi d'API de 18€ a 15€, cost per xat, entropia), explicant de forma clara *com* es mesura cadascun d'ells.
+7. `[ ]` Llegir aquesta acta i carregar el context.
+8. `[ ]` Passar la següent petorreta a les IAs.
 
 ### PROMPT PER A LA INVESTIGACIÓ FORENSE D'ALGORITMES (Petorreta per a demà):
 > "Bèsties del Consell: Ahir a última hora, després de blindar l'arquitectura amb un tallafocs industrial, vam detectar que diversos agents havien vomitat fitxers 'brossa' al bancal (`04_ARXIU_Documents_Historics` i `07_plantilles`). Eren fitxers com `plantilla_acta_unica.md` o actes de sessió que pràcticament només contenien enllaços cecs a plantilles, sense Trellat ni substància. També un `00_index.md` duplicat.
