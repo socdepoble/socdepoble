@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "4c6325a6a832966a",
+        "id": "36d09938740e834c",
         "type": "tabs",
         "children": [
           {
-            "id": "734ce90516f42e17",
+            "id": "75e7d1b48a902830",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00_SER_Brain_Identitat/Soci_Sollutia.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Soci_Sollutia"
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -191,9 +187,13 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "734ce90516f42e17",
+  "active": "75e7d1b48a902830",
   "lastOpenFiles": [
+    "consola_termodinamica.md",
     "00_SER_Brain_Identitat/CORE_Registre_Automillora.md",
+    "00_SER_Brain_Identitat/DOC_Logos_Oficials.md",
+    "00_SER_Brain_Identitat/DOC_Taula_Mestra.md",
+    "00_SER_Brain_Identitat/Soci_Sollutia.md",
     "00_SER_Brain_Identitat/03_Consola_Termodinamica.md",
     "00_SER_Brain_Identitat/02_GENOTIP.md",
     "00_SER_Brain_Identitat/02_FAMILIA.md",
@@ -225,10 +225,6 @@
     "04_ARXIU_Documents_Historics/actes_arxivades/bundle_stats.html",
     "04_ARXIU_Documents_Historics/actes_arxivades/acta_simbiotica_grok.md",
     "04_ARXIU_Documents_Historics/actes_arxivades/PROMPT_Petorreta_Semantica_Carpetes.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/PROMPT_Petorreta_Auditoria_Skills.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/PROMPT_Diagnosi_Identitat_Tripartita.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/Arquitectura_Identitat.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/ACTA_UNICA_Tancament.md",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-4.jpg",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-3.jpg",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-2.jpg",

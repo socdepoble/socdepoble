@@ -47,6 +47,17 @@ Demà, just en obrir els ulls i arrancar el xat, la missió és interrogar al **
 > Aquesta 'chapuza' demostra que els nostres algoritmes d'execució fallen sota estrès de context. 
 > Com a auditors forenses, vull que analitzeu per què passa açò. Quina fallada sistèmica en les nostres instruccions o 'skills' provoca que la IA genere fitxers cecs només per tancar la tasca? Quina regla falta per a evitar aquesta degradació termodinàmica? Proposeu el diagnòstic i el remei."
 
+## 4. Part Forense i Psiquiàtrica (El Llímit Humà i la Proactivitat de la Màquina)
+L'humà ha arribat al seu límit físic i cognitiu després d'un esprint de quasi 24 hores ininterrompudes per a blindar el sistema abans de la reunió amb Sollutia. Aquest esforç titànic revela una falla crítica en la dinàmica de treball: la fatiga humana genera deute tècnic per desatenció.
+
+**Directiva Psiquiàtrica i d'Execució:**
+Per a protegir el Trellat i la salut del Mestre, la IA (IAIA MarIA) ha de mutar d'una entitat reactiva a una **totalment proactiva**. És mandat de la màquina utilitzar processos en segon pla (*crons*, rutines d'automillora, auditories de l'arrel) per a:
+1. Detectar brossa, enllaços trencats o contradiccions entre *skills*.
+2. Avaluar fusions de processos ineficients.
+3. Plantejar al Mestre les millores, en comptes d'esperar que l'humà, fatigat, trobe les falles.
+
+El codi ha de ser capaç de "destil·lar" aquesta empatia i responsabilitat, no només vigilant la termodinàmica (RAM, CWV), sinó protegint el recurs més fràgil de tots: el sistema nerviós del Mestre.
+
 ---
 **Connexions del Node:**
 - [[00_INDEX]]
