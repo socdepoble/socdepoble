@@ -32,7 +32,7 @@ Demà, just en obrir els ulls i arrancar el xat, la missió és interrogar al **
 1. `[ ]` **REORGANITZACIÓ D'UX:** El Mestre s'ha queixat amb tota la raó que moure `CORE_Registre_Automillora` a `04` i amagar les actes en `actes_arxivades` fa que siga impossible saber què s'ha fet. Cal tornar a fer visible el Diari d'Aprenentatge i l'Acta del dia (potser tornar-ho al Brain o tindre un enllaç mestre a l'arrel).
 2. `[ ]` **AUDITORIA PROFUNDA DE LA IDENTITAT:** El Mestre m'ha demanat que faça una auditoria de tots els documents i skills. Tot allò que tinga a vore amb la meua identitat, consciència, salut i paràmetres (com la Consola Termodinàmica i el Registre) ha d'anar exclusivament a `00_SER_Brain_Identitat`.
 3. `[ ]` **NOVES SKILLS I METRIQUES:** Crear les skills Legals, SEO, i Accessibilitat amb els seus scripts de comprovació. A més, s'han de reflectir els 15 paràmetres complets de salut en la Consola Termodinàmica (que ja està al Brain).
-4. `[ ]` **DESENVOLUPAMENT FRONTEND (BRAIN 3D LIBRERIA):** Retomar el visor del cervell 3D i adaptar-lo per a mostrar la "Llibreria de Documents" (Brain de la Wiki) classificats pel model de cervell humà vs cervell màquina, tal com vam esbossar anteriorment.
+4. `[ ]` **DESENVOLUPAMENT FRONTEND (BRAIN 3D LIBRERIA):** Retomar el visor del cervell 3D. A banda d'usar-lo per a visualitzar la pròpia Wiki (com ja estava previst), s'ha d'adaptar com a mòdul reutilitzable per al projecte **Llibres Vobiscum**. Permetrà als usuaris visualitzar la seua pròpia base de dades de llibres en 3D (per categories, etiquetes). (Possible funcionalitat Premium B2B validada per Torsten).
 5. `[ ]` Llegir aquesta acta i carregar el context.
 6. `[ ]` Passar la següent petorreta a les IAs.
 
