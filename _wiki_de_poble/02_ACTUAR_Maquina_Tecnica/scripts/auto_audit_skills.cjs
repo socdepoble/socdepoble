@@ -3,8 +3,8 @@ const fs = require('fs/promises');
 const path = require('path');
 const url = require('url');
 
-const WIKI_DIR = path.join(__dirname, '..');
-const SKILLS_DIR = path.join(WIKI_DIR, '05_skills_ia');
+const WIKI_DIR = path.join(__dirname, '..', '..');
+const SKILLS_DIR = path.join(WIKI_DIR, '02_ACTUAR_Maquina_Tecnica', 'skills');
 const INDEX_FILE = path.join(SKILLS_DIR, 'index_trellat.md');
 const TERMODINAMIC_REGEX = /^\d{6}_\d{4}_[A-Z]+_[a-z0-9_]+(\.[a-z0-9]+)?$/i;
 const CATEGORIES = ['ACTA', 'REPORT', 'SKILL', 'DOC', 'CORE', 'PROMPT', 'WORKFLOW', 'ASSET'];

@@ -66,3 +66,8 @@ A partir d'ara, l'Entropia al Mas és nul·la. El llit de la base de dades està
 Pots continuar descansant. Quan faces el pròxim *pull*, la Forja estarà lluent.
 
 **[TANCAMENT DE FLUX - 16:00 ESPANYA]**
+
+---
+**Connexions del Node:**
+- [[00_INDEX]]
+- [[260707_0845_ACTA_UNICA_Auditoria_i_Tallafocs]]

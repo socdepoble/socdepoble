@@ -6,14 +6,15 @@ created_at: '260707_0900'
 updated_at: '260707_0900'
 autor: 'IAIA MarIA'
 categoria: 'plantilla'
-description: '📜 ACTA ÚNICA DE SESSIÓ — {{DATA_I_HORA}}'
+description: 'Plantilla per a la generació d''Actes de Sessió (amb títols hiper-descriptius)'
 tags:
   - normativa
   - actes
   - termodinamica
 ---
-<!-- Nom en disc ha de seguir: YYMMDD_HHMM_ACTA_Sessio_Titol.md -->
-# 📜 ACTA ÚNICA DE SESSIÓ — {{DATA_I_HORA}}
+<!-- Nom en disc ha de seguir OBLIGATÒRIAMENT: YYMMDD_HHMM_ACTA_Sessio_Titol_Hiper_Descriptiu_Llarg_Fins_A_20_Paraules.md -->
+<!-- És VITAL que el títol siga molt llarg i descriptiu (8-20 paraules) perquè en llegir el nom de l'arxiu des del mur o el graf sàpigues exactament què hi ha dins sense necessitat d'obrir-lo per reduir l'I/O. -->
+# 📜 {{DATA_I_HORA}} - ACTA ÚNICA: [Escriu un Títol Hiper-Descriptiu ací]
 
 > **Nota per a la IAIA:** Aquesta plantilla fon l'acta tècnica, el registre d'estat mental i el punt de control per al següent torn (Marmota). Ha de ser un document ric, detallat i exhaustiu. No escatimes en tokens ací, l'historial és la nostra única memòria a llarg termini. Descriu en profunditat què s'ha tocat, per què, i quins conflictes s'han superat.
 

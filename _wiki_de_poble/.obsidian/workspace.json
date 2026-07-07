@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "36d09938740e834c",
+        "id": "edb558f6a93a71d8",
         "type": "tabs",
         "children": [
           {
-            "id": "75e7d1b48a902830",
+            "id": "cb32a5cc8917dc55",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "00_SER_Brain_Identitat/CORE_Registre_Automillora.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "CORE_Registre_Automillora"
             }
           }
         ]
@@ -187,10 +191,29 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "75e7d1b48a902830",
+  "active": "cb32a5cc8917dc55",
   "lastOpenFiles": [
-    "consola_termodinamica.md",
+    "05_Escriptori_L_Era_del_Mas/260707_1300_REPORT_Deep_Audit_Log_Vol_2.md",
+    "04_ARXIU_Documents_Historics/bancal_actiu/260707_1600_PROMPT_Petorreta_Metode_MIT_Adaptat_Per_A_IAs.md",
+    "02_ACTUAR_Maquina_Tecnica/scripts/seo_auditor.mjs",
+    "02_ACTUAR_Maquina_Tecnica/scripts/a11y_auditor.mjs",
+    "02_ACTUAR_Maquina_Tecnica/scripts/backup.mjs",
+    "02_ACTUAR_Maquina_Tecnica/scripts/orphan_linker.mjs",
+    "05_Escriptori_L_Era_del_Mas/260707_1645_ACTA_UNICA_Auditoria_Forense_Nerviosa_Connexions_Scripts.md",
+    "02_ACTUAR_Maquina_Tecnica/07_plantilles/plantilla_acta_unica.md",
+    "02_ACTUAR_Maquina_Tecnica/07_plantilles/00_plantilles.md",
+    "02_ACTUAR_Maquina_Tecnica/DOC_Seguretat.md",
+    "02_ACTUAR_Maquina_Tecnica/00_arquitectura_tecnica_unificada.md",
+    "01_SABER_Cultura_Coneixement/connexio_radical.md",
+    "01_SABER_Cultura_Coneixement/codex_huma/Arquitectura_Sistema_Nervios.md",
+    "01_SABER_Cultura_Coneixement/codex_huma/Arquitectura_Protocol_Lazaro.md",
+    "01_SABER_Cultura_Coneixement/codex_huma/Arquitectura_La_Forja.md",
+    "01_SABER_Cultura_Coneixement/codex_huma/Arquitectura_L_Anima.md",
     "00_SER_Brain_Identitat/CORE_Registre_Automillora.md",
+    "auto_auditoria_forense.md",
+    "05_Escriptori_L_Era_del_Mas/260707_1605_ACTA_UNICA_Metode_MIT_Petorreta_Transicio_Framer_Figma.md",
+    "04_REGISTRE_Actes_Efimers/bancal_actiu/260707_1600_PROMPT_Petorreta_Metode_MIT_Adaptat_Per_A_IAs.md",
+    "consola_termodinamica.md",
     "00_SER_Brain_Identitat/DOC_Logos_Oficials.md",
     "00_SER_Brain_Identitat/DOC_Taula_Mestra.md",
     "00_SER_Brain_Identitat/Soci_Sollutia.md",
@@ -201,30 +224,11 @@
     "00_SER_Brain_Identitat/00_INDEX.md",
     "00_SER_Brain_Identitat/00_BIOS.md",
     "04_ARXIU_Documents_Historics/bancal_actiu",
-    "05_Escriptori_L_Era_del_Mas/CORE_Registre_Automillora.md",
-    "05_Escriptori_L_Era_del_Mas/260707_0845_ACTA_UNICA_Auditoria_i_Tallafocs.md",
     "05_Escriptori_L_Era_del_Mas",
-    "04_ARXIU_Documents_Historics/actes_arxivades/00_informes/informe_sollutia_v1.md",
     "04_ARXIU_Documents_Historics/scripts_obsolets/session-logger.js",
     "04_ARXIU_Documents_Historics/scripts_obsolets/neteja_total.js",
     "04_ARXIU_Documents_Historics/scripts_obsolets/move_petorreta.cjs",
     "04_ARXIU_Documents_Historics/scripts_obsolets/migracio_v5.js",
-    "04_ARXIU_Documents_Historics/scripts_obsolets/fix_graph_links.cjs",
-    "04_ARXIU_Documents_Historics/scripts_obsolets/enforce_termodinamic.js",
-    "04_ARXIU_Documents_Historics/scripts_obsolets/detect_duplicates.cjs",
-    "04_ARXIU_Documents_Historics/prompts/260707_0815_PROMPT_Auditoria_Disseny_Resiliencia.md",
-    "04_ARXIU_Documents_Historics/prompts/260707_0455_PROMPT_Auditoria_Suprema.md",
-    "04_ARXIU_Documents_Historics/prompts/260707_0545_PROMPT_Petorreta_Auditoria_Extrema.md",
-    "04_ARXIU_Documents_Historics/prompts/260707_0345_PROMPT_Recopilacio_Codis_Extres.md",
-    "04_ARXIU_Documents_Historics/prompts/260707_0325_PROMPT_Petorreta_Mundial_Maquinaria.md",
-    "04_ARXIU_Documents_Historics/actes_historiques/Arquitectura_Skills_Arrel.md",
-    "04_ARXIU_Documents_Historics/actes_historiques/Arquitectura_Gestio.md",
-    "04_ARXIU_Documents_Historics/actes_historiques/Arquitectura_General.md",
-    "04_ARXIU_Documents_Historics/actes_historiques/Arquitectura_Etnografia.md",
-    "04_ARXIU_Documents_Historics/actes_historiques/Arquitectura_Directives.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/bundle_stats.html",
-    "04_ARXIU_Documents_Historics/actes_arxivades/acta_simbiotica_grok.md",
-    "04_ARXIU_Documents_Historics/actes_arxivades/PROMPT_Petorreta_Semantica_Carpetes.md",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-4.jpg",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-3.jpg",
     "02_ACTUAR_Maquina_Tecnica/assets/que-es-socdepoble-2.jpg",

@@ -82,3 +82,8 @@ El codi està auditat. Els orfes han sigut cremats.
 Quan et despertes, només llig i gaudeix, la teua màquina ja s'ha encarregat de tot.
 
 *Fí de l'Auditoria Forense (Volum 1).*
+
+---
+**Connexions del Node:**
+- [[00_INDEX]]
+- [[260707_0845_ACTA_UNICA_Auditoria_i_Tallafocs]]
