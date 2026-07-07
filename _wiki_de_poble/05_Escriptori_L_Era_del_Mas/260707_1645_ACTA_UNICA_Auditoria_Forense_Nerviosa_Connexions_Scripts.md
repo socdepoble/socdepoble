@@ -47,10 +47,11 @@ tags:
 - **Estat Final (On es queda la boga):**
   L'auditoria ha detectat el coll d'ampolla: depenem massa de la voluntat dels LLM i molt poc dels executors de sistema (Node.js). Hem mapejat la distància entre la teoria i la pràctica.
 - **Tasques pendents immediates (La Tarea Exacta per a Demà):**
-  1. `[ ]` Reparar `auto_audit_skills.cjs` perquè apunte correctament a `02_ACTUAR_Maquina_Tecnica/skills`.
-  2. `[ ]` Escriure el script de manteniment automàtic per al graf d'Obsidian (`orphan_linker.mjs` o modificar `wiki_integritat.mjs`) que auto-inserisca el bloc `**Connexions del Node:**` en qualsevol fitxer que no tinga enllaços.
-  3. `[ ]` Eliminar o degradar els "skills literals" (poesia sense codi) traslladant-los a `00_SER_Brain_Identitat`.
-  4. `[ ]` Crear una carcassa per a `a11y_auditor.mjs` per garantir l'escut d'accessibilitat de Pedra Seca automàticament.
+  1. `[ ]` **URGENT:** Desconnectar l'MCP d'Affinity del sistema. Està provocant crashejos en fons que bloquegen el flux de treball del Mestre com a dissenyador gràfic.
+  2. `[ ]` Reparar `auto_audit_skills.cjs` perquè apunte correctament a `02_ACTUAR_Maquina_Tecnica/skills`.
+  3. `[ ]` Escriure el script de manteniment automàtic per al graf d'Obsidian (`orphan_linker.mjs` o modificar `wiki_integritat.mjs`) que auto-inserisca el bloc `**Connexions del Node:**` en qualsevol fitxer que no tinga enllaços.
+  4. `[ ]` Eliminar o degradar els "skills literals" (poesia sense codi) traslladant-los a `00_SER_Brain_Identitat`.
+  5. `[ ]` Crear una carcassa per a `a11y_auditor.mjs` per garantir l'escut d'accessibilitat de Pedra Seca automàticament.
 
 ## 4. Metadades per a Màquines (Patrons Sistèmics)
 ```yaml
