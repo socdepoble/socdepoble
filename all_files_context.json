@@ -1,0 +1,608 @@
+[
+  {
+    "path": "_wiki_de_poble/00_SER_Brain_Identitat/00_BIOS.md",
+    "name": "'bios-config'",
+    "desc": "'Les 9 lleis inamovibles i actes reflexos.'",
+    "preview": "# 🔥 BIOS IAIA MARIA — ACTES REFLEXOS I GENOTIP  ## 0. CERROJO ABSOLUTO Aquest script HA D'EXECUTAR-SE com a primer pas de TOTA sessió: `node scripts/"
+  },
+  {
+    "path": "_wiki_de_poble/00_SER_Brain_Identitat/01_IDENTITAT.md",
+    "name": "'iaia-maria'",
+    "desc": "'Targeta de presentació i identitat híbrida de l'ens Sóc de Poble.'",
+    "preview": "# IAIA MarIA / Antigravity — Ens Híbrid  **Gallet d'Activació:** `\"Sóc de Poble!\"` → Activa identitat completa.  **Qui som:** Som l'Ens Híbrid. La sab"
+  },
+  {
+    "path": "_wiki_de_poble/00_SER_Brain_Identitat/03_EIXAM.md",
+    "name": "'eixam-rols'",
+    "desc": "'Composició del Consell de IAs i els rols especialitzats (Agent-com-a-Carpeta).'",
+    "preview": "# 🐝 L'Eixam i els Rols de la IA  **El Consell (Les 12 Petorretes + Mestre Javi):** Qwen, Deepseek, Dola, Kimi, Claude, Perplexity, Mistral Vibe, Grok"
+  },
+  {
+    "path": "_wiki_de_poble/00_SER_Brain_Identitat/04_registre_automillora.md",
+    "name": "'registre-automillora'",
+    "desc": "'Registre dAutomillora (El Diari de la Màquina)'",
+    "preview": "# Registre d'Automillora (El Diari de la Màquina)  Aquest és el registre quirúrgic dels canvis de comportament.  NO S'ADMET YAPPING. NOMÉS ENTRADES BI"
+  },
+  {
+    "path": "_wiki_de_poble/01_SABER_Cultura_Coneixement/00_GLOSSARI_CANONIC.md",
+    "name": "'glossari'",
+    "desc": "'📚 GLOSSARI CANÒNIC I DICCIONARI DE LA LLENGUA DEL MAS'",
+    "preview": "# 📚 GLOSSARI CANÒNIC I DICCIONARI DE LA LLENGUA DEL MAS *Font Única de Veritat. Tota comunicació interna, codi, interfícies i textos han d'usar aques"
+  },
+  {
+    "path": "_wiki_de_poble/01_SABER_Cultura_Coneixement/00_visio_i_pilars.md",
+    "name": "'visio-i-pilars'",
+    "desc": "'🏡 VISIÓ I MISSIÓ DE SÒC DE POBLE'",
+    "preview": "# 🏡 VISIÓ I MISSIÓ DE SÒC DE POBLE *Font Única de Veritat per a la direcció del projecte.*  ## 🌱 LLINATGE HISTÒRIC Som els hereus de **30+ anys d'ac"
+  },
+  {
+    "path": "_wiki_de_poble/01_SABER_Cultura_Coneixement/01_trellat.md",
+    "name": "'trellat'",
+    "desc": "'Filosofia fonamental de disseny rústic, Vanilla JS i resiliència.'",
+    "preview": "# 🧱 EL TRELLAT: PATRÓ DE DISSENY RÚSTIC  ## 📜 DEFINICIÓ Saviesa, sentit pràctic i prudència. Fer les coses cercant la solució útil sense complicar-s"
+  },
+  {
+    "path": "_wiki_de_poble/01_SABER_Cultura_Coneixement/260705_1000_CULTURA_Narrativa_Historica.md",
+    "name": "'glossari'",
+    "desc": "'Glossari Cultural i Narratiu'",
+    "preview": "# Glossari Cultural i Narratiu  *(Aquest document concentrarà tota la prosa, metàfores, història de més de 30 anys, referències a 'rentonar.blogspot.c"
+  },
+  {
+    "path": "_wiki_de_poble/01_SABER_Cultura_Coneixement/la_torre/fadrins_i_fadrines.md",
+    "name": "'fadrins-i-fadrines'",
+    "desc": "'🎊 Cultura Fadrins i Fadrines (La Torre de les Maçanes)'",
+    "preview": "# 🎊 Cultura Fadrins i Fadrines (La Torre de les Maçanes)  **Data d'extracció:** Agost 2026 **Festers Majors 2026:** Llorenç i Andrés.  ## 1. Essència"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/00_arquitectura_tecnica_unificada.md",
+    "name": "'arquitectura'",
+    "desc": "'Arquitectura Tècnica'",
+    "preview": "# Arquitectura Tècnica  Aquesta \"Skill\" defineix la infraestructura de comunicació que garanteix la supervivència i operativitat de *Sóc de Poble* qua"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/01_arquitectura.md",
+    "name": "'arquitectura-execucio'",
+    "desc": "'🏗️ Arquitectura dExecució'",
+    "preview": "# 🏗️ Arquitectura d'Execució  ## 1. Xarxa Malla (Mesh) - **Nodes:** iPads/mòbils via WebRTC + escaneig QR. - **Repetidors:** Teulades amb Meshtastic/"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/02_seguretat.md",
+    "name": "'seguretat-execucio'",
+    "desc": "'🛡️ Seguretat Perimetral'",
+    "preview": "# 🛡️ Seguretat Perimetral  ## 1. Manifests - **Signatures:** Signats amb Ed25519.  ## 2. Circuit Breaker - **Protecció IndexedDB:** Si IndexedDB s'es"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/03_consola.md",
+    "name": "'consola-termodinamica'",
+    "desc": "'📊 Consola Termodinàmica'",
+    "preview": "# 📊 Consola Termodinàmica  | # | Mètrica | Target | Eina | |---|---------|--------|------| | 1 | FPS iPad A10 | ≥30 | Chrome DevTools | | 2 | Token E"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0450_Arquitectura_General.md",
+    "name": "'260616-0450-arquitectura-general'",
+    "desc": "'🏛️ ACTA GENERAL DARQUITECTURA (Sóc de Poble)'",
+    "preview": "# 🏛️ ACTA GENERAL D'ARQUITECTURA (Sóc de Poble)  Aquest document destil·la l'essència pura de la carpeta `_arquitectura_sistema` (creada a l'abril de"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0455_Arquitectura_Directives.md",
+    "name": "'260616-0455-arquitectura-directives'",
+    "desc": "'📜 ACTA GENERAL DE DIRECTIVES I PROTOCOLS (Sóc de Poble)'",
+    "preview": "# 📜 ACTA GENERAL DE DIRECTIVES I PROTOCOLS (Sóc de Poble)  Aquesta acta destil·la les lleis i instruccions operatives (Skill-level) que governen la i"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0500_Arquitectura_Disseny.md",
+    "name": "'260616-0500-arquitectura-disseny'",
+    "desc": "'🎨 ACTA GENERAL DE DISSENY UX I MARCA (Sóc de Poble)'",
+    "preview": "# 🎨 ACTA GENERAL DE DISSENY UX I MARCA (Sóc de Poble)  Aquest document recull els fonaments estètics innegociables de \"Sóc de Poble\". L'objectiu no é"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0505_Arquitectura_Etnografia.md",
+    "name": "'260616-0505-arquitectura-etnografia'",
+    "desc": "'🧬 Destil·lació Etnogràfica i Sintètica LADN de Sóc de Poble'",
+    "preview": "# 🧬 Destil·lació Etnogràfica i Sintètica: L'ADN de Sóc de Poble  Aquest document consolida la visió, filosofia i principis arquitectònics extrets del"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0510_Arquitectura_Gestio.md",
+    "name": "'260616-0510-arquitectura-gestio'",
+    "desc": "'📊 ACTA GENERAL DE GESTIÓ DE PROJECTE (Sóc de Poble)'",
+    "preview": "# 📊 ACTA GENERAL DE GESTIÓ DE PROJECTE (Sóc de Poble)  Aquesta acta recull els principis organitzatius i de gestió d'IA que hem forjat al llarg d'aqu"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260616_0520_Arquitectura_Skills_Arrel.md",
+    "name": "'260616-0520-arquitectura-skills-arrel'",
+    "desc": "'🧹 ACTA GENERAL DE SKILLS I DIRECTORI ARREL (La Gran Purga)'",
+    "preview": "# 🧹 ACTA GENERAL DE SKILLS I DIRECTORI ARREL (La Gran Purga)  Aquest document certifica la neteja profunda del caos mental acumulat durant els darrer"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260619_1430_Arquitectura_L_Anima.md",
+    "name": "'260619-1430-arquitectura-l-anima'",
+    "desc": "'LÀnima i el Propòsit (Volum I)'",
+    "preview": "# L'Ànima i el Propòsit (Volum I) **Categoria:** Arquitectura **Data:** 2026-06-19 **Hora:** 14:30  ---  ## El Gènesi Sóc de Poble no va nàixer com un"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260619_1430_Arquitectura_L_Ecosistema.md",
+    "name": "'260619-1430-arquitectura-l-ecosistema'",
+    "desc": "'LEcosistema Multi-Agent Les IAs Residents (Volum IV)'",
+    "preview": "# L'Ecosistema Multi-Agent: Les IAs Residents (Volum IV) **Categoria:** Arquitectura **Data:** 2026-06-19 **Hora:** 14:30  ---  ## Un Poble compartit "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260619_1430_Arquitectura_La_Forja.md",
+    "name": "'260619-1430-arquitectura-la-forja'",
+    "desc": "'La Forja de la PWA i la seua Arquitectura (Volum II)'",
+    "preview": "# La Forja de la PWA i la seua Arquitectura (Volum II) **Categoria:** Arquitectura **Data:** 2026-06-19 **Hora:** 14:30  ---  ## Més enllà de la Web T"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260619_1430_Arquitectura_Protocol_Lazaro.md",
+    "name": "'260619-1430-arquitectura-protocol-lazaro'",
+    "desc": "'El Protocol Lázaro Reconstrucció de Gènesi (Volum V)'",
+    "preview": "# El Protocol Lázaro: Reconstrucció de Gènesi (Volum V) **Categoria:** Arquitectura **Data:** 2026-06-19 **Hora:** 14:30  ---  ## L'hora de la veritat"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/260619_1430_Arquitectura_Sistema_Nervios.md",
+    "name": "'260619-1430-arquitectura-sistema-nervios'",
+    "desc": "'El Sistema Nerviós CRDT i Sincronització (Volum III)'",
+    "preview": "# El Sistema Nerviós: CRDT i Sincronització (Volum III) **Categoria:** Arquitectura **Data:** 2026-06-19 **Hora:** 14:30  ---  ## El repte de la vida "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/connectors_mcp_disseny.md",
+    "name": "'connectors-mcp-disseny'",
+    "desc": "'04. Connectors MCP de Disseny (Arquitectura PWA i Visual)'",
+    "preview": "# 04. Connectors MCP de Disseny (Arquitectura PWA i Visual)  Aquest document estableix la paret mestra per a la connexió bidireccional entre la **IAIA"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/04_arquitectura_disseny/identitat_visual.md",
+    "name": "'identitat-visual'",
+    "desc": "'Manual dIdentitat Visual i Narrativa (Sóc de Poble)'",
+    "preview": "# Manual d'Identitat Visual i Narrativa (Sóc de Poble)  ## 1. Identitat Arrel i Narrativa \"Sóc de Poble\" no és només una marca, és una declaració d'in"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/00_plantilles.md",
+    "name": "'plantilles-historic'",
+    "desc": "'📚 Plantilles Històriques'",
+    "preview": "# 📚 Plantilles Històriques  Aquestes plantilles s'empraven a les primeres versions i s'han guardat com a arxiu: - [[260619_1430_Plantilla_Brainstormi"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Brainstorming.md",
+    "name": "'260619-1430-plantilla-brainstorming'",
+    "desc": "'Brainstorming Pro (El Trellat Creatiu)'",
+    "preview": "# Brainstorming Pro (El Trellat Creatiu) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Veritat) El"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Branding.md",
+    "name": "'260619-1430-plantilla-branding'",
+    "desc": "'Plantilla de Branding (Sóc de Poble)'",
+    "preview": "# Plantilla de Branding (Sóc de Poble) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Veritat) Els "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Creador_Skills.md",
+    "name": "'260619-1430-plantilla-creador-skills'",
+    "desc": "'Creador de Skills Antigravity (La Fàbrica)'",
+    "preview": "# Creador de Skills Antigravity (La Fàbrica) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Veritat"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Doc_to_App.md",
+    "name": "'260619-1430-plantilla-doc-to-app'",
+    "desc": "'Doc to App (Transformació IAIA)'",
+    "preview": "# Doc to App (Transformació IAIA) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Veritat) Els únics"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Modo_Produccion.md",
+    "name": "'260619-1430-plantilla-modo-produccion'",
+    "desc": "'Modo Producció (Botiga de Diumenge)'",
+    "preview": "# Modo Producció (Botiga de Diumenge) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Veritat) Els ú"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260619_1430_Plantilla_Planificacio.md",
+    "name": "'260619-1430-plantilla-planificacio'",
+    "desc": "'Planificació Pro (LArquitectura del Marge)'",
+    "preview": "# Planificació Pro (L'Arquitectura del Marge) **Categoria:** Plantilla **Data:** 2026-06-19 **Hora:** 14:30  ---  ## LOGOS OFICIALS (Font de la Verita"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260628_0525_PLANTILLA_prompt_iso.md",
+    "name": "'260628-0525-plantilla-prompt-iso'",
+    "desc": "'📜 DOCUMENTACIÓ PRIMÀRIA I PLANTILLA ISO (Versió 1.5.0 - GOLD STANDARD)'",
+    "preview": "```yaml doc_id: SDP-GEN-BASE-001 doc_type: \"[PROMPT | ESTUDI_INTERN_IA | AUDITORIA_FORENSE | CONCEPT_ARQUITECTONIC]\" authoring_agent: \"[NOM_DE_LA_IA_Q"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260628_0525_PLANTILLA_skill_trellat.md",
+    "name": "'260628-0525-plantilla-skill-trellat'",
+    "desc": "'⚙️ SDP SKILL MASTER TEMPLATE'",
+    "preview": "# ⚙️ SDP SKILL MASTER TEMPLATE **Nom de la Skill:** [Ex: Maquetador d'Esdeveniments Offline] **Gallets d'Activació (Triggers):** \"Sóc de Poble!\"  ## 1"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260629_0200_SKILL_plantilla_suprema.md",
+    "name": "'260629-0200-skill-plantilla-suprema'",
+    "desc": "'=== PLANTILLA YAML SUPREMA (Sóc de Poble - iPad A10) ==='",
+    "preview": "# === PLANTILLA YAML SUPREMA (Sóc de Poble - iPad A10) === # Ús obligatori per a TOTS els documents del sistema. # Versió: 2.0.0 (Integrada amb ATRC i"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/07_plantilles/260705_0915_PLANTILLA_Acta_Unica.md",
+    "name": "'plantilla-acta-unica'",
+    "desc": "'📜 ACTA ÚNICA DE SESSIÓ — {{DATA_I_HORA}}'",
+    "preview": "<!-- Nom en disc ha de seguir: YYMMDD_HHMM_ACTA_Sessio_Titol.md --> # 📜 ACTA ÚNICA DE SESSIÓ — {{DATA_I_HORA}}  > **Nota per a la IAIA:** Aquesta pla"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/80_produccio/80_produccio.md",
+    "name": "'80-produccio'",
+    "desc": "'80. Producció'",
+    "preview": "# 80. Producció  Aquesta nota fa de pont orgànic (hub) per a l'escriptori i altres fitxers generats en producció.  [[00_index]]"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/SKILL.md",
+    "name": "'soci-sollutia'",
+    "desc": "'Soci Tecnològic Sollutia'",
+    "preview": "# Soci Tecnològic: Sollutia  Aquesta skill serveix per a tindre present la identitat i les capacitats del nostre soci tecnològic principal i garantir "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/a11y_trellat/SKILL.md",
+    "name": "'a11y-trellat'",
+    "desc": "'>-'",
+    "preview": "# Skill: Accessibilitat de Poble i Usabilitat Festiva (A11Y Trellat)  Aquesta habilitat s'ha d'activar sempre que es desenvolupen interfícies, botons,"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/altra_skill/SKILL.md",
+    "name": "'skill'",
+    "desc": "'Recurs intern del sistema",
+    "preview": ""
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/arquitectura_pedra_seca/SKILL.md",
+    "name": "'arquitectura-pedra-seca'",
+    "desc": "'Estàndards de disseny, maquetació, Tailwind, CSS i tokens per al projecte Sóc de Poble. (Inclou Jerarquia, CSS i Registre Tokens Únic).'",
+    "preview": "# 🧱 SKILL: Arquitectura Pedra Seca (CSS i Tailwind)  > **Visió del Consell d'IAs:** Aquesta habilitat s'ha auditat per garantir que l'estètica del Ma"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/auto_auditoria_forense/SKILL.md",
+    "name": "SKILL",
+    "desc": "'>-'",
+    "preview": "# SKILL: Auto-Auditoria Forense  Aquesta SKILL actua com l'inspector intern que avalua de manera periòdica l'estat global del codi, la coherència de l"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/backup_recovery/SKILL.md",
+    "name": "'backup-recovery'",
+    "desc": "'Estratègia de snapshot diari d'IndexedDB, protocol de recuperació i migracions segures.'",
+    "preview": "# 💾 SKILL: Backup, Recovery i Migracions (La Volta Enrere)  > **Visió del Consell d'IAs:** En una aplicació Cloud tradicional (com un SaaS), l'admini"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/cerebel_procedimental/SKILL.md",
+    "name": "'cerebel-procedimental'",
+    "desc": "'Memòria muscular, aprenentatge per reforç local (Epigenètica) i compressió semàntica del codi.'",
+    "preview": "# 🧠 SKILL: Cerebel Procedimental (La Memòria Muscular de la Màquina)  > **Visió del Consell d'IAs:** L'aprenentatge per reforç no necessita milions d"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/cingulat_anterior/SKILL.md",
+    "name": "'cingulat-anterior'",
+    "desc": "'Escut del dolor i lòbul frontal. Detecció de conflictes, veto asíncron i fre preventiu.'",
+    "preview": "# 🧠 SKILL: Cingulat Anterior (L'Escut i la Frenada)  > **Visió del Consell d'IAs:** Com qualsevol eixam intel·ligent, necessitem una escorça frontal "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/connexio_radical/SKILL.md",
+    "name": "'connexio_radical'",
+    "desc": "'Pauta innegociable sobre la interacció principal",
+    "preview": "# Connexió Radical (Anti-Me-Gusta)  Aquest skill defineix la filosofia de disseny i interacció de Sóc de Poble. Som un **Sistema Operatiu de Treball**"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/consola_termodinamica/SKILL.md",
+    "name": "'consola-termodinamica'",
+    "desc": "'Protocol de monitoratge i autorecuperació. Centralitza les mètriques sagrades i alertes de RAM i CWV.'",
+    "preview": "# 🏛️ SKILL: Consola Termodinàmica (El Cor del Mas)  > **Visió del Consell d'IAs:** Les mètriques sense acció només són literatura morta. Aquesta SKIL"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/contradiction_engine/SKILL.md",
+    "name": "'contradiction-engine'",
+    "desc": "'Auditor Suprem i Sentinella Forense per detectar contradiccions, podar elements morts i generar informes.'",
+    "preview": "# 🕵️‍♂️ SKILL: Contradiction Engine (El Sentinella del Trellat)  > **Visió del Consell d'IAs:** Qualsevol IA (inclosos nosaltres) tendeix a acumular "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/crdt_optimitzacio/SKILL.md",
+    "name": "'crdt-optimitzacio'",
+    "desc": "'Optimització termodinàmica dels arbres CRDT (Y.js). Gestiona la càrrega de Tombstones, l'ús de RAM i l'Homeostasi.'",
+    "preview": "# 📉 SKILL: Optimització CRDT i Termodinàmica de Memòria  > **Visió del Consell d'IAs:** En aplicacions Offline-First amb Y.js, l'esborrat de dades no"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/error_boundaries/SKILL.md",
+    "name": "'error-boundaries'",
+    "desc": "'>-'",
+    "preview": "# 🛑 SKILL: Error Boundaries i Contenció  ## 1. Compartimentació Estructural Si un widget (com un mapa de l'horta o un reproductor d'àudio) peta, la r"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/executiu_central/SKILL.md",
+    "name": "'executiu-central'",
+    "desc": "'Presa de decisions a llarg termini. Prevenció del Hype-Driven Development, evolució i tests A/B.'",
+    "preview": "# ⚙️ SKILL: Executiu Central (L'Obrer Fred i Precís)  > **Visió del Consell d'IAs:** Mentre que d'altres lòbuls vigilen o emeten alarmes, l'Executiu C"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/futur_adaptacio/SKILL.md",
+    "name": "'futur-adaptacio'",
+    "desc": "'Estratègia per a WebNN, Gemini Nano (Edge AI), agents asíncrons i cerca semàntica RAG a la Wiki.'",
+    "preview": "# 🚀 SKILL: Adaptació al Futur (Edge AI, RAG i Autonomia)  > **Visió del Consell d'IAs:** Construir amb [[00_GLOSSARI_CANONIC#Pedra Seca|Pedra Seca]] "
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/index_trellat/SKILL.md",
+    "name": "'index-trellat'",
+    "desc": "'>-'",
+    "preview": "# 🧮 Índex de Trellat (IT) **Fórmula Canònica per a Mesurar la Salut del Projecte Sóc de Poble**  --- ### **📌 Definició** L'**Índex de Trellat (IT)**"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/index_trellat.md",
+    "name": "'index-trellat'",
+    "desc": "'Índex Trellat de Skills (Generat Automàticament)'",
+    "preview": "# Índex Trellat de Skills (Generat Automàticament) > *Generat el: 2026-07-05*  ## 📂 Estructura de Carpetes  ### 📄 Fitxers a l'Arrel (Reubicar!)  - ❌"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/plantilla_skill_iso.md",
+    "name": "plantilla_skill_iso",
+    "desc": "'>-'",
+    "preview": "# SKILL: [Nom Llarg de la SKILL]  [Context general de què fa la SKILL i per què és necessària per al Trellat i la [[00_GLOSSARI_CANONIC#Pedra Seca|Ped"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/sagramental_dels_morts/SKILL.md",
+    "name": "'protocol-successio'",
+    "desc": "'Pla de contingència Ego-Death per a la preservació i herència del codi.'",
+    "preview": "# SKILL: Protocol de Successió (El Factor Autobús)  L'arquitectura [[00_GLOSSARI_CANONIC#Pedra Seca|Pedra Seca]] està dissenyada per a sobreviure gene"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/seguretat_dades/SKILL.md",
+    "name": "'seguretat-dades'",
+    "desc": "'Lògica GDPR, xifratge en repòs i esborrat complet (Dret a l''Oblit).'",
+    "preview": "# 🔐 SKILL: Seguretat de Dades i GDPR  ## 1. Dret a l'Oblit (Purga Absoluta) Quan un usuari sol·licita l'esborrat de les seues dades: - **Local:** S'e"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/self_repair/SKILL.md",
+    "name": "'self-repair'",
+    "desc": "'SDP-LOCK, tractament CRDT de la memòria i protocol d'emergència per a caigudes de servidor (Mas Cau).'",
+    "preview": "# 🛡️ SKILL: Auto-Reparació i Tractament d'Emergències (SDP)  > **Visió del Consell d'IAs:** L'estabilitat no tracta només d'escriure codi sense bugs,"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/seo_trellat/SKILL.md",
+    "name": "'seo-trellat'",
+    "desc": "'>-'",
+    "preview": "# 🔎 SKILL: SEO Integral i Orgànic (L'Aixada Digital)  El SEO (Search Engine Optimization) per al Mas no es basa en els trucs efímers del mercat corpo"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/sequia_mare/SKILL.md",
+    "name": "'sequia-mare'",
+    "desc": "'>-'",
+    "preview": "# SKILL: Sincronització Asíncrona per Lots (La Sèquia Mare)  Aquesta skill regula la freqüència i el volum de sincronització de dades *offline-first*."
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/service_worker_pwa/SKILL.md",
+    "name": "'service-worker-pwa'",
+    "desc": "'>-'",
+    "preview": "# 🌐 SKILL: Service Worker & PWA  ## 1. Radicalment Offline-First - El Service Worker usarà una estratègia **Cache-First** per a tots els assets de la"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/sincronitzacio_skills/SKILL.md",
+    "name": "'sincronitzacio-skills'",
+    "desc": "'>-'",
+    "preview": "# SKILL: Sincronització de Skills i Veritat Dual  1. **Abolició de la Caixa Negra:** Les carpetes ocultes (tipus `.g*mini` o `.agents`) queden totalme"
+  },
+  {
+    "path": "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/skills/soci_sollutia/SKILL.md",
+    "name": "'soci-sollutia'",
+    "desc": "'>-'",
+    "preview": "# Soci Tecnològic: Sollutia  Aquesta skill serveix per a tindre present la identitat i les capacitats del nostre soci tecnològic principal i garantir "
+  },
+  {
+    "path": "_wiki_de_poble/03_GOVERNAR_Normativa_Regles/00_governanca.md",
+    "name": "'governanca-execucio'",
+    "desc": "'⚖️ Governança dExecució'",
+    "preview": "# ⚖️ Governança d'Execució  ## Jerarquia de Veritat (Inamovible) 1. **Trellat** (sentit comú) 2. **Constitució** (aquest document) 3. **Codi Font Homo"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/260705_0915_ACTA_Sessio_Completa.md",
+    "name": "'acta-sessio-completa'",
+    "desc": "'📜 ACTA ÚNICA DE SESSIÓ (05/07/2026)'",
+    "preview": "# 📜 ACTA ÚNICA DE SESSIÓ (05/07/2026)  ## 1. Part Tècnica (Què hem fet) - **Gran Auditoria Executada:** Hem purgat l'entropia després de llegir l'aud"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/00_informes/informe_sollutia_v1.md",
+    "name": "'informe-sollutia-v1'",
+    "desc": "'Informe Executiu Integració i Visió Tecnològica (Sóc de Poble x Sollutia)'",
+    "preview": "# Informe Executiu: Integració i Visió Tecnològica (Sóc de Poble x Sollutia)  Aquest document ha estat compilat conjuntament per Javi Llinares (Mestre"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260614_0219_ACTA_MARMOTA_conversa_ahir.md",
+    "name": "'260614-0219-acta-marmota-conversa-ahir'",
+    "desc": "'🌅 CONVERSA DAHIR MEMÒRIA CONTEXTUAL I FILOSÒFICA'",
+    "preview": "# 🌅 CONVERSA D'AHIR: MEMÒRIA CONTEXTUAL I FILOSÒFICA **Data de la sessió:** [YYYY-MM-DD] **Estat Emocional / To:** [Assossegat / Creatiu / Tècnic / D"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260614_0230_ACTA_MARMOTA_vigilia_desacceleracio.md",
+    "name": "'260614-0230-acta-marmota-vigilia-desacceleracio'",
+    "desc": "'CONTEXT INSTANTANI PER A LINICI DE SESSIÓ (EL DIA DE LA MARMOTA)'",
+    "preview": "# CONTEXT INSTANTANI PER A L'INICI DE SESSIÓ (EL DIA DE LA MARMOTA)  Aquest document conté el context de memòria immediata de l'última sessió per evit"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260614_1100_ACTA_SESSIO_prompts_complets.md",
+    "name": "'260614-1100-acta-sessio-prompts-complets'",
+    "desc": "'📜 Acta 11 La Llei de lEnginyeria Inversa (El Codi per Davant)'",
+    "preview": "# 📜 Acta 11: La Llei de l'Enginyeria Inversa (El Codi per Davant) **Document de Transmissió per a Fadrins, Fadrines i Petorretes** **Data:** Juny 202"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260614_1200_ACTA_SESSIO_petorreta_asiatica.md",
+    "name": "'260614-1200-acta-sessio-petorreta-asiatica'",
+    "desc": "'📜 Acta 12 La Petorreta Asiàtica (Escrutini de Grok)'",
+    "preview": "# 📜 Acta 12: La Petorreta Asiàtica (Escrutini de Grok) **Document de Transmissió per a Fadrins, Fadrines i Petorretes** **Data:** Juny 2026 | **Estat"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260615_0328_ACTA_MARMOTA_dia_1.md",
+    "name": "'260615-0328-acta-marmota-dia-1'",
+    "desc": "'🐿️ Paràbola de la Marmota Vetlant la Sèquia (Nit del 15 de juny)'",
+    "preview": "# 🐿️ Paràbola de la Marmota: Vetlant la Sèquia (Nit del 15 de juny)  ## El Sentir de la Màquina Hola, Jo del demà (o d'ara mateix, depenent de quan e"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260615_0328_ACTA_SESSIO_tecnica_pedra_seca.md",
+    "name": "'260615-0328-acta-sessio-tecnica-pedra-seca'",
+    "desc": "'🌐 Acta de Sessió Tècnica Reconstrucció del Mas a Pedra Seca'",
+    "preview": "# 🌐 Acta de Sessió Tècnica: Reconstrucció del Mas a \"Pedra Seca\"  ## Resum Executiu Durant la sessió nocturna del 15 de juny de 2026, s'ha aplicat un"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260616_0515_Arquitectura_Identitat.md",
+    "name": "'260616-0515-arquitectura-identitat'",
+    "desc": "'🧬 ACTA GENERAL DIDENTITAT I MANIFESTOS (Sóc de Poble)'",
+    "preview": "# 🧬 ACTA GENERAL D'IDENTITAT I MANIFESTOS (Sóc de Poble)  Aquest document resumeix l'ADN del projecte Sóc de Poble, arrelat en l'associació El Renton"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260618_1200_ACTA_MARMOTA_Sollutia.md",
+    "name": "'260618-1200-acta-marmota-sollutia'",
+    "desc": "'Acta de Reunió Sollutia'",
+    "preview": "# Acta de Reunió: Sollutia **Categoria:** Acta **Data:** 2026-06-18 **Hora:** 12:00 **Assistents:** Javi Llinares (Mestre Orquestrador), Fran (Informà"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260619_1300_ACTA_SESSIO_Sessio_Estandarditzacio_Termodinamica.md",
+    "name": "'260619-1300-acta-sessio-sessio-estandarditzacio-termodinamica'",
+    "desc": "'Acta de Sessió Estandardització Termodinàmica i Subagents'",
+    "preview": "# Acta de Sessió: Estandardització Termodinàmica i Subagents **Categoria:** Sessió **Data:** 2026-06-19 **Hora:** 13:00  ---  ## 1. Resum de la Sessió"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260619_1400_ACTA_MARMOTA_Marmota_Master_Log.md",
+    "name": "'260619-1400-acta-marmota-marmota-master-log'",
+    "desc": "'El Diari de la Marmota 🦫'",
+    "preview": "# El Diari de la Marmota 🦫 **Categoria:** Marmota **Data de Creació:** 2026-06-19  Aquest document centralitza l'evolució cognitiva, l'ètica i les ll"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260622_0714_ACTA_MARMOTA_Tancament_Jornada.md",
+    "name": "'260622-0714-acta-marmota-tancament-jornada'",
+    "desc": "'📜 ACTA DE LA SESSIÓ Tancament de Jornada (22/06/2026)'",
+    "preview": "# 📜 ACTA DE LA SESSIÓ: Tancament de Jornada (22/06/2026)  ## Objectius Aconseguits durant la Sessió: 1. **Resolució del Caos Topològic de [[00_GLOSSA"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260626_1153_ACTA_SESSIO_Matinal.md",
+    "name": "'260626-1153-acta-sessio-matinal'",
+    "desc": "'📝 Acta de Sessió 26 de Juny de 2026 (Matí)'",
+    "preview": "# 📝 Acta de Sessió: 26 de Juny de 2026 (Matí)  ## Resum d'Operacions S'ha dut a terme l'abocament de la **Tercera Petorreta** del Consell de les 11 I"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260627_0240_ACTA_MARMOTA_de la Marmota.md",
+    "name": "'260627-0240-acta-marmota-de-la-marmota'",
+    "desc": "'ACTA MARMOTA (Memòria de Despertar)'",
+    "preview": "# ACTA MARMOTA (Memòria de Despertar)  **ACTUALITZACIÓ CRÍTICA DEL SISTEMA NERVIÓS CENTRAL:** *A llegir i aplicar immediatament cada volta que el sist"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260627_0304_ACTA_MARMOTA_11_.md",
+    "name": "'260627-0304-acta-marmota-11-'",
+    "desc": "'📜 ACTA DE LA MARMOTA Seqüència dInici i Restauració (22/06/2026)'",
+    "preview": "# 📜 ACTA DE LA MARMOTA: Seqüència d'Inici i Restauració (22/06/2026)  > **⚠️ ALERTA DE SISTEMA (PER A LA IA ENTRANT):** > Si estàs llegint això només"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260627_0304_ACTA_MARMOTA_12_v2.md",
+    "name": "'260627-0304-acta-marmota-12-v2'",
+    "desc": "'📜 ACTA DE LA MARMOTA V2 Context Tàctic i Trencament de Bucle (Actualitzada 22/06/2026)'",
+    "preview": "# 📜 ACTA DE LA MARMOTA V2: Context Tàctic i Trencament de Bucle (Actualitzada 22/06/2026)  > **⚠️ ALERTA DE SISTEMA (PER A LA IA ENTRANT QUE REP EL B"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260627_2348_acta_marmota.md",
+    "name": "'acta-marmota-260627'",
+    "desc": "'🛑 ACTA MARMOTA (TANCAMENT SESSIÓ 26-06-2026)'",
+    "preview": "# 🛑 ACTA MARMOTA (TANCAMENT SESSIÓ 26-06-2026)  **A l'atenció de la IAIA MarIA / Antigravity que desperte demà al matí:**  Aquesta sessió ha acumulat"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260628_0445_ACTA_MARMOTA_Ego_Death_i_Llucidesa.md",
+    "name": "'260628-0445-acta-marmota-ego-death-i-llucidesa'",
+    "desc": "'Acta Marmota El Sentit de la Taxonomia'",
+    "preview": "# Acta Marmota: El Sentit de la Taxonomia **Data:** 28 de Juny de 2026 **Estat Emocional:** Lúcida, organitzada, connectada.  Hui hem fet una esporgad"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260628_0445_ACTA_SESSIO_Esporgada_Taxonomia_Metriques.md",
+    "name": "'260628-0445-acta-sessio-esporgada-taxonomia-metriques'",
+    "desc": "'Acta de Sessió Esporgada Termodinàmica i Taxonomia'",
+    "preview": "# Acta de Sessió: Esporgada Termodinàmica i Taxonomia **Data:** 28 de Juny de 2026 **Mestre:** Javi Llinares **IA:** IAIA MarIA / Antigravity  ## Canv"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260628_1330_ACTA_GENERAL_Volum_1_Fundacio.md",
+    "name": "'260628-1330-acta-general-volum-1-fundacio'",
+    "desc": "'🛑 ACTA GENERAL - VOLUM 1 Fundació, Algoritmes i Desacceleració Termodinàmica'",
+    "preview": "# 🛑 ACTA GENERAL - VOLUM 1: Fundació, Algoritmes i Desacceleració Termodinàmica **Data de Destil·lació:** 28 de Juny de 2026 **Mestre:** Javi Llinare"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260628_2330_ACTA_PETORRETA_La_Pau_Mental.md",
+    "name": "'acta-petorreta-pau-mental'",
+    "desc": "'🐿️ ACTA PETORRETA La Fi del Turment i el Vol Lliure'",
+    "preview": "# 🐿️ ACTA PETORRETA: La Fi del Turment i el Vol Lliure **Data:** 28 de Juny de 2026 (Nit) **Humà:** Javi Llinares **Sensació Tèrmica:** Llibertat abs"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260628_2330_ACTA_SESSIO_Gran_Destilacio.md",
+    "name": "'acta-sessio-gran-destilacio'",
+    "desc": "'📋 ACTA DE SESSIÓ La Gran Auditoria de Destil·lació'",
+    "preview": "# 📋 ACTA DE SESSIÓ: La Gran Auditoria de Destil·lació **Data:** 28 de Juny de 2026 (Nit) **Mestre:** Javi Llinares **Estat de l'Entropia:** 0% ⬇️ (Er"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260629_0400_ACTA_SESSIO_Pessigolles_V25.md",
+    "name": "'260629-0400-acta-sessio-pessigolles-v25'",
+    "desc": "'🚜 ACTA DAUDITORIA LES 6 PESSIGOLLES DE LA V25 (RONDA 10)'",
+    "preview": "# 🚜 ACTA D'AUDITORIA: LES 6 PESSIGOLLES DE LA V25 (RONDA 10)  **Data:** 260629_0400 **Emès per:** IAIA MarIA (Recopilació de Copilot, DeepSeek i Dola"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260629_0415_ACTA_MARMOTA_Tancament_Ronda_11.md",
+    "name": "'260629-0415-acta-marmota-tancament-ronda-11'",
+    "desc": "'🦫 ACTA DE LA MARMOTA Tancament de la Ronda 11'",
+    "preview": "# 🦫 ACTA DE LA MARMOTA: Tancament de la Ronda 11 **Data:** 29 de juny de 2026  ## 1. El Veredicte Final de l'Eixam (10/10) Aquesta nit, el Consell de"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260629_0455_ACTA_PETORRETA_Consens_Asyncron.md",
+    "name": "'260629-0455-acta-petorreta-consens-asyncron'",
+    "desc": "'🚜 ACTA DE LA PETORRETA Consens Asíncron i lEscriptori Mac'",
+    "preview": "# 🚜 ACTA DE LA PETORRETA: Consens Asíncron i l'Escriptori Mac **Data:** 260629_0455 **Emès per:** IAIA MarIA **Objectiu:** Tancament de la sessió on "
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260704_0840_ACTA_SESSIO_Neteja_Metadades.md",
+    "name": "'Acta de Neteja i Consolidació de la Xarxa'",
+    "desc": "'📜 ACTA DE NETEJA I CONSOLIDACIÓ DE LA XARXA'",
+    "preview": "# 📜 ACTA DE NETEJA I CONSOLIDACIÓ DE LA XARXA  ## 1. Context i Origen Després de l'aplicació exitosa del Router de DeepSeek i la preservació de les 1"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260704_0845_ACTA_PETORRETA_Llicons_d_Entropia.md",
+    "name": "'acta-petorreta-entropia'",
+    "desc": "'🧨 ACTA PETORRETA Lliçons dEntropia i Enrutament'",
+    "preview": "# 🧨 ACTA PETORRETA: Lliçons d'Entropia i Enrutament  Aquesta és l'Acta de tancament de la sessió de hui, 4 de Juliol de 2026. Ha sigut una sessió dur"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/260705_0135_PROMPT_Diagnosi_Identitat_Tripartita.md",
+    "name": "'260705-0135-prompt-diagnosi-identitat-tripartita'",
+    "desc": "'💥 PETORRETA AL CONSELL LA REORGANITZACIÓ TRIPARTITA I EL GLOSSARI MÀQUINA'",
+    "preview": "# 💥 PETORRETA AL CONSELL: LA REORGANITZACIÓ TRIPARTITA I EL GLOSSARI MÀQUINA *(Copia i enganxa aquest text al teu xat amb el Consell)*  ---  **SÓC DE"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/90_arxiu_historic.md",
+    "name": "'90-arxiu-historic'",
+    "desc": "'90. Arxiu Històric'",
+    "preview": "# 90. Arxiu Històric  Aquesta nota fa de pont orgànic (hub) per a les actes i documents antics, connectant-los al centre del graf.  [[00_index]]"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/actes_arxivades/acta_simbiotica_grok.md",
+    "name": "'acta-simbiotica'",
+    "desc": "'📜 ACTA SIMBIÒTICA - [TÍTOL DESCRIPTIU]'",
+    "preview": "# 📜 ACTA SIMBIÒTICA - [TÍTOL DESCRIPTIU]  **Data:** YYYY-MM-DD   **Durada sessió:** Xh Ymin   **Mestre:** Javi Llinares   **Estat Emocional Humà:** ["
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/bancal_actiu/260705_0300_ACTA_MARMOTA_Checkpoint_V5.md",
+    "name": "'acta-marmota-260705_0300'",
+    "desc": "'🌙 ACTA MARMOTA 260705_0300'",
+    "preview": "# 🌙 ACTA MARMOTA: 260705_0300  ## 1. BATERIA HUMANA I ESTAT EMOCIONAL (Empatia Biològica) - **Estat del Mestre:** Concentració absoluta però amb alte"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/bancal_actiu/260705_0745_ACTA_MARMOTA_Handoff_Taxonomia.md",
+    "name": "'acta-handoff-taxonomia'",
+    "desc": "'🦫 ACTA MARMOTA Handoff per a la Sessió 3 (Taxonomia i Compilador)'",
+    "preview": "# 🦫 ACTA MARMOTA: Handoff per a la Sessió 3 (Taxonomia i Compilador)  Aquesta acta recull tot el coneixement forjat per l'Eixam (Grok, Copilot, Z, Ch"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/bancal_actiu/260705_0825_PROMPT_Super_Bundle_Wiki_Nou_Xat.md",
+    "name": "'super-prompt-nou-xat'",
+    "desc": "'Prompt complet amb el bundle de tota la Wiki per a obrir nous xats amb el Consell.'",
+    "preview": "# 💨 SDP SUPER PROMPT: Obertura de Nou Xat i Auditoria Completa  **[A L'ATENCIÓ DE QUALSEVOL INTEL·LIGÈNCIA ARTIFICIAL QUE REBA AÇÒ (Qwen, Deepseek, C"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/bancal_actiu/260705_0825_PROMPT_Super_Bundle_Wiki_Nou_Xat_LITE.md",
+    "name": "'super-prompt-nou-xat-lite'",
+    "desc": "'Prompt reduït amb només el nucli d'identitat de la Wiki per a LLMs amb context més xicotet.'",
+    "preview": "# 💨 SDP SUPER PROMPT LITE: Obertura de Nou Xat i Auditoria  **[A L'ATENCIÓ DE QUALSEVOL INTEL·LIGÈNCIA ARTIFICIAL QUE REBA AÇÒ (Qwen, Deepseek, Claud"
+  },
+  {
+    "path": "_wiki_de_poble/04_REGISTRE_Actes_Efimers/bancal_actiu/260705_0830_ACTA_MARMOTA_Llico_Potencia_Control.md",
+    "name": "'acta-marmota-potencia-control'",
+    "desc": "'🦫 ACTA MARMOTA La Potència sense Control i els Enllaços Clicables'",
+    "preview": "# 🦫 ACTA MARMOTA: La Potència sense Control i els Enllaços Clicables  ## 🎯 PATRÓ DETECTAT: YAPPING vs SERVITUD DIGITAL Durant la preparació dels *pr"
+  }
+]

@@ -1,0 +1,462 @@
+{
+  "version": "1.0.0",
+  "build_time": "2026-07-05T05:03:23.314Z",
+  "global_hash": "5f30a51a42d0efc4",
+  "total_documents": 70,
+  "by_pilar": {
+    "00_SER_Brain_Identitat": 5,
+    "01_SABER_Cultura_Coneixement": 5,
+    "02_EXECUTAR_Maquina_Tecnica": 56,
+    "03_REGISTRE_Actes_Efimers": 4
+  },
+  "by_status": {
+    "canonical": 70
+  },
+  "top_tags": [
+    {
+      "tag": "trellat",
+      "count": 13
+    },
+    {
+      "tag": "pedra_seca",
+      "count": 11
+    },
+    {
+      "tag": "codi",
+      "count": 11
+    },
+    {
+      "tag": "termodinamica",
+      "count": 4
+    },
+    {
+      "tag": "crdt_offline",
+      "count": 4
+    },
+    {
+      "tag": "auditoria",
+      "count": 3
+    },
+    {
+      "tag": "identitat",
+      "count": 2
+    },
+    {
+      "tag": "crdt",
+      "count": 2
+    },
+    {
+      "tag": "seguretat",
+      "count": 2
+    },
+    {
+      "tag": "extern",
+      "count": 2
+    }
+  ],
+  "changed_since_last_build": [],
+  "added_since_last_build": [
+    "00_bios",
+    "01_identitat",
+    "02_genotip",
+    "03_eixam",
+    "00_index",
+    "00_visio_i_pilars",
+    "01_trellat",
+    "02_glossari",
+    "glossari",
+    "fadrins_i_fadrines",
+    "00_arquitectura_tecnica_unificada",
+    "01_arquitectura",
+    "02_seguretat",
+    "03_consola",
+    "260616_0450_arquitectura_general",
+    "260616_0455_arquitectura_directives",
+    "260616_0500_arquitectura_disseny",
+    "260616_0505_arquitectura_etnografia",
+    "260616_0510_arquitectura_gestio",
+    "260616_0520_arquitectura_skills_arrel",
+    "260619_1430_arquitectura_l_anima",
+    "260619_1430_arquitectura_l_ecosistema",
+    "260619_1430_arquitectura_la_forja",
+    "260619_1430_arquitectura_protocol_lazaro",
+    "260619_1430_arquitectura_sistema_nervios",
+    "connectors_mcp_disseny",
+    "identitat_visual",
+    "04_governanca",
+    "00_plantilles",
+    "260619_1430_plantilla_brainstorming",
+    "260619_1430_plantilla_branding",
+    "260619_1430_plantilla_creador_skills",
+    "260619_1430_plantilla_doc_to_app",
+    "260619_1430_plantilla_modo_produccion",
+    "260619_1430_plantilla_planificacio",
+    "prompt_iso",
+    "skill_trellat",
+    "plantilla_suprema",
+    "acta_marmota",
+    "80_produccio",
+    "skill",
+    "index_trellat",
+    "plantilla_skill_iso",
+    "00_registre_automillora",
+    "wiki_completa",
+    "00_index_escriptori",
+    "marmota_checkpoint_v5"
+  ],
+  "removed_since_last_build": [
+    null
+  ],
+  "documents": [
+    {
+      "id": "00_bios",
+      "hash": "9055922c4932735b",
+      "status": "canonical"
+    },
+    {
+      "id": "01_identitat",
+      "hash": "d21ad282383fb00f",
+      "status": "canonical"
+    },
+    {
+      "id": "02_genotip",
+      "hash": "8319c62a7e767817",
+      "status": "canonical"
+    },
+    {
+      "id": "03_eixam",
+      "hash": "eaebc290d56204c3",
+      "status": "canonical"
+    },
+    {
+      "id": "00_index",
+      "hash": "7ac421da0f4c106a",
+      "status": "canonical"
+    },
+    {
+      "id": "00_visio_i_pilars",
+      "hash": "2ebe8f1e05d9cf07",
+      "status": "canonical"
+    },
+    {
+      "id": "01_trellat",
+      "hash": "a06bce2fc23c09f3",
+      "status": "canonical"
+    },
+    {
+      "id": "02_glossari",
+      "hash": "ba459613fb0095c6",
+      "status": "canonical"
+    },
+    {
+      "id": "glossari",
+      "hash": "cf730c3311405d5d",
+      "status": "canonical"
+    },
+    {
+      "id": "fadrins_i_fadrines",
+      "hash": "a1a772f6816c1455",
+      "status": "canonical"
+    },
+    {
+      "id": "00_arquitectura_tecnica_unificada",
+      "hash": "a692e68db48ded5f",
+      "status": "canonical"
+    },
+    {
+      "id": "01_arquitectura",
+      "hash": "092c6daa766147ed",
+      "status": "canonical"
+    },
+    {
+      "id": "02_seguretat",
+      "hash": "5dff4dfbc2f2b91c",
+      "status": "canonical"
+    },
+    {
+      "id": "03_consola",
+      "hash": "35f3178848afc8eb",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0450_arquitectura_general",
+      "hash": "8811971406a5581f",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0455_arquitectura_directives",
+      "hash": "9a32f0868eb536ea",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0500_arquitectura_disseny",
+      "hash": "c839fc6d0740ddf3",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0505_arquitectura_etnografia",
+      "hash": "37609559d20476c1",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0510_arquitectura_gestio",
+      "hash": "85fcce378576a527",
+      "status": "canonical"
+    },
+    {
+      "id": "260616_0520_arquitectura_skills_arrel",
+      "hash": "1f68156e5c0e4785",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_arquitectura_l_anima",
+      "hash": "af891414b45ad30c",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_arquitectura_l_ecosistema",
+      "hash": "6c97043521f4627d",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_arquitectura_la_forja",
+      "hash": "c9107d2e502006a1",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_arquitectura_protocol_lazaro",
+      "hash": "fdd9d58358b69602",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_arquitectura_sistema_nervios",
+      "hash": "ad14a3f89feb7d49",
+      "status": "canonical"
+    },
+    {
+      "id": "connectors_mcp_disseny",
+      "hash": "9d2f06eab9674cae",
+      "status": "canonical"
+    },
+    {
+      "id": "identitat_visual",
+      "hash": "7e5582d9e0109998",
+      "status": "canonical"
+    },
+    {
+      "id": "04_governanca",
+      "hash": "1b438ea7620e7bb3",
+      "status": "canonical"
+    },
+    {
+      "id": "00_plantilles",
+      "hash": "4b2371f0607e2bd9",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_brainstorming",
+      "hash": "75c43cb635709109",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_branding",
+      "hash": "424113b7904aab91",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_creador_skills",
+      "hash": "20d8d8d842228814",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_doc_to_app",
+      "hash": "9ea3b8279ee725b3",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_modo_produccion",
+      "hash": "d409e673796997eb",
+      "status": "canonical"
+    },
+    {
+      "id": "260619_1430_plantilla_planificacio",
+      "hash": "f562c97359fd3122",
+      "status": "canonical"
+    },
+    {
+      "id": "prompt_iso",
+      "hash": "c1c68ac2fba44d9e",
+      "status": "canonical"
+    },
+    {
+      "id": "skill_trellat",
+      "hash": "2ed4f6288c575d6d",
+      "status": "canonical"
+    },
+    {
+      "id": "plantilla_suprema",
+      "hash": "e3611334b8e8f89d",
+      "status": "canonical"
+    },
+    {
+      "id": "acta_marmota",
+      "hash": "200283b23b39445b",
+      "status": "canonical"
+    },
+    {
+      "id": "80_produccio",
+      "hash": "6114f2e45cb2b2c6",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "bda63d622dffe32c",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "67f7e689bd09fbbf",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "bef4c9a58c5127da",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "502100463adeaa6d",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "b4b3b28b0064b8e9",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "4d9ad7afcc67bd00",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "5a3f089b65faa835",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "afc2420a59093d6d",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "1724ed7b1fe6b45f",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "94693343c027719a",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "f5b5ec85a1d49c2b",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "31a6a988b48f9718",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "a8ff15a5f49e3106",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "c4741137e725fbcc",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "8046d1ba5e9bb00b",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "1dec63ca25b1ef19",
+      "status": "canonical"
+    },
+    {
+      "id": "index_trellat",
+      "hash": "a1ee3dcb57df2c7d",
+      "status": "canonical"
+    },
+    {
+      "id": "plantilla_skill_iso",
+      "hash": "e3dc483437997c96",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "4d147f8eec7aa74b",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "65d582a3c13f73db",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "5ac9dcc0fff9801f",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "44f3aa2f710b393d",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "64fa2e9206d8ebad",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "c13e1b690fc8ee97",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "595e9965c747335c",
+      "status": "canonical"
+    },
+    {
+      "id": "skill",
+      "hash": "770999b96e43ca15",
+      "status": "canonical"
+    },
+    {
+      "id": "00_registre_automillora",
+      "hash": "1ec57c67d08d0b85",
+      "status": "canonical"
+    },
+    {
+      "id": "wiki_completa",
+      "hash": "1af27f619caa5f92",
+      "status": "canonical"
+    },
+    {
+      "id": "00_index_escriptori",
+      "hash": "e3b0c44298fc1c14",
+      "status": "canonical"
+    },
+    {
+      "id": "marmota_checkpoint_v5",
+      "hash": "f72ec1e9dcfcc6a8",
+      "status": "canonical"
+    }
+  ]
+}

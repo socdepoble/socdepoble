@@ -1,0 +1,90 @@
+name: 🧱 MUR PEDRA SECA · LLEI CATEGORIA 10
+run-name: "Auditoria Anti-AI Slop · ${{ github.event_name }} · ${{ github.sha }}"
+
+on:
+  push:
+    branches: [main, develop, qa, "ia/**", "feature/**"]
+    paths:
+      - "**/*.{html,css,md,json,js,jsx,ts,tsx}"
+  pull_request:
+    branches: [main, develop, qa]
+    paths:
+      - "**/*.{html,css,md,json,js,jsx,ts,tsx}"
+
+jobs:
+  auditoria-nuclear:
+    name: "🛡️ Inspecció de Codi Pedra Seca"
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: "📥 Descarregar codi font"
+        uses: actions/checkout@v4
+        
+      - name: "⚙️ Configurar Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: "📦 Instal·lar dependències"
+        run: npm ci --ignore-scripts
+        
+      - name: "🔍 PASSADA 1: Stylelint (Llista Blanca Strict)"
+        run: npx stylelint "**/*.{css,html,md,jsx,tsx,js,ts}" --config _wiki_de_poble/99_maquinaria/linters/stylelint_pedra_seca.js
+
+      - name: "🔍 PASSADA 2: Validació Zod (Esquemes Tancats)"
+        run: |
+          node --input-type=module -e "
+            import { UniversalCardSchema } from './_wiki_de_poble/99_maquinaria/schemas/UniversalCardSchema.js';
+            import { globSync } from 'glob';
+            import { readFileSync } from 'fs';
+            
+            const fitxers = globSync('**/*.json', { ignore: ['node_modules/**', 'package*.json', 'tsconfig.json'] });
+            let errors = 0;
+            
+            for(const f of fitxers) {
+              try {
+                const data = JSON.parse(readFileSync(f, 'utf8'));
+                if (data.kind === 'universal_card') {
+                  UniversalCardSchema.parse(data);
+                }
+              } catch(e) {
+                console.error('❌ Error Zod a ' + f + ':', e.errors || e.message);
+                errors++;
+              }
+            }
+            if (errors > 0) process.exit(1);
+          "
+          
+      - name: "🔍 PASSADA 3: AST Parser (HTML/JSX neta)"
+        run: |
+          export CI=1
+          sh _wiki_de_poble/99_maquinaria/hooks/pre-commit.sh
+          
+      - name: "🗑️ PASSADA 4: Auditoria ISO-SOSP-5S (Workspace)"
+        run: |
+          npm run sandbox:audit
+          if [ -d "_wiki_de_poble/80_produccio/_TAULA_ACTIVA" ]; then
+            echo "❌ ERROR: _TAULA_ACTIVA detectada al commit!"
+            exit 1
+          fi
+
+      - name: "🔍 PASSADA 5: Protecció contra Evasions i Codificació"
+        run: |
+          matches=$(grep -rniP '(&#\d+;|&#x[0-9a-f]+;|base64.*PHN0eWxl)' . --include='*.json' --include='*.md' || true)
+          if [ -n "$matches" ]; then
+            echo "❌ Codificació sospitosa detectada"
+            echo "$matches"
+            exit 1
+          fi
+
+      - name: "🛡️ PASSADA 6: Verificació de Signatures (Segell de Titani)"
+        run: |
+          npm run verify-signatures
+
+      - name: "💣 PASSADA 7: Fuzzing contra Evasions (Regressió)"
+        run: |
+          npm run test:fuzz
+
+      - name: "✅ APROVAT: Mur Pedra Seca Superat"
+        run: echo "🎉 Cap injecció AI Slop detectada. Codi pur."

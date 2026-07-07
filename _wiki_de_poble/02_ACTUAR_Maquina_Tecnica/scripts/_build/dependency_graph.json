@@ -1,0 +1,1240 @@
+{
+  "forward": {
+    "bios-config": [],
+    "iaia-maria": [],
+    "genotip": [],
+    "eixam-rols": [],
+    "00_index": [
+      "el_trellat",
+      "01_IDENTITAT",
+      "02_GENOTIP",
+      "03_EIXAM",
+      "registre_automillora",
+      "diccionari_trellat",
+      "regla_de_capcalera",
+      "governanca_i_manaments",
+      "politica_legacy",
+      "politica_primacia_canonica",
+      "04_arquitectura_disseny/arquitectura_tecnica",
+      "04_arquitectura_disseny/arquitectura_cognitiva",
+      "04_arquitectura_disseny/pedra_seca",
+      "04_arquitectura_disseny/identitat_visual",
+      "04_arquitectura_disseny/connectors_mcp_disseny",
+      "05_skills_ia/a11y_trellat/SKILL",
+      "05_skills_ia/agents_autonoms/SKILL",
+      "05_skills_ia/arquitectura_pedra_seca/SKILL",
+      "05_skills_ia/sincronitzacio_skills/SKILL",
+      "05_skills_ia/auto_auditoria_forense/SKILL",
+      "05_skills_ia/backup_recovery/SKILL",
+      "05_skills_ia/cerebel_procedimental/SKILL",
+      "05_skills_ia/cingulat_anterior/SKILL",
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "05_skills_ia/contradiction_engine/SKILL",
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "05_skills_ia/css_arquitectura/SKILL",
+      "05_skills_ia/error_boundaries/SKILL",
+      "05_skills_ia/esporga_termodinamica/SKILL",
+      "05_skills_ia/executiu_central/SKILL",
+      "05_skills_ia/futur_adaptacio/SKILL",
+      "05_skills_ia/ganglis_basals/SKILL",
+      "05_skills_ia/homeostasi_crdt/SKILL",
+      "05_skills_ia/index_trellat/SKILL",
+      "05_skills_ia/jerarquia_tailwind/SKILL",
+      "05_skills_ia/judicatura_normativa/SKILL",
+      "05_skills_ia/legislatura_evolutiva/SKILL",
+      "05_skills_ia/mas_cau/SKILL",
+      "05_skills_ia/master_bypass_protocol/SKILL",
+      "05_skills_ia/monitoritzacio_rendiment/SKILL",
+      "05_skills_ia/rag_wiki/SKILL",
+      "05_skills_ia/registre_tokens_unic/SKILL",
+      "05_skills_ia/sagramental_dels_morts/SKILL",
+      "05_skills_ia/schema_migrations/SKILL",
+      "05_skills_ia/seguretat_dades/SKILL",
+      "05_skills_ia/self_evolution/SKILL",
+      "05_skills_ia/self_repair/SKILL",
+      "05_skills_ia/semantic_compression/SKILL",
+      "05_skills_ia/sequia_mare/SKILL",
+      "05_skills_ia/service_worker_pwa/SKILL",
+      "05_skills_ia/soci_sollutia/SKILL",
+      "05_skills_ia/udr_frenada/SKILL",
+      "la_torre/fadrins_i_fadrines",
+      "08_capacitats/auditoria",
+      "08_capacitats/rendiment",
+      "08_capacitats/resiliencia",
+      "ment_colmena_integral",
+      "index_de_salut",
+      "260620_1000_prompt_ronda_2_missatgeria_marmota",
+      "260621_1000_prompt_ronda_3_metriques",
+      "260622_1000_prompt_ronda_4_consola",
+      "260623_1000_prompt_ronda_5_organisme",
+      "260624_1000_prompt_ronda_6_ecosistema",
+      "260625_1000_prompt_ronda_7_playground",
+      "260626_1000_prompt_ronda_8_implementacio",
+      "12_actes/260628_1330_ACTA_GENERAL_Volum_1_Fundacio",
+      "12_actes/260628_2330_ACTA_SESSIO_Gran_Destilacio",
+      "12_actes/260628_2330_ACTA_PETORRETA_La_Pau_Mental",
+      "90_arxiu_historic/00_historial_sessions",
+      "90_arxiu_historic/00_plantilles",
+      "cultura_local/INSTRUCCIONS_SAFATA",
+      "260607_1940_auditoria_vibe_report_inicial",
+      "260626_1800_auditoria_informe_poda_9_divs"
+    ],
+    "visio-i-pilars": [
+      "02_ACTUAR_Execucio/01_arquitectura_tecnica",
+      "04_Arquitectura_Disseny/pedra_seca",
+      "00_SER_Brain_Identitat/03_EIXAM",
+      "00_SER_Brain_Identitat/01_iaia_maria",
+      "01_SABER_Cultura_Coneixement/01_trellat",
+      "00_SER_Brain_Identitat/02_GENOTIP"
+    ],
+    "trellat": [
+      "00_SER_Brain_Identitat/02_GENOTIP",
+      "00_SER_Brain_Identitat/03_EIXAM",
+      "02_GLOSSARI"
+    ],
+    "glossari": [],
+    "fadrins-i-fadrines": [],
+    "arquitectura": [
+      "pedra_seca",
+      "SKILL",
+      "260616_0450_Arquitectura_General",
+      "260616_0455_Arquitectura_Directives",
+      "260616_0500_Arquitectura_Disseny",
+      "260616_0505_Arquitectura_Etnografia",
+      "260616_0510_Arquitectura_Gestio",
+      "260616_0515_Arquitectura_Identitat",
+      "260616_0520_Arquitectura_Skills_Arrel",
+      "260619_1430_Arquitectura_L_Anima",
+      "260619_1430_Arquitectura_L_Ecosistema",
+      "260619_1430_Arquitectura_La_Forja",
+      "260619_1430_Arquitectura_Protocol_Lazaro",
+      "260619_1430_Arquitectura_Sistema_Nervios",
+      "arquitectura_cognitiva",
+      "soc_de_poble"
+    ],
+    "260616_0450_Arquitectura_General": [
+      "arquitectura_tecnica"
+    ],
+    "260616_0455_Arquitectura_Directives": [
+      "arquitectura_tecnica"
+    ],
+    "260616_0500_Arquitectura_Disseny": [
+      "arquitectura_tecnica"
+    ],
+    "260616_0505_Arquitectura_Etnografia": [
+      "arquitectura_tecnica"
+    ],
+    "260616_0510_Arquitectura_Gestio": [
+      "arquitectura_tecnica"
+    ],
+    "260616_0520_Arquitectura_Skills_Arrel": [
+      "arquitectura_tecnica"
+    ],
+    "260619_1430_Arquitectura_L_Anima": [
+      "arquitectura_tecnica"
+    ],
+    "260619_1430_Arquitectura_L_Ecosistema": [
+      "arquitectura_tecnica"
+    ],
+    "260619_1430_Arquitectura_La_Forja": [
+      "arquitectura_tecnica"
+    ],
+    "260619_1430_Arquitectura_Protocol_Lazaro": [
+      "arquitectura_tecnica"
+    ],
+    "260619_1430_Arquitectura_Sistema_Nervios": [
+      "arquitectura_tecnica"
+    ],
+    "connectors_mcp_disseny": [],
+    "identitat_visual": [],
+    "plantilles-historic": [
+      "260619_1430_Plantilla_Brainstorming",
+      "260619_1430_Plantilla_Branding",
+      "260619_1430_Plantilla_Creador_Skills",
+      "260619_1430_Plantilla_Doc_to_App",
+      "260619_1430_Plantilla_Modo_Produccion",
+      "260619_1430_Plantilla_Planificacio",
+      "plantilla_skill_iso",
+      "90_arxiu_historic"
+    ],
+    "260619_1430_Plantilla_Brainstorming": [
+      "00_index"
+    ],
+    "260619_1430_Plantilla_Branding": [
+      "00_index"
+    ],
+    "260619_1430_Plantilla_Creador_Skills": [
+      "00_index"
+    ],
+    "260619_1430_Plantilla_Doc_to_App": [
+      "00_index"
+    ],
+    "260619_1430_Plantilla_Modo_Produccion": [
+      "00_index"
+    ],
+    "260619_1430_Plantilla_Planificacio": [
+      "00_index"
+    ],
+    "260628_0525_PLANTILLA_prompt_iso": [
+      "00_index"
+    ],
+    "260628_0525_PLANTILLA_skill_trellat": [
+      "00_index"
+    ],
+    "260629_0200_SKILL_plantilla_suprema": [
+      "00_index"
+    ],
+    "260705_0300_PLANTILLA_Acta_Marmota": [],
+    "80_produccio": [
+      "00_index"
+    ],
+    "soci-sollutia": [],
+    "a11y-trellat": [
+      "05_skills_ia/arquitectura_pedra_seca/SKILL"
+    ],
+    "SKILL": [],
+    "arquitectura-pedra-seca": [
+      "02_filosofia/el_trellat",
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "05_skills_ia/a11y_trellat/SKILL"
+    ],
+    "auto_auditoria_forense": [
+      "05_skills_ia/contradiction_engine/SKILL",
+      "scripts/wiki-integrity.js"
+    ],
+    "backup-recovery": [
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "05_skills_ia/self_repair/SKILL",
+      "04_arquitectura_disseny/arquitectura_cognitiva"
+    ],
+    "cerebel-procedimental": [
+      "05_skills_ia/executiu_central/SKILL",
+      "02_filosofia/el_trellat",
+      "05_skills_ia/arquitectura_pedra_seca/SKILL"
+    ],
+    "cingulat-anterior": [
+      "05_skills_ia/executiu_central/SKILL",
+      "05_skills_ia/contradiction_engine/SKILL",
+      "05_skills_ia/self_repair/SKILL"
+    ],
+    "connexio_radical": [],
+    "consola-termodinamica": [
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "05_skills_ia/contradiction_engine/SKILL",
+      "05_skills_ia/index_trellat/SKILL"
+    ],
+    "contradiction-engine": [
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "05_skills_ia/arquitectura_pedra_seca/SKILL",
+      "02_filosofia/el_trellat"
+    ],
+    "crdt-optimitzacio": [
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "05_skills_ia/sequia_mare/SKILL",
+      "05_skills_ia/backup_recovery/SKILL"
+    ],
+    "error-boundaries": [],
+    "executiu-central": [
+      "05_skills_ia/cingulat_anterior/SKILL",
+      "05_skills_ia/futur_adaptacio/SKILL",
+      "05_skills_ia/cerebel_procedimental/SKILL"
+    ],
+    "futur-adaptacio": [
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "04_arquitectura_disseny/pedra_seca",
+      "05_skills_ia/backup_recovery/SKILL"
+    ],
+    "index-trellat": [
+      "pedra_seca",
+      "el_trellat",
+      "a11y_trellat/SKILL\\",
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "arquitectura_cognitiva",
+      "05_skills_ia/sequia_mare/SKILL",
+      "05_skills_ia/semantic_compression/SKILL"
+    ],
+    "index_trellat": [],
+    "nom-skill": [
+      "05_skills_ia/altra_skill/SKILL"
+    ],
+    "protocol-successio": [
+      "05_skills_ia/semantic_compression/SKILL"
+    ],
+    "seguretat-dades": [],
+    "self-repair": [
+      "05_skills_ia/cingulat_anterior/SKILL",
+      "05_skills_ia/executiu_central/SKILL",
+      "05_skills_ia/backup_recovery/SKILL"
+    ],
+    "seo-trellat": [
+      "05_skills_ia/consola_termodinamica/SKILL"
+    ],
+    "sequia-mare": [
+      "01_identitat_iaia/antigravity",
+      "05_skills_ia/index_trellat/SKILL",
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "05_skills_ia/esporga_termodinamica/SKILL",
+      "05_skills_ia/consola_termodinamica/SKILL"
+    ],
+    "service-worker-pwa": [],
+    "sincronitzacio-skills": [
+      "contradiction_engine",
+      "05_skills_ia/contradiction_engine/SKILL"
+    ],
+    "governanca-i-manaments": [
+      "00_index",
+      "el_trellat",
+      "00_visio_i_pilars",
+      "audit_integritat_estructural"
+    ],
+    "registre-automillora": [],
+    "260705_0630_BUNDLE_Wiki_Completa": [
+      "el_trellat",
+      "01_IDENTITAT",
+      "02_GENOTIP",
+      "03_EIXAM",
+      "registre_automillora",
+      "diccionari_trellat",
+      "regla_de_capcalera",
+      "governanca_i_manaments",
+      "politica_legacy",
+      "politica_primacia_canonica",
+      "04_arquitectura_disseny/arquitectura_tecnica",
+      "04_arquitectura_disseny/arquitectura_cognitiva",
+      "04_arquitectura_disseny/pedra_seca",
+      "04_arquitectura_disseny/identitat_visual",
+      "04_arquitectura_disseny/connectors_mcp_disseny",
+      "05_skills_ia/a11y_trellat/SKILL",
+      "05_skills_ia/agents_autonoms/SKILL",
+      "05_skills_ia/arquitectura_pedra_seca/SKILL",
+      "05_skills_ia/sincronitzacio_skills/SKILL",
+      "05_skills_ia/auto_auditoria_forense/SKILL",
+      "05_skills_ia/backup_recovery/SKILL",
+      "05_skills_ia/cerebel_procedimental/SKILL",
+      "05_skills_ia/cingulat_anterior/SKILL",
+      "05_skills_ia/consola_termodinamica/SKILL",
+      "05_skills_ia/contradiction_engine/SKILL",
+      "05_skills_ia/crdt_optimitzacio/SKILL",
+      "05_skills_ia/css_arquitectura/SKILL",
+      "05_skills_ia/error_boundaries/SKILL",
+      "05_skills_ia/esporga_termodinamica/SKILL",
+      "05_skills_ia/executiu_central/SKILL",
+      "05_skills_ia/futur_adaptacio/SKILL",
+      "05_skills_ia/ganglis_basals/SKILL",
+      "05_skills_ia/homeostasi_crdt/SKILL",
+      "05_skills_ia/index_trellat/SKILL",
+      "05_skills_ia/jerarquia_tailwind/SKILL",
+      "05_skills_ia/judicatura_normativa/SKILL",
+      "05_skills_ia/legislatura_evolutiva/SKILL",
+      "05_skills_ia/mas_cau/SKILL",
+      "05_skills_ia/master_bypass_protocol/SKILL",
+      "05_skills_ia/monitoritzacio_rendiment/SKILL",
+      "05_skills_ia/rag_wiki/SKILL",
+      "05_skills_ia/registre_tokens_unic/SKILL",
+      "05_skills_ia/sagramental_dels_morts/SKILL",
+      "05_skills_ia/schema_migrations/SKILL",
+      "05_skills_ia/seguretat_dades/SKILL",
+      "05_skills_ia/self_evolution/SKILL",
+      "05_skills_ia/self_repair/SKILL",
+      "05_skills_ia/semantic_compression/SKILL",
+      "05_skills_ia/sequia_mare/SKILL",
+      "05_skills_ia/service_worker_pwa/SKILL",
+      "05_skills_ia/soci_sollutia/SKILL",
+      "05_skills_ia/udr_frenada/SKILL",
+      "la_torre/fadrins_i_fadrines",
+      "08_capacitats/auditoria",
+      "08_capacitats/rendiment",
+      "08_capacitats/resiliencia",
+      "ment_colmena_integral",
+      "index_de_salut",
+      "260620_1000_prompt_ronda_2_missatgeria_marmota",
+      "260621_1000_prompt_ronda_3_metriques",
+      "260622_1000_prompt_ronda_4_consola",
+      "260623_1000_prompt_ronda_5_organisme",
+      "260624_1000_prompt_ronda_6_ecosistema",
+      "260625_1000_prompt_ronda_7_playground",
+      "260626_1000_prompt_ronda_8_implementacio",
+      "12_actes/260628_1330_ACTA_GENERAL_Volum_1_Fundacio",
+      "12_actes/260628_2330_ACTA_SESSIO_Gran_Destilacio",
+      "12_actes/260628_2330_ACTA_PETORRETA_La_Pau_Mental",
+      "90_arxiu_historic/00_historial_sessions",
+      "90_arxiu_historic/00_plantilles",
+      "cultura_local/INSTRUCCIONS_SAFATA",
+      "260607_1940_auditoria_vibe_report_inicial",
+      "260626_1800_auditoria_informe_poda_9_divs",
+      "02_ACTUAR_Execucio/01_arquitectura_tecnica",
+      "04_Arquitectura_Disseny/pedra_seca",
+      "00_SER_Brain_Identitat/03_EIXAM",
+      "00_SER_Brain_Identitat/01_iaia_maria",
+      "01_SABER_Cultura_Coneixement/01_trellat",
+      "00_SER_Brain_Identitat/02_GENOTIP",
+      "02_GLOSSARI",
+      "pedra_seca",
+      "SKILL",
+      "260616_0450_Arquitectura_General",
+      "260616_0455_Arquitectura_Directives",
+      "260616_0500_Arquitectura_Disseny",
+      "260616_0505_Arquitectura_Etnografia",
+      "260616_0510_Arquitectura_Gestio",
+      "260616_0515_Arquitectura_Identitat",
+      "260616_0520_Arquitectura_Skills_Arrel",
+      "260619_1430_Arquitectura_L_Anima",
+      "260619_1430_Arquitectura_L_Ecosistema",
+      "260619_1430_Arquitectura_La_Forja",
+      "260619_1430_Arquitectura_Protocol_Lazaro",
+      "260619_1430_Arquitectura_Sistema_Nervios",
+      "arquitectura_cognitiva",
+      "soc_de_poble",
+      "arquitectura_tecnica",
+      "260619_1430_Plantilla_Brainstorming",
+      "260619_1430_Plantilla_Branding",
+      "260619_1430_Plantilla_Creador_Skills",
+      "260619_1430_Plantilla_Doc_to_App",
+      "260619_1430_Plantilla_Modo_Produccion",
+      "260619_1430_Plantilla_Planificacio",
+      "plantilla_skill_iso",
+      "90_arxiu_historic",
+      "00_index",
+      "02_filosofia/el_trellat",
+      "scripts/wiki-integrity.js",
+      "a11y_trellat/SKILL\\",
+      "05_skills_ia/altra_skill/SKILL",
+      "01_identitat_iaia/antigravity",
+      "contradiction_engine",
+      "00_visio_i_pilars",
+      "audit_integritat_estructural"
+    ],
+    "260705_2000_ACTA_index": [
+      "00_index"
+    ],
+    "00_index_escriptori": [],
+    "acta-marmota-260705_0300": []
+  },
+  "reverse": {
+    "bios-config": [],
+    "iaia-maria": [],
+    "genotip": [],
+    "eixam-rols": [],
+    "00_index": [
+      "260619_1430_Plantilla_Brainstorming",
+      "260619_1430_Plantilla_Branding",
+      "260619_1430_Plantilla_Creador_Skills",
+      "260619_1430_Plantilla_Doc_to_App",
+      "260619_1430_Plantilla_Modo_Produccion",
+      "260619_1430_Plantilla_Planificacio",
+      "260628_0525_PLANTILLA_prompt_iso",
+      "260628_0525_PLANTILLA_skill_trellat",
+      "260629_0200_SKILL_plantilla_suprema",
+      "80_produccio",
+      "governanca-i-manaments",
+      "260705_0630_BUNDLE_Wiki_Completa",
+      "260705_2000_ACTA_index"
+    ],
+    "visio-i-pilars": [],
+    "trellat": [],
+    "glossari": [],
+    "fadrins-i-fadrines": [],
+    "arquitectura": [],
+    "260616_0450_Arquitectura_General": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0455_Arquitectura_Directives": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0500_Arquitectura_Disseny": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0505_Arquitectura_Etnografia": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0510_Arquitectura_Gestio": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0520_Arquitectura_Skills_Arrel": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_L_Anima": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_L_Ecosistema": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_La_Forja": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_Protocol_Lazaro": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_Sistema_Nervios": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "connectors_mcp_disseny": [],
+    "identitat_visual": [],
+    "plantilles-historic": [],
+    "260619_1430_Plantilla_Brainstorming": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Branding": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Creador_Skills": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Doc_to_App": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Modo_Produccion": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Planificacio": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260628_0525_PLANTILLA_prompt_iso": [],
+    "260628_0525_PLANTILLA_skill_trellat": [],
+    "260629_0200_SKILL_plantilla_suprema": [],
+    "260705_0300_PLANTILLA_Acta_Marmota": [],
+    "80_produccio": [],
+    "soci-sollutia": [],
+    "a11y-trellat": [],
+    "SKILL": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "arquitectura-pedra-seca": [],
+    "auto_auditoria_forense": [],
+    "backup-recovery": [],
+    "cerebel-procedimental": [],
+    "cingulat-anterior": [],
+    "connexio_radical": [],
+    "consola-termodinamica": [],
+    "contradiction-engine": [],
+    "crdt-optimitzacio": [],
+    "error-boundaries": [],
+    "executiu-central": [],
+    "futur-adaptacio": [],
+    "index-trellat": [],
+    "index_trellat": [],
+    "nom-skill": [],
+    "protocol-successio": [],
+    "seguretat-dades": [],
+    "self-repair": [],
+    "seo-trellat": [],
+    "sequia-mare": [],
+    "service-worker-pwa": [],
+    "sincronitzacio-skills": [],
+    "governanca-i-manaments": [],
+    "registre-automillora": [],
+    "260705_0630_BUNDLE_Wiki_Completa": [],
+    "260705_2000_ACTA_index": [],
+    "00_index_escriptori": [],
+    "acta-marmota-260705_0300": [],
+    "el_trellat": [
+      "00_index",
+      "index-trellat",
+      "governanca-i-manaments",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "01_IDENTITAT": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "02_GENOTIP": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "03_EIXAM": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "registre_automillora": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "diccionari_trellat": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "regla_de_capcalera": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "governanca_i_manaments": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "politica_legacy": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "politica_primacia_canonica": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_arquitectura_disseny/arquitectura_tecnica": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_arquitectura_disseny/arquitectura_cognitiva": [
+      "00_index",
+      "backup-recovery",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_arquitectura_disseny/pedra_seca": [
+      "00_index",
+      "futur-adaptacio",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_arquitectura_disseny/identitat_visual": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_arquitectura_disseny/connectors_mcp_disseny": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/a11y_trellat/SKILL": [
+      "00_index",
+      "arquitectura-pedra-seca",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/agents_autonoms/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/arquitectura_pedra_seca/SKILL": [
+      "00_index",
+      "a11y-trellat",
+      "cerebel-procedimental",
+      "contradiction-engine",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/sincronitzacio_skills/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/auto_auditoria_forense/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/backup_recovery/SKILL": [
+      "00_index",
+      "crdt-optimitzacio",
+      "futur-adaptacio",
+      "self-repair",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/cerebel_procedimental/SKILL": [
+      "00_index",
+      "executiu-central",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/cingulat_anterior/SKILL": [
+      "00_index",
+      "executiu-central",
+      "self-repair",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/consola_termodinamica/SKILL": [
+      "00_index",
+      "arquitectura-pedra-seca",
+      "contradiction-engine",
+      "crdt-optimitzacio",
+      "futur-adaptacio",
+      "seo-trellat",
+      "sequia-mare",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/contradiction_engine/SKILL": [
+      "00_index",
+      "auto_auditoria_forense",
+      "cingulat-anterior",
+      "consola-termodinamica",
+      "sincronitzacio-skills",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/crdt_optimitzacio/SKILL": [
+      "00_index",
+      "backup-recovery",
+      "consola-termodinamica",
+      "index-trellat",
+      "sequia-mare",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/css_arquitectura/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/error_boundaries/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/esporga_termodinamica/SKILL": [
+      "00_index",
+      "sequia-mare",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/executiu_central/SKILL": [
+      "00_index",
+      "cerebel-procedimental",
+      "cingulat-anterior",
+      "self-repair",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/futur_adaptacio/SKILL": [
+      "00_index",
+      "executiu-central",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/ganglis_basals/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/homeostasi_crdt/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/index_trellat/SKILL": [
+      "00_index",
+      "consola-termodinamica",
+      "sequia-mare",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/jerarquia_tailwind/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/judicatura_normativa/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/legislatura_evolutiva/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/mas_cau/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/master_bypass_protocol/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/monitoritzacio_rendiment/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/rag_wiki/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/registre_tokens_unic/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/sagramental_dels_morts/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/schema_migrations/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/seguretat_dades/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/self_evolution/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/self_repair/SKILL": [
+      "00_index",
+      "backup-recovery",
+      "cingulat-anterior",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/semantic_compression/SKILL": [
+      "00_index",
+      "index-trellat",
+      "protocol-successio",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/sequia_mare/SKILL": [
+      "00_index",
+      "crdt-optimitzacio",
+      "index-trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/service_worker_pwa/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/soci_sollutia/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/udr_frenada/SKILL": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "la_torre/fadrins_i_fadrines": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "08_capacitats/auditoria": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "08_capacitats/rendiment": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "08_capacitats/resiliencia": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "ment_colmena_integral": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "index_de_salut": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260620_1000_prompt_ronda_2_missatgeria_marmota": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260621_1000_prompt_ronda_3_metriques": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260622_1000_prompt_ronda_4_consola": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260623_1000_prompt_ronda_5_organisme": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260624_1000_prompt_ronda_6_ecosistema": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260625_1000_prompt_ronda_7_playground": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260626_1000_prompt_ronda_8_implementacio": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "12_actes/260628_1330_ACTA_GENERAL_Volum_1_Fundacio": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "12_actes/260628_2330_ACTA_SESSIO_Gran_Destilacio": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "12_actes/260628_2330_ACTA_PETORRETA_La_Pau_Mental": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "90_arxiu_historic/00_historial_sessions": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "90_arxiu_historic/00_plantilles": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "cultura_local/INSTRUCCIONS_SAFATA": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260607_1940_auditoria_vibe_report_inicial": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260626_1800_auditoria_informe_poda_9_divs": [
+      "00_index",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "02_ACTUAR_Execucio/01_arquitectura_tecnica": [
+      "visio-i-pilars",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "04_Arquitectura_Disseny/pedra_seca": [
+      "visio-i-pilars",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "00_SER_Brain_Identitat/03_EIXAM": [
+      "visio-i-pilars",
+      "trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "00_SER_Brain_Identitat/01_iaia_maria": [
+      "visio-i-pilars",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "01_SABER_Cultura_Coneixement/01_trellat": [
+      "visio-i-pilars",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "00_SER_Brain_Identitat/02_GENOTIP": [
+      "visio-i-pilars",
+      "trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "02_GLOSSARI": [
+      "trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "pedra_seca": [
+      "arquitectura",
+      "index-trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0515_Arquitectura_Identitat": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "arquitectura_cognitiva": [
+      "arquitectura",
+      "index-trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "soc_de_poble": [
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "arquitectura_tecnica": [
+      "260616_0450_Arquitectura_General",
+      "260616_0455_Arquitectura_Directives",
+      "260616_0500_Arquitectura_Disseny",
+      "260616_0505_Arquitectura_Etnografia",
+      "260616_0510_Arquitectura_Gestio",
+      "260616_0520_Arquitectura_Skills_Arrel",
+      "260619_1430_Arquitectura_L_Anima",
+      "260619_1430_Arquitectura_L_Ecosistema",
+      "260619_1430_Arquitectura_La_Forja",
+      "260619_1430_Arquitectura_Protocol_Lazaro",
+      "260619_1430_Arquitectura_Sistema_Nervios",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "plantilla_skill_iso": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "90_arxiu_historic": [
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "02_filosofia/el_trellat": [
+      "arquitectura-pedra-seca",
+      "cerebel-procedimental",
+      "contradiction-engine",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "scripts/wiki-integrity.js": [
+      "auto_auditoria_forense",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "a11y_trellat/SKILL\\": [
+      "index-trellat",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "05_skills_ia/altra_skill/SKILL": [
+      "nom-skill",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "01_identitat_iaia/antigravity": [
+      "sequia-mare",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "contradiction_engine": [
+      "sincronitzacio-skills",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "00_visio_i_pilars": [
+      "governanca-i-manaments",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "audit_integritat_estructural": [
+      "governanca-i-manaments",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ]
+  },
+  "invalidation_map": {
+    "bios-config": [
+      "bios-config"
+    ],
+    "iaia-maria": [
+      "iaia-maria"
+    ],
+    "genotip": [
+      "genotip"
+    ],
+    "eixam-rols": [
+      "eixam-rols"
+    ],
+    "00_index": [
+      "00_index",
+      "260619_1430_Plantilla_Brainstorming",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa",
+      "260619_1430_Plantilla_Branding",
+      "260619_1430_Plantilla_Creador_Skills",
+      "260619_1430_Plantilla_Doc_to_App",
+      "260619_1430_Plantilla_Modo_Produccion",
+      "260619_1430_Plantilla_Planificacio",
+      "260628_0525_PLANTILLA_prompt_iso",
+      "260628_0525_PLANTILLA_skill_trellat",
+      "260629_0200_SKILL_plantilla_suprema",
+      "80_produccio",
+      "governanca-i-manaments",
+      "260705_2000_ACTA_index"
+    ],
+    "visio-i-pilars": [
+      "visio-i-pilars"
+    ],
+    "trellat": [
+      "trellat"
+    ],
+    "glossari": [
+      "glossari"
+    ],
+    "fadrins-i-fadrines": [
+      "fadrins-i-fadrines"
+    ],
+    "arquitectura": [
+      "arquitectura"
+    ],
+    "260616_0450_Arquitectura_General": [
+      "260616_0450_Arquitectura_General",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0455_Arquitectura_Directives": [
+      "260616_0455_Arquitectura_Directives",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0500_Arquitectura_Disseny": [
+      "260616_0500_Arquitectura_Disseny",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0505_Arquitectura_Etnografia": [
+      "260616_0505_Arquitectura_Etnografia",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0510_Arquitectura_Gestio": [
+      "260616_0510_Arquitectura_Gestio",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260616_0520_Arquitectura_Skills_Arrel": [
+      "260616_0520_Arquitectura_Skills_Arrel",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_L_Anima": [
+      "260619_1430_Arquitectura_L_Anima",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_L_Ecosistema": [
+      "260619_1430_Arquitectura_L_Ecosistema",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_La_Forja": [
+      "260619_1430_Arquitectura_La_Forja",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_Protocol_Lazaro": [
+      "260619_1430_Arquitectura_Protocol_Lazaro",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Arquitectura_Sistema_Nervios": [
+      "260619_1430_Arquitectura_Sistema_Nervios",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "connectors_mcp_disseny": [
+      "connectors_mcp_disseny"
+    ],
+    "identitat_visual": [
+      "identitat_visual"
+    ],
+    "plantilles-historic": [
+      "plantilles-historic"
+    ],
+    "260619_1430_Plantilla_Brainstorming": [
+      "260619_1430_Plantilla_Brainstorming",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Branding": [
+      "260619_1430_Plantilla_Branding",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Creador_Skills": [
+      "260619_1430_Plantilla_Creador_Skills",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Doc_to_App": [
+      "260619_1430_Plantilla_Doc_to_App",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Modo_Produccion": [
+      "260619_1430_Plantilla_Modo_Produccion",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260619_1430_Plantilla_Planificacio": [
+      "260619_1430_Plantilla_Planificacio",
+      "plantilles-historic",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260628_0525_PLANTILLA_prompt_iso": [
+      "260628_0525_PLANTILLA_prompt_iso"
+    ],
+    "260628_0525_PLANTILLA_skill_trellat": [
+      "260628_0525_PLANTILLA_skill_trellat"
+    ],
+    "260629_0200_SKILL_plantilla_suprema": [
+      "260629_0200_SKILL_plantilla_suprema"
+    ],
+    "260705_0300_PLANTILLA_Acta_Marmota": [
+      "260705_0300_PLANTILLA_Acta_Marmota"
+    ],
+    "80_produccio": [
+      "80_produccio"
+    ],
+    "soci-sollutia": [
+      "soci-sollutia"
+    ],
+    "a11y-trellat": [
+      "a11y-trellat"
+    ],
+    "SKILL": [
+      "SKILL",
+      "arquitectura",
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "arquitectura-pedra-seca": [
+      "arquitectura-pedra-seca"
+    ],
+    "auto_auditoria_forense": [
+      [
+        "auto_auditoria_forense"
+      ]
+    ],
+    "backup-recovery": [
+      "backup-recovery"
+    ],
+    "cerebel-procedimental": [
+      "cerebel-procedimental"
+    ],
+    "cingulat-anterior": [
+      "cingulat-anterior"
+    ],
+    "connexio_radical": [
+      "connexio_radical"
+    ],
+    "consola-termodinamica": [
+      "consola-termodinamica"
+    ],
+    "contradiction-engine": [
+      "contradiction-engine"
+    ],
+    "crdt-optimitzacio": [
+      "crdt-optimitzacio"
+    ],
+    "error-boundaries": [
+      "error-boundaries"
+    ],
+    "executiu-central": [
+      "executiu-central"
+    ],
+    "futur-adaptacio": [
+      "futur-adaptacio"
+    ],
+    "index-trellat": [
+      "index-trellat"
+    ],
+    "index_trellat": [
+      "index_trellat"
+    ],
+    "nom-skill": [
+      [
+        "nom-skill"
+      ]
+    ],
+    "protocol-successio": [
+      "protocol-successio"
+    ],
+    "seguretat-dades": [
+      "seguretat-dades"
+    ],
+    "self-repair": [
+      "self-repair"
+    ],
+    "seo-trellat": [
+      "seo-trellat"
+    ],
+    "sequia-mare": [
+      "sequia-mare"
+    ],
+    "service-worker-pwa": [
+      "service-worker-pwa"
+    ],
+    "sincronitzacio-skills": [
+      "sincronitzacio-skills"
+    ],
+    "governanca-i-manaments": [
+      "governanca-i-manaments"
+    ],
+    "registre-automillora": [
+      "registre-automillora"
+    ],
+    "260705_0630_BUNDLE_Wiki_Completa": [
+      "260705_0630_BUNDLE_Wiki_Completa"
+    ],
+    "260705_2000_ACTA_index": [
+      "260705_2000_ACTA_index"
+    ],
+    "00_index_escriptori": [
+      "00_index_escriptori"
+    ],
+    "acta-marmota-260705_0300": [
+      "acta-marmota-260705_0300"
+    ]
+  }
+}

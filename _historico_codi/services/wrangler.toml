@@ -1,0 +1,8 @@
+name = "soc-de-poble-seo-edge"
+main = "src/workers/seo-edge-worker.ts"
+compatibility_date = "2024-03-30"
+
+[vars]
+ORIGIN = "https://socdepoble.org"
+SUPABASE_URL = "https://your-project.supabase.co"
+SUPABASE_KEY = "your-anon-key"

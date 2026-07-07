@@ -10,3 +10,15 @@ node_modules/
 _backups/
 .DS_Store
 Thumbs.db
+
+# Generats i Uploads
+dist/
+dist-desktop/
+public/assets/uploads/
+public/gestoria/
+public/iaia_maria/
+public/javillinares/
+public/libreria/
+public/poble/
+public/soc_de_poble/
+public/brain/

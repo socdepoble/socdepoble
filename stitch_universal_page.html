@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html data-lt-installed="true" lang="ca" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sóc de Poble - Universal Page</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'sdp-blue': '#0984E3',
+            'sdp-orange': '#FF7300',
+            'sdp-orange-dark': '#CC5C00',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: {
+            '4xl': '28px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-utilities">
+    /* Utility for removing default margins/padding if needed beyond Tailwind */
+    body {
+      background-color: #FAFAF9; /* Light gray background for contrast outside main container */
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-900 bg-[#FAFAF9] flex justify-center min-h-screen">
+<!-- Main Container: Stacks everything vertically, max-width for desktop -->
+<div class="w-full max-w-5xl bg-[#FAFAF9] flex flex-col">
+<!-- BEGIN: TopHeader -->
+<!-- Solid blue header with navigation and actions -->
+<header class="bg-sdp-blue text-white h-[56px] flex items-center justify-between px-4 shrink-0"><!-- Left Zone: Navigation (Intact) -->
+<div class="flex-1 flex items-center justify-start space-x-6">
+<button aria-label="Go back" class="hover:opacity-80 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<button aria-label="Book" class="hover:opacity-80 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</button>
+</div>
+<!-- Central Zone: Actions (Injected from SCREEN_38) -->
+<div class="flex items-center justify-center space-x-3">
+<button class="w-10 h-10 flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">g_translate</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">chat</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-white hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+<!-- Right Zone: Connection (Injected from SCREEN_38) -->
+<div class="flex-1 flex items-center justify-end">
+<button class="bg-white text-sdp-blue px-4 py-1.5 rounded-full font-bold tracking-wide hover:opacity-90 transition-opacity flex items-center">
+    + CONNECTAR
+  </button>
+</div></header>
+<!-- END: TopHeader -->
+<!-- BEGIN: HeroSection -->
+<!-- Full width image illustration -->
+<section class="w-full aspect-square overflow-hidden">
+<img alt="ibanez_pedra_seca_design" class="w-full aspect-square object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCouQp4gCeIA_x8ihHIeLXWVNrj8dBt4_CnlKMOqU1Qj26D932oA9W3SKNhSI1v_ue7KEk-lfCPX2Ox3e1oSA0VGYQvkf3oKaxjzK2zUX-hwSmaOCIKUDaa1Eu7Qssoc7IRr-D30oHkI1etB_PdD2V05CVdLGPAFqSc4YIfEl55cY7Fy7d7A_5B1zMD5IE9zueopTsUyaTYZSNdXcAVWpa4ATwmdflyN17vXfiRWN-FBBzyJfthNE_98kdlX_XGqe9Wm5HWJNzZ4lcQ"/>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: CaputxaIdentitat -->
+<!-- Solid orange bar with identity info and metadata -->
+<div class="w-full h-[56px] flex items-center justify-between px-3 bg-sdp-orange text-black rounded-none flex-shrink-0 flex-grow-0 items-start">
+<!-- Left Side: Avatar and Info -->
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center overflow-hidden flex-shrink-0">
+<img alt="A small circular green avatar logo representing a traditional village map in a clean minimal style." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVlZjElZ5H9JmRRoNRiL6VpOr8N6lLKhOFTvl72wD8RajUR8LLLdcad3mNVG4I09s3X35y6hU93fiC9droyI0JKzmoTDiV2awY-QM63-H8P2w7KowOWj4aLa-3VIQ2d5kzPcwyyjNnlJTSBmGSWmKTuFQSPfYoT1YlL6YZSllZ5ZOm7H8RncmpKCoo6OMxkntrO9LExeFK1MT5HpWgWOTfmqD3Rk91B-rCuKqUgf3Ki8MHMUT_0WiRoLAfy0f9jjqGkin4imKg5-dH"/>
+</div>
+<div class="flex flex-col justify-center">
+<span class="text-sm leading-tight font-bold" style="font-weight: 800;">Sóc de Poble</span>
+<div class="flex items-center text-[10px] leading-tight opacity-90">
+<span class="">La Torre de les Maçanes</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Pin and Time -->
+<button class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+<div class="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style='font-variation-settings: "FILL" 1;'>push_pin</span>
+</div>
+<div class="flex flex-col items-center justify-center text-sm leading-tight bg-black/10 px-4 h-8 rounded-full">
+<span class="">23:33</span>
+<span class="text-[10px] opacity-90">22/3/2026</span>
+</div>
+</button>
+</div>
+<!-- END: CaputxaIdentitat -->
+<!-- BEGIN: MainContent -->
+<div class="w-full px-[12px] py-[12px] flex flex-col gap-[12px]">
+<!-- Solid white background, holds main textual content, rounded-none -->
+<main class="bg-white p-8 flex flex-col items-center w-full rounded-none">
+<!-- Main Title -->
+<h1 class="text-sdp-blue font-bold tracking-tight mb-2 text-center" style="color: rgb(9, 132, 227); font-size: 32px;">Disseny</h1>
+<!-- Subtitle / Label -->
+<span class="text-sdp-orange font-bold text-xl text-center">Design UI</span>
+</main>
+<article class="bg-white p-8 w-full rounded-none text-gray-800 text-base leading-relaxed">
+<p>Aquest és un bloc de text senzill tipus 'Full de Word'. Conté la informació principal de l'article o entrada de disseny. El text es presenta de forma neta i llegible, sense elements distractors ni ombres, respectant l'estil de document clàssic per afavorir la lectura.</p>
+</article>
+</div>
+<!-- END: MainContent -->
+</div>
+</body></html>

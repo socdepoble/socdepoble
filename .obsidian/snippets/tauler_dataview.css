@@ -1,0 +1,8 @@
+/* Forçar que la primera columna (Nom de l'arxiu) siga més estreta i trenque les línies */
+.tauler-categories .dataview.table-view-table th:first-child,
+.tauler-categories .dataview.table-view-table td:first-child {
+  max-width: 200px !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}

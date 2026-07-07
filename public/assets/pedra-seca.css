@@ -1,0 +1,600 @@
+/* =========================================
+   PEDRA SECA - ÚNICA FONT DE VERITAT (CSS)
+   =========================================
+   Aquest arxiu conté l'arquitectura visual de Sóc de Poble:
+   - Design Tokens (Colors, radis)
+   - App Shell (Barra superior, Barra lateral, Main)
+   - Universal Page (Estructura de la pàgina)
+   - Universal Card (Anatomia de les targetes)
+*/
+
+:root {
+  /* Design Tokens de Pedra Seca */
+  --sp-black-100: #0a0a0a;
+  --sp-black-90: #1a1a1a;
+  --sp-white-100: #F9F9F9;
+  --sp-white-90: #F0F0F0;
+  --sp-orange-100: #FF7300;
+  --sp-blue-100: #4A47E5; /* Blau Corporatiu (Complementari Taronja) */
+  --sp-red-100: #B3261E;
+  --sp-green-100: #146C2E;
+  --sp-border: #222222;
+  --sp-radius-main: 28px;
+  --sp-touch-min: 48px;
+  --sp-avatar-size: 40px; /* Afegit per arreglar el bug de l'avatar gegant */
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--sp-white-100);
+  font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  color: var(--sp-black-100);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================
+   APP SHELL (Barra Superior i Lateral)
+   ========================================= */
+.sp-top-bar {
+  height: 64px;
+  background-color: var(--sp-black-100);
+  border-bottom: 1px solid var(--sp-border);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+  z-index: 100;
+  color: white;
+}
+
+.sp-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: -0.5px;
+  font-family: serif; /* Simulació del logotip antic */
+  font-style: italic;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sp-top-icons {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 18px;
+}
+
+.sp-top-icons > span, .sp-top-icons > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-icon-taronja {
+  color: var(--sp-orange-100);
+  display: flex;
+  align-items: center;
+}
+
+/* CONTENIDOR PRINCIPAL (Sota la barra) */
+#app {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sp-app-container {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Llanda de Comandament (Sidebar) */
+.sp-app-shell-sidebar {
+  width: 260px;
+  background-color: var(--sp-black-100);
+  color: var(--sp-white-100);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--sp-border);
+  flex-shrink: 0;
+}
+
+.sp-module-btn {
+  height: 56px;
+  background-color: var(--sp-blue-100);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.sp-module-btn:hover {
+  opacity: 0.9;
+}
+
+.sp-sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+.sp-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.sp-nav-item:hover:not(.active) {
+  background-color: var(--sp-black-90);
+}
+
+.sp-nav-item.active {
+  background-color: var(--sp-orange-100);
+  color: var(--sp-black-100);
+}
+
+.sp-nav-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Àrea de Contingut (Main) */
+.sp-app-shell-main {
+  flex: 1;
+  display: block;
+  overflow-y: auto;
+  background-color: var(--sp-white-90);
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* =========================================
+   UNIVERSAL PAGE
+   ========================================= */
+.universal-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.up-titol-wrapper {
+  padding: 0 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.up-titol-caixa {
+  background-color: var(--sp-white-100);
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.up-titol-caixa h1 {
+  color: var(--sp-blue-100);
+  font-size: 32px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.up-etiquetes {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.up-categoria {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sp-white-100);
+  background-color: var(--sp-blue-100);
+  padding: 4px 16px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.up-etiqueta {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sp-white-100);
+  background-color: var(--sp-orange-100);
+  padding: 4px 16px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* =========================================
+   UNIVERSAL PAGE DOCUMENT (Markdown-friendly)
+   ========================================= */
+/* Aquest contenidor envolta tot el text i les targetes. 
+   Així ens assegurem que TOT s'alinea amb un padding únic, com demanes. */
+.up-document {
+  padding: 0 24px 48px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.up-subtitol-fora {
+  color: var(--sp-orange-100);
+  font-size: 18px;
+  text-align: center;
+  margin: 32px 0 24px 0;
+  text-transform: uppercase;
+}
+
+/* =========================================
+   UNIVERSAL CARD (Anatomia Canònica)
+   ========================================= */
+.universal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 4px 0 48px 0; /* Sense padding lateral, el posa .up-document */
+  contain: layout style paint;
+  min-width: 0;
+}
+
+.universal-card {
+  background-color: var(--sp-white-100);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 340px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: var(--sp-black-100);
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.universal-card:hover {
+  transform: translateY(-2px);
+}
+
+/* 1. Caputxa Taronja */
+.uc-caputxa {
+  background-color: var(--sp-orange-100);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  color: var(--sp-black-100);
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.uc-autor-zona {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.uc-avatar {
+  width: var(--sp-avatar-size);
+  height: var(--sp-avatar-size);
+  background-color: var(--sp-white-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+.uc-autor-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.uc-autor-nom {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.uc-autor-lloc {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.uc-data-zona {
+  background-color: rgba(0,0,0,0.15);
+  color: white;
+  border-radius: var(--sp-radius-main);
+  height: 36px;
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* 2. Cos (Main Content) */
+.uc-cos {
+  padding: 24px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.uc-cos h1 {
+  color: var(--sp-blue-100);
+  font-size: 24px;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.uc-cos h2 {
+  color: var(--sp-orange-100);
+  font-size: 16px;
+  margin: 0 0 24px 0;
+  text-transform: uppercase;
+}
+
+/* 3. Peu Blau */
+.uc-peu {
+  background-color: var(--sp-blue-100);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: white;
+  position: relative;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.uc-icones-esquerra {
+  display: flex;
+  gap: 16px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.uc-icones-centre {
+  display: flex;
+  gap: 20px;
+  font-size: 20px;
+  flex: 1;
+  justify-content: center;
+}
+
+.uc-boto-accio {
+  background-color: var(--sp-white-100);
+  color: var(--sp-blue-100);
+  margin-left: auto;
+  border: none;
+  border-radius: var(--sp-radius-main);
+  padding: 0 16px;
+  height: 36px;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* =========================================
+   NAV MOBIL (Responsive)
+   ========================================= */
+.sp-app-shell-nav-mobil {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .sp-app-shell-sidebar {
+    display: none !important;
+  }
+  .sp-app-shell-nav-mobil {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--sp-black-100);
+    height: 64px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    border-top: 1px solid var(--sp-border);
+  }
+  .sp-app-shell-nav-mobil .sp-nav-item {
+    flex: 1;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .sp-app-shell-nav-mobil .sp-nav-item.active {
+    color: var(--sp-orange-100);
+    background-color: transparent;
+  }
+  .sp-app-shell-nav-mobil .sp-nav-icon {
+    margin-right: 0;
+  }
+  .sp-app-shell-nav-mobil .sp-nav-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  .sp-app-shell-nav-mobil .sp-nav-item-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+  .sp-nav-mobil-btn-add {
+    background-color: var(--sp-blue-100);
+    color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .sp-nav-mobil-btn-add svg {
+    width: 28px;
+    height: 28px;
+  }
+  .sp-nav-mobil-btn-add:active {
+    transform: scale(0.95);
+  }
+  .sp-top-bar {
+    padding: 0 16px;
+  }
+  .sp-top-icons {
+    gap: 0;
+  }
+  .sp-top-icons span {
+    padding: 0 4px;
+  }
+  .sp-top-icons span:last-child {
+    padding-right: 0;
+  }
+  .sp-app-shell-main {
+    padding-bottom: 64px;
+  }
+}
+
+/* ============================================
+   SKELETON SCREEN - Pedra Seca
+   ============================================ */
+.skeleton-container {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sp-white-100);
+  z-index: 9999;
+}
+.skeleton-header {
+  height: 64px;
+  background: linear-gradient(90deg, var(--sp-black-100) 25%, var(--sp-black-90) 50%, var(--sp-black-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-bottom: 1px solid var(--sp-border);
+}
+.skeleton-layout {
+  display: flex;
+  flex: 1;
+}
+.skeleton-sidebar {
+  width: 260px;
+  background: linear-gradient(90deg, var(--sp-black-100) 25%, var(--sp-black-90) 50%, var(--sp-black-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-right: 1px solid var(--sp-border);
+}
+.skeleton-main {
+  flex: 1;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.skeleton-graph {
+  height: 64px;
+  background: linear-gradient(90deg, var(--sp-white-90) 25%, #e0e0e0 50%, var(--sp-white-90) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 28px;
+}
+.skeleton-card {
+  height: 180px;
+  background: linear-gradient(90deg, var(--sp-white-90) 25%, #e0e0e0 50%, var(--sp-white-90) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+.skeleton-card-hero {
+  height: 240px;
+}
+.skeleton-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

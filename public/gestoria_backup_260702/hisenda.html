@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gestoria de Poble (Jarvis Torruà)</title>
+  <style>
+    :root {
+      /* Design Tokens de Pedra Seca Injectats */
+      --sp-black-100: #0a0a0a;
+      --sp-black-90: #1a1a1a;
+      --sp-white-100: #F9F9F9;
+      --sp-white-90: #F0F0F0;
+      --sp-orange-100: #FF7300;
+      --sp-blue-100: #4A47E5; /* Blau Corporatiu (Complementari Taronja) */
+      --sp-red-100: #B3261E;
+      --sp-green-100: #146C2E;
+      --sp-border: #222222;
+      --sp-radius-main: 28px;
+      --sp-touch-min: 48px;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      background-color: var(--sp-white-100);
+      font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* BARRA SUPERIOR GLOBAL SÓC DE POBLE */
+    .sp-top-bar {
+      height: 64px;
+      background-color: var(--sp-black-100);
+      border-bottom: 1px solid var(--sp-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+      z-index: 100;
+      color: white;
+    }
+
+    .sp-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      font-family: serif; /* Simulació del logotip antic */
+      font-style: italic;
+    }
+
+    .sp-top-icons {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 18px;
+    }
+
+    .sp-icon-taronja {
+      color: var(--sp-orange-100);
+    }
+
+    /* CONTENIDOR PRINCIPAL (Sota la barra) */
+    .sp-app-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    /* Llanda de Comandament (Sidebar) */
+    .sp-app-shell-sidebar {
+      width: 260px;
+      background-color: var(--sp-black-100);
+      color: var(--sp-white-100);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--sp-border);
+      flex-shrink: 0;
+    }
+
+    /* Botó Mòdul (Substitueix el + CONNECTAR lila) */
+    .sp-module-btn {
+      height: 56px;
+      background-color: var(--sp-blue-100);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .sp-module-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .sp-sidebar-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-bottom: 24px;
+    }
+    
+    .sp-nav-item {
+      display: flex;
+      align-items: center;
+      padding: 16px 24px;
+      color: white;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background-color 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+    
+    .sp-nav-item:hover:not(.active) {
+      background-color: var(--sp-black-90);
+    }
+    
+    .sp-nav-item.active {
+      background-color: var(--sp-orange-100);
+      color: var(--sp-black-100);
+    }
+
+    .sp-nav-item.active .sp-nav-icon {
+      /* Ajust visual per a l'actiu */
+    }
+    
+    .sp-nav-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .sp-sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--sp-border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .sp-profile-avatar {
+      width: 40px;
+      height: 40px;
+      background-color: var(--sp-orange-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: var(--sp-black-100);
+    }
+    
+    .sp-profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sp-profile-name {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    
+    .sp-profile-role {
+      font-size: 12px;
+      color: #999;
+    }
+    
+    /* Àrea de Contingut (Main) */
+    .sp-app-shell-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background-color: var(--sp-white-90);
+    }
+    
+    /* Web Component Wrapper */
+    /* NAV MOBIL */
+    .sp-app-shell-nav-mobil {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sp-app-shell-sidebar {
+        display: none !important;
+      }
+      .sp-app-shell-nav-mobil {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: var(--sp-black-100);
+        height: 64px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        border-top: 1px solid var(--sp-border);
+      }
+      .sp-app-shell-nav-mobil .sp-nav-item {
+        flex: 1;
+        justify-content: center;
+        padding: 0;
+        height: 100%;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .sp-app-shell-nav-mobil .sp-nav-item.active {
+        color: var(--sp-orange-100);
+        background-color: transparent;
+      }
+      .sp-app-shell-nav-mobil .sp-nav-icon {
+        margin-right: 0;
+      }
+      .sp-app-shell-nav-mobil .sp-nav-item-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
+      .sp-nav-mobil-btn-add {
+        background-color: var(--sp-purple-100);
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .sp-nav-mobil-btn-add:active {
+        transform: scale(0.95);
+      }
+      .sp-top-bar {
+        padding: 0 16px;
+      }
+      .sp-top-icons {
+        gap: 0;
+      }
+      .sp-top-icons span {
+        padding: 0 4px;
+      }
+      .sp-top-icons span:last-child {
+        padding-right: 0;
+      }
+      .sp-app-shell-main {
+        padding-bottom: 64px;
+      }
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="./tauler.js"></script>
+</head>
+<body>
+  
+  <!-- BARRA SUPERIOR GLOBAL SÓC DE POBLE -->
+  <header class="sp-top-bar">
+    <div class="sp-logo-container" style="cursor: pointer;" onclick="window.location.href='http://localhost:3333/hub'">
+      <img src="logo.svg" alt="Logo Sóc de Poble" style="height: 44px; width: auto; filter: brightness(0) invert(1);" />
+    </div>
+    <div class="sp-top-icons">
+      <span><i data-lucide="globe"></i></span>
+      <span class="sp-icon-taronja">
+        <svg width="30" height="30" viewBox="0 0 378 378" version="1.1" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+          <g id="Mesa-de-trabajo1" transform="matrix(1,0,0,1,-90.708661,-207.874016)">
+            <rect x="90.709" y="207.874" width="377.953" height="377.953" style="fill:none;" />
+            <clipPath id="_clip1"><rect x="90.709" y="207.874" width="377.953" height="377.953" /></clipPath>
+            <g clipPath="url(#_clip1)">
+              <g transform="matrix(24.691498,0,0,24.691498,-12199.825444,-16336.661576)">
+                <path d="M510.274,677.289L509.67,674.885C509.67,674.885 509.633,674.691 509.448,674.582C509.264,674.473 507.403,673.364 507.403,673.364C507.323,673.317 507.236,673.29 507.15,673.279C507.132,673.275 507.114,673.272 507.096,673.272L506.81,673.272C506.812,673.268 506.814,673.263 506.818,673.258C507.047,672.996 507.186,672.653 507.186,672.277C507.186,671.772 506.935,671.325 506.551,671.055C506.522,671.035 506.505,670.993 506.508,670.958C506.511,670.93 506.513,670.9 506.513,670.871C506.513,670.417 506.145,670.05 505.691,670.05C505.238,670.05 504.87,670.418 504.87,670.871C504.87,670.9 504.872,670.93 504.875,670.958C504.879,670.993 504.861,671.035 504.832,671.055C504.448,671.325 504.197,671.772 504.197,672.277C504.197,672.653 504.336,672.996 504.565,673.258C504.569,673.263 504.571,673.268 504.574,673.272L504.179,673.272C504.131,673.272 504.087,673.287 504.048,673.308C504.007,673.323 504.966,673.341 503.928,673.364L503.841,673.417L502.505,674.211C502.505,674.211 501.951,674.535 501.838,674.608C501.707,674.693 501.672,674.841 501.672,674.841L501.181,676.792C500.865,676.936 500.72,677.175 500.72,677.175C500.539,677.456 500.541,677.791 500.541,677.791L500.541,684.983C500.541,684.983 500.549,685.27 500.855,685.27C501.16,685.27 501.183,685.006 501.183,685.006C501.183,685.006 501.188,677.967 501.195,677.883L501.195,677.875C501.28,677.975 501.395,678.05 501.531,678.084C501.585,678.097 501.639,678.104 501.692,678.104C501.975,678.104 502.233,677.918 502.317,677.637C502.342,677.706 502.359,677.818 502.39,677.988C502.437,678.243 503.006,678.327 502.992,677.881C502.977,677.434 502.818,677.252 502.616,676.983C502.59,676.947 502.556,676.915 502.518,676.885C502.515,676.883 502.513,676.881 502.511,676.879L502.829,675.614L502.85,675.531L502.893,675.505L503.672,675.042L503.491,676.155L503.229,677.765L502.609,681.571C502.609,681.716 502.726,681.833 502.871,681.833L503.81,681.833L503.81,684.701C503.81,684.802 503.835,684.898 503.875,684.983C503.981,685.203 504.204,685.357 504.465,685.357C504.761,685.357 505.008,685.159 505.089,684.89C505.107,684.83 505.12,684.767 505.12,684.701L505.12,681.833L506.185,681.833L506.185,684.701C506.185,684.709 506.187,684.716 506.187,684.723C506.199,685.075 506.486,685.357 506.84,685.357C507.06,685.357 507.255,685.247 507.373,685.08C507.449,684.972 507.495,684.843 507.495,684.701L507.495,681.833L508.439,681.833C508.584,681.833 508.701,681.716 508.701,681.571L508.321,679.296L507.605,675.009L508.481,675.531L509.005,677.609C509.05,677.79 509.168,677.934 509.32,678.02C509.416,678.074 509.525,678.104 509.64,678.104C509.692,678.104 509.746,678.097 509.799,678.084C510.15,677.996 510.363,677.64 510.274,677.289" style="fill:currentColor;fill-rule:nonzero;" />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </span>
+      <span><i data-lucide="search"></i></span>
+      <span><i data-lucide="moon"></i></span>
+      <span><i data-lucide="user"></i></span>
+    </div>
+  </header>
+
+  <div class="sp-app-container">
+    <nav class="sp-app-shell-sidebar">
+      
+      <!-- EL BOTÓ BLAU QUE ACTUA DE "TORNAR" / IDENTIFICADOR DE MÒDUL -->
+      <div class="sp-module-btn" style="cursor: pointer;" onclick="window.location.href='http://localhost:3333/hub'">
+        <span style="margin-right: 8px; display: flex;"><i data-lucide="building-2"></i></span>
+        GESTORIA DE POBLE
+      </div>
+      
+      <div class="sp-sidebar-nav">
+        <a class="sp-nav-item active" data-view="home">
+          <span class="sp-nav-icon"><i data-lucide="layout-dashboard"></i></span>
+          Tauler d'Inici
+        </a>
+        <a class="sp-nav-item" data-view="factures">
+          <span class="sp-nav-icon"><i data-lucide="file-text"></i></span>
+          Factures
+        </a>
+        <a class="sp-nav-item" data-view="compres">
+          <span class="sp-nav-icon"><i data-lucide="shopping-cart"></i></span>
+          Compres
+        </a>
+        <a class="sp-nav-item" data-view="bancs">
+          <span class="sp-nav-icon"><i data-lucide="landmark"></i></span>
+          Bancs
+        </a>
+        <a class="sp-nav-item" data-view="impostos">
+          <span class="sp-nav-icon"><i data-lucide="calculator"></i></span>
+          Impostos
+        </a>
+        <a class="sp-nav-item" data-view="informes">
+          <span class="sp-nav-icon"><i data-lucide="pie-chart"></i></span>
+          Informes
+        </a>
+        <a class="sp-nav-item" data-view="ingesta">
+          <span class="sp-nav-icon"><i data-lucide="scan"></i></span>
+          Escàner Local
+        </a>
+      </div>
+    </nav>
+
+    <main class="sp-app-shell-main">
+      <!-- Web Component Aïllat (El Motor) -->
+    <gestoria-tauler vista="hisenda"></gestoria-tauler>
+    </main>
+  </div>
+  
+  <script>
+    // Lògica bàsica de navegació del menú a index.html
+    document.addEventListener('DOMContentLoaded', () => {
+      const navItems = document.querySelectorAll('.sp-nav-item');
+      const tauler = document.querySelector('gestoria-tauler');
+      
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          const viewName = e.currentTarget.dataset.view;
+          if (!viewName) return;
+
+          // Sincronitza l'estat actiu entre escriptori i mòbil
+          navItems.forEach(nav => {
+            if (nav.dataset.view === viewName) {
+              nav.classList.add('active');
+            } else {
+              nav.classList.remove('active');
+            }
+          });
+          
+          // Passar l'ordre de canvi de vista al Web Component
+          if (tauler && tauler.canviarVista) {
+            tauler.canviarVista(viewName);
+          }
+        });
+      });
+      
+      // Inicialitza les icones SVG
+      if (window.lucide) {
+        console.log("Lucide està carregat", window.lucide);
+        lucide.createIcons();
+      } else {
+        console.error("Lucide NO s'ha carregat correctament.");
+      }
+    });
+  </script>
+
+  <!-- NAV MOBIL (Substitueix la Sidebar en < 768px) -->
+  <nav class="sp-app-shell-nav-mobil">
+    <a class="sp-nav-item" data-view="xat" href="/xat">
+      <span class="sp-nav-icon"><i data-lucide="message-square"></i></span>
+    </a>
+    <a class="sp-nav-item active" data-view="home" href="/soc_de_poble/index.html">
+      <span class="sp-nav-icon"><i data-lucide="layout-grid"></i></span>
+    </a>
+    <a class="sp-nav-item-center" onclick="window.location.href='../connectar/index.html'">
+      <div class="sp-nav-mobil-btn-add">
+        <i data-lucide="plus"></i>
+      </div>
+    </a>
+    <a class="sp-nav-item" data-view="mercat" href="#">
+      <span class="sp-nav-icon"><i data-lucide="shopping-bag"></i></span>
+    </a>
+    <a class="sp-nav-item" data-view="pobles" href="#">
+      <span class="sp-nav-icon"><i data-lucide="map-pin"></i></span>
+    </a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,28 @@
+:root {
+  --sp-bg-primary: #FF7300;
+  --sp-bg-secondary: #0984E3;
+  --sp-text-primary: #FF7300;
+  --sp-border-primary: #FF7300;
+  --sp-radius-main: 1.5rem;
+  --sp-radius-button: 0.75rem;
+  --sp-radius-pill: 9999px;
+  --sp-shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --sp-touch-min: 48px;
+}
+
+.sp-button {
+  background-color: var(--sp-bg-primary);
+  color: white;
+  border-radius: var(--sp-radius-button);
+  min-height: var(--sp-touch-min);
+  padding: 0 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.sp-button:focus-visible {
+  outline: 2px solid var(--sp-bg-secondary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Taxonomia Canonica Soc de Poble",
+  "type": "object",
+  "properties": {
+    "tipus": {
+      "type": "string",
+      "enum": [
+        "arquitectura", "skill", "protocol", "metriques", "seguretat",
+        "core", "glossari", "cultura", "bios", "identitat", "regles",
+        "organitzacio", "acta", "automillora", "marmota"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "depends_on": { "type": "array", "items": { "type": "string" } },
+    "replaces": { "type": "string" },
+    "target_fps": { "type": "integer" },
+    "max_ram_mb": { "type": "integer" },
+    "trigger_gallet": { "type": "string" },
+    "prioritat_lli": { "type": "integer" },
+    "sessio_data": { "type": "string" }
+  },
+  "required": ["tipus"]
+}

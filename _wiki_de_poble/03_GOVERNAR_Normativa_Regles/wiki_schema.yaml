@@ -1,0 +1,52 @@
+# 🏛️ SCHEMA DE LA WIKI "SÓC DE POBLE" (Versió 1.0)
+# Aquest esquema defineix l'estructura canònica i la terminologia permesa.
+# El línter s'haurà de basar en aquesta font única de veritat.
+
+pilars:
+  - id: "SER"
+    carpeta: "00_SER_Brain_Identitat"
+    descripcio: "Qui som: BIOS, Genotip, Identitat, Automillora, Rols de l'Eixam."
+  - id: "SABER"
+    carpeta: "01_SABER_Cultura_Coneixement"
+    descripcio: "Què sabem: Lèxic, Cultura, Visió, Trellat."
+  - id: "ACTUAR"
+    carpeta: "02_ACTUAR_Maquina_Tecnica"
+    descripcio: "Què fem: Arquitectura Tècnica, CRDT, Execució."
+  - id: "GOVERNAR"
+    carpeta: "03_GOVERNAR_Normativa_Regles"
+    descripcio: "Com ho fem: Normativa, Manaments, Esquemes, Regles d'escriptura."
+  - id: "REGISTRE"
+    carpeta: "04_REGISTRE_Actes_Efimers"
+    descripcio: "Memòria: Actes, Benchmarks, Bancal Actiu, Logs d'Auditoria."
+
+frontmatter:
+  requerits:
+    - name (String)
+    - version (String)
+    - created_at (DataHora: YYMMDD_HHMM)
+    - updated_at (DataHora: YYMMDD_HHMM)
+    - authority (String)
+    - tipus (String)
+    - tags (Llista de Strings)
+  
+nomenclatura_termodinamica:
+  regex: "^(\\d{6})_(\\d{4})_([A-Z0-9_]+)_.+\\.(md|cjs|js|json)$"
+  explicacio: "YYMMDD_HHMM_CATEGORIA_TitolDescriptiu.ext"
+
+tags_canoniques:
+  # Llista tancada de 15 tags permeses (Kimi ho va recomanar)
+  - bios
+  - termodinamica
+  - arquitectura
+  - execucio
+  - normativa
+  - cultura
+  - lexic
+  - actes
+  - auditoria
+  - ia
+  - visio
+  - missio
+  - organitzacio
+  - petorretes
+  - rural

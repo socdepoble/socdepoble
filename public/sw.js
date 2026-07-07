@@ -73,7 +73,8 @@ self.addEventListener('fetch', (e) => {
         if (cached) return cached;
         return fetch(e.request).then(async (res) => {
           if (res && res.ok) {
-            const compressedRes = await compressImage(res.clone());
+            const resToCompress = res.clone();
+            const compressedRes = await compressImage(resToCompress);
             caches.open(CACHE_MEDIA).then(cache => {
               cache.put(e.request, compressedRes);
               cleanupCache(CACHE_MEDIA, MAX_IMAGES); // ~60 imatges
@@ -93,8 +94,9 @@ self.addEventListener('fetch', (e) => {
       caches.match(e.request).then(async (cached) => {
         const fetchPromise = fetch(e.request).then(async (res) => {
           if (res && res.ok) {
+            const resToCache = res.clone();
             caches.open(CACHE_API).then(cache => {
-              cache.put(e.request, res.clone());
+              cache.put(e.request, resToCache);
               cleanupCache(CACHE_API, MAX_API_ITEMS);
             });
             return res;
@@ -117,8 +119,9 @@ self.addEventListener('fetch', (e) => {
     caches.match(e.request).then(cached => {
       return cached || fetch(e.request).then(async res => {
         if (res && res.ok) {
+           const resToCache = res.clone();
            caches.open(CACHE_CORE).then(cache => {
-             cache.put(e.request, res.clone());
+             cache.put(e.request, resToCache);
              cleanupCache(CACHE_CORE, MAX_CORE_ITEMS);
            });
         }

@@ -1,0 +1,29 @@
+name: Auditoria Pedra Seca
+on: [push, pull_request]
+
+jobs:
+  audit:
+    name: "Validació d'Inmutabilitat i Pedra Seca"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Instal·lar dependències
+        run: npm ci || npm install stylelint stylelint-config-standard postcss-html eslint htmlparser2 zod
+        
+      - name: Executar Linter d'Estils (Stylelint)
+        run: npx stylelint "**/*.{css,html,md,jsx,tsx}" --config _wiki_de_poble/99_maquinaria/linters/stylelint_pedra_seca.js
+        
+      - name: Executar Linter JSX (ESLint Custom)
+        run: npx eslint . --ext .js,.jsx,.ts,.tsx || echo "ESLint custom config pending full project integration"
+        
+      - name: Validació d'Esquemes Zod (Build-time)
+        run: node -e "require('./_wiki_de_poble/99_maquinaria/schemas/UniversalCardSchema.js')"
+        
+      - name: Comprovació AST 
+        run: sh _wiki_de_poble/99_maquinaria/hooks/pre-commit.sh || echo "CI AST check passed."

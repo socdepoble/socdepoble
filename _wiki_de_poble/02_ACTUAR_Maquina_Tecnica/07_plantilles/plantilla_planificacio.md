@@ -1,0 +1,48 @@
+---
+estat: 'canonic'
+name: '260619-1430-plantilla-planificacio'
+version: '14.00'
+created_at: '260619_1430'
+updated_at: '260704_0816'
+autor: 'IAIA MarIA'
+categoria: 'plantilla'
+description: 'Planificació Pro (LArquitectura del Marge)'
+tags:
+  - normativa
+  - actes
+  - organitzacio
+---
+# Planificació Pro (L'Arquitectura del Marge)
+**Categoria:** Plantilla
+**Data:** 2026-06-19
+**Hora:** 14:30
+
+---
+
+## LOGOS OFICIALS (Font de la Veritat)
+Els únics logos vàlids per al projecte s'ubiquen a `public/assets/system/ui/`. Quan s'invoquen des del codi Font/HTML, la ruta és `/assets/system/ui/...`:
+- **Quadrat Verd (Icones/Avatars):** `/assets/system/ui/logo-socdepoble-cuadrat-verd.svg`
+- **Rectangular Blanc (Per a Dark Mode):** `/assets/system/ui/logo-socdepoble-rect-blanc.svg`
+- **Rectangular Negre (Per a Light Mode):** `/assets/system/ui/logo-socdepoble-rect-negre.svg`
+- **Rectangular Estàndard:** `/assets/system/ui/logo-socdepoble-rect.svg`
+
+## MISSIÓ DEL PROTOCOL
+Convertir una idea solta en un pla d'execució sòlid com un marge de pedra seca.
+
+## ESTRUCTURA DEL PLA
+1. **Resultat Final:** Definit en 1 frase i 3 criteris d'èxit.
+2. **Fases del Llançament:**
+   - **Preparació:** Llista d'ingredients (dades, recursos).
+   - **Producció:** Execució mestra.
+   - **Revisió QA:** Filtre forense.
+   - **Publicació:** L'eixida al món.
+3. **Detall del Llinatge (Tasques):** Cada tasca amb seqüència, lliurable i temps estimat.
+4. **Riscos (Anti-Pedregada):** Llistar 3 possibles bloquejos i el seu pla B.
+
+---
+_Fent poble amb Sóc de Poble! © 2026_
+
+
+---
+## 🔗 Veure també
+- [[00_index|Índex Principal]]

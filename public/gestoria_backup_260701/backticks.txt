@@ -1,0 +1,96 @@
+103:    const css = `
+430:    `;
+541:                  alert(`🎉 S'han ingerit ${num} elements a la Pedra Seca amb èxit!`);
+555:    return `
+572:    `;
+576:    return `
+585:    `;
+589:    return `
+621:    `;
+625:    const cosExplicatiu = htmlBody || `
+632:    `;
+634:    return `
+637:    `;
+641:    const dropzoneHtml = `
+723:    `;
+791:       warningHtml = `
+796:       `;
+799:    return `
+1013:    `;
+1073:       warningHtml = `
+1078:       `;
+1081:    return `
+1247:    `;
+1265:        rowsHtml = `<tr><td colspan="6" style="text-align: center; color: #999;">Sense documents per mostrar. Usa l'Escàner Local.</td></tr>`;
+1275:            return `
+1287:            </tr>`;
+1291:    return `
+1311:    `;
+1322:        rowsHtml = `<tr><td colspan="4" style="text-align: center; color: #999;">Cap contacte guardat.</td></tr>`;
+1324:        rowsHtml = contactes.map(c => `
+1337:        `).join('');
+1340:    return `
+1357:    `;
+1361:    return `
+1382:    `;
+1395:       const toggleBtn = `<button onclick="event.stopPropagation(); document.querySelector('gestoria-tauler').toggleCompte('${clau}')" style="background: transparent; border: none; font-size: 20px; cursor: pointer; transition: all 0.2s; filter: grayscale(${compte.actiu ? '0%' : '100%'}); padding: 0;" title="Activar/Desactivar visibilitat">${iconaUll}</button>`;
+1397:       return `
+1408:            ${clau === 'caixamar' ? `<button onclick="document.querySelector('gestoria-tauler').canviarVista('conciliacio')" style="margin-top: 24px; background-color: var(--sp-blue-100); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; width: 100%; transition: all 0.2s;">Conciliar Moviments</button>` : ''}
+1409:            ${clau === 'flexi_deposit' ? `<button onclick="document.querySelector('gestoria-tauler').canviarVista('detall-flexi')" style="margin-top: 24px; background-color: white; border: 2px solid var(--sp-blue-100); color: var(--sp-blue-100); padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; width: 100%; transition: all 0.2s;">Veure Detalls</button>` : ''}
+1410:            ${clau === 'capital_social' ? `<button onclick="document.querySelector('gestoria-tauler').canviarVista('detall-capital')" style="margin-top: 24px; background-color: white; border: 2px solid var(--sp-blue-100); color: var(--sp-blue-100); padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; width: 100%; transition: all 0.2s;">Veure Detalls</button>` : ''}
+1414:       `;
+1417:    return `
+1423:    `;
+1471:        return `
+1481:        `;
+1490:        return `
+1500:        `;
+1507:    return `
+1549:    `;
+1553:    return `
+1624:    `;
+1628:    const rawData = `45940964	03/01/2025	13/01/2025	61,00 eur.	ES64 3058 2595 4927 2060 1715
+1922:90301213	03/01/2025	13/01/2025	61,00 eur.	ES64 3058 2595 4927 2060 1715`;
+1926:      return `<tr style="font-size: 13px; border-top: 1px solid #EEE;">
+1932:      </tr>`;
+1935:    return `
+2038:            points.push(`${x},${y}`);
+2042:        const fillPoints = `${paddingX},${paddingY + gHeight} ${pointStr} ${paddingX + gWidth},${paddingY + gHeight}`;
+2045:        svgAreas += `<polygon points="${fillPoints}" fill="${color}" fill-opacity="0.2" />`;
+2047:        svgLines += `<polyline points="${pointStr}" fill="none" stroke="${color}" stroke-width="2" />`;
+2051:            svgLines += `<circle cx="${cx}" cy="${cy}" r="4" fill="${color}" stroke="#FFF" stroke-width="1.5" />`;
+2059:        xAxisHtml += `<text x="${x}" y="${svgHeight - 2}" text-anchor="middle" font-size="10" fill="#999">${mesosNoms[i]}</text>`;
+2063:    let yAxisHtml = `
+2071:    `;
+2073:    const chartSvg = `
+2080:    `;
+2088:        rowsHtml = `<tr><td colspan="14" style="text-align: center; color: #999; padding: 24px;">No hi ha dades de vendes.</td></tr>`;
+2092:            const colorDot = idx < 3 ? `<span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${colors[idx]}; margin-right:8px;"></span>` : '';
+2098:                mesosHtml += `<td style="text-align: right; font-size: 11px; color: ${val === 0 ? '#CCC' : '#333'}; padding: 12px 8px;">${val === 0 ? '0,00' : formatEur(val)}</td>`;
+2101:            rowsHtml += `
+2109:            `;
+2116:            totalsRowHtml += `<td style="text-align: right; font-weight: 900; font-size: 11px; padding: 12px 8px;">${totalsMesos[i] === 0 ? '0,00' : formatEur(totalsMesos[i])}</td>`;
+2119:        rowsHtml += `
+2125:        `;
+2128:    const htmlBody = `
+2151:                        ${mesosNoms.map(m => `<th style="text-align: right; padding: 16px 8px; font-size: 11px; color: #666;">${m}</th>`).join('')}
+2162:    `;
+2211:        return `
+2223:        `;
+2230:    return `
+2300:    `;
+2308:    const svgGraph = `
+2334:    `;
+2337:    const taulaMesos = `
+2406:    `;
+2408:    return `
+2442:    `;
+2446:    return `
+2453:    `;
+2482:          avisos.push(`⚠️ <b>${agrupatsPerContacte[key].nomOriginal}</b>: S'esperaven 3 rebuts i només en tens ${count}. Falta factura.`);
+2500:    const llistaHtml = avisos.map(a => `<li style="margin-bottom: 12px; color: #E65100;">${a}</li>`).join('');
+2502:    const html = `
+2528:    `;
+2547:       const dataStr = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+2556:       csvContent += `${dataStr},${tipus},${contacte},${nif},${concepte},${bi.toFixed(2)},${iva.toFixed(2)},${total.toFixed(2)}\n`;
+2563:    link.setAttribute("download", `SdP_Facturacio_Trimestre_${new Date().getTime()}.csv`);

@@ -1,0 +1,24 @@
+{
+  "name": "soc-de-poble-sdp",
+  "version": "15.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CLI Pedra Seca per a Sóc de Poble: auditoria, snapshots, RAG local i manteniment CRDT.",
+  "bin": {
+    "sdp": "./sdp.mjs",
+    "sdp-daemon": "./daemon.mjs"
+  },
+  "scripts": {
+    "check": "node sdp.mjs check --json",
+    "audit": "node sdp.mjs audit --json",
+    "snapshot": "node sdp.mjs snapshot --json",
+    "rag": "node sdp.mjs rag",
+    "daemon": "node --expose-gc daemon.mjs"
+  },
+  "dependencies": {
+    "yjs": "^13.6.18"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Sóc de Poble - Forja</title>
+  <style>
+    :root {
+      --sp-bg: /* ALLOW_RAW_COLOR */ #f7f4ed;
+      --sp-surface: #ffffff;
+      --sp-text: /* ALLOW_RAW_COLOR */ #161616;
+      --sp-soft: /* ALLOW_RAW_COLOR */ #5d5d5d;
+      --sp-accent: /* ALLOW_RAW_COLOR */ #186f65;
+      --sp-border: /* ALLOW_RAW_COLOR */ #d8d2c4;
+      --sp-radius: 8px;
+      --sp-gap: 16px;
+      --sp-touch: 52px;
+      font: 16px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--sp-text);
+      background: var(--sp-bg);
+    }
+
+    main {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: var(--sp-gap);
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: 1.4rem;
+      line-height: 1.2;
+    }
+
+    .estat {
+      color: var(--sp-soft);
+      min-height: 1.5em;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 42vh;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid var(--sp-border);
+      border-radius: var(--sp-radius);
+      background: var(--sp-surface);
+      color: var(--sp-text);
+      font: inherit;
+    }
+
+    .barra {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: var(--sp-gap);
+    }
+
+    button {
+      min-height: var(--sp-touch);
+      padding: 0 18px;
+      border: 0;
+      border-radius: var(--sp-radius);
+      background: var(--sp-accent);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    button:disabled {
+      opacity: .55;
+    }
+
+    output {
+      color: var(--sp-soft);
+    }
+  </style>
+
+  <!-- CANVI DE FONS: `import * as Y from 'yjs'` és un bare specifier; sense bundler, el
+       navegador no el pot resoldre i app.js peta en el mateix import. Aquest importmap el
+       resol cap a una còpia local (vendored) del build ESM de yjs — zero CDN, zero build,
+       100% offline. Per generar-la:  cp node_modules/yjs/dist/yjs.mjs vendor/yjs.mjs
+       (Import maps: Safari 16.4+; l'iPad A10 amb iPadOS 17 hi arriba de sobra.)
+       Alternativa lícita segons ESTANDARD_Pedra_Seca: servir la Forja sempre via build de
+       Vite — però llavors el precache d'sw.js s'ha de generar des de l'eixida del build. -->
+  <script type="importmap">
+    { "imports": { "yjs": "./vendor/yjs.mjs" } }
+  </script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Forja</h1>
+      <div id="estat" class="estat">Arrancant...</div>
+    </header>
+
+    <label for="nota">Nota</label>
+    <textarea id="nota" spellcheck="true" autocomplete="off"></textarea>
+
+    <div class="barra">
+      <button id="guardar" type="button">Guardar</button>
+      <output id="metrica"></output>
+    </div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

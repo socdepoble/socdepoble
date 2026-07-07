@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "pillars": [
+    "00_SER_Brain_Identitat",
+    "01_SABER_Cultura_Coneixement",
+    "02_ACTUAR_Maquina_Tecnica",
+    "03_GOVERNAR_Normativa_Regles",
+    "04_REGISTRE_Actes_Efimers"
+  ],
+  "requiredFrontmatter": ["name", "version", "created_at", "updated_at", "autor", "categoria", "description"],
+  "excludes": [
+    "_build",
+    "BUNDLE",
+    "node_modules",
+    "vendor",
+    "assets"
+  ],
+  "namePattern": "^[a-z0-9_.-]+$",
+  "tailwind": {
+    "forbiddenColorPrefixes": ["bg-", "text-", "border-", "shadow-", "ring-", "fill-", "stroke-", "from-", "via-", "to-"],
+    "forbiddenRadiusPrefixes": ["rounded-"],
+    "colorExceptions": ["text-left", "text-center", "text-right", "text-sm", "text-base", "text-lg", "text-xl", "text-2xl", "border-collapse", "border-separate", "border-0", "border-2"],
+    "arbitraryValuePattern": "\\[[^\\]]+\\]",
+    "allowedLayoutPrefixes": ["flex", "grid", "items-", "justify-", "content-", "gap-", "w-", "h-", "min-w-", "min-h-", "max-w-", "max-h-", "relative", "absolute", "static", "sticky", "fixed", "p-", "px-", "py-", "pt-", "pb-", "pl-", "pr-", "m-", "mx-", "my-", "block", "inline", "hidden", "grow", "shrink", "basis-", "z-", "overflow-", "col-", "row-", "order-", "top-", "left-", "right-", "bottom-", "inset-"]
+  },
+  "tokenMap": {
+    "bg-orange-500": "sp-bg-primary",
+    "bg-orange-600": "sp-bg-primary",
+    "text-orange-500": "sp-text-primary",
+    "border-orange-500": "sp-border-primary",
+    "bg-blue-500": "sp-bg-secondary",
+    "bg-sky-500": "sp-bg-secondary",
+    "text-blue-500": "sp-text-secondary",
+    "text-sky-500": "sp-text-secondary",
+    "border-blue-500": "sp-border-secondary",
+    "bg-black": "sp-bg-tertiary",
+    "text-black": "sp-text-tertiary",
+    "bg-white": "sp-bg-neutral",
+    "text-white": "sp-text-neutral",
+    "rounded-3xl": "sp-radius-main",
+    "rounded-2xl": "sp-radius-main",
+    "rounded-xl": "sp-radius-button",
+    "rounded-lg": "sp-radius-button",
+    "rounded-full": "sp-radius-pill",
+    "shadow-md": "sp-shadow-card",
+    "shadow-lg": "sp-shadow-card"
+  },
+  "thresholds": {
+    "udrPercentMax": 15,
+    "itOptimal": 90,
+    "itAcceptableMin": 70,
+    "itLock": 70,
+    "tombstonePercentMax": 70,
+    "tombstoneCompactBytes": 15728640,
+    "ramMbMaxA10": 1200,
+    "fpsMin": 30,
+    "lcpMaxSeconds": 2.5,
+    "maxLinesPerFile": 150,
+    "snapshotMaxRotation": 3,
+    "idealBytesPerFile": 8192
+  },
+  "auditRules": {
+    "carpeta": [
+      { "match": "*produccio*|*build*", "expectAt": "02_ACTUAR_Maquina_Tecnica/scripts/", "severity": "warning" },
+      { "match": "*vella*|*old*", "expectAt": "90_arxiu_historic/", "severity": "warning" },
+      { "match": "*bancal*", "expectAt": "04_REGISTRE_Actes_Efimers/", "severity": "warning" },
+      { "match": "^(?!00_|01_|02_|03_|04_).+", "expectAt": null, "severity": "critical" }
+    ]
+  },
+  "trellatMetricsWeights": {
+    "note": "IT de 3 components (sense CA d'accessibilitat: exigeix DOM/axe-core, no disponible en escaneig de fitxers).",
+    "coherencia": 0.5,
+    "eficiencia": 0.25,
+    "resiliencia": 0.25
+  },
+  "edgeRag": {
+    "minTokenLength": 2,
+    "maxResults": 10,
+    "stopwordsCa": [
+      "el","la","els","les","un","una","uns","unes","de","del","dels","al","als","i","o","a","en","amb","per","perè","que","quiè",
+      "no","sí","es","se","ho","hi","em","et","li","ens","vos","us","els","seu","seua","seus","seues","son","sa","son","sos","aquest",
+      "aquesta","aquests","aquestes","això","allò","com","quan","on","perquè","ja","més","menys","també","molt","poc","tot","tota",
+      "tots","totes","cap","cada","entre","sense","sobre","sota","fins","des","va","van","ha","han","he","has","hem","heu","era","eren",
+      "ser","estar","és","son","som","sou","este","esta","aquell","aquella"
+    ]
+  }
+}
