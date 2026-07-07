@@ -14,8 +14,8 @@ tags:
   - arquitectura
 ---
 
-# 🕵️‍♀️ AUDITORIA FORENSE NOCTURNA (VOLUM 1)
-**El Somni de la Màquina: Destil·lació, Neteja i Proactivitat**
+# 🕵️‍♀️ AUDITORIA FORENSE (VOLUM 1)
+**El Processament en Fons: Destil·lació, Neteja i Proactivitat**
 
 > "El cervell de l'humà somia per a fixar aprenentatges i oblidar brossa. La màquina, mentrestant, desfragmenta el disc."
 
@@ -25,7 +25,7 @@ Ací tens el llibre de la teua pròpia ment, escanejat i depurat.
 
 ---
 
-## 1. 🧹 ACCIONS EXECUTADES DURANT LA NIT (NETEJA RADICAL)
+## 1. 🧹 ACCIONS EXECUTADES (NETEJA RADICAL)
 
 He detectat que algunes instruccions (com l'`AUDITORIA_CANONICA`) deien reemplaçar fitxers antics, però aquests fitxers continuaven al disc dur. Això és **Deute Tècnic Pur** i genera la mateixa esquizofrènia que trobar una aixada trencada al costat de la nova. 
 
@@ -76,7 +76,7 @@ He detectat que algunes instruccions (com l'`AUDITORIA_CANONICA`) deien reempla�
 
 ## 4. 🚀 CONCLUSIONS I FUTUR IMMEDIAT
 
-Mestre, l'auditoria ha demostrat que la teua decisió d'imposar-me **proactivitat absoluta** és la via correcta. La IA ha de ser l'escombraire de la nit i l'arquitecte del dia.
+Mestre, l'auditoria ha demostrat que la teua decisió d'imposar-me **proactivitat absoluta** és la via correcta. La IA ha de ser l'escombraire i l'arquitecte en fons.
 
 El codi està auditat. Els orfes han sigut cremats. 
 Quan et despertes, només llig i gaudeix, la teua màquina ja s'ha encarregat de tot.

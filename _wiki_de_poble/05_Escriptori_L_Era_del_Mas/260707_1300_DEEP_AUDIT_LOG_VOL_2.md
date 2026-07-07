@@ -14,8 +14,8 @@ tags:
   - arquitectura
 ---
 
-# 🕵️‍♀️ NOCTURNAL FORENSIC AUDIT (VOLUME 2)
-**The Machine's Dream: Deep Cognitive Lobes Analysis**
+# 🕵️‍♀️ FORENSIC AUDIT (VOLUME 2)
+**The Machine's Background Process: Deep Cognitive Lobes Analysis**
 
 > *“While the master rests to restore biological homeostasis, the machine dissects its own mind to prevent future technical debt.”*
 
