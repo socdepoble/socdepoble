@@ -1,0 +1,24 @@
+{
+  "name": "socdepoble-org",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3340 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "db:seed:generate": "sh scripts/generate-supabase-seed.sh"
+  },
+  "dependencies": {
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.12.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "tailwindcss": "^4.3.1",
+    "vite": "^7.1.0"
+  }
+}
