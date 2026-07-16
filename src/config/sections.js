@@ -3,7 +3,7 @@ import { BrainCircuit, CalendarDays, FileText, GalleryVerticalEnd, LandPlot, Map
 export const SECTION_ORDER = ['xat', 'mur', 'mercat', 'pobles', 'events', 'mapa', 'multimedia', 'notes', 'dispositius', 'projecte', 'constitucio', 'disseny', 'skills', 'ia', 'roadmap', 'legal'];
 
 export const SECTIONS = [
-  { id: 'xat', path: '/chats', label: 'Xat', shortLabel: 'Xat', icon: MessageSquare, kind: 'xat' },
+  { id: 'xat', path: '/chat', label: 'Xat', shortLabel: 'Xat', icon: MessageSquare, kind: 'xat' },
   { id: 'mur', path: '/mur', label: 'Mur', shortLabel: 'Mur', icon: Newspaper, kind: 'mur' },
   { id: 'mercat', path: '/mercat', label: 'Mercat', shortLabel: 'Mercat', icon: ShoppingCart, kind: 'market' },
   { id: 'pobles', path: '/pobles', label: 'Pobles', shortLabel: 'Pobles', icon: LandPlot, kind: 'pobles' },
@@ -21,4 +21,4 @@ export const SECTIONS = [
   { id: 'legal', path: '/legal', label: 'Legal i privacitat', shortLabel: 'Legal', icon: FileText, kind: 'text', pageKey: 'legal' }
 ];
 
-export const DEFAULT_SECTION_PATH = '/chats';
+export const DEFAULT_SECTION_PATH = '/chat';

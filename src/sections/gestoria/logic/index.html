@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gestoria de Poble (Jarvis Torruà)</title>
+  <meta name="description" content="Portal de Gestoria Interna i Tauler de Comandament de Sóc de Poble.">
+
+  <meta property="og:title" content="Gestoria de Poble (Jarvis Torruà)">
+  <meta property="og:description" content="Tauler de control intern de l'ecosistema Sóc de Poble.">
+  <meta property="og:image" content="https://socdepoble.com/wp-content/uploads/2023/12/cropped-favicon-1-192x192.png">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="../assets/pedra-seca.css?v=3">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+  <script src="db.js"></script>
+  <script src="csv_ingestor.js"></script>
+  <script src="dashboard_data.js"></script>
+  <script src="./tauler.js"></script>
+  <script type="module" src="../components/sp-identity-components.js"></script>
+
+</head>
+<body>
+  
+  <!-- BARRA SUPERIOR GLOBAL SÓC DE POBLE -->
+  <sp-top-bar>
+  </sp-top-bar>
+
+  <div class="sp-app-container">
+    <nav class="sp-app-shell-sidebar">
+      
+      <!-- EL BOTÓ QUE ACTUA DE "TORNAR" / IDENTIFICADOR DE MÒDUL -->
+      <div class="sp-module-btn" style="cursor: pointer;" onclick="window.location.href = '../soc_de_poble/index.html'">
+        CENTRE DE CONTROL
+      </div>
+      
+      <div class="sp-sidebar-nav">
+        <a class="sp-nav-item active" data-view="home">
+          <span class="sp-nav-icon"><i data-lucide="layout-dashboard"></i></span>
+          Tauler d'Inici
+        </a>
+        <a class="sp-nav-item" data-view="facturacio">
+          <span class="sp-nav-icon"><i data-lucide="file-text"></i></span>
+          Facturació
+        </a>
+        <a class="sp-nav-item" data-view="contactes">
+          <span class="sp-nav-icon"><i data-lucide="users"></i></span>
+          Contactes
+        </a>
+        <a class="sp-nav-item" data-view="burocracia">
+          <span class="sp-nav-icon"><i data-lucide="folder-open"></i></span>
+          Burocràcia
+        </a>
+        <a class="sp-nav-item" data-view="bancs">
+          <span class="sp-nav-icon"><i data-lucide="landmark"></i></span>
+          Bancs
+        </a>
+        <a class="sp-nav-item" data-view="impostos">
+          <span class="sp-nav-icon"><i data-lucide="calculator"></i></span>
+          Impostos
+        </a>
+        <a class="sp-nav-item" data-view="informes">
+          <span class="sp-nav-icon"><i data-lucide="pie-chart"></i></span>
+          Informes
+        </a>
+        <a class="sp-nav-item" data-view="ingesta">
+          <span class="sp-nav-icon"><i data-lucide="scan"></i></span>
+          Escàner Local
+        </a>
+      </div>
+    </nav>
+
+    <main class="sp-app-shell-main">
+      <!-- Web Component Aïllat (El Motor) -->
+      <gestoria-tauler></gestoria-tauler>
+    </main>
+  </div>
+  
+  <script>
+    // Lògica bàsica de navegació del menú a index.html
+    document.addEventListener('DOMContentLoaded', async () => {
+      const tauler = document.querySelector('gestoria-tauler');
+      
+      // Intentar carregar les dades de Cajamar si la base de dades està buida
+      if (typeof initializeDBWithCSV === 'function') {
+        await initializeDBWithCSV();
+        // Recarregar les dades al component una volta acabada la ingesta inicial
+        if (tauler && tauler.carregarDades) {
+          await tauler.carregarDades();
+          tauler.render();
+        }
+      }
+
+      const navItems = document.querySelectorAll('.sp-nav-item');
+      
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          const viewName = e.currentTarget.dataset.view;
+          if (!viewName) return;
+
+          // Sincronitza l'estat actiu entre escriptori i mòbil
+          navItems.forEach(nav => {
+            if (nav.dataset.view === viewName) {
+              nav.classList.add('active');
+            } else {
+              nav.classList.remove('active');
+            }
+          });
+          
+          // Passar l'ordre de canvi de vista al Web Component
+          if (tauler && tauler.canviarVista) {
+            tauler.canviarVista(viewName);
+          }
+        });
+      });
+      
+      // Inicialitza les icones SVG
+      if (window.lucide) {
+        console.log("Lucide està carregat", window.lucide);
+        lucide.createIcons();
+      } else {
+        console.error("Lucide NO s'ha carregat correctament.");
+      }
+    });
+  </script>
+
+  <!-- NAV MOBIL (Substitueix la Sidebar en < 768px) -->
+  <nav class="sp-app-shell-nav-mobil">
+    <a class="sp-nav-item" data-view="xat" href="/xat">
+      <span class="sp-nav-icon"><i data-lucide="message-square"></i></span>
+    </a>
+    <a class="sp-nav-item active" data-view="home" href="/soc_de_poble/index.html">
+      <span class="sp-nav-icon"><i data-lucide="layout-grid"></i></span>
+    </a>
+    <a class="sp-nav-item-center" onclick="window.location.href='../connectar/index.html'">
+      <div class="sp-nav-mobil-btn-add">
+        <i data-lucide="plus"></i>
+      </div>
+    </a>
+    <a class="sp-nav-item" data-view="mercat" href="#">
+      <span class="sp-nav-icon"><i data-lucide="shopping-bag"></i></span>
+    </a>
+    <a class="sp-nav-item" data-view="pobles" href="#">
+      <span class="sp-nav-icon"><i data-lucide="map-pin"></i></span>
+    </a>
+  </nav>
+</body>
+</html>

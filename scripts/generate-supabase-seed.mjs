@@ -1,5 +1,18 @@
-import { writeFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import {
+  closeSync,
+  constants as fsConstants,
+  fchmodSync,
+  fstatSync,
+  fsyncSync,
+  lstatSync,
+  openSync,
+  renameSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
+import { basename, dirname, resolve } from 'node:path';
+import { claimReceiptForMutation, completeMutationClaim } from '../_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/scripts/reflex_petorreta.mjs';
 import {
   APP_CONTENT_ROWS,
   APP_SEED_VERSION,
@@ -18,6 +31,64 @@ function toSqlJson(value) {
 
 function toIsoFromSeed(message) {
   return new Date(1700000000000 + (message.createdAtTs || 0) * 1000).toISOString();
+}
+
+function targetMode(target) {
+  try {
+    const stat = lstatSync(target);
+    if (!stat.isFile() || stat.nlink !== 1) {
+      throw new Error(`El target no és un fitxer regular amb identitat exclusiva: ${target}`);
+    }
+    return stat.mode & 0o777;
+  } catch (error) {
+    if (error.code === 'ENOENT') return 0o644;
+    throw error;
+  }
+}
+
+function atomicWriteFile(target, content) {
+  const directory = dirname(target);
+  const temporary = resolve(
+    directory,
+    `.${basename(target)}.${process.pid}.${randomUUID()}.tmp`,
+  );
+  let fileDescriptor;
+  let directoryDescriptor;
+  let renamed = false;
+
+  try {
+    fileDescriptor = openSync(
+      temporary,
+      fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_WRONLY,
+      0o600,
+    );
+    const temporaryStat = fstatSync(fileDescriptor);
+    if (!temporaryStat.isFile() || temporaryStat.nlink !== 1) {
+      throw new Error(`El temporal no té identitat física exclusiva: ${temporary}`);
+    }
+
+    writeFileSync(fileDescriptor, content, { encoding: 'utf8' });
+    fchmodSync(fileDescriptor, targetMode(target));
+    fsyncSync(fileDescriptor);
+    closeSync(fileDescriptor);
+    fileDescriptor = undefined;
+
+    renameSync(temporary, target);
+    renamed = true;
+
+    directoryDescriptor = openSync(directory, fsConstants.O_RDONLY);
+    fsyncSync(directoryDescriptor);
+  } finally {
+    if (fileDescriptor !== undefined) closeSync(fileDescriptor);
+    if (directoryDescriptor !== undefined) closeSync(directoryDescriptor);
+    if (!renamed) {
+      try {
+        unlinkSync(temporary);
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+    }
+  }
 }
 
 const appContentValues = APP_CONTENT_ROWS.map(
@@ -75,4 +146,17 @@ set owner_user_id = excluded.owner_user_id,
 commit;
 `;
 
-writeFileSync(resolve(process.cwd(), 'supabase/seed.sql'), sql);
+const receiptArg = process.argv.slice(2).find((arg) => arg.startsWith('--receipt='));
+if (!receiptArg) throw new Error('Falta --receipt=<lease Reflex> per a supabase-seed.');
+const target = resolve(process.cwd(), 'supabase/seed.sql');
+const claim = await claimReceiptForMutation({
+  receiptPath: resolve(receiptArg.slice('--receipt='.length)),
+  operation: 'supabase-seed',
+  targets: [target],
+  checkDirty: true,
+});
+atomicWriteFile(target, sql);
+await completeMutationClaim({
+  receiptPath: resolve(receiptArg.slice('--receipt='.length)),
+  operation: 'supabase-seed',
+}, claim.claimToken);

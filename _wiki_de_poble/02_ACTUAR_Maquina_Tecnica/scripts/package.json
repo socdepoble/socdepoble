@@ -1,0 +1,18 @@
+{
+  "name": "soc-de-poble-sdp",
+  "version": "15.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Frontera ESM local; les portes canòniques viuen als scripts d'arrel.",
+  "bin": {
+    "sdp": "./sdp.mjs"
+  },
+  "scripts": {
+    "check": "node pre-commit.mjs --dry-run",
+    "audit": "node autoneteja_wiki.mjs --strict",
+    "rag": "node sdp.mjs search"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

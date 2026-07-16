@@ -14,4 +14,10 @@ if [ -z "${NODE_BIN}" ]; then
   exit 1
 fi
 
-exec "${NODE_BIN}" --experimental-specifier-resolution=node scripts/generate-supabase-seed.mjs
+# `pnpm run <script> -- <args>` pot conservar el separador; no és un argument
+# del generador. L'argument directe continua funcionant igual.
+if [ "${1-}" = "--" ]; then
+  shift
+fi
+
+exec "${NODE_BIN}" --experimental-specifier-resolution=node scripts/generate-supabase-seed.mjs "$@"

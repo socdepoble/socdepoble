@@ -35,9 +35,9 @@ export default function ProfileSection({ agents = [] }) {
       ) : null}
 
       <div className="feed-grid">
-        {agents.map((agent) => (
+        {agents.map((agent, index) => (
           <SectionItemCard
-            key={agent.id}
+            key={`${agent.id}-${index}`}
             to={`/perfil/${agent.id}`}
             state={{ preloadedItem: agent }}
             image={agent.avatar_url}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://socdepoble.org/schemas/wiki-frontmatter-v2.json",
+  "title": "Frontmatter canònic de la Wiki de Sóc de Poble",
+  "description": "Única font mecànica de veritat per a les metadades Markdown de la Wiki.",
+  "$comment": "S'aplica a contingut propi; mirrors i vendors conserven el seu contracte i són immutables.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["estat", "tipus", "description"],
+  "properties": {
+    "estat": {
+      "type": "string",
+      "enum": ["canonic", "esborrany", "futur", "arxivat"]
+    },
+    "tipus": {
+      "type": "string",
+      "enum": [
+        "document",
+        "index",
+        "norma",
+        "protocol",
+        "registre",
+        "skill",
+        "plantilla",
+        "acta",
+        "informe",
+        "prompt",
+        "petorreta"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 140
+    },
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 80 },
+      "maxItems": 5,
+      "uniqueItems": true
+    },
+    "revisat": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-(0[1-9]|1[0-2])-([0-2]\\d|3[01])$"
+    }
+  }
+}

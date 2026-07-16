@@ -1,0 +1,36 @@
+{
+  "schema": "socdepoble.schema-cutover.v1",
+  "ready": true,
+  "schemaSha256": "62ed72bf94aab2b858244f29a313cf54ac6430984f4ecc213f11ca29d8772071",
+  "adapted": [
+    "lib/frontmatter.mjs",
+    "lib/wiki_walker.mjs",
+    "autoneteja_wiki.mjs",
+    "entropia_zero_router.js:deriva enums i límits de schema.json",
+    "validate_taxonomia.mjs",
+    "pre-commit.mjs",
+    "compiler/build.cjs:arrel canònica + receipt",
+    "compiler/01_build_index.cjs:v2 + receipt",
+    "compiler/02_build_ontology.cjs:v2 + schema derivat + receipt",
+    "contradiction_engine.mjs",
+    "core/edge_rag.mjs",
+    "core/pattern_extractor.mjs:sol lectura",
+    "core/self_repair.mjs:tombstoned",
+    "semantic_auditor.mjs",
+    "teixidora_sinapsis.mjs:escriptura tombstonada",
+    "consolidar_etiquetes.js:tombstoned",
+    "scripts/enllacat-intelligent-wiki.mjs:parser v2 + sol lectura",
+    "reflex_petorreta.mjs:Petorreta validada contra v2",
+    "07_plantilles/plantilla_acta_unica.md",
+    "plantilles/PLANTILLA_ISO_SDP.md",
+    "00_SER_Brain_Identitat/DOC_Taula_Mestra.md"
+  ],
+  "blockers": [],
+  "acceptance": [
+    "Tots els lectors i escriptors vius de frontmatter usen lib/frontmatter.mjs i schema.json v2.",
+    "Cap consumidor viu exigix tags, categoria, autor, version o dates legacy.",
+    "wiki:test passa 26/26, inclòs el canari temporal apply-restore byte a byte i els dry-runs sense temporals.",
+    "wiki:audit:strict, precommit:sdp i reflex:doctor són verds sobre la línia base de 92 notes.",
+    "schemaSha256 coincidix amb el SHA-256 real de schema.json."
+  ]
+}

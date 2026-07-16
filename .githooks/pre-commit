@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+# SDP-REFLEX-HOOK:v2:pre-commit
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+REFLEX="_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/scripts/reflex_petorreta.mjs"
+node "$REFLEX" \
+  verify --staged --operation=git-commit
+TREE="$(node "$REFLEX" pending-tree)"
+
+TMP_ROOT="${TMPDIR:-/tmp}"
+AUDIT_TMP="$(mktemp -d "$TMP_ROOT/sdp-precommit.XXXXXX")"
+trap 'rm -rf "$AUDIT_TMP"' EXIT HUP INT TERM
+AUDIT_TREE="$AUDIT_TMP/tree"
+mkdir -m 700 "$AUDIT_TREE"
+
+# L’auditoria s’executa sobre els bytes exactes de l’arbre que Git commitejarà,
+# mai sobre el worktree (que pot contindre canvis no staged o ocultar un symlink).
+node "$REFLEX" materialize-tree --destination="$AUDIT_TREE"
+node "$AUDIT_TREE/_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/scripts/pre-commit.mjs" \
+  --dry-run --wiki="$AUDIT_TREE/_wiki_de_poble"

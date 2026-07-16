@@ -857,7 +857,7 @@ async function loadLegacyRemoteData(ownerUserId) {
     request('/rest/v1/towns?select=*&order=created_at.desc&limit=60'),
     request('/rest/v1/entities?select=*&order=created_at.desc&limit=40'),
     request('/rest/v1/media_assets?select=*&order=created_at.desc&limit=40'),
-    requestMaybe(`/rest/v1/section_submissions?select=*&owner_user_id=eq.${encodeURIComponent(ownerUserId)}&order=created_at.asc`)
+    // requestMaybe(`/rest/v1/section_submissions?select=*&owner_user_id=eq.${encodeURIComponent(ownerUserId)}&order=created_at.asc`)
   ]);
   let messagesResponse = [];
   try {
@@ -900,7 +900,7 @@ async function loadStructuredSupabaseData(ownerUserId) {
     request('/rest/v1/app_content?select=key,payload,version'),
     request('/rest/v1/chat_threads?select=id,payload'),
     request(`/rest/v1/chat_messages?select=id,owner_user_id,thread_id,message_id,text,sender,time_label,created_at&owner_user_id=eq.${encodeURIComponent(ownerUserId)}&order=created_at.asc`),
-    requestMaybe(`/rest/v1/section_submissions?select=*&owner_user_id=eq.${encodeURIComponent(ownerUserId)}&order=created_at.asc`)
+    // requestMaybe(`/rest/v1/section_submissions?select=*&owner_user_id=eq.${encodeURIComponent(ownerUserId)}&order=created_at.asc`)
   ]);
 
   if (!Array.isArray(contentRows) || contentRows.length === 0) {
@@ -1114,7 +1114,7 @@ export async function appendSectionSubmission(submission) {
   }
 
   try {
-    await request('/rest/v1/section_submissions?on_conflict=' + encodeURIComponent('id'), {
+    /* await request('/rest/v1/section_submissions?on_conflict=' + encodeURIComponent('id'), {
       method: 'POST',
       headers: {
         Prefer: 'resolution=merge-duplicates,return=representation'
@@ -1130,7 +1130,7 @@ export async function appendSectionSubmission(submission) {
           created_at: createdAt
         }
       ]
-    });
+    }); */
     return storedSubmission;
   } catch (error) {
     const message = String(error?.message || '');

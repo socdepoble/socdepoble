@@ -281,9 +281,9 @@ export default function ConnectarSection({ agents = [] }) {
           </div>
           <div className="connect-panel__body">
             <div className="conversation-list">
-              {agentOptions.map((agent) => (
+              {agentOptions.map((agent, index) => (
                 <button
-                  key={agent.id}
+                  key={`${agent.id}-${index}`}
                   type="button"
                   className={`conversation-button ${selectedAgent === agent.id ? 'conversation-button--active' : ''}`}
                   onClick={() => setSelectedAgent(agent.id)}

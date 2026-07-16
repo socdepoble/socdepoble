@@ -1,0 +1,57 @@
+name: Integritat de la Wiki
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiki-integrity-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Tests i auditories
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Obri el repositori
+        uses: actions/checkout@v4
+
+      - name: Prepara pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+          run_install: false
+
+      - name: Prepara Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Instal·la dependències exactes
+        run: pnpm install --frozen-lockfile
+
+      - name: Executa els tests de la Wiki
+        run: pnpm run wiki:test
+
+      - name: Audita la Wiki en mode estricte
+        run: pnpm run wiki:audit:strict
+
+      - name: Detecta recaigudes de Robotomia
+        run: pnpm run wiki:robotomia
+
+      - name: Executa la prevalidació del commit
+        run: pnpm run precommit:sdp
+
+      - name: Verifica el tancament durable i la baseline
+        run: pnpm run reflex:doctor -- --ci --json

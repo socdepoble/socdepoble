@@ -17,9 +17,13 @@ Rebuild net del projecte amb una base més simple i mantenible.
 ## Arrencar
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev
 ```
+
+La instal·lació només genera derivats ignorats i reproduïbles; no ha de canviar
+`package.json`, `pnpm-lock.yaml` ni l'índex Git. Els scripts de lifecycle o una
+instal·lació que faça efectes externs queden bloquejats pel protocol.
 
 ## Base de dades
 
@@ -29,11 +33,11 @@ El projecte està preparat per a usar Supabase com a BD remota.
 
 Si vols entendre com està repartit el projecte i on tocar cada cosa, mira:
 
-- [docs/DOCUMENTACIO_PROJECTE.md](docs/DOCUMENTACIO_PROJECTE.md)
-- [docs/DOCUMENTACIO_BASE_DE_DADES.md](docs/DOCUMENTACIO_BASE_DE_DADES.md)
-- [docs/GUIA_RAPIDA.md](docs/GUIA_RAPIDA.md)
-- [INSTRUCCIONS_SUPABASE.md](INSTRUCCIONS_SUPABASE.md)
-- [agents/AGENTS.md](agents/AGENTS.md)
+- [Documentació del projecte](docs/s6a/DOCUMENTACIO_PROJECTE.md)
+- [Documentació de la base de dades](docs/s6a/DOCUMENTACIO_BASE_DE_DADES.md)
+- [Exemples d'organització](docs/s6a/DOCUMENTACIO_EXEMPLES.md)
+- [Instruccions de Supabase](docs/s6a/INSTRUCCIONS_SUPABASE.md)
+- [Regles dels agents](.agents/AGENTS.md)
 
 ## Modes de dades
 
@@ -70,8 +74,24 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 VITE_DATA_MODE=auto
 ```
 
-Si vols regenerar el SQL de dades seed a partir del contingut actual:
+Regenerar el SQL de dades seed és una mutació governada. Necessita una sessió
+Reflex segellada que declare l'operació `supabase-seed`, incloga
+`supabase/seed.sql` dins del seu scope i aporte el rebut vigent:
 
 ```bash
-pnpm db:seed:generate
+pnpm run db:seed:generate -- --receipt=.sdp-reflex/sessions/<session-id>.json
 ```
+
+El generador valida el rebut abans de crear cap temporal i publica
+`supabase/seed.sql` de manera atòmica; si la validació o l'escriptura fallen,
+no deixa un seed parcial visible.
+
+## Integritat de la Wiki
+
+La definició local de CI de `.github/workflows/wiki-integrity.yml` comprova els tests, l'auditoria estricta, les recaigudes de Robotomia, la prevalidació i `doctor --ci` contra la baseline segellada. Només quedarà activa en GitHub després de versionar-la i publicar-la; protegir la branca principal continua sent una decisió de governança separada.
+
+Un clon nou activa de forma idempotent l'estat privat i els hooks amb
+`pnpm run reflex:init`; després es diagnostica amb `pnpm run reflex:doctor`.
+`doctor` ha de continuar roig si les
+regles, scripts, cinc hooks o workflow encara no estan seguits per Git: existir
+al disc no equival a una protecció durable.

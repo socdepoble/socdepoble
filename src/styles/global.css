@@ -118,13 +118,14 @@ a {
 .app-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 8px 8px 18px;
+  justify-content: center;
+  padding: 8px 16px 24px;
 }
 
 .app-brand__mark {
-  width: 72px;
-  height: 72px;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
   flex: none;
 }
 
@@ -158,6 +159,7 @@ a {
   gap: 12px;
   border-radius: 18px;
   padding: 12px 14px;
+  height: 56px;
   background: transparent;
   border: 1px solid transparent;
   color: rgba(255, 255, 255, 0.76);
@@ -311,18 +313,16 @@ a {
 
 .topbar {
   position: sticky;
-  top: 12px;
-  z-index: 10;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 16px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.76);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 10px 40px rgba(17, 17, 17, 0.06);
+  padding: 12px 20px;
+  background: #000;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .topbar__title {

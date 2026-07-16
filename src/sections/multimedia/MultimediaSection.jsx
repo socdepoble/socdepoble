@@ -49,9 +49,9 @@ export default function MultimediaSection() {
 
       {viewMode === 'grid' ? (
         <div className="gallery-grid">
-          {mediaItems.map((item) => (
+          {mediaItems.map((item, index) => (
             <SectionItemCard
-              key={item.id}
+              key={`${item.id}-${index}`}
               to={getSectionItemPath('multimedia', item.id)}
               state={{ preloadedItem: item }}
               image={item.src}
@@ -74,9 +74,9 @@ export default function MultimediaSection() {
                   <span className="pill">{group.items.length} {t('section.multimedia.elements', 'elements')}</span>
                 </div>
                 <div className="gallery-grid">
-                  {group.items.map((item) => (
+                  {group.items.map((item, idx) => (
                     <SectionItemCard
-                      key={item.id}
+                      key={`${item.id}-${idx}`}
                       to={getSectionItemPath('multimedia', item.id)}
                       state={{ preloadedItem: item }}
                       image={item.src}

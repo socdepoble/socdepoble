@@ -1,0 +1,1573 @@
+#!/usr/bin/env node
+/**
+ * autoneteja_wiki.mjs — auditoria i migració reversible de la Wiki.
+ *
+ * GARANTIES:
+ * - Sense flags d'aplicació és un dry-run real: zero escriptures.
+ * - Una migració de frontmatter conserva el cos byte a byte.
+ * - Cap orfe amb contingut es mou automàticament.
+ * - Només es poden quarantinar buits semàntics amb grau zero.
+ * - Tota mutació exigix rebut del Reflex, backup, manifest i rollback.
+ * - Qualsevol error és fail-closed (exit diferent de zero).
+ *
+ * Ús:
+ *   node autoneteja_wiki.mjs [--json] [--strict]
+ *   node autoneteja_wiki.mjs --apply-frontmatter --ack-schema-cutover \
+ *     --receipt=/ruta/rebut.json
+ *   node autoneteja_wiki.mjs --quarantine-empty --receipt=/ruta/rebut.json
+ *   node autoneteja_wiki.mjs --restore=/ruta/manifest.json \
+ *     --receipt=/ruta/rebut.json
+ */
+
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createHash } from 'node:crypto';
+import { isUtf8 } from 'node:buffer';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import {
+  parseFrontmatter,
+  serializeFrontmatter,
+} from './lib/frontmatter.mjs';
+
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+export const DEFAULT_WIKI_DIR = path.resolve(SCRIPT_DIR, '../..');
+const PROJECT_DIR = path.dirname(DEFAULT_WIKI_DIR);
+const SCHEMA_TEXT = await fs.readFile(new URL('./schema.json', import.meta.url), 'utf8');
+const SCHEMA = JSON.parse(SCHEMA_TEXT);
+const FIELD_ORDER = ['estat', 'tipus', 'description', 'aliases', 'revisat'];
+const ALLOWED_FIELDS = new Set(FIELD_ORDER);
+const ALLOWED_STATES = new Set(SCHEMA.properties.estat.enum);
+const ALLOWED_TYPES = new Set(SCHEMA.properties.tipus.enum);
+const MAX_DESCRIPTION = SCHEMA.properties.description.maxLength;
+const MAX_ALIASES = SCHEMA.properties.aliases.maxItems;
+const KNOWN_LEGACY_FIELDS = new Set([
+  'name', 'descripcio', 'resum', 'autor', 'authority', 'categoria', 'tags',
+  'created_at', 'updated_at', 'version', 'script', 'replaces', 'depends_on',
+  'jurisdiccio', 'pilar', 'mode',
+]);
+const MANUAL_LEGACY_FIELDS = new Set([
+  'tags', 'script', 'replaces', 'depends_on', 'jurisdiccio', 'mode',
+]);
+
+const EXCLUDED_DIRS = new Set([
+  '.git', '.obsidian', 'assets', 'node_modules', 'scripts', '.wiki-safety',
+]);
+const MIRROR_PREFIXES = [
+  '00_SER_Brain_Identitat/00_AGENTS_I_SKILLS_MIRROR',
+  '03_GOVERNAR_Normativa_Regles/agents_actius',
+];
+const VENDOR_PREFIXES = ['00_SER_Brain_Identitat/Sollutia'];
+const VISIBLE_QUARANTINE_RE = /^QUARANTENA(?:_|-)/i;
+const CONTROL_RE = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/;
+const PLACEHOLDER_RE = /^(?:todo|tbd|wip|fixme|placeholder|pendent|per completar|pr[oò]ximament|sense contingut)[\s.!…:;-]*$/i;
+
+const posix = (value) => value.split(path.sep).join('/');
+const normalitza = (value) => value.normalize('NFC').toLocaleLowerCase('ca');
+const sha256 = (value) => createHash('sha256').update(value).digest('hex');
+const SCHEMA_SHA256 = sha256(SCHEMA_TEXT);
+const unique = (values) => [...new Set(values)];
+const emptyValue = (value) => value === undefined || value === null || value === ''
+  || (Array.isArray(value) && value.length === 0);
+const valueFingerprint = (value) => ({
+  type: Array.isArray(value) ? 'array' : typeof value,
+  items: Array.isArray(value) ? value.length : undefined,
+  sha256: sha256(JSON.stringify(value)),
+});
+const isPrefix = (rel, prefix) => rel === prefix || rel.startsWith(`${prefix}/`);
+const isInside = (root, candidate) => {
+  const rel = path.relative(root, candidate);
+  return rel === '' || (!rel.startsWith('..') && !path.isAbsolute(rel));
+};
+
+function runId(date = new Date()) {
+  return date.toISOString().replace(/[-:.]/g, '').replace('T', '_').replace('Z', 'Z');
+}
+
+function zoneOf(relPath) {
+  if (MIRROR_PREFIXES.some((prefix) => isPrefix(relPath, prefix))) return 'mirall';
+  if (VENDOR_PREFIXES.some((prefix) => isPrefix(relPath, prefix))) return 'vendor';
+  if (VISIBLE_QUARANTINE_RE.test(relPath.split('/')[0])) return 'quarantena_visible';
+  if (relPath.startsWith('04_ARXIU_Documents_Historics/')) return 'arxiu';
+  if (relPath.startsWith('05_Escriptori_Soc_de_Poble/')) return 'escriptori';
+  if (/^0[0-3]_/.test(relPath)) return 'operatiu';
+  return 'fora_taxonomia';
+}
+
+function isMutableZone(zone, { includeMirrors = false, includeLifecycle = false } = {}) {
+  void includeMirrors;
+  if (zone === 'operatiu') return true;
+  if (zone === 'arxiu' || zone === 'escriptori') return includeLifecycle;
+  if (zone === 'mirall' || zone === 'vendor') return false;
+  return false;
+}
+
+async function discoverMarkdown(wikiDir) {
+  const root = await fs.realpath(wikiDir);
+  const docs = [];
+  const skippedSymlinks = [];
+
+  async function walk(dir) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    entries.sort((a, b) => a.name.localeCompare(b.name, 'ca'));
+    for (const entry of entries) {
+      if (entry.name.startsWith('.') || EXCLUDED_DIRS.has(entry.name)) continue;
+      const fullPath = path.join(dir, entry.name);
+      if (!isInside(root, fullPath)) throw new Error(`Ruta fora de la Wiki: ${fullPath}`);
+      if (entry.isSymbolicLink()) {
+        skippedSymlinks.push(posix(path.relative(root, fullPath)));
+        continue;
+      }
+      if (entry.isDirectory()) {
+        await walk(fullPath);
+      } else if (entry.isFile() && entry.name.toLowerCase().endsWith('.md')) {
+        const raw = await fs.readFile(fullPath);
+        if (!isUtf8(raw)) throw new Error(`Markdown no és UTF-8 vàlid: ${fullPath}`);
+        const content = raw.toString('utf8');
+        const relPath = posix(path.relative(root, fullPath));
+        docs.push({
+          fullPath,
+          relPath,
+          name: entry.name,
+          base: entry.name.replace(/\.md$/i, ''),
+          content,
+          bytes: raw.length,
+          sha256: sha256(raw),
+          zone: zoneOf(relPath),
+        });
+      }
+    }
+  }
+
+  await walk(root);
+  return { root, docs, skippedSymlinks };
+}
+
+function treeDigest(docs) {
+  return sha256(docs.map((doc) => `${doc.relPath}\0${doc.sha256}`).sort().join('\n'));
+}
+
+function treeDigestEntries(entries) {
+  return sha256(entries.map((entry) => `${entry.file}\0${entry.sha256}`).sort().join('\n'));
+}
+
+function stripComments(text) {
+  return text
+    .replace(/<!--[^]*?-->/g, '')
+    .replace(/%%[^]*?%%/g, '');
+}
+
+/** Retira només regions on Obsidian no hauria de crear arestes. */
+export function liveMarkdown(body) {
+  const out = [];
+  let inFence = false;
+  let fenceChar = '';
+  let fenceLength = 0;
+  for (const line of body.split(/(?<=\n)/)) {
+    const marker = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+    if (!inFence && marker) {
+      inFence = true;
+      fenceChar = marker[1][0];
+      fenceLength = marker[1].length;
+      out.push('\n');
+      continue;
+    }
+    if (inFence) {
+      if (marker && marker[1][0] === fenceChar && marker[1].length >= fenceLength
+        && /^\s{0,3}(`{3,}|~{3,})\s*$/.test(line.trimEnd())) {
+        inFence = false;
+      }
+      out.push('\n');
+      continue;
+    }
+    out.push(line);
+  }
+  return stripComments(out.join('')).replace(/(`+)(?:[^`]|`(?!\1))*?\1/g, '');
+}
+
+function parseMarkdownDestination(raw) {
+  let value = raw.trim();
+  const angle = /^<([^>]+)>/.exec(value);
+  if (angle) return angle[1];
+  const quotedTitle = /\s+(?:"[^"]*"|'[^']*'|\([^)]*\))\s*$/.exec(value);
+  if (quotedTitle) value = value.slice(0, quotedTitle.index).trim();
+  return value;
+}
+
+function extractInlineMarkdownLinks(text) {
+  const links = [];
+  for (let i = 0; i < text.length; i++) {
+    const embed = text[i] === '!' && text[i + 1] === '[';
+    const bracket = embed ? i + 1 : i;
+    if (text[bracket] !== '[' || text[bracket + 1] === '[') continue;
+    let depth = 1;
+    let escaped = false;
+    let labelEnd = -1;
+    for (let j = bracket + 1; j < text.length; j++) {
+      const char = text[j];
+      if (escaped) { escaped = false; continue; }
+      if (char === '\\') { escaped = true; continue; }
+      if (char === '[') depth++;
+      else if (char === ']' && --depth === 0) { labelEnd = j; break; }
+    }
+    if (labelEnd < 0 || text[labelEnd + 1] !== '(') continue;
+
+    let parens = 1;
+    let quote = '';
+    let angle = false;
+    escaped = false;
+    let end = -1;
+    for (let j = labelEnd + 2; j < text.length; j++) {
+      const char = text[j];
+      if (escaped) { escaped = false; continue; }
+      if (char === '\\') { escaped = true; continue; }
+      if (!quote && char === '<') { angle = true; continue; }
+      if (angle && char === '>') { angle = false; continue; }
+      if (!angle && (char === '"' || char === "'")) {
+        if (quote === char) quote = '';
+        else if (!quote && /\s/.test(text[j - 1] || '')) quote = char;
+        continue;
+      }
+      if (angle || quote) continue;
+      if (char === '(') parens++;
+      else if (char === ')' && --parens === 0) { end = j; break; }
+    }
+    if (end < 0) continue;
+    links.push({
+      kind: 'markdown',
+      raw: text.slice(i, end + 1),
+      target: parseMarkdownDestination(text.slice(labelEnd + 2, end)),
+      embed,
+    });
+    i = end;
+  }
+  return links;
+}
+
+export function extractLinks(body) {
+  const live = liveMarkdown(body);
+  const links = [];
+  for (const match of live.matchAll(/(!?)\[\[([^\[\]\n]+)\]\]/g)) {
+    const inner = match[2];
+    const pipe = inner.indexOf('|');
+    const rawTarget = (pipe === -1 ? inner : inner.slice(0, pipe)).trim();
+    links.push({ kind: 'wiki', raw: match[0], target: rawTarget, embed: Boolean(match[1]) });
+  }
+  const withoutWiki = live.replace(/!?\[\[[^\[\]\n]+\]\]/g, '');
+  links.push(...extractInlineMarkdownLinks(withoutWiki));
+  return links;
+}
+
+function safeDecode(value) {
+  try { return decodeURIComponent(value); } catch { return value; }
+}
+
+function buildResolver(docs) {
+  const byPath = new Map();
+  const byBase = new Map();
+  const byAlias = new Map();
+
+  const add = (map, key, doc) => {
+    const normalized = normalitza(key);
+    if (!map.has(normalized)) map.set(normalized, []);
+    map.get(normalized).push(doc);
+  };
+
+  for (const doc of docs) {
+    const noExt = doc.relPath.replace(/\.md$/i, '');
+    add(byPath, noExt, doc);
+    add(byBase, doc.base, doc);
+    const parsed = parseFrontmatter(doc.content);
+    const aliases = Array.isArray(parsed.data.aliases) ? parsed.data.aliases : [];
+    for (const alias of aliases) add(byAlias, String(alias), doc);
+  }
+  return { byPath, byBase, byAlias };
+}
+
+function resolveLink(link, source, resolver) {
+  let target = safeDecode(link.target).replace(/\\/g, '/').trim();
+  if (!target) return { status: 'self' };
+  if (/^(?:https?:|mailto:|tel:|ftp:|file:|data:|obsidian:)/i.test(target)) return { status: 'external' };
+  if (target.startsWith('#') || target.startsWith('^')) return { status: 'self' };
+
+  const anchorAt = link.kind === 'wiki' ? target.search(/[#^]/) : target.indexOf('#');
+  if (anchorAt >= 0) target = target.slice(0, anchorAt);
+  target = target.trim();
+  if (!target) return { status: 'self' };
+  if (!/\.md$/i.test(target) && /\.[A-Za-z0-9]{1,8}$/.test(target)) return { status: 'asset' };
+  const vaultAbsolute = target.startsWith('/');
+  target = target.replace(/\.md$/i, '').replace(/^\/+/, '');
+
+  const candidates = [];
+  if (link.kind === 'markdown') {
+    if (vaultAbsolute) candidates.push(target);
+    else {
+      const relative = posix(path.posix.normalize(path.posix.join(path.posix.dirname(source.relPath), target)));
+      if (relative.startsWith('../')) return { status: 'outside' };
+      candidates.push(relative);
+    }
+  } else if (target.includes('/')) {
+    const relative = posix(path.posix.normalize(path.posix.join(path.posix.dirname(source.relPath), target)));
+    candidates.push(target, relative);
+  }
+
+  for (const candidate of unique(candidates)) {
+    const hits = resolver.byPath.get(normalitza(candidate)) || [];
+    if (hits.length === 1) return { status: 'resolved', doc: hits[0] };
+    if (hits.length > 1) return { status: 'ambiguous', docs: hits };
+  }
+
+  if (link.kind === 'markdown') return { status: 'unresolved' };
+  if (target.includes('/')) return { status: 'unresolved' };
+
+  const base = path.posix.basename(target);
+  const baseHits = resolver.byBase.get(normalitza(base)) || [];
+  if (baseHits.length === 1) return { status: 'resolved', doc: baseHits[0] };
+  if (baseHits.length > 1) return { status: 'ambiguous', docs: baseHits };
+
+  // Obsidian prioritza un basename real sobre un alias homònim. Resoldre
+  // l'alias primer podia convertir [[Target]] en una aresta cap a una altra
+  // nota i deixar `Target.md` falsament orfe/quarantinable.
+  if (link.kind === 'wiki') {
+    const aliasHits = resolver.byAlias.get(normalitza(target)) || [];
+    if (aliasHits.length === 1) return { status: 'resolved', doc: aliasHits[0] };
+    if (aliasHits.length > 1) return { status: 'ambiguous', docs: aliasHits };
+  }
+
+  const suffixHits = [...resolver.byPath.entries()]
+    .filter(([key]) => key.endsWith(`/${normalitza(target)}`))
+    .flatMap(([, hits]) => hits);
+  if (suffixHits.length === 1) return { status: 'resolved', doc: suffixHits[0] };
+  if (suffixHits.length > 1) return { status: 'ambiguous', docs: suffixHits };
+  return { status: 'unresolved' };
+}
+
+function buildGraph(docs, universeDocs = docs) {
+  const resolver = buildResolver(universeDocs);
+  const nodePaths = new Set(docs.map((doc) => doc.relPath));
+  const outgoing = new Map(docs.map((doc) => [doc.relPath, new Set()]));
+  const incoming = new Map(docs.map((doc) => [doc.relPath, new Set()]));
+  const unresolved = [];
+  const ambiguous = [];
+  const outside = [];
+  const outsideScope = [];
+  let occurrences = 0;
+
+  for (const source of docs) {
+    const body = parseFrontmatter(source.content).body;
+    for (const link of extractLinks(body)) {
+      const resolution = resolveLink(link, source, resolver);
+      if (['external', 'asset', 'self'].includes(resolution.status)) continue;
+      occurrences++;
+      if (resolution.status === 'resolved') {
+        if (!nodePaths.has(resolution.doc.relPath)) {
+          outsideScope.push({ from: source.relPath, kind: link.kind, target: link.target, resolved: resolution.doc.relPath });
+          continue;
+        }
+        if (resolution.doc.relPath !== source.relPath) {
+          outgoing.get(source.relPath).add(resolution.doc.relPath);
+          incoming.get(resolution.doc.relPath).add(source.relPath);
+        }
+      } else if (resolution.status === 'ambiguous') {
+        ambiguous.push({
+          from: source.relPath,
+          kind: link.kind,
+          target: link.target,
+          candidates: resolution.docs.map((doc) => doc.relPath),
+        });
+      } else if (resolution.status === 'outside') {
+        outside.push({ from: source.relPath, kind: link.kind, target: link.target });
+      } else {
+        unresolved.push({ from: source.relPath, zone: source.zone, kind: link.kind, target: link.target });
+      }
+    }
+  }
+
+  const degree = new Map(docs.map((doc) => [
+    doc.relPath,
+    (incoming.get(doc.relPath)?.size || 0) + (outgoing.get(doc.relPath)?.size || 0),
+  ]));
+  const orphans = docs.filter((doc) => degree.get(doc.relPath) === 0).map((doc) => doc.relPath);
+  const sourceOnly = docs
+    .filter((doc) => incoming.get(doc.relPath).size === 0 && outgoing.get(doc.relPath).size > 0)
+    .map((doc) => doc.relPath);
+  const scopedResolver = buildResolver(docs);
+  const duplicateBasenames = [...scopedResolver.byBase.entries()]
+    .filter(([, hits]) => hits.length > 1)
+    .map(([base, hits]) => ({ base, files: hits.map((doc) => doc.relPath) }));
+
+  return {
+    incoming, outgoing, degree,
+    summary: {
+      occurrences,
+      resolvedEdges: [...outgoing.values()].reduce((sum, values) => sum + values.size, 0),
+      unresolvedOccurrences: unresolved.length,
+      unresolvedTargets: unique(unresolved.map((item) => normalitza(item.target))).length,
+      ambiguousOccurrences: ambiguous.length,
+      outsideOccurrences: outside.length,
+      outsideScopeOccurrences: outsideScope.length,
+      orphans: orphans.length,
+      sourceOnly: sourceOnly.length,
+      duplicateBasenames: duplicateBasenames.length,
+    },
+    unresolved,
+    ambiguous,
+    outside,
+    outsideScope,
+    orphans,
+    sourceOnly,
+    duplicateBasenames,
+  };
+}
+
+function cleanText(value) {
+  return String(value ?? '')
+    .replace(/!?(?:\[\[([^\]|]+)(?:\|([^\]]+))?\]\])/g, (_, target, alias) => alias || target)
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/[`*_>#]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function truncateCodePoints(value, max) {
+  const chars = [...value];
+  if (chars.length <= max) return value;
+  return `${chars.slice(0, Math.max(0, max - 1)).join('').trimEnd()}…`;
+}
+
+function descriptionFromBody(body, base) {
+  const live = liveMarkdown(body);
+  for (const raw of live.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || /^#{1,6}\s/.test(line) || /^[-*+]\s/.test(line) || /^\|/.test(line) || /^>/.test(line)) continue;
+    const cleaned = cleanText(line);
+    if (cleaned.length >= 12) return truncateCodePoints(cleaned, MAX_DESCRIPTION);
+  }
+  const h1 = /^#\s+(.+)$/m.exec(live)?.[1];
+  if (h1) return truncateCodePoints(`Document sobre «${cleanText(h1)}».`, MAX_DESCRIPTION);
+  return truncateCodePoints(`Document «${base}» pendent de descripció humana.`, MAX_DESCRIPTION);
+}
+
+const TYPE_MAP = new Map([
+  ['doc', 'document'], ['document', 'document'], ['nucli', 'document'], ['core', 'document'],
+  ['bios', 'document'], ['identitat', 'document'], ['cultura', 'document'], ['saber', 'document'],
+  ['entrada', 'index'], ['index', 'index'], ['skill', 'skill'],
+  ['plantilla', 'plantilla'], ['plantilla-mestra', 'plantilla'],
+  ['acta', 'acta'], ['acte', 'acta'], ['actes', 'acta'],
+  ['auditoria', 'informe'], ['report', 'informe'], ['informe', 'informe'],
+  ['prompt', 'prompt'], ['petorreta', 'petorreta'],
+  ['llei', 'norma'], ['regles', 'norma'], ['estandard', 'norma'],
+  ['governanca', 'norma'], ['font-veritat', 'norma'],
+  ['protocol', 'protocol'], ['protocol-execucio', 'protocol'], ['workflow', 'protocol'],
+  ['registre', 'registre'], ['log', 'registre'], ['ledger', 'registre'],
+]);
+
+function eventTypeFromName(base) {
+  const upper = `_${base.toUpperCase()}_`;
+  if (upper.includes('_PETORRETA_')) return 'petorreta';
+  const candidates = [
+    ['_ACTA_', 'acta'],
+    ['_AUDITORIA_', 'informe'],
+    ['_REPORT_', 'informe'],
+    ['_PROMPT_', 'prompt'],
+  ].map(([needle, type]) => ({ index: upper.indexOf(needle), type }))
+    .filter((candidate) => candidate.index >= 0)
+    .sort((a, b) => a.index - b.index);
+  return candidates[0]?.type || null;
+}
+
+function structuralType(doc) {
+  const rel = doc.relPath;
+  if (/(?:^|\/)skills(?:\/|$)/i.test(rel) || doc.name === 'SKILL.md') return 'skill';
+  if (/^(?:README|00_INDEX|00_index|index)/i.test(doc.base)) return 'index';
+  if (/^00_plantilles$/i.test(doc.base)) return 'index';
+  if (/(?:^|\/)(?:07_)?plantilles(?:\/|$)/i.test(rel)) return 'plantilla';
+  const event = eventTypeFromName(doc.base);
+  if (event) return event;
+  if (/^(?:LLEI|ESTANDARD|DOC_Governanca)/i.test(doc.base)) return 'norma';
+  if (/(?:registre|registry|ledger|changelog|^log_)/i.test(doc.base)) return 'registre';
+  return null;
+}
+
+function inferType(doc, data) {
+  const explicit = String(data.tipus || '').toLocaleLowerCase('ca');
+  if (ALLOWED_TYPES.has(explicit)) return explicit;
+  const raw = String(data.categoria || '').toLocaleLowerCase('ca');
+  const mapped = TYPE_MAP.get(raw);
+  if (mapped) return mapped;
+  return structuralType(doc) || 'document';
+}
+
+function inferState(doc, data) {
+  const value = String(data.estat || '').toLocaleLowerCase('ca');
+  if (ALLOWED_STATES.has(value)) return value;
+  if (doc.zone === 'arxiu' || doc.zone === 'quarantena_visible') return 'arxivat';
+  if (doc.zone === 'escriptori') return 'esborrany';
+  return 'esborrany';
+}
+
+function canonicalAliases(data, base) {
+  void base;
+  // sourceShapeErrors ja bloqueja formes insegures. Ací no "netegem" valors
+  // vàlids: `C#`, apòstrofs i puntuació són dades humanes, no soroll Markdown.
+  return Array.isArray(data.aliases) ? [...data.aliases] : [];
+}
+
+function canonicalFrontmatter(doc, parsed) {
+  const data = parsed.data;
+  const sourceDescription = data.description || data.descripcio || data.resum || '';
+  const existingDescription = typeof sourceDescription === 'string' ? sourceDescription : '';
+  const hasHumanDescription = [...existingDescription].length >= SCHEMA.properties.description.minLength;
+  const description = hasHumanDescription
+    ? existingDescription
+    : descriptionFromBody(parsed.body, doc.base);
+  const canonical = {
+    estat: hasHumanDescription ? inferState(doc, data) : 'esborrany',
+    tipus: inferType(doc, data),
+    description,
+  };
+  const aliases = canonicalAliases(data, doc.base);
+  if (aliases.length) canonical.aliases = aliases;
+  if (validIsoDate(data.revisat)) {
+    canonical.revisat = String(data.revisat);
+  }
+  return canonical;
+}
+
+function validateCanonical(data) {
+  const errors = [];
+  const unknown = Object.keys(data).filter((key) => !ALLOWED_FIELDS.has(key));
+  if (unknown.length) errors.push(`claus no admeses: ${unknown.join(', ')}`);
+  if (typeof data.estat !== 'string' || !ALLOWED_STATES.has(data.estat)) errors.push(`estat invàlid: ${data.estat ?? '(absent)'}`);
+  if (typeof data.tipus !== 'string' || !ALLOWED_TYPES.has(data.tipus)) errors.push(`tipus invàlid: ${data.tipus ?? '(absent)'}`);
+  const descriptionLength = typeof data.description === 'string' ? [...data.description].length : 0;
+  if (descriptionLength < SCHEMA.properties.description.minLength || descriptionLength > MAX_DESCRIPTION) {
+    errors.push('description absent, massa curta o massa llarga');
+  }
+  if (data.aliases !== undefined) {
+    if (!Array.isArray(data.aliases) || data.aliases.length > MAX_ALIASES
+      || data.aliases.some((alias) => typeof alias !== 'string' || [...alias].length < 1 || [...alias].length > 80)
+      || new Set(data.aliases.map((alias) => normalitza(String(alias)))).size !== data.aliases.length) {
+      errors.push('aliases invàlid, duplicat o fora de límits');
+    }
+  }
+  if (data.revisat !== undefined && !validIsoDate(data.revisat)) errors.push('revisat invàlid');
+  return errors;
+}
+
+function validIsoDate(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
+function sourceShapeErrors(data, doc) {
+  const errors = [];
+  for (const key of ['estat', 'tipus']) {
+    if (data[key] === undefined || emptyValue(data[key])) continue;
+    if (typeof data[key] !== 'string') errors.push(`${key} no és string`);
+    else {
+      const allowed = key === 'estat' ? ALLOWED_STATES : ALLOWED_TYPES;
+      if (!allowed.has(data[key])) errors.push(`${key} té un valor no admés i necessita revisió humana: ${data[key]}`);
+    }
+  }
+  for (const key of ['description', 'descripcio', 'resum']) {
+    if (data[key] !== undefined && !emptyValue(data[key])) {
+      if (typeof data[key] !== 'string') errors.push(`${key} no és string`);
+      else if ([...data[key]].length < SCHEMA.properties.description.minLength) errors.push(`${key} és massa curta per migrar automàticament`);
+      else if ([...data[key]].length > MAX_DESCRIPTION) errors.push(`${key} és massa llarga per migrar automàticament`);
+    }
+  }
+  if (data.aliases !== undefined && !emptyValue(data.aliases)) {
+    if (!Array.isArray(data.aliases) || data.aliases.length > MAX_ALIASES
+      || data.aliases.some((alias) => typeof alias !== 'string' || [...alias].length < 1 || [...alias].length > 80)
+      || new Set(data.aliases.map((alias) => normalitza(String(alias)))).size !== data.aliases.length) {
+      errors.push('aliases necessita revisió humana');
+    }
+  }
+  if (data.revisat !== undefined && !emptyValue(data.revisat) && !validIsoDate(data.revisat)) {
+    errors.push('revisat no és una data real YYYY-MM-DD');
+  }
+  const expectedType = structuralType(doc);
+  const explicitType = String(data.tipus || '').toLocaleLowerCase('ca');
+  if (expectedType && ALLOWED_TYPES.has(explicitType) && explicitType !== expectedType) {
+    errors.push(`tipus explícit ${explicitType} entra en conflicte amb ${expectedType} inferit de nom/ruta`);
+  }
+  return errors;
+}
+
+function contentClassification(doc, parsed) {
+  const withoutComments = stripComments(parsed.body).trim();
+  const plain = cleanText(liveMarkdown(parsed.body).replace(/^#{1,6}\s+/gm, '')).trim();
+  const headings = [...liveMarkdown(parsed.body).matchAll(/^#{1,6}\s+(.+)$/gm)];
+  return {
+    physicalEmpty: /^\uFEFF?\s*$/u.test(doc.content),
+    semanticEmpty: withoutComments === '',
+    placeholder: plain.length <= 120 && PLACEHOLDER_RE.test(plain),
+    titleOnly: headings.length > 0 && plain === cleanText(headings.map((match) => match[1]).join(' ')),
+    controlChars: CONTROL_RE.test(doc.content),
+  };
+}
+
+async function readGraphConfig(root) {
+  try {
+    const config = JSON.parse(await fs.readFile(path.join(root, '.obsidian', 'graph.json'), 'utf8'));
+    return {
+      present: true,
+      search: config.search ?? '',
+      showOrphans: config.showOrphans ?? null,
+      hideUnresolved: config.hideUnresolved ?? null,
+      colorGroups: Array.isArray(config.colorGroups) ? config.colorGroups.length : 0,
+    };
+  } catch (error) {
+    return { present: false, error: error.message };
+  }
+}
+
+export async function auditWiki(wikiDir = DEFAULT_WIKI_DIR, options = {}) {
+  const { includeMirrors = false, includeLifecycle = false } = options;
+  const mutationPolicy = { includeMirrors, includeLifecycle };
+  const { root, docs, skippedSymlinks } = await discoverMarkdown(wikiDir);
+  const baselineDigest = treeDigest(docs);
+  const graph = buildGraph(docs);
+  const operationalDocs = docs.filter((doc) => doc.zone === 'operatiu');
+  const operationalGraph = buildGraph(operationalDocs, docs);
+  const zones = {};
+  const keys = new Map();
+  const absentFrontmatter = [];
+  const malformedFrontmatter = [];
+  const yamlErrors = [];
+  const canonicalViolations = [];
+  const unknownFields = [];
+  const unmappedFields = [];
+  const unsafeSourceFields = [];
+  const physicalEmpty = [];
+  const semanticEmpty = [];
+  const placeholders = [];
+  const titleOnly = [];
+  const controlChars = [];
+  const frontmatterActions = [];
+
+  for (const doc of docs) {
+    zones[doc.zone] = (zones[doc.zone] || 0) + 1;
+    const schemaManaged = doc.zone !== 'mirall' && doc.zone !== 'vendor';
+    const parsed = parseFrontmatter(doc.content);
+    for (const key of Object.keys(parsed.data)) keys.set(key, (keys.get(key) || 0) + 1);
+    if (schemaManaged && !parsed.hasFrontmatter) absentFrontmatter.push(doc.relPath);
+    if (parsed.malformed) malformedFrontmatter.push(doc.relPath);
+    if (parsed.errors.length) yamlErrors.push({ file: doc.relPath, errors: parsed.errors });
+    const unknown = schemaManaged ? Object.keys(parsed.data).filter((key) => !ALLOWED_FIELDS.has(key)) : [];
+    if (unknown.length) unknownFields.push({ file: doc.relPath, fields: unknown });
+    const unmapped = unknown.filter((key) => (!KNOWN_LEGACY_FIELDS.has(key) || MANUAL_LEGACY_FIELDS.has(key))
+      && !emptyValue(parsed.data[key]));
+    if (unmapped.length) unmappedFields.push({ file: doc.relPath, fields: unmapped });
+    const sourceErrors = schemaManaged ? sourceShapeErrors(parsed.data, doc) : [];
+    if (sourceErrors.length) unsafeSourceFields.push({ file: doc.relPath, errors: sourceErrors });
+
+    const classification = contentClassification(doc, parsed);
+    if (classification.physicalEmpty) physicalEmpty.push(doc.relPath);
+    if (classification.semanticEmpty) semanticEmpty.push(doc.relPath);
+    if (classification.placeholder) placeholders.push(doc.relPath);
+    if (classification.titleOnly) titleOnly.push(doc.relPath);
+    if (classification.controlChars) controlChars.push(doc.relPath);
+
+    if (schemaManaged && !parsed.malformed && parsed.errors.length === 0 && !classification.controlChars
+      && unmapped.length === 0 && sourceErrors.length === 0) {
+      const currentValidation = validateCanonical(parsed.data);
+      if (currentValidation.length) canonicalViolations.push({ file: doc.relPath, errors: currentValidation });
+      const canonical = canonicalFrontmatter(doc, parsed);
+      const validation = validateCanonical(canonical);
+      if (validation.length) {
+        canonicalViolations.push({ file: doc.relPath, errors: validation.map((error) => `proposta: ${error}`) });
+        continue;
+      }
+      const newContent = serializeFrontmatter(canonical, FIELD_ORDER) + parsed.body;
+      if (newContent !== doc.content && isMutableZone(doc.zone, mutationPolicy)) {
+        frontmatterActions.push({
+          action: 'rewrite-frontmatter',
+          file: doc.relPath,
+          beforeSha256: doc.sha256,
+          afterSha256: sha256(newContent),
+          bodySha256: sha256(parsed.body),
+          removedFields: unknown,
+          removedValues: Object.fromEntries(unknown
+            .filter((key) => !emptyValue(parsed.data[key]))
+            .map((key) => [key, valueFingerprint(parsed.data[key])])),
+          canonical,
+          content: newContent,
+        });
+      }
+    }
+  }
+
+  const quarantineCandidates = physicalEmpty
+    .filter((file) => graph.degree.get(file) === 0)
+    .filter((file) => {
+      const doc = docs.find((candidate) => candidate.relPath === file);
+      return doc && isMutableZone(doc.zone, mutationPolicy);
+    });
+  const linkedEmpty = semanticEmpty.filter((file) => graph.degree.get(file) > 0);
+  const visibleQuarantines = docs
+    .filter((doc) => doc.zone === 'quarantena_visible')
+    .map((doc) => doc.relPath);
+  const zoneByFile = new Map(docs.map((doc) => [doc.relPath, doc.zone]));
+  const mutationBlockers = [
+    ...malformedFrontmatter.map((file) => ({ file, reason: 'frontmatter-malformat' })),
+    ...yamlErrors.map((item) => ({ file: item.file, reason: 'yaml-invalid' })),
+    ...controlChars.map((file) => ({ file, reason: 'control-char' })),
+    ...unmappedFields.map((item) => ({ file: item.file, reason: `unmapped-fields:${item.fields.join(',')}` })),
+    ...unsafeSourceFields.map((item) => ({ file: item.file, reason: `unsafe-source:${item.errors.join(',')}` })),
+    ...skippedSymlinks.map((file) => ({ file, reason: 'symlink' })),
+  ].filter((item) => isMutableZone(zoneByFile.get(item.file) || zoneOf(item.file), mutationPolicy));
+
+  const p0 = malformedFrontmatter.length + yamlErrors.length + controlChars.length + skippedSymlinks.length;
+  const schemaDriftFiles = new Set([
+    ...absentFrontmatter,
+    ...unknownFields.map((item) => item.file),
+    ...canonicalViolations.map((item) => item.file),
+    ...unsafeSourceFields.map((item) => item.file),
+    ...frontmatterActions.map((item) => item.file),
+  ]);
+  const schemaDrift = schemaDriftFiles.size;
+  const operationalSet = new Set(operationalDocs.map((doc) => doc.relPath));
+  const inOperational = (file) => operationalSet.has(typeof file === 'string' ? file : file.file);
+  const operationalPlaceholders = placeholders.filter(inOperational);
+  const operationalTitleOnly = titleOnly.filter(inOperational);
+  const operationalP0 = malformedFrontmatter.filter(inOperational).length
+    + yamlErrors.filter(inOperational).length
+    + controlChars.filter(inOperational).length
+    + skippedSymlinks.filter((file) => zoneOf(file) === 'operatiu').length;
+  const operationalP1 = semanticEmpty.filter(inOperational).length
+    + operationalPlaceholders.length + operationalTitleOnly.length
+    + operationalGraph.orphans.length
+    + operationalGraph.unresolved.length + operationalGraph.ambiguous.length;
+  // Les zones de cicle de vida, miralls i vendor poden contindre nodes
+  // informatius aïllats. En canvi, un orfe/placeholder/títol-sol dins del nucli
+  // operatiu és una fallada dura i ha de fer fallar també `--strict`.
+  const p1 = semanticEmpty.length + graph.unresolved.length + graph.ambiguous.length
+    + visibleQuarantines.length + operationalPlaceholders.length
+    + operationalTitleOnly.length + operationalGraph.orphans.length;
+  const health = p0 > 0 ? 'critic' : p1 > 0 ? 'degradat' : schemaDrift > 0 ? 'a_madurar' : 'saludable';
+  const operationalDrift = new Set([...schemaDriftFiles].filter((file) => operationalSet.has(file))).size;
+  const operationalHealth = operationalP0 > 0 ? 'critic'
+    : operationalP1 > 0 ? 'degradat'
+      : operationalDrift > 0 ? 'a_madurar' : 'saludable';
+  const obsidian = await readGraphConfig(root);
+  const zoneByPath = new Map(docs.map((doc) => [doc.relPath, doc.zone]));
+  const orphanZones = Object.fromEntries([...graph.orphans.reduce((counts, file) => {
+    const zone = zoneByPath.get(file) || 'desconegut';
+    counts.set(zone, (counts.get(zone) || 0) + 1);
+    return counts;
+  }, new Map()).entries()].sort(([a], [b]) => a.localeCompare(b, 'ca')));
+  const planBasis = {
+    schemaSha256: SCHEMA_SHA256,
+    baselineDigest,
+    baselineFiles: docs.map((doc) => ({ file: doc.relPath, sha256: doc.sha256 })),
+    mutationPolicy,
+    frontmatterActions: frontmatterActions.map(({ content, ...item }) => item),
+    quarantineCandidates,
+    mutationBlockers,
+  };
+  const planDigest = sha256(JSON.stringify(planBasis));
+
+  return {
+    schema: 'socdepoble.autoneteja.report.v2',
+    generatedAt: new Date().toISOString(),
+    root,
+    health,
+    ok: p0 === 0 && p1 === 0 && schemaDrift === 0,
+    snapshot: {
+      files: docs.length,
+      bytes: docs.reduce((sum, doc) => sum + doc.bytes, 0),
+      treeSha256: baselineDigest,
+      zones,
+    },
+    frontmatter: {
+      schemaFile: posix(path.relative(root, path.join(SCRIPT_DIR, 'schema.json'))),
+      keys: [...keys.entries()].sort((a, b) => b[1] - a[1]).map(([key, count]) => ({ key, count })),
+      absent: absentFrontmatter,
+      malformed: malformedFrontmatter,
+      yamlErrors,
+      canonicalViolations,
+      unknownFields,
+      unmappedFields,
+      unsafeSourceFields,
+      plannedRewrites: frontmatterActions.length,
+    },
+    content: { physicalEmpty, semanticEmpty, linkedEmpty, placeholders, titleOnly, controlChars },
+    graph: {
+      ...graph.summary,
+      unresolved: graph.unresolved,
+      ambiguous: graph.ambiguous,
+      outside: graph.outside,
+      orphanFiles: graph.orphans,
+      orphanZones,
+      sourceOnlyFiles: graph.sourceOnly,
+      duplicateBasenameGroups: graph.duplicateBasenames,
+    },
+    operational: {
+      health: operationalHealth,
+      ok: operationalP0 === 0 && operationalP1 === 0 && operationalDrift === 0,
+      documents: operationalDocs.length,
+      frontmatterDrift: operationalDrift,
+      semanticEmpty: semanticEmpty.filter(inOperational),
+      placeholders: operationalPlaceholders,
+      titleOnly: operationalTitleOnly,
+      graph: {
+        ...operationalGraph.summary,
+        unresolved: operationalGraph.unresolved,
+        ambiguous: operationalGraph.ambiguous,
+        outsideScope: operationalGraph.outsideScope,
+        orphanFiles: operationalGraph.orphans,
+        sourceOnlyFiles: operationalGraph.sourceOnly,
+        duplicateBasenameGroups: operationalGraph.duplicateBasenames,
+      },
+    },
+    obsidian,
+    safety: {
+      skippedSymlinks,
+      visibleQuarantines,
+      quarantineCandidates,
+      mutationBlockers,
+      note: 'Un orfe amb contingut mai és candidat automàtic.',
+    },
+    plan: { ...planBasis, planDigest, frontmatterActions },
+  };
+}
+
+async function atomicWrite(file, content, { mode = 0o644 } = {}) {
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  const temp = `${file}.sdp-tmp-${process.pid}-${Date.now()}`;
+  const handle = await fs.open(temp, 'wx', mode & 0o777);
+  try {
+    await handle.writeFile(content, typeof content === 'string' ? 'utf8' : undefined);
+    await handle.sync();
+  } catch (error) {
+    await handle.close().catch(() => {});
+    await fs.rm(temp, { force: true }).catch(() => {});
+    throw error;
+  }
+  await handle.close();
+  await fs.chmod(temp, mode & 0o777);
+  await fs.rename(temp, file);
+  const directory = await fs.open(path.dirname(file), 'r').catch(() => null);
+  if (directory) {
+    await directory.sync().catch(() => {});
+    await directory.close().catch(() => {});
+  }
+}
+
+async function writeManifest(file, manifest) {
+  await atomicWrite(file, `${JSON.stringify(manifest, null, 2)}\n`);
+}
+
+async function writeNewFile(file, content, { mode = 0o600 } = {}) {
+  await fs.mkdir(path.dirname(file), { recursive: true });
+  const handle = await fs.open(file, 'wx', mode);
+  try {
+    await handle.writeFile(content, typeof content === 'string' ? 'utf8' : undefined);
+    await handle.sync();
+  } finally {
+    await handle.close();
+  }
+  const directory = await fs.open(path.dirname(file), 'r').catch(() => null);
+  if (directory) {
+    await directory.sync().catch(() => {});
+    await directory.close().catch(() => {});
+  }
+}
+
+async function requireReceipt(receiptPath, operation, targets, planDigest) {
+  if (!receiptPath) throw new Error(`L'operació ${operation} exigix --receipt=<rebut.json>`);
+  const { claimReceiptForMutation } = await import('./reflex_petorreta.mjs');
+  const claimed = await claimReceiptForMutation({ receiptPath, operation, targets, planDigest });
+  return { receiptPath, operation, claimToken: claimed.claimToken };
+}
+
+async function completeReceiptClaim(claim) {
+  const { completeMutationClaim } = await import('./reflex_petorreta.mjs');
+  await completeMutationClaim({ receiptPath: claim.receiptPath, operation: claim.operation }, claim.claimToken);
+}
+
+const safetyDirFor = (root) => path.join(path.dirname(root), '.wiki-safety');
+
+async function acquireMutationLock(root, { recoverStale = false } = {}) {
+  const safetyDir = safetyDirFor(root);
+  await fs.mkdir(safetyDir, { recursive: true });
+  const lockPath = path.join(safetyDir, 'autoneteja.lock');
+  let handle;
+  try {
+    handle = await fs.open(lockPath, 'wx');
+  } catch (error) {
+    if (error.code === 'EEXIST' && recoverStale) {
+      const owner = await fs.readFile(lockPath, 'utf8').catch(() => '');
+      const pid = Number(owner.trim().split(/\s+/)[0]);
+      let alive = Number.isInteger(pid) && pid > 0;
+      if (alive) {
+        try { process.kill(pid, 0); } catch (failure) { if (failure.code === 'ESRCH') alive = false; else throw failure; }
+      }
+      if (!alive) {
+        await fs.rm(lockPath, { force: true });
+        return acquireMutationLock(root, { recoverStale: false });
+      }
+    }
+    if (error.code === 'EEXIST') throw new Error('Ja hi ha una autoneteja en curs; usa restore sobre el manifest si el procés anterior va morir.');
+    throw error;
+  }
+  await handle.writeFile(`${process.pid} ${new Date().toISOString()}\n`);
+  return async () => {
+    await handle.close().catch(() => {});
+    await fs.rm(lockPath, { force: true }).catch(() => {});
+  };
+}
+
+async function assertUnchanged(root, expectedDigest) {
+  const fresh = await discoverMarkdown(root);
+  const actual = treeDigest(fresh.docs);
+  if (actual !== expectedDigest) {
+    const error = new Error('La Wiki ha canviat després de l\'auditoria; pla caducat, zero escriptures.');
+    error.code = 'STALE_PLAN';
+    throw error;
+  }
+}
+
+async function assertSchemaCutoverReady() {
+  const lockPath = path.join(SCRIPT_DIR, 'schema-cutover.lock.json');
+  const lock = JSON.parse(await fs.readFile(lockPath, 'utf8'));
+  if (lock.schema !== 'socdepoble.schema-cutover.v1' || lock.ready !== true) {
+    throw new Error('Cutover v2 no preparat: schema-cutover.lock.json continua en ready=false.');
+  }
+  if (!Array.isArray(lock.blockers) || lock.blockers.length > 0) {
+    throw new Error(`Cutover v2 bloquejat per ${(lock.blockers || []).length} consumidor(s) legacy.`);
+  }
+  if (lock.schemaSha256 !== SCHEMA_SHA256) {
+    throw new Error('Cutover v2 caducat: schemaSha256 no coincidix amb schema.json.');
+  }
+}
+
+function planBasisFromReport(report) {
+  const plan = report?.plan;
+  if (!plan || !Array.isArray(plan.baselineFiles) || !Array.isArray(plan.frontmatterActions)
+    || !Array.isArray(plan.quarantineCandidates) || !Array.isArray(plan.mutationBlockers)) {
+    throw new Error('Pla d’autoneteja incomplet o amb estructura invàlida.');
+  }
+  return {
+    schemaSha256: plan.schemaSha256,
+    baselineDigest: plan.baselineDigest,
+    baselineFiles: plan.baselineFiles,
+    mutationPolicy: plan.mutationPolicy,
+    frontmatterActions: plan.frontmatterActions.map(({ content, ...item }) => item),
+    quarantineCandidates: plan.quarantineCandidates,
+    mutationBlockers: plan.mutationBlockers,
+  };
+}
+
+function assertAuditPlanIntegrity(report) {
+  if (report?.schema !== 'socdepoble.autoneteja.report.v2') {
+    throw new Error('Informe d’autoneteja desconegut.');
+  }
+  const basis = planBasisFromReport(report);
+  if (basis.schemaSha256 !== SCHEMA_SHA256) {
+    throw new Error('Pla caducat: no està vinculat al schema.json actual.');
+  }
+  if (report.snapshot?.treeSha256 !== basis.baselineDigest
+    || treeDigestEntries(basis.baselineFiles) !== basis.baselineDigest) {
+    throw new Error('Pla manipulat: el digest de baseline no concorda amb els fitxers.');
+  }
+  if (JSON.stringify(report.safety?.mutationBlockers) !== JSON.stringify(basis.mutationBlockers)) {
+    throw new Error('Pla manipulat: els bloquejos no concorden amb l’auditoria.');
+  }
+
+  const baseline = new Map();
+  for (const item of basis.baselineFiles) {
+    if (typeof item?.file !== 'string' || !/^[a-f0-9]{64}$/.test(item?.sha256 || '')
+      || baseline.has(item.file)) {
+      throw new Error('Pla manipulat: baseline amb ruta/hash invàlid o duplicat.');
+    }
+    baseline.set(item.file, item.sha256);
+  }
+  const actionFiles = new Set();
+  for (const action of report.plan.frontmatterActions) {
+    if (action?.action !== 'rewrite-frontmatter' || typeof action.file !== 'string'
+      || typeof action.content !== 'string' || actionFiles.has(action.file)) {
+      throw new Error('Pla manipulat: acció de frontmatter invàlida o duplicada.');
+    }
+    actionFiles.add(action.file);
+    if (baseline.get(action.file) !== action.beforeSha256) {
+      throw new Error(`Pla manipulat: beforeSha256 no concorda per ${action.file}.`);
+    }
+    if (sha256(action.content) !== action.afterSha256) {
+      throw new Error(`Pla manipulat: afterSha256 no concorda amb el contingut de ${action.file}.`);
+    }
+  }
+  const quarantine = new Set();
+  for (const file of basis.quarantineCandidates) {
+    if (typeof file !== 'string' || !baseline.has(file) || quarantine.has(file)) {
+      throw new Error('Pla manipulat: candidat de quarantena invàlid o duplicat.');
+    }
+    quarantine.add(file);
+  }
+  const expectedDigest = sha256(JSON.stringify(basis));
+  if (expectedDigest !== report.plan.planDigest) {
+    throw new Error('Pla manipulat: planDigest no concorda amb accions, bloquejos i schema.');
+  }
+  return expectedDigest;
+}
+
+export async function applyAuditPlan(report, options = {}) {
+  const {
+    applyFrontmatter = false, quarantineEmpty = false, ackSchemaCutover = false,
+    ackLegacyLoss = false, receiptPath,
+  } = options;
+  if (!applyFrontmatter && !quarantineEmpty) return { applied: false, reason: 'sense-accions' };
+  assertAuditPlanIntegrity(report);
+  if (applyFrontmatter && !ackSchemaCutover) {
+    throw new Error('Falta --ack-schema-cutover: abans cal adaptar compilador, plantilles i validators legacy.');
+  }
+  if (applyFrontmatter) await assertSchemaCutoverReady();
+  const actionsWithLegacyLoss = report.plan.frontmatterActions
+    .filter((action) => Object.keys(action.removedValues || {}).length > 0);
+  if (applyFrontmatter && actionsWithLegacyLoss.length > 0 && !ackLegacyLoss) {
+    throw new Error(`${actionsWithLegacyLoss.length} nota(es) perdrien valors legacy; revisa el ledger i usa --ack-legacy-loss.`);
+  }
+  const policy = report.plan.mutationPolicy || { includeMirrors: false, includeLifecycle: false };
+  if (Boolean(options.includeMirrors) !== Boolean(policy.includeMirrors)
+    || Boolean(options.includeLifecycle) !== Boolean(policy.includeLifecycle)) {
+    throw new Error('La política de zones no coincidix amb la usada per generar el pla; torna a auditar.');
+  }
+  if (report.safety.mutationBlockers.length) {
+    throw new Error(`Pla bloquejat per ${report.safety.mutationBlockers.length} troballa(es) P0 en zones mutables.`);
+  }
+  const defaultRoot = await fs.realpath(DEFAULT_WIKI_DIR);
+  if (await fs.realpath(report.root) !== defaultRoot) {
+    throw new Error('Una arrel --wiki alternativa només es pot auditar; les mutacions estan restringides al vault canònic.');
+  }
+  const claims = [];
+  if (applyFrontmatter) {
+    claims.push(await requireReceipt(receiptPath, 'autoneteja-frontmatter', [report.root], report.plan.planDigest));
+  }
+  if (quarantineEmpty) {
+    claims.push(await requireReceipt(receiptPath, 'autoneteja-quarantine', [report.root], report.plan.planDigest));
+  }
+  const releaseLock = await acquireMutationLock(report.root);
+  try {
+    // El rebut autoritza un digest, no l'objecte JS rebut. Sota el lock tornem
+    // a derivar el pla des dels bytes del vault i només mutem eixe informe nou.
+    const fresh = await auditWiki(report.root, {
+      includeMirrors: Boolean(policy.includeMirrors),
+      includeLifecycle: Boolean(policy.includeLifecycle),
+    });
+    assertAuditPlanIntegrity(fresh);
+    if (fresh.plan.planDigest !== report.plan.planDigest) {
+      const error = new Error('La Wiki o el pla han canviat; rebut caducat, zero escriptures.');
+      error.code = 'STALE_PLAN';
+      throw error;
+    }
+    if (fresh.safety.mutationBlockers.length) {
+      throw new Error(`Pla fresc bloquejat per ${fresh.safety.mutationBlockers.length} troballa(es) en zones mutables.`);
+    }
+    const result = await applyAuditPlanLocked(fresh, options);
+    for (const claim of claims) await completeReceiptClaim(claim);
+    return result;
+  } finally {
+    await releaseLock();
+  }
+}
+
+async function applyAuditPlanLocked(report, options = {}) {
+  const {
+    applyFrontmatter = false,
+    quarantineEmpty = false,
+    includeMirrors = false,
+    includeLifecycle = false,
+    ackSchemaCutover = false,
+    ackLegacyLoss = false,
+  } = options;
+  await assertUnchanged(report.root, report.plan.baselineDigest);
+
+  const id = runId();
+  const runDir = path.join(safetyDirFor(report.root), id);
+  const manifestPath = path.join(runDir, 'manifest.json');
+  const quarantineSet = new Set(quarantineEmpty ? report.plan.quarantineCandidates : []);
+  const rewrites = applyFrontmatter
+    ? report.plan.frontmatterActions.filter((item) => !quarantineSet.has(item.file))
+    : [];
+  const actions = [
+    ...rewrites.map((item) => ({ ...item, content: undefined })),
+    ...[...quarantineSet].map((file) => {
+      const doc = { file };
+      return { action: 'quarantine-empty', ...doc };
+    }),
+  ];
+  const manifest = {
+    schema: 'socdepoble.autoneteja.manifest.v2',
+    runId: id,
+    status: 'preparing',
+    createdAt: new Date().toISOString(),
+    root: report.root,
+    baselineTreeSha256: report.plan.baselineDigest,
+    includeMirrors,
+    includeLifecycle,
+    ackLegacyLoss,
+    actions,
+  };
+  const predictedFiles = new Map(report.plan.baselineFiles.map((item) => [item.file, item.sha256]));
+  for (const action of actions) {
+    if (action.action === 'rewrite-frontmatter') predictedFiles.set(action.file, action.afterSha256);
+    else predictedFiles.delete(action.file);
+  }
+  manifest.predictedTreeSha256 = treeDigestEntries([...predictedFiles].map(([file, hash]) => ({ file, sha256: hash })));
+
+  await fs.mkdir(runDir, { recursive: true });
+  const applied = [];
+  try {
+    for (const action of actions) {
+      const source = path.join(report.root, action.file);
+      if (!isInside(report.root, source)) throw new Error(`Acció fora de la Wiki: ${action.file}`);
+      const sourceStat = await fs.lstat(source);
+      if (!sourceStat.isFile() || sourceStat.isSymbolicLink() || sourceStat.nlink !== 1) {
+        throw new Error(`Target no regular, symlink o hardlink: ${action.file}`);
+      }
+      const originalBuffer = await fs.readFile(source);
+      if (!isUtf8(originalBuffer)) throw new Error(`Markdown no UTF-8: ${action.file}`);
+      const original = originalBuffer.toString('utf8');
+      action.beforeSha256 ||= sha256(originalBuffer);
+      action.mode = sourceStat.mode & 0o777;
+      const backup = path.join(runDir, 'originals', `${action.file}.bak`);
+      await fs.mkdir(path.dirname(backup), { recursive: true });
+      await writeNewFile(backup, originalBuffer, { mode: 0o600 });
+      action.backup = posix(path.relative(runDir, backup));
+
+      if (action.action === 'rewrite-frontmatter') {
+        const planned = report.plan.frontmatterActions.find((item) => item.file === action.file);
+        if (!planned || sha256(original) !== planned.beforeSha256) throw new Error(`Hash canviat: ${action.file}`);
+        const parsedBefore = parseFrontmatter(original);
+        const parsedAfter = parseFrontmatter(planned.content);
+        if (parsedAfter.errors.length || parsedAfter.malformed) throw new Error(`YAML generat invàlid: ${action.file}`);
+        if (sha256(parsedBefore.body) !== sha256(parsedAfter.body)) throw new Error(`El cos canviaria: ${action.file}`);
+        action.afterSha256 = sha256(planned.content);
+      } else {
+        const parsed = parseFrontmatter(original);
+        if (!/^\uFEFF?\s*$/u.test(original) || parsed.hasFrontmatter) {
+          throw new Error(`Ja no és un buit físic pur: ${action.file}`);
+        }
+        const destination = path.join(runDir, 'quarantine', action.file);
+        action.destination = posix(path.relative(runDir, destination));
+      }
+    }
+
+    manifest.status = 'prepared';
+    await writeManifest(manifestPath, manifest);
+    await assertUnchanged(report.root, report.plan.baselineDigest);
+
+    manifest.status = 'applying';
+    await writeManifest(manifestPath, manifest);
+    for (const action of actions) {
+      const source = path.join(report.root, action.file);
+      action.state = 'committing';
+      await writeManifest(manifestPath, manifest);
+      if (action.action === 'rewrite-frontmatter') {
+        const planned = report.plan.frontmatterActions.find((item) => item.file === action.file);
+        if (sha256(await fs.readFile(source)) !== action.beforeSha256) throw new Error(`Canvi concurrent: ${action.file}`);
+        await atomicWrite(source, planned.content, { mode: action.mode });
+      } else {
+        const destination = path.join(runDir, action.destination);
+        if (sha256(await fs.readFile(source)) !== action.beforeSha256) throw new Error(`Canvi concurrent: ${action.file}`);
+        if (await fs.lstat(destination).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error))) {
+          throw new Error(`La quarantena ja existix: ${action.file}`);
+        }
+        await fs.mkdir(path.dirname(destination), { recursive: true });
+        await fs.rename(source, destination);
+      }
+      action.state = 'applied';
+      applied.push(action);
+      manifest.appliedCount = applied.length;
+      await writeManifest(manifestPath, manifest);
+    }
+
+    for (const action of actions) {
+      const source = path.join(report.root, action.file);
+      if (action.action === 'rewrite-frontmatter') {
+        if (sha256(await fs.readFile(source)) !== action.afterSha256) throw new Error(`Verificació posterior fallada: ${action.file}`);
+      } else {
+        const destination = path.join(runDir, action.destination);
+        if (await fs.lstat(source).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error))) {
+          throw new Error(`Quarantena incompleta: ${action.file}`);
+        }
+        if (sha256(await fs.readFile(destination)) !== action.beforeSha256) throw new Error(`Hash de quarantena incorrecte: ${action.file}`);
+      }
+    }
+    manifest.status = 'applied';
+    manifest.appliedAt = new Date().toISOString();
+    const post = await discoverMarkdown(report.root);
+    manifest.observedTreeSha256 = treeDigest(post.docs);
+    if (manifest.observedTreeSha256 !== manifest.predictedTreeSha256) {
+      throw new Error('El digest final no coincidix amb el pla; s’activa rollback.');
+    }
+    await writeManifest(manifestPath, manifest);
+    return { applied: true, runId: id, manifestPath, actions: actions.length };
+  } catch (error) {
+    let rollbackError = null;
+    for (const action of [...applied].reverse()) {
+      try {
+        const source = path.join(report.root, action.file);
+        const backup = path.join(runDir, action.backup);
+        const original = await fs.readFile(backup);
+        if (action.action === 'quarantine-empty') {
+          const destination = path.join(runDir, action.destination);
+          if (await fs.lstat(source).catch((failure) => failure.code === 'ENOENT' ? null : Promise.reject(failure))) {
+            throw new Error(`Conflicte de rollback, target recreat: ${action.file}`);
+          }
+          if (sha256(await fs.readFile(destination)) !== action.beforeSha256) throw new Error(`Conflicte de rollback en quarantena: ${action.file}`);
+          await fs.mkdir(path.dirname(source), { recursive: true });
+          await fs.rename(destination, source);
+        } else {
+          if (sha256(await fs.readFile(source)) !== action.afterSha256) throw new Error(`Conflicte de rollback: ${action.file}`);
+          await atomicWrite(source, original, { mode: action.mode });
+        }
+      } catch (rollbackFailure) {
+        rollbackError = rollbackFailure;
+      }
+    }
+    manifest.status = rollbackError ? 'rollback-failed' : 'rolled-back';
+    manifest.error = error.message;
+    if (rollbackError) manifest.rollbackError = rollbackError.message;
+    await writeManifest(manifestPath, manifest).catch(() => {});
+    if (rollbackError) throw new Error(`${error.message}; ROLLBACK FALLAT: ${rollbackError.message}`);
+    throw error;
+  }
+}
+
+function safeJoin(root, relative, label) {
+  if (typeof relative !== 'string' || !relative || path.isAbsolute(relative) || relative.includes('\0')) {
+    throw new Error(`${label} invàlida.`);
+  }
+  const candidate = path.resolve(root, relative);
+  if (!isInside(root, candidate)) throw new Error(`${label} fora de l’arrel: ${relative}`);
+  return candidate;
+}
+
+async function regularFileInside(root, file, label) {
+  const stat = await fs.lstat(file);
+  if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1) {
+    throw new Error(`${label} no és un fitxer regular amb identitat exclusiva: ${file}`);
+  }
+  const real = await fs.realpath(file);
+  if (!isInside(root, real)) throw new Error(`${label} resol fora de l’arrel: ${file}`);
+  return real;
+}
+
+/**
+ * Comprova component a component sense seguir symlinks. `safeJoin` evita `..`,
+ * però no evita que `carpeta/` siga substituïda per un enllaç cap a fora abans
+ * d'un mkdir/rename. La comprovació es repetix just abans de cada efecte.
+ */
+async function assertPhysicalAncestors(root, candidate, label, {
+  allowMissing = false,
+  leafDirectory = false,
+} = {}) {
+  const physicalRoot = await fs.realpath(root);
+  const absolute = path.resolve(candidate);
+  if (!isInside(physicalRoot, absolute)) throw new Error(`${label} fora de l’arrel física.`);
+  const relative = path.relative(physicalRoot, absolute);
+  if (!relative) return physicalRoot;
+  const parts = relative.split(path.sep).filter(Boolean);
+  let current = physicalRoot;
+  for (let index = 0; index < parts.length; index++) {
+    current = path.join(current, parts[index]);
+    const stat = await fs.lstat(current).catch((error) => {
+      if (error.code === 'ENOENT' && allowMissing) return null;
+      throw error;
+    });
+    if (!stat) return null;
+    if (stat.isSymbolicLink()) throw new Error(`${label} travessa un symlink: ${current}`);
+    if ((index < parts.length - 1 || leafDirectory) && !stat.isDirectory()) {
+      throw new Error(`${label} travessa un ancestre no directori: ${current}`);
+    }
+  }
+  return absolute;
+}
+
+export async function restoreRun(manifestPath, receiptPath) {
+  const requestedManifest = path.resolve(manifestPath);
+  const requestedStat = await fs.lstat(requestedManifest);
+  if (!requestedStat.isFile() || requestedStat.isSymbolicLink()) {
+    throw new Error('El manifest ha de ser un fitxer regular, no un symlink.');
+  }
+  const absoluteManifest = await fs.realpath(requestedManifest);
+  const initialBytes = await fs.readFile(absoluteManifest);
+  const manifestDigest = sha256(initialBytes);
+  const initial = JSON.parse(initialBytes.toString('utf8'));
+  if (initial.schema !== 'socdepoble.autoneteja.manifest.v2'
+    || !['prepared', 'applying', 'applied', 'restoring'].includes(initial.status)
+    || !Array.isArray(initial.actions)) {
+    throw new Error('Manifest no restaurable.');
+  }
+  const root = await fs.realpath(initial.root);
+  if (root !== await fs.realpath(DEFAULT_WIKI_DIR)) throw new Error('El manifest no pertany al vault canònic.');
+  const safetyRoot = await fs.realpath(safetyDirFor(root));
+  const runDir = path.dirname(absoluteManifest);
+  if (path.basename(absoluteManifest) !== 'manifest.json' || path.dirname(runDir) !== safetyRoot
+    || path.basename(runDir) !== initial.runId) {
+    throw new Error('El manifest no està en .wiki-safety/<runId>/manifest.json.');
+  }
+  await assertPhysicalAncestors(safetyRoot, absoluteManifest, 'Manifest');
+  await regularFileInside(runDir, absoluteManifest, 'Manifest');
+  const receiptClaim = await requireReceipt(receiptPath, 'autoneteja-restore', [root], manifestDigest);
+
+  // A partir d'ací, preflight, efectes i verificació final compartixen lock.
+  const releaseLock = await acquireMutationLock(root, { recoverStale: true });
+  try {
+    const lockedBytes = await fs.readFile(absoluteManifest);
+    if (sha256(lockedBytes) !== manifestDigest) {
+      throw new Error('El manifest ha canviat abans del preflight; rebut caducat.');
+    }
+    const manifest = JSON.parse(lockedBytes.toString('utf8'));
+    if (manifest.schema !== initial.schema || manifest.runId !== initial.runId
+      || !['prepared', 'applying', 'applied', 'restoring'].includes(manifest.status)
+      || !Array.isArray(manifest.actions)) {
+      throw new Error('Manifest canviat o no restaurable sota el lock.');
+    }
+    await assertPhysicalAncestors(safetyRoot, absoluteManifest, 'Manifest');
+    await regularFileInside(runDir, absoluteManifest, 'Manifest');
+
+    const seen = new Set();
+    const prepared = [];
+    const backupRoot = path.join(runDir, 'originals');
+    const quarantineRoot = path.join(runDir, 'quarantine');
+    for (const action of [...manifest.actions].reverse()) {
+      if (!['rewrite-frontmatter', 'quarantine-empty'].includes(action.action)) throw new Error('Acció desconeguda al manifest.');
+      if (typeof action.file !== 'string' || seen.has(action.file)) throw new Error(`Acció invàlida o duplicada: ${action.file}`);
+      if (!/^[a-f0-9]{64}$/.test(action.beforeSha256 || '')) throw new Error(`beforeSha256 invàlid: ${action.file}`);
+      if (action.action === 'rewrite-frontmatter' && !/^[a-f0-9]{64}$/.test(action.afterSha256 || '')) {
+        throw new Error(`afterSha256 invàlid: ${action.file}`);
+      }
+      seen.add(action.file);
+      const target = safeJoin(root, action.file, 'Target');
+      await assertPhysicalAncestors(root, target, 'Target', { allowMissing: action.action === 'quarantine-empty' });
+      const backup = safeJoin(runDir, action.backup, 'Backup');
+      if (!isInside(backupRoot, backup)) throw new Error(`Backup fora d’originals/: ${action.file}`);
+      await assertPhysicalAncestors(backupRoot, backup, 'Backup');
+      await regularFileInside(backupRoot, backup, 'Backup');
+      const original = await fs.readFile(backup);
+      if (sha256(original) !== action.beforeSha256) throw new Error(`Backup corrupte: ${action.file}`);
+
+      if (action.action === 'rewrite-frontmatter') {
+        await regularFileInside(root, target, 'Target');
+        const current = await fs.readFile(target);
+        const currentHash = sha256(current);
+        if (currentHash === action.beforeSha256) action.restoreState = 'already-baseline';
+        else if (currentHash === action.afterSha256) prepared.push({ action, target, backup, original, current });
+        else throw new Error(`Conflicte de restauració: ${action.file}`);
+      } else {
+        const quarantined = safeJoin(runDir, action.destination, 'Quarantena');
+        if (!isInside(quarantineRoot, quarantined)) throw new Error(`Quarantena fora de quarantine/: ${action.file}`);
+        await assertPhysicalAncestors(quarantineRoot, quarantined, 'Quarantena', { allowMissing: true });
+        const targetStat = await fs.lstat(target).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error));
+        const quarantinedStat = await fs.lstat(quarantined).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error));
+        if (targetStat && !quarantinedStat) {
+          await regularFileInside(root, target, 'Target');
+          if (sha256(await fs.readFile(target)) !== action.beforeSha256) throw new Error(`Target restaurat però divergent: ${action.file}`);
+          action.restoreState = 'already-baseline';
+        } else if (!targetStat && quarantinedStat) {
+          await regularFileInside(quarantineRoot, quarantined, 'Quarantena');
+          const current = await fs.readFile(quarantined);
+          if (sha256(current) !== action.beforeSha256) throw new Error(`Quarantena corrupta: ${action.file}`);
+          prepared.push({ action, target, backup, original, current, quarantined });
+        } else {
+          throw new Error(`Estat ambigu entre target i quarantena: ${action.file}`);
+        }
+      }
+    }
+
+    const restored = [];
+    try {
+      manifest.status = 'restoring';
+      manifest.restoreStartedAt = new Date().toISOString();
+      await writeManifest(absoluteManifest, manifest);
+      for (const item of prepared) {
+        item.action.restoreState = 'committing';
+        await writeManifest(absoluteManifest, manifest);
+        if (item.action.action === 'rewrite-frontmatter') {
+          await assertPhysicalAncestors(root, item.target, 'Target');
+          if (sha256(await fs.readFile(item.target)) !== item.action.afterSha256) throw new Error(`Canvi concurrent: ${item.action.file}`);
+          await atomicWrite(item.target, item.original, { mode: item.action.mode || 0o644 });
+        } else {
+          await assertPhysicalAncestors(root, item.target, 'Target', { allowMissing: true });
+          if (await fs.lstat(item.target).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error))) {
+            throw new Error(`Target recreat concurrentment: ${item.action.file}`);
+          }
+          await assertPhysicalAncestors(quarantineRoot, item.quarantined, 'Quarantena');
+          await assertPhysicalAncestors(root, path.dirname(item.target), 'Directori target', { allowMissing: true, leafDirectory: true });
+          await fs.mkdir(path.dirname(item.target), { recursive: true });
+          await assertPhysicalAncestors(root, path.dirname(item.target), 'Directori target', { leafDirectory: true });
+          await fs.rename(item.quarantined, item.target);
+        }
+        item.action.restoreState = 'restored';
+        restored.push(item);
+        await writeManifest(absoluteManifest, manifest);
+      }
+
+      // Inclou expressament les accions que el preflight marcà already-baseline.
+      for (const action of manifest.actions) {
+        const target = safeJoin(root, action.file, 'Target final');
+        await assertPhysicalAncestors(root, target, 'Target final');
+        await regularFileInside(root, target, 'Target final');
+        if (sha256(await fs.readFile(target)) !== action.beforeSha256) {
+          throw new Error(`Verificació final de restore fallada: ${action.file}`);
+        }
+        if (action.action === 'quarantine-empty') {
+          const quarantined = safeJoin(runDir, action.destination, 'Quarantena final');
+          await assertPhysicalAncestors(quarantineRoot, quarantined, 'Quarantena final', { allowMissing: true });
+          if (await fs.lstat(quarantined).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error))) {
+            throw new Error(`La quarantena encara existix després del restore: ${action.file}`);
+          }
+        }
+      }
+      manifest.status = 'restored';
+      manifest.restoredAt = new Date().toISOString();
+      await writeManifest(absoluteManifest, manifest);
+      await completeReceiptClaim(receiptClaim);
+      return { restored: true, runId: manifest.runId };
+    } catch (error) {
+      let rollbackError = null;
+      for (const item of [...restored].reverse()) {
+        try {
+          if (item.action.action === 'rewrite-frontmatter') {
+            await assertPhysicalAncestors(root, item.target, 'Target de rollback');
+            if (sha256(await fs.readFile(item.target)) !== item.action.beforeSha256) throw new Error('target canviat durant rollback');
+            await atomicWrite(item.target, item.current, { mode: item.action.mode || 0o644 });
+          } else {
+            await assertPhysicalAncestors(quarantineRoot, item.quarantined, 'Quarantena de rollback', { allowMissing: true });
+            if (await fs.lstat(item.quarantined).catch((failure) => failure.code === 'ENOENT' ? null : Promise.reject(failure))) {
+              throw new Error('quarantena recreada durant rollback');
+            }
+            await assertPhysicalAncestors(root, item.target, 'Target de rollback');
+            if (sha256(await fs.readFile(item.target)) !== item.action.beforeSha256) throw new Error('target restaurat canviat durant rollback');
+            await assertPhysicalAncestors(quarantineRoot, path.dirname(item.quarantined), 'Directori de quarantena', { allowMissing: true, leafDirectory: true });
+            await fs.mkdir(path.dirname(item.quarantined), { recursive: true });
+            await assertPhysicalAncestors(quarantineRoot, path.dirname(item.quarantined), 'Directori de quarantena', { leafDirectory: true });
+            await fs.rename(item.target, item.quarantined);
+          }
+        } catch (failure) {
+          rollbackError = failure;
+        }
+      }
+      manifest.status = rollbackError ? 'restore-rollback-failed' : 'applied';
+      manifest.restoreError = error.message;
+      if (rollbackError) manifest.restoreRollbackError = rollbackError.message;
+      await writeManifest(absoluteManifest, manifest).catch(() => {});
+      if (rollbackError) throw new Error(`${error.message}; ROLLBACK DE RESTORE FALLAT: ${rollbackError.message}`);
+      throw error;
+    }
+  } finally {
+    await releaseLock();
+  }
+}
+
+function parseCli(argv) {
+  const options = {
+    json: false,
+    strict: false,
+    includeMirrors: false,
+    includeLifecycle: false,
+    applyFrontmatter: false,
+    quarantineEmpty: false,
+    ackSchemaCutover: false,
+    ackLegacyLoss: false,
+    wikiDir: DEFAULT_WIKI_DIR,
+    receiptPath: '',
+    restore: '',
+    reportPath: '',
+  };
+  for (const arg of argv) {
+    if (arg === '--json') options.json = true;
+    else if (arg === '--strict') options.strict = true;
+    else if (arg === '--include-mirrors') options.includeMirrors = true;
+    else if (arg === '--include-lifecycle') options.includeLifecycle = true;
+    else if (arg === '--apply-frontmatter') options.applyFrontmatter = true;
+    else if (arg === '--quarantine-empty') options.quarantineEmpty = true;
+    else if (arg === '--ack-schema-cutover') options.ackSchemaCutover = true;
+    else if (arg === '--ack-legacy-loss') options.ackLegacyLoss = true;
+    else if (arg.startsWith('--wiki=')) options.wikiDir = path.resolve(arg.slice(7));
+    else if (arg.startsWith('--receipt=')) options.receiptPath = path.resolve(arg.slice(10));
+    else if (arg.startsWith('--restore=')) options.restore = path.resolve(arg.slice(10));
+    else if (arg.startsWith('--report=')) options.reportPath = path.resolve(arg.slice(9));
+    else if (arg === '--help') options.help = true;
+    else if (arg === '--procedeix') throw new Error('--procedeix és ambigu i ha sigut retirat; usa flags d\'acció explícites.');
+    else throw new Error(`Argument desconegut: ${arg}`);
+  }
+  return options;
+}
+
+function printHelp() {
+  console.log('Autoneteja Wiki v2 (dry-run real per defecte)');
+  console.log('  --json --strict --wiki=/ruta --include-mirrors --include-lifecycle');
+  console.log('  --apply-frontmatter --ack-schema-cutover [--ack-legacy-loss] --receipt=/ruta');
+  console.log('  --quarantine-empty --receipt=/ruta');
+  console.log('  --restore=/ruta/manifest.json --receipt=/ruta');
+  console.log('  --report=/.../.wiki-safety/reports/informe.json --receipt=/ruta');
+}
+
+function printHuman(report) {
+  console.log(`\n🧭 AUTONETEJA V2 — ${report.health.toUpperCase()} (DRY-RUN REAL)`);
+  console.log(`   Nucli operatiu: ${report.operational.health.toUpperCase()} · ${report.operational.documents} documents`);
+  console.log(`   Documents: ${report.snapshot.files} · ${report.snapshot.bytes} bytes`);
+  console.log(`   YAML: ${report.frontmatter.yamlErrors.length} invàlids · ${report.frontmatter.absent.length} absents`);
+  console.log(`   Frontmatters a migrar: ${report.frontmatter.plannedRewrites}`);
+  console.log(`   Buits semàntics: ${report.content.semanticEmpty.length} · quarantinables: ${report.safety.quarantineCandidates.length}`);
+  console.log(`   Graf operatiu: ${report.operational.graph.orphans} orfes · ${report.operational.graph.unresolvedOccurrences} fantasmes · ${report.operational.graph.ambiguousOccurrences} ambigus`);
+  const excludedOrphans = report.graph.orphans - report.operational.graph.orphans;
+  console.log(`   Zones excloses: ${excludedOrphans} orfes informatius ${JSON.stringify(report.graph.orphanZones)} · ${report.graph.duplicateBasenames} basenames duplicats`);
+  if (report.safety.visibleQuarantines.length) console.log(`   ⚠️ Quarantena visible dins del vault: ${report.safety.visibleQuarantines.length} nodes`);
+  if (report.obsidian.present && report.obsidian.colorGroups === 0) {
+    console.log('   ℹ️ Obsidian no té grups de color: gris no significa buit ni orfe.');
+  }
+  console.log(`   Snapshot SHA-256: ${report.snapshot.treeSha256}`);
+  console.log(`   Pla SHA-256: ${report.plan.planDigest}`);
+}
+
+async function main() {
+  const options = parseCli(process.argv.slice(2));
+  if (options.help) return printHelp();
+  if (options.restore) {
+    const restored = await restoreRun(options.restore, options.receiptPath);
+    console.log(options.json ? JSON.stringify(restored, null, 2) : `✅ Restaurat: ${restored.runId}`);
+    return;
+  }
+
+  const report = await auditWiki(options.wikiDir, options);
+  if (options.reportPath) {
+    const reportsDir = path.join(safetyDirFor(report.root), 'reports');
+    if (!isInside(reportsDir, options.reportPath) || options.reportPath === reportsDir) {
+      throw new Error('--report només pot crear un fitxer nou dins de .wiki-safety/reports/.');
+    }
+    await requireReceipt(options.receiptPath, 'autoneteja-report', [options.reportPath], report.plan.planDigest);
+    const safeReport = { ...report, plan: { ...report.plan, frontmatterActions: report.plan.frontmatterActions.map(({ content, ...item }) => item) } };
+    await writeNewFile(options.reportPath, `${JSON.stringify(safeReport, null, 2)}\n`);
+  }
+  const result = await applyAuditPlan(report, options);
+  const printable = {
+    ...report,
+    plan: {
+      ...report.plan,
+      frontmatterActions: report.plan.frontmatterActions.map(({ content, ...item }) => item),
+    },
+    mutation: result,
+  };
+  if (options.json) console.log(JSON.stringify(printable, null, 2));
+  else {
+    printHuman(report);
+    if (result.applied) console.log(`   ✅ Manifest reversible: ${result.manifestPath}`);
+  }
+  if (options.strict && !report.ok) process.exitCode = 1;
+}
+
+const isMain = Boolean(process.argv[1])
+  && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+if (isMain) {
+  main().catch((error) => {
+    console.error(`❌ [AUTONETEJA] ${error.message}`);
+    process.exitCode = error.code === 'STALE_PLAN' ? 4 : 3;
+  });
+}

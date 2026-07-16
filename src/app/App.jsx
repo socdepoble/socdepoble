@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { Accessibility, Eye, Globe, LogIn, MoonStar, Plus, Search, UserRound } from 'lucide-react';
+import { Navigate, NavLink, Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Accessibility, Eye, Globe, LogIn, MoonStar, Plus, Search, UserRound, Settings } from 'lucide-react';
 import BrandMark from '../components/BrandMark';
 import SectionChrome from '../components/SectionChrome';
 import { useAppData } from './AppDataContext';
@@ -18,6 +18,7 @@ const MultimediaSection = lazy(() => import('../sections/multimedia/MultimediaSe
 const NotesSection = lazy(() => import('../sections/notes/NotesSection'));
 const DevicesSection = lazy(() => import('../sections/dispositius/DevicesSection'));
 const ConnectarSection = lazy(() => import('../sections/connectar/ConnectarSection'));
+const ControlSection = lazy(() => import('../sections/control/ControlSection'));
 const LoginSection = lazy(() => import('../sections/login/LoginSection'));
 const IaSection = lazy(() => import('../sections/ia/IaSection'));
 const DesignSection = lazy(() => import('../sections/disseny/DesignSection'));
@@ -27,10 +28,11 @@ const SearchSection = lazy(() => import('../sections/search/SearchSection'));
 const ProfileSection = lazy(() => import('../sections/profile/ProfileSection'));
 const ItemDetailSection = lazy(() => import('../sections/detail/ItemDetailSection'));
 const PageDetailSection = lazy(() => import('../sections/detail/PageDetailSection'));
+const FinestretaSection = lazy(() => import('../sections/finestreta/FinestretaSection'));
 
 const NAV_SECTIONS = SECTIONS.filter((section) => SECTION_ORDER.includes(section.id));
 const MOBILE_NAV_LEADING = NAV_SECTIONS.slice(0, 2);
-const MOBILE_NAV_TRAILING = NAV_SECTIONS.slice(2, 5);
+const MOBILE_NAV_TRAILING = NAV_SECTIONS.slice(2, 4);
 
 function RouteFallback() {
   const { t } = useAppData();
@@ -59,21 +61,17 @@ function AppShell({ children }) {
   return (
     <div className="app-shell">
       <aside className="app-nav">
-        <div className="app-brand">
+        <Link to="/chat" className="app-brand" aria-label="Sóc de Poble - Portal de pobles connectats">
           <BrandMark className="app-brand__mark" />
-          <div className="app-brand__name">
-            <strong>{APP_NAME}</strong>
-            <span>{t('app.tagline', APP_TAGLINE)}</span>
-          </div>
-        </div>
+        </Link>
 
         <button
           type="button"
           className="nav-cta"
-          onClick={() => navigate('/connectar')}
+          onClick={() => navigate('/control')}
         >
-          <Plus size={22} strokeWidth={2.8} />
-          <span>CONNECTAR</span>
+          <Settings size={22} strokeWidth={2.8} />
+          <span>CENTRE DE CONTROL</span>
         </button>
 
         <nav className="nav-stack" aria-label="Seccions">
@@ -204,6 +202,9 @@ function LegacySectionDetailRedirect({ sectionId }) {
 export default function App() {
   const { agents = [], status, error, hasSupabaseConfig, dataMode, t, language } = useAppData();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isIsolatedRoute = location.pathname.startsWith('/finestreta');
 
   if (status === 'loading') {
     return <RouteFallback />;
@@ -220,6 +221,20 @@ export default function App() {
       );
   }
 
+  if (isIsolatedRoute) {
+    return (
+      <main className="app-main" style={{ marginLeft: 0, width: '100vw', paddingBottom: 0 }}>
+        <div className="app-main__inner">
+          <Suspense fallback={<RouteFallback />}>
+            <Routes>
+              <Route path="/finestreta" element={<FinestretaSection />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <AppShell>
       <TopBar />
@@ -227,10 +242,12 @@ export default function App() {
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route path="/" element={<Navigate to={DEFAULT_SECTION_PATH} replace />} />
-          <Route path="/chats" element={<XatSection />} />
-          <Route path="/chats/:threadId" element={<XatSection />} />
-          <Route path="/xat" element={<Navigate to="/chats" replace />} />
+          <Route path="/chat" element={<XatSection />} />
+          <Route path="/chat/:threadId" element={<XatSection />} />
+          <Route path="/xat" element={<Navigate to="/chat" replace />} />
           <Route path="/xat/:threadId" element={<LegacyChatDetailRedirect />} />
+          <Route path="/chats" element={<Navigate to="/chat" replace />} />
+          <Route path="/chats/:threadId" element={<LegacyChatDetailRedirect />} />
           <Route path="/mur" element={<MurSection />} />
           <Route path="/post/:itemId" element={<LegacySectionDetailRedirect sectionId="mur" />} />
           <Route path="/mercat" element={<MercatSection />} />
@@ -254,6 +271,7 @@ export default function App() {
           <Route path="/empresa/:agentId" element={<ProfileSection agents={agents} />} />
           <Route path="/ajuntament/:agentId" element={<ProfileSection agents={agents} />} />
           <Route path="/grup/:agentId" element={<ProfileSection agents={agents} />} />
+          <Route path="/control" element={<ControlSection />} />
           <Route path="/connectar" element={<ConnectarSection agents={agents} />} />
           <Route path="/projecte" element={<TextRoute pageKey="projecte" />} />
           <Route path="/page/:slug" element={<PageDetailSection />} />

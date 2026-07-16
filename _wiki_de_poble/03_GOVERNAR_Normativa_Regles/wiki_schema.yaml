@@ -1,0 +1,21 @@
+# Tombstone de compatibilitat. No definir propietats ací.
+schema: "socdepoble.wiki-schema-pointer.v2"
+deprecated: true
+deprecated_at: "2026-07-14"
+reason: "La versió 1 duplicava taxonomia, tags i camps legacy incompatibles."
+replaced_by: "../02_ACTUAR_Maquina_Tecnica/scripts/schema.json"
+
+architecture:
+  live_pillars:
+    - "00_SER_Brain_Identitat"
+    - "01_SABER_Cultura_Coneixement"
+    - "02_ACTUAR_Maquina_Tecnica"
+    - "03_GOVERNAR_Normativa_Regles"
+  lifecycle_zones:
+    - "04_ARXIU_Documents_Historics"
+    - "05_Escriptori_Soc_de_Poble"
+  bulk_archive_outside_vault: "../_arxiu_wiki_de_poble"
+
+contract:
+  note: "El JSON Schema v2 és l’única font mecànica de veritat."
+  mirrors_and_vendor: "Fora del contracte; immutables i exclosos del graf operatiu."

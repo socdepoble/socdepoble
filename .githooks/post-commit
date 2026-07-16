@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+# SDP-REFLEX-HOOK:v2:post-commit
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+node "_wiki_de_poble/02_ACTUAR_Maquina_Tecnica/scripts/reflex_petorreta.mjs" consume-commit

@@ -12,6 +12,8 @@ export const SUPPORTED_LANGUAGES = [
 ];
 
 const SECTION_LABEL_KEYS = {
+  control: { label: 'nav.control', short: 'nav.controlShort' },
+  gestoria: { label: 'nav.gestoria', short: 'nav.gestoriaShort' },
   xat: { label: 'nav.xat', short: 'nav.xat' },
   mur: { label: 'nav.mur', short: 'nav.mur' },
   mercat: { label: 'nav.mercat', short: 'nav.mercat' },
@@ -32,6 +34,20 @@ const SECTION_LABEL_KEYS = {
 
 const TRANSLATIONS = {
   ca: {
+    'nav.control': 'Control',
+    'nav.controlShort': 'Ctrl',
+    'section.control.kicker': 'Xarxa Neural',
+    'section.control.title': 'Panell de Control',
+    'section.control.subtitle': 'Node principal i accés a les eines d\'administració i gestió.',
+    'section.control.meta1': 'Admin',
+    'section.control.meta2': 'Sistema',
+    'nav.gestoria': 'Gestoria',
+    'nav.gestoriaShort': 'Gest',
+    'section.gestoria.kicker': 'Administració',
+    'section.gestoria.title': 'Gestoria de Poble',
+    'section.gestoria.subtitle': 'Portal de Gestoria Interna i Tauler de Comandament.',
+    'section.gestoria.meta1': 'Jarvis Torruà',
+    'section.gestoria.meta2': 'Privat',
     'nav.xat': 'Xat',
     'nav.mur': 'Mur',
     'nav.mercat': 'Mercat',
@@ -300,6 +316,20 @@ const TRANSLATIONS = {
     'error.loadPortal': "No s'ha pogut carregar el portal"
   },
   es: {
+    'nav.control': 'Control',
+    'nav.controlShort': 'Ctrl',
+    'section.control.kicker': 'Red Neuronal',
+    'section.control.title': 'Panel de Control',
+    'section.control.subtitle': 'Nodo principal y acceso a las herramientas de administración y gestión.',
+    'section.control.meta1': 'Admin',
+    'section.control.meta2': 'Sistema',
+    'nav.gestoria': 'Gestoría',
+    'nav.gestoriaShort': 'Gest',
+    'section.gestoria.kicker': 'Administración',
+    'section.gestoria.title': 'Gestoría de Pueblo',
+    'section.gestoria.subtitle': 'Portal de Gestoría Interna y Panel de Mando.',
+    'section.gestoria.meta1': 'Jarvis Torruà',
+    'section.gestoria.meta2': 'Privado',
     'nav.xat': 'Chat',
     'nav.mur': 'Muro',
     'nav.mercat': 'Mercado',
@@ -568,6 +598,20 @@ const TRANSLATIONS = {
     'error.loadPortal': 'No se ha podido cargar el portal'
   },
   en: {
+    'nav.control': 'Control',
+    'nav.controlShort': 'Ctrl',
+    'section.control.kicker': 'Neural Network',
+    'section.control.title': 'Control Panel',
+    'section.control.subtitle': 'Main node and access to administration and management tools.',
+    'section.control.meta1': 'Admin',
+    'section.control.meta2': 'System',
+    'nav.gestoria': 'Management',
+    'nav.gestoriaShort': 'Mgmt',
+    'section.gestoria.kicker': 'Administration',
+    'section.gestoria.title': 'Town Management',
+    'section.gestoria.subtitle': 'Internal Management Portal and Dashboard.',
+    'section.gestoria.meta1': 'Jarvis Torruà',
+    'section.gestoria.meta2': 'Private',
     'nav.xat': 'Chat',
     'nav.mur': 'Wall',
     'nav.mercat': 'Market',

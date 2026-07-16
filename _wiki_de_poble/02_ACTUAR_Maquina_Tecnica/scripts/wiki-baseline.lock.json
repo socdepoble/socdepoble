@@ -1,0 +1,17 @@
+{
+  "schema": "socdepoble.wiki-baseline.v1",
+  "documents": 92,
+  "bytes": 349719,
+  "zones": {
+    "00_SER_Brain_Identitat": 32,
+    "01_SABER_Cultura_Coneixement": 10,
+    "02_ACTUAR_Maquina_Tecnica": 21,
+    "03_GOVERNAR_Normativa_Regles": 8,
+    "04_ARXIU_Documents_Historics": 21
+  },
+  "treeSha256": "f1a1c7415420fd6b7a5dd871828610e45f13eb8edaae10249c48f1d2caa12754",
+  "graphConfig": {
+    "path": "_wiki_de_poble/.obsidian/graph.json",
+    "contractSha256": "665c14c65d9c98b984d8661bb4661e398e668bbb9d3e5b866e4053eda28032da"
+  }
+}
