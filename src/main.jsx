@@ -15,7 +15,9 @@ if (isIsolatedRoute) {
   import('./sections/finestreta/FinestretaSection').then(({ default: FinestretaSection }) => {
     ReactDOM.createRoot(document.getElementById('root')).render(
       <React.StrictMode>
-        <FinestretaSection />
+        <BrowserRouter>
+          <FinestretaSection />
+        </BrowserRouter>
       </React.StrictMode>
     );
   });
