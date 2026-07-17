@@ -1,8 +1,40 @@
 import os
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer
+from reportlab.platypus import BaseDocTemplate, PageTemplate, Frame, Paragraph, Spacer, Flowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_JUSTIFY
+from reportlab.platypus import NextPageTemplate
+
+class SignatureAndDateFlowable(Flowable):
+    def __init__(self):
+        Flowable.__init__(self)
+        self.width = 400
+        self.height = 150
+
+    def wrap(self, availWidth, availHeight):
+        return self.width, self.height
+
+    def draw(self):
+        self.canv.saveState()
+        form = self.canv.acroForm
+        
+        self.canv.setFont("Helvetica", 11)
+        self.canv.drawString(0, 120, "A Planes, a ")
+        form.textfield(name='dia', tooltip='Dia', x=65, y=115, width=40, height=20,
+                       borderStyle='inset', borderWidth=1, textColor='black', fontSize=12)
+        
+        self.canv.drawString(110, 120, " de ")
+        form.textfield(name='mes', tooltip='Mes', x=135, y=115, width=120, height=20,
+                       borderStyle='inset', borderWidth=1, textColor='black', fontSize=12)
+                       
+        self.canv.drawString(260, 120, " de 2026")
+        
+        self.canv.drawString(0, 70, "Signatura:")
+        # A large box for the signature
+        form.textfield(name='signatura', tooltip='Signatura', x=0, y=0, width=300, height=60,
+                       borderStyle='inset', borderWidth=1, textColor='black', fontSize=12)
+                       
+        self.canv.restoreState()
 
 def draw_first_page_background(canvas, doc):
     canvas.saveState()
@@ -112,18 +144,10 @@ def build_pdf():
         else:
             Story.append(Paragraph(line, style_normal))
 
-    # Add signature block at the end
+    # Add signature block at the end using our custom Flowable
     Story.append(Spacer(1, 40))
-    Story.append(Paragraph("A Planes, a ______ de ___________________ de 2026", style_normal))
-    Story.append(Spacer(1, 40))
-    Story.append(Paragraph("Signatura:", style_normal))
+    Story.append(SignatureAndDateFlowable())
     
-    # We only want the first page to use the first template, and the rest the second.
-    # We could insert a NextPageTemplate command, but since BaseDocTemplate uses the first
-    # template by default, we just need to tell it to switch after the first page... wait,
-    # actually if we just put NextPageTemplate('LaterPages') at the start, it will apply to
-    # the NEXT page (page 2).
-    from reportlab.platypus import NextPageTemplate
     Story.insert(0, NextPageTemplate('LaterPages'))
     
     doc.build(Story)
