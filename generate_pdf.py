@@ -60,7 +60,7 @@ def build_pdf():
     doc = BaseDocTemplate(pdf_path, pagesize=A4, rightMargin=50, leftMargin=50)
                             
     # Frame for the first page (starts lower because of the form fields)
-    frame_first = Frame(50, 50, A4[0]-100, A4[1]-300, id='first_page')
+    frame_first = Frame(50, 50, A4[0]-100, 450, id='first_page')
     # Frame for the later pages (full height)
     frame_later = Frame(50, 50, A4[0]-100, A4[1]-100, id='later_pages')
     
