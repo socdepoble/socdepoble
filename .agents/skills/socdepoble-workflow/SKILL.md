@@ -37,6 +37,12 @@ A Petorreta is an audit prompt intended for external LLMs (Claude, GPT).
 - An ordinary editorial Petorreta MUST be saved using the Thermodynamic Naming Pattern in `05_Escriptori_Soc_de_Poble`.
 - The Reflex handshake Petorreta MUST instead be one of exactly two regular direct children (Petorreta + manifest) in the reserved `.sdp-reflex/bootstrap/<sessionId>/`; it is machine state, not Wiki content. Its targets, unlike the bootstrap files, must remain inside the declared scopes.
 
+### 4. Workspace Maintenance & Cleaning
+When instructed to "clean the desktop" or "organize documentation", strictly enforce the following:
+1. **Identify Anomalies:** Actively look for out-of-place folders (e.g., `src`, `docs`, `supabase`, `app`) or root-level files that were accidentally created inside `_wiki_de_poble` or `_wiki_de_poble/05_Escriptori_Soc_de_Poble`.
+2. **Purge Garbage:** Delete these anomalous folders and files. `05_Escriptori_Soc_de_Poble` should ONLY contain valid Actas/Petorretas following the Thermodynamic Naming Pattern.
+3. **Preserve Curated Archives (CRITICAL):** The `CEEC` folder and other external archives have been moved by the human user to the external sibling directory `_arxiu_wiki_de_poble/`. NEVER delete, move, or alter the `CEEC` folder or any other content inside `_arxiu_wiki_de_poble/`. It is a safe haven for human-curated bulk documents.
+
 ## Strict Constraints & Prohibitions
 
 1. **NEVER USE RELATIVE PATHS FOR FILE OPERATIONS**: `cp ./file.txt ../folder/` is strictly prohibited. Use full, absolute paths for shell/file operations. Repo-relative identifiers remain valid inside Git, manifests and documentation when their parser anchors them to the verified project root.
