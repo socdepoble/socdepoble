@@ -28,7 +28,6 @@ const SearchSection = lazy(() => import('../sections/search/SearchSection'));
 const ProfileSection = lazy(() => import('../sections/profile/ProfileSection'));
 const ItemDetailSection = lazy(() => import('../sections/detail/ItemDetailSection'));
 const PageDetailSection = lazy(() => import('../sections/detail/PageDetailSection'));
-const FinestretaSection = lazy(() => import('../sections/finestreta/FinestretaSection'));
 
 const NAV_SECTIONS = SECTIONS.filter((section) => SECTION_ORDER.includes(section.id));
 const MOBILE_NAV_LEADING = NAV_SECTIONS.slice(0, 2);
@@ -204,8 +203,6 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isIsolatedRoute = location.pathname.startsWith('/finestreta');
-
   if (status === 'loading') {
     return <RouteFallback />;
   }
@@ -219,20 +216,6 @@ export default function App() {
           meta={['Error', hasSupabaseConfig ? 'Supabase' : dataMode || 'seed']}
         />
       );
-  }
-
-  if (isIsolatedRoute) {
-    return (
-      <main className="app-main" style={{ marginLeft: 0, width: '100vw', paddingBottom: 0 }}>
-        <div className="app-main__inner">
-          <Suspense fallback={<RouteFallback />}>
-            <Routes>
-              <Route path="/finestreta" element={<FinestretaSection />} />
-            </Routes>
-          </Suspense>
-        </div>
-      </main>
-    );
   }
 
   return (
